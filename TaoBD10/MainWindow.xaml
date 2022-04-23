@@ -1,0 +1,61 @@
+﻿<Window
+    x:Class="TaoBD10.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Behaviors="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:view="clr-namespace:TaoBD10.Views"
+    Name="MainView"
+    Title="MainWindow"
+    Width="800"
+    Height="450"
+    DataContext="{StaticResource MainVM}"
+    ResizeMode="NoResize"
+    WindowStyle="None"
+    mc:Ignorable="d">
+    <Behaviors:Interaction.Triggers>
+        <Behaviors:EventTrigger EventName="Loaded">
+            <Behaviors:InvokeCommandAction Command="{Binding LoadPageCommand}" CommandParameter="{Binding ElementName=MainView}" />
+        </Behaviors:EventTrigger>
+        <Behaviors:EventTrigger EventName="Closing">
+            <Behaviors:InvokeCommandAction Command="{Binding OnCloseWindowCommand}" />
+        </Behaviors:EventTrigger>
+    </Behaviors:Interaction.Triggers>
+    <Grid>
+        <TabControl
+            x:Name="TabControl"
+            Margin="5"
+            HorizontalContentAlignment="Left"
+            materialDesign:ColorZoneAssist.Mode="SecondaryLight"
+            TabStripPlacement="Bottom">
+            <Behaviors:Interaction.Triggers>
+                <Behaviors:EventTrigger EventName="SelectionChanged">
+                    <Behaviors:InvokeCommandAction Command="{Binding TabChangedCommand}" CommandParameter="{Binding ElementName=TabControl}" />
+                </Behaviors:EventTrigger>
+            </Behaviors:Interaction.Triggers>
+            <TabItem
+                Background="#FFEA0000"
+                BorderBrush="#FFE60A0A"
+                FontSize="9"
+                FontWeight="Bold"
+                Foreground="#FFD11313">
+                <TabItem.Header>
+                    <TextBlock Text="Chao" />
+                </TabItem.Header>
+                <view:GetBD10View />
+            </TabItem>
+            <TabItem Header="Danh Sách">
+                <view:DanhSachView />
+            </TabItem>
+            <TabItem Header="Chi Tiết">
+                <view:ChiTietView />
+            </TabItem>
+            <TabItem Header="Thu Gọn" HeaderTemplate="{DynamicResource DataTemplate1}">
+                <view:ThuGonView />
+            </TabItem>
+            <TabItem Header="Tam Quan" />
+        </TabControl>
+    </Grid>
+</Window>

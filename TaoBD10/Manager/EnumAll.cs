@@ -22,7 +22,10 @@
             TuiNTB,
             PhuMy,
             PhuCat,
-            AnNhon, KT1
+            AnNhon, KT1,
+            KTHN,
+            BCPHN
+
         }
 
         public enum VungLamViec

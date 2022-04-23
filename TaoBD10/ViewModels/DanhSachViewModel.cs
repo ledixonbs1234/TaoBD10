@@ -1,5 +1,7 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Mvvm.Messaging;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using TaoBD10.Manager;
@@ -35,12 +37,22 @@ namespace TaoBD10.ViewModels
         void Xoa()
         {
 
+
         }
 
         void LayDuLieu()
         {
+            List<BD10InfoModel> listBD10 = new List<BD10InfoModel>();
             //thuc hien viec lay du lieu
-
+            foreach (var item in _BD10List)
+            {
+                if (item.isChecked)
+                {
+                    //thuc hien chuyen du lieu qua tab tiep theo
+                    listBD10.Add(item);
+                }
+            }
+            WeakReferenceMessenger.Default.Send(new BD10Message(listBD10));
         }
 
         //thuc hien viec get Data

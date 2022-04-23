@@ -35,12 +35,7 @@
                     <Behaviors:InvokeCommandAction Command="{Binding TabChangedCommand}" CommandParameter="{Binding ElementName=TabControl}" />
                 </Behaviors:EventTrigger>
             </Behaviors:Interaction.Triggers>
-            <TabItem
-                Background="#FFEA0000"
-                BorderBrush="#FFE60A0A"
-                FontSize="9"
-                FontWeight="Bold"
-                Foreground="#FFD11313">
+            <TabItem>
                 <TabItem.Header>
                     <TextBlock Text="Get BD 10" />
                 </TabItem.Header>

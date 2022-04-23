@@ -16,6 +16,87 @@ namespace TaoBD10.ViewModels
         private string[] fillNoiTinh = new string[] { "591218", "591520", "591720", "591760", "591900", "592100", "592120", "592220", "594080", "594090", "594210", "594220", "594300", "594350", "594560", "594610", "590100" };
         private string[] fillNTB = new string[] { "88", "79", "96", "93", "82", "83", "80", "97", "90", "63", "64", "81", "87", "60", "91", "70", "65", "92", "58", "67", "85", "66", "62", "95", "84", "86", "94", "89", "74" };
 
+        private string _NTamQuan;
+
+        public string NTamQuan
+        {
+            get { return _NTamQuan; }
+            set { SetProperty(ref _NTamQuan,value); }
+        }
+        private string _NKienDaNang;
+
+        public string NKienDaNang
+        {
+            get { return _NKienDaNang; }
+            set { SetProperty(ref _NKienDaNang, value); }
+        }
+        private string _NEMSDaNang;
+
+        public string NEMSDaNang
+        {
+            get { return _NEMSDaNang; }
+            set { SetProperty(ref _NEMSDaNang, value); }
+        }
+        private string _NQuangNam;
+
+        public string NQuangNam
+        {
+            get { return _NQuangNam; }
+            set { SetProperty(ref _NQuangNam, value); }
+
+        }
+        private string _NQuangNgai;
+
+        public string NQuangNgai
+        {
+            get { return _NTamQuan; }
+            set { SetProperty(ref _NTamQuan, value); }
+        }
+        private string _NTamQuan;
+
+        public string NTamQuan
+        {
+            get { return _NTamQuan; }
+            set { SetProperty(ref _NTamQuan, value); }
+        }
+        private string _NTamQuan;
+
+        public string NTamQuan
+        {
+            get { return _NTamQuan; }
+            set { SetProperty(ref _NTamQuan, value); }
+        }
+        private string _NTamQuan;
+
+        public string NTamQuan
+        {
+            get { return _NTamQuan; }
+            set { SetProperty(ref _NTamQuan, value); }
+        }
+        private string _NTamQuan;
+
+        public string NTamQuan
+        {
+            get { return _NTamQuan; }
+            set { SetProperty(ref _NTamQuan, value); }
+        }
+        private string _NTamQuan;
+
+        public string NTamQuan
+        {
+            get { return _NTamQuan; }
+            set { SetProperty(ref _NTamQuan, value); }
+        }
+        private string _NTamQuan;
+
+        public string NTamQuan
+        {
+            get { return _NTamQuan; }
+            set { SetProperty(ref _NTamQuan, value); }
+        }
+
+
+
         List<HangHoaDetailModel> currentListHangHoa;
         public ChiTietViewModel()
         {

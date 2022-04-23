@@ -40,7 +40,7 @@
                             Style="{StaticResource MaterialDesignHeadline2TextBlock}"
                             Text="0" />
                         <Button
-                            Content="Tam Quan"
+                            Content="Kiện Đà Nẵng"
                             IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                             Style="{StaticResource MaterialDesignPaperSecondaryButton}"
                             ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
@@ -52,20 +52,7 @@
                             Style="{StaticResource MaterialDesignHeadline2TextBlock}"
                             Text="0" />
                         <Button
-                            Content="Tam Quan"
-                            IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                            Style="{StaticResource MaterialDesignPaperSecondaryButton}"
-                            ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
-                    </StackPanel>
-
-                    <StackPanel Margin="50,0">
-                        <TextBlock
-                            HorizontalAlignment="Center"
-                            Foreground="#FF649741"
-                            Style="{StaticResource MaterialDesignHeadline2TextBlock}"
-                            Text="0" />
-                        <Button
-                            Content="Tam Quan"
+                            Content="EMS Đà Nẵng"
                             IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                             Style="{StaticResource MaterialDesignPaperSecondaryButton}"
                             ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
@@ -78,7 +65,20 @@
                             Style="{StaticResource MaterialDesignHeadline2TextBlock}"
                             Text="0" />
                         <Button
-                            Content="Tam Quan"
+                            Content="Quảng Nam"
+                            IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                            Style="{StaticResource MaterialDesignPaperSecondaryButton}"
+                            ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
+                    </StackPanel>
+
+                    <StackPanel Margin="50,0">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            Foreground="#FF649741"
+                            Style="{StaticResource MaterialDesignHeadline2TextBlock}"
+                            Text="0" />
+                        <Button
+                            Content="Quảng Ngãi"
                             IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                             Style="{StaticResource MaterialDesignPaperSecondaryButton}"
                             ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
@@ -96,7 +96,7 @@
                             Style="{StaticResource MaterialDesignHeadline2TextBlock}"
                             Text="0" />
                         <Button
-                            Content="Tam Quan"
+                            Content="Kiện NTB"
                             IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                             Style="{StaticResource MaterialDesignPaperSecondaryButton}"
                             ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
@@ -108,7 +108,7 @@
                             Style="{StaticResource MaterialDesignHeadline2TextBlock}"
                             Text="0" />
                         <Button
-                            Content="Tam Quan"
+                            Content="Túi NTB"
                             IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                             Style="{StaticResource MaterialDesignPaperSecondaryButton}"
                             ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
@@ -120,20 +120,7 @@
                             Style="{StaticResource MaterialDesignHeadline2TextBlock}"
                             Text="0" />
                         <Button
-                            Content="Tam Quan"
-                            IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                            Style="{StaticResource MaterialDesignPaperSecondaryButton}"
-                            ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
-                    </StackPanel>
-
-                    <StackPanel Margin="50,0">
-                        <TextBlock
-                            HorizontalAlignment="Center"
-                            Foreground="#FF649741"
-                            Style="{StaticResource MaterialDesignHeadline2TextBlock}"
-                            Text="0" />
-                        <Button
-                            Content="Tam Quan"
+                            Content="Phù Mỹ"
                             IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                             Style="{StaticResource MaterialDesignPaperSecondaryButton}"
                             ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
@@ -146,10 +133,38 @@
                             Style="{StaticResource MaterialDesignHeadline2TextBlock}"
                             Text="0" />
                         <Button
-                            Content="Tam Quan"
+                            Content="Phù Cát"
                             IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                             Style="{StaticResource MaterialDesignPaperSecondaryButton}"
                             ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
+                    </StackPanel>
+
+                    <StackPanel Margin="50,0">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            Foreground="#FF649741"
+                            Style="{StaticResource MaterialDesignHeadline2TextBlock}"
+                            Text="0" />
+                        <Button
+                            Content="An Nhơn"
+                            IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                            Style="{StaticResource MaterialDesignPaperSecondaryButton}"
+                            ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
+
+                    </StackPanel>
+
+                    <StackPanel Margin="50,0">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            Foreground="#FF649741"
+                            Style="{StaticResource MaterialDesignHeadline2TextBlock}"
+                            Text="0" />
+                        <Button
+                            Content="KT1"
+                            IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                            Style="{StaticResource MaterialDesignPaperSecondaryButton}"
+                            ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
+
                     </StackPanel>
 
                 </StackPanel>
@@ -157,7 +172,7 @@
 
         </materdesign:Card>
 
-        <ListView Grid.Row="1" ItemsSource="{Binding ChiTiets}" >
+        <ListView Grid.Row="1" ItemsSource="{Binding ChiTiets}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="STT" />

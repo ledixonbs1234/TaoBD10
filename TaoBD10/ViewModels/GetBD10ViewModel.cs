@@ -18,6 +18,24 @@ namespace TaoBD10.ViewModels
 {
     public class GetBD10ViewModel : ObservableObject
     {
+        private bool[] _BuoiArray = new bool[] { true, false, false, false };
+
+        private string _TestText = "0";
+
+        bool isWaitingGetData = false;
+
+        private int _AnimatedProgressInCard=50;
+
+        public  int AnimatedProgressInCard
+        {
+            get => _AnimatedProgressInCard;
+            set => SetProperty(ref _AnimatedProgressInCard, value);
+        }
+
+        DispatcherTimer timer;
+
+        private List<TuiHangHoa> tuiTempHangHoa;
+
         public GetBD10ViewModel()
         {
             WeakReferenceMessenger.Default.Register<MessageManager>(this, ReceiveMessage);
@@ -298,17 +316,12 @@ namespace TaoBD10.ViewModels
 
 
                 FileManager.SaveData(new BD10InfoModel(noiGuiBD, tuiTempHangHoa, ngayThang, (EnumAll.TimeSet)SelectedBuoi, lanLapBD));
+                TestText = tuiTempHangHoa.Count().ToString();
                 SendKeys.SendWait("{ESC}");
                 isWaitingGetData = false;
                 timer.Stop();
             }
         }
-
-        private bool[] _BuoiArray = new bool[] { true, false, false, false };
-        private string _TestText;
-        bool isWaitingGetData = false;
-        DispatcherTimer timer;
-        private List<TuiHangHoa> tuiTempHangHoa;
         //var bd10Info = new BD10InfoModel();
         //bd10Info.Name = noiGuiBD;
         //    bd10Info.TuiHangHoas = tuiTempHangHoa;

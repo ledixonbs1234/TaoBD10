@@ -42,7 +42,7 @@
                 FontWeight="Bold"
                 Foreground="#FFD11313">
                 <TabItem.Header>
-                    <TextBlock Text="Chao" />
+                    <TextBlock Text="Get BD 10" />
                 </TabItem.Header>
                 <view:GetBD10View />
             </TabItem>

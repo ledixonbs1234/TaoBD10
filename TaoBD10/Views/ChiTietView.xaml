@@ -26,7 +26,7 @@
                             HorizontalAlignment="Center"
                             Foreground="#FF649741"
                             Style="{StaticResource MaterialDesignHeadline2TextBlock}"
-                            Text="0" />
+                            Text="{Binding NTamQuan}" />
                         <Button
                             Content="Tam Quan"
                             IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
@@ -38,7 +38,7 @@
                             HorizontalAlignment="Center"
                             Foreground="#FF649741"
                             Style="{StaticResource MaterialDesignHeadline2TextBlock}"
-                            Text="0" />
+                            Text="{Binding NKienDaNang}" />
                         <Button
                             Content="Kiện Đà Nẵng"
                             IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
@@ -50,7 +50,7 @@
                             HorizontalAlignment="Center"
                             Foreground="#FF649741"
                             Style="{StaticResource MaterialDesignHeadline2TextBlock}"
-                            Text="0" />
+                            Text="{Binding NEMSDaNang}" />
                         <Button
                             Content="EMS Đà Nẵng"
                             IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
@@ -63,7 +63,7 @@
                             HorizontalAlignment="Center"
                             Foreground="#FF649741"
                             Style="{StaticResource MaterialDesignHeadline2TextBlock}"
-                            Text="0" />
+                            Text="{Binding NQuangNam}" />
                         <Button
                             Content="Quảng Nam"
                             IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
@@ -76,7 +76,7 @@
                             HorizontalAlignment="Center"
                             Foreground="#FF649741"
                             Style="{StaticResource MaterialDesignHeadline2TextBlock}"
-                            Text="0" />
+                            Text="{Binding NQuangNgai}" />
                         <Button
                             Content="Quảng Ngãi"
                             IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
@@ -94,7 +94,7 @@
                             HorizontalAlignment="Center"
                             Foreground="#FF649741"
                             Style="{StaticResource MaterialDesignHeadline2TextBlock}"
-                            Text="0" />
+                            Text="{Binding NKNTB}" />
                         <Button
                             Content="Kiện NTB"
                             IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
@@ -106,7 +106,7 @@
                             HorizontalAlignment="Center"
                             Foreground="#FF649741"
                             Style="{StaticResource MaterialDesignHeadline2TextBlock}"
-                            Text="0" />
+                            Text="{Binding NTNTB}" />
                         <Button
                             Content="Túi NTB"
                             IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
@@ -118,7 +118,7 @@
                             HorizontalAlignment="Center"
                             Foreground="#FF649741"
                             Style="{StaticResource MaterialDesignHeadline2TextBlock}"
-                            Text="0" />
+                            Text="{Binding NPhuMy}" />
                         <Button
                             Content="Phù Mỹ"
                             IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
@@ -131,7 +131,7 @@
                             HorizontalAlignment="Center"
                             Foreground="#FF649741"
                             Style="{StaticResource MaterialDesignHeadline2TextBlock}"
-                            Text="0" />
+                            Text="{Binding NPhuCat}" />
                         <Button
                             Content="Phù Cát"
                             IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
@@ -144,7 +144,7 @@
                             HorizontalAlignment="Center"
                             Foreground="#FF649741"
                             Style="{StaticResource MaterialDesignHeadline2TextBlock}"
-                            Text="0" />
+                            Text="{Binding NAnNhon}" />
                         <Button
                             Content="An Nhơn"
                             IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
@@ -158,7 +158,7 @@
                             HorizontalAlignment="Center"
                             Foreground="#FF649741"
                             Style="{StaticResource MaterialDesignHeadline2TextBlock}"
-                            Text="0" />
+                            Text="{Binding NKT1}" />
                         <Button
                             Content="KT1"
                             IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"

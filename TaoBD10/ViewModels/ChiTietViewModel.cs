@@ -49,50 +49,50 @@ namespace TaoBD10.ViewModels
 
         public string NQuangNgai
         {
-            get { return _NTamQuan; }
-            set { SetProperty(ref _NTamQuan, value); }
+            get { return _NQuangNgai; }
+            set { SetProperty(ref _NQuangNgai, value); }
         }
-        private string _NTamQuan;
+        private string _NKNTB;
 
-        public string NTamQuan
+        public string NKNTB
         {
-            get { return _NTamQuan; }
-            set { SetProperty(ref _NTamQuan, value); }
+            get { return _NKNTB; }
+            set { SetProperty(ref _NKNTB, value); }
         }
-        private string _NTamQuan;
+        private string _NTNTB;
 
-        public string NTamQuan
+        public string NTNTB
         {
-            get { return _NTamQuan; }
-            set { SetProperty(ref _NTamQuan, value); }
+            get { return _NTNTB; }
+            set { SetProperty(ref _NTNTB, value); }
         }
-        private string _NTamQuan;
+        private string _NPhuMy;
 
-        public string NTamQuan
+        public string NPhuMy
         {
-            get { return _NTamQuan; }
-            set { SetProperty(ref _NTamQuan, value); }
+            get { return _NPhuMy; }
+            set { SetProperty(ref _NPhuMy, value); }
         }
-        private string _NTamQuan;
+        private string _NPhuCat;
 
-        public string NTamQuan
+        public string NPhuCat
         {
-            get { return _NTamQuan; }
-            set { SetProperty(ref _NTamQuan, value); }
+            get { return _NPhuCat; }
+            set { SetProperty(ref _NPhuCat, value); }
         }
-        private string _NTamQuan;
+        private string _NAnNhon;
 
-        public string NTamQuan
+        public string NAnNhon
         {
-            get { return _NTamQuan; }
-            set { SetProperty(ref _NTamQuan, value); }
+            get { return _NAnNhon; }
+            set { SetProperty(ref _NAnNhon, value); }
         }
-        private string _NTamQuan;
+        private string _NKT1;
 
-        public string NTamQuan
+        public string NKT1
         {
-            get { return _NTamQuan; }
-            set { SetProperty(ref _NTamQuan, value); }
+            get { return _NKT1; }
+            set { SetProperty(ref _NKT1, value); }
         }
 
 
@@ -119,6 +119,32 @@ namespace TaoBD10.ViewModels
             });
 
         }
+        void ResetAndCount()
+        {
+            NTamQuan = "0";
+            NKienDaNang = "0";
+            NEMSDaNang = "0";
+            NQuangNam = "0";
+            NQuangNgai = "0";
+            NKNTB = "0";
+            NTNTB = "0";
+            NPhuMy = "0";
+            NPhuCat = "0";
+            NAnNhon = "0";
+            NKT1 = "0";
+             
+            NTamQuan = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.TamQuan).Count.ToString(); 
+            NKienDaNang = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.KienDaNang).Count.ToString();
+            NEMSDaNang = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.EMSDaNang).Count.ToString();
+            NQuangNam = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.QuangNam).Count.ToString();
+            NQuangNgai = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.QuangNgai).Count.ToString();
+            NKNTB = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.DiNgoaiNamTrungBo).Count.ToString();
+            NTNTB = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.TuiNTB).Count.ToString();
+            NPhuMy = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.PhuMy).Count.ToString();
+            NPhuCat = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.PhuCat).Count.ToString();
+            NAnNhon = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.AnNhon).Count.ToString();
+            NKT1 = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.KT1).Count.ToString();
+        }
 
 
         void FillData()
@@ -127,6 +153,7 @@ namespace TaoBD10.ViewModels
                 return;
             //Thuc hien loc tung cai 1
             int countForeach = 0;
+            
             foreach (var hangHoa in currentListHangHoa.ToList())
             {
 
@@ -175,59 +202,48 @@ namespace TaoBD10.ViewModels
 
                 else if (maSoTinh == "59")
                 {
-                    bool isFind = false;
-                    foreach (string maso in fillNoiTinh)
+                     string temp = fillNoiTinh.FirstOrDefault(m=>m.IndexOf(hangHoa.TuiHangHoa.ToBC) != -1);
+                    if (!string.IsNullOrEmpty(temp))
                     {
-                        if (hangHoa.TuiHangHoa.ToBC.IndexOf(maso) != -1)
+                        if (hangHoa.TuiHangHoa.PhanLoai.IndexOf("Túi") != -1)
                         {
-                            if (hangHoa.TuiHangHoa.PhanLoai.IndexOf("Túi") != -1)
-                            {
-                                currentListHangHoa[countForeach].PhanLoai = Manager.EnumAll.PhanLoaiTinh.TuiNTB;
-                                 isFind = true;
-                                break;
-                            }
-                            else if (APIManager.convertToUnSign3(hangHoa.TuiHangHoa.PhanLoai).ToLower().IndexOf("ngoai") != -1)
-                            {
-                                currentListHangHoa[countForeach].PhanLoai = Manager.EnumAll.PhanLoaiTinh.DiNgoaiNamTrungBo;
-                                isFind = true;
-                                break;
-                            }
+                            currentListHangHoa[countForeach].PhanLoai = Manager.EnumAll.PhanLoaiTinh.TuiNTB;
+                        }
+                        else if (APIManager.convertToUnSign3(hangHoa.TuiHangHoa.PhanLoai).ToLower().IndexOf("ngoai") != -1)
+                        {
+                            currentListHangHoa[countForeach].PhanLoai = Manager.EnumAll.PhanLoaiTinh.DiNgoaiNamTrungBo;
                         }
                     }
-                    if (isFind) continue;
                 }
                 else
                 {
-                    foreach (string maso in fillNTB)
+                    string temp = fillNTB.FirstOrDefault(m => m == maSoTinh);
+                    if (!string.IsNullOrEmpty(temp))
                     {
-                        if (maSoTinh == maso)
+                        if (APIManager.convertToUnSign3(hangHoa.TuiHangHoa.PhanLoai).ToLower().IndexOf("ngoai") != -1)
                         {
-                            if (APIManager.convertToUnSign3(hangHoa.TuiHangHoa.PhanLoai).ToLower().IndexOf("ngoai") != -1)
-                            {
-                                currentListHangHoa[countForeach].PhanLoai = Manager.EnumAll.PhanLoaiTinh.DiNgoaiNamTrungBo;
-                                break;
-                            }
+                            currentListHangHoa[countForeach].PhanLoai = Manager.EnumAll.PhanLoaiTinh.DiNgoaiNamTrungBo;
                         }
                     }
-                    foreach (string maso in fillDaNang)
+                    else
                     {
-                        if (maSoTinh == maso)
+                        string temp1 = fillDaNang.FirstOrDefault(m => m == maSoTinh);
+                        if (!string.IsNullOrEmpty(temp1))
                         {
                             if (hangHoa.TuiHangHoa.DichVu.IndexOf("Bưu") != -1 || hangHoa.TuiHangHoa.DichVu.IndexOf("Logi") != -1)
                             {
                                 currentListHangHoa[countForeach].PhanLoai = Manager.EnumAll.PhanLoaiTinh.KienDaNang;
-                                break;
                             }
                             else if (hangHoa.TuiHangHoa.DichVu.IndexOf("EMS") != -1)
                             {
                                 currentListHangHoa[countForeach].PhanLoai = Manager.EnumAll.PhanLoaiTinh.EMSDaNang;
-                                break;
                             }
                         }
                     }
                 }
                 countForeach++;
             }
+            ResetAndCount();
         }
     }
 }

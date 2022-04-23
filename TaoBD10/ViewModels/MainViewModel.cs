@@ -25,6 +25,7 @@ namespace TaoBD10.ViewModels
             _keyboardHook.OnKeyPressed += OnKeyPress;
             _keyboardHook.HookKeyboard();
             createConnection();
+            SoundManager.SetUpDirectory();
         }
 
         private void createConnection()

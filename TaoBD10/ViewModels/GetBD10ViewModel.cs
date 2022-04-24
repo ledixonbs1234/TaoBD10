@@ -257,7 +257,7 @@ namespace TaoBD10.ViewModels
                     string textClip;
                     try
                     {
-                        textClip = System.Windows.Clipboard.GetDataObject().ToString() + '\n';
+                        textClip = (string)System.Windows.Clipboard.GetDataObject().GetData(DataFormats.Text) + '\n';
                     }
                     catch (Exception ex)
                     {

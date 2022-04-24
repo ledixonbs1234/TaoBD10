@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+using System;
 using System.Collections.Generic;
 using static TaoBD10.Manager.EnumAll;
 
 namespace TaoBD10.Model
 {
     [Serializable]
-    public class BD10InfoModel
+    public class BD10InfoModel : ObservableObject
     {
         public string Name { get; set; }
         public string LanLap { get; set; }

@@ -263,6 +263,7 @@ namespace TaoBD10.ViewModels
                     {
                         NameBD = "Chạy Lại";
                         isWaitingGetData = false;
+                        timer.Stop();
                         return;
                     }
 

@@ -250,7 +250,7 @@ namespace TaoBD10.ViewModels
                     }
                     catch (Exception)
                     {
-                        System.Windows.MessageBox.Show("Chay lai");
+                        NameBD = "Chạy Lại";
                         isWaitingGetData = false;
                         return;
                     }
@@ -280,6 +280,7 @@ namespace TaoBD10.ViewModels
                     else
                     {
                         isWaitingGetData = false;
+                        NameBD = "Lỗi! Không Copy Được";
                         timer.Stop();
                         return;
                     }

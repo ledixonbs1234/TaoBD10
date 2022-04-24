@@ -38,7 +38,7 @@ namespace TaoBD10.ViewModels
 
         void LoadBD10()
         {
-            _BD10List = new ObservableCollection<BD10InfoModel>();
+            BD10List = new ObservableCollection<BD10InfoModel>();
             //thuc hien lay du lieu
             foreach (var item in FileManager.LoadData())
             {

@@ -6,7 +6,7 @@ using static TaoBD10.Manager.EnumAll;
 namespace TaoBD10.Model
 {
     [Serializable]
-    public class BD10InfoModel : ObservableObject
+    public class BD10InfoModel 
     {
         public string Name { get; set; }
         public string LanLap { get; set; }

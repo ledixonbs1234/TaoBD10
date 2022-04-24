@@ -18,7 +18,7 @@ namespace TaoBD10.ViewModels
     {
         private bool[] _BuoiArray = new bool[] { true, false, false, false };
 
-        private string _NameBD = "0";
+        private string _NameBD = "";
 
         private bool isWaitingGetData = false;
 
@@ -79,7 +79,7 @@ namespace TaoBD10.ViewModels
             set { SetProperty(ref _NameBD, value); }
         }
 
-        private string _CountTui;
+        private string _CountTui = "0";
 
         public string CountTui
         {
@@ -232,9 +232,9 @@ namespace TaoBD10.ViewModels
                 var info = FileManager.list.Find(m => m.Name == noiGuiBD && m.LanLap == lanLapBD && m.DateCreateBD10.DayOfYear == ngayThang.DayOfYear);
                 if (info != null)
                 {
-                    isWaitingGetData = false;
+                    
                     timer.Stop();
-
+                    isWaitingGetData = false;
                     SoundManager.playSound(@"Number\trungbd.wav");
                     return;
                 }
@@ -259,7 +259,7 @@ namespace TaoBD10.ViewModels
                     {
                         textClip = System.Windows.Clipboard.GetText() + '\n';
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
                         NameBD = "Chạy Lại";
                         isWaitingGetData = false;
@@ -291,9 +291,10 @@ namespace TaoBD10.ViewModels
                     }
                     else
                     {
-                        isWaitingGetData = false;
+                        
                         NameBD = "Lỗi! Không Copy Được";
                         timer.Stop();
+                        isWaitingGetData = false;
                         return;
                     }
                     //tuiHangHoas.Add(TuiHangHoa);
@@ -301,8 +302,9 @@ namespace TaoBD10.ViewModels
                 }
                 if (slTuiInBD != tuiTempHangHoa.Count)
                 {
-                    isWaitingGetData = false;
+                    
                     timer.Stop();
+                    isWaitingGetData = false;
                     IsLoading = false;
                     ValueLoading = 0;
 
@@ -343,6 +345,7 @@ namespace TaoBD10.ViewModels
                 SendKeys.SendWait("{ESC}");
                 isWaitingGetData = false;
                 timer.Stop();
+                WeakReferenceMessenger.Default.Send<string>("LoadBD10");
             }
         }
 

@@ -24,14 +24,26 @@ namespace TaoBD10.ViewModels
 
         public DanhSachViewModel()
         {
+            LoadBD10();
+            LayDuLieuCommand = new RelayCommand(LayDuLieu);
+            XoaCommand = new RelayCommand(Xoa);
+            WeakReferenceMessenger.Default.Register<string>(this, (r, m) =>
+            {
+                if (m == "LoadBD10")
+                {
+                    LoadBD10();
+                }
+            });
+        }
+
+        void LoadBD10()
+        {
             _BD10List = new ObservableCollection<BD10InfoModel>();
             //thuc hien lay du lieu
             foreach (var item in FileManager.LoadData())
             {
                 BD10List.Add(item);
             }
-            LayDuLieuCommand = new RelayCommand(LayDuLieu);
-            XoaCommand = new RelayCommand(Xoa);
         }
 
         private void Xoa()

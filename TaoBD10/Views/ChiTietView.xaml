@@ -258,18 +258,47 @@
             Foreground="#FF0077C2"
             Style="{StaticResource MaterialDesignHeadline4TextBlock}"
             Text="{Binding NameTinhCurrent}" />
-        <ListView Grid.Row="2" ItemsSource="{Binding ListShowHangHoa}">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn DisplayMemberBinding="{Binding TuiHangHoa.STT}" Header="STT" />
-                    <GridViewColumn DisplayMemberBinding="{Binding TuiHangHoa.SCT}" Header="SCT" />
-                    <GridViewColumn DisplayMemberBinding="{Binding TuiHangHoa.ToBC}" Header="Name" />
-                    <GridViewColumn DisplayMemberBinding="{Binding TuiHangHoa.Tinh}" Width="auto" Header="Tỉnh" />
-                    <GridViewColumn DisplayMemberBinding="{Binding TuiHangHoa.KhoiLuong}" Width="auto" Header="Khối Lượng" />
-                    <GridViewColumn DisplayMemberBinding="{Binding TuiHangHoa.SHTui}" Width="auto" Header="SH Túi" />
-                </GridView>
-            </ListView.View>
-        </ListView>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="150" />
+            </Grid.ColumnDefinitions>
+            <ListView Grid.Row="2" ItemsSource="{Binding ListShowHangHoa}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn DisplayMemberBinding="{Binding TuiHangHoa.STT}" Header="STT" />
+                        <GridViewColumn DisplayMemberBinding="{Binding TuiHangHoa.SCT}" Header="SCT" />
+                        <GridViewColumn DisplayMemberBinding="{Binding TuiHangHoa.ToBC}" Header="Name" />
+                        <GridViewColumn
+                            Width="auto"
+                            DisplayMemberBinding="{Binding TuiHangHoa.Tinh}"
+                            Header="Tỉnh" />
+                        <GridViewColumn
+                            Width="auto"
+                            DisplayMemberBinding="{Binding TuiHangHoa.KhoiLuong}"
+                            Header="Khối Lượng" />
+                        <GridViewColumn
+                            Width="200"
+                            DisplayMemberBinding="{Binding TuiHangHoa.SHTui}"
+                            Header="SH Túi" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                <Button
+                    Width="100"
+                    Margin="0,20"
+                    Content="_COPY SH"
+                    IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                    Style="{StaticResource MaterialDesignFlatButton}" />
+                <Button
+                    Width="100"
+                    Content="LIGHT"
+                    IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                    Style="{StaticResource MaterialDesignOutlinedSecondaryLightButton}" />
+            </StackPanel>
 
+
+        </Grid>
     </Grid>
 </UserControl>

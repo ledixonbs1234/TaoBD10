@@ -212,7 +212,13 @@ namespace TaoBD10.ViewModels
                     //focus no
                     //xong roi dien vao va nhan enter thoi
                 }
-                var info = FileManager.list.Find(m => m.Name == noiGuiBD);
+
+                //thuc hien xu ly ngay thang bd
+                DateTime ngayThang = DateTime.Now;
+                DateTime.TryParseExact(ngayThangBD, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out ngayThang);
+
+
+                var info = FileManager.list.Find(m => m.Name == noiGuiBD && m.LanLap == lanLapBD && m.DateCreateBD10.DayOfYear == ngayThang.DayOfYear );
                 if (info != null)
                 {
                     isWaitingGetData = false;
@@ -317,11 +323,7 @@ namespace TaoBD10.ViewModels
                     return;
                 PhanLoai(textXacNhan);
 
-                //thuc hien xu ly ngay thang bd
-                DateTime ngayThang = DateTime.Now;
-                DateTime.TryParseExact(ngayThangBD, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out ngayThang);
-
-
+               
 
                 FileManager.SaveData(new BD10InfoModel(noiGuiBD, tuiTempHangHoa, ngayThang, (EnumAll.TimeSet)SelectedBuoi, lanLapBD));
                 CountTui = tuiTempHangHoa.Count().ToString();

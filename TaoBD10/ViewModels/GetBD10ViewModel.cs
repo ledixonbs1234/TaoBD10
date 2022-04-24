@@ -227,6 +227,7 @@ namespace TaoBD10.ViewModels
                     SoundManager.playSound(@"Number\trungbd.wav");
                     return;
                 }
+                NameBD = noiGuiBD;
 
 
 

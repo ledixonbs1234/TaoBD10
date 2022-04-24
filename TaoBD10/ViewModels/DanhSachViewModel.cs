@@ -16,7 +16,7 @@ namespace TaoBD10.ViewModels
         public ObservableCollection<BD10InfoModel> BD10List
         {
             get => _BD10List
-; private set => SetProperty(ref _BD10List, value);
+;  set => SetProperty(ref _BD10List, value);
         }
 
         public ICommand LayDuLieuCommand { get; }

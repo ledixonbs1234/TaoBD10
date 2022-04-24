@@ -20,7 +20,7 @@ namespace TaoBD10.ViewModels
     {
         private bool[] _BuoiArray = new bool[] { true, false, false, false };
 
-        private string _TestText = "0";
+        private string _NameBD = "0";
 
         bool isWaitingGetData = false;
 
@@ -58,10 +58,18 @@ namespace TaoBD10.ViewModels
         }
 
         public ICommand TestCommand { get; }
-        public string TestText
+        public string NameBD
         {
-            get { return _TestText; }
-            set { SetProperty(ref _TestText, value); }
+            get { return _NameBD; }
+            set { SetProperty(ref _NameBD, value); }
+        }
+
+        private string _CountTui;
+
+        public string CountTui
+        {
+            get { return _CountTui; }
+            set { SetProperty(ref _CountTui, value); }
         }
 
         public void RunAutoGetData()
@@ -286,7 +294,7 @@ namespace TaoBD10.ViewModels
 
 
                 //dgvMain.DataSource = tuiHangHoas;
-                TestText = tuiTempHangHoa.Count.ToString();
+                CountTui = tuiTempHangHoa.Count.ToString();
 
                 //thuc hien vao xac nhan chi tiet trong nay
                 SendKeys.SendWait("{F4}");
@@ -316,7 +324,7 @@ namespace TaoBD10.ViewModels
 
 
                 FileManager.SaveData(new BD10InfoModel(noiGuiBD, tuiTempHangHoa, ngayThang, (EnumAll.TimeSet)SelectedBuoi, lanLapBD));
-                TestText = tuiTempHangHoa.Count().ToString();
+                CountTui = tuiTempHangHoa.Count().ToString();
                 SendKeys.SendWait("{ESC}");
                 isWaitingGetData = false;
                 timer.Stop();

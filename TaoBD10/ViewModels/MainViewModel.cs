@@ -15,6 +15,15 @@ namespace TaoBD10.ViewModels
         private string _CountInBD;
         public string CountInBD { get => _CountInBD; set => SetProperty(ref _CountInBD, value); }
 
+        private int _IndexTabControl= 0;
+
+        public int IndexTabControl
+        {
+            get { return _IndexTabControl; }
+            set {SetProperty(ref _IndexTabControl , value); }
+        }
+
+
         public MainViewModel()
         {
             LoadPageCommand = new RelayCommand<Window>(LoadPage);
@@ -26,6 +35,13 @@ namespace TaoBD10.ViewModels
             _keyboardHook.HookKeyboard();
             createConnection();
             SoundManager.SetUpDirectory();
+            WeakReferenceMessenger.Default.Register<string>(this, (r,m) => { 
+                if(m == "GoChiTiet")
+                {
+                    IndexTabControl = 2;
+                }
+            
+            });
         }
 
         private void createConnection()
@@ -124,7 +140,7 @@ namespace TaoBD10.ViewModels
             if (_window == null)
                 return;
             var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
-            _window.Width = 1000;
+            _window.Width = 1100;
             _window.Height = 600;
             double width = System.Windows.SystemParameters.PrimaryScreenWidth;
             double height = System.Windows.SystemParameters.PrimaryScreenHeight;

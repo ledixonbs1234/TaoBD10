@@ -29,6 +29,7 @@
             Margin="5"
             HorizontalContentAlignment="Left"
             materialDesign:ColorZoneAssist.Mode="SecondaryLight"
+            SelectedIndex="{Binding IndexTabControl}"
             TabStripPlacement="Bottom">
             <Behaviors:Interaction.Triggers>
                 <Behaviors:EventTrigger EventName="SelectionChanged">
@@ -47,7 +48,7 @@
             <TabItem Header="Chi Tiết">
                 <view:ChiTietView />
             </TabItem>
-            <TabItem Header="Thu Gọn" HeaderTemplate="{DynamicResource DataTemplate1}">
+            <TabItem Header="Thu Gọn">
                 <view:ThuGonView />
             </TabItem>
             <TabItem Header="Tam Quan" />

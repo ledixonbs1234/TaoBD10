@@ -6,16 +6,21 @@
     xmlns:local="clr-namespace:TaoBD10.Views"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
     DataContext="{StaticResource DanhSachVM}"
     mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="381" />
-            <RowDefinition />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="50" />
         </Grid.RowDefinitions>
-        <ListView Grid.Row="0" ItemsSource="{Binding BD10List}">
+        <DatePicker
+            SelectedDateFormat="Long"
+            Grid.Row="0"
+            Width="140"
+            materialDesign:HintAssist.Hint="Pick Date"
+            Style="{StaticResource MaterialDesignFilledDatePicker}" FirstDayOfWeek="Monday" />
+        <ListView Grid.Row="1" ItemsSource="{Binding BD10List}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Width="50" Header="Favourite">
@@ -36,7 +41,7 @@
             </ListView.View>
         </ListView>
         <StackPanel
-            Grid.Row="1"
+            Grid.Row="2"
             HorizontalAlignment="Center"
             Orientation="Horizontal">
             <Button
@@ -54,8 +59,8 @@
                 IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                 Style="{StaticResource MaterialDesignIconButton}"
                 ToolTip="MaterialDesignIconButton">
-                
-                
+
+
                 <materialDesign:PackIcon Kind="Close" />
             </Button>
 

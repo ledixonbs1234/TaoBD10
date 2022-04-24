@@ -13,25 +13,25 @@
             <StackPanel Margin="4" Orientation="Horizontal">
                 <RadioButton
                     Margin="4"
-                    Content="Sang"
+                    Content="Sáng"
                     GroupName="Buoi"
                     IsChecked="{Binding Path=BuoiArray[0], Mode=TwoWay}"
                     Style="{StaticResource MaterialDesignTabRadioButton}" />
                 <RadioButton
                     Margin="4"
-                    Content="Trua"
+                    Content="Trưa"
                     GroupName="Buoi"
                     IsChecked="{Binding Path=BuoiArray[1], Mode=TwoWay}"
                     Style="{StaticResource MaterialDesignTabRadioButton}" />
                 <RadioButton
                     Margin="4"
-                    Content="Chieu"
+                    Content="Chiều"
                     GroupName="Buoi"
                     IsChecked="{Binding Path=BuoiArray[2], Mode=TwoWay}"
                     Style="{StaticResource MaterialDesignTabRadioButton}" />
                 <RadioButton
                     Margin="4"
-                    Content="Toi"
+                    Content="Tối"
                     GroupName="Buoi"
                     IsChecked="{Binding Path=BuoiArray[3], Mode=TwoWay}"
                     Style="{StaticResource MaterialDesignTabRadioButton}" />
@@ -44,18 +44,18 @@
             <TextBlock
                 Margin="15"
                 Style="{StaticResource MaterialDesignHeadline5TextBlock}"
-                Text="Ten Cua Nam Trung Bo" />
+                Text="{Binding NameBD}" />
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                 <TextBlock
                     Margin="20,0"
                     HorizontalAlignment="Center"
                     Style="{StaticResource MaterialDesignHeadline4TextBlock}"
-                    Text="{Binding TestText}" />
+                    Text="{Binding CountTui}" />
                 <materialDesign:Card Padding="15" UniformCornerRadius="30">
                     <ProgressBar
                         IsIndeterminate="True"
                         Style="{StaticResource MaterialDesignCircularProgressBar}"
-                        Value="50" />
+                        Value="100" />
                 </materialDesign:Card>
             </StackPanel>
         </StackPanel>

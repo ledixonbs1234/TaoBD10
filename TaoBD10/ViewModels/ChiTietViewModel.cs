@@ -31,6 +31,14 @@ namespace TaoBD10.ViewModels
         private string _NQuangNgai;
         private string _NTamQuan;
         private string _NTNTB;
+        private string _NameTinhCurrent;
+
+        public string NameTinhCurrent
+        {
+            get { return _NameTinhCurrent; }
+            set { SetProperty(ref _NameTinhCurrent,value); }
+        }
+
         List<HangHoaDetailModel> currentListHangHoa;
         private string[] fillDaNang = new string[] { "26", "27", "23", "22", "55", "38", "40", "10", "48", "17", "18", "16", "31", "39", "24", "33", "42", "46", "43", "51", "20", "52", "36", "41", "25", "44", "31", "53", "30", "32", "29", "28", "35", "13" };
         private string[] fillNoiTinh = new string[] { "591218", "591520", "591720", "591760", "591900", "592100", "592120", "592220", "594080", "594090", "594210", "594220", "594300", "594350", "594560", "594610", "590100" };
@@ -51,7 +59,6 @@ namespace TaoBD10.ViewModels
                         }
                     }
                     FillData();
-                    string b = "dfd";
                 }
             });
 
@@ -74,8 +81,66 @@ namespace TaoBD10.ViewModels
                 {
                     ListShowHangHoa.Add(hangHoa);
                 }
+                //thuc hien show Ten Tinh
+                ShowNameTinh(phanLoaiTinh);
 
             }
+        }
+
+        private void ShowNameTinh(PhanLoaiTinh phanLoaiTinh)
+        {
+            string textTemp = "";
+            switch (phanLoaiTinh)
+            {
+                case PhanLoaiTinh.None:
+                    break;
+                case PhanLoaiTinh.HA_AL:
+                    textTemp = "Hoài Ân - An Lão";
+                    break;
+                case PhanLoaiTinh.TamQuan:
+                    textTemp = "Tam Quan";
+                    break;
+                case PhanLoaiTinh.KienDaNang:
+                    textTemp = "Kiện Đà Nẵng";
+                    break;
+                case PhanLoaiTinh.EMSDaNang:
+                    textTemp = "EMS Đà Nẵng";
+                    break;
+                case PhanLoaiTinh.QuangNam:
+                    textTemp = "Quảng Nam";
+                    break;
+                case PhanLoaiTinh.QuangNgai:
+                    textTemp = "Quảng Ngãi";
+                    break;
+                case PhanLoaiTinh.DiNgoaiNamTrungBo:
+                    textTemp = "Kiện Nam Trung Bộ";
+                    break;
+                case PhanLoaiTinh.TuiNTB:
+                    textTemp = "Tui Nam Trung Bộ";
+                    break;
+                case PhanLoaiTinh.PhuMy:
+                    textTemp = "Phù Mỹ";
+                    break;
+                case PhanLoaiTinh.PhuCat:
+                    textTemp = "Phù Cát";
+                    break;
+                case PhanLoaiTinh.AnNhon:
+                    textTemp = "An Nhơn";
+                    break;
+                case PhanLoaiTinh.KT1:
+                    textTemp = "KT1";
+                    break;
+                case PhanLoaiTinh.KTHN:
+                    textTemp = "Khai Thác Hoài Nhơn";
+                    break;
+                case PhanLoaiTinh.BCPHN:
+                    textTemp = "Bưu Cục Phát Hoài Nhơn";
+                    break;
+                default:
+                    break;
+            }
+            NameTinhCurrent = textTemp;
+
         }
 
         public ICommand SelectedTinhCommand { get; }

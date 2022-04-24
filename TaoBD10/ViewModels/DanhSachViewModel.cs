@@ -53,6 +53,8 @@ namespace TaoBD10.ViewModels
                 }
             }
             WeakReferenceMessenger.Default.Send(new BD10Message(listBD10));
+            //thuc hien vao chi tiet
+            WeakReferenceMessenger.Default.Send("GoChiTiet");
         }
 
         //thuc hien viec get Data

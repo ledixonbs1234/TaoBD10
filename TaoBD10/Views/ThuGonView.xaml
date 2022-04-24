@@ -4,13 +4,19 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:TaoBD10.Views"
+    xmlns:manager="clr-namespace:TaoBD10.Manager"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="450"
     d:DesignWidth="800"
-    DataContext="{StaticResource ThuGonVM}"
+    DataContext="{StaticResource ChiTietVM}"
     FontSize="8"
     mc:Ignorable="d">
-    <Grid>
+    <StackPanel>
+        <TextBlock
+            HorizontalAlignment="Center"
+            Foreground="#FF6998FF"
+            Style="{StaticResource MaterialDesignHeadline5TextBlock}"
+            Text="{Binding NameTinhCurrent}" />
         <StackPanel>
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                 <StackPanel Margin="5,0">
@@ -18,38 +24,59 @@
                         HorizontalAlignment="Center"
                         Foreground="#FF649741"
                         Style="{StaticResource MaterialDesignHeadline5TextBlock}"
-                        Text="0" />
+                        Text="{Binding NHA_AL}" />
                     <Button
+                        Command="{Binding SelectedTinhCommand}"
+                        CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.HA_AL}"
+                        Content="HA-AL"
+                        FontSize="8"
+                        IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                        Style="{StaticResource MaterialDesignPaperLightButton}"
+                        ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
+                </StackPanel>
+                <StackPanel Margin="5,0">
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        Foreground="#FF649741"
+                        Style="{StaticResource MaterialDesignHeadline5TextBlock}"
+                        Text="{Binding NTamQuan}" />
+                    <Button
+                        Command="{Binding SelectedTinhCommand}"
+                        CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.TamQuan}"
                         Content="Tam Quan"
                         FontSize="8"
                         IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                        Style="{StaticResource MaterialDesignPaperSecondaryButton}"
+                        Style="{StaticResource MaterialDesignPaperLightButton}"
                         ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
                 </StackPanel>
-                <StackPanel Margin="5,0">
+                <StackPanel Margin="5,0,2,0">
                     <TextBlock
                         HorizontalAlignment="Center"
                         Foreground="#FF649741"
                         Style="{StaticResource MaterialDesignHeadline5TextBlock}"
-                        Text="0" />
+                        Text="{Binding NKienDaNang}" />
                     <Button
+                        Command="{Binding SelectedTinhCommand}"
+                        CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.KienDaNang}"
                         Content="Kiện Đà Nẵng"
                         FontSize="8"
                         IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                        Style="{StaticResource MaterialDesignPaperSecondaryButton}"
-                        ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
+                        Style="{StaticResource MaterialDesignPaperLightButton}"
+                        ToolTip="Resource name: MaterialDesignPaperFirstButton" />
                 </StackPanel>
                 <StackPanel Margin="5,0">
                     <TextBlock
                         HorizontalAlignment="Center"
                         Foreground="#FF649741"
                         Style="{StaticResource MaterialDesignHeadline5TextBlock}"
-                        Text="0" />
+                        Text="{Binding NEMSDaNang}" />
                     <Button
+                        Command="{Binding SelectedTinhCommand}"
+                        CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.EMSDaNang}"
                         Content="Ems Đà Nẵng"
                         FontSize="8"
                         IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                        Style="{StaticResource MaterialDesignPaperSecondaryButton}"
+                        Style="{StaticResource MaterialDesignPaperLightButton}"
                         ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
                 </StackPanel>
                 <StackPanel Margin="5,0">
@@ -57,12 +84,14 @@
                         HorizontalAlignment="Center"
                         Foreground="#FF649741"
                         Style="{StaticResource MaterialDesignHeadline5TextBlock}"
-                        Text="0" />
+                        Text="{Binding NQuangNam}" />
                     <Button
+                        Command="{Binding SelectedTinhCommand}"
+                        CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.QuangNam}"
                         Content="Quảng Nam"
                         FontSize="8"
                         IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                        Style="{StaticResource MaterialDesignPaperSecondaryButton}"
+                        Style="{StaticResource MaterialDesignPaperLightButton}"
                         ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
                 </StackPanel>
                 <StackPanel Margin="5,0">
@@ -70,12 +99,14 @@
                         HorizontalAlignment="Center"
                         Foreground="#FF649741"
                         Style="{StaticResource MaterialDesignHeadline5TextBlock}"
-                        Text="0" />
+                        Text="{Binding NQuangNgai}" />
                     <Button
+                        Command="{Binding SelectedTinhCommand}"
+                        CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.QuangNgai}"
                         Content="Quảng Ngãi"
                         FontSize="8"
                         IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                        Style="{StaticResource MaterialDesignPaperSecondaryButton}"
+                        Style="{StaticResource MaterialDesignPaperLightButton}"
                         ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
                 </StackPanel>
             </StackPanel>
@@ -86,12 +117,14 @@
                             HorizontalAlignment="Center"
                             Foreground="#FF649741"
                             Style="{StaticResource MaterialDesignHeadline5TextBlock}"
-                            Text="0" />
+                            Text="{Binding NKNTB}" />
                         <Button
-                            Content="Đi Ngoài NTB"
+                            Command="{Binding SelectedTinhCommand}"
+                            CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.DiNgoaiNamTrungBo}"
+                            Content="Kiện NTB"
                             FontSize="8"
                             IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                            Style="{StaticResource MaterialDesignPaperSecondaryButton}"
+                            Style="{StaticResource MaterialDesignPaperLightButton}"
                             ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
                     </StackPanel>
                     <StackPanel Margin="5,0">
@@ -99,12 +132,14 @@
                             HorizontalAlignment="Center"
                             Foreground="#FF649741"
                             Style="{StaticResource MaterialDesignHeadline5TextBlock}"
-                            Text="0" />
+                            Text="{Binding NTNTB}" />
                         <Button
+                            Command="{Binding SelectedTinhCommand}"
+                            CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.TuiNTB}"
                             Content="Túi NTB"
                             FontSize="8"
                             IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                            Style="{StaticResource MaterialDesignPaperSecondaryButton}"
+                            Style="{StaticResource MaterialDesignPaperLightButton}"
                             ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
                     </StackPanel>
                     <StackPanel Margin="5,0">
@@ -112,12 +147,14 @@
                             HorizontalAlignment="Center"
                             Foreground="#FF649741"
                             Style="{StaticResource MaterialDesignHeadline5TextBlock}"
-                            Text="0" />
+                            Text="{Binding NPhuMy}" />
                         <Button
+                            Command="{Binding SelectedTinhCommand}"
+                            CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.PhuMy}"
                             Content="Phù Mỹ"
                             FontSize="8"
                             IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                            Style="{StaticResource MaterialDesignPaperSecondaryButton}"
+                            Style="{StaticResource MaterialDesignPaperLightButton}"
                             ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
                     </StackPanel>
                     <StackPanel Margin="5,0">
@@ -125,12 +162,14 @@
                             HorizontalAlignment="Center"
                             Foreground="#FF649741"
                             Style="{StaticResource MaterialDesignHeadline5TextBlock}"
-                            Text="0" />
+                            Text="{Binding NPhuCat}" />
                         <Button
+                            Command="{Binding SelectedTinhCommand}"
+                            CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.PhuCat}"
                             Content="Phù Cát"
                             FontSize="8"
                             IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                            Style="{StaticResource MaterialDesignPaperSecondaryButton}"
+                            Style="{StaticResource MaterialDesignPaperLightButton}"
                             ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
                     </StackPanel>
                     <StackPanel Margin="5,0">
@@ -138,12 +177,14 @@
                             HorizontalAlignment="Center"
                             Foreground="#FF649741"
                             Style="{StaticResource MaterialDesignHeadline5TextBlock}"
-                            Text="0" />
+                            Text="{Binding NAnNhon}" />
                         <Button
+                            Command="{Binding SelectedTinhCommand}"
+                            CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.AnNhon}"
                             Content="An Nhơn"
                             FontSize="8"
                             IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                            Style="{StaticResource MaterialDesignPaperSecondaryButton}"
+                            Style="{StaticResource MaterialDesignPaperLightButton}"
                             ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
                     </StackPanel>
                     <StackPanel Margin="5,0">
@@ -151,16 +192,18 @@
                             HorizontalAlignment="Center"
                             Foreground="#FF649741"
                             Style="{StaticResource MaterialDesignHeadline5TextBlock}"
-                            Text="0" />
+                            Text="{Binding NKT1}" />
                         <Button
+                            Command="{Binding SelectedTinhCommand}"
+                            CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.KT1}"
                             Content="KT1"
                             FontSize="8"
                             IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                            Style="{StaticResource MaterialDesignPaperSecondaryButton}"
+                            Style="{StaticResource MaterialDesignPaperLightButton}"
                             ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
         </StackPanel>
-    </Grid>
+    </StackPanel>
 </UserControl>

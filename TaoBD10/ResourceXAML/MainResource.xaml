@@ -7,5 +7,4 @@
     <viewmodel:DanhSachViewModel x:Key="DanhSachVM" />
     <viewmodel:ChiTietViewModel x:Key="ChiTietVM" />
     <viewmodel:FillViewModel x:Key="FillViewVM" />
-    <viewmodel:ThuGonViewModel x:Key="ThuGonVM" />
 </ResourceDictionary>

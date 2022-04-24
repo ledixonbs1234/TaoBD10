@@ -128,7 +128,6 @@
     <Compile Include="ViewModels\FillViewModel.cs" />
     <Compile Include="ViewModels\GetBD10ViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="ViewModels\ThuGonViewModel.cs" />
     <Compile Include="Views\ChiTietView.xaml.cs">
       <DependentUpon>ChiTietView.xaml</DependentUpon>
     </Compile>

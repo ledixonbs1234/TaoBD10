@@ -34,13 +34,11 @@ namespace TaoBD10.ViewModels
             XoaCommand = new RelayCommand(Xoa);
         }
 
-        void Xoa()
+        private void Xoa()
         {
-
-
         }
 
-        void LayDuLieu()
+        private void LayDuLieu()
         {
             List<BD10InfoModel> listBD10 = new List<BD10InfoModel>();
             //thuc hien viec lay du lieu

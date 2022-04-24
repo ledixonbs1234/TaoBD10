@@ -1,12 +1,11 @@
 ﻿<UserControl
     x:Class="TaoBD10.Views.ChiTietView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:TaoBD10.Views"
-    xmlns:manager="clr-namespace:TaoBD10.Manager"
     xmlns:materdesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:manager="clr-namespace:TaoBD10.Manager"
     DataContext="{StaticResource ChiTietVM}"
     mc:Ignorable="d">
     <Grid>
@@ -108,7 +107,6 @@
                             Style="{StaticResource MaterialDesignPaperLightButton}"
                             ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
                     </StackPanel>
-
                 </StackPanel>
                 <StackPanel
                     Margin="2,0"
@@ -213,7 +211,6 @@
                             IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                             Style="{StaticResource MaterialDesignPaperLightButton}"
                             ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
-
                     </StackPanel>
 
                     <StackPanel Margin="20,0">
@@ -229,7 +226,6 @@
                             IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                             Style="{StaticResource MaterialDesignPaperLightButton}"
                             ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
-
                     </StackPanel>
                     <StackPanel Margin="20,0">
                         <TextBlock
@@ -244,12 +240,9 @@
                             IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                             Style="{StaticResource MaterialDesignPaperLightButton}"
                             ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
-
                     </StackPanel>
-
                 </StackPanel>
             </StackPanel>
-
         </materdesign:Card>
         <TextBlock
             Grid.Row="1"
@@ -297,8 +290,6 @@
                     IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                     Style="{StaticResource MaterialDesignOutlinedSecondaryLightButton}" />
             </StackPanel>
-
-
         </Grid>
     </Grid>
 </UserControl>

@@ -1,12 +1,9 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using TaoBD10.Manager;
 using TaoBD10.Model;
@@ -14,7 +11,7 @@ using static TaoBD10.Manager.EnumAll;
 
 namespace TaoBD10.ViewModels
 {
-    class ChiTietViewModel:ObservableObject
+    internal class ChiTietViewModel : ObservableObject
     {
         private ObservableCollection<HangHoaDetailModel> _ListShowHangHoa;
         private string _NAnNhon;
@@ -36,13 +33,14 @@ namespace TaoBD10.ViewModels
         public string NameTinhCurrent
         {
             get { return _NameTinhCurrent; }
-            set { SetProperty(ref _NameTinhCurrent,value); }
+            set { SetProperty(ref _NameTinhCurrent, value); }
         }
 
-        List<HangHoaDetailModel> currentListHangHoa;
+        private List<HangHoaDetailModel> currentListHangHoa;
         private string[] fillDaNang = new string[] { "26", "27", "23", "22", "55", "38", "40", "10", "48", "17", "18", "16", "31", "39", "24", "33", "42", "46", "43", "51", "20", "52", "36", "41", "25", "44", "31", "53", "30", "32", "29", "28", "35", "13" };
         private string[] fillNoiTinh = new string[] { "591218", "591520", "591720", "591760", "591900", "592100", "592120", "592220", "594080", "594090", "594210", "594220", "594300", "594350", "594560", "594610", "590100" };
         private string[] fillNTB = new string[] { "88", "79", "96", "93", "82", "83", "80", "97", "90", "63", "64", "81", "87", "60", "91", "70", "65", "92", "58", "67", "85", "66", "62", "95", "84", "86", "94", "89", "74" };
+
         public ChiTietViewModel()
         {
             WeakReferenceMessenger.Default.Register<BD10Message>(this, (r, m) =>
@@ -51,6 +49,7 @@ namespace TaoBD10.ViewModels
                 if (m.Value != null)
                 {
                     currentListHangHoa = new List<HangHoaDetailModel>();
+                    ListShowHangHoa = new ObservableCollection<HangHoaDetailModel>();
                     foreach (var BD10 in m.Value)
                     {
                         foreach (TuiHangHoa tuiHangHoa in BD10.TuiHangHoas)
@@ -62,19 +61,17 @@ namespace TaoBD10.ViewModels
                 }
             });
 
-
             #region Command Create
 
             SelectedTinhCommand = new RelayCommand<PhanLoaiTinh>(SelectedTinh);
 
-
-            #endregion
+            #endregion Command Create
         }
 
         private void SelectedTinh(PhanLoaiTinh phanLoaiTinh)
         {
             var data = currentListHangHoa.FindAll(m => m.PhanLoai == phanLoaiTinh);
-            if(data!= null)
+            if (data != null)
             {
                 ListShowHangHoa = new ObservableCollection<HangHoaDetailModel>();
                 foreach (HangHoaDetailModel hangHoa in data)
@@ -83,7 +80,6 @@ namespace TaoBD10.ViewModels
                 }
                 //thuc hien show Ten Tinh
                 ShowNameTinh(phanLoaiTinh);
-
             }
         }
 
@@ -94,59 +90,70 @@ namespace TaoBD10.ViewModels
             {
                 case PhanLoaiTinh.None:
                     break;
+
                 case PhanLoaiTinh.HA_AL:
                     textTemp = "Hoài Ân - An Lão";
                     break;
+
                 case PhanLoaiTinh.TamQuan:
                     textTemp = "Tam Quan";
                     break;
+
                 case PhanLoaiTinh.KienDaNang:
                     textTemp = "Kiện Đà Nẵng";
                     break;
+
                 case PhanLoaiTinh.EMSDaNang:
                     textTemp = "EMS Đà Nẵng";
                     break;
+
                 case PhanLoaiTinh.QuangNam:
                     textTemp = "Quảng Nam";
                     break;
+
                 case PhanLoaiTinh.QuangNgai:
                     textTemp = "Quảng Ngãi";
                     break;
+
                 case PhanLoaiTinh.DiNgoaiNamTrungBo:
                     textTemp = "Kiện Nam Trung Bộ";
                     break;
+
                 case PhanLoaiTinh.TuiNTB:
                     textTemp = "Tui Nam Trung Bộ";
                     break;
+
                 case PhanLoaiTinh.PhuMy:
                     textTemp = "Phù Mỹ";
                     break;
+
                 case PhanLoaiTinh.PhuCat:
                     textTemp = "Phù Cát";
                     break;
+
                 case PhanLoaiTinh.AnNhon:
                     textTemp = "An Nhơn";
                     break;
+
                 case PhanLoaiTinh.KT1:
                     textTemp = "KT1";
                     break;
+
                 case PhanLoaiTinh.KTHN:
                     textTemp = "Khai Thác Hoài Nhơn";
                     break;
+
                 case PhanLoaiTinh.BCPHN:
                     textTemp = "Bưu Cục Phát Hoài Nhơn";
                     break;
+
                 default:
                     break;
             }
             NameTinhCurrent = textTemp;
-
         }
 
         public ICommand SelectedTinhCommand { get; }
-
-        
-
 
         public ObservableCollection<HangHoaDetailModel> ListShowHangHoa
         {
@@ -177,6 +184,7 @@ namespace TaoBD10.ViewModels
             get { return _NHA_AL; }
             set { SetProperty(ref _NHA_AL, value); }
         }
+
         public string NKienDaNang
         {
             get { return _NKienDaNang; }
@@ -217,7 +225,6 @@ namespace TaoBD10.ViewModels
         {
             get { return _NQuangNam; }
             set { SetProperty(ref _NQuangNam, value); }
-
         }
 
         public string NQuangNgai
@@ -229,14 +236,16 @@ namespace TaoBD10.ViewModels
         public string NTamQuan
         {
             get { return _NTamQuan; }
-            set { SetProperty(ref _NTamQuan,value); }
+            set { SetProperty(ref _NTamQuan, value); }
         }
+
         public string NTNTB
         {
             get { return _NTNTB; }
             set { SetProperty(ref _NTNTB, value); }
         }
-        void FillData()
+
+        private void FillData()
         {
             if (currentListHangHoa.Count == 0)
                 return;
@@ -245,7 +254,6 @@ namespace TaoBD10.ViewModels
 
             foreach (var hangHoa in currentListHangHoa.ToList())
             {
-
                 string maSoTinh = hangHoa.TuiHangHoa.ToBC.Substring(0, 2);
                 if (hangHoa.TuiHangHoa.ToBC.IndexOf("593740") != -1 || hangHoa.TuiHangHoa.ToBC.IndexOf("593630") != -1 || hangHoa.TuiHangHoa.ToBC.IndexOf("593850") != -1 || hangHoa.TuiHangHoa.ToBC.IndexOf("593880") != -1 || hangHoa.TuiHangHoa.ToBC.IndexOf("593760") != -1 || hangHoa.TuiHangHoa.ToBC.IndexOf("593870") != -1)
                 {
@@ -288,7 +296,6 @@ namespace TaoBD10.ViewModels
                 {
                     currentListHangHoa[countForeach].PhanLoai = Manager.EnumAll.PhanLoaiTinh.BCPHN;
                 }
-
                 else if (maSoTinh == "59")
                 {
                     string temp = fillNoiTinh.FirstOrDefault(m => m.IndexOf(hangHoa.TuiHangHoa.ToBC) != -1);
@@ -335,7 +342,7 @@ namespace TaoBD10.ViewModels
             ResetAndCount();
         }
 
-        void ResetAndCount()
+        private void ResetAndCount()
         {
             NHA_AL = "0";
             NTamQuan = "0";
@@ -351,9 +358,9 @@ namespace TaoBD10.ViewModels
             NPhuCat = "0";
             NAnNhon = "0";
             NKT1 = "0";
-             
-            NHA_AL = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.HA_AL).Count.ToString(); 
-            NTamQuan = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.TamQuan).Count.ToString(); 
+
+            NHA_AL = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.HA_AL).Count.ToString();
+            NTamQuan = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.TamQuan).Count.ToString();
             NKienDaNang = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.KienDaNang).Count.ToString();
             NEMSDaNang = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.EMSDaNang).Count.ToString();
             NQuangNam = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.QuangNam).Count.ToString();

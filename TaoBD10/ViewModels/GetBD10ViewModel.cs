@@ -3,11 +3,9 @@ using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
-using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -22,17 +20,33 @@ namespace TaoBD10.ViewModels
 
         private string _NameBD = "0";
 
-        bool isWaitingGetData = false;
+        private bool isWaitingGetData = false;
 
-        private int _AnimatedProgressInCard=50;
+        private int _AnimatedProgressInCard = 50;
 
-        public  int AnimatedProgressInCard
+        public int AnimatedProgressInCard
         {
             get => _AnimatedProgressInCard;
             set => SetProperty(ref _AnimatedProgressInCard, value);
         }
 
-        DispatcherTimer timer;
+        private bool _IsLoading;
+
+        public bool IsLoading
+        {
+            get { return _IsLoading; }
+            set { SetProperty(ref _IsLoading, value); }
+        }
+
+        private int _ValueLoading;
+
+        public int ValueLoading
+        {
+            get { return _ValueLoading; }
+            set { SetProperty(ref _ValueLoading, value); }
+        }
+
+        private DispatcherTimer timer;
 
         private List<TuiHangHoa> tuiTempHangHoa;
 
@@ -58,6 +72,7 @@ namespace TaoBD10.ViewModels
         }
 
         public ICommand TestCommand { get; }
+
         public string NameBD
         {
             get { return _NameBD; }
@@ -178,14 +193,12 @@ namespace TaoBD10.ViewModels
                         {
                             countComBoBox++;
                         }
-
                     }
                     else
                     if (classText.IndexOf(textDateTime) != -1)
                     {
                         if (countDateTime == 1)
                         {
-
                             ngayThangBD = APIManager.GetControlText(item);
 
                             countDateTime++;
@@ -194,7 +207,6 @@ namespace TaoBD10.ViewModels
                         {
                             countDateTime++;
                         }
-
                     }
                     else if (classText.IndexOf(textEdit) != -1)
                     {
@@ -217,8 +229,7 @@ namespace TaoBD10.ViewModels
                 DateTime ngayThang = DateTime.Now;
                 DateTime.TryParseExact(ngayThangBD, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out ngayThang);
 
-
-                var info = FileManager.list.Find(m => m.Name == noiGuiBD && m.LanLap == lanLapBD && m.DateCreateBD10.DayOfYear == ngayThang.DayOfYear );
+                var info = FileManager.list.Find(m => m.Name == noiGuiBD && m.LanLap == lanLapBD && m.DateCreateBD10.DayOfYear == ngayThang.DayOfYear);
                 if (info != null)
                 {
                     isWaitingGetData = false;
@@ -228,8 +239,8 @@ namespace TaoBD10.ViewModels
                     return;
                 }
                 NameBD = noiGuiBD;
-
-
+                IsLoading = true;
+                ValueLoading = 50;
 
                 SendKeys.SendWait("{F3}");
                 Thread.Sleep(200);
@@ -291,15 +302,14 @@ namespace TaoBD10.ViewModels
                 {
                     isWaitingGetData = false;
                     timer.Stop();
+                    IsLoading = false;
+                    ValueLoading = 0;
 
                     SoundManager.playSound(@"Number\chuadusoluong.wav");
                     return;
                 }
 
-
                 /// Kiem tra trong nay co trung so luong voi file khong neu khong thi hie nra thong bao loi
-
-
 
                 //dgvMain.DataSource = tuiHangHoas;
                 CountTui = tuiTempHangHoa.Count.ToString();
@@ -324,8 +334,8 @@ namespace TaoBD10.ViewModels
                 if (string.IsNullOrEmpty(textXacNhan))
                     return;
                 PhanLoai(textXacNhan);
-
-               
+                IsLoading = false;
+                ValueLoading = 100;
 
                 FileManager.SaveData(new BD10InfoModel(noiGuiBD, tuiTempHangHoa, ngayThang, (EnumAll.TimeSet)SelectedBuoi, lanLapBD));
                 CountTui = tuiTempHangHoa.Count().ToString();
@@ -334,6 +344,7 @@ namespace TaoBD10.ViewModels
                 timer.Stop();
             }
         }
+
         //var bd10Info = new BD10InfoModel();
         //bd10Info.Name = noiGuiBD;
         //    bd10Info.TuiHangHoas = tuiTempHangHoa;

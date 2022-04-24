@@ -25,7 +25,6 @@
             AnNhon, KT1,
             KTHN,
             BCPHN
-
         }
 
         public enum VungLamViec

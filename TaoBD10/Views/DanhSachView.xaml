@@ -32,7 +32,6 @@
                                     Style="{StaticResource MaterialDesignActionLightToggleButton}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
-
                     </GridViewColumn>
                     <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Tên BD" />
                     <GridViewColumn DisplayMemberBinding="{Binding LanLap}" Header="Lần Lập" />
@@ -60,10 +59,8 @@
                 Style="{StaticResource MaterialDesignIconButton}"
                 ToolTip="MaterialDesignIconButton">
 
-
                 <materialDesign:PackIcon Kind="Close" />
             </Button>
-
         </StackPanel>
     </Grid>
 </UserControl>

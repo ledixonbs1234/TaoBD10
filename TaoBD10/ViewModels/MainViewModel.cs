@@ -15,14 +15,13 @@ namespace TaoBD10.ViewModels
         private string _CountInBD;
         public string CountInBD { get => _CountInBD; set => SetProperty(ref _CountInBD, value); }
 
-        private int _IndexTabControl= 0;
+        private int _IndexTabControl = 0;
 
         public int IndexTabControl
         {
             get { return _IndexTabControl; }
-            set {SetProperty(ref _IndexTabControl , value); }
+            set { SetProperty(ref _IndexTabControl, value); }
         }
-
 
         public MainViewModel()
         {
@@ -35,12 +34,12 @@ namespace TaoBD10.ViewModels
             _keyboardHook.HookKeyboard();
             createConnection();
             SoundManager.SetUpDirectory();
-            WeakReferenceMessenger.Default.Register<string>(this, (r,m) => { 
-                if(m == "GoChiTiet")
+            WeakReferenceMessenger.Default.Register<string>(this, (r, m) =>
+            {
+                if (m == "GoChiTiet")
                 {
                     IndexTabControl = 2;
                 }
-            
             });
         }
 
@@ -92,6 +91,7 @@ namespace TaoBD10.ViewModels
                 case 2:
                     SetCenterWindow();
                     break;
+
                 case 3:
                     SetRightWindow();
                     break;

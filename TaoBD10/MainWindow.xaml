@@ -51,6 +51,10 @@
             <TabItem Header="Thu Gọn">
                 <view:ThuGonView />
             </TabItem>
+<TabItem Header="Lấy Chuyến Thư">
+                <view:ChuyenThu />
+            </TabItem>
+
             <TabItem Header="Lọc Túi">
                 <view:LocTuiView />
             </TabItem>

@@ -133,6 +133,9 @@
     <Compile Include="Views\ChiTietView.xaml.cs">
       <DependentUpon>ChiTietView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ChuyenThu.xaml.cs">
+      <DependentUpon>ChuyenThu.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\DanhSachView.xaml.cs">
       <DependentUpon>DanhSachView.xaml</DependentUpon>
     </Compile>
@@ -165,6 +168,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ChiTietView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ChuyenThu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

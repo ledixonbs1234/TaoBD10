@@ -71,6 +71,8 @@ namespace TaoBD10.ViewModels
             if(SelectedTui!= null)
             {
                 Clipboard.SetDataObject(SelectedTui.TuiHangHoa.SHTui);
+                //SendMessage 
+                WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Snackbar", Content = " Đã Copy" });
             }
 
         }

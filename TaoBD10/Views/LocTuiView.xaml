@@ -46,6 +46,16 @@
                 IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                 Style="{StaticResource MaterialDesignRaisedSecondaryButton}"
                 ToolTip="Resource name: MaterialDesignRaisedSecondaryButton" />
+            <Button
+                Margin="30,0"
+                Background="{DynamicResource MaterialDesignTextFieldBoxBackground}"
+                Command="{Binding ClearCommand}"
+                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                Style="{StaticResource MaterialDesignIconButton}"
+                ToolTip="MaterialDesignIconButton">
+
+                <materialDesign:PackIcon Kind="Close" />
+            </Button>
             <TextBlock
                 Foreground="#FF0097E1"
                 Style="{StaticResource MaterialDesignHeadline3TextBlock}"

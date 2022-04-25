@@ -124,6 +124,19 @@ namespace TaoBD10.ViewModels
             _window.Left = desktopWorkingArea.Left + width - _window.Width;
             _window.Top = desktopWorkingArea.Top + 0;
         }
+        private void SetRightHeigtWindow()
+        {
+            if (_window == null)
+                return;
+            var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
+            _window.Width = 360;
+            _window.Height = 600;
+            double height = System.Windows.SystemParameters.PrimaryScreenHeight;
+            double width = System.Windows.SystemParameters.PrimaryScreenWidth;
+            // use 'Screen.AllScreens[1].WorkingArea' for secondary screen
+            _window.Left = desktopWorkingArea.Left + width - _window.Width;
+            _window.Top = desktopWorkingArea.Top + 0;
+        }
 
         private void SetRightSmallWindow()
         {
@@ -175,6 +188,9 @@ namespace TaoBD10.ViewModels
 
                 case 3:
                     SetRightSmallWindow();
+                    break;
+                case 4:
+                    SetRightHeigtWindow();
                     break;
 
                 default:

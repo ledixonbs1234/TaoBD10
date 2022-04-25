@@ -32,6 +32,7 @@ namespace TaoBD10.ViewModels
             get { return _NameBD; }
             set { SetProperty(ref _NameBD, value);
                 CapNhatCommand.NotifyCanExecuteChanged();
+                ClearCommand.NotifyCanExecuteChanged();
             }
         }
 
@@ -40,15 +41,24 @@ namespace TaoBD10.ViewModels
 
         void CapNhat()
         {
+           
             FileManager.SaveData(new BD10InfoModel(NameBD, ListHangHoa.ToList(), DateTime.Now, EnumAll.TimeSet.Sang, "1"));
             WeakReferenceMessenger.Default.Send<string>("LoadBD10");
             WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Snackbar", Content = "Đã Tạo BĐ 10 với tên : " + NameBD });
             //MessageShow("Đã Tạo BĐ 10 với tên : " + NameBD);
         }
 
-     
+        public IRelayCommand ClearCommand { get; }
 
     
+        void ClearData()
+        {
+
+        }
+
+
+
+
 
 
         private string _TextBD;
@@ -103,7 +113,19 @@ namespace TaoBD10.ViewModels
         public LocTuiViewModel()
         {
             ListHangHoa = new ObservableCollection<TuiHangHoa>();
+            ClearCommand = new RelayCommand(ClearData,()=> {
+                if ( ListHangHoa.Count != 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            });
+
             CapNhatCommand = new RelayCommand(CapNhat,()=> {
+             
                 if (!string.IsNullOrEmpty(NameBD)&& ListHangHoa.Count != 0)
                 {
                     return true;

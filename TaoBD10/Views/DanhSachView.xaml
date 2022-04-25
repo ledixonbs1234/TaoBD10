@@ -18,11 +18,9 @@
         <DatePicker
             Grid.Row="0"
             Width="180"
-            FirstDayOfWeek="Monday"
-            SelectedDate="{Binding CurrentTime, Mode=TwoWay}"
+            SelectedDate="{Binding CurrentTime, Mode=TwoWay, StringFormat=dd/MM/yyyy}"
             SelectedDateFormat="Short"
-            Style="{StaticResource MaterialDesignFilledDatePicker}"
-            VirtualizingPanel.IsVirtualizing="True" />
+            Style="{StaticResource MaterialDesignFilledDatePicker}" />
         <StackPanel
             Grid.Row="1"
             Margin="4"
@@ -72,7 +70,10 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn DisplayMemberBinding="{Binding Name}" Width="200" Header="Tên BD" />
+                    <GridViewColumn
+                        Width="200"
+                        DisplayMemberBinding="{Binding Name}"
+                        Header="Tên BD" />
                     <GridViewColumn DisplayMemberBinding="{Binding LanLap}" Header="Lần Lập" />
                     <GridViewColumn DisplayMemberBinding="{Binding CountTui}" Header="Số Lượng" />
                 </GridView>

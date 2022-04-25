@@ -1,32 +1,86 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using TaoBD10.Manager;
 using TaoBD10.Model;
+using static TaoBD10.Manager.EnumAll;
 
 namespace TaoBD10.ViewModels
 {
     public class DanhSachViewModel : ObservableObject
     {
         private ObservableCollection<BD10InfoModel> _BD10List;
+        private DateTime _CurrentTime = DateTime.Now;
+        private bool[] _BuoiArray = new bool[] { true, false, false, false };
+
+        public bool[] BuoiArray
+        {
+            get {
+
+                string a = "dfd";
+                return _BuoiArray; }
+        }
+
+        public int SelectedBuoi
+        {
+            get {
+                string a = "dfd";
+                return Array.IndexOf(_BuoiArray, true); }
+        }
+
+        public DateTime CurrentTime
+        {
+            get { return _CurrentTime; }
+
+            set
+            {
+                if (value != _CurrentTime)
+                {
+                    SetProperty(ref _CurrentTime, value);
+                    //Thuc hien thay doi torng ngay
+                    LoadBD10();
+                }
+            }
+        }
+
+        public ICommand DeleteCommand { get; }
+
+      
+        void Delete()
+        {
+            var tempList = new List<BD10InfoModel>(BD10List);
+            foreach (var item in tempList)
+            {
+                if (item.isChecked)
+                {
+                    FileManager.list.Remove(item);
+                    BD10List.Remove(item);
+                }
+            }
+            //thuc hien save 
+            FileManager.SaveData(null);
+
+        }
+
 
         public ObservableCollection<BD10InfoModel> BD10List
         {
             get => _BD10List
-;  set => SetProperty(ref _BD10List, value);
+; set => SetProperty(ref _BD10List, value);
         }
 
         public ICommand LayDuLieuCommand { get; }
-        public ICommand XoaCommand { get; }
 
         public DanhSachViewModel()
         {
             LoadBD10();
+            DeleteCommand = new RelayCommand(Delete);
             LayDuLieuCommand = new RelayCommand(LayDuLieu);
-            XoaCommand = new RelayCommand(Xoa);
+            SelectedBuoiCommand = new RelayCommand(SelectedBuoiVoid);
             WeakReferenceMessenger.Default.Register<string>(this, (r, m) =>
             {
                 if (m == "LoadBD10")
@@ -40,14 +94,31 @@ namespace TaoBD10.ViewModels
         {
             BD10List = new ObservableCollection<BD10InfoModel>();
             //thuc hien lay du lieu
-            foreach (var item in FileManager.LoadData())
-            {
-                BD10List.Add(item);
-            }
+            LoadForDate(CurrentTime, (TimeSet)SelectedBuoi);
         }
 
-        private void Xoa()
+        void SelectedBuoiVoid()
         {
+            LoadBD10();
+        }
+
+        public ICommand SelectedBuoiCommand { get; }
+
+        void LoadForDate(DateTime time, TimeSet buoi)
+        {
+            foreach (var item in FileManager.LoadData())
+            {
+                //thuc hien load theo ngay
+                if (item.DateCreateBD10.DayOfYear == time.DayOfYear)
+                {
+                    if (item.TimeTrongNgay == buoi)
+                    {
+                        item.isChecked = false;
+                        BD10List.Add(item);
+                    }
+                }
+            }
+
         }
 
         private void LayDuLieu()

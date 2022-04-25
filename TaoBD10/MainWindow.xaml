@@ -14,7 +14,7 @@
     DataContext="{StaticResource MainVM}"
     ResizeMode="NoResize"
     WindowStyle="None"
-    mc:Ignorable="d" Topmost="True">
+    mc:Ignorable="d">
     <Behaviors:Interaction.Triggers>
         <Behaviors:EventTrigger EventName="Loaded">
             <Behaviors:InvokeCommandAction Command="{Binding LoadPageCommand}" CommandParameter="{Binding ElementName=MainView}" />
@@ -51,7 +51,9 @@
             <TabItem Header="Thu Gọn">
                 <view:ThuGonView />
             </TabItem>
-            <TabItem Header="Tam Quan" />
+            <TabItem Header="Lọc Túi">
+                <view:LocTuiView />
+            </TabItem>
         </TabControl>
     </Grid>
 </Window>

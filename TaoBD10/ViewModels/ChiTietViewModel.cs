@@ -4,6 +4,7 @@ using Microsoft.Toolkit.Mvvm.Messaging;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 using TaoBD10.Manager;
 using TaoBD10.Model;
@@ -29,6 +30,14 @@ namespace TaoBD10.ViewModels
         private string _NTamQuan;
         private string _NTNTB;
         private string _NameTinhCurrent;
+        private string _NConLai;
+
+        public string NConLai
+        {
+            get { return _NConLai; }
+            set { SetProperty(ref _NConLai, value); }
+        }
+
 
         public string NameTinhCurrent
         {
@@ -41,8 +50,47 @@ namespace TaoBD10.ViewModels
         private string[] fillNoiTinh = new string[] { "591218", "591520", "591720", "591760", "591900", "592100", "592120", "592220", "594080", "594090", "594210", "594220", "594300", "594350", "594560", "594610", "590100" };
         private string[] fillNTB = new string[] { "88", "79", "96", "93", "82", "83", "80", "97", "90", "63", "64", "81", "87", "60", "91", "70", "65", "92", "58", "67", "85", "66", "62", "95", "84", "86", "94", "89", "74" };
 
+        private HangHoaDetailModel _SelectedTui;
+
+        public HangHoaDetailModel SelectedTui
+        {
+            get { return _SelectedTui; }
+            set
+            {
+                SetProperty(ref _SelectedTui, value);
+                CopySHTuiCommand.NotifyCanExecuteChanged();
+            }
+        }
+
+        public IRelayCommand CopySHTuiCommand { get; }
+
+       
+        void CopySHTui()
+        {
+            //thuc hien lenh trong nay
+            if(SelectedTui!= null)
+            {
+                Clipboard.SetDataObject(SelectedTui.TuiHangHoa.SHTui);
+            }
+
+        }
+
+
         public ChiTietViewModel()
         {
+            CopySHTuiCommand = new RelayCommand(CopySHTui,() =>
+            {
+                if(SelectedTui != null)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            });
+
+
             WeakReferenceMessenger.Default.Register<BD10Message>(this, (r, m) =>
             {
                 //Thuc Hien Trong ngay
@@ -89,6 +137,7 @@ namespace TaoBD10.ViewModels
             switch (phanLoaiTinh)
             {
                 case PhanLoaiTinh.None:
+                    textTemp = "Còn Lại";
                     break;
 
                 case PhanLoaiTinh.HA_AL:
@@ -245,6 +294,9 @@ namespace TaoBD10.ViewModels
             set { SetProperty(ref _NTNTB, value); }
         }
 
+
+
+
         private void FillData()
         {
             if (currentListHangHoa.Count == 0)
@@ -342,6 +394,8 @@ namespace TaoBD10.ViewModels
             ResetAndCount();
         }
 
+
+
         private void ResetAndCount()
         {
             NHA_AL = "0";
@@ -358,6 +412,7 @@ namespace TaoBD10.ViewModels
             NPhuCat = "0";
             NAnNhon = "0";
             NKT1 = "0";
+            NConLai = "0";
 
             NHA_AL = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.HA_AL).Count.ToString();
             NTamQuan = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.TamQuan).Count.ToString();
@@ -373,6 +428,7 @@ namespace TaoBD10.ViewModels
             NPhuCat = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.PhuCat).Count.ToString();
             NAnNhon = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.AnNhon).Count.ToString();
             NKT1 = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.KT1).Count.ToString();
+            NConLai = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.None).Count.ToString();
         }
     }
 }

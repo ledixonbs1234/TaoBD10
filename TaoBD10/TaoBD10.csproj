@@ -127,6 +127,7 @@
     <Compile Include="ViewModels\DanhSachViewModel.cs" />
     <Compile Include="ViewModels\FillViewModel.cs" />
     <Compile Include="ViewModels\GetBD10ViewModel.cs" />
+    <Compile Include="ViewModels\LocTuiViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="Views\ChiTietView.xaml.cs">
       <DependentUpon>ChiTietView.xaml</DependentUpon>
@@ -139,6 +140,9 @@
     </Compile>
     <Compile Include="Views\GetBD10View.xaml.cs">
       <DependentUpon>GetBD10View.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LocTuiView.xaml.cs">
+      <DependentUpon>LocTuiView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ThuGonView.xaml.cs">
       <DependentUpon>ThuGonView.xaml</DependentUpon>
@@ -174,6 +178,10 @@
     <Page Include="Views\GetBD10View.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\LocTuiView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ThuGonView.xaml">
       <SubType>Designer</SubType>

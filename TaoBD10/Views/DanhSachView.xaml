@@ -11,19 +11,58 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
             <RowDefinition Height="1*" />
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
         <DatePicker
-            SelectedDateFormat="Long"
             Grid.Row="0"
-            Width="140"
-            materialDesign:HintAssist.Hint="Pick Date"
-            Style="{StaticResource MaterialDesignFilledDatePicker}" FirstDayOfWeek="Monday" />
-        <ListView Grid.Row="1" ItemsSource="{Binding BD10List}">
+            Width="180"
+            FirstDayOfWeek="Monday"
+            SelectedDate="{Binding CurrentTime, Mode=TwoWay}"
+            SelectedDateFormat="Short"
+            Style="{StaticResource MaterialDesignFilledDatePicker}"
+            VirtualizingPanel.IsVirtualizing="True" />
+        <StackPanel
+            Grid.Row="1"
+            Margin="4"
+            HorizontalAlignment="Center"
+            Orientation="Horizontal">
+            <RadioButton
+                Margin="4"
+                Command="{Binding SelectedBuoiCommand}"
+                Content="Sáng"
+                GroupName="Buoi"
+                IsChecked="{Binding Path=BuoiArray[0], Mode=TwoWay}"
+                Style="{StaticResource MaterialDesignTabRadioButton}" />
+            <RadioButton
+                Margin="4"
+                Command="{Binding SelectedBuoiCommand}"
+                Content="Trưa"
+                GroupName="Buoi"
+                IsChecked="{Binding Path=BuoiArray[1], Mode=TwoWay}"
+                Style="{StaticResource MaterialDesignTabRadioButton}" />
+            <RadioButton
+                Margin="4"
+                Command="{Binding SelectedBuoiCommand}"
+                Content="Chiều"
+                GroupName="Buoi"
+                IsChecked="{Binding Path=BuoiArray[2], Mode=TwoWay}"
+                Style="{StaticResource MaterialDesignTabRadioButton}" />
+            <RadioButton
+                Margin="4"
+                Command="{Binding SelectedBuoiCommand}"
+                Content="Tối"
+                GroupName="Buoi"
+                IsChecked="{Binding Path=BuoiArray[3], Mode=TwoWay}"
+                Style="{StaticResource MaterialDesignTabRadioButton}" />
+        </StackPanel>
+
+
+        <ListView Grid.Row="2" ItemsSource="{Binding BD10List}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Width="50" Header="Favourite">
+                    <GridViewColumn Width="50" Header="Chọn">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <ToggleButton
@@ -40,7 +79,7 @@
             </ListView.View>
         </ListView>
         <StackPanel
-            Grid.Row="2"
+            Grid.Row="3"
             HorizontalAlignment="Center"
             Orientation="Horizontal">
             <Button
@@ -54,7 +93,7 @@
             <Button
                 Margin="20,0"
                 Background="{DynamicResource MaterialDesignTextFieldBoxBackground}"
-                Command="{Binding XoaCommand}"
+                Command="{Binding DeleteCommand}"
                 IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                 Style="{StaticResource MaterialDesignIconButton}"
                 ToolTip="MaterialDesignIconButton">

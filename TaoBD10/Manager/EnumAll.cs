@@ -27,6 +27,12 @@
             BCPHN
         }
 
+        public enum TrangThaiBD
+        {
+            ChuaChon,DaChon,
+            DaIn,TamQuan
+        }
+
         public enum VungLamViec
         {
             TruyenBD10,

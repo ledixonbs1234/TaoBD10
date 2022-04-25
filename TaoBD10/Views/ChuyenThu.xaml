@@ -57,6 +57,10 @@
             <ListView.View>
                 <GridView>
                     <GridViewColumn
+                        Width="75"
+                        DisplayMemberBinding="{Binding TrangThaiBD}"
+                        Header="Trạng Thái" />
+                    <GridViewColumn
                         Width="35"
                         DisplayMemberBinding="{Binding TuiHangHoa.STT}"
                         Header="STT" />
@@ -64,7 +68,21 @@
                         Width="40"
                         DisplayMemberBinding="{Binding TuiHangHoa.SCT}"
                         Header="SCT" />
-                    <GridViewColumn DisplayMemberBinding="{Binding TuiHangHoa.Date}" Width="80" Header="Ngày CT" />
+                    <GridViewColumn Width="25" Header="Túi Số">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    FontSize="15"
+                                    FontWeight="DemiBold"
+                                    Foreground="Blue"
+                                    Text="{Binding TuiHangHoa.TuiSo}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn
+                        Width="45"
+                        DisplayMemberBinding="{Binding TuiHangHoa.Date}"
+                        Header="Ngày CT" />
                     <GridViewColumn
                         Width="35"
                         DisplayMemberBinding="{Binding TuiHangHoa.KhoiLuong}"

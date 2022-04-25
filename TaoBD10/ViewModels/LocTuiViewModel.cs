@@ -42,25 +42,13 @@ namespace TaoBD10.ViewModels
         {
             FileManager.SaveData(new BD10InfoModel(NameBD, ListHangHoa.ToList(), DateTime.Now, EnumAll.TimeSet.Sang, "1"));
             WeakReferenceMessenger.Default.Send<string>("LoadBD10");
-            MessageShow("Đã Tạo BĐ 10 với tên : " + NameBD);
+            WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Snackbar", Content = "Đã Tạo BĐ 10 với tên : " + NameBD });
+            //MessageShow("Đã Tạo BĐ 10 với tên : " + NameBD);
         }
 
-        void MessageShow(string content)
-        {
-            if (MessageQueue == null)
-                MessageQueue = new SnackbarMessageQueue();
-            MessageQueue.Enqueue(content, null, null, null, false, false, TimeSpan.FromSeconds(3));
+     
 
-        }
-
-        private SnackbarMessageQueue _MessageQueue;
-
-        public SnackbarMessageQueue MessageQueue
-        {
-            get { return _MessageQueue; }
-            set { SetProperty(ref _MessageQueue, value); }
-        }
-
+    
 
 
         private string _TextBD;

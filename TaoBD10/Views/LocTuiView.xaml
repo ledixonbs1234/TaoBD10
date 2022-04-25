@@ -75,6 +75,6 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <materialDesign:Snackbar Grid.Row="2" MessageQueue="{Binding MessageQueue, Mode=TwoWay}" />
+
     </Grid>
 </UserControl>

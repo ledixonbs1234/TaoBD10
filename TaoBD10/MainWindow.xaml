@@ -55,5 +55,9 @@
                 <view:LocTuiView />
             </TabItem>
         </TabControl>
+        <materialDesign:Snackbar
+            Margin="0,0,0,70"
+            Panel.ZIndex="10"
+            MessageQueue="{Binding MessageQueue, Mode=TwoWay}" />
     </Grid>
 </Window>

@@ -121,6 +121,7 @@
     <Compile Include="Model\BD10InfoModel.cs" />
     <Compile Include="Model\BD10Message.cs" />
     <Compile Include="Model\HangHoaDetailModel.cs" />
+    <Compile Include="Model\SnackbarModel.cs" />
     <Compile Include="Model\TuiHangHoa.cs" />
     <Compile Include="Model\TuiXacNhanModel.cs" />
     <Compile Include="ViewModels\ChiTietViewModel.cs" />

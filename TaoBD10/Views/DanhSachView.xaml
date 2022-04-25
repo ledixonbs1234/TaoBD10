@@ -72,7 +72,7 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Tên BD" />
+                    <GridViewColumn DisplayMemberBinding="{Binding Name}" Width="200" Header="Tên BD" />
                     <GridViewColumn DisplayMemberBinding="{Binding LanLap}" Header="Lần Lập" />
                     <GridViewColumn DisplayMemberBinding="{Binding CountTui}" Header="Số Lượng" />
                 </GridView>

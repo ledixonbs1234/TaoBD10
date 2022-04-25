@@ -9,4 +9,12 @@ namespace TaoBD10.Model
         {
         }
     }
+
+    public class ContentMessage : ValueChangedMessage<ContentModel>
+    {
+        public ContentMessage(ContentModel content):base (content)
+        {
+
+        }
+    }
 }

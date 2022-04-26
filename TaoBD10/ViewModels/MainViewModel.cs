@@ -130,7 +130,7 @@ namespace TaoBD10.ViewModels
                 return;
             var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
             _window.Width = 360;
-            _window.Height = 670;
+            _window.Height = 640;
             double height = System.Windows.SystemParameters.PrimaryScreenHeight;
             double width = System.Windows.SystemParameters.PrimaryScreenWidth;
             // use 'Screen.AllScreens[1].WorkingArea' for secondary screen

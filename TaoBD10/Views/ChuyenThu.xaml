@@ -63,6 +63,17 @@
                          />
                 </Behaviors:EventTrigger>
             </Behaviors:Interaction.Triggers>
+            <ListView.Resources>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding }"
+                      Value="John">
+                            <Setter Property="Background"
+                  Value="Red" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.Resources>
 
             <ListView.View>
                 <GridView>

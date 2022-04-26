@@ -238,6 +238,15 @@ namespace TaoBD10.ViewModels
                     SoundManager.playSound(@"Number\trungbd.wav");
                     return;
                 }
+
+                if (SelectedBuoi == -1)
+                {
+                    timer.Stop();
+                    isWaitingGetData = false;
+                    WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Snackbar", Content = "Ban chua chon buoi trong ngay" });
+                    return;
+                }
+
                 NameBD = noiGuiBD;
                 IsLoading = true;
                 ValueLoading = 50;

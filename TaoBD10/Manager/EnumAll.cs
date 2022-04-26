@@ -9,6 +9,12 @@
             SHTui
         }
 
+        public enum BuuCuc
+        {
+            None,
+            KT,BCP
+        }
+
         public enum PhanLoaiTinh
         {
             None,

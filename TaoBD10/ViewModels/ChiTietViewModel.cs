@@ -1,11 +1,13 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Threading;
 using TaoBD10.Manager;
 using TaoBD10.Model;
 using static TaoBD10.Manager.EnumAll;
@@ -31,6 +33,7 @@ namespace TaoBD10.ViewModels
         private string _NTNTB;
         private string _NameTinhCurrent;
         private string _NConLai;
+        private DispatcherTimer timer;
 
         public string NConLai
         {
@@ -62,6 +65,21 @@ namespace TaoBD10.ViewModels
             }
         }
 
+        public IRelayCommand<HangHoaDetailModel> SelectionCommand { get; }
+
+    
+        void Selection(HangHoaDetailModel selected)
+        {
+            if (selected == null)
+                return;
+
+            //Thuc hien cong viec tim kiem
+
+
+
+        }
+
+
         public IRelayCommand CopySHTuiCommand { get; }
 
        
@@ -80,18 +98,6 @@ namespace TaoBD10.ViewModels
 
         public ChiTietViewModel()
         {
-            CopySHTuiCommand = new RelayCommand(CopySHTui,() =>
-            {
-                if(SelectedTui != null)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            });
-
 
             WeakReferenceMessenger.Default.Register<BD10Message>(this, (r, m) =>
             {
@@ -111,11 +117,197 @@ namespace TaoBD10.ViewModels
                 }
             });
 
+            timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromMilliseconds(50);
+            timer.Tick += Timer_Tick;
+
+
             #region Command Create
 
             SelectedTinhCommand = new RelayCommand<PhanLoaiTinh>(SelectedTinh);
 
+            SelectionCommand = new RelayCommand<HangHoaDetailModel>(Selection);
+
+            CopySHTuiCommand = new RelayCommand(CopySHTui, () =>
+            {
+                if (SelectedTui != null)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            });
+
             #endregion Command Create
+        }
+        bool isBusyXacNhan = false;
+        private void Timer_Tick(object sender, System.EventArgs e)
+        {
+            if (isBusyXacNhan)
+            {
+                return;
+            }
+            var currentWindow = APIManager.GetActiveWindowTitle();
+            if (currentWindow == null)
+                return;
+
+            string textCo = APIManager.convertToUnSign3(currentWindow.text).ToLower();
+
+            if (textCo.IndexOf("quan ly chuyen thu") != -1)
+            {
+                if (optionXacNhan == OptionXacNhan.TimKiem)
+                {
+                    isBusyXacNhan = true;
+
+                    //tim cai o combobox
+                    //xong roi nhan up lien tuc sau do xuong may cai
+                    //la tim tu cai thang
+                    //tuiXacNhan[1].DichVu;
+                    SendKeys.SendWait("{UP}{UP}{UP}{UP}{UP}{UP}{UP}{UP}{UP}");
+                    string temp = APIManager.convertToUnSign3(hangCanTim.DichVu).ToLower();
+                    if (chuyenThu == ChuyenThu.KhaiThac)
+                    {
+                        if (temp.IndexOf("buu kien") != -1)
+                        {
+                            SendKeys.SendWait("{DOWN}{DOWN}{DOWN}{DOWN}{DOWN}{DOWN}{DOWN}");
+                        }
+                        else if (temp.IndexOf("buu pham") != -1)
+                        {
+                            SendKeys.SendWait("{DOWN}{DOWN}{DOWN}{DOWN}{DOWN}{DOWN}");
+                        }
+                        else if (temp.IndexOf("log") != -1)
+                        {
+                            SendKeys.SendWait("{DOWN}{DOWN}{DOWN}");
+                        }
+                        else if (temp.IndexOf("ems") != -1)
+                        {
+                            SendKeys.SendWait("{DOWN}{DOWN}");
+                        }
+                    }
+                    else if (chuyenThu == ChuyenThu.BuuCucPhat)
+                    {
+                        if (temp.IndexOf("buu kien") != -1)
+                        {
+                            SendKeys.SendWait("{DOWN}");
+                        }
+                        else if (temp.IndexOf("buu pham") != -1)
+                        {
+                            SendKeys.SendWait("{DOWN}{DOWN}{DOWN}{DOWN}{DOWN}{DOWN}");
+                        }
+                        else if (temp.IndexOf("log") != -1)
+                        {
+                            SendKeys.SendWait("{DOWN}{DOWN}{DOWN}{DOWN}{DOWN}");
+                        }
+                        else if (temp.IndexOf("ems") != -1)
+                        {
+                            SendKeys.SendWait("{DOWN}{DOWN}");
+                        }
+                    }
+                    SendKeys.SendWait("{TAB}");
+                    SendKeys.SendWait(hangCanTim.FromBC.ToString());
+                    SendKeys.SendWait("{TAB}");
+                    SendKeys.SendWait("{TAB}");
+                    //delete sct
+                    SendKeys.SendWait("^(a){BS}");
+                    SendKeys.SendWait(hangCanTim.SCT.ToString());
+                    SendKeys.SendWait("{TAB}");
+                    if (isFirstDate)
+                    {
+                        isFirstDate = false;
+                    }
+                    else
+                    {
+                        SendKeys.SendWait("{RIGHT}");
+                    }
+                    //ngay
+                    string[] dateSplit = hangCanTim.Date.Split('/');
+                    SendKeys.SendWait(dateSplit[0]);
+                    SendKeys.SendWait("{RIGHT}");
+                    SendKeys.SendWait(dateSplit[1]);
+
+                    SendKeys.SendWait("{RIGHT}");
+                    SendKeys.SendWait(dateSplit[2]);
+                    lbltestDate.Text = dateSplit[0] + " " + dateSplit[1];
+                    SendKeys.SendWait("{F5}");
+                    timerXacNhan.Stop();
+
+                    //thang
+
+                    //xong roi nhan tab
+                    //////////// Tim thu 13 cai trong sh tui co khong
+                    //nhap buu cuc dong tu
+                    //tuiXacNhan[1].FromBC
+                    //nhan tab
+                    //nhan tab lan nua
+                    // roi nhap so ct tu
+                    //tuiXacNhan[1].SCT
+                    //nhan tab
+                    //xong roi tim ngay thang
+                    //nhan ngay xong nhan {RIGHT}
+                    //nhan thang
+                    //xong nhan f5
+
+                    //xong roi timer stop thoi
+
+                    isBusyXacNhan = false;
+                }
+                else if (optionXacNhan == OptionXacNhan.SHTui)
+                {
+                    isBusyXacNhan = true;
+                    var childHandles3 = APIManager.GetAllChildHandles(currentWindow.hwnd);
+                    int countCombobox = 0;
+                    IntPtr combo = IntPtr.Zero;
+                    foreach (var item in childHandles3)
+                    {
+                        string className = APIManager.GetWindowClass(item);
+                        string classDefault = "WindowsForms10.COMBOBOX.app.0.1e6fa8e";
+                        //string classDefault = "WindowsForms10.COMBOBOX.app.0.141b42a_r8_ad1";
+                        if (className == classDefault)
+                        {
+                            if (countCombobox == 3)
+                            {
+                                //road = item;
+                                combo = item;
+                                break;
+                            }
+                            countCombobox++;
+                        }
+                    }
+                    APIManager.SendMessage(combo, 0x0007, 0, 0);
+                    APIManager.SendMessage(combo, 0x0007, 0, 0);
+
+                    SendKeys.SendWait("+{TAB}");
+                    SendKeys.SendWait("+{TAB}");
+                    SendKeys.SendWait("+{TAB}");
+                    SendKeys.SendWait("^(a){BS}");
+                    SendKeys.SendWait(hangCanTim.SHTui);
+                    SendKeys.SendWait("{ENTER}");
+                    timerXacNhan.Stop();
+                    isBusyXacNhan = false;
+
+                    //var handles = GetAllChildHandles(currentWindow.hwnd);
+                    //string textHandleName = "WindowsForms10.EDIT.app.0.1e6fa8e";
+                    //foreach (var item in handles)
+                    //{
+                    //    string classText = GetWindowClass(item);
+
+                    //    if (classText.IndexOf(textHandleName) != -1)
+                    //    {
+                    //        SendMessage(item, 0x0007, 0, 0);
+                    //        Thread.Sleep(1000);
+                    //        SendKeys.SendWait("chao");
+                    //        timerXacNhan.Stop();
+                    //        isBusyXacNhan = false;
+                    //        break;
+                    //    }
+                    //    //tim cai o cua sh tui
+                    //    //focus no
+                    //    //xong roi dien vao va nhan enter thoi
+                    //}
+                }
+            }
         }
 
         private void SelectedTinh(PhanLoaiTinh phanLoaiTinh)

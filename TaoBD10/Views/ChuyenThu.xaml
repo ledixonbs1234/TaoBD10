@@ -2,6 +2,7 @@
     x:Class="TaoBD10.Views.ChuyenThu"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Behaviors="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:TaoBD10.Views"
     xmlns:manager="clr-namespace:TaoBD10.Manager"
@@ -54,6 +55,15 @@
             x:Name="listView"
             Grid.Row="1"
             ItemsSource="{Binding ListShowHangHoa}">
+            <Behaviors:Interaction.Triggers>
+                <Behaviors:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                    <Behaviors:InvokeCommandAction
+                        Command="{Binding SelectionCommand}"
+                        CommandParameter="{Binding SelectedItem, ElementName=listView}"
+                         />
+                </Behaviors:EventTrigger>
+            </Behaviors:Interaction.Triggers>
+
             <ListView.View>
                 <GridView>
                     <GridViewColumn

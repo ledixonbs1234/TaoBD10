@@ -185,6 +185,9 @@ namespace TaoBD10.ViewModels
             if (info == null)
                 return;
 
+            //thuc hien kiem tra ma trong nay
+
+
             SendKeys.SendWait("+{TAB}");
             SendKeys.SendWait("+{TAB}");
             SendKeys.SendWait("+{TAB}");

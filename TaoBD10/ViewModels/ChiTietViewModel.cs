@@ -102,6 +102,7 @@ namespace TaoBD10.ViewModels
                 default:
                     break;
             }
+            countDown = 60;
             timer.Start();
         }
 
@@ -169,6 +170,7 @@ namespace TaoBD10.ViewModels
             #endregion Command Create
         }
         bool isBusyXacNhan = false;
+        int countDown = 0;
         private void Timer_Tick(object sender, System.EventArgs e)
         {
             if (isBusyXacNhan)
@@ -235,6 +237,16 @@ namespace TaoBD10.ViewModels
                 //    //focus no
                 //    //xong roi dien vao va nhan enter thoi
                 //}
+
+            }else
+            {
+                countDown--;
+                if (countDown <= 0)
+                {
+                    countDown = 10;
+                    isBusyXacNhan = false;
+                    timer.Stop();
+                }
 
             }
         }

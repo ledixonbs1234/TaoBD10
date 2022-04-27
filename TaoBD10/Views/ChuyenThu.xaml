@@ -51,21 +51,34 @@
             </StackPanel>
         </StackPanel>
         <DataGrid
+            x:Name="dataGrid"
             Grid.Row="1"
             materialDesign:DataGridAssist.CellPadding="4 7 2 7"
             materialDesign:DataGridAssist.ColumnHeaderPadding="4 2 2 2"
             CanUserAddRows="False"
             CanUserSortColumns="False"
             IsReadOnly="True"
-            ItemsSource="{Binding ListShowHangHoa}">
+            ItemsSource="{Binding ListShowHangHoa}"
+            SelectedItem="{Binding SelectedTui, Mode=OneWayToSource}">
+            <Behaviors:Interaction.Triggers>
+                <Behaviors:EventTrigger EventName="MouseLeftButtonUp">
+                    <Behaviors:InvokeCommandAction Command="{Binding SelectionCommand}" CommandParameter="{Binding SelectedItem, ElementName=dataGrid}"  />
+                </Behaviors:EventTrigger>
+            </Behaviors:Interaction.Triggers>
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding TrangThaiBD}" Value="None">
-                            <Setter Property="Background" Value="Red" />
+                        <DataTrigger Binding="{Binding TrangThaiBD}" Value="ChuaChon">
+                            <Setter Property="Background" Value="White" />
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding TrangThaiBD}" Value="State2">
+                        <DataTrigger Binding="{Binding TrangThaiBD}" Value="DaChon">
                             <Setter Property="Background" Value="Green" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding TrangThaiBD}" Value="DaIn">
+                            <Setter Property="Background" Value="Blue" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding TrangThaiBD}" Value="TamQuan">
+                            <Setter Property="Background" Value="Yellow" />
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>

@@ -237,7 +237,7 @@ namespace TaoBD10.ViewModels
             if (infoDocument == null)
                 return;
 
-            Thread.Sleep(100);
+            Thread.Sleep(600);
             List<IntPtr> childs = APIManager.GetAllChildHandles(infoDocument.hwnd);
             int countButton = 0;
             foreach (var item in childs)

@@ -77,7 +77,10 @@ namespace TaoBD10.ViewModels
             if (selected == null)
                 return;
             CurrentSelectedHangHoaDetail = selected;
-            selected.TrangThaiBD = TrangThaiBD.DaChon;
+            if(selected.TrangThaiBD == TrangThaiBD.ChuaChon)
+            {
+                selected.TrangThaiBD = TrangThaiBD.DaChon;
+            }
 
             switch (currentBuuCuc)
             {

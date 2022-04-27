@@ -230,7 +230,7 @@ namespace TaoBD10.ViewModels
             SendKeys.SendWait(" ");
 
 
-            WindowInfo infoDocument = WaitingFindedWindow("document", 3);
+            WindowInfo infoDocument = WaitingFindedWindow("Print Document", 3,true);
             if (infoDocument == null)
                 return;
 
@@ -252,13 +252,14 @@ namespace TaoBD10.ViewModels
                     }
                 }
             }
+            WindowInfo infoPrint = WaitingFindedWindow("Print", 3,true);
+            if (infoPrint == null)
+                return;
 
-
-            Thread.Sleep(200);
             SendKeys.SendWait("%(p)");
 
 
-            WindowInfo infoPrintDocument = WaitingFindedWindow("print document", 3);
+            WindowInfo infoPrintDocument = WaitingFindedWindow("Print Document", 3,true);
             if (infoPrintDocument == null) 
             return;
 
@@ -277,24 +278,44 @@ namespace TaoBD10.ViewModels
 
 
 
-        WindowInfo WaitingFindedWindow(string title, int time)
+        WindowInfo WaitingFindedWindow(string title, int time,bool isExactly = false)
         {
             WindowInfo currentWindow = null;
             string titleWindow = "";
             time *= 5;
-            while (titleWindow.IndexOf(title) == -1)
+            if (isExactly)
             {
-                time--;
-                if (time <= 0)
-                    return null;
+                while (titleWindow != title)
+                {
+                    time--;
+                    if (time <= 0)
+                        return null;
 
-                Thread.Sleep(200);
-                currentWindow = APIManager.GetActiveWindowTitle();
-                if (currentWindow == null)
-                    return null;
+                    Thread.Sleep(200);
+                    currentWindow = APIManager.GetActiveWindowTitle();
+                    if (currentWindow == null)
+                        return null;
 
-titleWindow = APIManager.convertToUnSign3(currentWindow.text).ToLower();
+                    titleWindow = currentWindow.text;
+                }
 
+
+            }
+            else
+            {
+                while (titleWindow.IndexOf(title) == -1)
+                {
+                    time--;
+                    if (time <= 0)
+                        return null;
+
+                    Thread.Sleep(200);
+                    currentWindow = APIManager.GetActiveWindowTitle();
+                    if (currentWindow == null)
+                        return null;
+
+                    titleWindow = APIManager.convertToUnSign3(currentWindow.text).ToLower();
+                }
             }
             Thread.Sleep(100);
             return currentWindow;

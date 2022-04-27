@@ -71,12 +71,12 @@ namespace TaoBD10.ViewModels
 
         public IRelayCommand<HangHoaDetailModel> SelectionCommand { get; }
 
-        private string currentSHTui = "";
+        private HangHoaDetailModel CurrentSelectedHangHoaDetail = null;
         void Selection(HangHoaDetailModel selected)
         {
             if (selected == null)
                 return;
-            currentSHTui = selected.TuiHangHoa.SHTui;
+            CurrentSelectedHangHoaDetail = selected;
             selected.TrangThaiBD = TrangThaiBD.DaChon;
 
             switch (currentBuuCuc)
@@ -188,6 +188,7 @@ namespace TaoBD10.ViewModels
             //thuc hien kiem tra ma trong nay
 
 
+
             SendKeys.SendWait("+{TAB}");
             SendKeys.SendWait("+{TAB}");
             SendKeys.SendWait("+{TAB}");
@@ -267,6 +268,11 @@ namespace TaoBD10.ViewModels
             return;
 
             Thread.Sleep(1500);
+
+            if(CurrentSelectedHangHoaDetail != null)
+            {
+                CurrentSelectedHangHoaDetail.TrangThaiBD = TrangThaiBD.DaIn;
+            }
 
             SendKeys.SendWait("{RIGHT}");
             Thread.Sleep(50);
@@ -366,7 +372,7 @@ namespace TaoBD10.ViewModels
                 APIManager.SendMessage(combo, 0x0007, 0, 0);
 
                 SendKeys.SendWait("{F3}");
-                SendKeys.SendWait(currentSHTui);
+                SendKeys.SendWait(CurrentSelectedHangHoaDetail.TuiHangHoa.SHTui);
                 SendKeys.SendWait("{ENTER}");
                 timer.Stop();
                 isBusyXacNhan = false;

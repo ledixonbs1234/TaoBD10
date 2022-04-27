@@ -92,6 +92,9 @@ namespace TaoBD10.ViewModels
                     //Thuc hien nay
                     WeakReferenceMessenger.Default.Send<MessageManager>(new MessageManager("getData"));
                     break;
+                case Key.F5:
+                    WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "navigation", Content = "" });
+                    break;
 
                 default:
                     break;

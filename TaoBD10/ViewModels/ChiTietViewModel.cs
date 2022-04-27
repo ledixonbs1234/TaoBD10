@@ -77,7 +77,7 @@ namespace TaoBD10.ViewModels
             if (selected == null)
                 return;
             currentSHTui = selected.TuiHangHoa.SHTui;
-           selected.TrangThaiBD = TrangThaiBD.DaChon;
+            selected.TrangThaiBD = TrangThaiBD.DaChon;
 
             switch (currentBuuCuc)
             {
@@ -145,6 +145,14 @@ namespace TaoBD10.ViewModels
                 }
             });
 
+            WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>
+            {
+                if(m.Key == "navigation")
+                {
+                    PrintDiNgoai();
+                }
+            });
+
             timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromMilliseconds(50);
             timer.Tick += Timer_Tick;
@@ -170,6 +178,128 @@ namespace TaoBD10.ViewModels
 
             #endregion Command Create
         }
+
+        void PrintDiNgoai()
+        {
+            WindowInfo info = WaitingFindedWindow("thong tin buu gui", 1);
+            if (info == null)
+                return;
+
+            SendKeys.SendWait("+{TAB}");
+            SendKeys.SendWait("+{TAB}");
+            SendKeys.SendWait("+{TAB}");
+            SendKeys.SendWait("^(a)");
+            Thread.Sleep(200);
+            SendKeys.SendWait("^(c)");
+            Thread.Sleep(200);
+            string clipboard = System.Windows.Clipboard.GetText();
+            Thread.Sleep(200);
+            if (string.IsNullOrEmpty(clipboard))
+            {
+                return;
+            }
+            if (clipboard.IndexOf("BĐ1 Bis") == -1)
+            {
+                return;
+            }
+            foreach (string item in clipboard.Split('\n'))
+            {
+                var datas = item.Split('\t');
+                if (datas[1].IndexOf("BĐ1 Bis") != -1)
+                {
+                    SendKeys.SendWait(" ");
+                    break;
+                }
+                if (datas[4].IndexOf("BĐ1 Bis") != -1)
+                {
+                    SendKeys.SendWait("{RIGHT}");
+                    Thread.Sleep(50);
+                    SendKeys.SendWait("{RIGHT}");
+                    Thread.Sleep(50);
+                    SendKeys.SendWait("{RIGHT}");
+                    Thread.Sleep(50);
+                    SendKeys.SendWait(" ");
+                    Thread.Sleep(100);
+                    break;
+                }
+                SendKeys.SendWait("{DOWN}");
+            }
+
+            SendKeys.SendWait("^{TAB}");
+            Thread.Sleep(50);
+            SendKeys.SendWait(" ");
+
+
+            WindowInfo infoDocument = WaitingFindedWindow("document", 3);
+            if (infoDocument == null)
+                return;
+
+            Thread.Sleep(600);
+            List<IntPtr> childs = APIManager.GetAllChildHandles(infoDocument.hwnd);
+            int countButton = 0;
+            foreach (var item in childs)
+            {
+                string a = APIManager.GetWindowClass(item);
+
+                if (a.IndexOf("WindowsForms10.BUTTON.app.0.1e6fa8e") != -1)
+                {
+                    countButton++;
+                    if (countButton == 2)
+                    {
+                        SendKeys.SendWait("{RIGHT}");
+                        SendKeys.SendWait(" ");
+                        break;
+                    }
+                }
+            }
+
+
+            Thread.Sleep(200);
+            SendKeys.SendWait("%(p)");
+
+
+            WindowInfo infoPrintDocument = WaitingFindedWindow("print document", 3);
+            if (infoPrintDocument == null) 
+            return;
+
+
+            SendKeys.SendWait("{RIGHT}");
+            Thread.Sleep(50);
+            SendKeys.SendWait(" ");
+
+            WindowInfo infoThongTin = WaitingFindedWindow("thong tin buu gui", 3);
+            if (infoThongTin == null)
+                return;
+            SendKeys.SendWait("{RIGHT}");
+            Thread.Sleep(100);
+            SendKeys.SendWait(" ");
+        }
+
+
+
+        WindowInfo WaitingFindedWindow(string title, int time)
+        {
+            WindowInfo currentWindow = null;
+            string titleWindow = "";
+            time *= 5;
+            while (title.IndexOf(title) == -1)
+            {
+                time--;
+                if (time <= 0)
+                    return null;
+
+                Thread.Sleep(200);
+                currentWindow = APIManager.GetActiveWindowTitle();
+                if (currentWindow == null)
+                    return null;
+
+                titleWindow = APIManager.convertToUnSign3(currentWindow.text).ToLower();
+
+            }
+            return currentWindow;
+        }
+
+
         bool isBusyXacNhan = false;
         int countDown = 0;
         private void Timer_Tick(object sender, System.EventArgs e)
@@ -236,7 +366,8 @@ namespace TaoBD10.ViewModels
                 //    //xong roi dien vao va nhan enter thoi
                 //}
 
-            }else
+            }
+            else
             {
                 countDown--;
                 if (countDown <= 0)

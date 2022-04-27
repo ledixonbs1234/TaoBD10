@@ -282,7 +282,7 @@ namespace TaoBD10.ViewModels
             WindowInfo currentWindow = null;
             string titleWindow = "";
             time *= 5;
-            while (title.IndexOf(title) == -1)
+            while (titleWindow.IndexOf(title) == -1)
             {
                 time--;
                 if (time <= 0)
@@ -293,9 +293,10 @@ namespace TaoBD10.ViewModels
                 if (currentWindow == null)
                     return null;
 
-                titleWindow = APIManager.convertToUnSign3(currentWindow.text).ToLower();
+titleWindow = APIManager.convertToUnSign3(currentWindow.text).ToLower();
 
             }
+            Thread.Sleep(100);
             return currentWindow;
         }
 

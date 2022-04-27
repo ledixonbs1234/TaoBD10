@@ -77,6 +77,7 @@ namespace TaoBD10.ViewModels
             if (selected == null)
                 return;
             currentSHTui = selected.TuiHangHoa.SHTui;
+           selected.TrangThaiBD = TrangThaiBD.DaChon;
 
             switch (currentBuuCuc)
             {
@@ -208,10 +209,7 @@ namespace TaoBD10.ViewModels
                 APIManager.SendMessage(combo, 0x0007, 0, 0);
                 APIManager.SendMessage(combo, 0x0007, 0, 0);
 
-                SendKeys.SendWait("+{TAB}");
-                SendKeys.SendWait("+{TAB}");
-                SendKeys.SendWait("+{TAB}");
-                SendKeys.SendWait("^(a){BS}");
+                SendKeys.SendWait("{F3}");
                 SendKeys.SendWait(currentSHTui);
                 SendKeys.SendWait("{ENTER}");
                 timer.Stop();

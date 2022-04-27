@@ -69,13 +69,13 @@
                 <Style TargetType="DataGridRow">
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding TrangThaiBD}" Value="ChuaChon">
-                            <Setter Property="Background" Value="#FFb2ebf2" />
+                            <Setter Property="Background" Value="White" />
                         </DataTrigger>
                         <DataTrigger Binding="{Binding TrangThaiBD}" Value="DaChon">
                             <Setter Property="Background" Value="#FFe0b2" />
                         </DataTrigger>
                         <DataTrigger Binding="{Binding TrangThaiBD}" Value="DaIn">
-                            <Setter Property="Background" Value="Blue" />
+                            <Setter Property="Background" Value="#FFb2ebf2" />
                         </DataTrigger>
                         <DataTrigger Binding="{Binding TrangThaiBD}" Value="TamQuan">
                             <Setter Property="Background" Value="Yellow" />

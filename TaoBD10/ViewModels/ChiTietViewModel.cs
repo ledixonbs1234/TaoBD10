@@ -88,7 +88,7 @@ namespace TaoBD10.ViewModels
                     return;
                 case BuuCuc.KT:
 
-                    if (!APIManager.ThoatToDefault("593230", "Quản lý chuyến thư chiều đến"))
+                    if (!APIManager.ThoatToDefault("593230", "quan ly chuyen thu chieu den"))
                     {
                         SendKeys.SendWait("1");
                         Thread.Sleep(200);
@@ -96,7 +96,7 @@ namespace TaoBD10.ViewModels
                     }
                     break;
                 case BuuCuc.BCP:
-                    if (!APIManager.ThoatToDefault("593280", "Quản lý chuyến thư chiều đến"))
+                    if (!APIManager.ThoatToDefault("593280", "quan ly chuyen thu chieu den"))
                     {
                         SendKeys.SendWait("1");
                         Thread.Sleep(200);

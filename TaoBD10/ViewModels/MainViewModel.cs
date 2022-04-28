@@ -50,7 +50,7 @@ namespace TaoBD10.ViewModels
             if (_window == null)
                 return;
             var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
-            _window.Width = 400;
+            _window.Width = 360;
             _window.Height = 450;
             double height = System.Windows.SystemParameters.PrimaryScreenHeight;
             double width = System.Windows.SystemParameters.PrimaryScreenWidth;

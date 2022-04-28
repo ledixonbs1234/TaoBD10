@@ -84,5 +84,12 @@
             Chieu,
             Toi
         }
+
+        public enum StateChuyenThuChieuDen
+        {
+            GetData,
+            ShowInfo,
+            Find
+        }
     }
 }

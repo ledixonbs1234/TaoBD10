@@ -266,6 +266,10 @@ namespace TaoBD10.ViewModels
                 inputImulator.Keyboard.KeyPress(VirtualKeyCode.F10);
             }
             countTempReturn = 0;
+            if (currentWindow == null)
+            {
+                return;
+            }
             while (currentWindow.text.IndexOf("Đóng chuyến thư") == -1)
             {
                 currentWindow = APIManager.GetActiveWindowTitle();
@@ -277,7 +281,7 @@ namespace TaoBD10.ViewModels
                 Thread.Sleep(100);
             }
 
-            var childHandles = APIManager.GetAllChildHandles(currentWindow.hwnd);
+           var childHandles = APIManager.GetAllChildHandles(currentWindow.hwnd);
             int countEdit = 0;
             string tempCheckTinh = "";
             string tempCheckLoai = "";

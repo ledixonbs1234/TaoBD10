@@ -95,7 +95,7 @@
                 <TextBlock Text="Chao cac ban" />
             </TabItem>
             <TabItem Header="LAY CT">
-                <TextBlock Text="Chao cac ban" />
+                <view:LayChuyenThu/>
             </TabItem>
             <TabItem Header="LAY BD">
                 <TextBlock Text="Chao cac ban" />

@@ -18,7 +18,7 @@ namespace TaoBD10.Manager
         {
             Regex regex = new Regex("\\p{IsCombiningDiacriticalMarks}+");
             string temp = s.Normalize(NormalizationForm.FormD);
-            return regex.Replace(temp, String.Empty).Replace('\u0111', 'd').Replace('\u0110', 'D');
+            return regex.Replace(temp, String.Empty).Replace('\u0111', 'd').Replace('\u0110', 'D').ToLower();
         }
 
         public static bool EnumWindow(IntPtr hWnd, IntPtr lParam)
@@ -175,7 +175,8 @@ namespace TaoBD10.Manager
                     while (currentWindow.hwnd != windowHandle)
                     {
                         currentWindow = APIManager.GetActiveWindowTitle();
-                        if (currentWindow.text.IndexOf(nameHandleChildToHangOn) != -1)
+                        string textKoDau = convertToUnSign3(currentWindow.text);
+                        if (textKoDau.IndexOf(nameHandleChildToHangOn) != -1)
                         {
                             return true;
                         }

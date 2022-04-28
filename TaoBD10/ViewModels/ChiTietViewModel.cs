@@ -422,8 +422,18 @@ namespace TaoBD10.ViewModels
             {
 
                 ListShowHangHoa = new ObservableCollection<HangHoaDetailModel>();
+                
                 foreach (HangHoaDetailModel hangHoa in data)
                 {
+                    if(phanLoaiTinh== PhanLoaiTinh.KTHN || phanLoaiTinh == PhanLoaiTinh.BCPHN)
+                    {
+                        string temp = APIManager.convertToUnSign3(hangHoa.TuiHangHoa.DichVu).ToLower();
+                        string temp1 = APIManager.convertToUnSign3(hangHoa.TuiHangHoa.PhanLoai).ToLower();
+                        if (temp.IndexOf("phat hanh") != -1 || temp1.IndexOf("tui") != -1)
+                        {
+                            continue;
+                        }
+                    }
                     ListShowHangHoa.Add(hangHoa);
                 }
                 //thuc hien show Ten Tinh

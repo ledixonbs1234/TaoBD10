@@ -25,6 +25,7 @@
         </Behaviors:EventTrigger>
     </Behaviors:Interaction.Triggers>
     <Grid>
+
         <materialDesign:DrawerHost
             x:Name="DrawerHost"
             Panel.ZIndex="11"
@@ -80,41 +81,64 @@
                 CommandParameter="{x:Static Dock.Left}"
                 Content="{materialDesign:PackIcon Kind=Home}" />
         </materialDesign:DrawerHost>
-        <TabControl
-            x:Name="TabControl"
-            Margin="5"
-            HorizontalContentAlignment="Left"
-            materialDesign:ColorZoneAssist.Mode="SecondaryLight"
-            SelectedIndex="{Binding IndexTabControl}"
-            TabStripPlacement="Bottom">
-            <Behaviors:Interaction.Triggers>
-                <Behaviors:EventTrigger EventName="SelectionChanged">
-                    <Behaviors:InvokeCommandAction Command="{Binding TabChangedCommand}" CommandParameter="{Binding ElementName=TabControl}" />
-                </Behaviors:EventTrigger>
-            </Behaviors:Interaction.Triggers>
-            <TabItem>
-                <TabItem.Header>
-                    <TextBlock Text="Get BD 10" />
-                </TabItem.Header>
-                <view:GetBD10View />
+        <TabControl TabStripPlacement="Left">
+            <TabItem Header="CHINH">
+                <TextBlock Text="Chao cac ban" />
             </TabItem>
-            <TabItem Header="Danh Sách">
-                <view:DanhSachView />
+            <TabItem Header="WEB">
+                <TextBlock Text="Chao cac ban" />
             </TabItem>
-            <TabItem Header="Chi Tiết">
-                <view:ChiTietView />
+            <TabItem Header="DI NGOAI">
+                <TextBlock Text="Chao cac ban" />
             </TabItem>
-            <TabItem Header="Thu Gọn">
-                <view:ThuGonView />
+            <TabItem Header="XAC NHAN">
+                <TextBlock Text="Chao cac ban" />
             </TabItem>
-            <TabItem Header="Lấy Chuyến Thư">
-                <view:ChuyenThu />
+            <TabItem Header="LAY CT">
+                <TextBlock Text="Chao cac ban" />
             </TabItem>
+            <TabItem Header="LAY BD">
+                <TextBlock Text="Chao cac ban" />
+            </TabItem>
+            <TabItem Header="BĐ 10">
+                <TabControl
+                    x:Name="TabControl"
+                    Margin="5"
+                    HorizontalContentAlignment="Left"
+                    materialDesign:ColorZoneAssist.Mode="SecondaryLight"
+                    SelectedIndex="{Binding IndexTabControl}"
+                    TabStripPlacement="Bottom">
+                    <Behaviors:Interaction.Triggers>
+                        <Behaviors:EventTrigger EventName="SelectionChanged">
+                            <Behaviors:InvokeCommandAction Command="{Binding TabChangedCommand}" CommandParameter="{Binding ElementName=TabControl}" />
+                        </Behaviors:EventTrigger>
+                    </Behaviors:Interaction.Triggers>
+                    <TabItem>
+                        <TabItem.Header>
+                            <TextBlock Text="Get BD 10" />
+                        </TabItem.Header>
+                        <view:GetBD10View />
+                    </TabItem>
+                    <TabItem Header="Danh Sách">
+                        <view:DanhSachView />
+                    </TabItem>
+                    <TabItem Header="Chi Tiết" Background="Green">
+                        <view:ChiTietView />
+                    </TabItem>
+                    <TabItem Header="Thu Gọn">
+                        <view:ThuGonView />
+                    </TabItem>
+                    <TabItem Header="Lấy Chuyến Thư">
+                        <view:ChuyenThu />
+                    </TabItem>
 
-            <TabItem Header="Lọc Túi">
-                <view:LocTuiView />
+                    <TabItem Header="Lọc Túi">
+                        <view:LocTuiView />
+                    </TabItem>
+                </TabControl>
             </TabItem>
         </TabControl>
+
         <materialDesign:Snackbar
             Margin="0,0,0,70"
             Panel.ZIndex="10"

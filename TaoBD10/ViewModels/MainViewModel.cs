@@ -151,11 +151,11 @@ namespace TaoBD10.ViewModels
             if (_window == null)
                 return;
             var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
-            _window.Width = 1100;
+            _window.Width = 1150;
             _window.Height = 600;
             double width = System.Windows.SystemParameters.PrimaryScreenWidth;
             double height = System.Windows.SystemParameters.PrimaryScreenHeight;
-            _window.Left = (width - 1000) / 2;
+            _window.Left = (width - 1150) / 2;
             _window.Top = (height - 600) / 2;
         }
 
@@ -164,7 +164,7 @@ namespace TaoBD10.ViewModels
             if (_window == null)
                 return;
             var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
-            _window.Width = 520;
+            _window.Width = 570;
             _window.Height = 500;
             double height = System.Windows.SystemParameters.PrimaryScreenHeight;
             double width = System.Windows.SystemParameters.PrimaryScreenWidth;
@@ -177,7 +177,7 @@ namespace TaoBD10.ViewModels
             if (_window == null)
                 return;
             var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
-            _window.Width = 360;
+            _window.Width = 410;
             _window.Height = 640;
             double height = System.Windows.SystemParameters.PrimaryScreenHeight;
             double width = System.Windows.SystemParameters.PrimaryScreenWidth;
@@ -191,7 +191,7 @@ namespace TaoBD10.ViewModels
             if (_window == null)
                 return;
             var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
-            _window.Width = 300;
+            _window.Width = 350;
             _window.Height = 550;
             double height = System.Windows.SystemParameters.PrimaryScreenHeight;
             double width = System.Windows.SystemParameters.PrimaryScreenWidth;
@@ -205,7 +205,7 @@ namespace TaoBD10.ViewModels
             if (_window == null)
                 return;
             var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
-            _window.Width = 360;
+            _window.Width = 440;
             _window.Height = 300;
             double height = System.Windows.SystemParameters.PrimaryScreenHeight;
             double width = System.Windows.SystemParameters.PrimaryScreenWidth;

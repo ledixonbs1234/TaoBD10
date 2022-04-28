@@ -86,7 +86,7 @@
                 <view:ChinhView/>
             </TabItem>
             <TabItem Header="WEB">
-                <TextBlock Text="Chao cac ban" />
+                <view:WebView/>
             </TabItem>
             <TabItem Header="DI NGOAI">
                 <TextBlock Text="Chao cac ban" />

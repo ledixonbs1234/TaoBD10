@@ -84,6 +84,8 @@ namespace TaoBD10.ViewModels
             chuyenThu.CheckLoai = "buu pham bao dam";
             chuyenThu.CheckThuyBo = "thuy bo"; 
             chuyenThu.NameMusic = "phucatth";
+            currentChuyenThu = chuyenThu;
+
             if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
             {
                 SendKeys.SendWait("1");

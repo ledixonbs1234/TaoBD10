@@ -83,7 +83,7 @@
         </materialDesign:DrawerHost>
         <TabControl TabStripPlacement="Left">
             <TabItem Header="CHINH">
-                <TextBlock Text="Chao cac ban" />
+                <view:ChinhView/>
             </TabItem>
             <TabItem Header="WEB">
                 <TextBlock Text="Chao cac ban" />

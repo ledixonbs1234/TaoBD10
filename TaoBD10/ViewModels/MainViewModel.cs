@@ -45,6 +45,20 @@ namespace TaoBD10.ViewModels
             });
         }
 
+        void SetDefaultWindowTui()
+        {
+            if (_window == null)
+                return;
+            var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
+            _window.Width = 400;
+            _window.Height = 450;
+            double height = System.Windows.SystemParameters.PrimaryScreenHeight;
+            double width = System.Windows.SystemParameters.PrimaryScreenWidth;
+            // use 'Screen.AllScreens[1].WorkingArea' for secondary screen
+            _window.Left = desktopWorkingArea.Left + width - _window.Width;
+            _window.Top = desktopWorkingArea.Top + 0;
+        }
+
         private CurrentTab currentTab = CurrentTab.GetBD10;
 
 
@@ -76,7 +90,8 @@ namespace TaoBD10.ViewModels
         private void LoadPage(Window window)
         {
             _window = window;
-            SetRightWindow();
+            //SetRightWindow();
+            SetDefaultWindowTui();
         }
 
         void MessageShow(string content)
@@ -114,7 +129,8 @@ namespace TaoBD10.ViewModels
       
         void DefaultWindow(TabControl tabControl)
         {
-            TabChanged(tabControl);
+            //TabChanged(tabControl);
+            SetDefaultWindowTui();
 
         }
 

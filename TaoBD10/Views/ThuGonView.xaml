@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:manager="clr-namespace:TaoBD10.Manager"
+    xmlns:materialDesign="[materialDesign ]http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="450"
     d:DesignWidth="800"
@@ -30,8 +31,7 @@
                         Content="HA-AL"
                         FontSize="10"
                         IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                        Style="{StaticResource MaterialDesignPaperLightButton}"
-                        ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
+                        Style="{StaticResource MaterialDesignPaperLightButton}" />
                 </StackPanel>
                 <StackPanel Margin="5,0">
                     <TextBlock
@@ -45,8 +45,7 @@
                         Content="Tam Quan"
                         FontSize="10"
                         IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                        Style="{StaticResource MaterialDesignPaperLightButton}"
-                        ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
+                        Style="{StaticResource MaterialDesignPaperLightButton}" />
                 </StackPanel>
             </StackPanel>
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
@@ -62,8 +61,7 @@
                         Content="Kiện Đà Nẵng"
                         FontSize="10"
                         IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                        Style="{StaticResource MaterialDesignPaperLightButton}"
-                        ToolTip="Resource name: MaterialDesignPaperFirstButton" />
+                        Style="{StaticResource MaterialDesignPaperLightButton}" />
                 </StackPanel>
                 <StackPanel Margin="5,0">
                     <TextBlock
@@ -77,8 +75,7 @@
                         Content="Ems Đà Nẵng"
                         FontSize="10"
                         IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                        Style="{StaticResource MaterialDesignPaperLightButton}"
-                        ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
+                        Style="{StaticResource MaterialDesignPaperLightButton}" />
                 </StackPanel>
             </StackPanel>
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
@@ -94,8 +91,7 @@
                         Content="Quảng Nam"
                         FontSize="10"
                         IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                        Style="{StaticResource MaterialDesignPaperLightButton}"
-                        ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
+                        Style="{StaticResource MaterialDesignPaperLightButton}" />
                 </StackPanel>
                 <StackPanel Margin="5,0">
                     <TextBlock
@@ -109,8 +105,7 @@
                         Content="Quảng Ngãi"
                         FontSize="10"
                         IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                        Style="{StaticResource MaterialDesignPaperLightButton}"
-                        ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
+                        Style="{StaticResource MaterialDesignPaperLightButton}" />
                 </StackPanel>
             </StackPanel>
             <StackPanel>
@@ -127,8 +122,7 @@
                             Content="Kiện NTB"
                             FontSize="10"
                             IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                            Style="{StaticResource MaterialDesignPaperLightButton}"
-                            ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
+                            Style="{StaticResource MaterialDesignPaperLightButton}" />
                     </StackPanel>
                     <StackPanel Margin="5,0">
                         <TextBlock
@@ -142,8 +136,7 @@
                             Content="Túi NTB"
                             FontSize="10"
                             IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                            Style="{StaticResource MaterialDesignPaperLightButton}"
-                            ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
+                            Style="{StaticResource MaterialDesignPaperLightButton}" />
                     </StackPanel>
                 </StackPanel>
                 <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
@@ -159,8 +152,7 @@
                             Content="Phù Mỹ"
                             FontSize="10"
                             IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                            Style="{StaticResource MaterialDesignPaperLightButton}"
-                            ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
+                            Style="{StaticResource MaterialDesignPaperLightButton}" />
                     </StackPanel>
                     <StackPanel Margin="5,0">
                         <TextBlock
@@ -174,8 +166,7 @@
                             Content="Phù Cát"
                             FontSize="10"
                             IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                            Style="{StaticResource MaterialDesignPaperLightButton}"
-                            ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
+                            Style="{StaticResource MaterialDesignPaperLightButton}" />
                     </StackPanel>
                     <StackPanel Margin="5,0">
                         <TextBlock
@@ -189,8 +180,7 @@
                             Content="An Nhơn"
                             FontSize="10"
                             IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                            Style="{StaticResource MaterialDesignPaperLightButton}"
-                            ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
+                            Style="{StaticResource MaterialDesignPaperLightButton}" />
                     </StackPanel>
                 </StackPanel>
                 <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
@@ -206,10 +196,15 @@
                             Content="KT1"
                             FontSize="10"
                             IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                            Style="{StaticResource MaterialDesignPaperLightButton}"
-                            ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
+                            Style="{StaticResource MaterialDesignPaperLightButton}" />
                     </StackPanel>
                 </StackPanel>
+                <ComboBox SelectedItem="{Binding SelectedTime, Mode=OneWayToSource}">
+                    <ComboBoxItem Content="0.5" />
+                    <ComboBoxItem Content="1" />
+                    <ComboBoxItem Content="1.5" />
+                    <ComboBoxItem Content="2" />
+                </ComboBox>
 
             </StackPanel>
         </StackPanel>

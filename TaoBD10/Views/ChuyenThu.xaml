@@ -51,6 +51,7 @@
             </StackPanel>
         </StackPanel>
         <DataGrid
+            SelectionMode="Single"
             x:Name="dataGrid"
             Grid.Row="1"
             materialDesign:DataGridAssist.CellPadding="4 7 2 7"

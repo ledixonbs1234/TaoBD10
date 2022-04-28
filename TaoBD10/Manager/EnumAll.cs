@@ -33,6 +33,16 @@
             BCPHN
         }
 
+        public enum CurrentTab
+        {
+            GetBD10,
+            DanhSach,
+            ChiTiet,
+            ThuGon,
+            LayChuyenThu,
+            LocTui
+        }
+
         public enum TrangThaiBD
         {
             ChuaChon,DaChon,

@@ -150,7 +150,7 @@ namespace TaoBD10.ViewModels
 
             WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>
             {
-                if(m.Key == "navigation")
+                if(m.Key == "Navigation" && m.Content=="PrintDiNgoai")
                 {
                     PrintDiNgoai();
                 }
@@ -180,6 +180,186 @@ namespace TaoBD10.ViewModels
             });
 
             #endregion Command Create
+        }
+
+        private string _SelectedTime = "0.5";
+
+        public string SelectedTime
+        {
+            get { return _SelectedTime; }
+            set { SetProperty(ref _SelectedTime, value); }
+        }
+
+
+        void GuiTrucTiep()
+        {
+            var currentWindow = APIManager.GetActiveWindowTitle();
+            if (currentWindow == null)
+                return;
+
+            string textCo = APIManager.convertToUnSign3(currentWindow.text).ToLower();
+
+            //thuc hien kiem tra thu hien tai dang dung cai nao
+            var handles = APIManager.GetAllChildHandles(currentWindow.hwnd);
+            string textHandleName = "WindowsForms10.COMBOBOX.app.0.1e6fa8e";
+            string textSoLuongTui = "WindowsForms10.STATIC.app.0.1e6fa8e";
+            int countTemp = 0;
+
+            string noiGuiBD = "";
+            string ngayThangBD = "";
+            string lanLapBD = "";
+
+            string classNameComBoBox = "";
+            int countCurrentTui = 0;
+
+            bool isGone = false;
+            if (currentTinh != PhanLoaiTinh.HA_AL)
+            {
+                foreach (var item in handles)
+                {
+                    string classText = APIManager.GetWindowClass(item);
+
+                    if (classText.IndexOf(textHandleName) != -1)
+                    {
+                        classNameComBoBox = APIManager.GetControlText(item);
+                    }
+                    else if (classText.IndexOf(textSoLuongTui) != -1)
+                    {
+                        if (countTemp == 9)
+                        {
+                            countCurrentTui = int.Parse(APIManager. GetControlText(item));
+                        }
+                        countTemp++;
+                    }
+
+                    //tim cai o cua sh tui
+                    //focus no
+                    //xong roi dien vao va nhan enter thoi
+                }
+            }
+            else
+            {
+                isGone = true;
+            }
+
+
+            bool isRightBD10 = true; 
+            switch (currentTinh)
+            {
+                case PhanLoaiTinh.None:
+                    break;
+                case PhanLoaiTinh.HA_AL:
+                    isGone = true;
+                    break;
+                case PhanLoaiTinh.TamQuan:
+                    if (classNameComBoBox.IndexOf("593330") == -1)
+                    {
+                        isRightBD10 = false;
+                    }
+                    break;
+                case PhanLoaiTinh.KienDaNang:
+                    if (classNameComBoBox.IndexOf("550910") == -1)
+                    {
+                        isRightBD10 = false;
+                    }
+                    break;
+                case PhanLoaiTinh.EMSDaNang:
+                    if (classNameComBoBox.IndexOf("550915") == -1)
+                    {
+                        isRightBD10 = false;
+                    }
+                    break;
+                case PhanLoaiTinh.QuangNam:
+                    if (classNameComBoBox.IndexOf("560100") == -1)
+                    {
+                        isRightBD10 = false;
+                    }
+                    break;
+                case PhanLoaiTinh.QuangNgai:
+                    if (classNameComBoBox.IndexOf("570100") == -1)
+                    {
+                        isRightBD10 = false;
+                    }
+                    break;
+                case PhanLoaiTinh.DiNgoaiNamTrungBo:
+                case PhanLoaiTinh.TuiNTB:
+                case PhanLoaiTinh.KT1:
+                    if (classNameComBoBox.IndexOf("590100") == -1)
+                    {
+                        isRightBD10 = false;
+                    }
+                    break;
+                case PhanLoaiTinh.PhuMy:
+                    if (classNameComBoBox.IndexOf("592810") == -1)
+                    {
+                        isRightBD10 = false;
+                    }
+                    break;
+                case PhanLoaiTinh.PhuCat:
+                    if (classNameComBoBox.IndexOf("592440") == -1)
+                    {
+                        isRightBD10 = false;
+                    }
+                    break;
+                case PhanLoaiTinh.AnNhon:
+                    if (classNameComBoBox.IndexOf("592020") == -1)
+                    {
+                        isRightBD10 = false;
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+
+            if (!isRightBD10)
+            {
+                //thuc hien doc roi thoat
+                SoundManager.playSound(@"Number\nhapkhongdung.wav");
+                return;
+            }
+            //thuc hien kiem tra ngay trong nay
+
+            Thread.Sleep(200);
+            //txtStateSend.Text = "Đang Gửi Trực Tiếp";
+            double delayTime = Convert.ToDouble(SelectedTime);
+            foreach (var hangHoa in ListShowHangHoa)
+            {
+                SendKeys.SendWait(hangHoa.TuiHangHoa.SHTui);
+                SendKeys.SendWait("{ENTER}");
+
+                Thread.Sleep(Convert.ToInt32(Math.Round(delayTime * 1000, 0)));
+            }
+
+            if (!isGone)
+            {
+                //kiem tra so luong tui hien tai co bang 
+                int lastCountTuiHienTai = 0;
+                countTemp = 0;
+                foreach (var item in handles)
+                {
+                    string classText = APIManager.GetWindowClass(item);
+
+                    if (classText.IndexOf(textSoLuongTui) != -1)
+                    {
+                        if (countTemp == 9)
+                        {
+                            lastCountTuiHienTai = int.Parse(APIManager. GetControlText(item));
+                        }
+                        countTemp++;
+                    }
+                    //tim cai o cua sh tui
+                    //focus no
+                    //xong roi dien vao va nhan enter thoi
+                }
+
+                if (lastCountTuiHienTai - countCurrentTui != ListShowHangHoa.Count)
+                {
+
+                    SoundManager.playSound(@"Number\khongkhopsolieu.wav");
+                    return;
+                }
+            }
         }
 
         void PrintDiNgoai()
@@ -415,11 +595,17 @@ namespace TaoBD10.ViewModels
             }
         }
 
+        private PhanLoaiTinh currentTinh = PhanLoaiTinh.None;
         private void SelectedTinh(PhanLoaiTinh phanLoaiTinh)
         {
+            if(currentListHangHoa == null)
+            {
+                return;
+            }
             var data = currentListHangHoa.FindAll(m => m.PhanLoai == phanLoaiTinh);
             if (data != null)
             {
+                currentTinh = phanLoaiTinh;
 
                 ListShowHangHoa = new ObservableCollection<HangHoaDetailModel>();
                 

@@ -98,7 +98,7 @@ document.getElementsByClassName("".footer"").remove();
             }
         }
 
-        public ICommand LoginCommand;
+        public ICommand LoginCommand { get; }
 
 
         void LoadPage(ChromiumWebBrowser web)

@@ -68,7 +68,7 @@ namespace TaoBD10.ViewModels
             SendKeys.SendWait("{F8}");
         }
 
-        public ICommand BongSonCommand;
+        public ICommand BongSonCommand { get; }
 
         public void btn593200()
         {

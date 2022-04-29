@@ -107,6 +107,7 @@ namespace TaoBD10.ViewModels
                 case StateChuyenThuChieuDen.GetData:
                     if (currentWindow.text.IndexOf("quan ly chuyen thu") != -1)
                     {
+                        Thread.Sleep(200);
                         isWaitingChuyenThuChieuDen = true;
 
                         //lay combobox hien tai

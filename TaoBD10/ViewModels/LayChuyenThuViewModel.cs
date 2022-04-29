@@ -16,15 +16,60 @@ using static TaoBD10.Manager.EnumAll;
 
 namespace TaoBD10.ViewModels
 {
-    public class LayChuyenThuViewModel :ObservableObject
+    public class LayChuyenThuViewModel : ObservableObject
     {
-        DispatcherTimer timer;
         public LayChuyenThuViewModel()
         {
             timer = new DispatcherTimer();
             timer.Interval = new TimeSpan(2000);
             timer.Tick += Timer_Tick;
             BongSonCommand = new RelayCommand(BongSon);
+            HoaiXuanCommand = new RelayCommand(HoaiXuan);
+            HoaiTanCommand = new RelayCommand(HoaiTan);
+            HoaiDucCommand = new RelayCommand(HoaiDuc);
+            GiaoDichCommand = new RelayCommand(GiaoDich);
+            HoaiHuongCommand = new RelayCommand(HoaiHuong);
+            HoaiHaiCommand = new RelayCommand(HoaiHai);
+            BCPCommand = new RelayCommand(BCP);
+            HoaiMyCommand = new RelayCommand(HoaiMy);
+        }
+
+        public ICommand BCPCommand { get; }
+        public ICommand BongSonCommand { get; }
+        public ICommand GiaoDichCommand { get; }
+        public ICommand HoaiDucCommand { get; }
+        public ICommand HoaiHaiCommand { get; }
+        public ICommand HoaiHuongCommand { get; }
+        public ICommand HoaiMyCommand { get; }
+        public ICommand HoaiTanCommand { get; }
+        public ICommand HoaiXuanCommand { get; }
+        public void btn593200()
+        {
+            maBuuCucChuyenThuDen = "593200";
+            isBaoDamChuyenThuDen = false;
+            stateChuyenThuChieuDen = StateChuyenThuChieuDen.GetData;
+
+            if (!APIManager.ThoatToDefault("593230", "quan ly chuyen thu chieu den"))
+            {
+                SendKeys.SendWait("1");
+                Thread.Sleep(200);
+                SendKeys.SendWait("3");
+            }
+            timer.Start();
+        }
+
+        void BCP()
+        {
+            maBuuCucChuyenThuDen = "593280";
+            stateChuyenThuChieuDen = StateChuyenThuChieuDen.GetData;
+            isBaoDamChuyenThuDen = false;
+            if (!APIManager.ThoatToDefault("593230", "quan ly chuyen thu chieu den"))
+            {
+                SendKeys.SendWait("1");
+                Thread.Sleep(200);
+                SendKeys.SendWait("3");
+            }
+            timer.Start();
         }
 
         void BongSon()
@@ -40,15 +85,6 @@ namespace TaoBD10.ViewModels
             }
             timer.Start();
         }
-
-        public void bongSon()
-        {
-           
-        }
-        private string maBuuCucChuyenThuDen = "";
-        private bool isBaoDamChuyenThuDen = false;
-        private StateChuyenThuChieuDen stateChuyenThuChieuDen = StateChuyenThuChieuDen.GetData;
-        private bool isWaitingChuyenThuChieuDen = false;
 
         private void ChuyenThuDen(bool isBaoDam, string mabuucuc)
         {
@@ -70,14 +106,95 @@ namespace TaoBD10.ViewModels
             SendKeys.SendWait("{F8}");
         }
 
-        public ICommand BongSonCommand { get; }
-
-        public void btn593200()
+        void GiaoDich()
         {
             maBuuCucChuyenThuDen = "593200";
-            isBaoDamChuyenThuDen = false;
             stateChuyenThuChieuDen = StateChuyenThuChieuDen.GetData;
+            isBaoDamChuyenThuDen = false;
+            if (!APIManager.ThoatToDefault("593230", "quan ly chuyen thu chieu den"))
+            {
+                SendKeys.SendWait("1");
+                Thread.Sleep(200);
+                SendKeys.SendWait("3");
+            }
+            timer.Start();
+        }
 
+        void HoaiDuc()
+        {
+            maBuuCucChuyenThuDen = "593550";
+            stateChuyenThuChieuDen = StateChuyenThuChieuDen.GetData;
+            isBaoDamChuyenThuDen = true;
+            if (!APIManager.ThoatToDefault("593230", "quan ly chuyen thu chieu den"))
+            {
+                SendKeys.SendWait("1");
+                Thread.Sleep(200);
+                SendKeys.SendWait("3");
+            }
+            timer.Start();
+        }
+
+        void HoaiHai()
+        {
+            maBuuCucChuyenThuDen = "593260";
+            stateChuyenThuChieuDen = StateChuyenThuChieuDen.GetData;
+            isBaoDamChuyenThuDen = true;
+            if (!APIManager.ThoatToDefault("593230", "quan ly chuyen thu chieu den"))
+            {
+                SendKeys.SendWait("1");
+                Thread.Sleep(200);
+                SendKeys.SendWait("3");
+            }
+            timer.Start();
+        }
+
+        void HoaiHuong()
+        {
+            maBuuCucChuyenThuDen = "593270";
+            stateChuyenThuChieuDen = StateChuyenThuChieuDen.GetData;
+            isBaoDamChuyenThuDen = true;
+            if (!APIManager.ThoatToDefault("593230", "quan ly chuyen thu chieu den"))
+            {
+                SendKeys.SendWait("1");
+                Thread.Sleep(200);
+                SendKeys.SendWait("3");
+            }
+            timer.Start();
+        }
+
+        void HoaiMy()
+        {
+            maBuuCucChuyenThuDen = "593240";
+            stateChuyenThuChieuDen = StateChuyenThuChieuDen.GetData;
+            isBaoDamChuyenThuDen = true;
+            if (!APIManager.ThoatToDefault("593230", "quan ly chuyen thu chieu den"))
+            {
+                SendKeys.SendWait("1");
+                Thread.Sleep(200);
+                SendKeys.SendWait("3");
+            }
+            timer.Start();
+        }
+
+        void HoaiTan()
+        {
+            maBuuCucChuyenThuDen = "593370";
+            stateChuyenThuChieuDen = StateChuyenThuChieuDen.GetData;
+            isBaoDamChuyenThuDen = true;
+            if (!APIManager.ThoatToDefault("593230", "quan ly chuyen thu chieu den"))
+            {
+                SendKeys.SendWait("1");
+                Thread.Sleep(200);
+                SendKeys.SendWait("3");
+            }
+            timer.Start();
+        }
+
+        void HoaiXuan()
+        {
+            maBuuCucChuyenThuDen = "593220";
+            stateChuyenThuChieuDen = StateChuyenThuChieuDen.GetData;
+            isBaoDamChuyenThuDen = true;
             if (!APIManager.ThoatToDefault("593230", "quan ly chuyen thu chieu den"))
             {
                 SendKeys.SendWait("1");
@@ -91,7 +208,6 @@ namespace TaoBD10.ViewModels
         {
             WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Test", Content = content });
         }
-
 
         private void Timer_Tick(object sender, EventArgs e)
         {
@@ -176,5 +292,11 @@ namespace TaoBD10.ViewModels
             }
 
         }
+
+        private bool isBaoDamChuyenThuDen = false;
+        private bool isWaitingChuyenThuChieuDen = false;
+        private string maBuuCucChuyenThuDen = "";
+        private StateChuyenThuChieuDen stateChuyenThuChieuDen = StateChuyenThuChieuDen.GetData;
+        DispatcherTimer timer;
     }
 }

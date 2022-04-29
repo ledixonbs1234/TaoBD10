@@ -77,16 +77,24 @@
                 Margin="5"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
-                Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
+                Command="{Binding ToggleWindowCommand}"
                 CommandParameter="{x:Static Dock.Left}"
                 Content="{materialDesign:PackIcon Kind=Home}" />
+
+            <!--  Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"  -->
+
         </materialDesign:DrawerHost>
         <TabControl TabStripPlacement="Left">
+            <Behaviors:Interaction.Triggers>
+                <Behaviors:EventTrigger EventName="SelectionChanged">
+                    <Behaviors:InvokeCommandAction Command="{Binding TabTuiChangedCommand}" CommandParameter="{Binding ElementName=TabControl}" />
+                </Behaviors:EventTrigger>
+            </Behaviors:Interaction.Triggers>
             <TabItem Header="CHINH">
-                <view:ChinhView/>
+                <view:ChinhView />
             </TabItem>
             <TabItem Header="WEB">
-                <view:WebView/>
+                <view:WebView />
             </TabItem>
             <TabItem Header="DI NGOAI">
                 <TextBlock Text="Chao cac ban" />
@@ -95,10 +103,10 @@
                 <TextBlock Text="Chao cac ban" />
             </TabItem>
             <TabItem Header="LAY CT">
-                <view:LayChuyenThu/>
+                <view:LayChuyenThu />
             </TabItem>
             <TabItem Header="LAY BD">
-                <view:LayBDHA/>
+                <view:LayBDHA />
             </TabItem>
             <TabItem Header="BĐ 10">
                 <TabControl
@@ -122,7 +130,7 @@
                     <TabItem Header="Danh Sách">
                         <view:DanhSachView />
                     </TabItem>
-                    <TabItem Header="Chi Tiết" Background="Green">
+                    <TabItem Background="Green" Header="Chi Tiết">
                         <view:ChiTietView />
                     </TabItem>
                     <TabItem Header="Thu Gọn">

@@ -25,6 +25,8 @@ namespace TaoBD10.ViewModels
             OnCloseWindowCommand = new RelayCommand(OnCloseWindow);
             SmallerWindowCommand = new RelayCommand(SmallerWindow);
             DefaultWindowCommand = new RelayCommand<System.Windows.Controls.TabControl>(DefaultWindow);
+        ToggleWindowCommand = new RelayCommand(ToggleWindow);
+        TabTuiChangedCommand = new RelayCommand<System.Windows.Controls.TabControl>(TabTuiChanged);
 
             timerRead = new DispatcherTimer();
             timerRead.Interval = new TimeSpan(2000);
@@ -61,6 +63,26 @@ namespace TaoBD10.ViewModels
         int countError = 1;
         bool isNewNumber = true;
         bool isReading = true;
+
+        public ICommand ToggleWindowCommand { get; }
+
+
+        bool isSmallWindow = false;
+        void ToggleWindow()
+        {
+            if (isSmallWindow)
+            {
+                isSmallWindow = false;
+                DefaultWindowCommand.Execute(null);
+            }else
+            {
+                isSmallWindow = true;
+                SmallerWindowCommand.Execute(null);
+
+            }
+
+        }
+
 
         private void TimerRead_Tick(object sender, EventArgs e)
         {
@@ -532,8 +554,8 @@ namespace TaoBD10.ViewModels
             if (_window == null)
                 return;
             var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
-            _window.Width = 150;
-            _window.Height = 200;
+            _window.Width = 100;
+            _window.Height = 335;
             double height = System.Windows.SystemParameters.PrimaryScreenHeight;
             double width = System.Windows.SystemParameters.PrimaryScreenWidth;
             // use 'Screen.AllScreens[1].WorkingArea' for secondary screen
@@ -548,8 +570,53 @@ namespace TaoBD10.ViewModels
         {
             //TabChanged(tabControl);
             SetDefaultWindowTui();
+            isSmallWindow = false;
 
         }
+
+        public ICommand TabTuiChangedCommand { get; }
+
+
+        void TabTuiChanged(System.Windows.Controls.TabControl tabControl)
+        {
+            if (tabControl == null)
+                return;
+            switch (tabControl.SelectedIndex)
+            {
+                case 0:
+                    //thuc hien chuyen ve
+                    //currentTab = CurrentTab.GetBD10;
+
+                    break;
+
+                case 1:
+                    //currentTab = CurrentTab.DanhSach;
+
+                    break;
+
+                case 2:
+                    //currentTab = CurrentTab.ChiTiet;
+                    break;
+
+                case 3:
+                    //currentTab = CurrentTab.ThuGon;
+                    break;
+                case 4:
+                    //currentTab = CurrentTab.LayChuyenThu;
+                    break;
+
+                case 5:
+                    break;
+                    //currentTab = CurrentTab.LocTui;
+                case 6:
+                    break;
+
+                default:
+                    break;
+            }
+            DefaultWindowCommand.Execute(null);
+        }
+
 
 
 

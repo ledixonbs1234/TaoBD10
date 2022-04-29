@@ -1,5 +1,6 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Threading;
 using TaoBD10.Manager;
+using TaoBD10.Model;
 using static TaoBD10.Manager.EnumAll;
 
 namespace TaoBD10.ViewModels
@@ -85,6 +87,11 @@ namespace TaoBD10.ViewModels
             timer.Start();
         }
 
+        void showTest(string content)
+        {
+            WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Snackbar", Content = content });
+        }
+
 
         private void Timer_Tick(object sender, EventArgs e)
         {
@@ -93,6 +100,7 @@ namespace TaoBD10.ViewModels
             var currentWindow = APIManager.GetActiveWindowTitle();
             if (currentWindow == null)
                 return;
+            showTest("1");
 
             switch (stateChuyenThuChieuDen)
             {
@@ -121,6 +129,7 @@ namespace TaoBD10.ViewModels
                                 countCombobox++;
                             }
                         }
+                        showTest("2");
                         APIManager.SendMessage(combo, 0x0007, 0, 0);
                         APIManager.SendMessage(combo, 0x0007, 0, 0);
 
@@ -135,6 +144,7 @@ namespace TaoBD10.ViewModels
                     break;
 
                 case StateChuyenThuChieuDen.ShowInfo:
+                    showTest("3");
                     if (currentWindow.text.IndexOf("canh bao") != -1)
                     {
                         isWaitingChuyenThuChieuDen = true;
@@ -153,6 +163,7 @@ namespace TaoBD10.ViewModels
                         timer.Stop();
                         isWaitingChuyenThuChieuDen = false;
                     }
+                    showTest("4");
 
                     break;
 

@@ -64,12 +64,47 @@ namespace TaoBD10.ViewModels
 
         void TongHop()
         {
+            ChuyenThuModel chuyenThu = new ChuyenThuModel();
+            chuyenThu.Ten = "Nam Trung Bộ TH";
+            chuyenThu.NumberTinh = "590100";
+            chuyenThu.TextLoai = "Bưu phẩm bảo";
+            chuyenThu.TextTui = "Tổng hợp (Túi";
+            chuyenThu.CheckTinh = "590100";
+            chuyenThu.CheckLoai = "buu pham bao dam";
+            chuyenThu.CheckThuyBo = "thuy bo";
+            chuyenThu.NameMusic = "ntbth";
+            currentChuyenThu = chuyenThu;
 
+            if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
+            {
+                SendKeys.SendWait("1");
+                Thread.Sleep(200);
+                SendKeys.SendWait("1");
+            }
+            CreateChuyenThu();
         }
 
-        
+
         void AnNhon()
         {
+            ChuyenThuModel chuyenThu = new ChuyenThuModel();
+            chuyenThu.Ten = "An Nhơn Tổng Hợp";
+            chuyenThu.NumberTinh = "592020";
+            chuyenThu.TextLoai = "Bưu phẩm bảo";
+            chuyenThu.TextTui = "Tổng hợp (Túi";
+            chuyenThu.CheckTinh = "592020";
+            chuyenThu.CheckLoai = "buu pham bao dam";
+            chuyenThu.CheckThuyBo = "thuy bo";
+            chuyenThu.NameMusic = "annhonth";
+            currentChuyenThu = chuyenThu;
+
+            if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
+            {
+                SendKeys.SendWait("1");
+                Thread.Sleep(200);
+                SendKeys.SendWait("1");
+            }
+            CreateChuyenThu();
 
         }
 
@@ -93,43 +128,169 @@ namespace TaoBD10.ViewModels
                 SendKeys.SendWait("1");
             }
             CreateChuyenThu();
+
         }
 
         void PhuMy()
         {
+            ChuyenThuModel chuyenThu = new ChuyenThuModel();
+            chuyenThu.Ten = "Phù Mỹ Tổng Hợp";
+            chuyenThu.NumberTinh = "592810";
+            chuyenThu.TextLoai = "Bưu phẩm bảo";
+            chuyenThu.TextTui = "Tổng hợp (Túi";
+            chuyenThu.CheckTinh = "592810";
+            chuyenThu.CheckLoai = "buu pham bao dam";
+            chuyenThu.CheckThuyBo = "thuy bo";
+            chuyenThu.NameMusic = "phumyth";
+            currentChuyenThu = chuyenThu;
+
+            if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
+            {
+                SendKeys.SendWait("1");
+                Thread.Sleep(200);
+                SendKeys.SendWait("1");
+            }
+            CreateChuyenThu();
 
         }
 
         void QuyNhon2()
         {
+            ChuyenThuModel chuyenThu = new ChuyenThuModel();
+            chuyenThu.Ten = "Quy Nhơn 2 Tổng Hợp";
+            chuyenThu.NumberTinh = "591218";
+            chuyenThu.TextLoai = "Bưu phẩm bảo";
+            chuyenThu.TextTui = "Tổng hợp (Túi";
+            chuyenThu.CheckTinh = "591218";
+            chuyenThu.CheckLoai = "buu pham bao dam";
+            chuyenThu.CheckThuyBo = "thuy bo";
+            chuyenThu.NameMusic = "tuiqn2th";
+            currentChuyenThu = chuyenThu;
+
+            if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
+            {
+                SendKeys.SendWait("1");
+                Thread.Sleep(200);
+                SendKeys.SendWait("1");
+            }
+            CreateChuyenThu();
 
         }
 
         void QuiNhon1()
         {
+            ChuyenThuModel chuyenThu = new ChuyenThuModel();
+            chuyenThu.Ten = "Quy Nhơn 1 Tổng Hợp";
+            chuyenThu.NumberTinh = "591520";
+            chuyenThu.TextLoai = "Bưu phẩm bảo";
+            chuyenThu.TextTui = "Tổng hợp (Túi";
+            chuyenThu.CheckTinh = "591520";
+            chuyenThu.CheckLoai = "buu pham bao dam";
+            chuyenThu.CheckThuyBo = "thuy bo";
+            chuyenThu.NameMusic = "qn1th";
+            currentChuyenThu = chuyenThu;
+
+            if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
+            {
+                SendKeys.SendWait("1");
+                Thread.Sleep(200);
+                SendKeys.SendWait("1");
+            }
+            CreateChuyenThu();
 
         }
 
 
         void EMS()
         {
+            ChuyenThuModel chuyenThu = new ChuyenThuModel();
+            chuyenThu.Ten = "EMS Nam Trung Bộ";
+            chuyenThu.NumberTinh = "590100";
+            chuyenThu.TextLoai = "EMS";
+            chuyenThu.TextTui = "EMS H";
+            chuyenThu.CheckTinh = "590100";
+            chuyenThu.CheckLoai = "chuyen phat nhanh";
+            chuyenThu.CheckThuyBo = "ems thuong";
+            chuyenThu.NameMusic = "emsntbth";
+            currentChuyenThu = chuyenThu;
+
+            if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
+            {
+                SendKeys.SendWait("1");
+                Thread.Sleep(200);
+                SendKeys.SendWait("1");
+            }
+            CreateChuyenThu();
 
         }
 
         void Kien()
         {
+            ChuyenThuModel chuyenThu = new ChuyenThuModel();
+            chuyenThu.Ten = "Kiện Nam Trung Bộ";
+            chuyenThu.NumberTinh = "590100";
+            chuyenThu.TextLoai = "Bưu kiện";
+            chuyenThu.TextTui = "BK (";
+            chuyenThu.CheckTinh = "590100";
+            chuyenThu.CheckLoai = "buu kien";
+            chuyenThu.CheckThuyBo = "thuy bo";
+            chuyenThu.NameMusic = "kiennamtrungboth";
+            currentChuyenThu = chuyenThu;
+
+            if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
+            {
+                SendKeys.SendWait("1");
+                Thread.Sleep(200);
+                SendKeys.SendWait("1");
+            }
+            CreateChuyenThu();
 
         }
 
         void BCPHN()
         {
+            ChuyenThuModel chuyenThu = new ChuyenThuModel();
+            chuyenThu.Ten = "Phù Cát Tổng Hợp";
+            chuyenThu.NumberTinh = "592460";
+            chuyenThu.TextLoai = "Bưu phẩm bảo";
+            chuyenThu.TextTui = "Tổng hợp (Túi";
+            chuyenThu.CheckTinh = "592460";
+            chuyenThu.CheckLoai = "buu pham bao dam";
+            chuyenThu.CheckThuyBo = "thuy bo";
+            chuyenThu.NameMusic = "phucatth";
+            currentChuyenThu = chuyenThu;
 
+            if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
+            {
+                SendKeys.SendWait("1");
+                Thread.Sleep(200);
+                SendKeys.SendWait("1");
+            }
+            CreateChuyenThu();
         }
 
 
 
         void KTHN()
         {
+            ChuyenThuModel chuyenThu = new ChuyenThuModel();
+            chuyenThu.Ten = "Khai Thác Hoài Nhơn";
+            chuyenThu.NumberTinh = "593230";
+            chuyenThu.TextLoai = "Bưu kiện";
+            chuyenThu.TextTui = "";
+            chuyenThu.CheckTinh = "593230";
+            chuyenThu.CheckLoai = "buu kien";
+            chuyenThu.CheckThuyBo = "thuy bo";
+            chuyenThu.NameMusic = "khaithack";
+            currentChuyenThu = chuyenThu;
+
+            if (!APIManager.ThoatToDefault("593200", "khoi tao chuyen thu"))
+            {
+                SendKeys.SendWait("3");
+                Thread.Sleep(200);
+                SendKeys.SendWait("1");
+            }
+            CreateChuyenThu();
 
         }
 

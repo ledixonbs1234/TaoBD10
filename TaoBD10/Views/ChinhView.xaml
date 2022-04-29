@@ -20,7 +20,7 @@
                 Margin="5"
                 Content="593230"
                 IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                Style="{StaticResource MaterialDesignPaperButton}" />
+                Style="{StaticResource MaterialDesignPaperButton}" Command="{Binding KTHNCommand, Mode=OneWay}" />
         </StackPanel>
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
             <Button
@@ -28,13 +28,13 @@
                 Margin="5"
                 Content="Kiện"
                 IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                Style="{StaticResource MaterialDesignPaperButton}" />
+                Style="{StaticResource MaterialDesignPaperButton}" Command="{Binding KienCommand, Mode=OneWay}" />
             <Button
                 Width="115"
                 Margin="5"
                 Content="EMS"
                 IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                Style="{StaticResource MaterialDesignPaperButton}" />
+                Style="{StaticResource MaterialDesignPaperButton}" Command="{Binding EMSCommand, Mode=OneWay}" />
         </StackPanel>
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
             <Button
@@ -48,7 +48,7 @@
                 Margin="5"
                 Content="Qui Nhơn 1"
                 IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                Style="{StaticResource MaterialDesignPaperButton}" />
+                Style="{StaticResource MaterialDesignPaperButton}" Command="{Binding QuiNhon1Command, Mode=OneWay}" />
         </StackPanel>
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
             <Button
@@ -56,13 +56,13 @@
                 Margin="5"
                 Content="Qui Nhơn 2"
                 IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                Style="{StaticResource MaterialDesignPaperButton}" />
+                Style="{StaticResource MaterialDesignPaperButton}" Command="{Binding QuyNhon2Command, Mode=OneWay}" />
             <Button
                 Width="115"
                 Margin="5"
                 Content="Phù Mỹ"
                 IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                Style="{StaticResource MaterialDesignPaperButton}" />
+                Style="{StaticResource MaterialDesignPaperButton}" Command="{Binding PhuMyCommand, Mode=OneWay}" />
         </StackPanel>
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
             <Button
@@ -77,7 +77,7 @@
                 Margin="5"
                 Content="An Nhơn"
                 IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                Style="{StaticResource MaterialDesignPaperButton}" />
+                Style="{StaticResource MaterialDesignPaperButton}" Command="{Binding AnNhonCommand, Mode=OneWay}" />
         </StackPanel>
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
             <Button
@@ -85,13 +85,13 @@
                 Margin="5"
                 Content="593280"
                 IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                Style="{StaticResource MaterialDesignPaperButton}" />
+                Style="{StaticResource MaterialDesignPaperButton}" Command="{Binding BCPHNCommand, Mode=OneWay}" />
             <Button
                 Width="115"
                 Margin="5"
                 Content="Tổng Hợp"
                 IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                Style="{StaticResource MaterialDesignPaperButton}" />
+                Style="{StaticResource MaterialDesignPaperButton}" Command="{Binding TongHopCommand, Mode=OneWay}" />
         </StackPanel>
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" />
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">

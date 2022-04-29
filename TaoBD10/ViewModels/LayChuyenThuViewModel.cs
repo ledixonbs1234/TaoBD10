@@ -1,4 +1,5 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Input;
 using System.Windows.Threading;
 using TaoBD10.Manager;
 using static TaoBD10.Manager.EnumAll;
@@ -20,6 +22,26 @@ namespace TaoBD10.ViewModels
             timer = new DispatcherTimer();
             timer.Interval = new TimeSpan(2000);
             timer.Tick += Timer_Tick;
+            BongSonCommand = new RelayCommand(BongSon);
+        }
+
+        void BongSon()
+        {
+            maBuuCucChuyenThuDen = "593522";
+            stateChuyenThuChieuDen = StateChuyenThuChieuDen.GetData;
+            isBaoDamChuyenThuDen = true;
+            if (!APIManager.ThoatToDefault("593230", "quan ly chuyen thu chieu den"))
+            {
+                SendKeys.SendWait("1");
+                Thread.Sleep(200);
+                SendKeys.SendWait("3");
+            }
+            timer.Start();
+        }
+
+        public void bongSon()
+        {
+           
         }
         private string maBuuCucChuyenThuDen = "";
         private bool isBaoDamChuyenThuDen = false;
@@ -45,6 +67,8 @@ namespace TaoBD10.ViewModels
             SendKeys.SendWait("{TAB}");
             SendKeys.SendWait("{F8}");
         }
+
+        public ICommand BongSonCommand;
 
         public void btn593200()
         {

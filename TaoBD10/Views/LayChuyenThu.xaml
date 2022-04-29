@@ -32,6 +32,7 @@
 
         <Button
                 Width="170"
+            Command="{Binding BongSonCommand}"
                 Margin="5"
                 Content="593522 - Bồng Sơn"
                 IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"

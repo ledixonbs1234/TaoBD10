@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Mvvm.Messaging;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -7,6 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
+using TaoBD10.Model;
 
 namespace TaoBD10.Manager
 {
@@ -35,6 +37,11 @@ namespace TaoBD10.Manager
 
             return true;
         }
+       public static void showTest(string content)
+        {
+            WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Test", Content = content });
+        }
+
 
         public static WindowInfo GetActiveWindowTitle(bool isExactly = false)
         {

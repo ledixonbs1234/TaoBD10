@@ -217,14 +217,16 @@ namespace TaoBD10.ViewModels
 
         void CreateChuyenThu()
         {
+            APIManager.showTest("1");
             //thuc hien cong viec trong nay
-            WindowInfo currentWindow = APIManager.GetActiveWindowTitle();
+            WindowInfo currentWindow = APIManager.GetActiveWindowTitle(true);
             if (currentWindow == null)
             {
                 return;
             }
             int countTempReturn = 0;
 
+            APIManager.showTest("2");
             while (currentWindow.text.IndexOf("Khởi tạo chuyến thư") == -1)
             {
                 currentWindow = APIManager.GetActiveWindowTitle();
@@ -240,8 +242,9 @@ namespace TaoBD10.ViewModels
                 Thread.Sleep(100);
             }
 
+            APIManager.showTest("3");
 
-            Thread.Sleep(100);
+            Thread.Sleep(200);
 
             var childsHandle = APIManager.GetAllChildHandles(currentWindow.hwnd);
             //thuc hien lay vi tri nao do
@@ -261,6 +264,7 @@ namespace TaoBD10.ViewModels
             inputImulator.Keyboard.KeyPress(VirtualKeyCode.F10);
             countTempReturn = 0;
 
+            APIManager.showTest("4");
             while (currentWindow.text.IndexOf("Khởi tạo chuyến thư") != -1)
             {
                 currentWindow = APIManager.GetActiveWindowTitle();
@@ -274,6 +278,7 @@ namespace TaoBD10.ViewModels
             Thread.Sleep(200);
 
 
+            APIManager.showTest("5");
             currentWindow = APIManager.GetActiveWindowTitle();
             if (currentWindow == null)
             {
@@ -346,6 +351,7 @@ namespace TaoBD10.ViewModels
                 }
                 inputImulator.Keyboard.KeyPress(VirtualKeyCode.F10);
             }
+            APIManager.showTest("6");
             countTempReturn = 0;
             if (currentWindow == null)
             {
@@ -361,7 +367,7 @@ namespace TaoBD10.ViewModels
                 }
                 Thread.Sleep(100);
             }
-
+            APIManager.showTest("7");
             var childHandles = APIManager.GetAllChildHandles(currentWindow.hwnd);
             int countEdit = 0;
             string tempCheckTinh = "";
@@ -402,6 +408,7 @@ namespace TaoBD10.ViewModels
             {
                 //Kiem tra lai
             }
+            APIManager.showTest("8");
         }
 
         void EMS()

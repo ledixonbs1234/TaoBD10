@@ -204,10 +204,6 @@ namespace TaoBD10.ViewModels
             timer.Start();
         }
 
-        void showTest(string content)
-        {
-            WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Test", Content = content });
-        }
 
         private void Timer_Tick(object sender, EventArgs e)
         {
@@ -216,7 +212,7 @@ namespace TaoBD10.ViewModels
             var currentWindow = APIManager.GetActiveWindowTitle();
             if (currentWindow == null)
                 return;
-            showTest("1");
+            APIManager.showTest("1");
 
             switch (stateChuyenThuChieuDen)
             {
@@ -246,7 +242,7 @@ namespace TaoBD10.ViewModels
                                 countCombobox++;
                             }
                         }
-                        showTest("2");
+                        APIManager.showTest("2");
                         APIManager.SendMessage(combo, 0x0007, 0, 0);
                         APIManager.SendMessage(combo, 0x0007, 0, 0);
 
@@ -261,7 +257,7 @@ namespace TaoBD10.ViewModels
                     break;
 
                 case StateChuyenThuChieuDen.ShowInfo:
-                    showTest("3");
+                    APIManager.showTest("3");
                     if (currentWindow.text.IndexOf("canh bao") != -1)
                     {
                         isWaitingChuyenThuChieuDen = true;
@@ -280,7 +276,7 @@ namespace TaoBD10.ViewModels
                         timer.Stop();
                         isWaitingChuyenThuChieuDen = false;
                     }
-                    showTest("4");
+                    APIManager.showTest("4");
 
                     break;
 

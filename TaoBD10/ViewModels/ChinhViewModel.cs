@@ -229,7 +229,7 @@ namespace TaoBD10.ViewModels
             APIManager.showTest("2");
             while (currentWindow.text.IndexOf("Khởi tạo chuyến thư") == -1)
             {
-                currentWindow = APIManager.GetActiveWindowTitle();
+                currentWindow = APIManager.GetActiveWindowTitle(true);
                 if (currentWindow == null)
                 {
                     return;
@@ -267,7 +267,7 @@ namespace TaoBD10.ViewModels
             APIManager.showTest("4");
             while (currentWindow.text.IndexOf("Khởi tạo chuyến thư") != -1)
             {
-                currentWindow = APIManager.GetActiveWindowTitle();
+                currentWindow = APIManager.GetActiveWindowTitle(true);
                 countTempReturn++;
                 if (countTempReturn > 30)
                 {
@@ -279,7 +279,7 @@ namespace TaoBD10.ViewModels
 
 
             APIManager.showTest("5");
-            currentWindow = APIManager.GetActiveWindowTitle();
+            currentWindow = APIManager.GetActiveWindowTitle(true);
             if (currentWindow == null)
             {
                 return;
@@ -304,7 +304,7 @@ namespace TaoBD10.ViewModels
                     countTempReturn = 0;
                     while (currentWindow.text.IndexOf("Tạo túi") == -1)
                     {
-                        currentWindow = APIManager.GetActiveWindowTitle();
+                        currentWindow = APIManager.GetActiveWindowTitle(true);
                         if (currentWindow == null)
                         {
                             return;
@@ -359,7 +359,7 @@ namespace TaoBD10.ViewModels
             }
             while (currentWindow.text.IndexOf("Đóng chuyến thư") == -1)
             {
-                currentWindow = APIManager.GetActiveWindowTitle();
+                currentWindow = APIManager.GetActiveWindowTitle(true);
                 countTempReturn++;
                 if (countTempReturn > 30)
                 {

@@ -26,20 +26,26 @@ namespace TaoBD10.ViewModels
         {
             LoadPageCommand = new RelayCommand<ChromiumWebBrowser>(LoadPage);
             LoginCommand = new RelayCommand(Login);
+            
         }
 
         void Login()
         {
 
         }
+        bool isInitializeWeb = false;
 
         private string _AddressWeb = "https://www.google.com";
 
         public string AddressWeb
         {
             get { return _AddressWeb; }
-            set {SetProperty(ref _AddressWeb , value); }
+            set {
+                SetProperty(ref _AddressWeb , value);
+                isInitializeWeb = true;
+            }
         }
+
 
         public ICommand LoginCommand;
 

@@ -36,7 +36,7 @@ namespace TaoBD10.Manager
             return true;
         }
 
-        public static WindowInfo GetActiveWindowTitle()
+        public static WindowInfo GetActiveWindowTitle(bool isExactly = false)
         {
             const int nChars = 256;
             StringBuilder Buff = new StringBuilder(nChars);
@@ -44,7 +44,13 @@ namespace TaoBD10.Manager
 
             if (GetWindowText(handle, Buff, nChars) > 0)
             {
-                return new WindowInfo(Buff.ToString(), handle);
+                string text = "";
+                text = Buff.ToString();
+                if(isExactly != true)
+                {
+                    text = convertToUnSign3(text).ToLower();
+                }
+                return new WindowInfo(text, handle);
             }
             return null;
         }

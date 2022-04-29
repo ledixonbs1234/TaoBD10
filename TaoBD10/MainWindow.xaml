@@ -98,7 +98,7 @@
                 <view:LayChuyenThu/>
             </TabItem>
             <TabItem Header="LAY BD">
-                <TextBlock Text="Chao cac ban" />
+                <view:LayBDHA/>
             </TabItem>
             <TabItem Header="BĐ 10">
                 <TabControl

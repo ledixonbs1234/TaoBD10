@@ -25,7 +25,7 @@ namespace TaoBD10.ViewModels
              {
                  if (m.Key == "Test")
                  {
-                     TestText += m.Content + '\n';
+                     TestText += m.Content + "  ||  ";
                  }
 
              }

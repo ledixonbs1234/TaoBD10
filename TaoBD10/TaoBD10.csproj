@@ -145,6 +145,7 @@
     <Compile Include="ViewModels\DanhSachViewModel.cs" />
     <Compile Include="ViewModels\FillViewModel.cs" />
     <Compile Include="ViewModels\GetBD10ViewModel.cs" />
+    <Compile Include="ViewModels\LayBDHAViewModel.cs" />
     <Compile Include="ViewModels\LayChuyenThuViewModel.cs" />
     <Compile Include="ViewModels\LocTuiViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
@@ -166,6 +167,9 @@
     </Compile>
     <Compile Include="Views\GetBD10View.xaml.cs">
       <DependentUpon>GetBD10View.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LayBDHA.xaml.cs">
+      <DependentUpon>LayBDHA.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LayChuyenThu.xaml.cs">
       <DependentUpon>LayChuyenThu.xaml</DependentUpon>
@@ -218,6 +222,10 @@
     <Page Include="Views\GetBD10View.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\LayBDHA.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\LayChuyenThu.xaml">
       <SubType>Designer</SubType>

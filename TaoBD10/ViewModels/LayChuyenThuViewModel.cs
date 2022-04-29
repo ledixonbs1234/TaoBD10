@@ -89,7 +89,7 @@ namespace TaoBD10.ViewModels
 
         void showTest(string content)
         {
-            WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Snackbar", Content = content });
+            WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Test", Content = content });
         }
 
 

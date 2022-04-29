@@ -9,6 +9,7 @@
     <viewmodel:FillViewModel x:Key="FillViewVM" />
     <viewmodel:LocTuiViewModel x:Key="LocTuiVM" />
     <viewmodel:ChinhViewModel x:Key="ChinhVM" />
-    <viewmodel:LayChuyenThuViewModel x:Key="LayCTVM"/>
-    <viewmodel:WebViewModel x:Key="WebVM"/>
+    <viewmodel:LayChuyenThuViewModel x:Key="LayCTVM" />
+    <viewmodel:WebViewModel x:Key="WebVM" />
+    <viewmodel:LayBDHAViewModel x:Key="LayBDHAVM" />
 </ResourceDictionary>

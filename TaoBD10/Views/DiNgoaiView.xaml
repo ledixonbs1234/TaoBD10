@@ -6,61 +6,98 @@
     xmlns:local="clr-namespace:TaoBD10.Views"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DesignHeight="500"
-    d:DesignWidth="300"
     DataContext="{StaticResource DiNgoaiVM}"
     mc:Ignorable="d">
-    <StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <TextBox />
-            <CheckBox Content="Auto F1" />
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="255" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Code" />
+                <TextBox />
+            </StackPanel>
+            <TextBox
+                MaxWidth="400"
+                Margin="4"
+                VerticalAlignment="Top"
+                AcceptsReturn="True"
+                IsEnabled="{Binding IsChecked, ElementName=MaterialDesignFilledTextBoxEnabledComboBox}"
+                Style="{StaticResource MaterialDesignFilledTextBox}"
+                Text="Choadsjfsdjifjdsifjiodsjfiaojsdifjisdjifojsdio dsfisjafio jiofidosj fiosdji fojdsif jiodsjfio sd"
+                TextWrapping="Wrap" />
+            <TextBox
+                MaxWidth="400"
+                Margin="4"
+                VerticalAlignment="Top"
+                AcceptsReturn="True"
+                IsEnabled="{Binding IsChecked, ElementName=MaterialDesignFilledTextBoxEnabledComboBox}"
+                Style="{StaticResource MaterialDesignFilledTextBox}"
+                Text="Choadsjfsdjifjdsifjiodsjfiaojsdifjisdjifojsdio dsfisjafio jiofidosj fiosdji fojdsif jiodsjfio sd"
+                TextWrapping="Wrap" />
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                <TextBox Text="Tinh Da Chon" />
+                <TextBlock Text="33" />
+            </StackPanel>
+            <TextBlock
+                HorizontalAlignment="Center"
+                Style="{StaticResource MaterialDesignHeadline5TextBlock}"
+                Text="32" />
+            <TextBox
+                Padding="auto,0"
+                VerticalAlignment="Top"
+                materialDesign:HintAssist.Hint="Nhập mã vào đây"
+                AcceptsReturn="True"
+                IsEnabled="{Binding IsChecked, ElementName=MaterialDesignFilledTextBoxEnabledComboBox}"
+                Style="{StaticResource MaterialDesignFilledTextBox}"
+                Text="{Binding TextCode, UpdateSourceTrigger=PropertyChanged}" />
+            <DataGrid
+                Height="270"
+                AutoGenerateColumns="False"
+                ItemsSource="{Binding DiNgoais}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Index}" Header="Index" />
+                    <DataGridTextColumn Binding="{Binding Code}" Header="Code" />
+                </DataGrid.Columns>
+            </DataGrid>
+            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                <CheckBox Content="Auto F1" />
+                <CheckBox Margin="0,0,5,0" Content="Đọc số" />
+                <ToggleButton
+                    Width="40"
+                    Height="40"
+                    materialDesign:ToggleButtonAssist.OnContent="{materialDesign:PackIcon Kind=ArrowCollapse,
+                                                                                          Size=25}"
+                    Content="{materialDesign:PackIcon Kind=ArrowExpand,
+                                                      Size=25}"
+                    IsChecked="{Binding IsExpanded}"
+                    Style="{StaticResource MaterialDesignActionToggleButton}"
+                    ToolTip="MaterialDesignActionLightToggleButton" />
+            </StackPanel>
         </StackPanel>
-        <TextBox
-            MaxWidth="400"
-            Margin="4"
-            VerticalAlignment="Top"
-            materialDesign:HintAssist.Hint="Floating hint in a box"
-            AcceptsReturn="True"
-            IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignFilledTextBoxEnabledComboBox}"
-            Style="{StaticResource MaterialDesignFilledTextBox}"
-            Text="Choadsjfsdjifjdsifjiodsjfiaojsdifjisdjifojsdio dsfisjafio jiofidosj fiosdji fojdsif jiodsjfio sd"
-            TextWrapping="Wrap" />
-        <TextBox
-            MaxWidth="400"
-            Margin="4"
-            VerticalAlignment="Top"
-            materialDesign:HintAssist.Hint="Floating hint in a box"
-            AcceptsReturn="True"
-            IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignFilledTextBoxEnabledComboBox}"
-            Style="{StaticResource MaterialDesignFilledTextBox}"
-            Text="Choadsjfsdjifjdsifjiodsjfiaojsdifjisdjifojsdio dsfisjafio jiofidosj fiosdji fojdsif jiodsjfio sd"
-            TextWrapping="Wrap" />
-        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-            <TextBox Text="Tinh Da Chon" />
-            <TextBlock Text="33" />
+        <StackPanel Grid.Column="1">
+            <DataGrid Height="300" ItemsSource="{Binding DiNgoais}" />
+            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                <Button Margin="5" Content="Add Address" />
+                <Button Margin="5" Content="Add Selected Address" />
+                <Button Margin="5" Content="Xóa" />
+                <Button Margin="5" Content="Clear" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBox
+                    MaxWidth="400"
+                    Margin="4"
+                    VerticalAlignment="Top"
+                    AcceptsReturn="True"
+                    IsEnabled="{Binding IsChecked, ElementName=MaterialDesignFilledTextBoxEnabledComboBox}"
+                    IsReadOnly="True"
+                    Style="{StaticResource MaterialDesignFilledTextBox}"
+                    Text="Choadsjfsdjifj dsifjiodsjfi aojsdifjisdjifojsdio dsfisjafio jiofidosj fiosdji fojdsif jiodsjfio sd"
+                    TextWrapping="Wrap" />
+                <ComboBox Width="200" />
+            </StackPanel>
         </StackPanel>
-        <TextBlock
-            HorizontalAlignment="Center"
-            Style="{StaticResource MaterialDesignHeadline5TextBlock}"
-            Text="32" />
-        <TextBox
-            Padding="auto,0"
-            VerticalAlignment="Top"
-            materialDesign:HintAssist.Hint="Floating hint in a box"
-            AcceptsReturn="True"
-            IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignFilledTextBoxEnabledComboBox}"
-            Style="{StaticResource MaterialDesignFilledTextBox}" />
-        <DataGrid Height="150">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Index" />
-                <DataGridTextColumn Header="Code" />
-            </DataGrid.Columns>
-        </DataGrid>
-        <StackPanel Orientation="Horizontal" >
-            <CheckBox Content="Đọc số" Margin="0,0,5,0" />
-            <Button Content="Xóa"  Margin="5"/>
-            <Button Content="Clear" Margin="5" />
-            <Button Content="Mở Rộng" Margin="5"/>
-        </StackPanel>
-    </StackPanel>
+
+    </Grid>
 </UserControl>

@@ -45,6 +45,13 @@ namespace TaoBD10.ViewModels
                     if (m.Content == "GoChiTiet")
                     {
                         IndexTabControl = 2;
+                    }else if(m.Content == "Center")
+                    {
+                        SetCenterWindow();
+
+                    }else if (m.Content == "SmallRight")
+                    {
+                        SetRightHeigtTuiWindow();
                     }
                 }
                 else if (m.Key == "Snackbar")
@@ -576,11 +583,19 @@ namespace TaoBD10.ViewModels
 
         public ICommand TabTuiChangedCommand { get; }
 
-
+        int lastSelectedTabTui = 0;
         void TabTuiChanged(System.Windows.Controls.TabControl tabControl)
         {
             if (tabControl == null)
                 return;
+            if(tabControl.SelectedIndex != lastSelectedTabTui)
+            {
+                lastSelectedTabTui = tabControl.SelectedIndex;
+            }else
+            {
+                return;
+            }
+
             switch (tabControl.SelectedIndex)
             {
                 case 0:
@@ -599,7 +614,7 @@ namespace TaoBD10.ViewModels
                 case 2:
                     //currentTab = CurrentTab.ChiTiet;
 
-            DefaultWindowCommand.Execute(null);
+                    SetRightHeigtTuiWindow();
                     break;
 
                 case 3:
@@ -683,6 +698,19 @@ namespace TaoBD10.ViewModels
                 return;
             var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
             _window.Width = 410;
+            _window.Height = 640;
+            double height = System.Windows.SystemParameters.PrimaryScreenHeight;
+            double width = System.Windows.SystemParameters.PrimaryScreenWidth;
+            // use 'Screen.AllScreens[1].WorkingArea' for secondary screen
+            _window.Left = desktopWorkingArea.Left + width - _window.Width;
+            _window.Top = desktopWorkingArea.Top + 0;
+        }
+        private void SetRightHeigtTuiWindow()
+        {
+            if (_window == null)
+                return;
+            var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
+            _window.Width = 360;
             _window.Height = 640;
             double height = System.Windows.SystemParameters.PrimaryScreenHeight;
             double width = System.Windows.SystemParameters.PrimaryScreenWidth;

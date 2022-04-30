@@ -141,6 +141,7 @@
     <Compile Include="Model\SnackbarModel.cs" />
     <Compile Include="Model\TuiHangHoa.cs" />
     <Compile Include="Model\TuiXacNhanModel.cs" />
+    <Compile Include="Model\WebContentModel.cs" />
     <Compile Include="ViewModels\ChinhViewModel.cs" />
     <Compile Include="ViewModels\ChiTietViewModel.cs" />
     <Compile Include="ViewModels\DanhSachViewModel.cs" />

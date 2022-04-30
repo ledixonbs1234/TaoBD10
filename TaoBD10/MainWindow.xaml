@@ -13,7 +13,6 @@
     Height="450"
     DataContext="{StaticResource MainVM}"
     ResizeMode="NoResize"
-    Topmost="True"
     WindowStyle="None"
     mc:Ignorable="d">
     <Behaviors:Interaction.Triggers>

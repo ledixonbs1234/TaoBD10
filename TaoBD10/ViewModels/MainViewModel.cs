@@ -587,19 +587,25 @@ namespace TaoBD10.ViewModels
                     //thuc hien chuyen ve
                     //currentTab = CurrentTab.GetBD10;
 
+            DefaultWindowCommand.Execute(null);
                     break;
 
                 case 1:
                     //currentTab = CurrentTab.DanhSach;
 
+            DefaultWindowCommand.Execute(null);
                     break;
 
                 case 2:
                     //currentTab = CurrentTab.ChiTiet;
+
+            DefaultWindowCommand.Execute(null);
                     break;
 
                 case 3:
                     //currentTab = CurrentTab.ThuGon;
+
+            DefaultWindowCommand.Execute(null);
                     break;
                 case 4:
                     //currentTab = CurrentTab.LayChuyenThu;
@@ -614,7 +620,6 @@ namespace TaoBD10.ViewModels
                 default:
                     break;
             }
-            DefaultWindowCommand.Execute(null);
         }
 
 

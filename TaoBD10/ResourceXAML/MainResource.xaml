@@ -12,4 +12,5 @@
     <viewmodel:LayChuyenThuViewModel x:Key="LayCTVM" />
     <viewmodel:WebViewModel x:Key="WebVM" />
     <viewmodel:LayBDHAViewModel x:Key="LayBDHAVM" />
+    <viewmodel:DiNgoaiViewModel x:Key="DiNgoaiVM" />
 </ResourceDictionary>

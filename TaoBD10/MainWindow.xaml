@@ -84,10 +84,10 @@
             <!--  Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"  -->
 
         </materialDesign:DrawerHost>
-        <TabControl TabStripPlacement="Left">
+        <TabControl Name="TabTui" TabStripPlacement="Left">
             <Behaviors:Interaction.Triggers>
                 <Behaviors:EventTrigger EventName="SelectionChanged">
-                    <Behaviors:InvokeCommandAction Command="{Binding TabTuiChangedCommand}" CommandParameter="{Binding ElementName=TabControl}" />
+                    <Behaviors:InvokeCommandAction Command="{Binding TabTuiChangedCommand}" CommandParameter="{Binding ElementName=TabTui}" />
                 </Behaviors:EventTrigger>
             </Behaviors:Interaction.Triggers>
             <TabItem Header="CHINH">
@@ -97,7 +97,7 @@
                 <view:WebView />
             </TabItem>
             <TabItem Header="DI NGOAI">
-                <TextBlock Text="Chao cac ban" />
+                <view:DiNgoaiView />
             </TabItem>
             <TabItem Header="XAC NHAN">
                 <TextBlock Text="Chao cac ban" />

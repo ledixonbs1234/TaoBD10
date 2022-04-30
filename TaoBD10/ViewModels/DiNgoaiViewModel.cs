@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using TaoBD10.Manager;
 using TaoBD10.Model;
 
 namespace TaoBD10.ViewModels
@@ -28,6 +29,23 @@ namespace TaoBD10.ViewModels
         {
             get { return _DiNgoais; }
             set { SetProperty(ref _DiNgoais, value); }
+        }
+
+        private bool _isSayNumber = true;
+
+        public bool isSayNumber
+        {
+            get { return _isSayNumber; }
+            set { SetProperty(ref _isSayNumber, value); }
+        }
+
+
+        private bool _IsAutoF1 = true;
+
+        public bool IsAutoF1
+        {
+            get { return _IsAutoF1; }
+            set { SetProperty(ref _IsAutoF1, value); }
         }
 
         public bool IsExpanded
@@ -63,7 +81,41 @@ namespace TaoBD10.ViewModels
 
         void AddAddress()
         {
+            if (DiNgoais.Count == 0)
+                return;
 
+            foreach (DiNgoaiItemModel diNgoaiItem in DiNgoais)
+            {
+                if (string.IsNullOrEmpty(diNgoaiItem.MaTinh))
+                {
+                    WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "LoadAddressWeb", Content = diNgoaiItem.Code });
+                }
+            }
+            //            if (chrWeb.IsBrowserInitialized)
+            //            {
+
+            //                chrWeb.Stop();
+            //            }
+            //            else
+            //            {
+            //                NavigateToWebControl();
+            //                return;
+            //            }
+            //            for (int i = 0; i < diNgoaiViewModel.diNgoais.Count; i++)
+            //            {
+            //                if (string.IsNullOrEmpty(diNgoaiViewModel.diNgoais[i].MaTinh))
+            //                {
+            //                    iCurrentItemDiNgoai = i;
+
+            //                    string script = @"
+            //                document.getElementById('MainContent_ctl00_txtID').value='" + diNgoaiViewModel.diNgoais[i].Code + @"';
+            //				document.getElementById('MainContent_ctl00_btnView').click();
+            //";
+            //                    txtInfo.Text = "Web Loadding " + iCurrentItemDiNgoai.ToString();
+            //                    chrWeb.ExecuteScriptAsync(script);
+            //                    break;
+            //                }
+            //            }
         }
 
         void CheckEnterKey()
@@ -92,6 +144,10 @@ namespace TaoBD10.ViewModels
                         }
                     }
                     DiNgoais.Add(new DiNgoaiItemModel(DiNgoais.Count + 1, TextCode));
+                    if (isSayNumber)
+                    {
+                        SoundManager.playSound(@"Number\" + DiNgoais.Count.ToString() + ".wav");
+                    }
                     TextCode = "";
                 }
             }

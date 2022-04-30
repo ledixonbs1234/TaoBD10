@@ -74,7 +74,7 @@
             <Button
                 Grid.Row="1"
                 Grid.Column="0"
-                Margin="5"
+                Margin="2,30,5,5"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Command="{Binding ToggleWindowCommand}"

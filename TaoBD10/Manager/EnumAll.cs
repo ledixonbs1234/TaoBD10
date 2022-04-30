@@ -15,6 +15,17 @@
             KT,BCP
         }
 
+        public enum LoadWebChoose
+        {
+            ReadWord,
+            XacNhan,
+            DiNgoai,
+            DiNgoaiAddress,
+            None,
+            TamQuan,
+            AddressTamQuan
+        }
+
         public enum PhanLoaiTinh
         {
             None,

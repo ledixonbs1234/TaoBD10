@@ -62,8 +62,11 @@
                 </DataGrid.Columns>
             </DataGrid>
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                <CheckBox Content="Auto F1" />
-                <CheckBox Margin="0,0,5,0" Content="Đọc số" />
+                <CheckBox Content="Auto F1" IsChecked="{Binding IsAutoF1, Mode=OneWayToSource}" />
+                <CheckBox
+                    Margin="0,0,5,0"
+                    Content="Đọc số"
+                    IsChecked="{Binding isSayNumber, Mode=OneWayToSource}" />
                 <ToggleButton
                     Width="40"
                     Height="40"

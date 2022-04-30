@@ -82,7 +82,7 @@
         <StackPanel Grid.Column="1">
             <DataGrid Height="300" ItemsSource="{Binding DiNgoais}" />
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                <Button Margin="5" Content="Add Address" />
+                <Button Margin="5" Content="Add Address" Command="{Binding AddAddressCommand}" />
                 <Button Margin="5" Content="Add Selected Address" />
                 <Button Margin="5" Content="Xóa" />
                 <Button Margin="5" Content="Clear" />

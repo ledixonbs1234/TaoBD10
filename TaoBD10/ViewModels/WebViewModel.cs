@@ -66,11 +66,17 @@ namespace TaoBD10.ViewModels
 
         void Login()
         {
-            AddressWeb = "https://bccp.vnpost.vn/BCCP.aspx?act=Trace";
+            string script = @"
+                     document.getElementById('MainContent_txtUser').value='593280';
+            		document.getElementById('MainContent_txtPassword').value='593280';
+            		document.getElementById('MainContent_btnLogin').click();
+";
+
+            WebBrowser.ExecuteScriptAsync(script);
         }
         bool isInitializeWeb = false;
 
-        private string _AddressWeb = "https://www.google.com";
+        private string _AddressWeb = "https://bccp.vnpost.vn/BCCP.aspx?act=Trace";
         bool isInitilizeWeb = false;
 
         public string AddressWeb

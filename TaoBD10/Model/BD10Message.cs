@@ -17,4 +17,12 @@ namespace TaoBD10.Model
 
         }
     }
+
+    public class WebMessage:ValueChangedMessage<WebContentModel>
+    {
+        public WebMessage(WebContentModel content):base (content)
+        {
+
+        }
+    }
 }

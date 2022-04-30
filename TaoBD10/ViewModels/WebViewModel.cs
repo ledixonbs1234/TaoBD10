@@ -136,51 +136,38 @@ document.getElementsByClassName("".footer"").remove();
                     {
                         Regex regex = new Regex(@"MainContent_ctl00_lblBarcode"">((\w|\W)+?)<");
                         var match = regex.Match(html);
-                        string barcodeWeb = match.Groups[1].Value;
+                        string barcodeWeb = match.Groups[1].Value.ToUpper();
                         if (string.IsNullOrEmpty(barcodeWeb))
                         {
                             WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Snackbar", Content = "Không đúng Code" });
                             return;
                         }
-
-                        if (barcodeWeb.ToLower().IndexOf(diNgoaiViewModel.diNgoais[iCurrentItemDiNgoai].Code.ToLower()) == -1)
+                        WebContentModel webContent = new WebContentModel
                         {
-                            txtInfo.Text = "Không trùng mã";
-                            return;
-                        }
-
+                            Code = barcodeWeb
+                        };
                         Regex regexMaTinh = new Regex(@"MainContent_ctl00_lblDesPOS"">((\w|\W)+?) ");
-                        var matchMaTinh = regexMaTinh.Match(html);
-                        numberMaTinh = 0;
-                        int.TryParse(matchMaTinh.Groups[1].Value, out numberMaTinh);
-                        if (numberMaTinh == 0)
+                        string matchMaTinh = regexMaTinh.Match(html).Groups[1].Value;
+                        if (String.IsNullOrEmpty(matchMaTinh))
                         {
-                            lblMaTInh.Text = "Lỗi";
-                            txtInfo.Text = "Lỗi";
+                            WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Snackbar", Content = "Chưa có mã Tỉnh" });
                             return;
                         }
-                        else
+
+                        string addressR = new Regex(@"MainContent_ctl00_lblReceiverAddr(\W|\w)+?>((\W|\w)+?)<").Match(html).Groups[2].Value;
+                        if (string.IsNullOrEmpty(addressR))
                         {
-                            Regex regex1 = new Regex(@"MainContent_ctl00_lblReceiverAddr(\W|\w)+?>((\W|\w)+?)<");
-                            var mat = regex1.Match(html);
-                            string data = mat.Groups[2].Value;
-                            if (string.IsNullOrEmpty(data))
-                            {
-                                lblMaTInh.Text = "Lỗi";
-                                txtInfo.Text = "Lỗi";
-                                return;
-                            }
-                            diNgoaiViewModel.diNgoais[iCurrentItemDiNgoai].Address = data;
-                            diNgoaiViewModel.diNgoais[iCurrentItemDiNgoai].MaTinh = numberMaTinh.ToString();
-
-                            dgvAddress.Refresh();
-                            BtnAddAddress_Click(null, null);
-
+                            WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Snackbar", Content = "Không có địa chỉ" });
+                            return;
                         }
-
+                        webContent.AddressReiceive = addressR;
+                        webContent.BuuCucPhat = matchMaTinh;
+                        //Thuc hien send Web content qua do
+                        WeakReferenceMessenger.Default.Send<WebContentModel>(webContent);
                     }
                 }
             }
+        }
 
         public ICommand LoginCommand { get; }
 

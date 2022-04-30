@@ -10,6 +10,8 @@ namespace TaoBD10.Model
     {
         public int Index { get; set; }
         public string Code { get; set; }
+        public string BuuCucGui { get; set; }
+        public string AddressSend { get; set; }
 
         public string Address { get; set; }
         public string MaTinh { get; set; }

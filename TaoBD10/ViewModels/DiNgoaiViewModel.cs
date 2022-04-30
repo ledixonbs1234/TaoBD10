@@ -22,6 +22,19 @@ namespace TaoBD10.ViewModels
             ClearCommand = new RelayCommand(Clear);
             MoRongCommand = new RelayCommand(MoRong);
             AddAddressCommand = new RelayCommand(AddAddress);
+            WeakReferenceMessenger.Default.Register<WebContentModel>(this, (r, m) =>
+            {
+                DiNgoaiItemModel diNgoai = DiNgoais.FirstOrDefault(c => m.Code.IndexOf(c.Code.ToUpper()) != -1);
+                if(diNgoai!= null)
+                {
+                    diNgoai.Address = m.AddressReiceive;
+                    diNgoai.MaTinh = m.BuuCucPhat;
+                    diNgoai.AddressSend = m.AddressSend;
+                    diNgoai.BuuCucGui = m.BuuCucGui;
+                }
+                AddAddress();
+                
+            });
         }
         public ICommand AddAddressCommand { get; }
         public ICommand ClearCommand { get; }
@@ -89,6 +102,7 @@ namespace TaoBD10.ViewModels
                 if (string.IsNullOrEmpty(diNgoaiItem.MaTinh))
                 {
                     WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "LoadAddressWeb", Content = diNgoaiItem.Code });
+                    break;
                 }
             }
             //            if (chrWeb.IsBrowserInitialized)

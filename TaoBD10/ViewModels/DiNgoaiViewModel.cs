@@ -369,6 +369,8 @@ namespace TaoBD10.ViewModels
 
         private void OnSelectedBuuCuc()
         {
+            if (SelectedBuuCuc == null)
+                return;
             if (SelectedDiNgoai == null)
                 return;
             //DiNgoaiItemModel dingoai = DiNgoais.FirstOrDefault(d => d.Code == SelectedDiNgoai.Code);

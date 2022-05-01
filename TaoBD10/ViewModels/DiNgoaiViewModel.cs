@@ -72,6 +72,23 @@ namespace TaoBD10.ViewModels
             set { SetProperty(ref _IsAutoF1, value); }
         }
 
+        private DiNgoaiItemModel _SelectedSimple;
+
+        public DiNgoaiItemModel SelectedSimple
+        {
+            get { return _SelectedSimple; }
+            set
+            {
+                SetProperty(ref _SelectedSimple, value);
+                OnSelectedSimple();
+            }
+        }
+
+        private void OnSelectedSimple()
+        {
+
+        }
+
         public bool IsExpanded
         {
             get { return _IsExpanded; }
@@ -425,7 +442,7 @@ namespace TaoBD10.ViewModels
             {
                 if (maTinh == FileManager.listBuuCuc[i].Substring(0, 2))
                 {
-                    buucucs.Add(FileManager.listBuuCuc[i]);
+                    buucucs.Add(FileManager.listBuuCuc[i].Trim());
                 }
             }
 

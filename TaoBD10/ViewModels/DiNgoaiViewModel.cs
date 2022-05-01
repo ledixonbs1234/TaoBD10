@@ -83,7 +83,7 @@ namespace TaoBD10.ViewModels
                 if (listBuuCuc.Count == 0)
                     return;
 
-                string data = listBuuCuc.FirstOrDefault(m => boDauAndToLower(addressExactly).IndexOf(boDauAndToLower(m)) != -1);
+                string data = listBuuCuc.FirstOrDefault(m => boDauAndToLower(m).IndexOf(boDauAndToLower(addressExactly)) != -1);
                 if (!string.IsNullOrEmpty(data))
                 {
                     diNgoai.TenBuuCuc = data;

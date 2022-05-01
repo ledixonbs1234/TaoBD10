@@ -239,22 +239,52 @@ namespace TaoBD10.ViewModels
                 return;
 
             //thuc hien lay loai buu gui
-            string loai = diNgoai.Code.Substring(0, 1);
+            string loai = diNgoai.Code.Substring(0, 1).ToUpper();
             if (diNgoai.MaTinh == "59")
             {
+
 
             }
             else if (diNgoai.MaTinh == "70")
             {
+                if(loai == "C")
+                {
+                    diNgoai.TenBuuCuc = "700920 - KTNT TP.HCM";
+                    diNgoai.MaBuuCuc = "700920";
+                }
+                else if(loai == "E")
+                {
+                    diNgoai.TenBuuCuc = "701000 - HCM EMS NT";
+                    diNgoai.MaBuuCuc = "701000";
+                }
 
             }
             else if (diNgoai.MaTinh == "10")
             {
+                if (loai == "C")
+                {
+                    diNgoai.TenBuuCuc = "100920 - KTNT Hà Nội";
+                    diNgoai.MaBuuCuc = "100920";
+                }
+                else if (loai == "E")
+                {
+                    diNgoai.TenBuuCuc = "101000 - KT EMS Hà Nội nội tỉnh";
+                    diNgoai.MaBuuCuc = "101000";
+                }
 
             }
             else if (diNgoai.MaTinh == "55")
             {
-
+                if (loai == "C")
+                {
+                    diNgoai.TenBuuCuc = "550920 - Đà Nẵng NT";
+                    diNgoai.MaBuuCuc = "550920";
+                }
+                else if (loai == "E")
+                {
+                    diNgoai.TenBuuCuc = "550100 - Đà Nẵng EMS NT";
+                    diNgoai.MaBuuCuc = "550100";
+                }
             }
             else
             {

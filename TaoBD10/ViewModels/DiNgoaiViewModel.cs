@@ -31,7 +31,7 @@ namespace TaoBD10.ViewModels
             WeakReferenceMessenger.Default.Register<WebContentModel>(this, (r, m) =>
             {
                 DiNgoaiItemModel diNgoai = DiNgoais.FirstOrDefault(c => m.Code.IndexOf(c.Code.ToUpper()) != -1);
-                if(diNgoai!= null)
+                if (diNgoai != null)
                 {
                     diNgoai.Address = m.AddressReiceive;
                     diNgoai.MaTinh = m.BuuCucPhat;
@@ -48,6 +48,57 @@ namespace TaoBD10.ViewModels
 
         private void AutoSetBuuCuc(DiNgoaiItemModel diNgoai)
         {
+            if (diNgoai.MaTinh == null)
+                return;
+
+            //thuc hien lay loai buu gui
+            string loai = diNgoai.Code.Substring(0, 1);
+            if (diNgoai.MaTinh == "59")
+            {
+
+            }
+            else if (diNgoai.MaTinh == "70")
+            {
+
+            }
+            else if (diNgoai.MaTinh == "10")
+            {
+
+            }
+            else if (diNgoai.MaTinh == "55")
+            {
+
+            }
+            else
+            {
+                //thuc hien lay dia chi
+                List<string> fillAddress = diNgoai.Address.Split('-').Select(s => s.Trim()).ToList();
+                if (fillAddress == null)
+                    return;
+                if (fillAddress.Count < 3)
+                    return;
+                string addressExactly = fillAddress[fillAddress.Count - 2];
+                //thuc hien lay danh sach buu cuc
+                List<string> listBuuCuc = getListBuuCucFromTinh(diNgoai.MaTinh);
+                if (listBuuCuc.Count == 0)
+                    return;
+                foreach (string item in listBuuCuc)
+                {
+                    if(boDauAndToLower(addressExactly).IndexOf(boDauAndToLower(item))!= -1){
+
+                        diNgoai.TenBuuCuc = item;
+                        diNgoai.MaBuuCuc = item.Substring(0, 6);
+                        break;
+                    }
+                }
+
+            }
+
+        }
+
+        string boDauAndToLower(string text)
+        {
+            return APIManager.convertToUnSign3(text).ToLower();
 
         }
 
@@ -56,16 +107,17 @@ namespace TaoBD10.ViewModels
         public string SelectedBuuCuc
         {
             get { return _SelectedBuuCuc; }
-            set { 
+            set
+            {
                 SetProperty(ref _SelectedBuuCuc, value);
                 OnSelectedBuuCuc();
-            
+
             }
         }
 
         private void OnSelectedBuuCuc()
         {
-            if(SelectedDiNgoai == null)
+            if (SelectedDiNgoai == null)
                 return;
             //DiNgoaiItemModel dingoai = DiNgoais.FirstOrDefault(d => d.Code == SelectedDiNgoai.Code);
             //if (dingoai == null)
@@ -94,7 +146,9 @@ namespace TaoBD10.ViewModels
         public DiNgoaiItemModel SelectedDiNgoai
         {
             get { return _SelectedDiNgoai; }
-            set { SetProperty(ref _SelectedDiNgoai, value);
+            set
+            {
+                SetProperty(ref _SelectedDiNgoai, value);
                 OnSelectedDiNgoai();
             }
         }
@@ -106,13 +160,29 @@ namespace TaoBD10.ViewModels
                 return;
             //chuyen vo cbx
             BuuCucs.Clear();
-            for (int i = 0; i < FileManager.listBuuCuc.Count; i++)
+            List<string> listBuuCuc = getListBuuCucFromTinh(SelectedDiNgoai.MaTinh);
+            if (listBuuCuc.Count != 0)
             {
-                if (SelectedDiNgoai.MaTinh == FileManager.listBuuCuc[i].Substring(0, 2))
+                foreach (string item in listBuuCuc)
                 {
-                    BuuCucs.Add(FileManager.listBuuCuc[i]);
+                    BuuCucs.Add(item);
                 }
             }
+        }
+
+        List<string> getListBuuCucFromTinh(string maTinh)
+        {
+            List<string> buucucs = new List<string>();
+            for (int i = 0; i < FileManager.listBuuCuc.Count; i++)
+            {
+                if (maTinh == FileManager.listBuuCuc[i].Substring(0, 2))
+                {
+                    buucucs.Add(FileManager.listBuuCuc[i]);
+                }
+            }
+
+
+            return buucucs;
         }
 
         public ICommand AddAddressCommand { get; }
@@ -171,12 +241,12 @@ namespace TaoBD10.ViewModels
 
         public ICommand XoaDiNgoaiCommand { get; }
 
-        
+
         void XoaDiNgoai()
         {
             if (SelectedDiNgoai == null)
                 return;
-            if (DiNgoais.Count==0)
+            if (DiNgoais.Count == 0)
                 return;
 
             DiNgoais.Remove(SelectedDiNgoai);
@@ -184,7 +254,7 @@ namespace TaoBD10.ViewModels
 
         public ICommand ClearDiNgoaiCommand { get; }
 
-        
+
         void ClearDiNgoai()
         {
             DiNgoais.Clear();

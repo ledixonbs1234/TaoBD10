@@ -82,15 +82,28 @@ namespace TaoBD10.ViewModels
                 List<string> listBuuCuc = getListBuuCucFromTinh(diNgoai.MaTinh);
                 if (listBuuCuc.Count == 0)
                     return;
-                foreach (string item in listBuuCuc)
-                {
-                    if(boDauAndToLower(addressExactly).IndexOf(boDauAndToLower(item))!= -1){
 
-                        diNgoai.TenBuuCuc = item;
-                        diNgoai.MaBuuCuc = item.Substring(0, 6);
-                        break;
-                    }
+                string data = listBuuCuc.FirstOrDefault(m => boDauAndToLower(addressExactly).IndexOf(boDauAndToLower(m)) != -1);
+                if (!string.IsNullOrEmpty(data))
+                {
+                    diNgoai.TenBuuCuc = data;
+                    diNgoai.MaBuuCuc = data.Substring(0, 6);
                 }
+                else
+                {
+                    diNgoai.TenBuuCuc = listBuuCuc[0];
+                    diNgoai.MaBuuCuc = listBuuCuc[0].Substring(0, 6);
+                }
+                //foreach (string item in listBuuCuc)
+                //{
+                //    if (boDauAndToLower(addressExactly).IndexOf(boDauAndToLower(item)) != -1)
+                //    {
+
+                //        diNgoai.TenBuuCuc = item;
+                //        diNgoai.MaBuuCuc = item.Substring(0, 6);
+                //        break;
+                //    }
+                //}
 
             }
 

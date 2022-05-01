@@ -33,7 +33,7 @@ namespace TaoBD10.ViewModels
                 DiNgoaiItemModel diNgoai = DiNgoais.FirstOrDefault(c => m.Code.IndexOf(c.Code.ToUpper()) != -1);
                 if (diNgoai != null)
                 {
-                    diNgoai.Address = m.AddressReiceive;
+                    diNgoai.Address = m.AddressReiceive.Trim();
                     diNgoai.MaTinh = m.BuuCucPhat;
                     diNgoai.AddressSend = m.AddressSend;
                     diNgoai.BuuCucGui = m.BuuCucGui;
@@ -206,7 +206,7 @@ namespace TaoBD10.ViewModels
                         if (diNgoai.Code == textChanged)
                         {
                             isTrundle = true;
-                            break ;
+                            break;
                         }
                     }
                     if (isTrundle)
@@ -220,10 +220,10 @@ namespace TaoBD10.ViewModels
         private List<string> LocTextTho(string textsRange)
         {
             List<string> list = new List<string>();
-            var datas =textsRange.Split('\n');
+            var datas = textsRange.Split('\n');
             foreach (string data in datas)
             {
-                if (data.Count()<13)
+                if (data.Count() < 13)
                     continue;
                 var indexVN = data.ToUpper().IndexOf("VN");
                 if (indexVN - 11 < 0)
@@ -242,17 +242,58 @@ namespace TaoBD10.ViewModels
             string loai = diNgoai.Code.Substring(0, 1).ToUpper();
             if (diNgoai.MaTinh == "59")
             {
+                List<string> fillAddress = diNgoai.Address.Split('-').Select(s => s.Trim()).ToList();
+                if (fillAddress == null)
+                    return;
+                if (fillAddress.Count < 3)
+                    return;
+                string addressExactly = fillAddress[fillAddress.Count - 2];
+                if (boDauAndToLower(addressExactly).IndexOf("phu my") != -1)
+                {
+                    diNgoai.TenBuuCuc = "592810 - KT Phù Mỹ";
+                    diNgoai.MaBuuCuc = "592810";
+                }
+                else if (boDauAndToLower(addressExactly).IndexOf("phu cat") != -1)
+                {
+                    diNgoai.TenBuuCuc = "592460 - BCP Phù Cát";
+                    diNgoai.MaBuuCuc = "592460";
+                }
+                else if (boDauAndToLower(addressExactly).IndexOf("an nhon") != -1)
+                {
+                    diNgoai.TenBuuCuc = "592020 - KT An Nhơn";
+                    diNgoai.MaBuuCuc = "592020";
+                }
+                else if (boDauAndToLower(addressExactly).IndexOf("tay son") != -1)
+                {
+                    diNgoai.TenBuuCuc = "594210 - KT Tây Sơn";
+                    diNgoai.MaBuuCuc = "594210";
+                }
+                else if (boDauAndToLower(addressExactly).IndexOf("van canh") != -1)
+                {
+                    diNgoai.TenBuuCuc = "594560 - KT Vân Canh";
+                    diNgoai.MaBuuCuc = "594560";
+                }
+                else if (boDauAndToLower(addressExactly).IndexOf("vinh thanh") != -1)
+                {
+                    diNgoai.TenBuuCuc = "594080 - KT Vĩnh Thạnh";
+                    diNgoai.MaBuuCuc = "594080";
+                }
+                else if (boDauAndToLower(addressExactly).IndexOf("tuy phuoc") != -1)
+                {
+                    diNgoai.TenBuuCuc = "591720 - KT Tuy Phước";
+                    diNgoai.MaBuuCuc = "591720";
+                }
 
 
             }
             else if (diNgoai.MaTinh == "70")
             {
-                if(loai == "C")
+                if (loai == "C")
                 {
                     diNgoai.TenBuuCuc = "700920 - KTNT TP.HCM";
                     diNgoai.MaBuuCuc = "700920";
                 }
-                else if(loai == "E")
+                else if (loai == "E")
                 {
                     diNgoai.TenBuuCuc = "701000 - HCM EMS NT";
                     diNgoai.MaBuuCuc = "701000";
@@ -417,6 +458,7 @@ namespace TaoBD10.ViewModels
             {
                 if (string.IsNullOrEmpty(diNgoai.MaBuuCuc))
                 {
+                    BuuCucs.Clear();
                     SelectedDiNgoai = diNgoai;
                     break;
                 }

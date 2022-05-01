@@ -18,9 +18,15 @@ namespace TaoBD10.ViewModels
         public DiNgoaiViewModel()
         {
             DiNgoais = new ObservableCollection<DiNgoaiItemModel>();
+            BuuCucs = new ObservableCollection<string>();
+
             XoaCommand = new RelayCommand(Xoa);
             ClearCommand = new RelayCommand(Clear);
             MoRongCommand = new RelayCommand(MoRong);
+            ClearDiNgoaiCommand = new RelayCommand(ClearDiNgoai);
+
+            XoaDiNgoaiCommand = new RelayCommand(XoaDiNgoai);
+
             AddAddressCommand = new RelayCommand(AddAddress);
             WeakReferenceMessenger.Default.Register<WebContentModel>(this, (r, m) =>
             {
@@ -31,14 +37,84 @@ namespace TaoBD10.ViewModels
                     diNgoai.MaTinh = m.BuuCucPhat;
                     diNgoai.AddressSend = m.AddressSend;
                     diNgoai.BuuCucGui = m.BuuCucGui;
+
+                    AutoSetBuuCuc(diNgoai);
                 }
-                OnPropertyChanged();
                 AddAddress();
-                count++;
-                
             });
+
+            FileManager.GetCode();
         }
+
+        private void AutoSetBuuCuc(DiNgoaiItemModel diNgoai)
+        {
+
+        }
+
+        private string _SelectedBuuCuc;
+
+        public string SelectedBuuCuc
+        {
+            get { return _SelectedBuuCuc; }
+            set { 
+                SetProperty(ref _SelectedBuuCuc, value);
+                OnSelectedBuuCuc();
+            
+            }
+        }
+
+        private void OnSelectedBuuCuc()
+        {
+            if(SelectedDiNgoai == null)
+                return;
+            //DiNgoaiItemModel dingoai = DiNgoais.FirstOrDefault(d => d.Code == SelectedDiNgoai.Code);
+            //if (dingoai == null)
+            //    return;
+            //dingoai.MaBuuCuc = SelectedBuuCuc;
+            if (string.IsNullOrEmpty(SelectedDiNgoai.MaTinh))
+                return;
+            SelectedDiNgoai.TenBuuCuc = SelectedBuuCuc;
+            SelectedDiNgoai.MaBuuCuc = SelectedBuuCuc.Substring(0, 6);
+
+
+        }
+
         int count = 0;
+        private ObservableCollection<string> _BuuCucs;
+
+        public ObservableCollection<string> BuuCucs
+        {
+            get { return _BuuCucs; }
+            set { SetProperty(ref _BuuCucs, value); }
+        }
+
+
+        private DiNgoaiItemModel _SelectedDiNgoai;
+
+        public DiNgoaiItemModel SelectedDiNgoai
+        {
+            get { return _SelectedDiNgoai; }
+            set { SetProperty(ref _SelectedDiNgoai, value);
+                OnSelectedDiNgoai();
+            }
+        }
+
+        void OnSelectedDiNgoai()
+        {
+
+            if (SelectedDiNgoai == null)
+                return;
+            //chuyen vo cbx
+            BuuCucs.Clear();
+            for (int i = 0; i < FileManager.listBuuCuc.Count; i++)
+            {
+                if (SelectedDiNgoai.MaTinh == FileManager.listBuuCuc[i].Substring(0, 2))
+                {
+                    BuuCucs.Add(FileManager.listBuuCuc[i]);
+                }
+            }
+        }
+
         public ICommand AddAddressCommand { get; }
         public ICommand ClearCommand { get; }
         public ObservableCollection<DiNgoaiItemModel> DiNgoais
@@ -92,6 +168,29 @@ namespace TaoBD10.ViewModels
                 CheckEnterKey();
             }
         }
+
+        public ICommand XoaDiNgoaiCommand { get; }
+
+        
+        void XoaDiNgoai()
+        {
+            if (SelectedDiNgoai == null)
+                return;
+            if (DiNgoais.Count==0)
+                return;
+
+            DiNgoais.Remove(SelectedDiNgoai);
+        }
+
+        public ICommand ClearDiNgoaiCommand { get; }
+
+        
+        void ClearDiNgoai()
+        {
+            DiNgoais.Clear();
+        }
+
+
 
         public ICommand XoaCommand { get; }
 

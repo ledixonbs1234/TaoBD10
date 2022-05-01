@@ -48,7 +48,7 @@ namespace TaoBD10.ViewModels
 
         void LoadAddressDiNgoai(string code)
         {
-         
+        
             string script = @"
                                 document.getElementById('MainContent_ctl00_txtID').value='" + code + @"';
                 				document.getElementById('MainContent_ctl00_btnView').click();

@@ -22,11 +22,39 @@ namespace TaoBD10.Model
             set { SetProperty(ref _Address, value); }
         }
 
-        public string MaTinh { get; set; }
-        public string MaBuuCuc { get; set; }
-        public string TenBuuCuc { get; set; }
+        private string _MaTinh;
 
-        public string TenTinh { get; set; }
+        public string MaTinh
+        {
+            get { return _MaTinh; }
+            set { SetProperty(ref _MaTinh, value); }
+        }
+
+        private string _MaBuuCuc;
+
+        public string MaBuuCuc
+        {
+            get { return _MaBuuCuc; }
+            set { SetProperty(ref _MaBuuCuc, value); }
+        }
+
+        private string _TenBuuCuc;
+
+        public string TenBuuCuc
+        {
+            get { return _TenBuuCuc; }
+            set { SetProperty(ref _TenBuuCuc, value); }
+        }
+
+
+        private string _TenTinh;
+
+        public string TenTinh
+        {
+            get { return _TenTinh; }
+            set { SetProperty(ref _TenTinh, value); }
+        }
+
 
         public DiNgoaiItemModel(int index, string code)
         {

@@ -80,11 +80,12 @@
             </StackPanel>
         </StackPanel>
         <StackPanel Grid.Column="1">
-            <DataGrid Height="300"  AutoGenerateColumns="False" ItemsSource="{Binding DiNgoais}" >
+            <DataGrid SelectedItem="{Binding SelectedDiNgoai, Mode=OneWayToSource}" Height="300"  AutoGenerateColumns="False" ItemsSource="{Binding DiNgoais}" >
                 <DataGrid.Columns>
                     <DataGridTextColumn IsReadOnly="True" Binding="{Binding Index}" Header="Index"/>
+                    <DataGridTextColumn Binding="{Binding Code}" IsReadOnly="False" Header="Code"/>
                     <DataGridTextColumn Binding="{Binding MaTinh}" IsReadOnly="False" Header="Mã Tỉnh"/>
-                    <DataGridTextColumn Binding="{Binding Address}" IsReadOnly="True" MaxWidth="300" Header="Địa Chỉ"/>
+                    <DataGridTextColumn Binding="{Binding Address}" IsReadOnly="True" MaxWidth="230" Header="Địa Chỉ"/>
                     <DataGridTextColumn Binding="{Binding MaBuuCuc}" IsReadOnly="True" Header="Mã Bưu Cục"/>
                     <DataGridTextColumn Binding="{Binding TenBuuCuc}" IsReadOnly="True" Header="Tên Bưu Cục"/>
                     <DataGridTextColumn Binding="{Binding TenTinh}" IsReadOnly="True" Header="Tên Tỉnh"/>
@@ -93,21 +94,21 @@
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                 <Button Margin="5" Content="Add Address" Command="{Binding AddAddressCommand}" />
                 <Button Margin="5" Content="Add Selected Address" />
-                <Button Margin="5" Content="Xóa" />
-                <Button Margin="5" Content="Clear" />
+                <Button Margin="5" Content="Xóa" Command="{Binding XoaDiNgoaiCommand}"/>
+                <Button Margin="5" Content="Clear" Command="{Binding ClearDiNgoaiCommand}" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBox
-                    MaxWidth="400"
+                    MaxWidth="300"
                     Margin="4"
                     VerticalAlignment="Top"
                     AcceptsReturn="True"
                     IsEnabled="{Binding IsChecked, ElementName=MaterialDesignFilledTextBoxEnabledComboBox}"
                     IsReadOnly="True"
                     Style="{StaticResource MaterialDesignFilledTextBox}"
-                    Text="Choadsjfsdjifj dsifjiodsjfi aojsdifjisdjifojsdio dsfisjafio jiofidosj fiosdji fojdsif jiodsjfio sd"
+                    Text="{Binding SelectedDiNgoai.Address}"
                     TextWrapping="Wrap" />
-                <ComboBox Width="200" />
+                <ComboBox ItemsSource="{Binding BuuCucs}" SelectedItem="{Binding SelectedBuuCuc}" Width="200" />
             </StackPanel>
         </StackPanel>
 

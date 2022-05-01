@@ -9,6 +9,20 @@ namespace TaoBD10.Manager
     public static class FileManager
     {
         public static List<BD10InfoModel> list = new List<BD10InfoModel>();
+        public static List<string> listBuuCuc = new List<string>();
+        public static void GetCode()
+        {
+            string dir = Directory.GetCurrentDirectory();
+            string text = File.ReadAllText(dir + @"/" + "data.txt");
+            var texts = text.Split('\n');
+            for (int i = 0; i < texts.Length; i++)
+            {
+                if (!string.IsNullOrEmpty(texts[i]))
+                {
+                    listBuuCuc.Add(texts[i]);
+                }
+            }
+        }
 
         private static string _file = Environment.CurrentDirectory + "\\data.json";
 

@@ -87,7 +87,7 @@
         <StackPanel Grid.Column="1">
             <DataGrid
                 Height="300"
-                materialDesign:DataGridAssist.CellPadding="4 7 4 2"
+                materialDesign:DataGridAssist.CellPadding="4 7 5 2"
                 materialDesign:DataGridAssist.ColumnHeaderPadding="4 2 2 2"
                 AutoGenerateColumns="False"
                 ItemsSource="{Binding DiNgoais}"
@@ -101,6 +101,7 @@
                     <DataGridTextColumn
                         Binding="{Binding Code}"
                         Header="Code"
+                        FontWeight="SemiBold"
                         IsReadOnly="False" />
                     <DataGridTextColumn
                         Binding="{Binding MaTinh}"
@@ -114,6 +115,7 @@
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="{x:Type TextBlock}">
                                 <Setter Property="HorizontalAlignment" Value="Right" />
+                                <Setter Property="TextBlock.TextWrapping" Value="NoWrap" />
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>

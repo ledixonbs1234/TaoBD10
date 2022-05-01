@@ -19,10 +19,10 @@ namespace TaoBD10.ViewModels
     {
         public IRelayCommand<ChromiumWebBrowser> LoadPageCommand;
 
-        private IWpfWebBrowser _WebBrowser;
+        private ChromiumWebBrowser _WebBrowser;
         private LoadWebChoose _LoadWebChoose = LoadWebChoose.None;
 
-        public IWpfWebBrowser WebBrowser
+        public ChromiumWebBrowser WebBrowser
         {
             get { return _WebBrowser; }
             set { SetProperty(ref _WebBrowser, value); }
@@ -48,19 +48,12 @@ namespace TaoBD10.ViewModels
 
         void LoadAddressDiNgoai(string code)
         {
-            if (WebBrowser.IsBrowserInitialized)
-            {
-
-            }
-            else
-            {
-                //thuc hien navigate
-                return;
-            }
+         
             string script = @"
                                 document.getElementById('MainContent_ctl00_txtID').value='" + code + @"';
                 				document.getElementById('MainContent_ctl00_btnView').click();
                 ";
+            IsLoadedWeb = false;
             WebBrowser.ExecuteScriptAsync(script);
         }
 
@@ -71,10 +64,15 @@ namespace TaoBD10.ViewModels
             		document.getElementById('MainContent_txtPassword').value='593280';
             		document.getElementById('MainContent_btnLogin').click();
 ";
-
+            
             WebBrowser.ExecuteScriptAsync(script);
         }
         bool isInitializeWeb = false;
+
+        /// <summary>
+        /// Chi load web 1 lan
+        /// </summary>
+        bool IsLoadedWeb = false;
 
         private string _AddressWeb = "https://bccp.vnpost.vn/BCCP.aspx?act=Trace";
         bool isInitilizeWeb = false;
@@ -134,6 +132,12 @@ document.getElementsByClassName("".footer"").remove();
                 }
                 else
                 {
+                    if (!IsLoadedWeb)
+                    {
+                        IsLoadedWeb = true;
+                    }
+                    else
+                        return;
                     //kiem tra dieu kien url
                     string html = await WebBrowser.GetSourceAsync();
 
@@ -161,13 +165,17 @@ document.getElementsByClassName("".footer"").remove();
                         }
 
                         string addressR = new Regex(@"MainContent_ctl00_lblReceiverAddr(\W|\w)+?>((\W|\w)+?)<").Match(html).Groups[2].Value;
+                        string addressS = new Regex(@"MainContent_ctl00_lblSenderAddr(\W|\w)+?>((\W|\w)+?)<").Match(html).Groups[2].Value; 
+                        string buuCucGui = new Regex(@"MainContent_ctl00_lblFrPOS(\W|\w)+?>((\W|\w)+?)<").Match(html).Groups[2].Value;
                         if (string.IsNullOrEmpty(addressR))
                         {
                             WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Snackbar", Content = "Không có địa chỉ" });
                             return;
                         }
                         webContent.AddressReiceive = addressR;
+                        webContent.AddressSend = addressS;
                         webContent.BuuCucPhat = matchMaTinh;
+                        webContent.BuuCucGui = buuCucGui;
                         //Thuc hien send Web content qua do
                         WeakReferenceMessenger.Default.Send<WebContentModel>(webContent);
                     }

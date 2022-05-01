@@ -32,10 +32,13 @@ namespace TaoBD10.ViewModels
                     diNgoai.AddressSend = m.AddressSend;
                     diNgoai.BuuCucGui = m.BuuCucGui;
                 }
+                OnPropertyChanged();
                 AddAddress();
+                count++;
                 
             });
         }
+        int count = 0;
         public ICommand AddAddressCommand { get; }
         public ICommand ClearCommand { get; }
         public ObservableCollection<DiNgoaiItemModel> DiNgoais

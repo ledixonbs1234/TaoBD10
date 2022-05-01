@@ -80,7 +80,16 @@
             </StackPanel>
         </StackPanel>
         <StackPanel Grid.Column="1">
-            <DataGrid Height="300" ItemsSource="{Binding DiNgoais}" />
+            <DataGrid Height="300"  AutoGenerateColumns="False" ItemsSource="{Binding DiNgoais}" >
+                <DataGrid.Columns>
+                    <DataGridTextColumn IsReadOnly="True" Binding="{Binding Index}" Header="Index"/>
+                    <DataGridTextColumn Binding="{Binding MaTinh}" IsReadOnly="False" Header="Mã Tỉnh"/>
+                    <DataGridTextColumn Binding="{Binding Address}" IsReadOnly="True" MaxWidth="300" Header="Địa Chỉ"/>
+                    <DataGridTextColumn Binding="{Binding MaBuuCuc}" IsReadOnly="True" Header="Mã Bưu Cục"/>
+                    <DataGridTextColumn Binding="{Binding TenBuuCuc}" IsReadOnly="True" Header="Tên Bưu Cục"/>
+                    <DataGridTextColumn Binding="{Binding TenTinh}" IsReadOnly="True" Header="Tên Tỉnh"/>
+                </DataGrid.Columns>
+            </DataGrid>
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                 <Button Margin="5" Content="Add Address" Command="{Binding AddAddressCommand}" />
                 <Button Margin="5" Content="Add Selected Address" />

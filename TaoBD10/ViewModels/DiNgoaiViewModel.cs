@@ -24,7 +24,7 @@ namespace TaoBD10.ViewModels
             ClearCommand = new RelayCommand(Clear);
             MoRongCommand = new RelayCommand(MoRong);
             ClearDiNgoaiCommand = new RelayCommand(ClearDiNgoai);
-
+            AddRangeCommand = new RelayCommand(AddRange);
             XoaDiNgoaiCommand = new RelayCommand(XoaDiNgoai);
 
             AddAddressCommand = new RelayCommand(AddAddress);
@@ -45,6 +45,177 @@ namespace TaoBD10.ViewModels
 
             FileManager.GetCode();
         }
+
+        public ICommand AddAddressCommand { get; }
+        public ICommand AddRangeCommand { get; }
+
+
+        public ObservableCollection<string> BuuCucs
+        {
+            get { return _BuuCucs; }
+            set { SetProperty(ref _BuuCucs, value); }
+        }
+
+        public ICommand ClearCommand { get; }
+
+        public ICommand ClearDiNgoaiCommand { get; }
+
+        public ObservableCollection<DiNgoaiItemModel> DiNgoais
+        {
+            get { return _DiNgoais; }
+            set { SetProperty(ref _DiNgoais, value); }
+        }
+
+        public bool IsAutoF1
+        {
+            get { return _IsAutoF1; }
+            set { SetProperty(ref _IsAutoF1, value); }
+        }
+
+        public bool IsExpanded
+        {
+            get { return _IsExpanded; }
+            set
+            {
+                SetProperty(ref _IsExpanded, value);
+
+                if (_IsExpanded == false)
+                {
+                    ThuHep();
+                }
+                else
+                {
+                    MoRong();
+                }
+            }
+        }
+
+        public bool isSayNumber
+        {
+            get { return _isSayNumber; }
+            set { SetProperty(ref _isSayNumber, value); }
+        }
+
+        public ICommand MoRongCommand { get; }
+
+        public string SelectedBuuCuc
+        {
+            get { return _SelectedBuuCuc; }
+            set
+            {
+                SetProperty(ref _SelectedBuuCuc, value);
+                OnSelectedBuuCuc();
+
+            }
+        }
+
+        private string _TextsRange;
+
+        public string TextsRange
+        {
+            get { return _TextsRange; }
+            set { SetProperty(ref _TextsRange, value); }
+        }
+
+
+        public DiNgoaiItemModel SelectedDiNgoai
+        {
+            get { return _SelectedDiNgoai; }
+            set
+            {
+                SetProperty(ref _SelectedDiNgoai, value);
+                OnSelectedDiNgoai();
+            }
+        }
+
+        public string TextCode
+        {
+            get { return _TextCode; }
+            set
+            {
+                SetProperty(ref _TextCode, value);
+                CheckEnterKey();
+            }
+        }
+
+        public ICommand XoaCommand { get; }
+
+        public ICommand XoaDiNgoaiCommand { get; }
+
+        void AddAddress()
+        {
+            if (DiNgoais.Count == 0)
+                return;
+
+            foreach (DiNgoaiItemModel diNgoaiItem in DiNgoais)
+            {
+                if (string.IsNullOrEmpty(diNgoaiItem.MaTinh))
+                {
+                    WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "LoadAddressWeb", Content = diNgoaiItem.Code });
+                    break;
+                }
+            }
+            //            if (chrWeb.IsBrowserInitialized)
+            //            {
+
+            //                chrWeb.Stop();
+            //            }
+            //            else
+            //            {
+            //                NavigateToWebControl();
+            //                return;
+            //            }
+            //            for (int i = 0; i < diNgoaiViewModel.diNgoais.Count; i++)
+            //            {
+            //                if (string.IsNullOrEmpty(diNgoaiViewModel.diNgoais[i].MaTinh))
+            //                {
+            //                    iCurrentItemDiNgoai = i;
+
+            //                    string script = @"
+            //                document.getElementById('MainContent_ctl00_txtID').value='" + diNgoaiViewModel.diNgoais[i].Code + @"';
+            //				document.getElementById('MainContent_ctl00_btnView').click();
+            //";
+            //                    txtInfo.Text = "Web Loadding " + iCurrentItemDiNgoai.ToString();
+            //                    chrWeb.ExecuteScriptAsync(script);
+            //                    break;
+            //                }
+            //            }
+        }
+
+        void AddRange()
+        {
+            foreach (string item in TextsRange.Split('\n').Select(m=>m.Trim()))
+            {
+                if (string.IsNullOrEmpty(item))
+                    continue;
+                string textChanged = item.Trim().ToUpper();
+                if (textChanged.Length != 13)
+                {
+                    continue;
+                }                //    //kiem tra trung khong
+                if (DiNgoais.Count == 0)
+                {
+                    DiNgoais.Add(new DiNgoaiItemModel(DiNgoais.Count + 1, textChanged));
+                }
+                else
+                {
+                    bool isTrundle = false;
+                    foreach (DiNgoaiItemModel diNgoai in DiNgoais)
+                    {
+                        if (diNgoai.Code == textChanged)
+                        {
+                            isTrundle = true;
+                            break ;
+                        }
+                    }
+                    if (isTrundle)
+                        continue;
+
+                    DiNgoais.Add(new DiNgoaiItemModel(DiNgoais.Count + 1, textChanged));
+                }
+            }
+        }
+
 
         private void AutoSetBuuCuc(DiNgoaiItemModel diNgoai)
         {
@@ -115,208 +286,6 @@ namespace TaoBD10.ViewModels
 
         }
 
-        private string _SelectedBuuCuc;
-
-        public string SelectedBuuCuc
-        {
-            get { return _SelectedBuuCuc; }
-            set
-            {
-                SetProperty(ref _SelectedBuuCuc, value);
-                OnSelectedBuuCuc();
-
-            }
-        }
-
-        private void OnSelectedBuuCuc()
-        {
-            if (SelectedDiNgoai == null)
-                return;
-            //DiNgoaiItemModel dingoai = DiNgoais.FirstOrDefault(d => d.Code == SelectedDiNgoai.Code);
-            //if (dingoai == null)
-            //    return;
-            //dingoai.MaBuuCuc = SelectedBuuCuc;
-            if (string.IsNullOrEmpty(SelectedDiNgoai.MaTinh))
-                return;
-            SelectedDiNgoai.TenBuuCuc = SelectedBuuCuc;
-            SelectedDiNgoai.MaBuuCuc = SelectedBuuCuc.Substring(0, 6);
-
-
-        }
-
-        int count = 0;
-        private ObservableCollection<string> _BuuCucs;
-
-        public ObservableCollection<string> BuuCucs
-        {
-            get { return _BuuCucs; }
-            set { SetProperty(ref _BuuCucs, value); }
-        }
-
-
-        private DiNgoaiItemModel _SelectedDiNgoai;
-
-        public DiNgoaiItemModel SelectedDiNgoai
-        {
-            get { return _SelectedDiNgoai; }
-            set
-            {
-                SetProperty(ref _SelectedDiNgoai, value);
-                OnSelectedDiNgoai();
-            }
-        }
-
-        void OnSelectedDiNgoai()
-        {
-
-            if (SelectedDiNgoai == null)
-                return;
-            //chuyen vo cbx
-            BuuCucs.Clear();
-            List<string> listBuuCuc = getListBuuCucFromTinh(SelectedDiNgoai.MaTinh);
-            if (listBuuCuc.Count != 0)
-            {
-                foreach (string item in listBuuCuc)
-                {
-                    BuuCucs.Add(item);
-                }
-            }
-        }
-
-        List<string> getListBuuCucFromTinh(string maTinh)
-        {
-            List<string> buucucs = new List<string>();
-            for (int i = 0; i < FileManager.listBuuCuc.Count; i++)
-            {
-                if (maTinh == FileManager.listBuuCuc[i].Substring(0, 2))
-                {
-                    buucucs.Add(FileManager.listBuuCuc[i]);
-                }
-            }
-
-
-            return buucucs;
-        }
-
-        public ICommand AddAddressCommand { get; }
-        public ICommand ClearCommand { get; }
-        public ObservableCollection<DiNgoaiItemModel> DiNgoais
-        {
-            get { return _DiNgoais; }
-            set { SetProperty(ref _DiNgoais, value); }
-        }
-
-        private bool _isSayNumber = true;
-
-        public bool isSayNumber
-        {
-            get { return _isSayNumber; }
-            set { SetProperty(ref _isSayNumber, value); }
-        }
-
-
-        private bool _IsAutoF1 = true;
-
-        public bool IsAutoF1
-        {
-            get { return _IsAutoF1; }
-            set { SetProperty(ref _IsAutoF1, value); }
-        }
-
-        public bool IsExpanded
-        {
-            get { return _IsExpanded; }
-            set
-            {
-                SetProperty(ref _IsExpanded, value);
-
-                if (_IsExpanded == false)
-                {
-                    ThuHep();
-                }
-                else
-                {
-                    MoRong();
-                }
-            }
-        }
-
-        public ICommand MoRongCommand { get; }
-        public string TextCode
-        {
-            get { return _TextCode; }
-            set
-            {
-                SetProperty(ref _TextCode, value);
-                CheckEnterKey();
-            }
-        }
-
-        public ICommand XoaDiNgoaiCommand { get; }
-
-
-        void XoaDiNgoai()
-        {
-            if (SelectedDiNgoai == null)
-                return;
-            if (DiNgoais.Count == 0)
-                return;
-
-            DiNgoais.Remove(SelectedDiNgoai);
-        }
-
-        public ICommand ClearDiNgoaiCommand { get; }
-
-
-        void ClearDiNgoai()
-        {
-            DiNgoais.Clear();
-        }
-
-
-
-        public ICommand XoaCommand { get; }
-
-        void AddAddress()
-        {
-            if (DiNgoais.Count == 0)
-                return;
-
-            foreach (DiNgoaiItemModel diNgoaiItem in DiNgoais)
-            {
-                if (string.IsNullOrEmpty(diNgoaiItem.MaTinh))
-                {
-                    WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "LoadAddressWeb", Content = diNgoaiItem.Code });
-                    break;
-                }
-            }
-            //            if (chrWeb.IsBrowserInitialized)
-            //            {
-
-            //                chrWeb.Stop();
-            //            }
-            //            else
-            //            {
-            //                NavigateToWebControl();
-            //                return;
-            //            }
-            //            for (int i = 0; i < diNgoaiViewModel.diNgoais.Count; i++)
-            //            {
-            //                if (string.IsNullOrEmpty(diNgoaiViewModel.diNgoais[i].MaTinh))
-            //                {
-            //                    iCurrentItemDiNgoai = i;
-
-            //                    string script = @"
-            //                document.getElementById('MainContent_ctl00_txtID').value='" + diNgoaiViewModel.diNgoais[i].Code + @"';
-            //				document.getElementById('MainContent_ctl00_btnView').click();
-            //";
-            //                    txtInfo.Text = "Web Loadding " + iCurrentItemDiNgoai.ToString();
-            //                    chrWeb.ExecuteScriptAsync(script);
-            //                    break;
-            //                }
-            //            }
-        }
-
         void CheckEnterKey()
         {
             if (TextCode.IndexOf('\n') != -1)
@@ -357,9 +326,62 @@ namespace TaoBD10.ViewModels
 
         }
 
+        void ClearDiNgoai()
+        {
+            DiNgoais.Clear();
+        }
+
+        List<string> getListBuuCucFromTinh(string maTinh)
+        {
+            List<string> buucucs = new List<string>();
+            for (int i = 0; i < FileManager.listBuuCuc.Count; i++)
+            {
+                if (maTinh == FileManager.listBuuCuc[i].Substring(0, 2))
+                {
+                    buucucs.Add(FileManager.listBuuCuc[i]);
+                }
+            }
+
+
+            return buucucs;
+        }
+
         void MoRong()
         {
             WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Navigation", Content = "Center" });
+        }
+
+        private void OnSelectedBuuCuc()
+        {
+            if (SelectedDiNgoai == null)
+                return;
+            //DiNgoaiItemModel dingoai = DiNgoais.FirstOrDefault(d => d.Code == SelectedDiNgoai.Code);
+            //if (dingoai == null)
+            //    return;
+            //dingoai.MaBuuCuc = SelectedBuuCuc;
+            if (string.IsNullOrEmpty(SelectedDiNgoai.MaTinh))
+                return;
+            SelectedDiNgoai.TenBuuCuc = SelectedBuuCuc;
+            SelectedDiNgoai.MaBuuCuc = SelectedBuuCuc.Substring(0, 6);
+
+
+        }
+
+        void OnSelectedDiNgoai()
+        {
+
+            if (SelectedDiNgoai == null)
+                return;
+            //chuyen vo cbx
+            BuuCucs.Clear();
+            List<string> listBuuCuc = getListBuuCucFromTinh(SelectedDiNgoai.MaTinh);
+            if (listBuuCuc.Count != 0)
+            {
+                foreach (string item in listBuuCuc)
+                {
+                    BuuCucs.Add(item);
+                }
+            }
         }
 
         void ThuHep()
@@ -372,8 +394,24 @@ namespace TaoBD10.ViewModels
             //xu ly them phan trung index
         }
 
+        void XoaDiNgoai()
+        {
+            if (SelectedDiNgoai == null)
+                return;
+            if (DiNgoais.Count == 0)
+                return;
+
+            DiNgoais.Remove(SelectedDiNgoai);
+        }
+
+        private ObservableCollection<string> _BuuCucs;
         private ObservableCollection<DiNgoaiItemModel> _DiNgoais;
+        private bool _IsAutoF1 = true;
         private bool _IsExpanded = false;
+        private bool _isSayNumber = true;
+        private string _SelectedBuuCuc;
+        private DiNgoaiItemModel _SelectedDiNgoai;
         private string _TextCode;
+        int count = 0;
     }
 }

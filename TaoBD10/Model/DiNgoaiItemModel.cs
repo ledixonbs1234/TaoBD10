@@ -18,7 +18,8 @@ namespace TaoBD10.Model
 
         public string Address
         {
-            get { return _Address; }
+            get { return 
+                    _Address; }
             set { SetProperty(ref _Address, value); }
         }
 

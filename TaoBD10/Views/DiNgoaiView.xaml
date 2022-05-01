@@ -8,6 +8,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     DataContext="{StaticResource DiNgoaiVM}"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style x:Key="CellRightAlign">
+            <Setter Property="Control.HorizontalAlignment" Value="Right" />
+        </Style>
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="255" />
@@ -82,7 +87,7 @@
         <StackPanel Grid.Column="1">
             <DataGrid
                 Height="300"
-                materialDesign:DataGridAssist.CellPadding="4 7 4 7"
+                materialDesign:DataGridAssist.CellPadding="4 7 4 2"
                 materialDesign:DataGridAssist.ColumnHeaderPadding="4 2 2 2"
                 AutoGenerateColumns="False"
                 ItemsSource="{Binding DiNgoais}"
@@ -105,7 +110,13 @@
                         MaxWidth="300"
                         Binding="{Binding Address}"
                         Header="Địa Chỉ"
-                        IsReadOnly="True" />
+                        IsReadOnly="True">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="HorizontalAlignment" Value="Right" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
                     <DataGridTextColumn
                         Binding="{Binding MaBuuCuc}"
                         Header="Mã Bưu Cục"

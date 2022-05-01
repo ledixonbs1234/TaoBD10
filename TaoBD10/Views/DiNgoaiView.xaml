@@ -82,11 +82,14 @@
         <StackPanel Grid.Column="1">
             <DataGrid
                 Height="300"
+                materialDesign:DataGridAssist.CellPadding="4 7 4 7"
+                materialDesign:DataGridAssist.ColumnHeaderPadding="4 2 2 2"
                 AutoGenerateColumns="False"
                 ItemsSource="{Binding DiNgoais}"
                 SelectedItem="{Binding SelectedDiNgoai, Mode=OneWayToSource}">
                 <DataGrid.Columns>
                     <DataGridTextColumn
+                        Width="40"
                         Binding="{Binding Index}"
                         Header="Index"
                         IsReadOnly="True" />
@@ -99,7 +102,7 @@
                         Header="Mã Tỉnh"
                         IsReadOnly="False" />
                     <DataGridTextColumn
-                        MaxWidth="230"
+                        MaxWidth="300"
                         Binding="{Binding Address}"
                         Header="Địa Chỉ"
                         IsReadOnly="True" />

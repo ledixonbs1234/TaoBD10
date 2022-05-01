@@ -412,6 +412,18 @@ namespace TaoBD10.ViewModels
             SelectedDiNgoai.TenBuuCuc = SelectedBuuCuc;
             SelectedDiNgoai.MaBuuCuc = SelectedBuuCuc.Substring(0, 6);
 
+            //thuc hien qua cai tiep theo
+            foreach (DiNgoaiItemModel diNgoai in DiNgoais)
+            {
+                if (string.IsNullOrEmpty(diNgoai.MaBuuCuc))
+                {
+                    SelectedDiNgoai = diNgoai;
+                    break;
+                }
+
+            }
+
+
 
         }
 

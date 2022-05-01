@@ -184,7 +184,8 @@ namespace TaoBD10.ViewModels
 
         void AddRange()
         {
-            foreach (string item in TextsRange.Split('\n').Select(m=>m.Trim()))
+
+            foreach (string item in LocTextTho(TextsRange))
             {
                 if (string.IsNullOrEmpty(item))
                     continue;
@@ -216,6 +217,21 @@ namespace TaoBD10.ViewModels
             }
         }
 
+        private List<string> LocTextTho(string textsRange)
+        {
+            List<string> list = new List<string>();
+            var datas =textsRange.Split('\n');
+            foreach (string data in datas)
+            {
+                if (data.Count()<13)
+                    continue;
+                var indexVN = data.ToUpper().IndexOf("VN");
+                if (indexVN - 11 < 0)
+                    continue;
+                list.Add(data.Substring(indexVN - 11, 13));
+            }
+            return list;
+        }
 
         private void AutoSetBuuCuc(DiNgoaiItemModel diNgoai)
         {

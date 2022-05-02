@@ -27,7 +27,7 @@ namespace TaoBD10.ViewModels
             timerPrint = new DispatcherTimer();
             timerPrint.Interval = new TimeSpan(0, 0, 0, 0, 50);
             timerPrint.Tick += TimerPrint_Tick;
-timerDiNgoai = new DispatcherTimer();
+            timerDiNgoai = new DispatcherTimer();
             timerDiNgoai.Interval = new TimeSpan(0, 0, 0, 0, 50);
             timerDiNgoai.Tick += TimerDiNgoai_Tick; ;
 
@@ -57,7 +57,7 @@ timerDiNgoai = new DispatcherTimer();
 
             WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>
             {
-                if(m.Key == "RunPrintDiNgoai")
+                if (m.Key == "RunPrintDiNgoai")
                 {
                     timerPrint.Start();
                 }
@@ -542,7 +542,7 @@ timerDiNgoai = new DispatcherTimer();
         private void OnSelectedSimple()
         {
             timerDiNgoai.Start();
-            WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel("Snackbar", "Dang chon tinh"));
+            WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Snackbar", Content = "Dang chon tinh" });
             //thuc hien
         }
 
@@ -627,7 +627,7 @@ timerDiNgoai = new DispatcherTimer();
             {
                 if (string.IsNullOrEmpty(diNgoaiItem.MaTinh))
                 {
-                    WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "LoadAddressWeb", Content = diNgoaiItem.Code });
+                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "LoadAddressWeb", Content = diNgoaiItem.Code });
                     break;
                 }
             }

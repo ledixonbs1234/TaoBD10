@@ -86,6 +86,8 @@ namespace TaoBD10.ViewModels
             {
                 if (!string.IsNullOrEmpty(diNgoaiItem.Code))
                 {
+                    if (diNgoaiItem.Code.Length != 13)
+                        continue;
                     if (!string.IsNullOrEmpty(diNgoaiItem.Address))
                         continue;
 

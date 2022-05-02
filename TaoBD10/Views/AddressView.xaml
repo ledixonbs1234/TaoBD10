@@ -68,7 +68,7 @@
                 <Button
                     Margin="5"
                     Command="{Binding LayDiaChiCommand}"
-                    Content="Lọc" />
+                    Content="Lấy Địa Chỉ" />
             </StackPanel>
 
 

@@ -143,10 +143,12 @@
     <Compile Include="Model\ChuyenThuModel.cs" />
     <Compile Include="Model\DiNgoaiItemModel.cs" />
     <Compile Include="Model\HangHoaDetailModel.cs" />
+    <Compile Include="Model\SHTuiCodeModel.cs" />
     <Compile Include="Model\SnackbarModel.cs" />
     <Compile Include="Model\TuiHangHoa.cs" />
     <Compile Include="Model\TuiXacNhanModel.cs" />
     <Compile Include="Model\WebContentModel.cs" />
+    <Compile Include="ViewModels\AddressViewModel.cs" />
     <Compile Include="ViewModels\ChinhViewModel.cs" />
     <Compile Include="ViewModels\ChiTietViewModel.cs" />
     <Compile Include="ViewModels\DanhSachViewModel.cs" />
@@ -159,6 +161,9 @@
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MoRong.cs" />
     <Compile Include="ViewModels\WebViewModel.cs" />
+    <Compile Include="Views\AddressView.xaml.cs">
+      <DependentUpon>AddressView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ChinhView.xaml.cs">
       <DependentUpon>ChinhView.xaml</DependentUpon>
     </Compile>
@@ -208,6 +213,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="ResourceXAML\MainResource.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AddressView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

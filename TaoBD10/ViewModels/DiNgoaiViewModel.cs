@@ -42,6 +42,8 @@ namespace TaoBD10.ViewModels
             AddAddressCommand = new RelayCommand(AddAddress);
             WeakReferenceMessenger.Default.Register<WebContentModel>(this, (r, m) =>
             {
+                if (m.Key != "DiNgoaiAddress")
+                    return;
                 DiNgoaiItemModel diNgoai = DiNgoais.FirstOrDefault(c => m.Code.IndexOf(c.Code.ToUpper()) != -1);
                 if (diNgoai != null)
                 {

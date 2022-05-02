@@ -13,4 +13,5 @@
     <viewmodel:WebViewModel x:Key="WebVM" />
     <viewmodel:LayBDHAViewModel x:Key="LayBDHAVM" />
     <viewmodel:DiNgoaiViewModel x:Key="DiNgoaiVM" />
+    <viewmodel:AddressViewModel x:Key="AddressVM" />
 </ResourceDictionary>

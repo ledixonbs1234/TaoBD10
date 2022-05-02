@@ -34,6 +34,7 @@
             DiNgoai,
             DiNgoaiAddress,
             None,
+            CodeFromBD,
             TamQuan,
             AddressTamQuan
         }

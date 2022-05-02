@@ -9,6 +9,7 @@ namespace TaoBD10.Model
 {
     public class WebContentModel : ObservableObject
     {
+        public string Key { get; set; }
         public string Code { get; set; }
         public string AddressSend { get; set; }
         public string AddressReiceive { get; set; }

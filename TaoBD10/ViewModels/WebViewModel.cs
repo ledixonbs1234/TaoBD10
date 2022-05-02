@@ -17,17 +17,6 @@ namespace TaoBD10.ViewModels
 {
     public class WebViewModel : ObservableObject
     {
-        public IRelayCommand<ChromiumWebBrowser> LoadPageCommand;
-
-        private ChromiumWebBrowser _WebBrowser;
-        private LoadWebChoose _LoadWebChoose = LoadWebChoose.None;
-
-        public ChromiumWebBrowser WebBrowser
-        {
-            get { return _WebBrowser; }
-            set { SetProperty(ref _WebBrowser, value); }
-        }
-
         public WebViewModel()
         {
             LoadPageCommand = new RelayCommand<ChromiumWebBrowser>(LoadPage);
@@ -39,43 +28,20 @@ namespace TaoBD10.ViewModels
                 {
                     _LoadWebChoose = LoadWebChoose.DiNgoaiAddress;
                     LoadAddressDiNgoai(m.Content);
+                }else if (m.Key == "LoadAddressTQWeb")
+                {
+                    _LoadWebChoose = LoadWebChoose.AddressTamQuan;
+                    LoadAddressDiNgoai(m.Content);
+                }
+                else if (m.Key == "GetCodeFromBD")
+                {
+                    _LoadWebChoose = LoadWebChoose.CodeFromBD;
+                    LoadAddressDiNgoai(m.Content);
                 }
             });
 
 
         }
-
-
-        void LoadAddressDiNgoai(string code)
-        {
-        
-            string script = @"
-                                document.getElementById('MainContent_ctl00_txtID').value='" + code + @"';
-                				document.getElementById('MainContent_ctl00_btnView').click();
-                ";
-            IsLoadedWeb = false;
-            WebBrowser.ExecuteScriptAsync(script);
-        }
-
-        void Login()
-        {
-            string script = @"
-                     document.getElementById('MainContent_txtUser').value='593280';
-            		document.getElementById('MainContent_txtPassword').value='593280';
-            		document.getElementById('MainContent_btnLogin').click();
-";
-            
-            WebBrowser.ExecuteScriptAsync(script);
-        }
-        bool isInitializeWeb = false;
-
-        /// <summary>
-        /// Chi load web 1 lan
-        /// </summary>
-        bool IsLoadedWeb = false;
-
-        private string _AddressWeb = "https://bccp.vnpost.vn/BCCP.aspx?act=Trace";
-        bool isInitilizeWeb = false;
 
         public string AddressWeb
         {
@@ -88,6 +54,39 @@ namespace TaoBD10.ViewModels
                     WebBrowser.LoadingStateChanged += WebBrowser_LoadingStateChanged;
                 }
             }
+        }
+
+        public ICommand LoginCommand { get; }
+        public ChromiumWebBrowser WebBrowser
+        {
+            get { return _WebBrowser; }
+            set { SetProperty(ref _WebBrowser, value); }
+        }
+
+        void LoadAddressDiNgoai(string code)
+        {
+
+            string script = @"
+                                document.getElementById('MainContent_ctl00_txtID').value='" + code + @"';
+                				document.getElementById('MainContent_ctl00_btnView').click();
+                ";
+            IsLoadedWeb = false;
+            WebBrowser.ExecuteScriptAsync(script);
+        }
+
+        void LoadPage(ChromiumWebBrowser web)
+        {
+        }
+
+        void Login()
+        {
+            string script = @"
+                     document.getElementById('MainContent_txtUser').value='593280';
+            		document.getElementById('MainContent_txtPassword').value='593280';
+            		document.getElementById('MainContent_btnLogin').click();
+";
+
+            WebBrowser.ExecuteScriptAsync(script);
         }
 
         private async void WebBrowser_LoadingStateChanged(object sender, LoadingStateChangedEventArgs e)
@@ -142,7 +141,7 @@ document.getElementsByClassName("".footer"").remove();
                     string html = await WebBrowser.GetSourceAsync();
 
                     //kiem tra thu co no khong
-                    if (_LoadWebChoose == LoadWebChoose.DiNgoaiAddress)
+                    if (_LoadWebChoose == LoadWebChoose.DiNgoaiAddress|| _LoadWebChoose == LoadWebChoose.AddressTamQuan)
                     {
                         Regex regex = new Regex(@"MainContent_ctl00_lblBarcode"">((\w|\W)+?)<");
                         var match = regex.Match(html);
@@ -165,7 +164,7 @@ document.getElementsByClassName("".footer"").remove();
                         }
 
                         string addressR = new Regex(@"MainContent_ctl00_lblReceiverAddr(\W|\w)+?>((\W|\w)+?)<").Match(html).Groups[2].Value;
-                        string addressS = new Regex(@"MainContent_ctl00_lblSenderAddr(\W|\w)+?>((\W|\w)+?)<").Match(html).Groups[2].Value; 
+                        string addressS = new Regex(@"MainContent_ctl00_lblSenderAddr(\W|\w)+?>((\W|\w)+?)<").Match(html).Groups[2].Value;
                         string buuCucGui = new Regex(@"MainContent_ctl00_lblFrPOS(\W|\w)+?>((\W|\w)+?)<").Match(html).Groups[2].Value;
                         if (string.IsNullOrEmpty(addressR))
                         {
@@ -176,18 +175,56 @@ document.getElementsByClassName("".footer"").remove();
                         webContent.AddressSend = addressS;
                         webContent.BuuCucPhat = matchMaTinh;
                         webContent.BuuCucGui = buuCucGui;
+                        if (_LoadWebChoose == LoadWebChoose.DiNgoaiAddress)
+                            webContent.Key = "DiNgoaiAddress";
+                        else if (_LoadWebChoose == LoadWebChoose.AddressTamQuan)
+                            webContent.Key = "AddressTamQuan";
                         //Thuc hien send Web content qua do
                         WeakReferenceMessenger.Default.Send<WebContentModel>(webContent);
+                    }
+                    else if (_LoadWebChoose == LoadWebChoose.CodeFromBD)
+                    {
+                        Regex regex = new Regex(@"MainContent_ctl00_lblBarcode"">((\w|\W)+?)<");
+                        var match = regex.Match(html);
+                        string barcodeWeb = match.Groups[1].Value;
+                        if (string.IsNullOrEmpty(barcodeWeb))
+                        {
+                            //txtInfo.Text = "Lỗi ! Chạy Lại";
+                            return;
+                        }
+
+
+                        Regex regexMaTinh = new Regex(@"<a href=""\/BCCP.aspx\?act=Trace(\w|\W)+?"" title=""Xem chi tiết"">((\w|\W)+?)<\/a>");
+                        var matchMaTinh = regexMaTinh.Matches(html);
+                        if (matchMaTinh.Count != 1)
+                        {
+                            //gui ve la khong co tui trong nay
+                            WeakReferenceMessenger.Default.Send<SHTuiMessage>(new SHTuiMessage(new SHTuiCodeModel { Key = "ReturnSHTui", Code = "NULL", SHTui = barcodeWeb }));
+                        }
+                        else
+                        {
+                            var giatri = matchMaTinh[0].Groups[2].Value;
+                            //thuc hien viec luu gia tri hien tai
+
+                            WeakReferenceMessenger.Default.Send<SHTuiMessage>(new SHTuiMessage(new SHTuiCodeModel { Key = "ReturnSHTui", Code = giatri, SHTui = barcodeWeb }));
+                        }
                     }
                 }
             }
         }
 
-        public ICommand LoginCommand { get; }
+        public IRelayCommand<ChromiumWebBrowser> LoadPageCommand;
 
+        private string _AddressWeb = "https://bccp.vnpost.vn/BCCP.aspx?act=Trace";
+        private LoadWebChoose _LoadWebChoose = LoadWebChoose.None;
+        private ChromiumWebBrowser _WebBrowser;
+        bool isInitializeWeb = false;
 
-        void LoadPage(ChromiumWebBrowser web)
-        {
-        }
+        bool isInitilizeWeb = false;
+
+        /// <summary>
+        /// Chi load web 1 lan
+        /// </summary>
+        bool IsLoadedWeb = false;
     }
 }

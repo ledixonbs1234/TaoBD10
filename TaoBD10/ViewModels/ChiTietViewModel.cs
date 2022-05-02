@@ -45,6 +45,14 @@ namespace TaoBD10.ViewModels
             set { SetProperty(ref _NConLai, value); }
         }
 
+        private string _TextCurrentChuyenThu;
+
+        public string TextCurrentChuyenThu
+        {
+            get { return _TextCurrentChuyenThu; }
+            set { SetProperty(ref _TextCurrentChuyenThu, value); }
+        }
+
 
         public string NameTinhCurrent
         {
@@ -77,7 +85,7 @@ namespace TaoBD10.ViewModels
             if (selected == null)
                 return;
             CurrentSelectedHangHoaDetail = selected;
-            if(selected.TrangThaiBD == TrangThaiBD.ChuaChon)
+            if (selected.TrangThaiBD == TrangThaiBD.ChuaChon)
             {
                 selected.TrangThaiBD = TrangThaiBD.DaChon;
             }
@@ -150,9 +158,20 @@ namespace TaoBD10.ViewModels
 
             WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>
             {
-                if(m.Key == "Navigation" && m.Content=="PrintDiNgoai")
+                if (m.Key == "Navigation" && m.Content == "PrintDiNgoai")
                 {
                     PrintDiNgoai();
+                }
+                else if (m.Key == "LayHangHoa")
+                {
+                    //thuc hien lay hang hoa trong nay
+                    if (currentListHangHoa == null)
+                        return;
+                    List<HangHoaDetailModel> data = currentListHangHoa.FindAll(n => n.PhanLoai == PhanLoaiTinh.KTHN || n.PhanLoai == PhanLoaiTinh.BCPHN);
+                    if (data == null)
+                        return;
+
+                    WeakReferenceMessenger.Default.Send<TuiHangHoaMessage>(new TuiHangHoaMessage(data));
                 }
             });
 
@@ -227,7 +246,7 @@ namespace TaoBD10.ViewModels
                     {
                         if (countTemp == 9)
                         {
-                            countCurrentTui = int.Parse(APIManager. GetControlText(item));
+                            countCurrentTui = int.Parse(APIManager.GetControlText(item));
                         }
                         countTemp++;
                     }
@@ -243,7 +262,7 @@ namespace TaoBD10.ViewModels
             }
 
 
-            bool isRightBD10 = true; 
+            bool isRightBD10 = true;
             switch (currentTinh)
             {
                 case PhanLoaiTinh.None:
@@ -344,7 +363,7 @@ namespace TaoBD10.ViewModels
                     {
                         if (countTemp == 9)
                         {
-                            lastCountTuiHienTai = int.Parse(APIManager. GetControlText(item));
+                            lastCountTuiHienTai = int.Parse(APIManager.GetControlText(item));
                         }
                         countTemp++;
                     }
@@ -417,7 +436,7 @@ namespace TaoBD10.ViewModels
             SendKeys.SendWait(" ");
 
 
-            WindowInfo infoDocument = WaitingFindedWindow("Print Document", 3,true);
+            WindowInfo infoDocument = WaitingFindedWindow("Print Document", 3, true);
             if (infoDocument == null)
                 return;
 
@@ -439,20 +458,20 @@ namespace TaoBD10.ViewModels
                     }
                 }
             }
-            WindowInfo infoPrint = WaitingFindedWindow("Print", 3,true);
+            WindowInfo infoPrint = WaitingFindedWindow("Print", 3, true);
             if (infoPrint == null)
                 return;
 
             SendKeys.SendWait("%(p)");
 
 
-            WindowInfo infoPrintDocument = WaitingFindedWindow("Print Document", 3,true);
-            if (infoPrintDocument == null) 
-            return;
+            WindowInfo infoPrintDocument = WaitingFindedWindow("Print Document", 3, true);
+            if (infoPrintDocument == null)
+                return;
 
             Thread.Sleep(1500);
 
-            if(CurrentSelectedHangHoaDetail != null)
+            if (CurrentSelectedHangHoaDetail != null)
             {
                 CurrentSelectedHangHoaDetail.TrangThaiBD = TrangThaiBD.DaIn;
             }
@@ -471,7 +490,7 @@ namespace TaoBD10.ViewModels
 
 
 
-        WindowInfo WaitingFindedWindow(string title, int time,bool isExactly = false)
+        WindowInfo WaitingFindedWindow(string title, int time, bool isExactly = false)
         {
             WindowInfo currentWindow = null;
             string titleWindow = "";
@@ -598,7 +617,7 @@ namespace TaoBD10.ViewModels
         private PhanLoaiTinh currentTinh = PhanLoaiTinh.None;
         private void SelectedTinh(PhanLoaiTinh phanLoaiTinh)
         {
-            if(currentListHangHoa == null)
+            if (currentListHangHoa == null)
             {
                 return;
             }
@@ -608,10 +627,10 @@ namespace TaoBD10.ViewModels
                 currentTinh = phanLoaiTinh;
 
                 ListShowHangHoa = new ObservableCollection<HangHoaDetailModel>();
-                
+
                 foreach (HangHoaDetailModel hangHoa in data)
                 {
-                    if(phanLoaiTinh== PhanLoaiTinh.KTHN || phanLoaiTinh == PhanLoaiTinh.BCPHN)
+                    if (phanLoaiTinh == PhanLoaiTinh.KTHN || phanLoaiTinh == PhanLoaiTinh.BCPHN)
                     {
                         string temp = APIManager.convertToUnSign3(hangHoa.TuiHangHoa.DichVu).ToLower();
                         string temp1 = APIManager.convertToUnSign3(hangHoa.TuiHangHoa.PhanLoai).ToLower();
@@ -686,11 +705,13 @@ namespace TaoBD10.ViewModels
 
                 case PhanLoaiTinh.KTHN:
                     textTemp = "Khai Thác Hoài Nhơn";
+                    TextCurrentChuyenThu = "593230";
                     currentBuuCuc = BuuCuc.KT;
                     break;
 
                 case PhanLoaiTinh.BCPHN:
                     textTemp = "Bưu Cục Phát Hoài Nhơn";
+                    TextCurrentChuyenThu = "593280";
                     currentBuuCuc = BuuCuc.BCP;
                     break;
 

@@ -15,7 +15,8 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="70" />
-            <RowDefinition Height="196*" />
+            <RowDefinition Height="50" />
+            <RowDefinition />
         </Grid.RowDefinitions>
         <StackPanel
             Grid.Row="0"
@@ -50,20 +51,29 @@
                     ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
             </StackPanel>
         </StackPanel>
-        <DataGrid
-            SelectionMode="Single"
-            x:Name="dataGrid"
+        <TextBlock
             Grid.Row="1"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Foreground="#007ac1"
+            Style="{StaticResource MaterialDesignHeadline4TextBlock}"
+            Text="{Binding TextCurrentChuyenThu}" />
+        <DataGrid
+            x:Name="dataGrid"
+            Grid.Row="2"
+            Grid.RowSpan="2"
             materialDesign:DataGridAssist.CellPadding="4 7 2 7"
             materialDesign:DataGridAssist.ColumnHeaderPadding="4 2 2 2"
+            AutoGenerateColumns="False"
             CanUserAddRows="False"
             CanUserSortColumns="False"
             IsReadOnly="True"
             ItemsSource="{Binding ListShowHangHoa}"
-            SelectedItem="{Binding SelectedTui, Mode=OneWayToSource}">
+            SelectedItem="{Binding SelectedTui, Mode=OneWayToSource}"
+            SelectionMode="Single">
             <Behaviors:Interaction.Triggers>
                 <Behaviors:EventTrigger EventName="MouseLeftButtonUp">
-                    <Behaviors:InvokeCommandAction Command="{Binding SelectionCommand}" CommandParameter="{Binding SelectedItem, ElementName=dataGrid}"  />
+                    <Behaviors:InvokeCommandAction Command="{Binding SelectionCommand}" CommandParameter="{Binding SelectedItem, ElementName=dataGrid}" />
                 </Behaviors:EventTrigger>
             </Behaviors:Interaction.Triggers>
             <DataGrid.RowStyle>

@@ -13,6 +13,7 @@
     Height="450"
     DataContext="{StaticResource MainVM}"
     ResizeMode="NoResize"
+    Topmost="True"
     WindowStyle="None"
     mc:Ignorable="d">
     <Behaviors:Interaction.Triggers>
@@ -142,6 +143,10 @@
                     <TabItem Header="Lọc Túi">
                         <view:LocTuiView />
                     </TabItem>
+                    <TabItem Header="Get Address">
+                        <view:AddressView />
+                    </TabItem>
+
                 </TabControl>
             </TabItem>
         </TabControl>

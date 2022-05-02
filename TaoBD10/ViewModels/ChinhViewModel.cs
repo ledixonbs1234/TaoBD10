@@ -1,5 +1,6 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,8 +46,12 @@ namespace TaoBD10.ViewModels
             TamQuanCommand = new RelayCommand(TamQuan);
             LayDuLieuCommand = new RelayCommand(LayDuLieu);
 
+           
+
 
         }
+
+        
 
         public ICommand LayDuLieuCommand { get; }
 

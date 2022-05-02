@@ -8,7 +8,8 @@ namespace TaoBD10.Model
         public TuiHangHoa TuiHangHoa { get; set; }
         //public TrangThaiBD TrangThaiBD { get; set; } = TrangThaiBD.ChuaChon;
         private TrangThaiBD _TrangThaiBD = Manager.EnumAll.TrangThaiBD.ChuaChon;
-
+        public string Address { get; set; }
+        public string Code { get; set; }
         public TrangThaiBD TrangThaiBD
         {
             get { return _TrangThaiBD; }

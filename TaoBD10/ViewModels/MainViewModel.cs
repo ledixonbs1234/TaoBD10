@@ -764,7 +764,8 @@ namespace TaoBD10.ViewModels
                     break;
 
                 case 1:
-                    SetDanhSachBD10Window();
+                    //SetDanhSachBD10Window();
+                    SetChiTietWindow();
                     currentTab = CurrentTab.DanhSach;
 
                     break;

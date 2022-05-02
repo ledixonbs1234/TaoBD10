@@ -10,9 +10,23 @@ namespace TaoBD10.Model
         }
     }
 
+    public class TuiHangHoaMessage : ValueChangedMessage<List<HangHoaDetailModel>>
+    {
+        public TuiHangHoaMessage(List<HangHoaDetailModel> list) : base(list)
+        {
+        }
+    }
+
     public class ContentMessage : ValueChangedMessage<ContentModel>
     {
         public ContentMessage(ContentModel content):base (content)
+        {
+
+        }
+    }
+    public class SHTuiMessage : ValueChangedMessage<SHTuiCodeModel>
+    {
+        public SHTuiMessage(SHTuiCodeModel content) : base(content)
         {
 
         }

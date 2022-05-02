@@ -16,6 +16,15 @@ namespace TaoBD10.Model
             set { SetProperty(ref _Address, value); }
         }
 
+        private bool _IsTamQuan = true;
+
+        public bool IsTamQuan
+        {
+            get { return _IsTamQuan; }
+            set { SetProperty(ref _IsTamQuan, value); }
+        }
+
+
         private string _Code;
 
         public string Code

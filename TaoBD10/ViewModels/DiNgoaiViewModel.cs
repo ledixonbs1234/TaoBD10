@@ -61,6 +61,7 @@ namespace TaoBD10.ViewModels
             {
                 if (m.Key == "RunPrintDiNgoai")
                 {
+                    stateDiNgoai = StateDiNgoai.KhoiTao;
                     timerPrint.Start();
                 }
 
@@ -137,7 +138,11 @@ namespace TaoBD10.ViewModels
                     Thread.Sleep(200);
 
                     //Nhan F1 ngang cho nay
-                    SendKeys.SendWait("{F1}");
+                    if (IsAutoF1)
+                    {
+                        SendKeys.SendWait("{F1}");
+                    }
+                   
                 }
                 else
                 {
@@ -168,7 +173,7 @@ namespace TaoBD10.ViewModels
         private void TimerPrint_Tick(object sender, EventArgs e)
         {
             if (isWaitingDiNgoai) return;
-
+            APIManager.showTest("1");
             var currentWindow = APIManager.GetActiveWindowTitle();
             if (currentWindow == null)
             {
@@ -178,6 +183,7 @@ namespace TaoBD10.ViewModels
             switch (stateDiNgoai)
             {
                 case StateDiNgoai.KhoiTao:
+                    APIManager.showTest("2");
                     if (currentWindow.text.IndexOf("khoi tao chuyen thu") != -1)
                     {
                         isWaitingDiNgoai = true;
@@ -198,7 +204,7 @@ namespace TaoBD10.ViewModels
                                 }
                             }
                         }
-
+                       APIManager.showTest("3");
                         APIManager.SendMessage(loadDiNgoai, 0x0007, 0, 0);
                         APIManager.SendMessage(loadDiNgoai, 0x0007, 0, 0);
                         string temp = "";
@@ -221,10 +227,12 @@ namespace TaoBD10.ViewModels
                         }
 
                         SendKeys.SendWait("{BS}" + temp + "{TAB}");
+                        Thread.Sleep(100);
                         SendKeys.SendWait("{F10}");
                         stateDiNgoai = StateDiNgoai.TaoTui;
                         isRunFirst = false;
                         isWaitingDiNgoai = false;
+                        APIManager.showTest("4");
                     }
                     break;
 
@@ -236,7 +244,7 @@ namespace TaoBD10.ViewModels
                             isRunFirst = true;
                             return;
                         }
-
+                        APIManager.showTest("5");
                         isWaitingDiNgoai = true;
                         SendKeys.SendWait("{UP}{UP}{UP}{UP}{UP}");
                         for (int i = 0; i < downTaoTui; i++)
@@ -250,6 +258,7 @@ namespace TaoBD10.ViewModels
                         //stateDiNgoai = StateDiNgoai.MoLaiTiep;
                         isWaitingDiNgoai = false;
                         isRunFirst = false;
+                        APIManager.showTest("6");
                     }
                     break;
 
@@ -261,7 +270,7 @@ namespace TaoBD10.ViewModels
                             isRunFirst = true;
                             return;
                         }
-
+                        APIManager.showTest("7");
                         isWaitingDiNgoai = true;
                         for (int i = 0; i < 20; i++)
                         {
@@ -300,7 +309,7 @@ namespace TaoBD10.ViewModels
                                 SendKeys.SendWait("{LEFT}");
                                 SendKeys.SendWait(" ");
                                 Thread.Sleep(500);
-
+                                APIManager.showTest("11");
                                 //Kiem tra Da dong tui chua
                                 SendKeys.SendWait("^C");
                                 Thread.Sleep(200);
@@ -309,19 +318,22 @@ namespace TaoBD10.ViewModels
                                 {
                                     isWaitingDiNgoai = false;
                                     timerPrint.Stop();
-
+                                    WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Snackbar", Content = "Lỗi chưa chọn" });
+                                    APIManager.showTest("8");
                                     return;
                                 }
 
                                 SendKeys.SendWait("{F6}");
                                 Thread.Sleep(200);
                                 SendKeys.SendWait("{F7}");
+                                APIManager.showTest("10");
                                 break;
                             }
                         }
                         stateDiNgoai = StateDiNgoai.In;
                         isRunFirst = false;
                         isWaitingDiNgoai = false;
+                        APIManager.showTest("9");
                     }
 
                     break;

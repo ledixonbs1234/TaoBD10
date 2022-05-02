@@ -10,6 +10,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using TaoBD10.Manager;
 using TaoBD10.Model;
 using static TaoBD10.Manager.EnumAll;
 
@@ -65,7 +66,12 @@ namespace TaoBD10.ViewModels
 
         void LoadAddressDiNgoai(string code)
         {
-
+            //if (!WebBrowser.IsBrowserInitialized)
+            //{
+            //    //thuc hien navigate
+            //    WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Navigation", Content = "Web" });
+            //    return;
+            //}
             string script = @"
                                 document.getElementById('MainContent_ctl00_txtID').value='" + code + @"';
                 				document.getElementById('MainContent_ctl00_btnView').click();
@@ -162,10 +168,20 @@ document.getElementsByClassName("".footer"").remove();
                             WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Snackbar", Content = "Chưa có mã Tỉnh" });
                             return;
                         }
-
+                        APIManager.showTest("?");
+                        var watch = System.Diagnostics.Stopwatch.StartNew();
+                        // the code that you want to measure comes here
+                        
                         string addressR = new Regex(@"MainContent_ctl00_lblReceiverAddr(\W|\w)+?>((\W|\w)+?)<").Match(html).Groups[2].Value;
+                        
+
                         string addressS = new Regex(@"MainContent_ctl00_lblSenderAddr(\W|\w)+?>((\W|\w)+?)<").Match(html).Groups[2].Value;
+                       
                         string buuCucGui = new Regex(@"MainContent_ctl00_lblFrPOS(\W|\w)+?>((\W|\w)+?)<").Match(html).Groups[2].Value;
+                        
+                        watch.Stop();
+                        APIManager.showTest(watch.ElapsedMilliseconds.ToString());
+                        APIManager.showTest("?");
                         if (string.IsNullOrEmpty(addressR))
                         {
                             WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Snackbar", Content = "Không có địa chỉ" });

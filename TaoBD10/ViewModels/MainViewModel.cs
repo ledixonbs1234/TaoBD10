@@ -25,8 +25,8 @@ namespace TaoBD10.ViewModels
             OnCloseWindowCommand = new RelayCommand(OnCloseWindow);
             SmallerWindowCommand = new RelayCommand(SmallerWindow);
             DefaultWindowCommand = new RelayCommand<System.Windows.Controls.TabControl>(DefaultWindow);
-        ToggleWindowCommand = new RelayCommand(ToggleWindow);
-        TabTuiChangedCommand = new RelayCommand<System.Windows.Controls.TabControl>(TabTuiChanged);
+            ToggleWindowCommand = new RelayCommand(ToggleWindow);
+            TabTuiChangedCommand = new RelayCommand<System.Windows.Controls.TabControl>(TabTuiChanged);
 
             timerRead = new DispatcherTimer();
             timerRead.Interval = new TimeSpan(2000);
@@ -45,19 +45,26 @@ namespace TaoBD10.ViewModels
                     if (m.Content == "GoChiTiet")
                     {
                         IndexTabControl = 2;
-                    }else if(m.Content == "Center")
+                    }
+                    else if (m.Content == "Center")
                     {
                         SetChiTietWindow();
 
-                    }else if (m.Content == "SmallRight")
+                    }
+                    else if (m.Content == "SmallRight")
                     {
                         SetRightHeigtTuiWindow();
+                    }else if(m.Content == "Web")
+                    {
+                        if (tabTuiControl != null)
+                            tabTuiControl.SelectedIndex = 1;
                     }
                 }
                 else if (m.Key == "Snackbar")
                 {
                     MessageShow(m.Content);
-                }            });
+                }
+            });
         }
         bool isHaveError = false;
         string maSoBuuCucCurrent = "";
@@ -80,7 +87,8 @@ namespace TaoBD10.ViewModels
             {
                 isSmallWindow = false;
                 DefaultWindowCommand.Execute(null);
-            }else
+            }
+            else
             {
                 isSmallWindow = true;
                 SmallerWindowCommand.Execute(null);
@@ -584,14 +592,17 @@ namespace TaoBD10.ViewModels
         public ICommand TabTuiChangedCommand { get; }
 
         int lastSelectedTabTui = 0;
+        private System.Windows.Controls.TabControl tabTuiControl;
         void TabTuiChanged(System.Windows.Controls.TabControl tabControl)
         {
             if (tabControl == null)
                 return;
-            if(tabControl.SelectedIndex != lastSelectedTabTui)
+            tabTuiControl = tabControl;
+            if (tabControl.SelectedIndex != lastSelectedTabTui)
             {
                 lastSelectedTabTui = tabControl.SelectedIndex;
-            }else
+            }
+            else
             {
                 return;
             }
@@ -620,7 +631,7 @@ namespace TaoBD10.ViewModels
                 case 3:
                     //currentTab = CurrentTab.ThuGon;
 
-            DefaultWindowCommand.Execute(null);
+                    DefaultWindowCommand.Execute(null);
                     break;
                 case 4:
                     //currentTab = CurrentTab.LayChuyenThu;
@@ -628,7 +639,7 @@ namespace TaoBD10.ViewModels
 
                 case 5:
                     break;
-                    //currentTab = CurrentTab.LocTui;
+                //currentTab = CurrentTab.LocTui;
                 case 6:
                     break;
 
@@ -643,6 +654,9 @@ namespace TaoBD10.ViewModels
         private void OnKeyPress(object sender, KeyPressedArgs e)
         {
             CountInBD += e.KeyPressed.ToString();
+            //thuc hien kiem tra cua so active hien tai
+
+
             switch (e.KeyPressed)
             {
                 case Key.F8:
@@ -650,18 +664,23 @@ namespace TaoBD10.ViewModels
                     WeakReferenceMessenger.Default.Send<MessageManager>(new MessageManager("getData"));
                     break;
                 case Key.F5:
-                    if (currentTab == CurrentTab.ThuGon)
+                    var currentWindow = APIManager.GetActiveWindowTitle();
+                    if (currentWindow == null)
                     {
-                        //thuc hien liet ke danh sach 
-
+                        return;
                     }
-                    else if (currentTab == CurrentTab.LayChuyenThu)
+                    if (currentWindow.text.IndexOf("thong tin buu gui") != -1)
                     {
                         WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Navigation", Content = "PrintDiNgoai" });
                     }
+
                     break;
                 case Key.F1:
-                    WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "RunPrintDiNgoai", Content = "PrintDiNgoai" });
+                    var currentWindow1 = APIManager.GetActiveWindowTitle();
+                    if (currentWindow1 == null)
+                        return;
+                    if (currentWindow1.text.IndexOf("khoi tao chuyen thu") != -1)
+                        WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "RunPrintDiNgoai", Content = "PrintDiNgoai" });
                     break;
 
                 default:

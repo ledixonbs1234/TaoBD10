@@ -29,7 +29,7 @@
             SelectedItem="{Binding SelectedDiNgoai, Mode=OneWayToSource}"
             SelectionMode="Single">
             <DataGrid.Columns>
-                <DataGridCheckBoxColumn Header="Choose" />
+                <DataGridCheckBoxColumn Header="Choose" Binding="{Binding IsTamQuan}" />
 
                 <DataGridTextColumn
                     Binding="{Binding TuiHangHoa.SHTui}"

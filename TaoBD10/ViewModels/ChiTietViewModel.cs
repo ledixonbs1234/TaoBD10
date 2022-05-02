@@ -167,9 +167,21 @@ namespace TaoBD10.ViewModels
                     //thuc hien lay hang hoa trong nay
                     if (currentListHangHoa == null)
                         return;
-                    List<HangHoaDetailModel> data = currentListHangHoa.FindAll(n => n.PhanLoai == PhanLoaiTinh.KTHN || n.PhanLoai == PhanLoaiTinh.BCPHN);
-                    if (data == null)
+                    List<HangHoaDetailModel> tempData = currentListHangHoa.FindAll(n => n.PhanLoai == PhanLoaiTinh.KTHN || n.PhanLoai == PhanLoaiTinh.BCPHN);
+                    if (tempData == null)
                         return;
+                    List<HangHoaDetailModel> data = new List<HangHoaDetailModel>();
+
+                    foreach (HangHoaDetailModel hangHoa in tempData)
+                    {
+                        string temp = APIManager.convertToUnSign3(hangHoa.TuiHangHoa.DichVu).ToLower();
+                        string temp1 = APIManager.convertToUnSign3(hangHoa.TuiHangHoa.PhanLoai).ToLower();
+                        if (temp.IndexOf("phat hanh") != -1 || temp1.IndexOf("tui") != -1)
+                        {
+                            continue;
+                        }
+                        data.Add(hangHoa);
+                   }
 
                     WeakReferenceMessenger.Default.Send<TuiHangHoaMessage>(new TuiHangHoaMessage(data));
                 }

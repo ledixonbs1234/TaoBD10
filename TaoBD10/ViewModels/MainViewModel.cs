@@ -544,7 +544,7 @@ namespace TaoBD10.ViewModels
         {
             if (MessageQueue == null)
                 MessageQueue = new SnackbarMessageQueue();
-            MessageQueue.Enqueue(content, null, null, null, false, false, TimeSpan.FromSeconds(3));
+            MessageQueue.Enqueue(content, null, null, null, false, false, TimeSpan.FromSeconds(1));
 
         }
 

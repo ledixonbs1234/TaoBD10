@@ -27,6 +27,10 @@ namespace TaoBD10.ViewModels
             timerPrint = new DispatcherTimer();
             timerPrint.Interval = new TimeSpan(0, 0, 0, 0, 50);
             timerPrint.Tick += TimerPrint_Tick;
+timerDiNgoai = new DispatcherTimer();
+            timerDiNgoai.Interval = new TimeSpan(0, 0, 0, 0, 50);
+            timerDiNgoai.Tick += TimerDiNgoai_Tick; ;
+
 
             XoaCommand = new RelayCommand(Xoa);
             ClearCommand = new RelayCommand(Clear);
@@ -61,6 +65,97 @@ namespace TaoBD10.ViewModels
             });
 
             FileManager.GetCode();
+        }
+
+        bool isWaitDiNgoai = false;
+
+        private void TimerDiNgoai_Tick(object sender, EventArgs e)
+        {
+            if (isWaitDiNgoai)
+            {
+                return;
+            }
+            var currentWindow = APIManager.GetActiveWindowTitle();
+            if (currentWindow == null)
+            {
+                return;
+            }
+
+            if (currentWindow.text.IndexOf("khoi tao chuyen thu") != -1)
+            {
+                isWaitDiNgoai = true;
+                //Form1.instance.infoShare.Text = "Đang chọn bưu cục";
+                Thread.Sleep(100);
+                IntPtr loaiDiNgoai = IntPtr.Zero;
+                //Thread.Sleep(400);
+                var childHandles3 = APIManager.GetAllChildHandles(currentWindow.hwnd);
+                int countCombobox = 0;
+                IntPtr tinh = IntPtr.Zero;
+                foreach (var item in childHandles3)
+                {
+                    string className = APIManager.GetWindowClass(item);
+                    string classDefault = "WindowsForms10.COMBOBOX.app.0.1e6fa8e";
+                    //string classDefault = "WindowsForms10.COMBOBOX.app.0.141b42a_r8_ad1";
+                    if (className == classDefault)
+                    {
+                        if (countCombobox == 2)
+                        {
+                            tinh = item;
+                            break;
+                        }
+                        else
+                        if (countCombobox == 1)
+                        {
+                            loaiDiNgoai = item;
+                            //StringBuilder sbBuffer = new StringBuilder();
+
+                            //const int WM_GETTEXT = 0x000D;
+
+                            //APIManager.SendMessageA(item, WM_GETTEXT, IntPtr.Zero, sbBuffer);
+                            //MessageBox.Show(sbBuffer.ToString()) ;
+                        }
+                        countCombobox++;
+                    }
+                }
+
+                APIManager.SendMessage(tinh, 0x0007, 0, 0);
+                Thread.Sleep(50);
+                APIManager.SendMessage(tinh, 0x0007, 0, 0);
+                Thread.Sleep(50);
+                SendKeys.SendWait("{BS}{BS}{BS}{BS}");
+
+                //Thuc hien trong nay
+                if (!string.IsNullOrEmpty(SelectedSimple.MaBuuCuc))
+                {
+                    SendKeys.SendWait(SelectedSimple.MaBuuCuc);
+                    Thread.Sleep(300);
+                    SendKeys.SendWait("{DOWN}");
+                    Thread.Sleep(100);
+                    SendKeys.SendWait("{TAB}");
+                    Thread.Sleep(200);
+
+                    //Nhan F1 ngang cho nay
+                    SendKeys.SendWait("{F1}");
+                }
+                else
+                {
+                    if (string.IsNullOrEmpty(SelectedSimple.MaTinh))
+                    {
+                        //Form1.instance.infoShare.Text = "Chưa có mã Tỉnh";
+
+                        timerDiNgoai.Stop();
+                        isWaitDiNgoai = false;
+                        return;
+                    }
+                    SendKeys.SendWait(SelectedSimple.MaTinh);
+                }
+
+                //////////////////////////////////////////////////////
+
+                timerDiNgoai.Stop();
+                isWaitDiNgoai = false;
+                return;
+            }
         }
 
         bool isWaitingDiNgoai = false;
@@ -430,6 +525,8 @@ namespace TaoBD10.ViewModels
             set { SetProperty(ref _IsAutoF1, value); }
         }
 
+        DispatcherTimer timerDiNgoai;
+
         private DiNgoaiItemModel _SelectedSimple;
 
         public DiNgoaiItemModel SelectedSimple
@@ -444,7 +541,9 @@ namespace TaoBD10.ViewModels
 
         private void OnSelectedSimple()
         {
-
+            timerDiNgoai.Start();
+            WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel("Snackbar", "Dang chon tinh"));
+            //thuc hien
         }
 
         public bool IsExpanded

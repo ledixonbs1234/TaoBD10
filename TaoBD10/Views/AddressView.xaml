@@ -17,7 +17,10 @@
             <RowDefinition Height="70" />
         </Grid.RowDefinitions>
         <TextBlock Text="Số lượng" />
-        <TextBlock Text="{Binding CountTamQuan}" />
+        <TextBlock
+            Foreground="Blue"
+            Style="{StaticResource MaterialDesignHeadline2TextBlock}"
+            Text="{Binding CountTamQuan}" />
         <DataGrid
             Grid.Row="1"
             Height="300"
@@ -29,7 +32,7 @@
             SelectedItem="{Binding SelectedDiNgoai, Mode=OneWayToSource}"
             SelectionMode="Single">
             <DataGrid.Columns>
-                <DataGridCheckBoxColumn Header="Choose" Binding="{Binding IsTamQuan}" />
+                <DataGridCheckBoxColumn Binding="{Binding IsTamQuan}" Header="Choose" />
 
                 <DataGridTextColumn
                     Binding="{Binding TuiHangHoa.SHTui}"

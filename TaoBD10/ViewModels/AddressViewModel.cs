@@ -22,6 +22,15 @@ namespace TaoBD10.ViewModels
             set { SetProperty(ref _HangHoas, value); }
         }
 
+        private int _CountTamQuan;
+
+        public int CountTamQuan
+        {
+            get { return _CountTamQuan; }
+            set { SetProperty(ref _CountTamQuan, value); }
+        }
+
+
 
 
         public AddressViewModel()
@@ -41,6 +50,7 @@ namespace TaoBD10.ViewModels
                     HangHoas.Add(item);
                 }
             });
+
             WeakReferenceMessenger.Default.Register<SHTuiMessage>(this, (r, m) =>
             {
                 if (m.Value == null)
@@ -59,6 +69,7 @@ namespace TaoBD10.ViewModels
 
                 }
             });
+
             WeakReferenceMessenger.Default.Register<WebContentModel>(this, (r, m) =>
             {
                 if (m.Key != "AddressTamQuan")

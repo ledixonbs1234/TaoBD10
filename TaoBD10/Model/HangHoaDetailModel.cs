@@ -16,7 +16,7 @@ namespace TaoBD10.Model
             set { SetProperty(ref _Address, value); }
         }
 
-        private bool _IsTamQuan = true;
+        private bool _IsTamQuan = false;
 
         public bool IsTamQuan
         {

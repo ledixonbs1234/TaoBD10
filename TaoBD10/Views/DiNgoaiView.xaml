@@ -19,45 +19,60 @@
             <ColumnDefinition Width="1*" />
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0">
-            <StackPanel Orientation="Horizontal" Margin="0,10,0,10" HorizontalAlignment="Center">
-                <TextBox  FontSize="15" Text="{Binding SelectedSimple.Code}" Foreground="DarkMagenta" HorizontalAlignment="Center"/>
+            <StackPanel
+                Margin="0,10,0,10"
+                HorizontalAlignment="Center"
+                Orientation="Horizontal">
+                <TextBox
+                    HorizontalAlignment="Center"
+                    FontSize="15"
+                    Foreground="DarkMagenta"
+                    Text="{Binding SelectedSimple.Code}" />
             </StackPanel>
             <Expander
                 Margin="5"
-      HorizontalAlignment="Stretch"
-      Header="Bên Gửi">
-                <StackPanel
-        Orientation="Vertical"
-        TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
-        >
-                    <TextBlock Text="{Binding SelectedSimple.BuuCucGui}" FontSize="15" Foreground="Brown" />
+                HorizontalAlignment="Stretch"
+                Header="Bên Gửi">
+                <StackPanel Orientation="Vertical" TextBlock.Foreground="{DynamicResource MaterialDesignBody}">
+                    <TextBlock
+                        FontSize="15"
+                        Foreground="Brown"
+                        Text="{Binding SelectedSimple.BuuCucGui}" />
                     <TextBox
-                MaxWidth="400"
-                Margin="4"
-                VerticalAlignment="Top"
-                AcceptsReturn="True"
-                IsEnabled="{Binding IsChecked, ElementName=MaterialDesignFilledTextBoxEnabledComboBox}"
-                Style="{StaticResource MaterialDesignFilledTextBox}"
-                IsReadOnly="True"
-                Text="{Binding SelectedSimple.AddressSend}"
-                TextWrapping="Wrap" />
+                        MaxWidth="400"
+                        Margin="4"
+                        VerticalAlignment="Top"
+                        AcceptsReturn="True"
+                        IsEnabled="{Binding IsChecked, ElementName=MaterialDesignFilledTextBoxEnabledComboBox}"
+                        IsReadOnly="True"
+                        Style="{StaticResource MaterialDesignFilledTextBox}"
+                        Text="{Binding SelectedSimple.AddressSend}"
+                        TextWrapping="Wrap" />
                 </StackPanel>
             </Expander>
-            
+
             <TextBox
+                Height="100"
                 MaxWidth="400"
                 Margin="4"
-                Height="100"
-                IsReadOnly="True"
                 VerticalAlignment="Top"
                 AcceptsReturn="True"
                 IsEnabled="{Binding IsChecked, ElementName=MaterialDesignFilledTextBoxEnabledComboBox}"
+                IsReadOnly="True"
                 Style="{StaticResource MaterialDesignFilledTextBox}"
                 Text="{Binding SelectedSimple.Address}"
                 TextWrapping="Wrap" />
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                <TextBlock Text="{Binding SelectedSimple.TenBuuCuc}" FontSize="15" Foreground="Brown" />
-                <TextBlock FontWeight="Bold" FontSize="16" Foreground="#FFB1CAFF"  Margin="5,0,9,0" Text="{Binding SelectedSimple.MaTinh}" />
+                <TextBlock
+                    FontSize="15"
+                    Foreground="Brown"
+                    Text="{Binding SelectedSimple.TenBuuCuc}" />
+                <TextBlock
+                    Margin="5,0,9,0"
+                    FontSize="16"
+                    FontWeight="Bold"
+                    Foreground="#FFB1CAFF"
+                    Text="{Binding SelectedSimple.MaTinh}" />
             </StackPanel>
             <TextBlock
                 HorizontalAlignment="Center"
@@ -72,21 +87,33 @@
                 Style="{StaticResource MaterialDesignFilledTextBox}"
                 Text="{Binding TextCode, UpdateSourceTrigger=PropertyChanged}" />
             <DataGrid
-                Height="270"
-                SelectionMode="Single"
-                 materialDesign:DataGridAssist.CellPadding="5 7 2 7"
+                Height="250"
+                materialDesign:DataGridAssist.CellPadding="5 7 2 7"
                 materialDesign:DataGridAssist.ColumnHeaderPadding="4 2 2 2"
                 AutoGenerateColumns="False"
-                SelectedItem="{Binding SelectedSimple,Mode=TwoWay}"
-                ItemsSource="{Binding DiNgoais}">
+                ItemsSource="{Binding DiNgoais}"
+                SelectedItem="{Binding SelectedSimple, Mode=TwoWay}"
+                SelectionMode="Single">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding Index}" Header="Index" IsReadOnly="True" />
-                    <DataGridTextColumn Binding="{Binding Code}" Header="Code" IsReadOnly="True"/>
-                    <DataGridTextColumn Binding="{Binding MaBuuCuc}" Header="Mã Bưu Cục" IsReadOnly="True"/>
+                    <DataGridTextColumn
+                        Binding="{Binding Index}"
+                        Header="Index"
+                        IsReadOnly="True" />
+                    <DataGridTextColumn
+                        Binding="{Binding Code}"
+                        Header="Code"
+                        IsReadOnly="True" />
+                    <DataGridTextColumn
+                        Binding="{Binding MaBuuCuc}"
+                        Header="Mã Bưu Cục"
+                        IsReadOnly="True" />
                 </DataGrid.Columns>
             </DataGrid>
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                <CheckBox Content="Auto F1" IsChecked="{Binding IsAutoF1, Mode=OneWayToSource}" />
+                <CheckBox
+                    Margin="5"
+                    Content="Auto F1"
+                    IsChecked="{Binding IsAutoF1, Mode=OneWayToSource}" />
                 <CheckBox
                     Margin="0,0,5,0"
                     Content="Đọc số"
@@ -94,6 +121,7 @@
                 <ToggleButton
                     Width="40"
                     Height="40"
+                    Margin="5"
                     materialDesign:ToggleButtonAssist.OnContent="{materialDesign:PackIcon Kind=ArrowCollapse,
                                                                                           Size=25}"
                     Content="{materialDesign:PackIcon Kind=ArrowExpand,
@@ -106,12 +134,12 @@
         <StackPanel Grid.Column="1">
             <DataGrid
                 Height="300"
-                SelectionMode="Single"
                 materialDesign:DataGridAssist.CellPadding="4 7 5 7"
                 materialDesign:DataGridAssist.ColumnHeaderPadding="4 2 2 2"
                 AutoGenerateColumns="False"
                 ItemsSource="{Binding DiNgoais}"
-                SelectedItem="{Binding SelectedDiNgoai, Mode=OneWayToSource}">
+                SelectedItem="{Binding SelectedDiNgoai, Mode=OneWayToSource}"
+                SelectionMode="Single">
                 <DataGrid.Columns>
                     <DataGridTextColumn
                         Width="40"
@@ -146,7 +174,7 @@
                     <DataGridTextColumn
                         Binding="{Binding TenBuuCuc}"
                         Header="Tên Bưu Cục"
-                        IsReadOnly="True" >
+                        IsReadOnly="True">
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="{x:Type TextBlock}">
                                 <Setter Property="TextBlock.TextWrapping" Value="NoWrap" />
@@ -192,8 +220,8 @@
                     SelectedItem="{Binding SelectedBuuCuc}" />
             </StackPanel>
             <TextBox
-                Margin="10"
                 Height="100"
+                Margin="10"
                 VerticalAlignment="Top"
                 materialDesign:HintAssist.Hint="Nhập lượng lớn bưu gửi"
                 AcceptsReturn="True"

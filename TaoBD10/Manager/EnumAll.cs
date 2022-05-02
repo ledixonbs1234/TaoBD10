@@ -15,6 +15,18 @@
             KT,BCP
         }
 
+        public enum StateDiNgoai
+        {
+            //go to chuyen thu
+            KhoiTao,
+
+            TaoTui,
+            DongChuyen,
+            In,
+            Thoat,
+            MoLaiTiep
+        }
+
         public enum LoadWebChoose
         {
             ReadWord,

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing.Printing;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -40,6 +41,22 @@ namespace TaoBD10.Manager
        public static void showTest(string content)
         {
             WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Test", Content = content });
+        }
+
+        [DllImport("winspool.drv", CharSet = CharSet.Auto, SetLastError = true)]
+        public static extern bool SetDefaultPrinter(string Name);
+
+
+        public static void SetZ420Print()
+        {
+            foreach (string printer in PrinterSettings.InstalledPrinters)
+            {
+                if (printer.IndexOf("ZDesigner") != -1)
+                {
+                    SetDefaultPrinter(printer);
+                    break;
+                }
+            }
         }
 
 

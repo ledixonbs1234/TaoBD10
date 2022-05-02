@@ -6,10 +6,14 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Windows.Input;
+using System.Windows.Threading;
 using TaoBD10.Manager;
 using TaoBD10.Model;
+using static TaoBD10.Manager.EnumAll;
 
 namespace TaoBD10.ViewModels
 {
@@ -19,6 +23,10 @@ namespace TaoBD10.ViewModels
         {
             DiNgoais = new ObservableCollection<DiNgoaiItemModel>();
             BuuCucs = new ObservableCollection<string>();
+
+            timerPrint = new DispatcherTimer();
+            timerPrint.Interval = new TimeSpan(0, 0, 0, 0, 50);
+            timerPrint.Tick += TimerPrint_Tick;
 
             XoaCommand = new RelayCommand(Xoa);
             ClearCommand = new RelayCommand(Clear);
@@ -43,7 +51,357 @@ namespace TaoBD10.ViewModels
                 AddAddress();
             });
 
+            WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>
+            {
+                if(m.Key == "RunPrintDiNgoai")
+                {
+                    timerPrint.Start();
+                }
+
+            });
+
             FileManager.GetCode();
+        }
+
+        bool isWaitingDiNgoai = false;
+        StateDiNgoai stateDiNgoai = StateDiNgoai.KhoiTao;
+        bool isRunFirst = false;
+        int downTaoTui = 0;
+
+        private void TimerPrint_Tick(object sender, EventArgs e)
+        {
+            if (isWaitingDiNgoai) return;
+
+            var currentWindow = APIManager.GetActiveWindowTitle();
+            if (currentWindow == null)
+            {
+                return;
+            }
+
+            switch (stateDiNgoai)
+            {
+                case StateDiNgoai.KhoiTao:
+                    if (currentWindow.text.IndexOf("khoi tao chuyen thu") != -1)
+                    {
+                        isWaitingDiNgoai = true;
+                        var childHandles3 = APIManager.GetAllChildHandles(currentWindow.hwnd);
+                        int countCombobox = 0;
+                        IntPtr loadDiNgoai = IntPtr.Zero;
+                        foreach (var item in childHandles3)
+                        {
+                            string className = APIManager.GetWindowClass(item);
+                            string classDefault = "WindowsForms10.COMBOBOX.app.0.1e6fa8e";
+                            //string classDefault = "WindowsForms10.COMBOBOX.app.0.141b42a_r8_ad1";
+                            if (className == classDefault)
+                            {
+                                if (countCombobox == 1)
+                                {
+                                    loadDiNgoai = item;
+                                    break;
+                                }
+                            }
+                        }
+
+                        APIManager.SendMessage(loadDiNgoai, 0x0007, 0, 0);
+                        APIManager.SendMessage(loadDiNgoai, 0x0007, 0, 0);
+                        string temp = "";
+                        string charCodeFirst = SelectedSimple.Code[0].ToString().ToLower();
+
+                        if (charCodeFirst == "c")
+                        {
+                            temp = "bưu k";
+                            downTaoTui = 1;
+                        }
+                        else if (charCodeFirst == "e")
+                        {
+                            temp = "em";
+                            downTaoTui = 2;
+                        }
+                        else if (charCodeFirst == "p")
+                        {
+                            temp = "lo";
+                            downTaoTui = 3;
+                        }
+
+                        SendKeys.SendWait("{BS}" + temp + "{TAB}");
+                        SendKeys.SendWait("{F10}");
+                        stateDiNgoai = StateDiNgoai.TaoTui;
+                        isRunFirst = false;
+                        isWaitingDiNgoai = false;
+                    }
+                    break;
+
+                case StateDiNgoai.TaoTui:
+                    if (currentWindow.text.IndexOf("tao tui") != -1)
+                    {
+                        if (!isRunFirst)
+                        {
+                            isRunFirst = true;
+                            return;
+                        }
+
+                        isWaitingDiNgoai = true;
+                        SendKeys.SendWait("{UP}{UP}{UP}{UP}{UP}");
+                        for (int i = 0; i < downTaoTui; i++)
+                        {
+                            SendKeys.SendWait("{DOWN}");
+                        }
+                        SendKeys.SendWait("{F10}");
+                        SendKeys.SendWait("A{BS}{BS}");
+                        stateDiNgoai = StateDiNgoai.DongChuyen;
+
+                        //stateDiNgoai = StateDiNgoai.MoLaiTiep;
+                        isWaitingDiNgoai = false;
+                        isRunFirst = false;
+                    }
+                    break;
+
+                case StateDiNgoai.DongChuyen:
+                    if (currentWindow.text.IndexOf("dong chuyen thu") != -1)
+                    {
+                        if (!isRunFirst)
+                        {
+                            isRunFirst = true;
+                            return;
+                        }
+
+                        isWaitingDiNgoai = true;
+                        for (int i = 0; i < 20; i++)
+                        {
+                            SendKeys.SendWait("+{TAB}");
+                            SendKeys.SendWait("^C");
+                            string textClip = Clipboard.GetText();
+                            if (textClip.IndexOf("Túi số") != -1)
+                            {
+                                SendKeys.SendWait("{DOWN}");
+                                SendKeys.SendWait("{LEFT}");
+                                SendKeys.SendWait("{LEFT}");
+                                SendKeys.SendWait("{LEFT}");
+                                SendKeys.SendWait("{LEFT}");
+                                SendKeys.SendWait("{LEFT}");
+                                SendKeys.SendWait("{RIGHT}");
+                                SendKeys.SendWait("{RIGHT}");
+                                SendKeys.SendWait("{RIGHT}");
+                                SendKeys.SendWait("{RIGHT}");
+                                SendKeys.SendWait(" ");
+                                SendKeys.SendWait("{RIGHT}");
+                                SendKeys.SendWait("{RIGHT}");
+                                SendKeys.SendWait("{F6}");
+                                SendKeys.SendWait("{F6}");
+                                Thread.Sleep(100);
+                                SendKeys.SendWait(SelectedSimple.Code);
+                                SendKeys.SendWait("{ENTER}");
+                                Thread.Sleep(200);
+                                SendKeys.SendWait("+{TAB}");
+                                SendKeys.SendWait("{UP}{UP}{UP}{UP}{UP}");
+                                SendKeys.SendWait("{LEFT}");
+                                SendKeys.SendWait("{LEFT}");
+                                SendKeys.SendWait("{LEFT}");
+                                SendKeys.SendWait("{LEFT}");
+                                SendKeys.SendWait("{LEFT}");
+                                SendKeys.SendWait("{LEFT}");
+                                SendKeys.SendWait("{LEFT}");
+                                SendKeys.SendWait(" ");
+                                Thread.Sleep(500);
+
+                                //Kiem tra Da dong tui chua
+                                SendKeys.SendWait("^C");
+                                Thread.Sleep(200);
+                                string textClip1 = Clipboard.GetText();
+                                if (textClip1.IndexOf("Selected") == -1)
+                                {
+                                    isWaitingDiNgoai = false;
+                                    timerPrint.Stop();
+
+                                    return;
+                                }
+
+                                SendKeys.SendWait("{F6}");
+                                Thread.Sleep(200);
+                                SendKeys.SendWait("{F7}");
+                                break;
+                            }
+                        }
+                        stateDiNgoai = StateDiNgoai.In;
+                        isRunFirst = false;
+                        isWaitingDiNgoai = false;
+                    }
+
+                    break;
+
+                case StateDiNgoai.In:
+                    if (!isRunFirst)
+                    {
+                        isRunFirst = true;
+                        return;
+                    }
+
+                    isWaitingDiNgoai = true;
+                    APIManager.SetZ420Print();
+
+                    Thread.Sleep(200);
+                    SendKeys.SendWait("{TAB}");
+                    Thread.Sleep(100);
+                    SendKeys.SendWait("{TAB}");
+                    Thread.Sleep(100);
+
+                    SendKeys.SendWait("^(a)");
+                    SendKeys.SendWait("^(c)");
+                    Thread.Sleep(200);
+                    string clipboard = Clipboard.GetText();
+                    if (string.IsNullOrEmpty(clipboard))
+                    {
+                        isWaitingDiNgoai = false;
+
+                        timerPrint.Stop();
+                        return;
+                    }
+                    if (clipboard.IndexOf("BĐ8") == -1)
+                    {
+                        isWaitingDiNgoai = false;
+                        timerPrint.Stop();
+                        return;
+                    }
+                    foreach (string item in clipboard.Split('\n'))
+                    {
+                        var datas = item.Split('\t');
+                        if (datas[1].IndexOf("BĐ8") != -1)
+                        {
+                            SendKeys.SendWait(" ");
+                            break;
+                        }
+                        if (datas[4].IndexOf("BĐ8") != -1)
+                        {
+                            SendKeys.SendWait("{RIGHT}");
+                            Thread.Sleep(50);
+                            SendKeys.SendWait("{RIGHT}");
+                            Thread.Sleep(50);
+                            SendKeys.SendWait("{RIGHT}");
+                            Thread.Sleep(50);
+                            SendKeys.SendWait(" ");
+                            Thread.Sleep(100);
+
+                            break;
+                        }
+                        SendKeys.SendWait("{DOWN}");
+                    }
+
+                    var childHandlesIn = APIManager.GetAllChildHandles(currentWindow.hwnd);
+                    IntPtr buttonThoat = IntPtr.Zero;
+                    foreach (var item in childHandlesIn)
+                    {
+                        string className = APIManager.GetWindowClass(item);
+                        string classDefault = "WindowsForms10.BUTTON.app.0.1e6fa8e";
+                        //string classDefault = "WindowsForms10.COMBOBOX.app.0.141b42a_r8_ad1";
+                        if (className == classDefault)
+                        {
+                            buttonThoat = item;
+                            break;
+                        }
+                    }
+
+                    SendKeys.SendWait("{F10}");
+                    if (buttonThoat != IntPtr.Zero)
+                    {
+                        APIManager.SendMessage(buttonThoat, 0x00F5, 0, 0);
+                    }
+                    isWaitingDiNgoai = false;
+                    isRunFirst = false;
+                    stateDiNgoai = StateDiNgoai.Thoat;
+                    break;
+
+                case StateDiNgoai.Thoat:
+                    if (currentWindow.text.IndexOf("dong chuyen thu") != -1)
+                    {
+                        if (!isRunFirst)
+                        {
+                            isRunFirst = true;
+                            return;
+                        }
+
+                        isWaitingDiNgoai = true;
+
+                        stateDiNgoai = StateDiNgoai.MoLaiTiep;
+                        SendKeys.SendWait("{F10}");
+                        Thread.Sleep(200);
+                        SendKeys.SendWait("{F10}");
+                        Thread.Sleep(200);
+                        SendKeys.SendWait("{ENTER}");
+                    }
+                    else if (currentWindow.text.IndexOf("khoi tao chuyen thu") != -1)
+                    {
+                        isWaitingDiNgoai = false;
+                        MessageBox.Show("Vui lòng đóng chuyến thư hiện tại.");
+                        timerPrint.Stop();
+                    }
+
+                    isRunFirst = false;
+                    isWaitingDiNgoai = false;
+                    break;
+
+                case StateDiNgoai.MoLaiTiep:
+
+                    if (currentWindow.text.IndexOf("khoi tao chuyen thu") != -1)
+                    {
+                        if (!isRunFirst)
+                        {
+                            isRunFirst = true;
+                            return;
+                        }
+                        isWaitingDiNgoai = true;
+
+                        //lay du lieu tiep theo
+                        if (DiNgoais.Count == 0)
+                        {
+                            timerPrint.Stop();
+                            isWaitingDiNgoai = false;
+                            return;
+                        }
+                        //lay vi tri tiep theo
+                        //var currentCell = dgvDiNgoai.SelectedRows[0];
+                        //if (currentCell == null)
+                        //{
+                        //    timerPrintDiNgoai.Stop();
+                        //    isWaitingDiNgoai = false;
+                        //    txtInfo.Text = "Chưa chọn dữ liệu";
+                        //    return;
+                        //}
+                        //int indexCurrentRow = currentCell.Index;
+
+                        //if (indexCurrentRow > dgvDiNgoai.RowCount - 1)
+                        //{
+                        //    timerPrintDiNgoai.Stop();
+                        //    isWaitingDiNgoai = false;
+                        //    txtInfo.Text = "Đã tới vị trí cuối cùng";
+                        //    return;
+                        //}
+
+                        //////xem thu no co chay cai gi khong
+                        ////dgvDiNgoai.Rows[indexCurrentRow].Selected = false;
+                        ////dgvDiNgoai.Rows[++indexCurrentRow].Selected = true;
+                        //////dgvDiNgoai.CurrentCell = dgvDiNgoai[0, ++indexCurrentRow];
+                        ////dgvDiNgoai_CellClick(this.dgvDiNgoai, new DataGridViewCellEventArgs(0, indexCurrentRow ));
+
+                        ////txtInfo.Text = indexCurrentRow.ToString();
+                        ////hien vi tri dau tien
+                        //dgvDiNgoai.FirstDisplayedScrollingRowIndex = indexCurrentRow;
+                        ////isAutoRun = true;
+
+                        //// cho vao cong doan nhap,
+                        //// sau do thi neu thanh cong thi hien so
+                        ////va ghi du lieu vao cai dang khoi tao nay
+                        ////neu ma khong duoc thi thoat ra khong dung nua
+                        //Thread.Sleep(200);
+                        //SendKeys.SendWait("{F3}");
+                        //timerPrintDiNgoai.Stop();
+                        //isWaitingDiNgoai = false;
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+
         }
 
         public ICommand AddAddressCommand { get; }
@@ -159,6 +517,8 @@ namespace TaoBD10.ViewModels
 
         public ICommand XoaDiNgoaiCommand { get; }
 
+        DispatcherTimer timerPrint;
+
         void AddAddress()
         {
             if (DiNgoais.Count == 0)
@@ -201,7 +561,6 @@ namespace TaoBD10.ViewModels
 
         void AddRange()
         {
-
             foreach (string item in LocTextTho(TextsRange))
             {
                 if (string.IsNullOrEmpty(item))

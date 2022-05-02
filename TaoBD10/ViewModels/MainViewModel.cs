@@ -47,7 +47,7 @@ namespace TaoBD10.ViewModels
                         IndexTabControl = 2;
                     }else if(m.Content == "Center")
                     {
-                        SetCenterWindow();
+                        SetChiTietWindow();
 
                     }else if (m.Content == "SmallRight")
                     {
@@ -57,8 +57,7 @@ namespace TaoBD10.ViewModels
                 else if (m.Key == "Snackbar")
                 {
                     MessageShow(m.Content);
-                }
-            });
+                }            });
         }
         bool isHaveError = false;
         string maSoBuuCucCurrent = "";
@@ -532,6 +531,7 @@ namespace TaoBD10.ViewModels
             //_con.ConnectionString = _strConnect;
             //_con.Open();
         }
+        bool isSmallerWindow = false;
 
         private void LoadPage(Window window)
         {
@@ -602,13 +602,13 @@ namespace TaoBD10.ViewModels
                     //thuc hien chuyen ve
                     //currentTab = CurrentTab.GetBD10;
 
-            DefaultWindowCommand.Execute(null);
+                    SetDefaultWindowTui();
                     break;
 
                 case 1:
                     //currentTab = CurrentTab.DanhSach;
 
-            DefaultWindowCommand.Execute(null);
+                    SetDefaultWindowTui();
                     break;
 
                 case 2:
@@ -660,13 +660,16 @@ namespace TaoBD10.ViewModels
                         WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Navigation", Content = "PrintDiNgoai" });
                     }
                     break;
+                case Key.F1:
+                    WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "RunPrintDiNgoai", Content = "PrintDiNgoai" });
+                    break;
 
                 default:
                     break;
             }
         }
 
-        private void SetCenterWindow()
+        private void SetChiTietWindow()
         {
             if (_window == null)
                 return;
@@ -679,7 +682,7 @@ namespace TaoBD10.ViewModels
             _window.Top = (height - 600) / 2;
         }
 
-        private void SetLargeRightWindow()
+        private void SetDanhSachBD10Window()
         {
             if (_window == null)
                 return;
@@ -692,7 +695,7 @@ namespace TaoBD10.ViewModels
             _window.Left = desktopWorkingArea.Left + width - _window.Width;
             _window.Top = desktopWorkingArea.Top + 0;
         }
-        private void SetRightHeigtWindow()
+        private void SetLayChuyenThuWindow()
         {
             if (_window == null)
                 return;
@@ -711,7 +714,7 @@ namespace TaoBD10.ViewModels
                 return;
             var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
             _window.Width = 360;
-            _window.Height = 640;
+            _window.Height = 600;
             double height = System.Windows.SystemParameters.PrimaryScreenHeight;
             double width = System.Windows.SystemParameters.PrimaryScreenWidth;
             // use 'Screen.AllScreens[1].WorkingArea' for secondary screen
@@ -719,7 +722,7 @@ namespace TaoBD10.ViewModels
             _window.Top = desktopWorkingArea.Top + 0;
         }
 
-        private void SetRightSmallWindow()
+        private void SetThuGonWindow()
         {
             if (_window == null)
                 return;
@@ -733,7 +736,7 @@ namespace TaoBD10.ViewModels
             _window.Top = desktopWorkingArea.Top + 0;
         }
 
-        private void SetRightWindow()
+        private void SetGetBD10Window()
         {
             if (_window == null)
                 return;
@@ -755,34 +758,35 @@ namespace TaoBD10.ViewModels
             {
                 case 0:
                     //thuc hien chuyen ve
-                    SetRightWindow();
+                    SetGetBD10Window();
                     currentTab = CurrentTab.GetBD10;
 
                     break;
 
                 case 1:
-                    SetLargeRightWindow();
+                    SetDanhSachBD10Window();
                     currentTab = CurrentTab.DanhSach;
 
                     break;
 
                 case 2:
-                    SetCenterWindow();
+                    SetChiTietWindow();
                     currentTab = CurrentTab.ChiTiet;
                     break;
 
                 case 3:
-                    SetRightSmallWindow();
+                    SetThuGonWindow();
                     currentTab = CurrentTab.ThuGon;
                     break;
                 case 4:
-                    SetRightHeigtWindow();
+                    SetLayChuyenThuWindow();
                     currentTab = CurrentTab.LayChuyenThu;
                     break;
 
                 case 5:
                     break;
                     currentTab = CurrentTab.LocTui;
+                    SetChiTietWindow();
                 case 6:
                     break;
 

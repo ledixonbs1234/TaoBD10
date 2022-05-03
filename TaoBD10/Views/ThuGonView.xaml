@@ -199,7 +199,7 @@
                             Style="{StaticResource MaterialDesignPaperLightButton}" />
                     </StackPanel>
                 </StackPanel>
-                <ComboBox SelectedItem="{Binding SelectedTime, Mode=OneWayToSource}">
+                <ComboBox SelectedItem="{Binding SelectedTime, Mode=OneWay}">
                     <ComboBoxItem Content="0.5" />
                     <ComboBoxItem Content="1" />
                     <ComboBoxItem Content="1.5" />

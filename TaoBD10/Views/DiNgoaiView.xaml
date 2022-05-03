@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:TaoBD10.Views"
+    xmlns:Behaviors ="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     DataContext="{StaticResource DiNgoaiVM}"
@@ -88,12 +89,18 @@
                 Text="{Binding TextCode, UpdateSourceTrigger=PropertyChanged}" />
             <DataGrid
                 Height="250"
+                x:Name="dataGridChuyenThu"
                 materialDesign:DataGridAssist.CellPadding="5 7 2 7"
                 materialDesign:DataGridAssist.ColumnHeaderPadding="4 2 2 2"
                 AutoGenerateColumns="False"
                 ItemsSource="{Binding DiNgoais}"
                 SelectedItem="{Binding SelectedSimple, Mode=TwoWay}"
                 SelectionMode="Single">
+                <Behaviors:Interaction.Triggers>
+                    <Behaviors:EventTrigger EventName="MouseLeftButtonUp">
+                        <Behaviors:InvokeCommandAction Command="{Binding SelectionCommand}" CommandParameter="{Binding SelectedItem, ElementName=dataGridChuyenThu}" />
+                    </Behaviors:EventTrigger>
+                </Behaviors:Interaction.Triggers>
                 <DataGrid.Columns>
                     <DataGridTextColumn
                         Binding="{Binding Index}"

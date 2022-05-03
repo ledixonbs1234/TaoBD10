@@ -30,7 +30,7 @@ namespace TaoBD10.ViewModels
             timerDiNgoai = new DispatcherTimer();
             timerDiNgoai.Interval = new TimeSpan(0, 0, 0, 0, 50);
             timerDiNgoai.Tick += TimerDiNgoai_Tick; ;
-
+            SelectionCommand = new RelayCommand<DiNgoaiItemModel>(Selection);
 
             XoaCommand = new RelayCommand(Xoa);
             ClearCommand = new RelayCommand(Clear);
@@ -72,6 +72,14 @@ namespace TaoBD10.ViewModels
 
         bool isWaitDiNgoai = false;
 
+        public IRelayCommand<DiNgoaiItemModel> SelectionCommand { get; }
+        void Selection(DiNgoaiItemModel selected)
+        {
+            if (selected == null)
+                return;
+            OnSelectedSimple();
+            
+        }
         private void TimerDiNgoai_Tick(object sender, EventArgs e)
         {
             if (isWaitDiNgoai)
@@ -86,6 +94,7 @@ namespace TaoBD10.ViewModels
 
             if (currentWindow.text.IndexOf("khoi tao chuyen thu") != -1)
             {
+                isWaitingTimer = false;
                 isWaitDiNgoai = true;
                 //Form1.instance.infoShare.Text = "Đang chọn bưu cục";
                 Thread.Sleep(100);
@@ -162,6 +171,31 @@ namespace TaoBD10.ViewModels
                 timerDiNgoai.Stop();
                 isWaitDiNgoai = false;
                 return;
+            }else
+            {
+                WaitingCloseTimer(timerDiNgoai);
+            }
+        }
+
+        bool isWaitingTimer = false;
+        int countTimer = 0;
+        private void WaitingCloseTimer(DispatcherTimer timerDiNgoai)
+        {
+            if (!isWaitingTimer)
+            {
+                isWaitingTimer = true;
+                countTimer = 0;
+            }else
+            {
+                countTimer++;
+                if (countTimer >= 200)
+                {
+                    countTimer = 0;
+                    isWaitingTimer = false;
+                    isWaitDiNgoai = false;
+                    APIManager.showSnackbar("Close");
+                    timerDiNgoai.Stop();
+                }
             }
         }
 
@@ -549,7 +583,6 @@ namespace TaoBD10.ViewModels
             set
             {
                 SetProperty(ref _SelectedSimple, value);
-                OnSelectedSimple();
             }
         }
 

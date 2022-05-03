@@ -912,7 +912,7 @@ namespace TaoBD10.ViewModels
                         string temp1 = fillDaNang.FirstOrDefault(m => m == maSoTinh);
                         if (!string.IsNullOrEmpty(temp1))
                         {
-                            if (hangHoa.TuiHangHoa.DichVu.IndexOf("Bưu") != -1 || hangHoa.TuiHangHoa.DichVu.IndexOf("Logi") != -1)
+                            if (hangHoa.TuiHangHoa.DichVu.IndexOf("Parcel") != -1 || hangHoa.TuiHangHoa.DichVu.IndexOf("Logi") != -1)
                             {
                                 currentListHangHoa[countForeach].PhanLoai = Manager.EnumAll.PhanLoaiTinh.KienDaNang;
                             }

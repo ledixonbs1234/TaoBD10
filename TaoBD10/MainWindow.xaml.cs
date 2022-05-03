@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 
 namespace TaoBD10
 {
@@ -10,6 +11,11 @@ namespace TaoBD10
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void MainView_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Environment.Exit(0);
         }
     }
 }

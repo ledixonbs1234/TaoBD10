@@ -458,7 +458,6 @@ namespace TaoBD10.ViewModels
                             return;
                         }
                         isWaitingDiNgoai = true;
-
                         //lay du lieu tiep theo
                         if (DiNgoais.Count == 0)
                         {
@@ -467,29 +466,26 @@ namespace TaoBD10.ViewModels
                             return;
                         }
                         //lay vi tri tiep theo
-                        //var currentCell = dgvDiNgoai.SelectedRows[0];
-                        //if (currentCell == null)
-                        //{
-                        //    timerPrintDiNgoai.Stop();
-                        //    isWaitingDiNgoai = false;
-                        //    txtInfo.Text = "Chưa chọn dữ liệu";
-                        //    return;
-                        //}
-                        //int indexCurrentRow = currentCell.Index;
+                        //get index 
+                        int index = DiNgoais.IndexOf(SelectedSimple);
+                        if (index == -1)
+                        {
+                            timerPrint.Stop();
+                            isWaitingDiNgoai = false;
+                            return;
+                        }
 
-                        //if (indexCurrentRow > dgvDiNgoai.RowCount - 1)
-                        //{
-                        //    timerPrintDiNgoai.Stop();
-                        //    isWaitingDiNgoai = false;
-                        //    txtInfo.Text = "Đã tới vị trí cuối cùng";
-                        //    return;
-                        //}
+                        if (index > DiNgoais.Count - 1)
+                        {
+                            timerPrint.Stop();
+                            isWaitingDiNgoai = false;
+                            //txtInfo.Text = "Đã tới vị trí cuối cùng";
+                            return;
+                        }
 
                         //////xem thu no co chay cai gi khong
-                        ////dgvDiNgoai.Rows[indexCurrentRow].Selected = false;
-                        ////dgvDiNgoai.Rows[++indexCurrentRow].Selected = true;
-                        //////dgvDiNgoai.CurrentCell = dgvDiNgoai[0, ++indexCurrentRow];
-                        ////dgvDiNgoai_CellClick(this.dgvDiNgoai, new DataGridViewCellEventArgs(0, indexCurrentRow ));
+                        SelectedSimple = DiNgoais[index++];
+                        //dgvDiNgoai_CellClick(this.dgvDiNgoai, new DataGridViewCellEventArgs(0, indexCurrentRow ));
 
                         ////txtInfo.Text = indexCurrentRow.ToString();
                         ////hien vi tri dau tien
@@ -503,7 +499,7 @@ namespace TaoBD10.ViewModels
                         //Thread.Sleep(200);
                         //SendKeys.SendWait("{F3}");
                         //timerPrintDiNgoai.Stop();
-                        //isWaitingDiNgoai = false;
+                        isWaitingDiNgoai = false;
                     }
                     break;
 

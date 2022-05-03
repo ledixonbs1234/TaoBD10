@@ -66,37 +66,340 @@ namespace TaoBD10.ViewModels
                 }
             });
         }
-        bool isHaveError = false;
-        string maSoBuuCucCurrent = "";
-        string loaiCurrent = "";
-        string soCTCurrent = "";
-        int numberRead = 0;
-        int lastNumber = 0;
-        bool isErrorSay = true;
-        int countError = 1;
-        bool isNewNumber = true;
-        bool isReading = true;
-
-        public ICommand ToggleWindowCommand { get; }
-
-
-        bool isSmallWindow = false;
-        void ToggleWindow()
+        public string CountInBD { get => _CountInBD; set => SetProperty(ref _CountInBD, value); }
+        public IRelayCommand<System.Windows.Controls.TabControl> DefaultWindowCommand { get; }
+        public int IndexTabControl
         {
-            if (isSmallWindow)
-            {
-                isSmallWindow = false;
-                DefaultWindowCommand.Execute(null);
+            get { return _IndexTabControl; }
+            set { SetProperty(ref _IndexTabControl, value);
+                OnSelectedTabBD();
+            
             }
-            else
-            {
-                isSmallWindow = true;
-                SmallerWindowCommand.Execute(null);
+        }
 
+        private int _IndexTabTui;
+
+        public int IndexTabTui
+        {
+            get { return _IndexTabTui; }
+            set { SetProperty(ref _IndexTabTui, value);
+                OnSelectedTabTui();
             }
+        }
+
+        private void OnSelectedTabTui()
+        {
+            switch (tabControl.SelectedIndex)
+            {
+                case 0:
+                    //thuc hien chuyen ve
+                    //currentTab = CurrentTab.GetBD10;
+
+                    SetDefaultWindowTui();
+                    break;
+
+                case 1:
+                    //currentTab = CurrentTab.DanhSach;
+
+                    SetDefaultWindowTui();
+                    break;
+
+                case 2:
+                    //currentTab = CurrentTab.ChiTiet;
+
+                    SetRightHeigtTuiWindow();
+                    break;
+
+                case 3:
+                    //currentTab = CurrentTab.ThuGon;
+
+                    DefaultWindowCommand.Execute(null);
+                    break;
+                case 4:
+                    //currentTab = CurrentTab.LayChuyenThu;
+                    break;
+
+                case 5:
+                    break;
+                //currentTab = CurrentTab.LocTui;
+                case 6:
+                    TabChanged(tabControl);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void OnSelectedTabBD()
+        {
+            switch (IndexTabControl)
+            {
+                case 0:
+                    //thuc hien chuyen ve
+                    SetGetBD10Window();
+                    currentTab = CurrentTab.GetBD10;
+
+                    break;
+
+                case 1:
+                    //SetDanhSachBD10Window();
+                    SetChiTietWindow();
+                    currentTab = CurrentTab.DanhSach;
+                    break;
+
+                case 2:
+                    SetChiTietWindow();
+                    currentTab = CurrentTab.ChiTiet;
+                    break;
+
+                case 3:
+                    SetThuGonWindow();
+                    currentTab = CurrentTab.ThuGon;
+                    break;
+                case 4:
+                    SetLayChuyenThuWindow();
+                    currentTab = CurrentTab.LayChuyenThu;
+                    break;
+
+                case 5:
+                    currentTab = CurrentTab.LocTui;
+                    SetChiTietWindow();
+                    break;
+                case 6:
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        public ICommand LoadPageCommand { get; }
+        public SnackbarMessageQueue MessageQueue
+        {
+            get { return _MessageQueue; }
+            set { SetProperty(ref _MessageQueue, value); }
+        }
+
+        public ICommand OnCloseWindowCommand { get; }
+        public ICommand SmallerWindowCommand { get; }
+        public ICommand TabChangedCommand { get; }
+        public ICommand TabTuiChangedCommand { get; }
+        public ICommand ToggleWindowCommand { get; }
+        private void createConnection()
+        {
+            //var pathDB = System.IO.Path.Combine(Environment.CurrentDirectory, "dulieu.sqlite");
+            //string _strConnect = @"DataSource=" + pathDB + ";Version=3";
+            //_con = new SqliteConnection(_strConnect);
+            //_con.ConnectionString = _strConnect;
+            //_con.Open();
+        }
+
+        void DefaultWindow(System.Windows.Controls.TabControl tabControl)
+        {
+            //TabChanged(tabControl);
+            SetDefaultWindowTui();
+            isSmallWindow = false;
 
         }
 
+        private void LoadPage(Window window)
+        {
+            _window = window;
+            //SetRightWindow();
+            SetDefaultWindowTui();
+        }
+
+        void MessageShow(string content)
+        {
+            if (MessageQueue == null)
+                MessageQueue = new SnackbarMessageQueue();
+            MessageQueue.Enqueue(content, null, null, null, false, false, TimeSpan.FromSeconds(1));
+
+        }
+
+        private void OnCloseWindow()
+        {
+            _keyboardHook.UnHookKeyboard();
+        }
+
+        private void OnKeyPress(object sender, KeyPressedArgs e)
+        {
+            CountInBD += e.KeyPressed.ToString();
+            //thuc hien kiem tra cua so active hien tai
+
+
+            switch (e.KeyPressed)
+            {
+                case Key.F8:
+                    //Thuc hien nay
+                    WeakReferenceMessenger.Default.Send<MessageManager>(new MessageManager("getData"));
+                    break;
+                case Key.F5:
+                    var currentWindow = APIManager.GetActiveWindowTitle();
+                    if (currentWindow == null)
+                    {
+                        return;
+                    }
+                    if (currentWindow.text.IndexOf("thong tin buu gui") != -1)
+                    {
+                        WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Navigation", Content = "PrintDiNgoai" });
+                    }
+
+                    break;
+                case Key.F1:
+                    var currentWindow1 = APIManager.GetActiveWindowTitle();
+                    if (currentWindow1 == null)
+                        return;
+                    if (currentWindow1.text.IndexOf("khoi tao chuyen thu") != -1)
+                        WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "RunPrintDiNgoai", Content = "PrintDiNgoai" });
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        void ReadNumber()
+        {
+
+        }
+
+        private void SetChiTietWindow()
+        {
+            if (_window == null)
+                return;
+            var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
+            _window.Width = 1150;
+            _window.Height = 600;
+            double width = System.Windows.SystemParameters.PrimaryScreenWidth;
+            double height = System.Windows.SystemParameters.PrimaryScreenHeight;
+            _window.Left = (width - 1150) / 2;
+            _window.Top = (height - 600) / 2;
+        }
+
+        private void SetDanhSachBD10Window()
+        {
+            if (_window == null)
+                return;
+            var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
+            _window.Width = 570;
+            _window.Height = 500;
+            double height = System.Windows.SystemParameters.PrimaryScreenHeight;
+            double width = System.Windows.SystemParameters.PrimaryScreenWidth;
+            // use 'Screen.AllScreens[1].WorkingArea' for secondary screen
+            _window.Left = desktopWorkingArea.Left + width - _window.Width;
+            _window.Top = desktopWorkingArea.Top + 0;
+        }
+
+        void SetDefaultWindowTui()
+        {
+            if (_window == null)
+                return;
+            var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
+            _window.Width = 360;
+            _window.Height = 450;
+            double height = System.Windows.SystemParameters.PrimaryScreenHeight;
+            double width = System.Windows.SystemParameters.PrimaryScreenWidth;
+            // use 'Screen.AllScreens[1].WorkingArea' for secondary screen
+            _window.Left = desktopWorkingArea.Left + width - _window.Width;
+            _window.Top = desktopWorkingArea.Top + 0;
+        }
+
+        private void SetGetBD10Window()
+        {
+            if (_window == null)
+                return;
+            var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
+            _window.Width = 440;
+            _window.Height = 300;
+            double height = System.Windows.SystemParameters.PrimaryScreenHeight;
+            double width = System.Windows.SystemParameters.PrimaryScreenWidth;
+            // use 'Screen.AllScreens[1].WorkingArea' for secondary screen
+            _window.Left = desktopWorkingArea.Left + width - _window.Width;
+            _window.Top = desktopWorkingArea.Top + 0;
+        }
+
+        private void SetLayChuyenThuWindow()
+        {
+            if (_window == null)
+                return;
+            var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
+            _window.Width = 410;
+            _window.Height = 640;
+            double height = System.Windows.SystemParameters.PrimaryScreenHeight;
+            double width = System.Windows.SystemParameters.PrimaryScreenWidth;
+            // use 'Screen.AllScreens[1].WorkingArea' for secondary screen
+            _window.Left = desktopWorkingArea.Left + width - _window.Width;
+            _window.Top = desktopWorkingArea.Top + 0;
+        }
+
+        private void SetRightHeigtTuiWindow()
+        {
+            if (_window == null)
+                return;
+            var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
+            _window.Width = 360;
+            _window.Height = 600;
+            double height = System.Windows.SystemParameters.PrimaryScreenHeight;
+            double width = System.Windows.SystemParameters.PrimaryScreenWidth;
+            // use 'Screen.AllScreens[1].WorkingArea' for secondary screen
+            _window.Left = desktopWorkingArea.Left + width - _window.Width;
+            _window.Top = desktopWorkingArea.Top + 0;
+        }
+
+        private void SetThuGonWindow()
+        {
+            if (_window == null)
+                return;
+            var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
+            _window.Width = 350;
+            _window.Height = 550;
+            double height = System.Windows.SystemParameters.PrimaryScreenHeight;
+            double width = System.Windows.SystemParameters.PrimaryScreenWidth;
+            // use 'Screen.AllScreens[1].WorkingArea' for secondary screen
+            _window.Left = desktopWorkingArea.Left + width - _window.Width;
+            _window.Top = desktopWorkingArea.Top + 0;
+        }
+
+        void SmallerWindow()
+        {
+            if (_window == null)
+                return;
+            var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
+            _window.Width = 100;
+            _window.Height = 335;
+            double height = System.Windows.SystemParameters.PrimaryScreenHeight;
+            double width = System.Windows.SystemParameters.PrimaryScreenWidth;
+            // use 'Screen.AllScreens[1].WorkingArea' for secondary screen
+            _window.Left = desktopWorkingArea.Left + width - _window.Width;
+            _window.Top = desktopWorkingArea.Top + 0;
+        }
+
+        private void TabChanged(System.Windows.Controls.TabControl control)
+        {
+            if (control == null)
+                return;
+            tabControl = control;
+
+           
+        }
+
+        void TabTuiChanged(System.Windows.Controls.TabControl tabControl)
+        {
+            if (tabControl == null)
+                return;
+            tabTuiControl = tabControl;
+            if (tabControl.SelectedIndex != lastSelectedTabTui)
+            {
+                lastSelectedTabTui = tabControl.SelectedIndex;
+            }
+            else
+            {
+                return;
+            }
+
+           
+        }
 
         private void TimerRead_Tick(object sender, EventArgs e)
         {
@@ -491,328 +794,20 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        DispatcherTimer timerRead;
-
-        void ReadNumber()
+        void ToggleWindow()
         {
-
-        }
-
-        void SetDefaultWindowTui()
-        {
-            if (_window == null)
-                return;
-            var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
-            _window.Width = 360;
-            _window.Height = 450;
-            double height = System.Windows.SystemParameters.PrimaryScreenHeight;
-            double width = System.Windows.SystemParameters.PrimaryScreenWidth;
-            // use 'Screen.AllScreens[1].WorkingArea' for secondary screen
-            _window.Left = desktopWorkingArea.Left + width - _window.Width;
-            _window.Top = desktopWorkingArea.Top + 0;
-        }
-
-        private CurrentTab currentTab = CurrentTab.GetBD10;
-
-
-        public string CountInBD { get => _CountInBD; set => SetProperty(ref _CountInBD, value); }
-        public int IndexTabControl
-        {
-            get { return _IndexTabControl; }
-            set { SetProperty(ref _IndexTabControl, value); }
-        }
-
-        public ICommand LoadPageCommand { get; }
-        public SnackbarMessageQueue MessageQueue
-        {
-            get { return _MessageQueue; }
-            set { SetProperty(ref _MessageQueue, value); }
-        }
-
-        public ICommand OnCloseWindowCommand { get; }
-        public ICommand TabChangedCommand { get; }
-        private void createConnection()
-        {
-            //var pathDB = System.IO.Path.Combine(Environment.CurrentDirectory, "dulieu.sqlite");
-            //string _strConnect = @"DataSource=" + pathDB + ";Version=3";
-            //_con = new SqliteConnection(_strConnect);
-            //_con.ConnectionString = _strConnect;
-            //_con.Open();
-        }
-        bool isSmallerWindow = false;
-
-        private void LoadPage(Window window)
-        {
-            _window = window;
-            //SetRightWindow();
-            SetDefaultWindowTui();
-        }
-
-        void MessageShow(string content)
-        {
-            if (MessageQueue == null)
-                MessageQueue = new SnackbarMessageQueue();
-            MessageQueue.Enqueue(content, null, null, null, false, false, TimeSpan.FromSeconds(1));
-
-        }
-
-        private void OnCloseWindow()
-        {
-            _keyboardHook.UnHookKeyboard();
-        }
-
-        public ICommand SmallerWindowCommand { get; }
-
-
-        void SmallerWindow()
-        {
-            if (_window == null)
-                return;
-            var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
-            _window.Width = 100;
-            _window.Height = 335;
-            double height = System.Windows.SystemParameters.PrimaryScreenHeight;
-            double width = System.Windows.SystemParameters.PrimaryScreenWidth;
-            // use 'Screen.AllScreens[1].WorkingArea' for secondary screen
-            _window.Left = desktopWorkingArea.Left + width - _window.Width;
-            _window.Top = desktopWorkingArea.Top + 0;
-        }
-
-        public IRelayCommand<System.Windows.Controls.TabControl> DefaultWindowCommand { get; }
-
-
-        void DefaultWindow(System.Windows.Controls.TabControl tabControl)
-        {
-            //TabChanged(tabControl);
-            SetDefaultWindowTui();
-            isSmallWindow = false;
-
-        }
-
-        public ICommand TabTuiChangedCommand { get; }
-
-        int lastSelectedTabTui = 0;
-        private System.Windows.Controls.TabControl tabTuiControl;
-        void TabTuiChanged(System.Windows.Controls.TabControl tabControl)
-        {
-            if (tabControl == null)
-                return;
-            tabTuiControl = tabControl;
-            if (tabControl.SelectedIndex != lastSelectedTabTui)
+            if (isSmallWindow)
             {
-                lastSelectedTabTui = tabControl.SelectedIndex;
+                isSmallWindow = false;
+                DefaultWindowCommand.Execute(null);
             }
             else
             {
-                return;
+                isSmallWindow = true;
+                SmallerWindowCommand.Execute(null);
+
             }
 
-            switch (tabControl.SelectedIndex)
-            {
-                case 0:
-                    //thuc hien chuyen ve
-                    //currentTab = CurrentTab.GetBD10;
-
-                    SetDefaultWindowTui();
-                    break;
-
-                case 1:
-                    //currentTab = CurrentTab.DanhSach;
-
-                    SetDefaultWindowTui();
-                    break;
-
-                case 2:
-                    //currentTab = CurrentTab.ChiTiet;
-
-                    SetRightHeigtTuiWindow();
-                    break;
-
-                case 3:
-                    //currentTab = CurrentTab.ThuGon;
-
-                    DefaultWindowCommand.Execute(null);
-                    break;
-                case 4:
-                    //currentTab = CurrentTab.LayChuyenThu;
-                    break;
-
-                case 5:
-                    break;
-                //currentTab = CurrentTab.LocTui;
-                case 6:
-                    break;
-
-                default:
-                    break;
-            }
-        }
-
-
-
-
-        private void OnKeyPress(object sender, KeyPressedArgs e)
-        {
-            CountInBD += e.KeyPressed.ToString();
-            //thuc hien kiem tra cua so active hien tai
-
-
-            switch (e.KeyPressed)
-            {
-                case Key.F8:
-                    //Thuc hien nay
-                    WeakReferenceMessenger.Default.Send<MessageManager>(new MessageManager("getData"));
-                    break;
-                case Key.F5:
-                    var currentWindow = APIManager.GetActiveWindowTitle();
-                    if (currentWindow == null)
-                    {
-                        return;
-                    }
-                    if (currentWindow.text.IndexOf("thong tin buu gui") != -1)
-                    {
-                        WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Navigation", Content = "PrintDiNgoai" });
-                    }
-
-                    break;
-                case Key.F1:
-                    var currentWindow1 = APIManager.GetActiveWindowTitle();
-                    if (currentWindow1 == null)
-                        return;
-                    if (currentWindow1.text.IndexOf("khoi tao chuyen thu") != -1)
-                        WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "RunPrintDiNgoai", Content = "PrintDiNgoai" });
-                    break;
-
-                default:
-                    break;
-            }
-        }
-
-        private void SetChiTietWindow()
-        {
-            if (_window == null)
-                return;
-            var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
-            _window.Width = 1150;
-            _window.Height = 600;
-            double width = System.Windows.SystemParameters.PrimaryScreenWidth;
-            double height = System.Windows.SystemParameters.PrimaryScreenHeight;
-            _window.Left = (width - 1150) / 2;
-            _window.Top = (height - 600) / 2;
-        }
-
-        private void SetDanhSachBD10Window()
-        {
-            if (_window == null)
-                return;
-            var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
-            _window.Width = 570;
-            _window.Height = 500;
-            double height = System.Windows.SystemParameters.PrimaryScreenHeight;
-            double width = System.Windows.SystemParameters.PrimaryScreenWidth;
-            // use 'Screen.AllScreens[1].WorkingArea' for secondary screen
-            _window.Left = desktopWorkingArea.Left + width - _window.Width;
-            _window.Top = desktopWorkingArea.Top + 0;
-        }
-        private void SetLayChuyenThuWindow()
-        {
-            if (_window == null)
-                return;
-            var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
-            _window.Width = 410;
-            _window.Height = 640;
-            double height = System.Windows.SystemParameters.PrimaryScreenHeight;
-            double width = System.Windows.SystemParameters.PrimaryScreenWidth;
-            // use 'Screen.AllScreens[1].WorkingArea' for secondary screen
-            _window.Left = desktopWorkingArea.Left + width - _window.Width;
-            _window.Top = desktopWorkingArea.Top + 0;
-        }
-        private void SetRightHeigtTuiWindow()
-        {
-            if (_window == null)
-                return;
-            var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
-            _window.Width = 360;
-            _window.Height = 600;
-            double height = System.Windows.SystemParameters.PrimaryScreenHeight;
-            double width = System.Windows.SystemParameters.PrimaryScreenWidth;
-            // use 'Screen.AllScreens[1].WorkingArea' for secondary screen
-            _window.Left = desktopWorkingArea.Left + width - _window.Width;
-            _window.Top = desktopWorkingArea.Top + 0;
-        }
-
-        private void SetThuGonWindow()
-        {
-            if (_window == null)
-                return;
-            var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
-            _window.Width = 350;
-            _window.Height = 550;
-            double height = System.Windows.SystemParameters.PrimaryScreenHeight;
-            double width = System.Windows.SystemParameters.PrimaryScreenWidth;
-            // use 'Screen.AllScreens[1].WorkingArea' for secondary screen
-            _window.Left = desktopWorkingArea.Left + width - _window.Width;
-            _window.Top = desktopWorkingArea.Top + 0;
-        }
-
-        private void SetGetBD10Window()
-        {
-            if (_window == null)
-                return;
-            var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
-            _window.Width = 440;
-            _window.Height = 300;
-            double height = System.Windows.SystemParameters.PrimaryScreenHeight;
-            double width = System.Windows.SystemParameters.PrimaryScreenWidth;
-            // use 'Screen.AllScreens[1].WorkingArea' for secondary screen
-            _window.Left = desktopWorkingArea.Left + width - _window.Width;
-            _window.Top = desktopWorkingArea.Top + 0;
-        }
-
-        private void TabChanged(System.Windows.Controls.TabControl control)
-        {
-            if (control == null)
-                return;
-            switch (control.SelectedIndex)
-            {
-                case 0:
-                    //thuc hien chuyen ve
-                    SetGetBD10Window();
-                    currentTab = CurrentTab.GetBD10;
-
-                    break;
-
-                case 1:
-                    //SetDanhSachBD10Window();
-                    SetChiTietWindow();
-                    currentTab = CurrentTab.DanhSach;
-
-                    break;
-
-                case 2:
-                    SetChiTietWindow();
-                    currentTab = CurrentTab.ChiTiet;
-                    break;
-
-                case 3:
-                    SetThuGonWindow();
-                    currentTab = CurrentTab.ThuGon;
-                    break;
-                case 4:
-                    SetLayChuyenThuWindow();
-                    currentTab = CurrentTab.LayChuyenThu;
-                    break;
-
-                case 5:
-                    break;
-                    currentTab = CurrentTab.LocTui;
-                    SetChiTietWindow();
-                case 6:
-                    break;
-
-                default:
-                    break;
-            }
         }
 
         private string _CountInBD;
@@ -820,5 +815,22 @@ namespace TaoBD10.ViewModels
         private Y2KeyboardHook _keyboardHook;
         private SnackbarMessageQueue _MessageQueue;
         private Window _window;
+        int countError = 1;
+        private CurrentTab currentTab = CurrentTab.GetBD10;
+        bool isErrorSay = true;
+        bool isHaveError = false;
+        bool isNewNumber = true;
+        bool isReading = true;
+        bool isSmallerWindow = false;
+        bool isSmallWindow = false;
+        int lastNumber = 0;
+        int lastSelectedTabTui = 0;
+        string loaiCurrent = "";
+        string maSoBuuCucCurrent = "";
+        int numberRead = 0;
+        string soCTCurrent = "";
+        System.Windows.Controls.TabControl tabControl;
+        private System.Windows.Controls.TabControl tabTuiControl;
+        DispatcherTimer timerRead;
     }
 }

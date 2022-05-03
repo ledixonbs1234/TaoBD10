@@ -16,11 +16,16 @@
             <RowDefinition Height="305*" />
             <RowDefinition Height="70" />
         </Grid.RowDefinitions>
-        <TextBlock Text="Số lượng" />
-        <TextBlock
-            Foreground="Blue"
-            Style="{StaticResource MaterialDesignHeadline2TextBlock}"
-            Text="{Binding CountTamQuan}" />
+        <StackPanel Orientation="Horizontal">
+            <TextBlock VerticalAlignment="Center" Text="Số lượng" />
+            <TextBlock
+                Margin="5"
+                VerticalAlignment="Center"
+                Foreground="Blue"
+                Style="{StaticResource MaterialDesignHeadline2TextBlock}"
+                Text="{Binding CountTamQuan}" />
+        </StackPanel>
+
         <DataGrid
             Grid.Row="1"
             Height="300"
@@ -78,7 +83,7 @@
             <Button
                 Margin="5"
                 HorizontalAlignment="Right"
-                Command="{Binding SendCommand}"
+                Command="{Binding SendDataCommand}"
                 Content="Send" />
         </Grid>
     </Grid>

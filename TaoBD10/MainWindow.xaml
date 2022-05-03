@@ -84,12 +84,10 @@
             <!--  Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"  -->
 
         </materialDesign:DrawerHost>
-        <TabControl Name="TabTui" TabStripPlacement="Left">
-            <Behaviors:Interaction.Triggers>
-                <Behaviors:EventTrigger EventName="SelectionChanged">
-                    <Behaviors:InvokeCommandAction Command="{Binding TabTuiChangedCommand}" CommandParameter="{Binding ElementName=TabTui}" />
-                </Behaviors:EventTrigger>
-            </Behaviors:Interaction.Triggers>
+        <TabControl
+            Name="TabTui"
+            SelectedIndex="{Binding IndexTabTui}"
+            TabStripPlacement="Left">
             <TabItem Header="CHINH">
                 <view:ChinhView />
             </TabItem>
@@ -116,11 +114,6 @@
                     materialDesign:ColorZoneAssist.Mode="SecondaryLight"
                     SelectedIndex="{Binding IndexTabControl}"
                     TabStripPlacement="Bottom">
-                    <Behaviors:Interaction.Triggers>
-                        <Behaviors:EventTrigger EventName="SelectionChanged">
-                            <Behaviors:InvokeCommandAction Command="{Binding TabChangedCommand}" CommandParameter="{Binding ElementName=TabControl}" />
-                        </Behaviors:EventTrigger>
-                    </Behaviors:Interaction.Triggers>
                     <TabItem>
                         <TabItem.Header>
                             <TextBlock Text="Get BD 10" />

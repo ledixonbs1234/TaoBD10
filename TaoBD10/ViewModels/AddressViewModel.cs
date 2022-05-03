@@ -8,13 +8,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using TaoBD10.Manager;
 using TaoBD10.Model;
+using uPLibrary.Networking.M2Mqtt;
+using uPLibrary.Networking.M2Mqtt.Messages;
 
 namespace TaoBD10.ViewModels
 {
     public class AddressViewModel : ObservableObject
     {
         private ObservableCollection<HangHoaDetailModel> _HangHoas;
+        readonly MqttClient client;
 
         public ObservableCollection<HangHoaDetailModel> HangHoas
         {
@@ -30,6 +34,23 @@ namespace TaoBD10.ViewModels
             set { SetProperty(ref _CountTamQuan, value); }
         }
 
+        public ICommand SendDataCommand { get; }
+
+
+        void SendData()
+        {
+            string dataSend = "";
+            foreach (var item in HangHoas)
+            {
+                if (item.IsTamQuan)
+                {
+                    dataSend += item.TuiHangHoa.SHTui + "\n";
+                }
+            }
+            client.Publish("tamquanget", Encoding.UTF8.GetBytes(dataSend), MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, true);
+        }
+        string _clientId;
+
 
 
 
@@ -40,6 +61,12 @@ namespace TaoBD10.ViewModels
             LayDanhSachCommand = new RelayCommand(LayDanhSach);
             LocCommand = new RelayCommand(Loc);
             LayDiaChiCommand = new RelayCommand(LayDiaChi);
+            SendDataCommand = new RelayCommand(SendData);
+
+            client = new MqttClient("broker.hivemq.com");
+            _clientId = Guid.NewGuid().ToString();
+            client.Connect(_clientId);
+
             WeakReferenceMessenger.Default.Register<TuiHangHoaMessage>(this, (r, m) =>
             {
                 if (m.Value == null)
@@ -69,7 +96,7 @@ namespace TaoBD10.ViewModels
 
                 }
             });
-
+            string[] fillTamQuan = { "tam quan", "hoai son", "hoai chau", "hoai hao", "hoai phu", "hoai thanh" };
             WeakReferenceMessenger.Default.Register<WebContentModel>(this, (r, m) =>
             {
                 if (m.Key != "AddressTamQuan")
@@ -78,11 +105,34 @@ namespace TaoBD10.ViewModels
                 if (hangHoa != null)
                 {
                     hangHoa.Address = m.AddressReiceive.Trim();
+                    //thuc hien kiem tra tam quan
+                    if (!string.IsNullOrEmpty(hangHoa.Address))
+                    {
+                        foreach (var fill in fillTamQuan)
+                        {
+                            if (APIManager.convertToUnSign3(hangHoa.Address).ToLower().IndexOf(fill) != -1)
+                            {
+                                hangHoa.IsTamQuan = true;
+                                SetCountTamQuan();
+                                break;
+                            }
+                        }
+                    }
                     LayDiaChi();
                 }
             });
-
         }
+
+        void SetCountTamQuan()
+        {
+            var data = HangHoas.Where(m => m.IsTamQuan);
+            if (data != null)
+            {
+                CountTamQuan = data.Count();
+            }
+        }
+
+
 
         public ICommand LayDanhSachCommand { get; }
         public ICommand LocCommand { get; }

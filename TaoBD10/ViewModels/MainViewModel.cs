@@ -242,11 +242,17 @@ namespace TaoBD10.ViewModels
                     {
                         return;
                     }
-                    if (currentWindow.text.IndexOf("thong tin buu gui") != -1)
+
+                    string textCo = APIManager.convertToUnSign3(currentWindow.text).ToLower();
+
+                    if (textCo.IndexOf("sua thong tin bd10") != -1 || textCo.IndexOf("lap bd10") != -1)
+                    {
+                        WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "GuiTrucTiep", Content = "PrintDiNgoai" });
+                    }
+                    else if (currentWindow.text.IndexOf("thong tin buu gui") != -1)
                     {
                         WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Navigation", Content = "PrintDiNgoai" });
                     }
-
                     break;
                 case Key.F1:
                     var currentWindow1 = APIManager.GetActiveWindowTitle();

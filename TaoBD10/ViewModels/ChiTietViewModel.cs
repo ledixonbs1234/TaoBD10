@@ -184,6 +184,9 @@ namespace TaoBD10.ViewModels
                    }
 
                     WeakReferenceMessenger.Default.Send<TuiHangHoaMessage>(new TuiHangHoaMessage(data));
+                }else if (m.Key == "GuiTrucTiep")
+                {
+                    GuiTrucTiep();
                 }
             });
 

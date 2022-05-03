@@ -89,7 +89,7 @@ namespace TaoBD10.ViewModels
 
         private void OnSelectedTabTui()
         {
-            switch (tabControl.SelectedIndex)
+            switch (IndexTabTui)
             {
                 case 0:
                     //thuc hien chuyen ve
@@ -123,7 +123,7 @@ namespace TaoBD10.ViewModels
                     break;
                 //currentTab = CurrentTab.LocTui;
                 case 6:
-                    TabChanged(tabControl);
+                    OnSelectedTabBD();
                     break;
                 default:
                     break;
@@ -166,6 +166,8 @@ namespace TaoBD10.ViewModels
                     SetChiTietWindow();
                     break;
                 case 6:
+                    SetChiTietWindow();
+                    currentTab = CurrentTab.Address;
                     break;
 
                 default:
@@ -310,7 +312,7 @@ namespace TaoBD10.ViewModels
             if (_window == null)
                 return;
             var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
-            _window.Width = 440;
+            _window.Width = 470;
             _window.Height = 300;
             double height = System.Windows.SystemParameters.PrimaryScreenHeight;
             double width = System.Windows.SystemParameters.PrimaryScreenWidth;

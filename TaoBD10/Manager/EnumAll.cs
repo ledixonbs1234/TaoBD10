@@ -64,7 +64,8 @@
             ChiTiet,
             ThuGon,
             LayChuyenThu,
-            LocTui
+            LocTui,
+            Address
         }
 
         public enum TrangThaiBD

@@ -22,7 +22,11 @@ namespace TaoBD10.ViewModels
         public ObservableCollection<TuiHangHoa> ListHangHoa
         {
             get { return _ListHangHoa; }
-            set { SetProperty(ref _ListHangHoa, value); }
+            set {
+                SetProperty(ref _ListHangHoa, value);
+                ;
+
+            }
         }
 
         private string _NameBD;
@@ -30,7 +34,9 @@ namespace TaoBD10.ViewModels
         public string NameBD
         {
             get { return _NameBD; }
-            set { SetProperty(ref _NameBD, value);
+            set
+            {
+                SetProperty(ref _NameBD, value);
                 CapNhatCommand.NotifyCanExecuteChanged();
                 ClearCommand.NotifyCanExecuteChanged();
             }
@@ -41,16 +47,38 @@ namespace TaoBD10.ViewModels
 
         void CapNhat()
         {
-           
-            FileManager.SaveData(new BD10InfoModel(NameBD, ListHangHoa.ToList(), DateTime.Now, EnumAll.TimeSet.Sang, "1"));
-            WeakReferenceMessenger.Default.Send<string>("LoadBD10");
-            WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Snackbar", Content = "Đã Tạo BĐ 10 với tên : " + NameBD });
+            //cap nhat ma khong co ten thi se chuyen qua chi tiet de kiem tra lai
+            BD10InfoModel bd10 = new BD10InfoModel();
+            bd10.Name = "Tam Thoi";
+            bd10.DateCreateBD10 = DateTime.Now;
+            bd10.LanLap = "1";
+            bd10.TimeTrongNgay = EnumAll.TimeSet.Sang;
+            bd10.TuiHangHoas = ListHangHoa.ToList();
+
+
+            if (string.IsNullOrEmpty(NameBD))
+            {
+                List<BD10InfoModel> listBD10 = new List<BD10InfoModel>();
+                listBD10.Add(bd10);
+                WeakReferenceMessenger.Default.Send<BD10Message>(new BD10Message(listBD10));
+                //thuc hien navigate to chi tiet
+                WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Navigation", Content = "GoChiTiet" });
+
+            }
+            else
+            {
+                FileManager.SaveData(new BD10InfoModel(NameBD, ListHangHoa.ToList(), DateTime.Now, EnumAll.TimeSet.Sang, "1"));
+                WeakReferenceMessenger.Default.Send<string>("LoadBD10");
+                WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Snackbar", Content = "Đã Tạo BĐ 10 với tên : " + NameBD });
+            }
+
+
             //MessageShow("Đã Tạo BĐ 10 với tên : " + NameBD);
         }
 
         public IRelayCommand ClearCommand { get; }
 
-    
+
         void ClearData()
         {
 
@@ -113,8 +141,9 @@ namespace TaoBD10.ViewModels
         public LocTuiViewModel()
         {
             ListHangHoa = new ObservableCollection<TuiHangHoa>();
-            ClearCommand = new RelayCommand(ClearData,()=> {
-                if ( ListHangHoa.Count != 0)
+            ClearCommand = new RelayCommand(ClearData, () =>
+            {
+                if (ListHangHoa.Count != 0)
                 {
                     return true;
                 }
@@ -124,12 +153,14 @@ namespace TaoBD10.ViewModels
                 }
             });
 
-            CapNhatCommand = new RelayCommand(CapNhat,()=> {
-             
-                if (!string.IsNullOrEmpty(NameBD)&& ListHangHoa.Count != 0)
+            CapNhatCommand = new RelayCommand(CapNhat, () =>
+            {
+
+                if ( ListHangHoa.Count != 0)
                 {
                     return true;
-                }else
+                }
+                else
                 {
                     return false;
                 }

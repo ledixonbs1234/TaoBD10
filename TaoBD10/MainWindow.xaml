@@ -112,8 +112,7 @@
                     Margin="5"
                     HorizontalContentAlignment="Left"
                     materialDesign:ColorZoneAssist.Mode="SecondaryLight"
-                    SelectedIndex="{Binding IndexTabControl}"
-                    TabStripPlacement="Bottom">
+                    SelectedIndex="{Binding IndexTabControl}" TabStripPlacement="Bottom">
                     <TabItem>
                         <TabItem.Header>
                             <TextBlock Text="Get BD 10" />

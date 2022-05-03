@@ -556,7 +556,6 @@ namespace TaoBD10.ViewModels
         private void OnSelectedSimple()
         {
             timerDiNgoai.Start();
-            WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Snackbar", Content = "Dang chon tinh" });
             //thuc hien
         }
 

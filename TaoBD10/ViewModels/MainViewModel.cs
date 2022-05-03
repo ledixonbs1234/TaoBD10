@@ -18,6 +18,7 @@ namespace TaoBD10.ViewModels
 {
     public class MainViewModel : ObservableObject
     {
+
         public MainViewModel()
         {
             LoadPageCommand = new RelayCommand<Window>(LoadPage);
@@ -29,8 +30,9 @@ namespace TaoBD10.ViewModels
             TabTuiChangedCommand = new RelayCommand<System.Windows.Controls.TabControl>(TabTuiChanged);
 
             timerRead = new DispatcherTimer();
-            timerRead.Interval = new TimeSpan(2000);
+            timerRead.Interval = new TimeSpan(0,0,0,0,200);
             timerRead.Tick += TimerRead_Tick;
+            timerRead.Start();
 
 
             _keyboardHook = new Y2KeyboardHook();

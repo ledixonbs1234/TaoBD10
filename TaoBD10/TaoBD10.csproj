@@ -148,6 +148,7 @@
     <Compile Include="Model\HangHoaDetailModel.cs" />
     <Compile Include="Model\SHTuiCodeModel.cs" />
     <Compile Include="Model\SnackbarModel.cs" />
+    <Compile Include="Model\TestAPIModel.cs" />
     <Compile Include="Model\TuiHangHoa.cs" />
     <Compile Include="Model\TuiXacNhanModel.cs" />
     <Compile Include="Model\WebContentModel.cs" />

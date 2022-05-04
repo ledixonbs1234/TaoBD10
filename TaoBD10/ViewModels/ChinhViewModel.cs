@@ -657,6 +657,7 @@ namespace TaoBD10.ViewModels
             APIManager.SendMessage(Tinh, 0x0007, 0, 0);            //thuc hien nhap vao
             var inputImulator = new InputSimulator();
             inputImulator.Keyboard.TextEntry(currentChuyenThu.NumberTinh);
+            Thread.Sleep(200);
             inputImulator.Keyboard.KeyPress(VirtualKeyCode.TAB);
 
             inputImulator.Keyboard.TextEntry(currentChuyenThu.TextLoai);
@@ -798,7 +799,7 @@ namespace TaoBD10.ViewModels
             {
                 SendKeys.SendWait("A{BS}{BS}");
                 Thread.Sleep(700);
-                SoundManager.playSound(@"\music\" + currentChuyenThu.NameMusic + ".wav");
+                SoundManager.playSound2(@"\music\" + currentChuyenThu.NameMusic + ".wav");
             }
             else
             {

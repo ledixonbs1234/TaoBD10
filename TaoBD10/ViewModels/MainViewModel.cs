@@ -28,7 +28,7 @@ namespace TaoBD10.ViewModels
             DefaultWindowCommand = new RelayCommand<System.Windows.Controls.TabControl>(DefaultWindow);
             ToggleWindowCommand = new RelayCommand(ToggleWindow);
             TabTuiChangedCommand = new RelayCommand<System.Windows.Controls.TabControl>(TabTuiChanged);
-
+          
             timerRead = new DispatcherTimer();
             timerRead.Interval = new TimeSpan(0, 0, 0, 0, 200);
             timerRead.Tick += TimerRead_Tick;
@@ -40,6 +40,7 @@ namespace TaoBD10.ViewModels
             _keyboardHook.HookKeyboard();
             createConnection();
             SoundManager.SetUpDirectory();
+
             WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>
             {
                 if (m.Key == "Navigation")
@@ -553,6 +554,10 @@ namespace TaoBD10.ViewModels
                 int countGr = 0;
                 int countDongChuyenThu = 0;
                 int count = 0;
+
+                //nen thuc hien chi 1 lan thoi
+                List<TestAPIModel> list =APIManager.GetListControlText(activeWindow.hwnd);
+
                 foreach (var item in allChild)
                 {
                     //thuc hien lay text cua handle item

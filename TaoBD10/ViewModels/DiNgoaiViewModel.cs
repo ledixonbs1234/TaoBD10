@@ -77,6 +77,9 @@ namespace TaoBD10.ViewModels
         {
             if (selected == null)
                 return;
+
+            //thuc hien doc index
+            SoundManager.playSound(@"Number\" + selected.Index + ".wav");
             OnSelectedSimple();
             
         }

@@ -63,6 +63,25 @@ namespace TaoBD10.Manager
             }
         }
 
+        public static List<TestAPIModel> GetListControlText(IntPtr handleActiveWindow)
+        {
+            var allChild = GetAllChildHandles(handleActiveWindow);
+
+            List<TestAPIModel> list = new List<TestAPIModel>();
+            int count = 0;
+            foreach (var item in allChild)
+            {
+                TestAPIModel test = new TestAPIModel();
+                test.Index = count;
+                count++;
+                test.Text = APIManager.GetControlText(item);
+
+                test.ClassName = APIManager.GetWindowClass(item);
+                list.Add(test);
+            }
+            return list;
+        }
+
 
         public static WindowInfo GetActiveWindowTitle(bool isExactly = false)
         {

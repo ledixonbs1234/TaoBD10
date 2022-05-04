@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using TaoBD10.Manager;
 using TaoBD10.Model;
@@ -63,20 +64,28 @@ namespace TaoBD10.ViewModels
             LayDiaChiCommand = new RelayCommand(LayDiaChi);
             SendDataCommand = new RelayCommand(SendData);
 
-            client = new MqttClient("broker.hivemq.com");
-            _clientId = Guid.NewGuid().ToString();
-            client.Connect(_clientId);
+            try
+            {
+                client = new MqttClient("broker.hivemq.com");
+                _clientId = Guid.NewGuid().ToString();
+                client.Connect(_clientId);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+
+            }
 
             WeakReferenceMessenger.Default.Register<TuiHangHoaMessage>(this, (r, m) =>
-            {
-                if (m.Value == null)
-                    return;
-                HangHoas.Clear();
-                foreach (HangHoaDetailModel item in m.Value)
-                {
-                    HangHoas.Add(item);
-                }
-            });
+{
+    if (m.Value == null)
+        return;
+    HangHoas.Clear();
+    foreach (HangHoaDetailModel item in m.Value)
+    {
+        HangHoas.Add(item);
+    }
+});
 
             WeakReferenceMessenger.Default.Register<SHTuiMessage>(this, (r, m) =>
             {

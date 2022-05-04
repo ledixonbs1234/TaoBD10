@@ -644,6 +644,16 @@ namespace TaoBD10.ViewModels
                 }
 
 
+                isHaveError = false;
+                int.TryParse(Regex.Match(APIManager.GetControlText(allChild[25]), @"\d+").Value, out numberRead);
+            }
+            else if (activeWindow.text.IndexOf("sua thong tin bd10") != -1)
+            {
+                isHaveError = false;
+                int count = 0;
+                int countEdit = 0;
+
+
                 List<TestAPIModel> list = APIManager.GetListControlText(activeWindow.hwnd);
                 string a = "";
                 foreach (var item in list)
@@ -651,35 +661,6 @@ namespace TaoBD10.ViewModels
                     a += item.Index.ToString() + "|" + item.Text + "|" + item.ClassName + "\n";
                 }
 
-
-                isHaveError = false;
-                int count = 0;
-                foreach (var item in allChild)
-                {
-                    string cWindow = APIManager.GetWindowClass(item);
-                    if (cWindow.IndexOf("WindowsForms10.STATIC.app.0.1e6fa8e") != -1)
-                    {
-                        if (count == 7)
-                        {
-                            //thuc hien lay class nay
-                            String text = APIManager.GetControlText(item);
-                            string resultString = Regex.Match(text, @"\d+").Value;
-                            bool isRight = int.TryParse(resultString, out numberRead);
-                            if (!isRight)
-                            {
-                                return;
-                            }
-                            break;
-                        }
-                        count++;
-                    }
-                }
-            }
-            else if (activeWindow.text.IndexOf("sua thong tin bd10") != -1)
-            {
-                isHaveError = false;
-                int count = 0;
-                int countEdit = 0;
                 foreach (var item in allChild)
                 {
                     string cWindow = APIManager.GetWindowClass(item);

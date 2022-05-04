@@ -28,7 +28,7 @@ namespace TaoBD10.ViewModels
             DefaultWindowCommand = new RelayCommand<System.Windows.Controls.TabControl>(DefaultWindow);
             ToggleWindowCommand = new RelayCommand(ToggleWindow);
             TabTuiChangedCommand = new RelayCommand<System.Windows.Controls.TabControl>(TabTuiChanged);
-          
+
             timerRead = new DispatcherTimer();
             timerRead.Interval = new TimeSpan(0, 0, 0, 0, 200);
             timerRead.Tick += TimerRead_Tick;
@@ -299,7 +299,7 @@ namespace TaoBD10.ViewModels
                         return;
                     if (currentWindow1.text.IndexOf("khoi tao chuyen thu") != -1)
                         WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "RunPrintDiNgoai", Content = "PrintDiNgoai" });
-                    else if(currentWindow1.text.IndexOf("dong chuyen thu")!= -1)
+                    else if (currentWindow1.text.IndexOf("dong chuyen thu") != -1)
                     {
                         WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Chinh", Content = "Print" });
                     }
@@ -534,6 +534,9 @@ namespace TaoBD10.ViewModels
 
         }
 
+        //tu khoa handle
+        string TextCurrentActive = "";
+
         private void TimerRead_Tick(object sender, EventArgs e)
         {
             WindowInfo activeWindow = APIManager.GetActiveWindowTitle();
@@ -550,13 +553,44 @@ namespace TaoBD10.ViewModels
 
             if (activeWindow.text.IndexOf("dong chuyen thu") != -1)
             {
+                if (TextCurrentActive != "dong chuyen thu")
+                {
+                    TextCurrentActive = "dong chuyen thu";
+                    allChild = APIManager.GetAllChildHandles(activeWindow.hwnd);
+                    maSoBuuCucCurrent = APIManager.GetControlText(allChild[25]);
+                    string temLow = APIManager.convertToUnSign3(APIManager.GetControlText(allChild[25])).ToLower();
+                    soCTCurrent = APIManager.GetControlText(allChild[29]);
+
+                    if (temLow.IndexOf("buu kien") != -1)
+                    {
+                        loaiCurrent = "C";
+                    }
+                    else if (temLow.IndexOf("ems") != -1)
+                    {
+                        loaiCurrent = "E";
+                    }
+                    else if (temLow.IndexOf("buu pham") != -1)
+                    {
+                        loaiCurrent = "R";
+                    }
+                    else if (temLow.IndexOf("logi") != -1)
+                    {
+                        loaiCurrent = "P";
+                    }
+                }
                 isHaveError = false;
                 int countGr = 0;
                 int countDongChuyenThu = 0;
                 int count = 0;
 
                 //nen thuc hien chi 1 lan thoi
-                List<TestAPIModel> list =APIManager.GetListControlText(activeWindow.hwnd);
+                List<TestAPIModel> list = APIManager.GetListControlText(activeWindow.hwnd);
+                string a = "";
+                foreach (var item in list)
+                {
+                    a += item.Index.ToString() + "|" + item.Text + "|" + item.ClassName + "\n";
+                }
+
 
                 foreach (var item in allChild)
                 {
@@ -565,45 +599,6 @@ namespace TaoBD10.ViewModels
                     count++;
 
                     string className = APIManager.GetWindowClass(item);
-                    if (className.IndexOf("WindowsForms10.EDIT.app.0.1e6fa8e") != -1)
-                    {
-                        countDongChuyenThu++;
-                        if (countDongChuyenThu == 3)
-                        {
-                            if (!string.IsNullOrEmpty(text))
-                            {
-                                maSoBuuCucCurrent = text.Substring(0, 6);
-                            }
-                            else
-                            {
-                                countDongChuyenThu--;
-                            }
-                        }
-                        if (countDongChuyenThu == 4)
-                        {
-                            string temLow = APIManager.convertToUnSign3(text).ToLower();
-                            if (temLow.IndexOf("buu kien") != -1)
-                            {
-                                loaiCurrent = "C";
-                            }
-                            else if (temLow.IndexOf("ems") != -1)
-                            {
-                                loaiCurrent = "E";
-                            }
-                            else if (temLow.IndexOf("buu pham") != -1)
-                            {
-                                loaiCurrent = "R";
-                            }
-                            else if (temLow.IndexOf("logi") != -1)
-                            {
-                                loaiCurrent = "P";
-                            }
-                        }
-                        if (countDongChuyenThu == 7)
-                        {
-                            soCTCurrent = text;
-                        }
-                    }
 
                     if (text.IndexOf("gr") != -1 && countGr == 0)
                     {

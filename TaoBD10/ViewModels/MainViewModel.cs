@@ -536,6 +536,7 @@ namespace TaoBD10.ViewModels
 
         //tu khoa handle
         string TextCurrentActive = "";
+        string CaiChiTiet = "";
 
         private void TimerRead_Tick(object sender, EventArgs e)
         {
@@ -579,16 +580,6 @@ namespace TaoBD10.ViewModels
                     }
                 }
                 isHaveError = false;
-                int countGr = 0;
-                int countDongChuyenThu = 0;
-                int count = 0;
-
-
-
-
-              
-
-
                 //trong luong // can kiem tra lai
                 string grText = APIManager.GetControlText(allChild[14]);
                 grText = grText.Replace("(gr)", "");
@@ -611,34 +602,48 @@ namespace TaoBD10.ViewModels
 
                 if (caiText.IndexOf("cái") != -1)
                 {
-                    //thuc hien cai thu 2
-                    //regex get number
-                    string resultString = Regex.Match(caiText, @"\d+").Value;
-                    bool isRight = int.TryParse(resultString, out numberRead);
-
-                    if (!isRight)
-                    {
-                        timerRead.Stop();
-                        System.Windows.MessageBox.Show("Không phải số. \n Vui lòng mở lại chương trình.");
-                    }
-
-                    //thuc hien doc so
+                    int.TryParse(Regex.Match(caiText, @"\d+").Value, out numberRead);
                 }
 
             }
             else
             if (activeWindow.text.IndexOf("xac nhan chi tiet tui thu") != -1)
             {
-                if(TextCurrentActive != "Xac Nhan Chi Tiet")
+                if (TextCurrentActive != "Xac Nhan Chi Tiet")
                 {
                     TextCurrentActive = "Xac Nhan Chi Tiet";
                     allChild = APIManager.GetAllChildHandles(activeWindow.hwnd);
-
+                    CaiChiTiet = APIManager.GetControlText(allChild[2]);
                 }
                 isHaveError = false;
 
+                //thuc hien cai thu 2
+                //regex get number
+                int.TryParse(Regex.Match(CaiChiTiet, @"\d+").Value, out numberRead);
+                //thuc hien doc so
 
-                //nen thuc hien chi 1 lan thoi
+
+            }
+            else if (activeWindow.text.IndexOf("xac nhan bd10 theo so hieu tui") != -1)
+            {
+                isHaveError = false;
+                if (TextCurrentActive != "Xac Nhan BD Theo Tui")
+                {
+                    TextCurrentActive = "Xac Nhan BD Theo Tui";
+                    allChild = APIManager.GetAllChildHandles(activeWindow.hwnd);
+                }
+                int.TryParse(Regex.Match(APIManager.GetControlText(allChild[24]), @"\d+").Value, out numberRead);
+            }
+            else if (activeWindow.text.IndexOf("lap bd10 theo duong thu") != -1)
+            {
+
+                if (TextCurrentActive != "Lap BD10 Theo DT")
+                {
+                    TextCurrentActive = "Lap BD10 Theo DT";
+                    allChild = APIManager.GetAllChildHandles(activeWindow.hwnd);
+                }
+
+
                 List<TestAPIModel> list = APIManager.GetListControlText(activeWindow.hwnd);
                 string a = "";
                 foreach (var item in list)
@@ -647,58 +652,6 @@ namespace TaoBD10.ViewModels
                 }
 
 
-                foreach (var item in allChild)
-                {
-                    //thuc hien lay text cua handle item
-                    String text = APIManager.GetControlText(item);
-
-                    //loc name
-                    if (text.IndexOf("cái") != -1)
-                    {
-                        //thuc hien cai thu 2
-                        //regex get number
-                        string resultString = Regex.Match(text, @"\d+").Value;
-                        bool isRight = int.TryParse(resultString, out numberRead);
-                        if (!isRight)
-                        {
-                            timerRead.Stop();
-                            System.Windows.MessageBox.Show("Không phải số. \n Vui lòng mở lại chương trình.");
-                        }
-                        break;
-                        //thuc hien doc so
-                    }
-                }
-            }
-            else if (activeWindow.text.IndexOf("xac nhan bd10 theo so hieu tui") != -1)
-            {
-                isHaveError = false;
-                int count = 0;
-                foreach (var item in allChild)
-                {
-                    string cWindow = APIManager.GetWindowClass(item);
-                    if (cWindow.IndexOf("WindowsForms10.STATIC.app.0.1e6fa8e") != -1)
-                    {
-                        if (count == 8)
-                        {
-                            //thuc hien lay class nay
-                            String text = APIManager.GetControlText(item);
-                            string resultString = Regex.Match(text, @"\d+").Value;
-                            bool isRight = int.TryParse(resultString, out numberRead);
-                            if (!isRight)
-                            {
-                                return;
-                                //timerRead.Stop();
-
-                                //MessageBox.Show("Không phải số. \n Vui lòng mở lại chương trình.");
-                            }
-                            break;
-                        }
-                        count++;
-                    }
-                }
-            }
-            else if (activeWindow.text.IndexOf("lap bd10 theo duong thu") != -1)
-            {
                 isHaveError = false;
                 int count = 0;
                 foreach (var item in allChild)

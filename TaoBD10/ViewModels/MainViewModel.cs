@@ -30,7 +30,7 @@ namespace TaoBD10.ViewModels
             TabTuiChangedCommand = new RelayCommand<System.Windows.Controls.TabControl>(TabTuiChanged);
 
             timerRead = new DispatcherTimer();
-            timerRead.Interval = new TimeSpan(0,0,0,0,200);
+            timerRead.Interval = new TimeSpan(0, 0, 0, 0, 200);
             timerRead.Tick += TimerRead_Tick;
             timerRead.Start();
 
@@ -56,7 +56,8 @@ namespace TaoBD10.ViewModels
                     else if (m.Content == "SmallRight")
                     {
                         SetRightHeigtTuiWindow();
-                    }else if(m.Content == "Web")
+                    }
+                    else if (m.Content == "Web")
                     {
                         if (tabTuiControl != null)
                             tabTuiControl.SelectedIndex = 1;
@@ -73,9 +74,11 @@ namespace TaoBD10.ViewModels
         public int IndexTabControl
         {
             get { return _IndexTabControl; }
-            set { SetProperty(ref _IndexTabControl, value);
+            set
+            {
+                SetProperty(ref _IndexTabControl, value);
                 OnSelectedTabBD();
-            
+
             }
         }
 
@@ -84,7 +87,9 @@ namespace TaoBD10.ViewModels
         public int IndexTabTui
         {
             get { return _IndexTabTui; }
-            set { SetProperty(ref _IndexTabTui, value);
+            set
+            {
+                SetProperty(ref _IndexTabTui, value);
                 OnSelectedTabTui();
             }
         }
@@ -226,14 +231,45 @@ namespace TaoBD10.ViewModels
             _keyboardHook.UnHookKeyboard();
         }
 
+        private string KeyData = "";
+
         private void OnKeyPress(object sender, KeyPressedArgs e)
         {
-            CountInBD += e.KeyPressed.ToString();
             //thuc hien kiem tra cua so active hien tai
 
 
             switch (e.KeyPressed)
             {
+                case Key.D0:
+                    KeyData += "0";
+                    break;
+                case Key.D1:
+                    KeyData += "1";
+                    break;
+                case Key.D2:
+                    KeyData += "2";
+                    break;
+                case Key.D3:
+                    KeyData += "3";
+                    break;
+                case Key.D4:
+                    KeyData += "4";
+                    break;
+                case Key.D5:
+                    KeyData += "5";
+                    break;
+                case Key.D6:
+                    KeyData += "6";
+                    break;
+                case Key.D7:
+                    KeyData += "7";
+                    break;
+                case Key.D8:
+                    KeyData += "8";
+                    break;
+                case Key.D9:
+                    KeyData += "9";
+                    break;
                 case Key.F8:
                     //Thuc hien nay
                     WeakReferenceMessenger.Default.Send<MessageManager>(new MessageManager("getData"));
@@ -262,16 +298,102 @@ namespace TaoBD10.ViewModels
                         return;
                     if (currentWindow1.text.IndexOf("khoi tao chuyen thu") != -1)
                         WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "RunPrintDiNgoai", Content = "PrintDiNgoai" });
+                    else if(currentWindow1.text.IndexOf("dong chuyen thu")!= -1)
+                    {
+                        WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Chinh", Content = "Print" });
+                    }
+                    break;
+                case Key.Enter:
+                    KeyData = KeyData.ToLower();
+
+                    if (KeyData.IndexOf("mokntb") != -1)
+                    {
+                        WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Chinh", Content = "Kien" });
+                    }
+                    else if (KeyData.IndexOf("moentb") != -1)
+                    {
+                        WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Chinh", Content = "EMS" });
+                    }
+                    else
+                   if (KeyData.IndexOf("moqnmth") != -1)
+                    {
+                        WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Chinh", Content = "QuiNhon1" });
+                    }
+                    else if (KeyData.IndexOf("moqnhth") != -1)
+                    {
+                        WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Chinh", Content = "QuiNhon2" });
+                    }
+                    else if (KeyData.IndexOf("mopmth") != -1)
+                    {
+                        WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Chinh", Content = "PhuMy" });
+                    }
+                    else
+                   if (KeyData.IndexOf("mopcth") != -1)
+                    {
+                        WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Chinh", Content = "PhuCat" });
+                    }
+                    else if (KeyData.IndexOf("moanth") != -1)
+                    {
+                        WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Chinh", Content = "AnNhon" });
+                    }
+                    else if (KeyData.IndexOf("mohath") != -1)
+                    {
+                        WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Chinh", Content = "HoaiAn" });
+                    }
+                    else if (KeyData.IndexOf("moamth") != -1)
+                    {
+                        WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Chinh", Content = "AnMy" });
+                    }
+                    else if (KeyData.IndexOf("moalth") != -1)
+                    {
+                        WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Chinh", Content = "AnLao" });
+                    }
+                    else if (KeyData.IndexOf("moahth") != -1)
+                    {
+                        WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Chinh", Content = "AnHoa" });
+                    }
+                    //else if (KeyData.IndexOf("thoattui") != -1)
+                    //{
+                    //    trangThaiThoat = TrangThaiThoat.CanhBao;
+                    //    timerThoat.Start();
+                    //}
+                    else if (KeyData.IndexOf("montbth") != -1)
+                    {
+                        WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Chinh", Content = "TongHop" });
+                    }
+                    else if (KeyData.IndexOf("motqth") != -1)
+                    {
+                        WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Chinh", Content = "TamQuan" });
+                    }
+                    //else if (KeyData.IndexOf("inbdd8") != -1)
+                    //{
+                    //    Thread.Sleep(500);
+                    //    SendKeys.SendWait("{F6}");
+                    //    BtnInBD8_Click(null, null);
+                    //}
+                    else if (KeyData.IndexOf("dong230") != -1)
+                    {
+                        WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Chinh", Content = "KT" });
+                    }
+                    else if (KeyData.IndexOf("laydulieu") != -1)
+                    {
+                        WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Chinh", Content = "LayDuLieu" });
+                    }
+                    else if (KeyData.IndexOf("dong280") != -1)
+                    {
+                        WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Chinh", Content = "BCP" });
+                    }
+                    KeyData = "";
+
+                    break;
+
+                case Key.LeftShift:
                     break;
 
                 default:
+                    KeyData += e.KeyPressed.ToString();
                     break;
             }
-        }
-
-        void ReadNumber()
-        {
-
         }
 
         private void SetChiTietWindow()
@@ -391,7 +513,7 @@ namespace TaoBD10.ViewModels
                 return;
             tabControl = control;
 
-           
+
         }
 
         void TabTuiChanged(System.Windows.Controls.TabControl tabControl)
@@ -408,7 +530,7 @@ namespace TaoBD10.ViewModels
                 return;
             }
 
-           
+
         }
 
         private void TimerRead_Tick(object sender, EventArgs e)

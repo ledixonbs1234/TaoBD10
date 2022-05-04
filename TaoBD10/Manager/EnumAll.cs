@@ -14,7 +14,17 @@
             None,
             KT,BCP
         }
-
+        public enum PrintState
+        {
+            CheckF,
+            DongTui,
+            CheckTaoTui,
+            CheckButton,
+            ChuanBiInBD8,
+            PrintBD8,
+            DongChuyenThu,
+            DaThoat
+        }
         public enum StateDiNgoai
         {
             //go to chuyen thu

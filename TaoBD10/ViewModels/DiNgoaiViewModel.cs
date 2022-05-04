@@ -278,6 +278,7 @@ namespace TaoBD10.ViewModels
                             isRunFirst = true;
                             return;
                         }
+
                         APIManager.showTest("5");
                         isWaitingDiNgoai = true;
                         SendKeys.SendWait("{UP}{UP}{UP}{UP}{UP}");
@@ -293,6 +294,7 @@ namespace TaoBD10.ViewModels
                         isWaitingDiNgoai = false;
                         isRunFirst = false;
                         APIManager.showTest("6");
+
                     }
                     break;
 
@@ -533,6 +535,7 @@ namespace TaoBD10.ViewModels
                         //Thread.Sleep(200);
                         //SendKeys.SendWait("{F3}");
                         //timerPrintDiNgoai.Stop();
+                        timerPrint.Stop();
                         isWaitingDiNgoai = false;
                     }
                     break;

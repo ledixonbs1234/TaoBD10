@@ -44,6 +44,7 @@
                 Width="115"
                 Margin="5"
                 Content="Tam Quan"
+                Command="{Binding TamQuanCommand}"
                 IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                 Style="{StaticResource MaterialDesignPaperButton}" />
             <Button

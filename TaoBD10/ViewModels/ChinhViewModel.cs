@@ -201,14 +201,14 @@ namespace TaoBD10.ViewModels
         void BCPHN()
         {
             ChuyenThuModel chuyenThu = new ChuyenThuModel();
-            chuyenThu.Ten = "Phù Cát Tổng Hợp";
-            chuyenThu.NumberTinh = "592460";
-            chuyenThu.TextLoai = "Bưu phẩm bảo";
-            chuyenThu.TextTui = "Tổng hợp (Túi";
-            chuyenThu.CheckTinh = "592460";
-            chuyenThu.CheckLoai = "buu pham bao dam";
+            chuyenThu.Ten = "Khai Thác Hoài Nhơn";
+            chuyenThu.NumberTinh = "593280";
+            chuyenThu.TextLoai = "Bưu kiện";
+            chuyenThu.TextTui = "";
+            chuyenThu.CheckTinh = "593280";
+            chuyenThu.CheckLoai = "buu kien";
             chuyenThu.CheckThuyBo = "thuy bo";
-            chuyenThu.NameMusic = "phucatth";
+            chuyenThu.NameMusic = "buucucphatk";
             currentChuyenThu = chuyenThu;
 
             if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
@@ -218,6 +218,8 @@ namespace TaoBD10.ViewModels
                 SendKeys.SendWait("1");
             }
             CreateChuyenThu();
+
+
         }
 
         void CreateChuyenThu()

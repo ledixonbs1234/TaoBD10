@@ -583,6 +583,61 @@ namespace TaoBD10.ViewModels
                 int countDongChuyenThu = 0;
                 int count = 0;
 
+
+
+
+              
+
+
+                //trong luong // can kiem tra lai
+                string grText = APIManager.GetControlText(allChild[14]);
+                grText = grText.Replace("(gr)", "");
+                if (grText.IndexOf('.') != -1)
+                {
+                    bool isRight = double.TryParse(grText, out double numberGR);
+                    if (isRight)
+                    {
+                        //if (!chinhViewModel.is16Kg)
+                        //{
+                        //    if (numberGR > 16)
+                        //    {
+                        //        chinhViewModel.is16Kg = true;
+                        //        SoundManager.playSync(@"Number\tui16kg.wav");
+                        //    }
+                        //}
+                    }
+                }
+                string caiText = APIManager.GetControlText(allChild[3]);
+
+                if (caiText.IndexOf("cái") != -1)
+                {
+                    //thuc hien cai thu 2
+                    //regex get number
+                    string resultString = Regex.Match(caiText, @"\d+").Value;
+                    bool isRight = int.TryParse(resultString, out numberRead);
+
+                    if (!isRight)
+                    {
+                        timerRead.Stop();
+                        System.Windows.MessageBox.Show("Không phải số. \n Vui lòng mở lại chương trình.");
+                    }
+
+                    //thuc hien doc so
+                }
+
+            }
+            else
+            if (activeWindow.text.IndexOf("xac nhan chi tiet tui thu") != -1)
+            {
+                if(TextCurrentActive != "Xac Nhan Chi Tiet")
+                {
+                    TextCurrentActive = "Xac Nhan Chi Tiet";
+                    allChild = APIManager.GetAllChildHandles(activeWindow.hwnd);
+
+                }
+                isHaveError = false;
+
+
                 //nen thuc hien chi 1 lan thoi
                 List<TestAPIModel> list = APIManager.GetListControlText(activeWindow.hwnd);
                 string a = "";
@@ -592,57 +647,6 @@ namespace TaoBD10.ViewModels
                 }
 
 
-                foreach (var item in allChild)
-                {
-                    //thuc hien lay text cua handle item
-                    String text = APIManager.GetControlText(item);
-                    count++;
-
-                    string className = APIManager.GetWindowClass(item);
-
-                    if (text.IndexOf("gr") != -1 && countGr == 0)
-                    {
-                        countGr++;
-                        text = text.Replace("(gr)", "");
-                        if (text.IndexOf('.') != -1)
-                        {
-                            bool isRight = double.TryParse(text, out double numberGR);
-                            if (isRight)
-                            {
-                                //if (!chinhViewModel.is16Kg)
-                                //{
-                                //    if (numberGR > 16)
-                                //    {
-                                //        chinhViewModel.is16Kg = true;
-                                //        SoundManager.playSync(@"Number\tui16kg.wav");
-                                //    }
-                                //}
-                            }
-                        }
-                    }
-
-                    //loc name
-                    if (text.IndexOf("cái") != -1)
-                    {
-                        //thuc hien cai thu 2
-                        //regex get number
-                        string resultString = Regex.Match(text, @"\d+").Value;
-                        bool isRight = int.TryParse(resultString, out numberRead);
-
-                        if (!isRight)
-                        {
-                            timerRead.Stop();
-                            System.Windows.MessageBox.Show("Không phải số. \n Vui lòng mở lại chương trình.");
-                        }
-
-                        //thuc hien doc so
-                    }
-                }
-            }
-            else
-            if (activeWindow.text.IndexOf("xac nhan chi tiet tui thu") != -1)
-            {
-                isHaveError = false;
                 foreach (var item in allChild)
                 {
                     //thuc hien lay text cua handle item

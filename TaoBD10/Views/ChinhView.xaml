@@ -12,8 +12,8 @@
             <Button
                 Width="115"
                 Margin="5"
-                Content="Lấy Dữ Liệu"
                 Command="{Binding LayDuLieuCommand}"
+                Content="Lấy Dữ Liệu"
                 IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                 Style="{StaticResource MaterialDesignPaperButton}" />
             <Button
@@ -44,8 +44,8 @@
             <Button
                 Width="115"
                 Margin="5"
-                Content="Tam Quan"
                 Command="{Binding TamQuanCommand}"
+                Content="Tam Quan"
                 IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                 Style="{StaticResource MaterialDesignPaperButton}" />
             <Button
@@ -134,6 +134,38 @@
                 Margin="5"
                 Command="{Binding AnHoaCommand}"
                 Content="An Hòa"
+                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                Style="{StaticResource MaterialDesignPaperButton}" />
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+            <Button
+                Width="115"
+                Margin="5"
+                Command="{Binding BD10DiCommand}"
+                Content="BĐ 10 Di"
+                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                Style="{StaticResource MaterialDesignPaperButton}" />
+            <Button
+                Width="115"
+                Margin="5"
+                Command="{Binding BD10DenCommand}"
+                Content="BĐ 10 Đến"
+                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                Style="{StaticResource MaterialDesignPaperButton}" />
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+            <Button
+                Width="115"
+                Margin="5"
+                Command="{Binding D420Command}"
+                Content="D420"
+                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                Style="{StaticResource MaterialDesignPaperButton}" />
+            <Button
+                Width="115"
+                Margin="5"
+                Command="{Binding PrintDefaultCommand}"
+                Content="Print Default"
                 IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                 Style="{StaticResource MaterialDesignPaperButton}" />
         </StackPanel>

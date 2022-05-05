@@ -41,7 +41,10 @@ namespace TaoBD10.ViewModels
             AnHoaCommand = new RelayCommand(AnHoa);
             TamQuanCommand = new RelayCommand(TamQuan);
             LayDuLieuCommand = new RelayCommand(LayDuLieu);
-
+            BD10DiCommand = new RelayCommand(BD10Di);
+            BD10DenCommand = new RelayCommand(BD10Den);
+            D420Command = new RelayCommand(D420);
+            PrintDefaultCommand = new RelayCommand(PrintDefault);
             timerPrint = new DispatcherTimer();
             timerPrint.Interval = new TimeSpan(0, 0, 0, 0, 200);
             timerPrint.Tick += TimerPrint_Tick;
@@ -113,14 +116,16 @@ namespace TaoBD10.ViewModels
                     {
                         AnHoa();
 
-                    }else if (m.Content == "LayDuLieu")
+                    }
+                    else if (m.Content == "LayDuLieu")
                     {
                         LayDuLieu();
-                    }else if (m.Content == "KT")
+                    }
+                    else if (m.Content == "KT")
                     {
                         KTHN();
                     }
-                    else if(m.Content == "Print")
+                    else if (m.Content == "Print")
                     {
                         timerPrint.Stop();
                         timerPrint.Start();
@@ -128,16 +133,78 @@ namespace TaoBD10.ViewModels
                 }
 
             });
-
-
-
-
         }
+
+        public ICommand BD10DiCommand { get; }
+
+
+
+        void BD10Di()
+        {
+            if (!APIManager.ThoatToDefault("593230", "danh sach bd10 di"))
+            {
+                SendKeys.SendWait("3");
+                Thread.Sleep(200);
+                SendKeys.SendWait("2");
+                PrintDefault();
+            }
+        }
+        public ICommand BD10DenCommand { get; }
+
+
+
+        void BD10Den()
+        {
+            if (!APIManager.ThoatToDefault("593230", "danh sach bd10 den"))
+            {
+                SendKeys.SendWait("3");
+                Thread.Sleep(200);
+                SendKeys.SendWait("3");
+                PrintDefault();
+            }
+        }
+        public ICommand D420Command { get; }
+
+
+
+        void D420()
+        {
+            foreach (string printer in System.Drawing.Printing.PrinterSettings.InstalledPrinters)
+            {
+                if (printer.IndexOf("ZDesigner") != -1)
+                {
+                    APIManager.SetDefaultPrinter(printer);
+                    break;
+                }
+            }
+        }
+
+        public ICommand PrintDefaultCommand { get; }
+
+
+
+        void PrintDefault()
+        {
+            foreach (string printer in System.Drawing.Printing.PrinterSettings.InstalledPrinters)
+            {
+                if (printer.IndexOf("M201") != -1)
+                {
+                    APIManager.SetDefaultPrinter(printer);
+                    break;
+                }
+            }
+        }
+
+
+
+
+
+
 
         PrintState printState = PrintState.CheckF;
         bool isWaitingPrint = false;
 
-       bool isRunFirst = false;
+        bool isRunFirst = false;
 
         private void TimerPrint_Tick(object sender, EventArgs e)
         {
@@ -627,6 +694,7 @@ namespace TaoBD10.ViewModels
                 return;
             }
             int countTempReturn = 0;
+            WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "SetFalseKg", Content = "" });
 
             while (currentWindow.text.IndexOf("Khởi tạo chuyến thư") == -1)
             {

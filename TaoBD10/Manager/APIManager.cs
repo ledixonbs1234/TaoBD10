@@ -24,6 +24,16 @@ namespace TaoBD10.Manager
             return regex.Replace(temp, String.Empty).Replace('\u0111', 'd').Replace('\u0110', 'D').ToLower();
         }
 
+        const int BN_CLICKED = 0;
+        static int WM_LBUTTONDOWN = 0x0201;
+        static int WM_LBUTTONUP = 0x0202;
+        public static void ClickButton(IntPtr handle)
+        {
+            SendMessage(handle, WM_LBUTTONDOWN, 0, 0);
+            //send the left mouse button "up" message to the button... 
+            SendMessage(handle, WM_LBUTTONUP, 0, 0);
+        }
+
         public static bool EnumWindow(IntPtr hWnd, IntPtr lParam)
         {
             GCHandle gcChildhandlesList = GCHandle.FromIntPtr(lParam);
@@ -38,7 +48,7 @@ namespace TaoBD10.Manager
 
             return true;
         }
-       public static void showTest(string content)
+        public static void showTest(string content)
         {
             WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Test", Content = content });
         }
@@ -75,7 +85,7 @@ namespace TaoBD10.Manager
                 test.Index = count;
                 count++;
                 test.Text = APIManager.GetControlText(item);
-
+                test.Handle = item;
                 test.ClassName = APIManager.GetWindowClass(item);
                 list.Add(test);
             }
@@ -93,7 +103,7 @@ namespace TaoBD10.Manager
             {
                 string text = "";
                 text = Buff.ToString();
-                if(isExactly != true)
+                if (isExactly != true)
                 {
                     text = convertToUnSign3(text).ToLower();
                 }

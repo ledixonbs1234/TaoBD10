@@ -11,15 +11,17 @@ namespace TaoBD10.Model
         public int Index { get; set; }
         public string Text { get; set; }
         public string ClassName { get; set; }
+        public IntPtr Handle { get; set; }
         public TestAPIModel()
         {
 
         }
-        public TestAPIModel(int index,string text,string className)
+        public TestAPIModel(int index,string text,string className,IntPtr handle)
         {
             this.Index = index;
             this.Text = text;
             this.ClassName = className;
+            this.Handle = handle;
         }
     }
 }

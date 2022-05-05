@@ -557,11 +557,24 @@ namespace TaoBD10.ViewModels
             {
                 if (TextCurrentActive != "dong chuyen thu")
                 {
+
+                    List<TestAPIModel> list = APIManager.GetListControlText(activeWindow.hwnd);
+                    string a = "";
+                    foreach (var item in list)
+                    {
+                        a += item.Index.ToString() + "|" + item.Text + "|" + item.ClassName + "\n";
+                    }
+
                     TextCurrentActive = "dong chuyen thu";
+
                     allChild = APIManager.GetAllChildHandles(activeWindow.hwnd);
-                    maSoBuuCucCurrent = APIManager.GetControlText(allChild[25]);
-                    string temLow = APIManager.convertToUnSign3(APIManager.GetControlText(allChild[25])).ToLower();
-                    soCTCurrent = APIManager.GetControlText(allChild[29]);
+
+                    //maSoBuuCucCurrent = APIManager.GetControlText(allChild[32]).Substring(0,6);
+                    maSoBuuCucCurrent = list.FindAll(m => m.ClassName.IndexOf("WindowsForms10.EDIT.app") != -1)[2].Text.Substring(0, 6);
+                    string temLow = list.FindAll(m => m.ClassName.IndexOf("WindowsForms10.EDIT.app") != -1)[3].Text;
+                    soCTCurrent = list.FindAll(m => m.ClassName.IndexOf("WindowsForms10.EDIT.app") != -1)[6].Text;
+                    //string temLow = APIManager.convertToUnSign3(APIManager.GetControlText(allChild[33])).ToLower();
+                    //soCTCurrent = APIManager.GetControlText(allChild[36]);
 
                     if (temLow.IndexOf("buu kien") != -1)
                     {
@@ -614,7 +627,16 @@ namespace TaoBD10.ViewModels
                 {
                     TextCurrentActive = "Xac Nhan Chi Tiet";
                     allChild = APIManager.GetAllChildHandles(activeWindow.hwnd);
-                    CaiChiTiet = APIManager.GetControlText(allChild[2]);
+
+
+                    List<TestAPIModel> list = APIManager.GetListControlText(activeWindow.hwnd);
+                    string a = "";
+                    foreach (var item in list)
+                    {
+                        a += item.Index.ToString() + "|" + item.Text + "|" + item.ClassName + "\n";
+                    }
+
+                    CaiChiTiet = list.FindAll(m => m.Text.IndexOf("cái") != -1)[0].Text;
                 }
                 isHaveError = false;
 
@@ -632,8 +654,16 @@ namespace TaoBD10.ViewModels
                 {
                     TextCurrentActive = "Xac Nhan BD Theo Tui";
                     allChild = APIManager.GetAllChildHandles(activeWindow.hwnd);
+                    List<TestAPIModel> list = APIManager.GetListControlText(activeWindow.hwnd);
+                    string a = "";
+                    foreach (var item in list)
+                    {
+                        a += item.Index.ToString() + "|" + item.Text + "|" + item.ClassName + "\n";
+                    }
+
+                    CaiChiTiet = list.FindAll(m => m.ClassName.IndexOf("WindowsForms10.STATIC.app.0.1e6fa8e") != -1)[7].Text;
                 }
-                int.TryParse(Regex.Match(APIManager.GetControlText(allChild[24]), @"\d+").Value, out numberRead);
+                int.TryParse(Regex.Match(CaiChiTiet, @"\d+").Value, out numberRead);
             }
             else if (activeWindow.text.IndexOf("lap bd10 theo duong thu") != -1)
             {
@@ -642,11 +672,19 @@ namespace TaoBD10.ViewModels
                 {
                     TextCurrentActive = "Lap BD10 Theo DT";
                     allChild = APIManager.GetAllChildHandles(activeWindow.hwnd);
+                    List<TestAPIModel> list = APIManager.GetListControlText(activeWindow.hwnd);
+                    string a = "";
+                    foreach (var item in list)
+                    {
+                        a += item.Index.ToString() + "|" + item.Text + "|" + item.ClassName + "\n";
+                    }
+
+                    CaiChiTiet = list.FindAll(m => m.ClassName.IndexOf("WindowsForms10.STATIC.app.0.1e6fa8e") != -1)[6].Text;
                 }
 
 
                 isHaveError = false;
-                int.TryParse(Regex.Match(APIManager.GetControlText(allChild[25]), @"\d+").Value, out numberRead);
+                int.TryParse(Regex.Match(CaiChiTiet, @"\d+").Value, out numberRead);
             }
             else if (activeWindow.text.IndexOf("sua thong tin bd10") != -1)
             {
@@ -654,19 +692,27 @@ namespace TaoBD10.ViewModels
                 {
                     TextCurrentActive = "Sua Thong Tin BD";
                     allChild = APIManager.GetAllChildHandles(activeWindow.hwnd);
+                    List<TestAPIModel> list = APIManager.GetListControlText(activeWindow.hwnd);
+                    string a = "";
+                    foreach (var item in list)
+                    {
+                        a += item.Index.ToString() + "|" + item.Text + "|" + item.ClassName + "\n";
+                    }
 
+                    CaiChiTiet = list.FindAll(m => m.ClassName.IndexOf("WindowsForms10.STATIC.app.0.1e6fa8e") != -1)[9].Text;
                 }
                 isHaveError = false;
+                int.TryParse(Regex.Match(CaiChiTiet, @"\d+").Value, out numberRead);
 
 
-                List<TestAPIModel> list = APIManager.GetListControlText(activeWindow.hwnd);
-                string a = "";
-                foreach (var item in list)
+            }
+
+            else if (activeWindow.text.IndexOf("danh sach bd10") != -1)
+            {
+                if (TextCurrentActive != "Danh Sach BD10")
                 {
-                    a += item.Index.ToString() + "|" + item.Text + "|" + item.ClassName + "\n";
+                    TextCurrentActive = "Danh Sach BD10";
                 }
-
-                int.TryParse(Regex.Match(APIManager.GetControlText(allChild[22]), @"\d+").Value, out numberRead);
             }
             if (numberRead <= 300)
             {
@@ -691,7 +737,9 @@ namespace TaoBD10.ViewModels
                     //thuc hien loc du lieu con
                     List<IntPtr> _allChild = APIManager.GetAllChildHandles(activeWindow.hwnd);
 
-                    foreach (var item in allChild)
+                   
+
+                    foreach (var item in _allChild)
                     {
                         //thuc hien lay text cua handle item
                         String text = APIManager.GetControlText(item);
@@ -788,7 +836,7 @@ namespace TaoBD10.ViewModels
                     //thuc hien loc du lieu con
                     List<IntPtr> _allChildError = APIManager.GetAllChildHandles(activeWindow.hwnd);
 
-                    foreach (var item in allChild)
+                    foreach (var item in _allChildError)
                     {
                         //thuc hien lay text cua handle item
                         String text = APIManager.GetControlText(item); if (!String.IsNullOrEmpty(text))
@@ -816,7 +864,7 @@ namespace TaoBD10.ViewModels
                     //thuc hien loc du lieu con
                     var allChildError = APIManager.GetAllChildHandles(activeWindow.hwnd);
 
-                    foreach (var item in allChild)
+                    foreach (var item in allChildError)
                     {
                         //thuc hien lay text cua handle item
                         String text = APIManager.GetControlText(item);

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -64,6 +65,7 @@ namespace TaoBD10.ViewModels
                 if (m.Key == "RunPrintDiNgoai")
                 {
                     stateDiNgoai = StateDiNgoai.KhoiTao;
+                    timerPrint.Stop();
                     timerPrint.Start();
                 }
 
@@ -108,6 +110,15 @@ namespace TaoBD10.ViewModels
                 var childHandles3 = APIManager.GetAllChildHandles(currentWindow.hwnd);
                 int countCombobox = 0;
                 IntPtr tinh = IntPtr.Zero;
+
+                List<TestAPIModel> list = APIManager.GetListControlText(currentWindow.hwnd);
+                string a = "";
+                foreach (var item in list)
+                {
+                    a += item.Index.ToString() + "|" + item.Text + "|" + item.ClassName + "\n";
+                }
+
+                //int.TryParse(Regex.Match(APIManager.GetControlText(allChild[22]), @"\d+").Value, out numberRead);
                 foreach (var item in childHandles3)
                 {
                     string className = APIManager.GetWindowClass(item);
@@ -605,6 +616,7 @@ namespace TaoBD10.ViewModels
 
         private void OnSelectedSimple()
         {
+            timerDiNgoai.Stop();
             timerDiNgoai.Start();
             //thuc hien
         }

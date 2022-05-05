@@ -13,6 +13,7 @@
                 Width="115"
                 Margin="5"
                 Content="Lấy Dữ Liệu"
+                Command="{Binding LayDuLieuCommand}"
                 IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                 Style="{StaticResource MaterialDesignPaperButton}" />
             <Button

@@ -5,6 +5,7 @@ using Microsoft.Toolkit.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
@@ -328,6 +329,36 @@ namespace TaoBD10.ViewModels
                                 break;
                             }
                         }
+                        SendKeys.SendWait("{Enter}");
+                       
+
+                        WindowInfo printD = null;
+                        while (printD.text.IndexOf("Print Document")== -1)
+                        {
+                             printD = APIManager.GetActiveWindowTitle();
+                            Thread.Sleep(200);
+                        }
+                        SendKeys.SendWait("{Right}");
+                        SendKeys.SendWait(" ");
+                        Thread.Sleep(1000);
+                        SendKeys.SendWait("%{c}");
+                            Thread.Sleep(200);
+                        SendKeys.SendWait("{Up}");
+                            Thread.Sleep(200);
+                        SendKeys.SendWait("{Up}");
+                            Thread.Sleep(200);
+                        SendKeys.SendWait("%{o}");
+                            Thread.Sleep(200);
+                        SendKeys.SendWait("%{p}");
+                        Thread.Sleep(2000);
+                        while (printD.text.IndexOf("Print Document") == -1)
+                        {
+                            printD = APIManager.GetActiveWindowTitle();
+                            Thread.Sleep(200);
+                        }
+                        SendKeys.SendWait("{Right}");
+                        SendKeys.SendWait(" ");
+
 
                     }
                         break;

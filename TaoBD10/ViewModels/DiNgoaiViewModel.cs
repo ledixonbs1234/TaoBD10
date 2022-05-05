@@ -39,6 +39,8 @@ namespace TaoBD10.ViewModels
             AddRangeCommand = new RelayCommand(AddRange);
             XoaDiNgoaiCommand = new RelayCommand(XoaDiNgoai);
 
+            TestCommand = new RelayCommand(Test);
+
             AddAddressCommand = new RelayCommand(AddAddress);
             WeakReferenceMessenger.Default.Register<WebContentModel>(this, (r, m) =>
             {
@@ -523,7 +525,9 @@ namespace TaoBD10.ViewModels
                         }
 
                         //////xem thu no co chay cai gi khong
-                        SelectedSimple = DiNgoais[index++];
+                        index++;
+                        SelectedSimple = DiNgoais[index];
+                        Selection(SelectedSimple);
                         //dgvDiNgoai_CellClick(this.dgvDiNgoai, new DataGridViewCellEventArgs(0, indexCurrentRow ));
 
                         ////txtInfo.Text = indexCurrentRow.ToString();
@@ -551,6 +555,17 @@ namespace TaoBD10.ViewModels
 
         public ICommand AddAddressCommand { get; }
         public ICommand AddRangeCommand { get; }
+
+        public ICommand TestCommand { get; }
+
+
+        void Test()
+        {
+            var da = DiNgoais[1];
+            SelectedSimple = da;
+            Selection(SelectedSimple);
+        }
+
 
 
         public ObservableCollection<string> BuuCucs

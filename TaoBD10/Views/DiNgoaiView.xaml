@@ -237,11 +237,19 @@
                 Text="{Binding TextsRange, Mode=OneWayToSource}"
                 TextWrapping="Wrap"
                 VerticalScrollBarVisibility="Auto" />
-            <Button
+            <StackPanel Orientation="Horizontal">
+                <Button
                 Width="120"
                 Margin="5"
                 Command="{Binding AddRangeCommand}"
                 Content="Add Range" />
+                <Button
+                Width="120"
+                Margin="5"
+                Command="{Binding TestCommand}"
+                Content="TEst" />
+            </StackPanel>
+            
         </StackPanel>
 
     </Grid>

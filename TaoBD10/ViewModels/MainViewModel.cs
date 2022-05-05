@@ -537,6 +537,8 @@ namespace TaoBD10.ViewModels
         //tu khoa handle
         string TextCurrentActive = "";
         string CaiChiTiet = "";
+        List<IntPtr> allChild;
+
 
         private void TimerRead_Tick(object sender, EventArgs e)
         {
@@ -550,7 +552,6 @@ namespace TaoBD10.ViewModels
             //class compare
 
             //thuc hien loc du lieu con
-            var allChild = APIManager.GetAllChildHandles(activeWindow.hwnd);
 
             if (activeWindow.text.IndexOf("dong chuyen thu") != -1)
             {
@@ -649,9 +650,13 @@ namespace TaoBD10.ViewModels
             }
             else if (activeWindow.text.IndexOf("sua thong tin bd10") != -1)
             {
+                if (TextCurrentActive != "Sua Thong Tin BD")
+                {
+                    TextCurrentActive = "Sua Thong Tin BD";
+                    allChild = APIManager.GetAllChildHandles(activeWindow.hwnd);
+
+                }
                 isHaveError = false;
-                int count = 0;
-                int countEdit = 0;
 
 
                 List<TestAPIModel> list = APIManager.GetListControlText(activeWindow.hwnd);
@@ -661,42 +666,7 @@ namespace TaoBD10.ViewModels
                     a += item.Index.ToString() + "|" + item.Text + "|" + item.ClassName + "\n";
                 }
 
-                foreach (var item in allChild)
-                {
-                    string cWindow = APIManager.GetWindowClass(item);
-                    if (cWindow.IndexOf("WindowsForms10.STATIC.app.0.1e6fa8e") != -1)
-                    {
-                        if (count == 9)
-                        {
-                            //thuc hien lay class nay
-                            String text = APIManager.GetControlText(item);
-                            string resultString = Regex.Match(text, @"\d+").Value;
-                            bool isRight = int.TryParse(resultString, out numberRead);
-                            if (!isRight)
-                            {
-                                timerRead.Stop();
-                                System.Windows.MessageBox.Show("Không phải số. \n Vui lòng mở lại chương trình.");
-                            }
-                        }
-                        count++;
-                    }
-                    if (cWindow == "Edit")
-                    {
-                        if (countEdit == 3)
-                        {
-                            string content = APIManager.GetControlText(item);
-                            if (content.IndexOf("590100") != -1)
-                            {
-                                //txtInfo.Text = "Dang mo BD Nam Trung Bo";
-                            }
-                            else if (content.IndexOf("593330") != -1)
-                            {
-                                //txtInfo.Text = "Dang mo BD Tam Quan";
-                            }
-                        }
-                        countEdit++;
-                    }
-                }
+                int.TryParse(Regex.Match(APIManager.GetControlText(allChild[22]), @"\d+").Value, out numberRead);
             }
             if (numberRead <= 300)
             {

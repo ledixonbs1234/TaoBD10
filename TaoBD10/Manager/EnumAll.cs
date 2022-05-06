@@ -25,6 +25,13 @@
             DongChuyenThu,
             DaThoat
         }
+        public enum StateTaoBd10
+        {
+            DanhSachBD10,
+            LapBD10
+
+        }
+
         public enum StateDiNgoai
         {
             //go to chuyen thu

@@ -1,0 +1,28 @@
+﻿<UserControl
+    x:Class="TaoBD10.Views.TaoBD10View"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:TaoBD10.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    DataContext="{Binding TaoBDVM}"
+    mc:Ignorable="d">
+    <StackPanel>
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+            <Button Margin="5" Content="Kiện Đà Nẵng" />
+            <Button Margin="5" Content="EMS Đà Nẵng" />
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+            <Button Margin="5" Content="Quảng Ngãi" />
+            <Button Margin="5" Content="Quảng Nam" />
+        </StackPanel>
+        <Button Margin="5" Content="Tam Quan" />
+        <Button Margin="5" Content="Nam Trung Bộ" />
+        <Button Margin="5" Content="Phù Mỹ" />
+        <Button Margin="5" Content="Phù Cát" />
+        <Button Margin="5" Content="An Nhơn" />
+        <Button Margin="5" Content="Xe Xã Hội" />
+
+
+    </StackPanel>
+</UserControl>

@@ -164,6 +164,7 @@
     <Compile Include="ViewModels\LocTuiViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MoRong.cs" />
+    <Compile Include="ViewModels\TaoBDViewModel.cs" />
     <Compile Include="ViewModels\WebViewModel.cs" />
     <Compile Include="Views\AddressView.xaml.cs">
       <DependentUpon>AddressView.xaml</DependentUpon>
@@ -197,6 +198,9 @@
     </Compile>
     <Compile Include="Views\LocTuiView.xaml.cs">
       <DependentUpon>LocTuiView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TaoBD10View.xaml.cs">
+      <DependentUpon>TaoBD10View.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ThuGonView.xaml.cs">
       <DependentUpon>ThuGonView.xaml</DependentUpon>
@@ -261,6 +265,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\LocTuiView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TaoBD10View.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

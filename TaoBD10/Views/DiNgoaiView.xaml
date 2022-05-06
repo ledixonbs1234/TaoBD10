@@ -2,9 +2,9 @@
     x:Class="TaoBD10.Views.DiNgoaiView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Behaviors="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:TaoBD10.Views"
-    xmlns:Behaviors ="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     DataContext="{StaticResource DiNgoaiVM}"
@@ -88,8 +88,8 @@
                 Style="{StaticResource MaterialDesignFilledTextBox}"
                 Text="{Binding TextCode, UpdateSourceTrigger=PropertyChanged}" />
             <DataGrid
-                Height="250"
                 x:Name="dataGridChuyenThu"
+                Height="250"
                 materialDesign:DataGridAssist.CellPadding="5 7 2 7"
                 materialDesign:DataGridAssist.ColumnHeaderPadding="4 2 2 2"
                 AutoGenerateColumns="False"
@@ -134,8 +134,7 @@
                     Content="{materialDesign:PackIcon Kind=ArrowExpand,
                                                       Size=25}"
                     IsChecked="{Binding IsExpanded}"
-                    Style="{StaticResource MaterialDesignActionToggleButton}"
-                     />
+                    Style="{StaticResource MaterialDesignActionToggleButton}" />
             </StackPanel>
         </StackPanel>
         <StackPanel Grid.Column="1">
@@ -200,6 +199,7 @@
                     Command="{Binding AddAddressCommand}"
                     Content="Add Address" />
                 <Button Margin="5" Content="Add Selected Address" />
+                <Button Margin="5" Content="Sort" Command="{Binding SortCommand}"/>
                 <Button
                     Margin="5"
                     Command="{Binding XoaDiNgoaiCommand}"
@@ -239,17 +239,17 @@
                 VerticalScrollBarVisibility="Auto" />
             <StackPanel Orientation="Horizontal">
                 <Button
-                Width="120"
-                Margin="5"
-                Command="{Binding AddRangeCommand}"
-                Content="Add Range" />
+                    Width="120"
+                    Margin="5"
+                    Command="{Binding AddRangeCommand}"
+                    Content="Add Range" />
                 <Button
-                Width="120"
-                Margin="5"
-                Command="{Binding TestCommand}"
-                Content="TEst" />
+                    Width="120"
+                    Margin="5"
+                    Command="{Binding TestCommand}"
+                    Content="TEst" />
             </StackPanel>
-            
+
         </StackPanel>
 
     </Grid>

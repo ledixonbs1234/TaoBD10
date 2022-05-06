@@ -39,7 +39,7 @@ namespace TaoBD10.ViewModels
             ClearDiNgoaiCommand = new RelayCommand(ClearDiNgoai);
             AddRangeCommand = new RelayCommand(AddRange);
             XoaDiNgoaiCommand = new RelayCommand(XoaDiNgoai);
-
+            SortCommand = new RelayCommand(Sort);
             TestCommand = new RelayCommand(Test);
 
             AddAddressCommand = new RelayCommand(AddAddress);
@@ -68,7 +68,6 @@ namespace TaoBD10.ViewModels
                     timerPrint.Stop();
                     timerPrint.Start();
                 }
-
             });
 
             FileManager.GetCode();
@@ -85,8 +84,29 @@ namespace TaoBD10.ViewModels
             //thuc hien doc index
             SoundManager.playSound(@"Number\" + selected.Index + ".wav");
             OnSelectedSimple();
-            
+
         }
+
+        public ICommand SortCommand { get; }
+
+
+
+        void Sort()
+        {
+
+            if (DiNgoais.Count == 0)
+                return;
+
+            //Thuc hien soft Tinh
+            int index = 0;
+            foreach (var diNgoai in DiNgoais.OrderByDescending(x => x.TenTinh).ToArray())
+            {
+                index++;
+                diNgoai.Index = index;
+                DiNgoais.Add(diNgoai);
+            }
+        }
+
         private void TimerDiNgoai_Tick(object sender, EventArgs e)
         {
             if (isWaitDiNgoai)
@@ -167,7 +187,7 @@ namespace TaoBD10.ViewModels
                     {
                         SendKeys.SendWait("{F1}");
                     }
-                   
+
                 }
                 else
                 {
@@ -187,7 +207,8 @@ namespace TaoBD10.ViewModels
                 timerDiNgoai.Stop();
                 isWaitDiNgoai = false;
                 return;
-            }else
+            }
+            else
             {
                 WaitingCloseTimer(timerDiNgoai);
             }
@@ -201,7 +222,8 @@ namespace TaoBD10.ViewModels
             {
                 isWaitingTimer = true;
                 countTimer = 0;
-            }else
+            }
+            else
             {
                 countTimer++;
                 if (countTimer >= 200)
@@ -254,7 +276,7 @@ namespace TaoBD10.ViewModels
                                 }
                             }
                         }
-                       APIManager.showTest("3");
+                        APIManager.showTest("3");
                         APIManager.SendMessage(loadDiNgoai, 0x0007, 0, 0);
                         APIManager.SendMessage(loadDiNgoai, 0x0007, 0, 0);
                         string temp = "";

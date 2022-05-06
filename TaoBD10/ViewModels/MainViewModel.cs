@@ -133,13 +133,18 @@ namespace TaoBD10.ViewModels
                     DefaultWindowCommand.Execute(null);
                     break;
                 case 4:
+                    SetDefaultWindowTui();
                     //currentTab = CurrentTab.LayChuyenThu;
                     break;
 
                 case 5:
+                    SetDefaultWindowTui();
                     break;
                 //currentTab = CurrentTab.LocTui;
                 case 6:
+                    SetDefaultWindowTui();
+                    break;
+                case 7:
                     OnSelectedTabBD();
                     break;
                 default:
@@ -345,6 +350,7 @@ namespace TaoBD10.ViewModels
                         SendKeys.SendWait("%{o}");
                             Thread.Sleep(50);
                         SendKeys.SendWait("%{p}");
+                        Thread.Sleep(500);
                         while (printD.text.IndexOf("print document") == -1)
                         {
                             printD = APIManager.GetActiveWindowTitle();

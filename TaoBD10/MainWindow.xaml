@@ -11,11 +11,12 @@
     Title="MainWindow"
     Width="800"
     Height="450"
+    Closing="MainView_Closing"
     DataContext="{StaticResource MainVM}"
     ResizeMode="NoResize"
     Topmost="True"
     WindowStyle="None"
-    mc:Ignorable="d" Closing="MainView_Closing">
+    mc:Ignorable="d">
     <Behaviors:Interaction.Triggers>
         <Behaviors:EventTrigger EventName="Loaded">
             <Behaviors:InvokeCommandAction Command="{Binding LoadPageCommand}" CommandParameter="{Binding ElementName=MainView}" />
@@ -106,13 +107,17 @@
             <TabItem Header="LAY BD">
                 <view:LayBDHA />
             </TabItem>
+            <TabItem Header="TAO BD">
+                <view:TaoBD10View />
+            </TabItem>
             <TabItem Header="BĐ 10">
                 <TabControl
                     x:Name="TabControl"
                     Margin="5"
                     HorizontalContentAlignment="Left"
                     materialDesign:ColorZoneAssist.Mode="SecondaryLight"
-                    SelectedIndex="{Binding IndexTabControl}" TabStripPlacement="Bottom">
+                    SelectedIndex="{Binding IndexTabControl}"
+                    TabStripPlacement="Bottom">
                     <TabItem>
                         <TabItem.Header>
                             <TextBlock Text="Get BD 10" />

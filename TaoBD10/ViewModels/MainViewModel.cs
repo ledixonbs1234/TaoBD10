@@ -314,26 +314,21 @@ namespace TaoBD10.ViewModels
                     }
                     break;
 
-                case Key.F3:
+                case Key.F6:
                     var danhSach = APIManager.GetActiveWindowTitle();
                     if (danhSach == null)
                         return;
-                    if (danhSach.text.IndexOf("danh sach bd10 di") != -1)
+                    if (danhSach.text.IndexOf("sua thong tin bd10") != -1)
                     {
                         List<TestAPIModel> datas =APIManager.GetListControlText(danhSach.hwnd);
-                        foreach (var item in datas)
-                        {
-                            if (item.Text == "Sửa")
-                            {
-                                APIManager.ClickButton(item.Handle);
-                                break;
-                            }
-                        }
+                        SendKeys.SendWait("{F3}");
+                        Thread.Sleep(500);
                         SendKeys.SendWait("{Enter}");
+                        Thread.Sleep(500);
                        
 
-                        WindowInfo printD = null;
-                        while (printD.text.IndexOf("Print Document")== -1)
+                        WindowInfo printD = danhSach;
+                        while (printD.text.IndexOf("print document")== -1)
                         {
                              printD = APIManager.GetActiveWindowTitle();
                             Thread.Sleep(200);
@@ -342,22 +337,32 @@ namespace TaoBD10.ViewModels
                         SendKeys.SendWait(" ");
                         Thread.Sleep(1000);
                         SendKeys.SendWait("%{c}");
-                            Thread.Sleep(200);
+                            Thread.Sleep(50);
                         SendKeys.SendWait("{Up}");
-                            Thread.Sleep(200);
+                            Thread.Sleep(50);
                         SendKeys.SendWait("{Up}");
-                            Thread.Sleep(200);
+                            Thread.Sleep(50);
                         SendKeys.SendWait("%{o}");
-                            Thread.Sleep(200);
+                            Thread.Sleep(50);
                         SendKeys.SendWait("%{p}");
-                        Thread.Sleep(2000);
-                        while (printD.text.IndexOf("Print Document") == -1)
+                        while (printD.text.IndexOf("print document") == -1)
                         {
                             printD = APIManager.GetActiveWindowTitle();
                             Thread.Sleep(200);
                         }
                         SendKeys.SendWait("{Right}");
                         SendKeys.SendWait(" ");
+                        Thread.Sleep(1889);
+                        while (printD.text.IndexOf("sua thong tin bd10") != -1)
+                        {
+                            printD = APIManager.GetActiveWindowTitle();
+                            Thread.Sleep(200);
+                        }
+                        SendKeys.SendWait(" ");
+                        SendKeys.SendWait("{ESC}");
+                        Thread.Sleep(50);
+                        SendKeys.SendWait(" ");
+                        APIManager.showSnackbar("Xong");
 
 
                     }

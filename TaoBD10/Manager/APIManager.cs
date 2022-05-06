@@ -29,9 +29,7 @@ namespace TaoBD10.Manager
         static int WM_LBUTTONUP = 0x0202;
         public static void ClickButton(IntPtr handle)
         {
-            SendMessage(handle, WM_LBUTTONDOWN, 0, 0);
-            //send the left mouse button "up" message to the button... 
-            SendMessage(handle, WM_LBUTTONUP, 0, 0);
+            SendMessage(handle, 0x00F5, 0, 0);
         }
 
         public static bool EnumWindow(IntPtr hWnd, IntPtr lParam)

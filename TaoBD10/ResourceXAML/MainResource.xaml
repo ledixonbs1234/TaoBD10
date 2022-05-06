@@ -15,4 +15,5 @@
     <viewmodel:DiNgoaiViewModel x:Key="DiNgoaiVM" />
     <viewmodel:AddressViewModel x:Key="AddressVM" />
     <viewmodel:TaoBDViewModel x:Key="TaoBDVM" />
+    <viewmodel:TamQuanViewModel x:Key="TamQuanVM" />
 </ResourceDictionary>

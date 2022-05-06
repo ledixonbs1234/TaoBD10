@@ -96,14 +96,344 @@ namespace TaoBD10.ViewModels
 
             if (DiNgoais.Count == 0)
                 return;
-
+            setTinhFromMaTinh();
             //Thuc hien soft Tinh
+            var dingoaisTemp = DiNgoais.OrderByDescending(x => x.TenTinh).ToList();
+            DiNgoais.Clear();
             int index = 0;
-            foreach (var diNgoai in DiNgoais.OrderByDescending(x => x.TenTinh).ToArray())
+            foreach (var diNgoai in dingoaisTemp)
             {
                 index++;
                 diNgoai.Index = index;
                 DiNgoais.Add(diNgoai);
+            }
+        }
+
+        private void setTinhFromMaTinh()
+        {
+            foreach (var diNgoai in DiNgoais)
+            {
+                switch (diNgoai.MaTinh)
+                {
+                    case "88":
+                        diNgoai.TenTinh = "An Giang";
+                        break;
+
+                    case "79":
+                        diNgoai.TenTinh = "Ba Ria Vung Tau";
+                        break;
+
+                    case "26":
+                        diNgoai.TenTinh = "Bac Can";
+                        break;
+
+                    case "23":
+                        diNgoai.TenTinh = "Bac Giang";
+                        break;
+
+                    case "96":
+                        diNgoai.TenTinh = "Bac Lieu";
+                        break;
+
+                    case "22":
+                        diNgoai.TenTinh = "Bac Ninh";
+                        break;
+
+                    case "93":
+                        diNgoai.TenTinh = "Ben Tre";
+                        break;
+
+                    case "82":
+                        diNgoai.TenTinh = "Binh Duong";
+                        break;
+
+                    case "83":
+                        diNgoai.TenTinh = "Binh Phuoc";
+                        break;
+
+                    case "80":
+                        diNgoai.TenTinh = "Binh Thuan";
+                        break;
+
+                    case "97":
+                        diNgoai.TenTinh = "Ca Mau";
+                        break;
+
+                    case "90":
+                        diNgoai.TenTinh = "Can Tho";
+                        break;
+
+                    case "27":
+                        diNgoai.TenTinh = "Cao Bang";
+                        break;
+
+                    case "55":
+                        diNgoai.TenTinh = "Da Nang";
+                        break;
+
+                    case "63":
+                        diNgoai.TenTinh = "Dak Lak";
+                        break;
+
+                    case "64":
+                        diNgoai.TenTinh = "Dak Nong";
+                        break;
+
+                    case "38":
+                        diNgoai.TenTinh = "Dien Bien";
+                        break;
+
+                    case "81":
+                        diNgoai.TenTinh = "Dong Nai";
+                        break;
+
+                    case "87":
+                        diNgoai.TenTinh = "Dong Thap";
+                        break;
+
+                    case "60":
+                        diNgoai.TenTinh = "Gia Lai";
+                        break;
+
+                    case "40":
+                        diNgoai.TenTinh = "Ha Nam";
+                        break;
+
+                    case "10":
+                        diNgoai.TenTinh = "Ha Noi";
+                        break;
+
+                    case "48":
+                        diNgoai.TenTinh = "Ha Tinh";
+                        break;
+
+                    case "17":
+                        diNgoai.TenTinh = "Hai Duong";
+                        break;
+
+                    case "18":
+                        diNgoai.TenTinh = "Hai Phong";
+                        break;
+
+                    case "91":
+                        diNgoai.TenTinh = "Hau Giang";
+                        break;
+
+                    case "70":
+                        diNgoai.TenTinh = "Ho Chi Minh";
+                        break;
+
+                    case "16":
+                        diNgoai.TenTinh = "Hung Yen";
+                        break;
+
+                    case "65":
+                        diNgoai.TenTinh = "Khanh Hoa";
+                        break;
+
+                    case "92":
+                        diNgoai.TenTinh = "Kien Giang";
+                        break;
+
+                    case "31":
+                        diNgoai.TenTinh = "Ha Giang";
+                        break;
+
+                    case "58":
+                        diNgoai.TenTinh = "Kon Tum";
+                        break;
+
+                    case "39":
+                        diNgoai.TenTinh = "Lai Chau";
+                        break;
+
+                    case "67":
+                        diNgoai.TenTinh = "Lam Dong";
+                        break;
+
+                    case "24":
+                        diNgoai.TenTinh = "Lang Son";
+                        break;
+
+                    case "33":
+                        diNgoai.TenTinh = "Lao Cai";
+                        break;
+
+                    case "85":
+                        diNgoai.TenTinh = "Long An";
+                        break;
+
+                    case "42":
+                        diNgoai.TenTinh = "Nam Dinh";
+                        break;
+
+                    case "46":
+                        diNgoai.TenTinh = "Nghe An";
+                        break;
+
+                    case "43":
+                        diNgoai.TenTinh = "Ninh Binh";
+                        break;
+
+                    case "66":
+                        diNgoai.TenTinh = "Ninh Thuan";
+                        break;
+
+                    case "62":
+                        diNgoai.TenTinh = "Phu Yen";
+                        break;
+
+                    case "51":
+                        diNgoai.TenTinh = "Quang Binh";
+                        break;
+
+                    case "56":
+                        diNgoai.TenTinh = "Quang Nam";
+                        break;
+
+                    case "57":
+                        diNgoai.TenTinh = "Quang Ngai";
+                        break;
+
+                    case "20":
+                        diNgoai.TenTinh = "Quang Ninh";
+                        break;
+
+                    case "52":
+                        diNgoai.TenTinh = "Quang Tri";
+                        break;
+
+                    case "95":
+                        diNgoai.TenTinh = "Soc Trang";
+                        break;
+
+                    case "36":
+                        diNgoai.TenTinh = "Son La";
+                        break;
+
+                    case "84":
+                        diNgoai.TenTinh = "Tay Ninh";
+                        break;
+
+                    case "41":
+                        diNgoai.TenTinh = "Thai Binh";
+                        break;
+
+                    case "25":
+                        diNgoai.TenTinh = "Thai Nguyen";
+                        break;
+
+                    case "44":
+                        diNgoai.TenTinh = "Thanh Hoa";
+                        break;
+
+                    case "53":
+                        diNgoai.TenTinh = "Thua Thien - Hue";
+                        break;
+
+                    case "86":
+                        diNgoai.TenTinh = "Tien Giang";
+                        break;
+
+                    case "94":
+                        diNgoai.TenTinh = "Tra Vinh";
+                        break;
+
+                    case "30":
+                        diNgoai.TenTinh = "Tuyen Quang";
+                        break;
+
+                    case "89":
+                        diNgoai.TenTinh = "Vinh Long";
+                        break;
+
+                    case "32":
+                        diNgoai.TenTinh = "Yen Bai";
+                        break;
+
+                    case "29":
+                        diNgoai.TenTinh = "Phu Tho";
+                        break;
+
+                    case "28":
+                        diNgoai.TenTinh = "Vinh Phuc";
+                        break;
+
+                    case "35":
+                        diNgoai.TenTinh = "Hoa Binh";
+                        break;
+
+                    case "59":
+                        //Thuc Hien Loc Trong Nay
+                        switch (diNgoai.MaBuuCuc)
+                        {
+                            case "591218":
+                                diNgoai.TenTinh = "Quy Nhon 2";
+                                break;
+
+                            case "591520":
+                                diNgoai.TenTinh = "Quy Nhon";
+                                break;
+
+                            case "591720":
+                            case "591760":
+                                diNgoai.TenTinh = "Tuy Phuoc";
+                                break;
+
+                            case "592020":
+                                diNgoai.TenTinh = "An Nhon";
+                                break;
+
+                            case "592440":
+                                diNgoai.TenTinh = "Phu Cat";
+                                break;
+
+                            case "592810":
+                                diNgoai.TenTinh = "Phu My";
+                                break;
+
+                            case "593330":
+                                diNgoai.TenTinh = "Tam Quan";
+                                break;
+
+                            case "593630":
+                                diNgoai.TenTinh = "An My";
+                                break;
+
+                            case "593740":
+                                diNgoai.TenTinh = "Hoai An";
+                                break;
+
+                            case "593850":
+                                diNgoai.TenTinh = "An Lao";
+                                break;
+
+                            case "593880":
+                                diNgoai.TenTinh = "An Hoa";
+                                break;
+
+                            case "594080":
+                                diNgoai.TenTinh = "Vinh Thanh";
+                                break;
+
+                            case "594210":
+                                diNgoai.TenTinh = "Tay Son";
+                                break;
+
+                            case "594560":
+                                diNgoai.TenTinh = "Van Canh";
+                                break;
+
+                            default:
+                                diNgoai.TenTinh = "AAA";
+                                break;
+                        }
+                        break;
+
+                    default:
+                        diNgoai.TenTinh = "AAA";
+                        break;
+                }
             }
         }
 

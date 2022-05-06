@@ -148,6 +148,7 @@
     <Compile Include="Model\HangHoaDetailModel.cs" />
     <Compile Include="Model\SHTuiCodeModel.cs" />
     <Compile Include="Model\SnackbarModel.cs" />
+    <Compile Include="Model\TamQuanModel.cs" />
     <Compile Include="Model\TestAPIModel.cs" />
     <Compile Include="Model\TuiHangHoa.cs" />
     <Compile Include="Model\TuiXacNhanModel.cs" />
@@ -164,6 +165,7 @@
     <Compile Include="ViewModels\LocTuiViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MoRong.cs" />
+    <Compile Include="ViewModels\TamQuanViewModel.cs" />
     <Compile Include="ViewModels\TaoBDViewModel.cs" />
     <Compile Include="ViewModels\WebViewModel.cs" />
     <Compile Include="Views\AddressView.xaml.cs">
@@ -198,6 +200,9 @@
     </Compile>
     <Compile Include="Views\LocTuiView.xaml.cs">
       <DependentUpon>LocTuiView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TamQuanView.xaml.cs">
+      <DependentUpon>TamQuanView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TaoBD10View.xaml.cs">
       <DependentUpon>TaoBD10View.xaml</DependentUpon>
@@ -265,6 +270,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\LocTuiView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TamQuanView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

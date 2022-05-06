@@ -143,6 +143,9 @@
                     <TabItem Header="Get Address">
                         <view:AddressView />
                     </TabItem>
+                    <TabItem Header="Tam Quan">
+                        <view:TamQuanView />
+                    </TabItem>
 
                 </TabControl>
             </TabItem>

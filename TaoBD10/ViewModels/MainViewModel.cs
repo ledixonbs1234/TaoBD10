@@ -376,6 +376,7 @@ namespace TaoBD10.ViewModels
                 case Key.Enter:
                     KeyData = KeyData.ToLower();
 
+                    
                     if (KeyData.IndexOf("mokntb") != -1)
                     {
                         WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Chinh", Content = "Kien" });
@@ -458,6 +459,10 @@ namespace TaoBD10.ViewModels
                     break;
 
                 case Key.LeftShift:
+                    break;
+                case Key.F2:
+                    //thuc hien copy du lieu sau do sang ben kia
+                    WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "TamQuanRun", Content = "" });
                     break;
 
                 default:

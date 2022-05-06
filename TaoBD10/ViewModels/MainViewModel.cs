@@ -123,7 +123,6 @@ namespace TaoBD10.ViewModels
 
                 case 2:
                     //currentTab = CurrentTab.ChiTiet;
-
                     SetRightHeigtTuiWindow();
                     break;
 

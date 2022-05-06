@@ -53,7 +53,8 @@
             None,
             CodeFromBD,
             TamQuan,
-            AddressTamQuan
+            AddressTamQuan,
+            KiemTraWeb
         }
 
         public enum PhanLoaiTinh

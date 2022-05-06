@@ -1,5 +1,6 @@
 ﻿using CefSharp;
 using CefSharp.Wpf;
+using HtmlAgilityPack;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
@@ -29,7 +30,8 @@ namespace TaoBD10.ViewModels
                 {
                     _LoadWebChoose = LoadWebChoose.DiNgoaiAddress;
                     LoadAddressDiNgoai(m.Content);
-                }else if (m.Key == "LoadAddressTQWeb")
+                }
+                else if (m.Key == "LoadAddressTQWeb")
                 {
                     _LoadWebChoose = LoadWebChoose.AddressTamQuan;
                     LoadAddressDiNgoai(m.Content);
@@ -37,6 +39,11 @@ namespace TaoBD10.ViewModels
                 else if (m.Key == "GetCodeFromBD")
                 {
                     _LoadWebChoose = LoadWebChoose.CodeFromBD;
+                    LoadAddressDiNgoai(m.Content);
+                }
+                else if (m.Key == "KiemTraWeb")
+                {
+                    _LoadWebChoose = LoadWebChoose.KiemTraWeb;
                     LoadAddressDiNgoai(m.Content);
                 }
             });
@@ -147,7 +154,7 @@ document.getElementsByClassName("".footer"").remove();
                     string html = await WebBrowser.GetSourceAsync();
 
                     //kiem tra thu co no khong
-                    if (_LoadWebChoose == LoadWebChoose.DiNgoaiAddress|| _LoadWebChoose == LoadWebChoose.AddressTamQuan)
+                    if (_LoadWebChoose == LoadWebChoose.DiNgoaiAddress || _LoadWebChoose == LoadWebChoose.AddressTamQuan)
                     {
                         Regex regex = new Regex(@"MainContent_ctl00_lblBarcode"">((\w|\W)+?)<");
                         var match = regex.Match(html);
@@ -168,20 +175,15 @@ document.getElementsByClassName("".footer"").remove();
                             WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Snackbar", Content = "Chưa có mã Tỉnh" });
                             return;
                         }
-                        APIManager.showTest("?");
-                        var watch = System.Diagnostics.Stopwatch.StartNew();
                         // the code that you want to measure comes here
-                        
+
                         string addressR = new Regex(@"MainContent_ctl00_lblReceiverAddr(\W|\w)+?>((\W|\w)+?)<").Match(html).Groups[2].Value;
-                        
+
 
                         string addressS = new Regex(@"MainContent_ctl00_lblSenderAddr(\W|\w)+?>((\W|\w)+?)<").Match(html).Groups[2].Value;
-                       
+
                         string buuCucGui = new Regex(@"MainContent_ctl00_lblFrPOS(\W|\w)+?>((\W|\w)+?)<").Match(html).Groups[2].Value;
-                        
-                        watch.Stop();
-                        APIManager.showTest(watch.ElapsedMilliseconds.ToString());
-                        APIManager.showTest("?");
+
                         if (string.IsNullOrEmpty(addressR))
                         {
                             WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Snackbar", Content = "Không có địa chỉ" });
@@ -224,6 +226,35 @@ document.getElementsByClassName("".footer"").remove();
 
                             WeakReferenceMessenger.Default.Send<SHTuiMessage>(new SHTuiMessage(new SHTuiCodeModel { Key = "ReturnSHTui", Code = giatri, SHTui = barcodeWeb }));
                         }
+                    }
+                    else if (_LoadWebChoose == LoadWebChoose.KiemTraWeb)
+                    {
+                        HtmlDocument document = new HtmlDocument();
+                        document.LoadHtml(html);
+                        document.
+
+                        //thuc hien su ly web trong nay
+                        //thuc hien lay toan bo du lieu trang web luon
+                        Regex regex = new Regex(@"MainContent_ctl00_lblBarcode"">((\w|\W)+?)<");
+                        var match = regex.Match(html);
+                        string barcodeWeb = match.Groups[1].Value.ToUpper();
+                        if (string.IsNullOrEmpty(barcodeWeb))
+                        {
+                            WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Snackbar", Content = "Không đúng Code" });
+                            return;
+                        }
+
+                        string addressR = new Regex(@"MainContent_ctl00_lblReceiverAddr(\W|\w)+?>((\W|\w)+?)<").Match(html).Groups[2].Value;
+                        //thuc hien loc danh sach
+
+
+                        KiemTraModel kiemTra = new KiemTraModel();
+                        kiemTra.Address = addressR;
+
+
+
+
+
                     }
                 }
             }

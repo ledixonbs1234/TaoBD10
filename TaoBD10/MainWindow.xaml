@@ -149,6 +149,7 @@
 
                 </TabControl>
             </TabItem>
+            <TabItem Header="KT" />
         </TabControl>
 
         <materialDesign:Snackbar

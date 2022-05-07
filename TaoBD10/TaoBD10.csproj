@@ -150,6 +150,7 @@
     <Compile Include="Model\DiNgoaiItemModel.cs" />
     <Compile Include="Model\HangHoaDetailModel.cs" />
     <Compile Include="Model\KiemTraModel.cs" />
+    <Compile Include="Model\MaHieuTuiModel.cs" />
     <Compile Include="Model\SHTuiCodeModel.cs" />
     <Compile Include="Model\SnackbarModel.cs" />
     <Compile Include="Model\TamQuanModel.cs" />
@@ -157,6 +158,7 @@
     <Compile Include="Model\TuiHangHoa.cs" />
     <Compile Include="Model\TuiXacNhanModel.cs" />
     <Compile Include="Model\WebContentModel.cs" />
+    <Compile Include="Model\XacNhanTuiModel.cs" />
     <Compile Include="ViewModels\AddressViewModel.cs" />
     <Compile Include="ViewModels\ChinhViewModel.cs" />
     <Compile Include="ViewModels\ChiTietViewModel.cs" />
@@ -173,6 +175,7 @@
     <Compile Include="ViewModels\TamQuanViewModel.cs" />
     <Compile Include="ViewModels\TaoBDViewModel.cs" />
     <Compile Include="ViewModels\WebViewModel.cs" />
+    <Compile Include="ViewModels\XacNhanTuiViewModel.cs" />
     <Compile Include="Views\AddressView.xaml.cs">
       <DependentUpon>AddressView.xaml</DependentUpon>
     </Compile>
@@ -220,6 +223,9 @@
     </Compile>
     <Compile Include="Views\WebView.xaml.cs">
       <DependentUpon>WebView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\XacNhanTuiView.xaml.cs">
+      <DependentUpon>XacNhanTuiView.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -298,6 +304,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\WebView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\XacNhanTuiView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

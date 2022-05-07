@@ -307,6 +307,10 @@ namespace TaoBD10.ViewModels
                     else if (currentWindow.text.IndexOf("thong tin buu gui") != -1)
                     {
                         WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Navigation", Content = "PrintDiNgoai" });
+                    }else if (currentWindow.text.IndexOf("xac nhan chi tiet tui thu")!= -1)
+                    {
+                        //thuc hien lenh trong nay
+                        WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel {Key= "XacNhan",Content= "GetData" });
                     }
                     break;
                 case Key.F1:

@@ -229,32 +229,31 @@ document.getElementsByClassName("".footer"").remove();
                     }
                     else if (_LoadWebChoose == LoadWebChoose.KiemTraWeb)
                     {
-                        HtmlDocument document = new HtmlDocument();
-                        document.LoadHtml(html);
-                        document.
-
-                        //thuc hien su ly web trong nay
-                        //thuc hien lay toan bo du lieu trang web luon
-                        Regex regex = new Regex(@"MainContent_ctl00_lblBarcode"">((\w|\W)+?)<");
-                        var match = regex.Match(html);
-                        string barcodeWeb = match.Groups[1].Value.ToUpper();
-                        if (string.IsNullOrEmpty(barcodeWeb))
-                        {
-                            WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Snackbar", Content = "Không đúng Code" });
-                            return;
-                        }
-
-                        string addressR = new Regex(@"MainContent_ctl00_lblReceiverAddr(\W|\w)+?>((\W|\w)+?)<").Match(html).Groups[2].Value;
-                        //thuc hien loc danh sach
-
 
                         KiemTraModel kiemTra = new KiemTraModel();
-                        kiemTra.Address = addressR;
 
+                        HtmlDocument document = new HtmlDocument();
+                        document.LoadHtml(html);
 
+                        string barcode = document.DocumentNode.SelectNodes("//*[@id='MainContent_ctl00_lblBarcode']").First().InnerText;
+                        if (string.IsNullOrEmpty(barcode))
+                        {
+                            return;
+                        }
+                        kiemTra.MaHieu = barcode.Substring(0, 13);
+                        //thuc hien lay barcode
 
+                        kiemTra.Address = document.DocumentNode.SelectNodes("//*[@id='MainContent_ctl00_lblReceiverAddr']").First().InnerText;
+                       
+                        HtmlNode table = document.DocumentNode.SelectNodes("//table[@id='MainContent_ctl00_grvItemMailTrip']/tbody").First();
+                        HtmlNodeCollection aa = table.LastChild.PreviousSibling.SelectNodes("td");
+                        kiemTra.Date = aa[2].InnerText;
+                        kiemTra.BuuCucDong = aa[3].InnerText;
+                        kiemTra.BuuCucNhan = aa[4].InnerText;
+                        kiemTra.TTCT = aa[5].InnerText;
 
-
+                        //thuc hien send thong tin qua kiem tra model
+                        WeakReferenceMessenger.Default.Send<KiemTraMessage>(new KiemTraMessage(kiemTra));
                     }
                 }
             }

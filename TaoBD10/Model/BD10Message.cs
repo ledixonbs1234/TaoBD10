@@ -39,4 +39,12 @@ namespace TaoBD10.Model
 
         }
     }
+
+    public class KiemTraMessage : ValueChangedMessage<KiemTraModel>
+    {
+        public KiemTraMessage(KiemTraModel content) : base(content)
+        {
+
+        }
+    }
 }

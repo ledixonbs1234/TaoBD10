@@ -146,6 +146,9 @@ namespace TaoBD10.ViewModels
                 case 7:
                     OnSelectedTabBD();
                     break;
+                case 8:
+                    SetChiTietWindow();
+                    break;
                 default:
                     break;
             }

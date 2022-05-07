@@ -149,7 +149,9 @@
 
                 </TabControl>
             </TabItem>
-            <TabItem Header="KT" />
+            <TabItem Header="KT" >
+                <view:KiemTraView/>
+            </TabItem>
         </TabControl>
 
         <materialDesign:Snackbar

@@ -71,7 +71,8 @@
                     <ColumnDefinition Width="220" />
                     <ColumnDefinition Width="76*" />
                 </Grid.ColumnDefinitions>
-                <DataGrid
+                <DataGrid x:Name="dataGrid"
+                    ItemsSource="{Binding XacNhanTuis}"
                     Grid.Column="0"
                     Margin="5"
                     materialDesign:DataGridAssist.CellPadding="4 7 5 7"
@@ -86,10 +87,10 @@
                     Grid.Column="1"
                     Margin="5"
                     materialDesign:DataGridAssist.CellPadding="4 7 5 7"
-                    materialDesign:DataGridAssist.ColumnHeaderPadding="2 2 2 2">
+                    materialDesign:DataGridAssist.ColumnHeaderPadding="2 2 2 2" ItemsSource="{Binding SelectedItem, ElementName=dataGrid}">
                     <DataGrid.Columns>
-                        <DataGridCheckBoxColumn Header="Chọn" />
-                        <DataGridTextColumn Header="Mã Hiệu" />
+                        <DataGridCheckBoxColumn Header="Chọn" Binding="{Binding IsChecked}" />
+                        <DataGridTextColumn Header="Mã Hiệu" Binding="{Binding MaHieu}"/>
                     </DataGrid.Columns>
                 </DataGrid>
 

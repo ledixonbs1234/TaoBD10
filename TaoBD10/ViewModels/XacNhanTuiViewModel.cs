@@ -13,7 +13,7 @@ using TaoBD10.Model;
 
 namespace TaoBD10.ViewModels
 {
-    public class XacNhanTuiViewModel:ObservableObject
+    public class XacNhanTuiViewModel : ObservableObject
     {
 
         private ObservableCollection<XacNhanTuiModel> _XacNhanTuis;
@@ -40,7 +40,9 @@ namespace TaoBD10.ViewModels
         public string MaHieu
         {
             get { return _MaHieu; }
-            set { SetProperty(ref _MaHieu, value);
+            set
+            {
+                SetProperty(ref _MaHieu, value);
                 OnCheckEnter();
             }
         }
@@ -107,7 +109,7 @@ namespace TaoBD10.ViewModels
             AddSHTui(currentSHTui, clipboard);
         }
 
-        void AddSHTui(string name,string content)
+        void AddSHTui(string name, string content)
         {
 
             if (string.IsNullOrEmpty(content) || string.IsNullOrEmpty(name))
@@ -141,34 +143,26 @@ namespace TaoBD10.ViewModels
                 {
                     if (textTemp[1].Length == 13)
                     {
-                        items.Add(new MaHieuTuiModel);
+                        items.Add(new MaHieuTuiModel() { MaHieu = textTemp[1].ToUpper() });
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Loi Update SH Tui");
+                    APIManager.showSnackbar("Loi Update SH Tui");
                     return;
                 }
             }
             if (items.Count == 0)
             {
-                txtInfo.Text = "Khong Co Ma Vat Pham";
+                APIManager.showSnackbar("Khong co ma hieu");
                 return;
             }
-            shTui.addMaItems(shTuiModels.Count + 1, items);
-            shTuiModels.Add(shTui);
-            dgvDanhSachSHTui.DataSource = null;
-            dgvDanhSachSHTui.DataSource = shTuiModels;
-            dgvDanhSachSHTui.Refresh();
-
-            dgvLocTui.DataSource = null;
-            dgvLocTui.DataSource = shTuiModels;
-            dgvLocTui.Refresh();
-
-            txtSHTuiAdd.Text = "";
-            txtSHTuiChild.Text = "";
-
-            XacNhanTuis.Add(new XacNhanTuiModel() { Index = , })
+            xacNhan.MaHieuTuis = new ObservableCollection<MaHieuTuiModel>();
+            foreach (var item in items)
+            {
+                xacNhan.MaHieuTuis.Add(item);
+            }
+            XacNhanTuis.Add(xacNhan);
 
         }
 
@@ -182,28 +176,17 @@ namespace TaoBD10.ViewModels
                     MaHieu = "";
                     return;
                 }                //    //kiem tra trung khong
-                if (XacNhanTuis.Count == 0)
+
+                foreach (XacNhanTuiModel item in XacNhanTuis)
                 {
-                    XacNhanTuis.Add(new XacNhanTuiModel());
-                    TextCode = "";
-                }
-                else
-                {
-                    foreach (DiNgoaiItemModel item in DiNgoais)
+                    MaHieuTuiModel have = item.MaHieuTuis.Where(m => m.MaHieu.ToUpper() == MaHieu).FirstOrDefault();
+                    if(have != null)
                     {
-                        if (item.Code == TextCode)
-                        {
-                            TextCode = "";
-                            return;
-                        }
+                        have.IsChecked = true;
+                        break;
                     }
-                    DiNgoais.Add(new DiNgoaiItemModel(DiNgoais.Count + 1, TextCode));
-                    if (isSayNumber)
-                    {
-                        SoundManager.playSound(@"Number\" + DiNgoais.Count.ToString() + ".wav");
-                    }
-                    TextCode = "";
                 }
+                MaHieu = "";
             }
         }
 

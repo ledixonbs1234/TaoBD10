@@ -84,6 +84,7 @@ namespace TaoBD10.ViewModels
 
         void ReadNameBuuTa(string content)
         {
+            content = content.ToUpper();
             if (content.IndexOf("59G001") != -1)
             {
                 //tuan

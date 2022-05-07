@@ -152,6 +152,8 @@ document.getElementsByClassName("".footer"").remove();
                         return;
                     //kiem tra dieu kien url
                     string html = await WebBrowser.GetSourceAsync();
+                    HtmlDocument document = new HtmlDocument();
+                    document.LoadHtml(html);
 
                     //kiem tra thu co no khong
                     if (_LoadWebChoose == LoadWebChoose.DiNgoaiAddress || _LoadWebChoose == LoadWebChoose.AddressTamQuan)
@@ -232,9 +234,7 @@ document.getElementsByClassName("".footer"").remove();
 
                         KiemTraModel kiemTra = new KiemTraModel();
 
-                        HtmlDocument document = new HtmlDocument();
-                        document.LoadHtml(html);
-
+                       
                         string barcode = document.DocumentNode.SelectNodes("//*[@id='MainContent_ctl00_lblBarcode']").First().InnerText;
                         if (string.IsNullOrEmpty(barcode))
                         {

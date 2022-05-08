@@ -158,9 +158,10 @@ document.getElementsByClassName("".footer"").remove();
                     //kiem tra thu co no khong
                     if (_LoadWebChoose == LoadWebChoose.DiNgoaiAddress || _LoadWebChoose == LoadWebChoose.AddressTamQuan)
                     {
-                        Regex regex = new Regex(@"MainContent_ctl00_lblBarcode"">((\w|\W)+?)<");
-                        var match = regex.Match(html);
-                        string barcodeWeb = match.Groups[1].Value.ToUpper();
+                       
+                        string barcodeWeb = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblBarcode']").InnerText;
+                       
+                        barcodeWeb =  barcodeWeb.Substring(0, 13).ToUpper();
                         if (string.IsNullOrEmpty(barcodeWeb))
                         {
                             WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Snackbar", Content = "Không đúng Code" });
@@ -170,31 +171,19 @@ document.getElementsByClassName("".footer"").remove();
                         {
                             Code = barcodeWeb
                         };
-                        Regex regexMaTinh = new Regex(@"MainContent_ctl00_lblDesPOS"">((\w|\W)+?) ");
-                        string matchMaTinh = regexMaTinh.Match(html).Groups[1].Value;
-                        if (String.IsNullOrEmpty(matchMaTinh))
+
+                        //kiem tra null
+                        var dd = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblReceiverAddr']");
+                        if (dd == null)
                         {
-                            WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Snackbar", Content = "Chưa có mã Tỉnh" });
                             return;
                         }
-                        // the code that you want to measure comes here
-
-                        string addressR = new Regex(@"MainContent_ctl00_lblReceiverAddr(\W|\w)+?>((\W|\w)+?)<").Match(html).Groups[2].Value;
 
 
-                        string addressS = new Regex(@"MainContent_ctl00_lblSenderAddr(\W|\w)+?>((\W|\w)+?)<").Match(html).Groups[2].Value;
-
-                        string buuCucGui = new Regex(@"MainContent_ctl00_lblFrPOS(\W|\w)+?>((\W|\w)+?)<").Match(html).Groups[2].Value;
-
-                        if (string.IsNullOrEmpty(addressR))
-                        {
-                            WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Snackbar", Content = "Không có địa chỉ" });
-                            return;
-                        }
-                        webContent.AddressReiceive = addressR;
-                        webContent.AddressSend = addressS;
-                        webContent.BuuCucPhat = matchMaTinh;
-                        webContent.BuuCucGui = buuCucGui;
+                        webContent.AddressReiceive = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblReceiverAddr']").InnerText;;
+                        webContent.AddressSend = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblSenderAddr']").InnerText;
+                        webContent.BuuCucPhat = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblDesPOS']").InnerText.Substring(0, 2);
+                        webContent.BuuCucGui = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblFrPOS']").InnerText;
                         if (_LoadWebChoose == LoadWebChoose.DiNgoaiAddress)
                             webContent.Key = "DiNgoaiAddress";
                         else if (_LoadWebChoose == LoadWebChoose.AddressTamQuan)
@@ -265,8 +254,6 @@ document.getElementsByClassName("".footer"").remove();
         private LoadWebChoose _LoadWebChoose = LoadWebChoose.None;
         private ChromiumWebBrowser _WebBrowser;
         bool isInitializeWeb = false;
-
-        bool isInitilizeWeb = false;
 
         /// <summary>
         /// Chi load web 1 lan

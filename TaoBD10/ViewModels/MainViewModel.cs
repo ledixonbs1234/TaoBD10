@@ -924,6 +924,10 @@ namespace TaoBD10.ViewModels
                             {
                                 SoundManager.playSound(@"Number\phatsinhsuvu.wav");
                                 isHaveError = true;
+                            }else if (textError.IndexOf("an nut ok de bat dau") != -1)
+                            {
+                                SendKeys.SendWait("{ENTER}");
+                                isHaveError = true;
                             }
                         }
                     }
@@ -953,6 +957,32 @@ namespace TaoBD10.ViewModels
                                 SoundManager.playSound(@"Number\phatsinhsuvu.wav");
                                 isHaveError = true;
                             }
+                        }
+                    }
+                }
+            }
+            else if (activeWindow.text == "thong bao")
+            {
+                if (isHaveError == false)
+                {
+                    //thuc hien loc du lieu con
+                    List<IntPtr> _allChildError = APIManager.GetAllChildHandles(activeWindow.hwnd);
+
+                    foreach (var item in allChild)
+                    {
+                        //thuc hien lay text cua handle item
+                        String text = APIManager.GetControlText(item);
+                        if (!String.IsNullOrEmpty(text))
+                        {
+                            isErrorSay = true;
+                            countError = 1;
+                            string textError = APIManager.convertToUnSign3(text).ToLower();
+                            if (textError.IndexOf("truyen thong tin chuyen thu") != -1)
+                            {
+                                isHaveError = true;
+                                SendKeys.SendWait("{ENTER}");
+                            }
+                            
                         }
                     }
                 }

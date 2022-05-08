@@ -92,7 +92,7 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        private int _IndexTabTui;
+        private int _IndexTabTui= 1;
 
         public int IndexTabTui
         {
@@ -165,7 +165,6 @@ namespace TaoBD10.ViewModels
                     //thuc hien chuyen ve
                     SetGetBD10Window();
                     currentTab = CurrentTab.GetBD10;
-
                     break;
 
                 case 1:
@@ -196,7 +195,10 @@ namespace TaoBD10.ViewModels
                     SetChiTietWindow();
                     currentTab = CurrentTab.Address;
                     break;
-
+                case 7:
+                    SetLayChuyenThuWindow();
+                    currentTab = CurrentTab.Address;
+                    break;
                 default:
                     break;
             }
@@ -651,6 +653,8 @@ namespace TaoBD10.ViewModels
 
                     string className = APIManager.GetWindowClass(item);
                     if (className.IndexOf("WindowsForms10.EDIT.app.0.1e6fa8e") != -1)
+
+
                     {
                         countDongChuyenThu++;
                         if (countDongChuyenThu == 3)

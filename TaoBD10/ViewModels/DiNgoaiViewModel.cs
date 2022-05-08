@@ -567,14 +567,14 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        bool isWaitingDiNgoai = false;
+        bool isWaitingPrint = false;
         StateDiNgoai stateDiNgoai = StateDiNgoai.KhoiTao;
         bool isRunFirst = false;
         int downTaoTui = 0;
 
         private void TimerPrint_Tick(object sender, EventArgs e)
         {
-            if (isWaitingDiNgoai) return;
+            if (isWaitingPrint) return;
             APIManager.showTest("1");
             var currentWindow = APIManager.GetActiveWindowTitle();
             if (currentWindow == null)
@@ -588,7 +588,7 @@ namespace TaoBD10.ViewModels
                     APIManager.showTest("2");
                     if (currentWindow.text.IndexOf("khoi tao chuyen thu") != -1)
                     {
-                        isWaitingDiNgoai = true;
+                        isWaitingPrint = true;
                         var childHandles3 = APIManager.GetAllChildHandles(currentWindow.hwnd);
                         int countCombobox = 0;
                         IntPtr loadDiNgoai = IntPtr.Zero;
@@ -633,7 +633,7 @@ namespace TaoBD10.ViewModels
                         SendKeys.SendWait("{F10}");
                         stateDiNgoai = StateDiNgoai.TaoTui;
                         isRunFirst = false;
-                        isWaitingDiNgoai = false;
+                        isWaitingPrint = false;
                         APIManager.showTest("4");
                     }
                     break;
@@ -648,7 +648,7 @@ namespace TaoBD10.ViewModels
                         }
 
                         APIManager.showTest("5");
-                        isWaitingDiNgoai = true;
+                        isWaitingPrint = true;
                         SendKeys.SendWait("{UP}{UP}{UP}{UP}{UP}");
                         for (int i = 0; i < downTaoTui; i++)
                         {
@@ -659,7 +659,7 @@ namespace TaoBD10.ViewModels
                         stateDiNgoai = StateDiNgoai.DongChuyen;
 
                         //stateDiNgoai = StateDiNgoai.MoLaiTiep;
-                        isWaitingDiNgoai = false;
+                        isWaitingPrint = false;
                         isRunFirst = false;
                         APIManager.showTest("6");
 
@@ -675,7 +675,7 @@ namespace TaoBD10.ViewModels
                             return;
                         }
                         APIManager.showTest("7");
-                        isWaitingDiNgoai = true;
+                        isWaitingPrint = true;
                         for (int i = 0; i < 20; i++)
                         {
                             SendKeys.SendWait("+{TAB}");
@@ -720,7 +720,7 @@ namespace TaoBD10.ViewModels
                                 string textClip1 = Clipboard.GetText();
                                 if (textClip1.IndexOf("Selected") == -1)
                                 {
-                                    isWaitingDiNgoai = false;
+                                    isWaitingPrint = false;
                                     timerPrint.Stop();
                                     WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Snackbar", Content = "Lỗi chưa chọn" });
                                     APIManager.showTest("8");
@@ -736,7 +736,7 @@ namespace TaoBD10.ViewModels
                         }
                         stateDiNgoai = StateDiNgoai.In;
                         isRunFirst = false;
-                        isWaitingDiNgoai = false;
+                        isWaitingPrint = false;
                         APIManager.showTest("9");
                     }
 
@@ -749,7 +749,7 @@ namespace TaoBD10.ViewModels
                         return;
                     }
 
-                    isWaitingDiNgoai = true;
+                    isWaitingPrint = true;
                     APIManager.SetZ420Print();
 
                     Thread.Sleep(200);
@@ -764,14 +764,14 @@ namespace TaoBD10.ViewModels
                     string clipboard = Clipboard.GetText();
                     if (string.IsNullOrEmpty(clipboard))
                     {
-                        isWaitingDiNgoai = false;
+                        isWaitingPrint = false;
 
                         timerPrint.Stop();
                         return;
                     }
                     if (clipboard.IndexOf("BĐ8") == -1)
                     {
-                        isWaitingDiNgoai = false;
+                        isWaitingPrint = false;
                         timerPrint.Stop();
                         return;
                     }
@@ -818,7 +818,7 @@ namespace TaoBD10.ViewModels
                     {
                         APIManager.SendMessage(buttonThoat, 0x00F5, 0, 0);
                     }
-                    isWaitingDiNgoai = false;
+                    isWaitingPrint = false;
                     isRunFirst = false;
                     stateDiNgoai = StateDiNgoai.Thoat;
                     break;
@@ -832,7 +832,7 @@ namespace TaoBD10.ViewModels
                             return;
                         }
 
-                        isWaitingDiNgoai = true;
+                        isWaitingPrint = true;
 
                         stateDiNgoai = StateDiNgoai.MoLaiTiep;
                         SendKeys.SendWait("{F10}");
@@ -843,13 +843,13 @@ namespace TaoBD10.ViewModels
                     }
                     else if (currentWindow.text.IndexOf("khoi tao chuyen thu") != -1)
                     {
-                        isWaitingDiNgoai = false;
+                        isWaitingPrint = false;
                         MessageBox.Show("Vui lòng đóng chuyến thư hiện tại.");
                         timerPrint.Stop();
                     }
 
                     isRunFirst = false;
-                    isWaitingDiNgoai = false;
+                    isWaitingPrint = false;
                     break;
 
                 case StateDiNgoai.MoLaiTiep:
@@ -861,12 +861,12 @@ namespace TaoBD10.ViewModels
                             isRunFirst = true;
                             return;
                         }
-                        isWaitingDiNgoai = true;
+                        isWaitingPrint = true;
                         //lay du lieu tiep theo
                         if (DiNgoais.Count == 0)
                         {
                             timerPrint.Stop();
-                            isWaitingDiNgoai = false;
+                            isWaitingPrint = false;
                             return;
                         }
                         //lay vi tri tiep theo
@@ -875,14 +875,14 @@ namespace TaoBD10.ViewModels
                         if (index == -1)
                         {
                             timerPrint.Stop();
-                            isWaitingDiNgoai = false;
+                            isWaitingPrint = false;
                             return;
                         }
 
                         if (index > DiNgoais.Count - 1)
                         {
                             timerPrint.Stop();
-                            isWaitingDiNgoai = false;
+                            isWaitingPrint = false;
                             //txtInfo.Text = "Đã tới vị trí cuối cùng";
                             return;
                         }
@@ -906,7 +906,7 @@ namespace TaoBD10.ViewModels
                         //SendKeys.SendWait("{F3}");
                         //timerPrintDiNgoai.Stop();
                         timerPrint.Stop();
-                        isWaitingDiNgoai = false;
+                        isWaitingPrint = false;
                     }
                     break;
 
@@ -968,6 +968,7 @@ namespace TaoBD10.ViewModels
 
         private void OnSelectedSimple()
         {
+            isWaitDiNgoai = false;
             timerDiNgoai.Stop();
             timerDiNgoai.Start();
             //thuc hien
@@ -1288,6 +1289,7 @@ namespace TaoBD10.ViewModels
                 if (DiNgoais.Count == 0)
                 {
                     DiNgoais.Add(new DiNgoaiItemModel(DiNgoais.Count + 1, TextCode));
+                    SoundManager.playSound(@"Number\1.wav");
                     TextCode = "";
                 }
                 else

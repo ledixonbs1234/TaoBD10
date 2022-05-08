@@ -127,6 +127,7 @@ namespace TaoBD10.ViewModels
                     }
                     else if (m.Content == "Print")
                     {
+                        isWaitingPrint = false;
                         timerPrint.Stop();
                         timerPrint.Start();
                     }

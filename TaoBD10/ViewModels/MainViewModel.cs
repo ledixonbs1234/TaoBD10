@@ -144,9 +144,12 @@ namespace TaoBD10.ViewModels
                     SetDefaultWindowTui();
                     break;
                 case 7:
-                    OnSelectedTabBD();
+                    SetDefaultWindowTui();
                     break;
                 case 8:
+                    OnSelectedTabBD();
+                    break;
+                case 9:
                     SetChiTietWindow();
                     break;
                 default:

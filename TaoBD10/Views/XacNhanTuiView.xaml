@@ -68,29 +68,36 @@
         <StackPanel Grid.Column="1">
             <Grid Height="300">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="220" />
+                    <ColumnDefinition Width="250" />
                     <ColumnDefinition Width="76*" />
                 </Grid.ColumnDefinitions>
-                <DataGrid x:Name="dataGrid"
-                    ItemsSource="{Binding XacNhanTuis}"
+                <DataGrid
+                    x:Name="dataGrid"
                     Grid.Column="0"
                     Margin="5"
                     materialDesign:DataGridAssist.CellPadding="4 7 5 7"
-                    materialDesign:DataGridAssist.ColumnHeaderPadding="2 2 2 2">
+                    materialDesign:DataGridAssist.ColumnHeaderPadding="2 2 2 2"
+                    AutoGenerateColumns="False"
+                    ItemsSource="{Binding XacNhanTuis}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Index" />
-                        <DataGridTextColumn Header="SH Túi" />
-                        <DataGridTextColumn Header="Current" />
+                        <DataGridTextColumn
+                            Width="40"
+                            Binding="{Binding Index}"
+                            Header="Index" />
+                        <DataGridTextColumn Binding="{Binding SHTui}" Header="SH Túi" />
+                        <DataGridTextColumn Binding="{Binding MaHieuTuis.Count}" Header="Current" />
+                        <DataGridTextColumn Binding="{Binding MaHieuTuis.Count}" Header="All" />
                     </DataGrid.Columns>
                 </DataGrid>
                 <DataGrid
                     Grid.Column="1"
                     Margin="5"
                     materialDesign:DataGridAssist.CellPadding="4 7 5 7"
-                    materialDesign:DataGridAssist.ColumnHeaderPadding="2 2 2 2" ItemsSource="{Binding SelectedItem, ElementName=dataGrid}">
+                    materialDesign:DataGridAssist.ColumnHeaderPadding="2 2 2 2"
+                    ItemsSource="{Binding SelectedItem, ElementName=dataGrid}">
                     <DataGrid.Columns>
-                        <DataGridCheckBoxColumn Header="Chọn" Binding="{Binding IsChecked}" />
-                        <DataGridTextColumn Header="Mã Hiệu" Binding="{Binding MaHieu}"/>
+                        <DataGridCheckBoxColumn Binding="{Binding IsChecked}" Header="Chọn" />
+                        <DataGridTextColumn Binding="{Binding MaHieu}" Header="Mã Hiệu" />
                     </DataGrid.Columns>
                 </DataGrid>
 

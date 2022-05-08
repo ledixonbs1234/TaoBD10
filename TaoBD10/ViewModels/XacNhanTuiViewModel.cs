@@ -1,4 +1,5 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -49,12 +50,17 @@ namespace TaoBD10.ViewModels
         string currentSHTui = "";
         string currentData = "";
 
-        void RunGetData(IntPtr hwndMain)
+        void RunGetData()
         {
+            var currentWindow = APIManager.GetActiveWindowTitle();
+            if (currentWindow == null)
+            {
+                return;
+            }
             System.Windows.Clipboard.Clear();
 
             //thuc hien lay du lieu con
-            var childHandlesIn = APIManager.GetAllChildHandles(hwndMain);
+            var childHandlesIn = APIManager.GetAllChildHandles(currentWindow.hwnd);
             int countDefault = 0;
             foreach (var item in childHandlesIn)
             {
@@ -88,18 +94,23 @@ namespace TaoBD10.ViewModels
             Thread.Sleep(50);
             SendKeys.SendWait("^(a)");
             Thread.Sleep(500);
-            SendKeys.SendWait("^(c)");
-            Thread.Sleep(100);
             string clipboard = "";
-            try
+            for (int i = 0; i < 3; i++)
             {
-                clipboard = System.Windows.Clipboard.GetText();
+                try
+                {
+                    SendKeys.SendWait("^(c)");
+                    Thread.Sleep(100);
+                    clipboard = System.Windows.Clipboard.GetText();
+                    if (!string.IsNullOrEmpty(clipboard))
+                        break;
+                }
+                catch (Exception edd)
+                {
+                    APIManager.showSnackbar("Không copy được");
+                }
             }
-            catch (Exception edd)
-            {
-                APIManager.showSnackbar("Không copy được");
-                return;
-            }
+
             if (string.IsNullOrEmpty(clipboard))
             {
                 APIManager.showSnackbar("Không copy được");
@@ -107,6 +118,35 @@ namespace TaoBD10.ViewModels
             }
             //thuc hien them tui
             AddSHTui(currentSHTui, clipboard);
+        }
+
+        private bool _IsExpanded = false;
+        public bool IsExpanded
+        {
+            get { return _IsExpanded; }
+            set
+            {
+                SetProperty(ref _IsExpanded, value);
+
+                if (_IsExpanded == false)
+                {
+                    ThuHep();
+                }
+                else
+                {
+                    MoRong();
+                }
+            }
+        }
+
+        void ThuHep()
+        {
+            WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Navigation", Content = "SmallRight" });
+        }
+
+        void MoRong()
+        {
+            WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Navigation", Content = "Center" });
         }
 
         void AddSHTui(string name, string content)
@@ -180,7 +220,7 @@ namespace TaoBD10.ViewModels
                 foreach (XacNhanTuiModel item in XacNhanTuis)
                 {
                     MaHieuTuiModel have = item.MaHieuTuis.Where(m => m.MaHieu.ToUpper() == MaHieu).FirstOrDefault();
-                    if(have != null)
+                    if (have != null)
                     {
                         have.IsChecked = true;
                         break;
@@ -193,6 +233,14 @@ namespace TaoBD10.ViewModels
         public XacNhanTuiViewModel()
         {
             XacNhanTuis = new ObservableCollection<XacNhanTuiModel>();
+            WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>
+            {
+                if (m.Key != "XacNhan")
+                    return;
+                if (m.Content == "GetData")
+                    RunGetData();
+
+            });
 
 
         }

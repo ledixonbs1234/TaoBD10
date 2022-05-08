@@ -103,11 +103,15 @@
             <TabItem Header="LAY CT">
                 <view:LayChuyenThu />
             </TabItem>
+
             <TabItem Header="LAY BD">
                 <view:LayBDHA />
             </TabItem>
             <TabItem Header="TAO BD">
                 <view:TaoBD10View />
+            </TabItem>
+            <TabItem Header="TUI">
+                <view:XacNhanTuiView />
             </TabItem>
             <TabItem Header="BĐ 10">
                 <TabControl
@@ -148,8 +152,8 @@
 
                 </TabControl>
             </TabItem>
-            <TabItem Header="KT" >
-                <view:KiemTraView/>
+            <TabItem Header="KT">
+                <view:KiemTraView />
             </TabItem>
         </TabControl>
 

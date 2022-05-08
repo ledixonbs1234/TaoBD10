@@ -28,7 +28,8 @@
                 AutoGenerateColumns="False"
                 CanUserAddRows="False"
                 IsReadOnly="True"
-                ItemsSource="{Binding XacNhanTuis}">
+                ItemsSource="{Binding XacNhanTuis}"
+                SelectedItem="{Binding SelectedXacNhan}">
                 <DataGrid.Columns>
                     <DataGridTextColumn
                         Width="40"
@@ -88,6 +89,8 @@
                     Margin="5"
                     materialDesign:DataGridAssist.CellPadding="4 7 5 7"
                     materialDesign:DataGridAssist.ColumnHeaderPadding="2 2 2 2"
+                    AutoGenerateColumns="False"
+                    CanUserAddRows="False"
                     ItemsSource="{Binding SelectedXacNhan.MaHieuTuis}">
                     <DataGrid.Columns>
                         <DataGridCheckBoxColumn Binding="{Binding IsChecked}" Header="Chọn" />

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
+using System.Windows.Input;
 using TaoBD10.Manager;
 using TaoBD10.Model;
 
@@ -42,6 +44,24 @@ namespace TaoBD10.ViewModels
                 OnSelectedTui();
             }
         }
+
+        public ICommand MoTuiCommand { get; }
+
+        
+        void MoTui()
+        {
+            if (! APIManager.ThoatToDefault("593230", "quan ly chuyen thu chieu den"))
+            {
+                SendKeys.SendWait("1");
+                Thread.Sleep(200);
+                SendKeys.SendWait("3");
+            }
+            Thread.Sleep(200);
+            SendKeys.SendWait("{F3}");
+            SendKeys.SendWait(SelectedXacNhan.SHTui);
+            SendKeys.SendWait("{ENTER}");
+        }
+
 
         private void OnSelectedTui()
         {
@@ -257,6 +277,8 @@ namespace TaoBD10.ViewModels
         public XacNhanTuiViewModel()
         {
             XacNhanTuis = new ObservableCollection<XacNhanTuiModel>();
+            MoTuiCommand = new RelayCommand(MoTui);
+
             WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>
             {
                 if (m.Key != "XacNhan")

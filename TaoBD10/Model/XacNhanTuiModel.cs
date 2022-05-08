@@ -32,6 +32,15 @@ namespace TaoBD10.Model
             set { SetProperty(ref _MaHieuTuis, value); }
         }
 
+        private int _TuiHave = 0;
+
+        public int TuiHave
+        {
+            get { return _TuiHave; }
+            set { SetProperty(ref _TuiHave, value); }
+        }
+
+
         public XacNhanTuiModel()
         {
 

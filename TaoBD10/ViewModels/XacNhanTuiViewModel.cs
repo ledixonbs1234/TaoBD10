@@ -40,17 +40,19 @@ namespace TaoBD10.ViewModels
         public XacNhanTuiModel SelectedXacNhan
         {
             get { return _SelectedXacNhan; }
-            set { SetProperty(ref _SelectedXacNhan, value);
+            set
+            {
+                SetProperty(ref _SelectedXacNhan, value);
                 OnSelectedTui();
             }
         }
 
         public ICommand MoTuiCommand { get; }
 
-        
+
         void MoTui()
         {
-            if (! APIManager.ThoatToDefault("593230", "quan ly chuyen thu chieu den"))
+            if (!APIManager.ThoatToDefault("593230", "quan ly chuyen thu chieu den"))
             {
                 SendKeys.SendWait("1");
                 Thread.Sleep(200);
@@ -65,7 +67,7 @@ namespace TaoBD10.ViewModels
 
         private void OnSelectedTui()
         {
-            if(SelectedXacNhan != null)
+            if (SelectedXacNhan != null)
             {
                 MaHieuTuis = SelectedXacNhan.MaHieuTuis;
             }
@@ -93,6 +95,8 @@ namespace TaoBD10.ViewModels
         }
         string currentSHTui = "";
         string currentData = "";
+
+
 
         void RunGetData()
         {
@@ -247,7 +251,20 @@ namespace TaoBD10.ViewModels
                 xacNhan.MaHieuTuis.Add(item);
             }
             XacNhanTuis.Add(xacNhan);
+            int temp = 0;
+            foreach (var item in XacNhanTuis)
+            {
+                temp += item.MaHieuTuis.Count;
+            }
+            TongCong = temp;
 
+        }
+        private int _TongCong = 0;
+
+        public int TongCong
+        {
+            get { return _TongCong; }
+            set { SetProperty(ref _TongCong, value); }
         }
 
         private void OnCheckEnter()
@@ -260,19 +277,42 @@ namespace TaoBD10.ViewModels
                     MaHieu = "";
                     return;
                 }                //    //kiem tra trung khong
-
+                bool isFinded = false;
                 foreach (XacNhanTuiModel item in XacNhanTuis)
                 {
                     MaHieuTuiModel have = item.MaHieuTuis.Where(m => m.MaHieu.ToUpper() == MaHieu).FirstOrDefault();
                     if (have != null)
                     {
+                        isFinded = true;
                         have.IsChecked = true;
+                        item.TuiHave++;
                         break;
                     }
                 }
+                int temp = 0;
+                foreach (XacNhanTuiModel item in XacNhanTuis)
+                {
+                    temp += item.TuiHave;
+                }
+                Current = temp;
+                if (isFinded)
+                    SoundManager.playSound(@"Number\" + Current.ToString() + ".wav");
+                else
+                    SoundManager.playSound(@"Number\chuaxacdinh.wav");
+
+                //thuc hien viec dem so trong nay
                 MaHieu = "";
             }
         }
+
+        private int _Current;
+
+        public int Current
+        {
+            get { return _Current; }
+            set { SetProperty(ref _Current, value); }
+        }
+
 
         public XacNhanTuiViewModel()
         {

@@ -25,7 +25,31 @@ namespace TaoBD10.ViewModels
             set { SetProperty(ref _XacNhanTuis, value); }
         }
 
+        private ObservableCollection<MaHieuTuiModel> _MaHieuTuis;
 
+        public ObservableCollection<MaHieuTuiModel> MaHieuTuis
+        {
+            get { return _MaHieuTuis; }
+            set { SetProperty(ref _MaHieuTuis, value); }
+        }
+
+        private XacNhanTuiModel _SelectedXacNhan;
+
+        public XacNhanTuiModel SelectedXacNhan
+        {
+            get { return _SelectedXacNhan; }
+            set { SetProperty(ref _SelectedXacNhan, value);
+                OnSelectedTui();
+            }
+        }
+
+        private void OnSelectedTui()
+        {
+            if(SelectedXacNhan != null)
+            {
+                MaHieuTuis = SelectedXacNhan.MaHieuTuis;
+            }
+        }
 
         private ObservableCollection<string> _KhongTonTais;
 

@@ -20,32 +20,23 @@
 
 
             <DataGrid
-                x:Name="dataGridChuyenThu"
-                Height="250"
-                materialDesign:DataGridAssist.CellPadding="5 7 2 7"
-                materialDesign:DataGridAssist.ColumnHeaderPadding="4 2 2 2"
+                x:Name="dataGrid1"
+                Grid.Column="0"
+                Margin="5"
+                materialDesign:DataGridAssist.CellPadding="4 7 5 7"
+                materialDesign:DataGridAssist.ColumnHeaderPadding="2 2 2 2"
                 AutoGenerateColumns="False"
-                ItemsSource="{Binding DiNgoais}"
-                SelectedItem="{Binding SelectedSimple, Mode=TwoWay}"
-                SelectionMode="Single">
-                <Behaviors:Interaction.Triggers>
-                    <Behaviors:EventTrigger EventName="MouseLeftButtonUp">
-                        <Behaviors:InvokeCommandAction Command="{Binding SelectionCommand}" CommandParameter="{Binding SelectedItem, ElementName=dataGridChuyenThu}" />
-                    </Behaviors:EventTrigger>
-                </Behaviors:Interaction.Triggers>
+                CanUserAddRows="False"
+                IsReadOnly="True"
+                ItemsSource="{Binding XacNhanTuis}">
                 <DataGrid.Columns>
                     <DataGridTextColumn
+                        Width="40"
                         Binding="{Binding Index}"
-                        Header="Index"
-                        IsReadOnly="True" />
-                    <DataGridTextColumn
-                        Binding="{Binding Code}"
-                        Header="Code"
-                        IsReadOnly="True" />
-                    <DataGridTextColumn
-                        Binding="{Binding MaBuuCuc}"
-                        Header="Mã Bưu Cục"
-                        IsReadOnly="True" />
+                        Header="Index" />
+                    <DataGridTextColumn Binding="{Binding SHTui}" Header="SH Túi" />
+                    <DataGridTextColumn Binding="{Binding MaHieuTuis.Count}" Header="Current" />
+                    <DataGridTextColumn Binding="{Binding MaHieuTuis.Count}" Header="All" />
                 </DataGrid.Columns>
             </DataGrid>
             <Button Margin="10" Content="Mở" />
@@ -78,7 +69,10 @@
                     materialDesign:DataGridAssist.CellPadding="4 7 5 7"
                     materialDesign:DataGridAssist.ColumnHeaderPadding="2 2 2 2"
                     AutoGenerateColumns="False"
-                    ItemsSource="{Binding XacNhanTuis}">
+                    CanUserAddRows="False"
+                    IsReadOnly="True"
+                    ItemsSource="{Binding XacNhanTuis}"
+                    SelectedItem="{Binding SelectedXacNhan}">
                     <DataGrid.Columns>
                         <DataGridTextColumn
                             Width="40"
@@ -94,7 +88,7 @@
                     Margin="5"
                     materialDesign:DataGridAssist.CellPadding="4 7 5 7"
                     materialDesign:DataGridAssist.ColumnHeaderPadding="2 2 2 2"
-                    ItemsSource="{Binding SelectedItem, ElementName=dataGrid}">
+                    ItemsSource="{Binding SelectedXacNhan.MaHieuTuis}">
                     <DataGrid.Columns>
                         <DataGridCheckBoxColumn Binding="{Binding IsChecked}" Header="Chọn" />
                         <DataGridTextColumn Binding="{Binding MaHieu}" Header="Mã Hiệu" />

@@ -370,18 +370,6 @@ namespace TaoBD10.ViewModels
                         SendKeys.SendWait("{Right}");
                         SendKeys.SendWait(" ");
                         Thread.Sleep(1889);
-                        while (printD.text.IndexOf("sua thong tin bd10") != -1)
-                        {
-                            printD = APIManager.GetActiveWindowTitle();
-                            Thread.Sleep(200);
-                        }
-                        SendKeys.SendWait(" ");
-                        SendKeys.SendWait("{ESC}");
-                        Thread.Sleep(50);
-                        SendKeys.SendWait(" ");
-                        APIManager.showSnackbar("Xong");
-
-
                     }
                         break;
                 case Key.Enter:

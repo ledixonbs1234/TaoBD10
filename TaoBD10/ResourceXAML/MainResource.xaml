@@ -18,4 +18,5 @@
     <viewmodel:TamQuanViewModel x:Key="TamQuanVM" />
     <viewmodel:KiemTraViewModel x:Key="KiemTraVM" />
     <viewmodel:XacNhanTuiViewModel x:Key="XacNhanTuiVM" />
+    <viewmodel:KTChuaPhatViewModel x:Key="KTChuaPhatVM" />
 </ResourceDictionary>

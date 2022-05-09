@@ -9,6 +9,12 @@
             SHTui
         }
 
+        public enum ChuaPhat
+        {
+            C593230,
+            C593280
+        }
+
         public enum BuuCuc
         {
             None,

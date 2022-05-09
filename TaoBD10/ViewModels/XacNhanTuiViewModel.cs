@@ -166,6 +166,9 @@ namespace TaoBD10.ViewModels
             }
             //thuc hien them tui
             AddSHTui(currentSHTui, clipboard);
+            
+
+            //thuc hien nhan nut thoat trong nay
         }
 
         private bool _IsExpanded = false;

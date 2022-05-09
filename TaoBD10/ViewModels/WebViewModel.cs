@@ -45,11 +45,22 @@ namespace TaoBD10.ViewModels
                 {
                     _LoadWebChoose = LoadWebChoose.KiemTraWeb;
                     LoadAddressDiNgoai(m.Content);
+                }else if(m.Key == "KTChuaPhat")
+                {
+                    if (m.Content == "LoadUrl")
+                    {
+
+                        isCheckingChuaPhat = true;
+                        WebBrowser.LoadUrl("https://mps.vnpost.vn/default.aspx");
+
+                    }
                 }
             });
 
 
         }
+
+        bool isCheckingChuaPhat = false;
 
         public string AddressWeb
         {
@@ -109,7 +120,7 @@ namespace TaoBD10.ViewModels
                 //Da tai xong
                 string diachi = AddressWeb.ToLower();
 
-                if (diachi.IndexOf("login") != -1)
+                if (diachi.IndexOf("bccp.vnpost.vn/login") != -1)
                 {
                     string scriptFirst = @"
 Element.prototype.remove = function() {
@@ -141,6 +152,24 @@ document.getElementsByClassName("".footer"").remove();
                     //    picImage.Load("https://bccp.vnpost.vn/" + matchLogin.Groups[1].Value);
                     //}
 
+                }else if (diachi.IndexOf("mps.vnpost.vn/login") != -1)
+                {
+
+                    //thuc hien dang nhap vao trang web
+                    string script = @"
+                     document.getElementById('tx_tname').value='bdh.005932';
+            		document.getElementById('txt_password').value='abc.123';
+            		document.getElementById('btx_login').click();
+";
+
+                    WebBrowser.ExecuteScriptAsync(script);
+                }else if (diachi.IndexOf("mps.vnpost.vn/default")!= -1)
+                {
+                    if (isCheckingChuaPhat)
+                    {
+                        isCheckingChuaPhat = false;
+                        WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "RChuaPhat", Content = "InfoOK" });
+                    }
                 }
                 else
                 {

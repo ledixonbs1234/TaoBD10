@@ -167,6 +167,7 @@
     <Compile Include="ViewModels\FillViewModel.cs" />
     <Compile Include="ViewModels\GetBD10ViewModel.cs" />
     <Compile Include="ViewModels\KiemTraViewModel.cs" />
+    <Compile Include="ViewModels\KTChuaPhatViewModel.cs" />
     <Compile Include="ViewModels\LayBDHAViewModel.cs" />
     <Compile Include="ViewModels\LayChuyenThuViewModel.cs" />
     <Compile Include="ViewModels\LocTuiViewModel.cs" />
@@ -202,6 +203,9 @@
     </Compile>
     <Compile Include="Views\KiemTraView.xaml.cs">
       <DependentUpon>KiemTraView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\KTChuaPhatView.xaml.cs">
+      <DependentUpon>KTChuaPhatView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LayBDHA.xaml.cs">
       <DependentUpon>LayBDHA.xaml</DependentUpon>
@@ -276,6 +280,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\KiemTraView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\KTChuaPhatView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

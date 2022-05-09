@@ -14,8 +14,9 @@
     Closing="MainView_Closing"
     DataContext="{StaticResource MainVM}"
     ResizeMode="NoResize"
+    Topmost="True"
     WindowStyle="None"
-    mc:Ignorable="d" Topmost="True">
+    mc:Ignorable="d">
     <Behaviors:Interaction.Triggers>
         <Behaviors:EventTrigger EventName="Loaded">
             <Behaviors:InvokeCommandAction Command="{Binding LoadPageCommand}" CommandParameter="{Binding ElementName=MainView}" />
@@ -153,7 +154,21 @@
                 </TabControl>
             </TabItem>
             <TabItem Header="KT">
-                <view:KiemTraView />
+                <TabControl
+                    x:Name="TabControlKT"
+                    Margin="5"
+                    HorizontalContentAlignment="Left"
+                    materialDesign:ColorZoneAssist.Mode="SecondaryLight"
+                    SelectedIndex="{Binding IndexTabControl}"
+                    TabStripPlacement="Bottom">
+                    <TabItem Header="Kiem Tra">
+                        <view:KiemTraView />
+                    </TabItem>
+                    <TabItem Header="Hang Ton">
+                        <view:KTChuaPhatView />
+                    </TabItem>
+                </TabControl>
+
             </TabItem>
         </TabControl>
 

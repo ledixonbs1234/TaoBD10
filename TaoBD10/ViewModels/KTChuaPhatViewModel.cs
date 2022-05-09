@@ -46,11 +46,16 @@ namespace TaoBD10.ViewModels
             WeakReferenceMessenger.Default.Register<HangTonMessage>(this, (r, m) => { 
                 if(m.Value != null)
                 {
-                    HangTons.Clear();
-                    foreach (HangTonModel item in m.Value)
+                    App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
                     {
-                        HangTons.Add(item);
-                    }
+                        HangTons.Clear();
+                        foreach (HangTonModel item in m.Value)
+                        {
+                            HangTons.Add(item);
+                        }
+
+                    });
+                   
                 }
 
             

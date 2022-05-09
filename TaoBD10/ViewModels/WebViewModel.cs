@@ -35,6 +35,10 @@ namespace TaoBD10.ViewModels
                 {
                     _LoadWebChoose = LoadWebChoose.AddressTamQuan;
                     LoadAddressDiNgoai(m.Content);
+                }else if(m.Key == "LoadAddressChuaPhat")
+                {
+                    _LoadWebChoose = LoadWebChoose.AddressChuaPhat;
+                    LoadAddressDiNgoai(m.Content);
                 }
                 else if (m.Key == "GetCodeFromBD")
                 {
@@ -291,10 +295,13 @@ document.getElementsByClassName("".footer"").remove();
                         webContent.AddressSend = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblSenderAddr']").InnerText;
                         webContent.BuuCucPhat = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblDesPOS']").InnerText.Substring(0, 2);
                         webContent.BuuCucGui = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblFrPOS']").InnerText;
+                        webContent.NguoiGui = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblSenderName']").InnerText;
                         if (_LoadWebChoose == LoadWebChoose.DiNgoaiAddress)
                             webContent.Key = "DiNgoaiAddress";
                         else if (_LoadWebChoose == LoadWebChoose.AddressTamQuan)
                             webContent.Key = "AddressTamQuan";
+                        else if (_LoadWebChoose ==  LoadWebChoose.AddressChuaPhat)
+                            webContent.Key = "AddressChuaPhat";
                         //Thuc hien send Web content qua do
                         WeakReferenceMessenger.Default.Send<WebContentModel>(webContent);
                     }

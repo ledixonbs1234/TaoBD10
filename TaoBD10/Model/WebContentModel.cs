@@ -15,5 +15,6 @@ namespace TaoBD10.Model
         public string AddressReiceive { get; set; }
         public string BuuCucPhat { get; set; }
         public string BuuCucGui { get; set; }
+        public string NguoiGui { get; set; }
     }
 }

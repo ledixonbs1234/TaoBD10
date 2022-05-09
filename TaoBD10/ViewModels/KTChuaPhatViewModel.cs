@@ -30,8 +30,8 @@ namespace TaoBD10.ViewModels
             Run593280Command = new RelayCommand(Run593280);
             Run593230Command = new RelayCommand(Run593230);
             CheckCommand = new RelayCommand(Check);
+        AddAddressCommand = new RelayCommand(AddAddress);
             HangTons = new ObservableCollection<HangTonModel>();
-        AddAddressCommandCommand = new RelayCommand(AddAddressCommand);
 
             WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) => {
                 if(m.Key == "RChuaPhat")
@@ -62,19 +62,36 @@ namespace TaoBD10.ViewModels
 
             
             });
+
+            WeakReferenceMessenger.Default.Register<WebContentModel>(this, (r, m) =>
+            {
+                if (m.Key != "AddressChuaPhat")
+                    return;
+                var hangTon = HangTons.FirstOrDefault(c => m.Code.IndexOf(c.MaHieu.ToUpper()) != -1);
+                if (hangTon != null)
+                {
+                    hangTon.Address = m.AddressReiceive.Trim();
+                    hangTon.NguoiGui = m.NguoiGui;
+                }
+                AddAddress();
+            });
         }
-
-        public ICommand AddAddressCommandCommand { get; }
-
-
-        void AddAddressCommand()
-        {
-
-        }
-
-
         //thuc hien lenh trong nay
         public ICommand Run593230Command { get; }
+        public ICommand AddAddressCommand { get; }
+
+
+        void AddAddress()
+        {
+            foreach (HangTonModel hangTon in HangTons)
+            {
+                if (string.IsNullOrEmpty(hangTon.Address))
+                {
+                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "LoadAddressChuaPhat", Content = hangTon.MaHieu });
+                    break;
+                }
+            }
+        }
 
 
         public ICommand Run593280Command { get; }

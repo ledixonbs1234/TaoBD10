@@ -72,8 +72,8 @@ namespace TaoBD10.ViewModels
                     {
                         //thuc hien trong nay
                         string script = @"
-                                document.getElementById('ctl00_ctl12_rcb_Donvi_ClientState').value='{""logEntries"":[],""value"":""593230"",""text"":""----593230 - KT Hoài Nhơn -KT2"",""enabled"":true,""checkedIndices"":[],""checkedItemsTextOverflows"":false}';
-                                document.getElementById('ctl00_ctl12_rcbTrangThai_ClientState').value='{""logEntries"":[],""value"":""593280"",""text"":""----593280 - BCP Hoài Nhơn -PH2"",""enabled"":true,""checkedIndices"":[],""checkedItemsTextOverflows"":false}';
+                                document.getElementById('ctl00_ctl12_rcb_Donvi_ClientState').value='{""logEntries"":[],""value"":""593280"",""text"":""----593280 - BCP Hoài Nhơn -PH2"",""enabled"":true,""checkedIndices"":[],""checkedItemsTextOverflows"":false}';
+                                document.getElementById('ctl00_ctl12_rcbTrangThai_ClientState').value='{""logEntries"":[],""value"":""3"",""text"":""Xác nhận đến"",""enabled"":true,""checkedIndices"":[],""checkedItemsTextOverflows"":false}';
 
                                 document.getElementById('ctl00_ctl12_btn_submit').click();
                 ";

@@ -229,16 +229,16 @@ document.getElementsByClassName("".footer"").remove();
                         foreach (HtmlNode item in Items)
                         {
                             HangTonModel hangTon = new HangTonModel();
-                            HtmlNodeCollection data = item.SelectNodes("//td");
+                            HtmlNodeCollection data = item.SelectNodes("td");
                             hangTon.Index = data[0].InnerText.Trim();
 
-                            hangTon.MaHieu = data[1].InnerText.Trim().ToUpper();
-                            hangTon.TienThuHo = item.ChildNodes[3].InnerText;
-                            hangTon.TimeGui = item.ChildNodes[4].InnerText;
-                            hangTon.TimeCapNhat = item.ChildNodes[5].InnerText;
-                            hangTon.BuuCucLuuGiu = item.ChildNodes[6].InnerText;
-                            hangTon.ChuyenHoan = item.ChildNodes[7].InnerText;
-                            hangTon.BuuCucPhatHanh = item.ChildNodes[10].InnerText;
+                            hangTon.MaHieu = data[2].InnerText.Trim().ToUpper();
+                            hangTon.TienThuHo = data[3].InnerText.Trim();
+                            hangTon.TimeGui = data[5].InnerText.Trim();
+                            hangTon.TimeCapNhat = data[6].InnerText.Trim();
+                            hangTon.BuuCucLuuGiu = data[7].InnerText.Trim();
+                            hangTon.ChuyenHoan = data[8].InnerText.Trim();
+                            hangTon.BuuCucPhatHanh = data[11].InnerText.Trim();
                             hangTons.Add(hangTon);
                         }
                         //thuc hien send Du Lieu sang Map

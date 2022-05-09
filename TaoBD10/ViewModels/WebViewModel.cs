@@ -65,6 +65,7 @@ namespace TaoBD10.ViewModels
                                 document.getElementById('ctl00_ctl12_btn_submit').click();
                 ";
                         IsLoadedWeb = false;
+                        IsRunningChuaPhat = true;
                         WebBrowser.ExecuteScriptAsync(script);
                     }
                     else if (m.Content == "Run280")
@@ -77,6 +78,7 @@ namespace TaoBD10.ViewModels
                                 document.getElementById('ctl00_ctl12_btn_submit').click();
                 ";
                         IsLoadedWeb = false;
+                        IsRunningChuaPhat = true;
                         WebBrowser.ExecuteScriptAsync(script);
                     }
 
@@ -85,6 +87,8 @@ namespace TaoBD10.ViewModels
 
 
         }
+
+        bool IsRunningChuaPhat = false;
 
         bool isCheckingChuaPhat = false;
 
@@ -207,6 +211,12 @@ document.getElementsByClassName("".footer"").remove();
                         }
                         else
                             return;
+
+                        if (!IsRunningChuaPhat)
+                        {
+                            return;
+                        }
+                        IsRunningChuaPhat = false;
                         string html = await WebBrowser.GetSourceAsync();
                         HtmlDocument document = new HtmlDocument();
                         document.LoadHtml(html);

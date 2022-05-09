@@ -63,6 +63,7 @@ namespace TaoBD10.ViewModels
 
                                 document.getElementById('ctl00_ctl12_btn_submit').click();
                 ";
+                        IsLoadedWeb = false;
                         WebBrowser.ExecuteScriptAsync(script);
                     }
                     else if (m.Content == "Run280")
@@ -74,6 +75,7 @@ namespace TaoBD10.ViewModels
 
                                 document.getElementById('ctl00_ctl12_btn_submit').click();
                 ";
+                        IsLoadedWeb = false;
                         WebBrowser.ExecuteScriptAsync(script);
                     }
 

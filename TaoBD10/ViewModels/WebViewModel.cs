@@ -45,23 +45,38 @@ namespace TaoBD10.ViewModels
                 {
                     _LoadWebChoose = LoadWebChoose.KiemTraWeb;
                     LoadAddressDiNgoai(m.Content);
-                }else if(m.Key == "KTChuaPhat")
+                }
+                else if (m.Key == "KTChuaPhat")
                 {
                     if (m.Content == "LoadUrl")
                     {
 
                         isCheckingChuaPhat = true;
                         WebBrowser.LoadUrl("https://mps.vnpost.vn/default.aspx");
-                    }else if(m.Content == "Run230")
+                    }
+                    else if (m.Content == "Run230")
                     {
-                                 //thuc hien trong nay
-                                 string script = @"
+                        //thuc hien trong nay
+                        string script = @"
                                 document.getElementById('ctl00_ctl12_rcb_Donvi_ClientState').value='{""logEntries"":[],""value"":""593230"",""text"":""----593230 - KT Hoài Nhơn -KT2"",""enabled"":true,""checkedIndices"":[],""checkedItemsTextOverflows"":false}';
-                                document.getElementById('ctl00_ctl12_rcbTrangThai_Input').value='Xác nhận đến';
-                				document.getElementById('ctl00_ctl12_btn_submit').click();
+                                document.getElementById('ctl00_ctl12_rcbTrangThai_ClientState').value='{""logEntries"":[],""value"":""3"",""text"":""Xác nhận đến"",""enabled"":true,""checkedIndices"":[],""checkedItemsTextOverflows"":false}';
+
+                                document.getElementById('ctl00_ctl12_btn_submit').click();
                 ";
                         WebBrowser.ExecuteScriptAsync(script);
                     }
+                    else if (m.Content == "Run280")
+                    {
+                        //thuc hien trong nay
+                        string script = @"
+                                document.getElementById('ctl00_ctl12_rcb_Donvi_ClientState').value='{""logEntries"":[],""value"":""593230"",""text"":""----593230 - KT Hoài Nhơn -KT2"",""enabled"":true,""checkedIndices"":[],""checkedItemsTextOverflows"":false}';
+                                document.getElementById('ctl00_ctl12_rcbTrangThai_ClientState').value='{""logEntries"":[],""value"":""593280"",""text"":""----593280 - BCP Hoài Nhơn -PH2"",""enabled"":true,""checkedIndices"":[],""checkedItemsTextOverflows"":false}';
+
+                                document.getElementById('ctl00_ctl12_btn_submit').click();
+                ";
+                        WebBrowser.ExecuteScriptAsync(script);
+                    }
+
                 }
             });
 
@@ -160,7 +175,8 @@ document.getElementsByClassName("".footer"").remove();
                     //    picImage.Load("https://bccp.vnpost.vn/" + matchLogin.Groups[1].Value);
                     //}
 
-                }else if (diachi.IndexOf("mps.vnpost.vn/login") != -1)
+                }
+                else if (diachi.IndexOf("mps.vnpost.vn/login") != -1)
                 {
 
                     //thuc hien dang nhap vao trang web
@@ -171,12 +187,47 @@ document.getElementsByClassName("".footer"").remove();
 ";
 
                     WebBrowser.ExecuteScriptAsync(script);
-                }else if (diachi.IndexOf("mps.vnpost.vn/default")!= -1)
+                }
+                else if (diachi.IndexOf("mps.vnpost.vn/default") != -1)
                 {
                     if (isCheckingChuaPhat)
                     {
                         isCheckingChuaPhat = false;
                         WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "RChuaPhat", Content = "InfoOK" });
+                    }
+                    else
+                    {
+                        //thuc hien get content trong nay
+                        if (!IsLoadedWeb)
+                        {
+                            IsLoadedWeb = true;
+                        }
+                        else
+                            return;
+                        string html = await WebBrowser.GetSourceAsync();
+                        HtmlDocument document = new HtmlDocument();
+                        document.LoadHtml(html);
+
+                        //thuc hien xu ly du lieu trong nay
+                        ////*[@id="root"]/section/section/section[1]/table/tbody/tr[1]/td[3]
+
+                        HtmlNodeCollection Items = document.DocumentNode.SelectNodes(@"//*[@id=""root""]/section/section/section[1]/table/tbody/tr");
+                        List<HangTonModel> hangTons = new List<HangTonModel>();
+                        foreach (HtmlNode item in Items)
+                        {
+                            HangTonModel hangTon = new HangTonModel();
+                            hangTon.Index = item.ChildNodes[0].InnerText;
+                            hangTon.MaHieu = item.ChildNodes[2].InnerText.ToUpper();
+                            hangTon.TienThuHo = item.ChildNodes[3].InnerText;
+                            hangTon.TimeGui = item.ChildNodes[4].InnerText;
+                            hangTon.TimeCapNhat = item.ChildNodes[5].InnerText;
+                            hangTon.BuuCucLuuGiu = item.ChildNodes[6].InnerText;
+                            hangTon.ChuyenHoan = item.ChildNodes[7].InnerText;
+                            hangTon.BuuCucPhatHanh = item.ChildNodes[10].InnerText;
+                            hangTons.Add(hangTon);
+                        }
+                        //thuc hien send Du Lieu sang Map
+                        WeakReferenceMessenger.Default.Send<HangTonMessage>(new HangTonMessage(hangTons));
                     }
                 }
                 else
@@ -195,10 +246,10 @@ document.getElementsByClassName("".footer"").remove();
                     //kiem tra thu co no khong
                     if (_LoadWebChoose == LoadWebChoose.DiNgoaiAddress || _LoadWebChoose == LoadWebChoose.AddressTamQuan)
                     {
-                       
+
                         string barcodeWeb = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblBarcode']").InnerText;
-                       
-                        barcodeWeb =  barcodeWeb.Substring(0, 13).ToUpper();
+
+                        barcodeWeb = barcodeWeb.Substring(0, 13).ToUpper();
                         if (string.IsNullOrEmpty(barcodeWeb))
                         {
                             WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Snackbar", Content = "Không đúng Code" });
@@ -217,7 +268,7 @@ document.getElementsByClassName("".footer"").remove();
                         }
 
 
-                        webContent.AddressReiceive = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblReceiverAddr']").InnerText;;
+                        webContent.AddressReiceive = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblReceiverAddr']").InnerText; ;
                         webContent.AddressSend = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblSenderAddr']").InnerText;
                         webContent.BuuCucPhat = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblDesPOS']").InnerText.Substring(0, 2);
                         webContent.BuuCucGui = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblFrPOS']").InnerText;
@@ -260,7 +311,7 @@ document.getElementsByClassName("".footer"").remove();
 
                         KiemTraModel kiemTra = new KiemTraModel();
 
-                       
+
                         string barcode = document.DocumentNode.SelectNodes("//*[@id='MainContent_ctl00_lblBarcode']").First().InnerText;
                         if (string.IsNullOrEmpty(barcode))
                         {
@@ -270,7 +321,7 @@ document.getElementsByClassName("".footer"").remove();
                         //thuc hien lay barcode
 
                         kiemTra.Address = document.DocumentNode.SelectNodes("//*[@id='MainContent_ctl00_lblReceiverAddr']").First().InnerText;
-                       
+
                         HtmlNode table = document.DocumentNode.SelectNodes("//table[@id='MainContent_ctl00_grvItemMailTrip']/tbody").First();
                         HtmlNodeCollection aa = table.LastChild.PreviousSibling.SelectNodes("td");
                         kiemTra.Date = aa[2].InnerText;

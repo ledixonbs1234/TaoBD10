@@ -17,6 +17,13 @@ namespace TaoBD10.Model
         }
     }
 
+    public class HangTonMessage : ValueChangedMessage<List<HangTonModel>>
+    {
+        public HangTonMessage(List<HangTonModel> list) : base(list)
+        {
+        }
+    }
+
     public class ContentMessage : ValueChangedMessage<ContentModel>
     {
         public ContentMessage(ContentModel content):base (content)

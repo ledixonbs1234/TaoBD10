@@ -149,8 +149,10 @@
     <Compile Include="Model\ChuyenThuModel.cs" />
     <Compile Include="Model\DiNgoaiItemModel.cs" />
     <Compile Include="Model\HangHoaDetailModel.cs" />
+    <Compile Include="Model\HangTonModel.cs" />
     <Compile Include="Model\KiemTraModel.cs" />
     <Compile Include="Model\MaHieuTuiModel.cs" />
+    <Compile Include="Model\ObsverbleObject.cs" />
     <Compile Include="Model\SHTuiCodeModel.cs" />
     <Compile Include="Model\SnackbarModel.cs" />
     <Compile Include="Model\TamQuanModel.cs" />

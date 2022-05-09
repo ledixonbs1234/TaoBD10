@@ -3,6 +3,7 @@ using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,12 +15,22 @@ namespace TaoBD10.ViewModels
 {
     public class KTChuaPhatViewModel : ObservableObject
     {
+
+        private ObservableCollection<HangTonModel> _HangTons;
+
+        public ObservableCollection<HangTonModel> HangTons
+        {
+            get { return _HangTons; }
+            set { SetProperty(ref _HangTons, value); }
+        }
+
         public KTChuaPhatViewModel()
         {
 
             Run593280Command = new RelayCommand(Run593280);
             Run593230Command = new RelayCommand(Run593230);
             CheckCommand = new RelayCommand(Check);
+            HangTons = new ObservableCollection<HangTonModel>();
 
             WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) => {
                 if(m.Key == "RChuaPhat")
@@ -30,6 +41,18 @@ namespace TaoBD10.ViewModels
                         IsOk = "OK";
                     }
                 }
+            });
+
+            WeakReferenceMessenger.Default.Register<HangTonMessage>(this, (r, m) => { 
+                if(m.Value != null)
+                {
+                    HangTons.Clear();
+                    foreach (HangTonModel item in m.Value)
+                    {
+                        HangTons.Add(item);
+                    }
+                }
+
             
             });
         }
@@ -62,7 +85,6 @@ namespace TaoBD10.ViewModels
 
         void Run593230()
         {
-
             currentChuaPhat = ChuaPhat.C593230;
             WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "KTChuaPhat", Content = "Run230" });
 
@@ -80,6 +102,8 @@ namespace TaoBD10.ViewModels
 
         void Run593280()
         {
+            currentChuaPhat = ChuaPhat.C593280;
+            WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "KTChuaPhat", Content = "Run280" });
 
         }
     }

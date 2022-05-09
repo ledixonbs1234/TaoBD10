@@ -52,11 +52,10 @@
             materialDesign:DataGridAssist.CellPadding="4 7 2 7"
             materialDesign:DataGridAssist.ColumnHeaderPadding="4 2 2 2"
             AutoGenerateColumns="False"
-            ItemsSource="{Binding KiemTras}">
+            ItemsSource="{Binding HangTons}">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Index}" Header="Index" />
                 <DataGridTextColumn Binding="{Binding MaHieu}" Header="Mã Hiệu" />
-                <DataGridTextColumn Binding="{Binding MaBuuTa}" Header="Bưu Tá" />
                 <DataGridTextColumn
                     Width="200"
                     Binding="{Binding Address}"
@@ -67,10 +66,14 @@
                         </Style>
                     </DataGridTextColumn.CellStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding BuuCucDong}" Header="Bưu Cục Gửi" />
-                <DataGridTextColumn Binding="{Binding BuuCucNhan}" Header="Bưu Cục Nhận" />
-                <DataGridTextColumn Binding="{Binding Date}" Header=" Ngày Đóng CT" />
-                <DataGridTextColumn Binding="{Binding TTCT}" Header="Chuyến Thư" />
+                <DataGridTextColumn Binding="{Binding BuuCucPhatHanh}" Header="Bưu Cục Gửi" />
+                <DataGridTextColumn Binding="{Binding BuuCucLuuGiu}" Header="Bưu Cục Nhận" />
+                <DataGridTextColumn Binding="{Binding TimeGui}" Header="Ngày Gửi" />
+                <DataGridTextColumn Binding="{Binding TimeCapNhat}" Header="Ngày Cập Nhật" />
+                <DataGridTextColumn Binding="{Binding ChuyenHoan}" Header="Chuyển Hoàn" />
+                <DataGridTextColumn Binding="{Binding KhoiLuong}" Header="Khối Lượng" />
+                <DataGridTextColumn Binding="{Binding NguoiGui}" Header="Người Gửi" />
+                <DataGridTextColumn Binding="{Binding TienThuHo}" Header="Tiền Thu Hộ" />
             </DataGrid.Columns>
         </DataGrid>
         <TextBlock

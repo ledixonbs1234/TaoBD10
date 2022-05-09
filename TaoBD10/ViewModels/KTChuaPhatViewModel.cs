@@ -53,6 +53,7 @@ namespace TaoBD10.ViewModels
                         {
                             HangTons.Add(item);
                         }
+                        Count = HangTons.Count;
 
                     });
                    
@@ -78,6 +79,15 @@ namespace TaoBD10.ViewModels
             get { return _IsOk; }
             set { SetProperty(ref _IsOk, value); }
         }
+
+        private int _Count;
+
+        public int Count
+        {
+            get { return _Count; }
+            set { SetProperty(ref _Count, value); }
+        }
+
 
 
 

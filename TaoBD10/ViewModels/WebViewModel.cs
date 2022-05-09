@@ -224,6 +224,9 @@ document.getElementsByClassName("".footer"").remove();
                         //thuc hien xu ly du lieu trong nay
                         ////*[@id="root"]/section/section/section[1]/table/tbody/tr[1]/td[3]
 
+
+
+
                         HtmlNodeCollection Items = document.DocumentNode.SelectNodes(@"//*[@id=""root""]/section/section/section[1]/table/tbody/tr");
                         List<HangTonModel> hangTons = new List<HangTonModel>();
                         foreach (HtmlNode item in Items)

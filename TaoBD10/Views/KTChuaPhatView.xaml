@@ -82,6 +82,6 @@
             HorizontalAlignment="Right"
             Foreground="DarkMagenta"
             Style="{StaticResource MaterialDesignHeadline2TextBlock}"
-            Text="0" />
+            Text="{Binding Count}" />
     </Grid>
 </UserControl>

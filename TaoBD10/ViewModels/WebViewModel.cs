@@ -241,6 +241,7 @@ document.getElementsByClassName("".footer"").remove();
                             hangTon.TimeCapNhat = data[6].InnerText.Trim();
                             hangTon.BuuCucLuuGiu = data[7].InnerText.Trim();
                             hangTon.ChuyenHoan = data[8].InnerText.Trim();
+                            hangTon.KhoiLuong = data[9].InnerText.Trim();
                             hangTon.BuuCucPhatHanh = data[11].InnerText.Trim();
                             hangTons.Add(hangTon);
                         }

@@ -46,12 +46,15 @@
                 Margin="0,0,10,0"
                 Command="{Binding Run593280Command}"
                 Content="593280" />
+            <Button Command="{Binding AddAddressCommand}" Content="Add Address" />
         </StackPanel>
         <DataGrid
             Grid.Row="1"
             materialDesign:DataGridAssist.CellPadding="4 7 2 7"
             materialDesign:DataGridAssist.ColumnHeaderPadding="4 2 2 2"
             AutoGenerateColumns="False"
+            CanUserAddRows="False"
+            CanUserResizeColumns="True"
             ItemsSource="{Binding HangTons}">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Index}" Header="Index" />
@@ -66,14 +69,20 @@
                         </Style>
                     </DataGridTextColumn.CellStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding BuuCucPhatHanh}" Header="Bưu Cục Gửi" />
-                <DataGridTextColumn Binding="{Binding BuuCucLuuGiu}" Header="Bưu Cục Nhận" />
+                <DataGridTextColumn Binding="{Binding KhoiLuong}" Header="Khối Lượng" />
+                <DataGridTextColumn Binding="{Binding TienThuHo}" Header="Tiền Thu Hộ" />
+                <DataGridTextColumn
+                    Width="80"
+                    Binding="{Binding BuuCucPhatHanh}"
+                    Header="Bưu Cục Gửi" />
+                <DataGridTextColumn
+                    Width="80"
+                    Binding="{Binding BuuCucLuuGiu}"
+                    Header="Bưu Cục Nhận" />
                 <DataGridTextColumn Binding="{Binding TimeGui}" Header="Ngày Gửi" />
                 <DataGridTextColumn Binding="{Binding TimeCapNhat}" Header="Ngày Cập Nhật" />
                 <DataGridTextColumn Binding="{Binding ChuyenHoan}" Header="Chuyển Hoàn" />
-                <DataGridTextColumn Binding="{Binding KhoiLuong}" Header="Khối Lượng" />
                 <DataGridTextColumn Binding="{Binding NguoiGui}" Header="Người Gửi" />
-                <DataGridTextColumn Binding="{Binding TienThuHo}" Header="Tiền Thu Hộ" />
             </DataGrid.Columns>
         </DataGrid>
         <TextBlock

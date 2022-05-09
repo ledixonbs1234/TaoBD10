@@ -31,6 +31,7 @@ namespace TaoBD10.ViewModels
             Run593230Command = new RelayCommand(Run593230);
             CheckCommand = new RelayCommand(Check);
             HangTons = new ObservableCollection<HangTonModel>();
+        AddAddressCommandCommand = new RelayCommand(AddAddressCommand);
 
             WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) => {
                 if(m.Key == "RChuaPhat")
@@ -62,6 +63,15 @@ namespace TaoBD10.ViewModels
             
             });
         }
+
+        public ICommand AddAddressCommandCommand { get; }
+
+
+        void AddAddressCommand()
+        {
+
+        }
+
 
         //thuc hien lenh trong nay
         public ICommand Run593230Command { get; }

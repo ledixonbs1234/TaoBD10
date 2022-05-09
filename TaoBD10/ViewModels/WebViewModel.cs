@@ -52,6 +52,7 @@ namespace TaoBD10.ViewModels
                     {
 
                         isCheckingChuaPhat = true;
+                        IsLoadedWeb = false;
                         WebBrowser.LoadUrl("https://mps.vnpost.vn/default.aspx");
                     }
                     else if (m.Content == "Run230")

@@ -229,9 +229,10 @@ document.getElementsByClassName("".footer"").remove();
                         foreach (HtmlNode item in Items)
                         {
                             HangTonModel hangTon = new HangTonModel();
-                            hangTon.Index = item.ChildNodes[1].InnerText.Trim();
+                            HtmlNodeCollection data = item.SelectNodes("//td");
+                            hangTon.Index = data[0].InnerText.Trim();
 
-                            hangTon.MaHieu = item.ChildNodes[2].InnerText.ToUpper();
+                            hangTon.MaHieu = data[1].InnerText.Trim().ToUpper();
                             hangTon.TienThuHo = item.ChildNodes[3].InnerText;
                             hangTon.TimeGui = item.ChildNodes[4].InnerText;
                             hangTon.TimeCapNhat = item.ChildNodes[5].InnerText;

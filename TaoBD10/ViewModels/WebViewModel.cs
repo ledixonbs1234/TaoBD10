@@ -52,7 +52,15 @@ namespace TaoBD10.ViewModels
 
                         isCheckingChuaPhat = true;
                         WebBrowser.LoadUrl("https://mps.vnpost.vn/default.aspx");
-
+                    }else if(m.Content == "Run230")
+                    {
+                        //thuc hien trong nay
+                        string script = @"
+                                document.getElementById('ctl00_ctl12_rcb_Donvi_Input').value='----593230 - KT Hoài Nhơn - KT2';
+                                document.getElementById('ctl00_ctl12_rcbTrangThai_Input').value='Xác nhận đến';
+                				document.getElementById('ctl00_ctl12_btn_submit').click();
+                ";
+                        WebBrowser.ExecuteScriptAsync(script);
                     }
                 }
             });

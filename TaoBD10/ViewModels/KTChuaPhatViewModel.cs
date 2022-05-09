@@ -64,7 +64,7 @@ namespace TaoBD10.ViewModels
         {
 
             currentChuaPhat = ChuaPhat.C593230;
-            WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "KTChuaPhat", Content = "LoadUrl" });
+            WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "KTChuaPhat", Content = "Run230" });
 
             /*
             Quy trinh thuc hien nhu sau

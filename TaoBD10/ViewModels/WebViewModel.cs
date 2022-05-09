@@ -56,7 +56,7 @@ namespace TaoBD10.ViewModels
                     {
                                  //thuc hien trong nay
                                  string script = @"
-                                document.getElementById('ctl00_ctl12_rcb_Donvi_ClientState').value='{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;593230&quot;,&quot;text&quot;:&quot;----593230 - KT Hoài Nhơn - KT2&quot;,&quot;enabled&quot;:true,&quot;checkedIndices&quot;:[],&quot;checkedItemsTextOverflows&quot;:false}';
+                                document.getElementById('ctl00_ctl12_rcb_Donvi_ClientState').value='{'logEntries':[],'value':'593230','text':'----593230 - KT Hoài Nhơn -KT2','enabled':true,'checkedIndices':[],'checkedItemsTextOverflows':false}';
                                 document.getElementById('ctl00_ctl12_rcbTrangThai_Input').value='Xác nhận đến';
                 				document.getElementById('ctl00_ctl12_btn_submit').click();
                 ";

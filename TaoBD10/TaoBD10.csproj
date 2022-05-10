@@ -177,6 +177,7 @@
     <Compile Include="ViewModels\MoRong.cs" />
     <Compile Include="ViewModels\TamQuanViewModel.cs" />
     <Compile Include="ViewModels\TaoBDViewModel.cs" />
+    <Compile Include="ViewModels\Tnread.cs" />
     <Compile Include="ViewModels\WebViewModel.cs" />
     <Compile Include="ViewModels\XacNhanTuiViewModel.cs" />
     <Compile Include="Views\AddressView.xaml.cs">

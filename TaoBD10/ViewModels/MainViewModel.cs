@@ -65,8 +65,7 @@ namespace TaoBD10.ViewModels
                     }
                     else if (m.Content == "Web")
                     {
-                        if (tabTuiControl != null)
-                            tabTuiControl.SelectedIndex = 1;
+                        IndexTabTui = 1;
                     }
                 }
                 else if (m.Key == "Snackbar")
@@ -362,14 +361,29 @@ namespace TaoBD10.ViewModels
                             Thread.Sleep(50);
                         SendKeys.SendWait("%{p}");
                         Thread.Sleep(500);
-                        while (printD.text.IndexOf("print document") == -1)
+                        WindowInfo printD1 = danhSach;
+                        while (printD1.text.IndexOf("printing") == -1)
                         {
-                            printD = APIManager.GetActiveWindowTitle();
-                            Thread.Sleep(200);
+                            printD1 = APIManager.GetActiveWindowTitle();
+                            Thread.Sleep(100);
+                        }
+                        while (printD1.text.IndexOf("printing") != -1)
+                        {
+                            printD1 = APIManager.GetActiveWindowTitle();
+                            Thread.Sleep(100);
                         }
                         SendKeys.SendWait("{Right}");
                         SendKeys.SendWait(" ");
-                        Thread.Sleep(1889);
+                        while (printD1.text.IndexOf("sua thong tin bd10") == -1)
+                        {
+                            printD1 = APIManager.GetActiveWindowTitle();
+                            Thread.Sleep(100);
+                        }
+                        Thread.Sleep(500);
+                        SendKeys.SendWait("{Enter}");
+                        SendKeys.SendWait("{Esc}");
+                        Thread.Sleep(100);
+                        SendKeys.SendWait("{Enter}");
                     }
                         break;
                 case Key.Enter:
@@ -378,48 +392,59 @@ namespace TaoBD10.ViewModels
                     
                     if (KeyData.IndexOf("mokntb") != -1)
                     {
+                        Thread.Sleep(700);
                         WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Chinh", Content = "Kien" });
                     }
                     else if (KeyData.IndexOf("moentb") != -1)
                     {
+                        Thread.Sleep(700);
                         WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Chinh", Content = "EMS" });
                     }
                     else
                    if (KeyData.IndexOf("moqnmth") != -1)
                     {
+                        Thread.Sleep(700);
                         WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Chinh", Content = "QuiNhon1" });
                     }
                     else if (KeyData.IndexOf("moqnhth") != -1)
                     {
+                        Thread.Sleep(700);
                         WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Chinh", Content = "QuiNhon2" });
                     }
                     else if (KeyData.IndexOf("mopmth") != -1)
                     {
+                        Thread.Sleep(700);
                         WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Chinh", Content = "PhuMy" });
                     }
                     else
                    if (KeyData.IndexOf("mopcth") != -1)
                     {
+                        Thread.Sleep(700);
                         WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Chinh", Content = "PhuCat" });
                     }
                     else if (KeyData.IndexOf("moanth") != -1)
                     {
+                        Thread.Sleep(700);
                         WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Chinh", Content = "AnNhon" });
                     }
                     else if (KeyData.IndexOf("mohath") != -1)
                     {
+                        Thread.Sleep(700);
                         WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Chinh", Content = "HoaiAn" });
                     }
                     else if (KeyData.IndexOf("moamth") != -1)
                     {
+                        Thread.Sleep(700);
                         WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Chinh", Content = "AnMy" });
                     }
                     else if (KeyData.IndexOf("moalth") != -1)
                     {
+                        Thread.Sleep(700);
                         WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Chinh", Content = "AnLao" });
                     }
                     else if (KeyData.IndexOf("moahth") != -1)
                     {
+                        Thread.Sleep(700);
                         WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Chinh", Content = "AnHoa" });
                     }
                     //else if (KeyData.IndexOf("thoattui") != -1)
@@ -429,10 +454,12 @@ namespace TaoBD10.ViewModels
                     //}
                     else if (KeyData.IndexOf("montbth") != -1)
                     {
+                        Thread.Sleep(700);
                         WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Chinh", Content = "TongHop" });
                     }
                     else if (KeyData.IndexOf("motqth") != -1)
                     {
+                        Thread.Sleep(700);
                         WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Chinh", Content = "TamQuan" });
                     }
                     //else if (KeyData.IndexOf("inbdd8") != -1)
@@ -443,14 +470,17 @@ namespace TaoBD10.ViewModels
                     //}
                     else if (KeyData.IndexOf("dong230") != -1)
                     {
+                        Thread.Sleep(700);
                         WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Chinh", Content = "KT" });
                     }
                     else if (KeyData.IndexOf("laydulieu") != -1)
                     {
+                        Thread.Sleep(700);
                         WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Chinh", Content = "LayDuLieu" });
                     }
                     else if (KeyData.IndexOf("dong280") != -1)
                     {
+                        Thread.Sleep(700);
                         WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Chinh", Content = "BCP" });
                     }
                     KeyData = "";

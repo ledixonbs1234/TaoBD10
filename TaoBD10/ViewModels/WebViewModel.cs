@@ -124,12 +124,24 @@ namespace TaoBD10.ViewModels
             //    WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Navigation", Content = "Web" });
             //    return;
             //}
-            string script = @"
+
+            //kiem tra url 
+            if(AddressWeb.ToLower().IndexOf("bccp.vnpost.vn/bccp") != -1){
+                string script = @"
                                 document.getElementById('MainContent_ctl00_txtID').value='" + code + @"';
                 				document.getElementById('MainContent_ctl00_btnView').click();
                 ";
-            IsLoadedWeb = false;
-            WebBrowser.ExecuteScriptAsync(script);
+                IsLoadedWeb = false;
+                WebBrowser.ExecuteScriptAsync(script);
+            }
+            else
+            {
+                //thuc hien navigate qua
+                WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Navigation", Content = "Web" });
+                IsLoadedWeb = false;
+                WebBrowser.LoadUrl("https://bccp.vnpost.vn/BCCP.aspx?act=Trace");
+            }
+           
         }
 
         void LoadPage(ChromiumWebBrowser web)
@@ -156,6 +168,12 @@ namespace TaoBD10.ViewModels
 
                 if (diachi.IndexOf("bccp.vnpost.vn/login") != -1)
                 {
+                    if (!IsLoadedWeb)
+                    {
+                        IsLoadedWeb = true;
+                    }
+                    else
+                        return;
                     string scriptFirst = @"
 Element.prototype.remove = function() {
     this.parentElement.removeChild(this);
@@ -234,7 +252,7 @@ document.getElementsByClassName("".footer"").remove();
                         HtmlNodeCollection Items = document.DocumentNode.SelectNodes(@"//*[@id=""root""]/section/section/section[1]/table/tbody/tr");
                         if(Items == null)
                         {
-                            APIManager.showSnackbar("Lỗi Web");
+                            APIManager.showSnackbar("Lỗi NULL");
                             return;
                         }
                         List<HangTonModel> hangTons = new List<HangTonModel>();
@@ -250,7 +268,7 @@ document.getElementsByClassName("".footer"").remove();
                             hangTon.TimeCapNhat = data[6].InnerText.Trim();
                             hangTon.BuuCucLuuGiu = data[7].InnerText.Trim();
                             hangTon.ChuyenHoan = data[8].InnerText.Trim();
-                            hangTon.KhoiLuong = data[9].InnerText.Trim();
+                            hangTon.KhoiLuong = data[4].InnerText.Trim();
                             hangTon.BuuCucPhatHanh = data[11].InnerText.Trim();
                             hangTons.Add(hangTon);
                         }
@@ -272,7 +290,7 @@ document.getElementsByClassName("".footer"").remove();
                     document.LoadHtml(html);
 
                     //kiem tra thu co no khong
-                    if (_LoadWebChoose == LoadWebChoose.DiNgoaiAddress || _LoadWebChoose == LoadWebChoose.AddressTamQuan)
+                    if (_LoadWebChoose == LoadWebChoose.DiNgoaiAddress || _LoadWebChoose == LoadWebChoose.AddressTamQuan || _LoadWebChoose == LoadWebChoose.AddressChuaPhat)
                     {
 
                         var check = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblBarcode']");
@@ -304,7 +322,11 @@ document.getElementsByClassName("".footer"").remove();
 
                         webContent.AddressReiceive = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblReceiverAddr']").InnerText; ;
                         webContent.AddressSend = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblSenderAddr']").InnerText;
-                        webContent.BuuCucPhat = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblDesPOS']").InnerText.Substring(0, 2);
+                        var ff = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblDesPOS']").InnerText;
+                        if (!string.IsNullOrEmpty(ff))
+                        {
+                            webContent.BuuCucPhat  = ff.Substring(0, 2);
+                        }
                         webContent.BuuCucGui = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblFrPOS']").InnerText;
                         webContent.NguoiGui = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblSenderName']").InnerText;
                         if (_LoadWebChoose == LoadWebChoose.DiNgoaiAddress)

@@ -4,6 +4,7 @@ using Microsoft.Toolkit.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,9 +24,24 @@ namespace TaoBD10.ViewModels
             get { return _HangTons; }
             set { SetProperty(ref _HangTons, value); }
         }
+        public ICommand ChiTietCommand { get; }
+        private HangTonModel _Selected;
+
+        public HangTonModel Selected
+        {
+            get { return _Selected; }
+            set { SetProperty(ref _Selected, value); }
+        }
+
+
+        void ChiTiet()
+        {
+            Process.Start("chrome.exe", "https://bccp.vnpost.vn/BCCP.aspx?act=Trace&id="+Selected.MaHieu);
+        }
 
         public KTChuaPhatViewModel()
         {
+            ChiTietCommand = new RelayCommand(ChiTiet);
 
             Run593280Command = new RelayCommand(Run593280);
             Run593230Command = new RelayCommand(Run593230);

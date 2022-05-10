@@ -694,7 +694,7 @@ namespace TaoBD10.ViewModels
                     count++;
 
                     string className = APIManager.GetWindowClass(item);
-                    if (className.IndexOf("WindowsForms10.EDIT.app.0.1e6fa8e") != -1)
+                    if (className.IndexOf("WindowsForms10.EDIT") != -1)
 
                     {
                         countDongChuyenThu++;

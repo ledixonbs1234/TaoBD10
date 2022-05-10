@@ -276,8 +276,17 @@ namespace TaoBD10.ViewModels
                     if (have != null)
                     {
                         isFinded = true;
-                        have.IsChecked = true;
-                        item.TuiHave++;
+                        if (!have.IsChecked)
+                        {
+
+                            have.IsChecked = true;
+                            item.TuiHave++;
+                        }
+                        else
+                        {
+                            SoundManager.playSound(@"Number\buuguidaduocxacnhan.wav");
+                            break;
+                        }
                         break;
                     }
                 }

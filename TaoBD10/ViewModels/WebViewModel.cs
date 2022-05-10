@@ -285,7 +285,11 @@ document.getElementsByClassName("".footer"").remove();
                             return;
                         }
 
-                        webContent.AddressReiceive = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblReceiverAddr']").InnerText; ;
+                        webContent.AddressReiceive = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblReceiverAddr']").InnerText;
+                        if (string.IsNullOrEmpty(webContent.AddressReiceive))
+                        {
+                            webContent.AddressReiceive = "chua co";
+                        }
                         webContent.AddressSend = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblSenderAddr']").InnerText;
                         var ff = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblDesPOS']").InnerText;
                         if (!string.IsNullOrEmpty(ff))

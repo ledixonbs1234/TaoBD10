@@ -246,9 +246,13 @@ namespace TaoBD10.ViewModels
 
         private void MessageShow(string content)
         {
-            if (MessageQueue == null)
-                MessageQueue = new SnackbarMessageQueue();
-            MessageQueue.Enqueue(content, null, null, null, false, false, TimeSpan.FromSeconds(1));
+            App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
+            {
+                if (MessageQueue == null)
+                    MessageQueue = new SnackbarMessageQueue();
+                MessageQueue.Enqueue(content, null, null, null, false, false, TimeSpan.FromSeconds(1));
+            });
+           
         }
 
         private void OnCloseWindow()

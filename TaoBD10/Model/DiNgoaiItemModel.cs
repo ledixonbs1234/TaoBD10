@@ -1,9 +1,4 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TaoBD10.Model
 {
@@ -18,8 +13,11 @@ namespace TaoBD10.Model
 
         public string Address
         {
-            get { return 
-                    _Address; }
+            get
+            {
+                return
+                  _Address;
+            }
             set { SetProperty(ref _Address, value); }
         }
 
@@ -47,7 +45,6 @@ namespace TaoBD10.Model
             set { SetProperty(ref _TenBuuCuc, value); }
         }
 
-
         private string _TenTinh;
 
         public string TenTinh
@@ -55,7 +52,6 @@ namespace TaoBD10.Model
             get { return _TenTinh; }
             set { SetProperty(ref _TenTinh, value); }
         }
-
 
         public DiNgoaiItemModel(int index, string code)
         {

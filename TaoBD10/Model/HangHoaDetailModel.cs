@@ -3,11 +3,13 @@ using static TaoBD10.Manager.EnumAll;
 
 namespace TaoBD10.Model
 {
-    public class HangHoaDetailModel:ObservableObject
+    public class HangHoaDetailModel : ObservableObject
     {
         public TuiHangHoa TuiHangHoa { get; set; }
+
         //public TrangThaiBD TrangThaiBD { get; set; } = TrangThaiBD.ChuaChon;
         private TrangThaiBD _TrangThaiBD = Manager.EnumAll.TrangThaiBD.ChuaChon;
+
         private string _Address;
 
         public string Address
@@ -24,7 +26,6 @@ namespace TaoBD10.Model
             set { SetProperty(ref _IsTamQuan, value); }
         }
 
-
         private string _Code;
 
         public string Code
@@ -32,7 +33,6 @@ namespace TaoBD10.Model
             get { return _Code; }
             set { SetProperty(ref _Code, value); }
         }
-
 
         public TrangThaiBD TrangThaiBD
         {

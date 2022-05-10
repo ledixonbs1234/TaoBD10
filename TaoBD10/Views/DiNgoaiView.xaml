@@ -199,7 +199,7 @@
                     Command="{Binding AddAddressCommand}"
                     Content="Add Address" />
                 <Button Margin="5" Content="Add Selected Address" />
-                <Button Margin="5" Content="Sort" Command="{Binding SortCommand}"/>
+                <Button Margin="5" Content="Sort" Command="{Binding SortCommand}" />
                 <Button
                     Margin="5"
                     Command="{Binding XoaDiNgoaiCommand}"
@@ -249,8 +249,6 @@
                     Command="{Binding TestCommand}"
                     Content="TEst" />
             </StackPanel>
-
         </StackPanel>
-
     </Grid>
 </UserControl>

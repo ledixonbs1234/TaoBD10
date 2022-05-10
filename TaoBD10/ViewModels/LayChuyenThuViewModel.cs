@@ -1,17 +1,11 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
-using Microsoft.Toolkit.Mvvm.Messaging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Threading;
 using TaoBD10.Manager;
-using TaoBD10.Model;
 using static TaoBD10.Manager.EnumAll;
 
 namespace TaoBD10.ViewModels
@@ -43,6 +37,7 @@ namespace TaoBD10.ViewModels
         public ICommand HoaiMyCommand { get; }
         public ICommand HoaiTanCommand { get; }
         public ICommand HoaiXuanCommand { get; }
+
         public void btn593200()
         {
             maBuuCucChuyenThuDen = "593200";
@@ -58,7 +53,7 @@ namespace TaoBD10.ViewModels
             timer.Start();
         }
 
-        void BCP()
+        private void BCP()
         {
             maBuuCucChuyenThuDen = "593280";
             stateChuyenThuChieuDen = StateChuyenThuChieuDen.GetData;
@@ -72,7 +67,7 @@ namespace TaoBD10.ViewModels
             timer.Start();
         }
 
-        void BongSon()
+        private void BongSon()
         {
             maBuuCucChuyenThuDen = "593522";
             stateChuyenThuChieuDen = StateChuyenThuChieuDen.GetData;
@@ -106,7 +101,7 @@ namespace TaoBD10.ViewModels
             SendKeys.SendWait("{F8}");
         }
 
-        void GiaoDich()
+        private void GiaoDich()
         {
             maBuuCucChuyenThuDen = "593200";
             stateChuyenThuChieuDen = StateChuyenThuChieuDen.GetData;
@@ -120,7 +115,7 @@ namespace TaoBD10.ViewModels
             timer.Start();
         }
 
-        void HoaiDuc()
+        private void HoaiDuc()
         {
             maBuuCucChuyenThuDen = "593550";
             stateChuyenThuChieuDen = StateChuyenThuChieuDen.GetData;
@@ -134,7 +129,7 @@ namespace TaoBD10.ViewModels
             timer.Start();
         }
 
-        void HoaiHai()
+        private void HoaiHai()
         {
             maBuuCucChuyenThuDen = "593260";
             stateChuyenThuChieuDen = StateChuyenThuChieuDen.GetData;
@@ -148,7 +143,7 @@ namespace TaoBD10.ViewModels
             timer.Start();
         }
 
-        void HoaiHuong()
+        private void HoaiHuong()
         {
             maBuuCucChuyenThuDen = "593270";
             stateChuyenThuChieuDen = StateChuyenThuChieuDen.GetData;
@@ -162,7 +157,7 @@ namespace TaoBD10.ViewModels
             timer.Start();
         }
 
-        void HoaiMy()
+        private void HoaiMy()
         {
             maBuuCucChuyenThuDen = "593240";
             stateChuyenThuChieuDen = StateChuyenThuChieuDen.GetData;
@@ -176,7 +171,7 @@ namespace TaoBD10.ViewModels
             timer.Start();
         }
 
-        void HoaiTan()
+        private void HoaiTan()
         {
             maBuuCucChuyenThuDen = "593370";
             stateChuyenThuChieuDen = StateChuyenThuChieuDen.GetData;
@@ -190,7 +185,7 @@ namespace TaoBD10.ViewModels
             timer.Start();
         }
 
-        void HoaiXuan()
+        private void HoaiXuan()
         {
             maBuuCucChuyenThuDen = "593220";
             stateChuyenThuChieuDen = StateChuyenThuChieuDen.GetData;
@@ -203,7 +198,6 @@ namespace TaoBD10.ViewModels
             }
             timer.Start();
         }
-
 
         private void Timer_Tick(object sender, EventArgs e)
         {
@@ -286,13 +280,12 @@ namespace TaoBD10.ViewModels
                 default:
                     break;
             }
-
         }
 
         private bool isBaoDamChuyenThuDen = false;
         private bool isWaitingChuyenThuChieuDen = false;
         private string maBuuCucChuyenThuDen = "";
         private StateChuyenThuChieuDen stateChuyenThuChieuDen = StateChuyenThuChieuDen.GetData;
-        DispatcherTimer timer;
+        private DispatcherTimer timer;
     }
 }

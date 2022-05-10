@@ -2,11 +2,9 @@
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using TaoBD10.Manager;
@@ -19,7 +17,7 @@ namespace TaoBD10.ViewModels
     public class AddressViewModel : ObservableObject
     {
         private ObservableCollection<HangHoaDetailModel> _HangHoas;
-        readonly MqttClient client;
+        private readonly MqttClient client;
 
         public ObservableCollection<HangHoaDetailModel> HangHoas
         {
@@ -37,8 +35,7 @@ namespace TaoBD10.ViewModels
 
         public ICommand SendDataCommand { get; }
 
-
-        void SendData()
+        private void SendData()
         {
             string dataSend = "";
             foreach (var item in HangHoas)
@@ -50,10 +47,8 @@ namespace TaoBD10.ViewModels
             }
             client.Publish("tamquanget", Encoding.UTF8.GetBytes(dataSend), MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, true);
         }
-        string _clientId;
 
-
-
+        private string _clientId;
 
         public AddressViewModel()
         {
@@ -73,7 +68,6 @@ namespace TaoBD10.ViewModels
             catch (Exception e)
             {
                 MessageBox.Show(e.Message);
-
             }
 
             WeakReferenceMessenger.Default.Register<TuiHangHoaMessage>(this, (r, m) =>
@@ -102,7 +96,6 @@ namespace TaoBD10.ViewModels
                         }
                     }
                     Loc();
-
                 }
             });
             string[] fillTamQuan = { "tam quan", "hoai son", "hoai chau", "hoai hao", "hoai phu", "hoai thanh" };
@@ -132,7 +125,7 @@ namespace TaoBD10.ViewModels
             });
         }
 
-        void SetCountTamQuan()
+        private void SetCountTamQuan()
         {
             var data = HangHoas.Where(m => m.IsTamQuan);
             if (data != null)
@@ -141,13 +134,11 @@ namespace TaoBD10.ViewModels
             }
         }
 
-
-
         public ICommand LayDanhSachCommand { get; }
         public ICommand LocCommand { get; }
         public ICommand LayDiaChiCommand { get; }
 
-        void LayDiaChi()
+        private void LayDiaChi()
         {
             if (HangHoas.Count == 0)
                 return;
@@ -165,9 +156,9 @@ namespace TaoBD10.ViewModels
                     break;
                 }
             }
-
         }
-        void Loc()
+
+        private void Loc()
         {
             //thuc hien loc danh sach tu bd8
             if (HangHoas.Count == 0)
@@ -191,17 +182,12 @@ namespace TaoBD10.ViewModels
                     }
                 }
             }
-
         }
 
-
-
-        void LayDanhSach()
+        private void LayDanhSach()
         {
             //thuc hien lay danh sach trong nay
             WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "LayHangHoa" });
-
         }
-
     }
 }

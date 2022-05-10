@@ -1,13 +1,8 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TaoBD10.Model
 {
-    public class HangTonModel:ObservableObject
+    public class HangTonModel : ObservableObject
     {
         private string _Index;
         private string _MaHieu;
@@ -25,13 +20,11 @@ namespace TaoBD10.Model
             set { SetProperty(ref _ChuyenHoan, value); }
         }
 
-
         public string BuuCucLuuGiu
         {
             get { return _BuuCucLuuGiu; }
             set { SetProperty(ref _BuuCucLuuGiu, value); }
         }
-
 
         public string NguoiGui
         {
@@ -39,22 +32,17 @@ namespace TaoBD10.Model
             set { SetProperty(ref _NguoiGui, value); }
         }
 
-
         public string BuuCucPhatHanh
         {
             get { return _BuuCucPhatHanh; }
             set { SetProperty(ref _BuuCucPhatHanh, value); }
         }
 
-
         public string TimeCapNhat
         {
             get { return _TimeCapNhat; }
             set { SetProperty(ref _TimeCapNhat, value); }
         }
-
-
-
 
         public string TimeGui
         {
@@ -79,7 +67,6 @@ namespace TaoBD10.Model
             set { SetProperty(ref _TienThuHo, value); }
         }
 
-
         public string Address
         {
             get { return _Address; }
@@ -92,7 +79,6 @@ namespace TaoBD10.Model
             set { SetProperty(ref _MaHieu, value); }
         }
 
-
         public string Index
         {
             get { return _Index; }
@@ -101,7 +87,6 @@ namespace TaoBD10.Model
 
         public HangTonModel()
         {
-
         }
     }
 }

@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -19,8 +18,8 @@ namespace TaoBD10.ViewModels
 {
     public class MainViewModel : ObservableObject
     {
+        private bool Is16Kg = false;
 
-        bool Is16Kg = false;
         public MainViewModel()
         {
             LoadPageCommand = new RelayCommand<Window>(LoadPage);
@@ -31,14 +30,10 @@ namespace TaoBD10.ViewModels
             ToggleWindowCommand = new RelayCommand(ToggleWindow);
             TabTuiChangedCommand = new RelayCommand<System.Windows.Controls.TabControl>(TabTuiChanged);
 
-
-
-
             timerRead = new DispatcherTimer();
             timerRead.Interval = new TimeSpan(0, 0, 0, 0, 200);
             timerRead.Tick += TimerRead_Tick;
             timerRead.Start();
-
 
             _keyboardHook = new Y2KeyboardHook();
             _keyboardHook.OnKeyPressed += OnKeyPress;
@@ -57,7 +52,6 @@ namespace TaoBD10.ViewModels
                     else if (m.Content == "Center")
                     {
                         SetChiTietWindow();
-
                     }
                     else if (m.Content == "SmallRight")
                     {
@@ -78,8 +72,10 @@ namespace TaoBD10.ViewModels
                 }
             });
         }
+
         public string CountInBD { get => _CountInBD; set => SetProperty(ref _CountInBD, value); }
         public IRelayCommand<System.Windows.Controls.TabControl> DefaultWindowCommand { get; }
+
         public int IndexTabControl
         {
             get { return _IndexTabControl; }
@@ -87,11 +83,10 @@ namespace TaoBD10.ViewModels
             {
                 SetProperty(ref _IndexTabControl, value);
                 OnSelectedTabBD();
-
             }
         }
 
-        private int _IndexTabTui= 1;
+        private int _IndexTabTui = 1;
 
         public int IndexTabTui
         {
@@ -130,6 +125,7 @@ namespace TaoBD10.ViewModels
 
                     DefaultWindowCommand.Execute(null);
                     break;
+
                 case 4:
                     SetDefaultWindowTui();
                     //currentTab = CurrentTab.LayChuyenThu;
@@ -142,15 +138,19 @@ namespace TaoBD10.ViewModels
                 case 6:
                     SetDefaultWindowTui();
                     break;
+
                 case 7:
                     SetDefaultWindowTui();
                     break;
+
                 case 8:
                     OnSelectedTabBD();
                     break;
+
                 case 9:
                     SetChiTietWindow();
                     break;
+
                 default:
                     break;
             }
@@ -181,6 +181,7 @@ namespace TaoBD10.ViewModels
                     SetThuGonWindow();
                     currentTab = CurrentTab.ThuGon;
                     break;
+
                 case 4:
                     SetLayChuyenThuWindow();
                     currentTab = CurrentTab.LayChuyenThu;
@@ -190,20 +191,24 @@ namespace TaoBD10.ViewModels
                     currentTab = CurrentTab.LocTui;
                     SetChiTietWindow();
                     break;
+
                 case 6:
                     SetChiTietWindow();
                     currentTab = CurrentTab.Address;
                     break;
+
                 case 7:
                     SetLayChuyenThuWindow();
                     currentTab = CurrentTab.Address;
                     break;
+
                 default:
                     break;
             }
         }
 
         public ICommand LoadPageCommand { get; }
+
         public SnackbarMessageQueue MessageQueue
         {
             get { return _MessageQueue; }
@@ -215,6 +220,7 @@ namespace TaoBD10.ViewModels
         public ICommand TabChangedCommand { get; }
         public ICommand TabTuiChangedCommand { get; }
         public ICommand ToggleWindowCommand { get; }
+
         private void createConnection()
         {
             //var pathDB = System.IO.Path.Combine(Environment.CurrentDirectory, "dulieu.sqlite");
@@ -224,12 +230,11 @@ namespace TaoBD10.ViewModels
             //_con.Open();
         }
 
-        void DefaultWindow(System.Windows.Controls.TabControl tabControl)
+        private void DefaultWindow(System.Windows.Controls.TabControl tabControl)
         {
             //TabChanged(tabControl);
             SetDefaultWindowTui();
             isSmallWindow = false;
-
         }
 
         private void LoadPage(Window window)
@@ -239,12 +244,11 @@ namespace TaoBD10.ViewModels
             SetDefaultWindowTui();
         }
 
-        void MessageShow(string content)
+        private void MessageShow(string content)
         {
             if (MessageQueue == null)
                 MessageQueue = new SnackbarMessageQueue();
             MessageQueue.Enqueue(content, null, null, null, false, false, TimeSpan.FromSeconds(1));
-
         }
 
         private void OnCloseWindow()
@@ -258,43 +262,53 @@ namespace TaoBD10.ViewModels
         {
             //thuc hien kiem tra cua so active hien tai
 
-
             switch (e.KeyPressed)
             {
                 case Key.D0:
                     KeyData += "0";
                     break;
+
                 case Key.D1:
                     KeyData += "1";
                     break;
+
                 case Key.D2:
                     KeyData += "2";
                     break;
+
                 case Key.D3:
                     KeyData += "3";
                     break;
+
                 case Key.D4:
                     KeyData += "4";
                     break;
+
                 case Key.D5:
                     KeyData += "5";
                     break;
+
                 case Key.D6:
                     KeyData += "6";
                     break;
+
                 case Key.D7:
                     KeyData += "7";
                     break;
+
                 case Key.D8:
                     KeyData += "8";
                     break;
+
                 case Key.D9:
                     KeyData += "9";
                     break;
+
                 case Key.F8:
                     //Thuc hien nay
                     WeakReferenceMessenger.Default.Send<MessageManager>(new MessageManager("getData"));
                     break;
+
                 case Key.F5:
                     var currentWindow = APIManager.GetActiveWindowTitle();
                     if (currentWindow == null)
@@ -311,12 +325,14 @@ namespace TaoBD10.ViewModels
                     else if (currentWindow.text.IndexOf("thong tin buu gui") != -1)
                     {
                         WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Navigation", Content = "PrintDiNgoai" });
-                    }else if (currentWindow.text.IndexOf("xac nhan chi tiet tui thu")!= -1)
+                    }
+                    else if (currentWindow.text.IndexOf("xac nhan chi tiet tui thu") != -1)
                     {
                         //thuc hien lenh trong nay
-                        WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel {Key= "XacNhan",Content= "GetData" });
+                        WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "XacNhan", Content = "GetData" });
                     }
                     break;
+
                 case Key.F1:
                     var currentWindow1 = APIManager.GetActiveWindowTitle();
                     if (currentWindow1 == null)
@@ -335,30 +351,29 @@ namespace TaoBD10.ViewModels
                         return;
                     if (danhSach.text.IndexOf("sua thong tin bd10") != -1)
                     {
-                        List<TestAPIModel> datas =APIManager.GetListControlText(danhSach.hwnd);
+                        List<TestAPIModel> datas = APIManager.GetListControlText(danhSach.hwnd);
                         SendKeys.SendWait("{F3}");
                         Thread.Sleep(500);
                         SendKeys.SendWait("{Enter}");
                         Thread.Sleep(500);
-                       
 
                         WindowInfo printD = danhSach;
-                        while (printD.text.IndexOf("print document")== -1)
+                        while (printD.text.IndexOf("print document") == -1)
                         {
-                             printD = APIManager.GetActiveWindowTitle();
+                            printD = APIManager.GetActiveWindowTitle();
                             Thread.Sleep(200);
                         }
                         SendKeys.SendWait("{Right}");
                         SendKeys.SendWait(" ");
                         Thread.Sleep(1000);
                         SendKeys.SendWait("%{c}");
-                            Thread.Sleep(50);
+                        Thread.Sleep(50);
                         SendKeys.SendWait("{Up}");
-                            Thread.Sleep(50);
+                        Thread.Sleep(50);
                         SendKeys.SendWait("{Up}");
-                            Thread.Sleep(50);
+                        Thread.Sleep(50);
                         SendKeys.SendWait("%{o}");
-                            Thread.Sleep(50);
+                        Thread.Sleep(50);
                         SendKeys.SendWait("%{p}");
                         Thread.Sleep(500);
                         WindowInfo printD1 = danhSach;
@@ -385,11 +400,11 @@ namespace TaoBD10.ViewModels
                         Thread.Sleep(100);
                         SendKeys.SendWait("{Enter}");
                     }
-                        break;
+                    break;
+
                 case Key.Enter:
                     KeyData = KeyData.ToLower();
 
-                    
                     if (KeyData.IndexOf("mokntb") != -1)
                     {
                         Thread.Sleep(700);
@@ -489,6 +504,7 @@ namespace TaoBD10.ViewModels
 
                 case Key.LeftShift:
                     break;
+
                 case Key.F2:
                     //thuc hien copy du lieu sau do sang ben kia
                     WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "TamQuanRun", Content = "" });
@@ -527,7 +543,7 @@ namespace TaoBD10.ViewModels
             _window.Top = desktopWorkingArea.Top + 0;
         }
 
-        void SetDefaultWindowTui()
+        private void SetDefaultWindowTui()
         {
             if (_window == null)
                 return;
@@ -597,7 +613,7 @@ namespace TaoBD10.ViewModels
             _window.Top = desktopWorkingArea.Top + 0;
         }
 
-        void SmallerWindow()
+        private void SmallerWindow()
         {
             if (_window == null)
                 return;
@@ -616,11 +632,9 @@ namespace TaoBD10.ViewModels
             if (control == null)
                 return;
             tabControl = control;
-
-
         }
 
-        void TabTuiChanged(System.Windows.Controls.TabControl tabControl)
+        private void TabTuiChanged(System.Windows.Controls.TabControl tabControl)
         {
             if (tabControl == null)
                 return;
@@ -633,15 +647,13 @@ namespace TaoBD10.ViewModels
             {
                 return;
             }
-
-
         }
 
         //tu khoa handle
-        string TextCurrentActive = "";
-        string CaiChiTiet = "";
-        List<IntPtr> allChild;
+        private string TextCurrentActive = "";
 
+        private string CaiChiTiet = "";
+        private List<IntPtr> allChild;
 
         private void TimerRead_Tick(object sender, EventArgs e)
         {
@@ -671,7 +683,6 @@ namespace TaoBD10.ViewModels
 
                     string className = APIManager.GetWindowClass(item);
                     if (className.IndexOf("WindowsForms10.EDIT.app.0.1e6fa8e") != -1)
-
 
                     {
                         countDongChuyenThu++;
@@ -812,7 +823,6 @@ namespace TaoBD10.ViewModels
                         {
                             //thuc hien lay class nay
                             int.TryParse(Regex.Match(APIManager.GetControlText(item), @"\d+").Value, out numberRead);
-                         
                         }
                         count++;
                     }
@@ -942,7 +952,8 @@ namespace TaoBD10.ViewModels
                             {
                                 SoundManager.playSound(@"Number\phatsinhsuvu.wav");
                                 isHaveError = true;
-                            }else if (textError.IndexOf("an nut ok de bat dau") != -1)
+                            }
+                            else if (textError.IndexOf("an nut ok de bat dau") != -1)
                             {
                                 SendKeys.SendWait("{ENTER}");
                                 isHaveError = true;
@@ -1000,7 +1011,6 @@ namespace TaoBD10.ViewModels
                                 isHaveError = true;
                                 SendKeys.SendWait("{ENTER}");
                             }
-                            
                         }
                     }
                 }
@@ -1031,7 +1041,7 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        void ToggleWindow()
+        private void ToggleWindow()
         {
             if (isSmallWindow)
             {
@@ -1042,9 +1052,7 @@ namespace TaoBD10.ViewModels
             {
                 isSmallWindow = true;
                 SmallerWindowCommand.Execute(null);
-
             }
-
         }
 
         private string _CountInBD;
@@ -1052,22 +1060,22 @@ namespace TaoBD10.ViewModels
         private Y2KeyboardHook _keyboardHook;
         private SnackbarMessageQueue _MessageQueue;
         private Window _window;
-        int countError = 1;
+        private int countError = 1;
         private CurrentTab currentTab = CurrentTab.GetBD10;
-        bool isErrorSay = true;
-        bool isHaveError = false;
-        bool isNewNumber = true;
-        bool isReading = true;
-        bool isSmallerWindow = false;
-        bool isSmallWindow = false;
-        int lastNumber = 0;
-        int lastSelectedTabTui = 0;
-        string loaiCurrent = "";
-        string maSoBuuCucCurrent = "";
-        int numberRead = 0;
-        string soCTCurrent = "";
-        System.Windows.Controls.TabControl tabControl;
+        private bool isErrorSay = true;
+        private bool isHaveError = false;
+        private bool isNewNumber = true;
+        private bool isReading = true;
+        private bool isSmallerWindow = false;
+        private bool isSmallWindow = false;
+        private int lastNumber = 0;
+        private int lastSelectedTabTui = 0;
+        private string loaiCurrent = "";
+        private string maSoBuuCucCurrent = "";
+        private int numberRead = 0;
+        private string soCTCurrent = "";
+        private System.Windows.Controls.TabControl tabControl;
         private System.Windows.Controls.TabControl tabTuiControl;
-        DispatcherTimer timerRead;
+        private DispatcherTimer timerRead;
     }
 }

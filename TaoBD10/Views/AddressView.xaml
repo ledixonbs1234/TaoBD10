@@ -79,7 +79,6 @@
                     Content="Lấy Địa Chỉ" />
             </StackPanel>
 
-
             <Button
                 Margin="5"
                 HorizontalAlignment="Right"

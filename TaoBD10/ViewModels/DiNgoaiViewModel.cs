@@ -5,10 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -73,10 +70,11 @@ namespace TaoBD10.ViewModels
             FileManager.GetCode();
         }
 
-        bool isWaitDiNgoai = false;
+        private bool isWaitDiNgoai = false;
 
         public IRelayCommand<DiNgoaiItemModel> SelectionCommand { get; }
-        void Selection(DiNgoaiItemModel selected)
+
+        private void Selection(DiNgoaiItemModel selected)
         {
             if (selected == null)
                 return;
@@ -84,16 +82,12 @@ namespace TaoBD10.ViewModels
             //thuc hien doc index
             SoundManager.playSound(@"Number\" + selected.Index + ".wav");
             OnSelectedSimple();
-
         }
 
         public ICommand SortCommand { get; }
 
-
-
-        void Sort()
+        private void Sort()
         {
-
             if (DiNgoais.Count == 0)
                 return;
             setTinhFromMaTinh();
@@ -517,7 +511,6 @@ namespace TaoBD10.ViewModels
                     {
                         SendKeys.SendWait("{F1}");
                     }
-
                 }
                 else
                 {
@@ -544,8 +537,9 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        bool isWaitingTimer = false;
-        int countTimer = 0;
+        private bool isWaitingTimer = false;
+        private int countTimer = 0;
+
         private void WaitingCloseTimer(DispatcherTimer timerDiNgoai)
         {
             if (!isWaitingTimer)
@@ -567,10 +561,10 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        bool isWaitingPrint = false;
-        StateDiNgoai stateDiNgoai = StateDiNgoai.KhoiTao;
-        bool isRunFirst = false;
-        int downTaoTui = 0;
+        private bool isWaitingPrint = false;
+        private StateDiNgoai stateDiNgoai = StateDiNgoai.KhoiTao;
+        private bool isRunFirst = false;
+        private int downTaoTui = 0;
 
         private void TimerPrint_Tick(object sender, EventArgs e)
         {
@@ -662,7 +656,6 @@ namespace TaoBD10.ViewModels
                         isWaitingPrint = false;
                         isRunFirst = false;
                         APIManager.showTest("6");
-
                     }
                     break;
 
@@ -870,7 +863,7 @@ namespace TaoBD10.ViewModels
                             return;
                         }
                         //lay vi tri tiep theo
-                        //get index 
+                        //get index
                         int index = DiNgoais.IndexOf(SelectedSimple);
                         if (index == -1)
                         {
@@ -913,7 +906,6 @@ namespace TaoBD10.ViewModels
                 default:
                     break;
             }
-
         }
 
         public ICommand AddAddressCommand { get; }
@@ -921,15 +913,12 @@ namespace TaoBD10.ViewModels
 
         public ICommand TestCommand { get; }
 
-
-        void Test()
+        private void Test()
         {
             var da = DiNgoais[1];
             SelectedSimple = da;
             Selection(SelectedSimple);
         }
-
-
 
         public ObservableCollection<string> BuuCucs
         {
@@ -953,7 +942,7 @@ namespace TaoBD10.ViewModels
             set { SetProperty(ref _IsAutoF1, value); }
         }
 
-        DispatcherTimer timerDiNgoai;
+        private DispatcherTimer timerDiNgoai;
 
         private DiNgoaiItemModel _SelectedSimple;
 
@@ -1007,7 +996,6 @@ namespace TaoBD10.ViewModels
             {
                 SetProperty(ref _SelectedBuuCuc, value);
                 OnSelectedBuuCuc();
-
             }
         }
 
@@ -1018,7 +1006,6 @@ namespace TaoBD10.ViewModels
             get { return _TextsRange; }
             set { SetProperty(ref _TextsRange, value); }
         }
-
 
         public DiNgoaiItemModel SelectedDiNgoai
         {
@@ -1044,9 +1031,9 @@ namespace TaoBD10.ViewModels
 
         public ICommand XoaDiNgoaiCommand { get; }
 
-        DispatcherTimer timerPrint;
+        private DispatcherTimer timerPrint;
 
-        void AddAddress()
+        private void AddAddress()
         {
             if (DiNgoais.Count == 0)
                 return;
@@ -1061,7 +1048,6 @@ namespace TaoBD10.ViewModels
             }
             //            if (chrWeb.IsBrowserInitialized)
             //            {
-
             //                chrWeb.Stop();
             //            }
             //            else
@@ -1086,7 +1072,7 @@ namespace TaoBD10.ViewModels
             //            }
         }
 
-        void AddRange()
+        private void AddRange()
         {
             foreach (string item in LocTextTho(TextsRange))
             {
@@ -1186,8 +1172,6 @@ namespace TaoBD10.ViewModels
                     diNgoai.TenBuuCuc = "591720 - KT Tuy Phước";
                     diNgoai.MaBuuCuc = "591720";
                 }
-
-
             }
             else if (diNgoai.MaTinh == "70")
             {
@@ -1201,7 +1185,6 @@ namespace TaoBD10.ViewModels
                     diNgoai.TenBuuCuc = "701000 - HCM EMS NT";
                     diNgoai.MaBuuCuc = "701000";
                 }
-
             }
             else if (diNgoai.MaTinh == "10")
             {
@@ -1215,7 +1198,6 @@ namespace TaoBD10.ViewModels
                     diNgoai.TenBuuCuc = "101000 - KT EMS Hà Nội nội tỉnh";
                     diNgoai.MaBuuCuc = "101000";
                 }
-
             }
             else if (diNgoai.MaTinh == "55")
             {
@@ -1259,24 +1241,20 @@ namespace TaoBD10.ViewModels
                 //{
                 //    if (boDauAndToLower(addressExactly).IndexOf(boDauAndToLower(item)) != -1)
                 //    {
-
                 //        diNgoai.TenBuuCuc = item;
                 //        diNgoai.MaBuuCuc = item.Substring(0, 6);
                 //        break;
                 //    }
                 //}
-
             }
-
         }
 
-        string boDauAndToLower(string text)
+        private string boDauAndToLower(string text)
         {
             return APIManager.convertToUnSign3(text).ToLower();
-
         }
 
-        void CheckEnterKey()
+        private void CheckEnterKey()
         {
             if (TextCode.IndexOf('\n') != -1)
             {
@@ -1312,17 +1290,16 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        void Clear()
+        private void Clear()
         {
-
         }
 
-        void ClearDiNgoai()
+        private void ClearDiNgoai()
         {
             DiNgoais.Clear();
         }
 
-        List<string> getListBuuCucFromTinh(string maTinh)
+        private List<string> getListBuuCucFromTinh(string maTinh)
         {
             List<string> buucucs = new List<string>();
             for (int i = 0; i < FileManager.listBuuCuc.Count; i++)
@@ -1333,11 +1310,10 @@ namespace TaoBD10.ViewModels
                 }
             }
 
-
             return buucucs;
         }
 
-        void MoRong()
+        private void MoRong()
         {
             WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Navigation", Content = "Center" });
         }
@@ -1366,16 +1342,11 @@ namespace TaoBD10.ViewModels
                     SelectedDiNgoai = diNgoai;
                     break;
                 }
-
             }
-
-
-
         }
 
-        void OnSelectedDiNgoai()
+        private void OnSelectedDiNgoai()
         {
-
             if (SelectedDiNgoai == null)
                 return;
             //chuyen vo cbx
@@ -1390,17 +1361,17 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        void ThuHep()
+        private void ThuHep()
         {
             WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Navigation", Content = "SmallRight" });
         }
 
-        void Xoa()
+        private void Xoa()
         {
             //xu ly them phan trung index
         }
 
-        void XoaDiNgoai()
+        private void XoaDiNgoai()
         {
             if (SelectedDiNgoai == null)
                 return;
@@ -1418,6 +1389,6 @@ namespace TaoBD10.ViewModels
         private string _SelectedBuuCuc;
         private DiNgoaiItemModel _SelectedDiNgoai;
         private string _TextCode;
-        int count = 0;
+        private int count = 0;
     }
 }

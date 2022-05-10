@@ -1,11 +1,7 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TaoBD10.Manager;
 using TaoBD10.Model;
 
@@ -33,7 +29,6 @@ namespace TaoBD10.ViewModels
             set { SetProperty(ref _KiemTras, value); }
         }
 
-
         private void CheckEnterKey()
         {
             if (MaHieu.IndexOf('\n') != -1)
@@ -50,13 +45,11 @@ namespace TaoBD10.ViewModels
                 //sau do lay du lieu ve
                 //xu ly no
                 //
-
             }
         }
 
         public KiemTraViewModel()
         {
-
             KiemTras = new ObservableCollection<KiemTraModel>();
             WeakReferenceMessenger.Default.Register<KiemTraMessage>(this, (r, m) =>
             {
@@ -67,8 +60,6 @@ namespace TaoBD10.ViewModels
 
                     //thuc hien loc trong nay ten cua buu ta
                     ReadNameBuuTa(m.Value.BuuCucNhan);
-
-
                 });
                 //KiemTraModel a = new KiemTraModel();
                 //a.Address = m.Value.Address;
@@ -82,7 +73,7 @@ namespace TaoBD10.ViewModels
             });
         }
 
-        void ReadNameBuuTa(string content)
+        private void ReadNameBuuTa(string content)
         {
             content = content.ToUpper();
             if (content.IndexOf("59G001") != -1)
@@ -99,7 +90,6 @@ namespace TaoBD10.ViewModels
             {
                 //dat
                 SoundManager.playSound(@"Name\dat.wav");
-
             }
             else if (content.IndexOf("59G005") != -1)
             {
@@ -145,7 +135,6 @@ namespace TaoBD10.ViewModels
                 //van
                 SoundManager.playSound(@"Name\van.wav");
             }
-
             else if (content.IndexOf("59G033") != -1)
             {
                 //phong

@@ -10,6 +10,7 @@ namespace TaoBD10.Manager
     {
         public static List<BD10InfoModel> list = new List<BD10InfoModel>();
         public static List<string> listBuuCuc = new List<string>();
+
         public static void GetCode()
         {
             string dir = Directory.GetCurrentDirectory();

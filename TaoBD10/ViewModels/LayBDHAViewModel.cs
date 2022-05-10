@@ -1,26 +1,21 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
-using Microsoft.Toolkit.Mvvm.Messaging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Threading;
 using TaoBD10.Manager;
-using TaoBD10.Model;
 
 namespace TaoBD10.ViewModels
 {
     public class LayBDHAViewModel : ObservableObject
     {
-        DispatcherTimer timer;
+        private DispatcherTimer timer;
         private string maBuuCuc = "";
         private int lanLap = 1;
         private bool isWating = false;
+
         public LayBDHAViewModel()
         {
             AnLaoCommand = new RelayCommand(AnLao);
@@ -94,26 +89,25 @@ namespace TaoBD10.ViewModels
         public ICommand AnMyCommand { get; }
         public ICommand HoaiAnCommand { get; }
 
-
-        void AnHoa()
+        private void AnHoa()
         {
             maBuuCuc = "593880";
             timer.Start();
         }
 
-        void AnLao()
+        private void AnLao()
         {
             maBuuCuc = "593850";
             timer.Start();
         }
 
-        void AnMy()
+        private void AnMy()
         {
             maBuuCuc = "593630";
             timer.Start();
         }
 
-        void HoaiAn()
+        private void HoaiAn()
         {
             maBuuCuc = "593740";
             timer.Start();

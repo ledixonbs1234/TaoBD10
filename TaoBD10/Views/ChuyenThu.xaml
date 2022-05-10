@@ -134,6 +134,5 @@
                     Header="SH Túi" />
             </DataGrid.Columns>
         </DataGrid>
-
     </Grid>
 </UserControl>

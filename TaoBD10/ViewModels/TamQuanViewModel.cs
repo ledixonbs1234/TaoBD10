@@ -2,12 +2,8 @@
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -16,7 +12,7 @@ using TaoBD10.Model;
 
 namespace TaoBD10.ViewModels
 {
-    public class TamQuanViewModel :ObservableObject
+    public class TamQuanViewModel : ObservableObject
     {
         private ObservableCollection<TamQuanModel> _TamQuans;
 
@@ -25,7 +21,8 @@ namespace TaoBD10.ViewModels
             get { return _TamQuans; }
             set { SetProperty(ref _TamQuans, value); }
         }
-        DispatcherTimer timer;
+
+        private DispatcherTimer timer;
 
         public TamQuanViewModel()
         {
@@ -40,18 +37,19 @@ namespace TaoBD10.ViewModels
                 if (m.Key == "TamQuan")
                 {
                     TamQuans.Add(new TamQuanModel(TamQuans.Count + 1, m.Content.ToUpper()));
-                }else if (m.Key == "TamQuanRun")
+                }
+                else if (m.Key == "TamQuanRun")
                 {
                     timer.Start();
                 }
             });
         }
-        bool isBusyTamQuan = false;
+
+        private bool isBusyTamQuan = false;
 
         public ICommand SendCommand { get; }
 
-       
-        void Send()
+        private void Send()
         {
             if (TamQuans.Count == 0)
             {
@@ -66,7 +64,6 @@ namespace TaoBD10.ViewModels
                 Thread.Sleep(1500);
             }
         }
-
 
         private void Timer_Tick(object sender, EventArgs e)
         {
@@ -106,12 +103,12 @@ namespace TaoBD10.ViewModels
                                 }
                             }
                         }
-                        TamQuans.Add(new TamQuanModel(TamQuans.Count+1, code.ToUpper()));
+                        TamQuans.Add(new TamQuanModel(TamQuans.Count + 1, code.ToUpper()));
 
                         SoundManager.playSound(@"Number\tamquan.wav");
                         Thread.Sleep(500);
 
-                        SoundManager.playSound(@"Number\" + TamQuans.Count.ToString()+ ".wav");
+                        SoundManager.playSound(@"Number\" + TamQuans.Count.ToString() + ".wav");
                     }
                 }
 

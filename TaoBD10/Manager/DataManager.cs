@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TaoBD10.Model;
+﻿using TaoBD10.Model;
 
 namespace TaoBD10.Manager
 {

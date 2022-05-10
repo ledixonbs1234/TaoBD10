@@ -1,14 +1,9 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TaoBD10.Model
 {
-    public class XacNhanTuiModel: ObservableObject
+    public class XacNhanTuiModel : ObservableObject
     {
         private int _Index;
 
@@ -17,6 +12,7 @@ namespace TaoBD10.Model
             get { return _Index; }
             set { SetProperty(ref _Index, value); }
         }
+
         private string _SHTui;
 
         public string SHTui
@@ -24,6 +20,7 @@ namespace TaoBD10.Model
             get { return _SHTui; }
             set { SetProperty(ref _SHTui, value); }
         }
+
         private ObservableCollection<MaHieuTuiModel> _MaHieuTuis;
 
         public ObservableCollection<MaHieuTuiModel> MaHieuTuis
@@ -40,10 +37,8 @@ namespace TaoBD10.Model
             set { SetProperty(ref _TuiHave, value); }
         }
 
-
         public XacNhanTuiModel()
         {
-
         }
     }
 }

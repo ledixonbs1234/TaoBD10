@@ -4,12 +4,9 @@ using HtmlAgilityPack;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using TaoBD10.Manager;
 using TaoBD10.Model;
@@ -35,7 +32,8 @@ namespace TaoBD10.ViewModels
                 {
                     _LoadWebChoose = LoadWebChoose.AddressTamQuan;
                     LoadAddressDiNgoai(m.Content);
-                }else if(m.Key == "LoadAddressChuaPhat")
+                }
+                else if (m.Key == "LoadAddressChuaPhat")
                 {
                     _LoadWebChoose = LoadWebChoose.AddressChuaPhat;
                     LoadAddressDiNgoai(m.Content);
@@ -54,7 +52,6 @@ namespace TaoBD10.ViewModels
                 {
                     if (m.Content == "LoadUrl")
                     {
-
                         isCheckingChuaPhat = true;
                         IsLoadedWeb = false;
                         WebBrowser.LoadUrl("https://mps.vnpost.vn/default.aspx");
@@ -85,16 +82,13 @@ namespace TaoBD10.ViewModels
                         IsRunningChuaPhat = true;
                         WebBrowser.ExecuteScriptAsync(script);
                     }
-
                 }
             });
-
-
         }
 
-        bool IsRunningChuaPhat = false;
+        private bool IsRunningChuaPhat = false;
 
-        bool isCheckingChuaPhat = false;
+        private bool isCheckingChuaPhat = false;
 
         public string AddressWeb
         {
@@ -110,13 +104,14 @@ namespace TaoBD10.ViewModels
         }
 
         public ICommand LoginCommand { get; }
+
         public ChromiumWebBrowser WebBrowser
         {
             get { return _WebBrowser; }
             set { SetProperty(ref _WebBrowser, value); }
         }
 
-        void LoadAddressDiNgoai(string code)
+        private void LoadAddressDiNgoai(string code)
         {
             //if (!WebBrowser.IsBrowserInitialized)
             //{
@@ -125,8 +120,9 @@ namespace TaoBD10.ViewModels
             //    return;
             //}
 
-            //kiem tra url 
-            if(AddressWeb.ToLower().IndexOf("bccp.vnpost.vn/bccp") != -1){
+            //kiem tra url
+            if (AddressWeb.ToLower().IndexOf("bccp.vnpost.vn/bccp") != -1)
+            {
                 string script = @"
                                 document.getElementById('MainContent_ctl00_txtID').value='" + code + @"';
                 				document.getElementById('MainContent_ctl00_btnView').click();
@@ -141,14 +137,13 @@ namespace TaoBD10.ViewModels
                 IsLoadedWeb = false;
                 WebBrowser.LoadUrl("https://bccp.vnpost.vn/BCCP.aspx?act=Trace");
             }
-           
         }
 
-        void LoadPage(ChromiumWebBrowser web)
+        private void LoadPage(ChromiumWebBrowser web)
         {
         }
 
-        void Login()
+        private void Login()
         {
             string script = @"
                      document.getElementById('MainContent_txtUser').value='593280';
@@ -200,14 +195,11 @@ document.getElementsByClassName("".footer"").remove();
                     //var matchLogin = regexLogin.Match(html);
                     //if (matchLogin != null)
                     //{
-
                     //    picImage.Load("https://bccp.vnpost.vn/" + matchLogin.Groups[1].Value);
                     //}
-
                 }
                 else if (diachi.IndexOf("mps.vnpost.vn/login") != -1)
                 {
-
                     //thuc hien dang nhap vao trang web
                     string script = @"
                      document.getElementById('tx_tname').value='bdh.005932';
@@ -246,11 +238,8 @@ document.getElementsByClassName("".footer"").remove();
                         //thuc hien xu ly du lieu trong nay
                         ////*[@id="root"]/section/section/section[1]/table/tbody/tr[1]/td[3]
 
-
-
-
                         HtmlNodeCollection Items = document.DocumentNode.SelectNodes(@"//*[@id=""root""]/section/section/section[1]/table/tbody/tr");
-                        if(Items == null)
+                        if (Items == null)
                         {
                             APIManager.showSnackbar("Lỗi NULL");
                             return;
@@ -292,7 +281,6 @@ document.getElementsByClassName("".footer"").remove();
                     //kiem tra thu co no khong
                     if (_LoadWebChoose == LoadWebChoose.DiNgoaiAddress || _LoadWebChoose == LoadWebChoose.AddressTamQuan || _LoadWebChoose == LoadWebChoose.AddressChuaPhat)
                     {
-
                         var check = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblBarcode']");
                         if (check == null)
                         {
@@ -319,13 +307,12 @@ document.getElementsByClassName("".footer"").remove();
                             return;
                         }
 
-
                         webContent.AddressReiceive = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblReceiverAddr']").InnerText; ;
                         webContent.AddressSend = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblSenderAddr']").InnerText;
                         var ff = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblDesPOS']").InnerText;
                         if (!string.IsNullOrEmpty(ff))
                         {
-                            webContent.BuuCucPhat  = ff.Substring(0, 2);
+                            webContent.BuuCucPhat = ff.Substring(0, 2);
                         }
                         webContent.BuuCucGui = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblFrPOS']").InnerText;
                         webContent.NguoiGui = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblSenderName']").InnerText;
@@ -333,7 +320,7 @@ document.getElementsByClassName("".footer"").remove();
                             webContent.Key = "DiNgoaiAddress";
                         else if (_LoadWebChoose == LoadWebChoose.AddressTamQuan)
                             webContent.Key = "AddressTamQuan";
-                        else if (_LoadWebChoose ==  LoadWebChoose.AddressChuaPhat)
+                        else if (_LoadWebChoose == LoadWebChoose.AddressChuaPhat)
                             webContent.Key = "AddressChuaPhat";
                         //Thuc hien send Web content qua do
                         WeakReferenceMessenger.Default.Send<WebContentModel>(webContent);
@@ -348,7 +335,6 @@ document.getElementsByClassName("".footer"").remove();
                             //txtInfo.Text = "Lỗi ! Chạy Lại";
                             return;
                         }
-
 
                         Regex regexMaTinh = new Regex(@"<a href=""\/BCCP.aspx\?act=Trace(\w|\W)+?"" title=""Xem chi tiết"">((\w|\W)+?)<\/a>");
                         var matchMaTinh = regexMaTinh.Matches(html);
@@ -367,9 +353,7 @@ document.getElementsByClassName("".footer"").remove();
                     }
                     else if (_LoadWebChoose == LoadWebChoose.KiemTraWeb)
                     {
-
                         KiemTraModel kiemTra = new KiemTraModel();
-
 
                         string barcode = document.DocumentNode.SelectNodes("//*[@id='MainContent_ctl00_lblBarcode']").First().InnerText;
                         if (string.IsNullOrEmpty(barcode))
@@ -400,11 +384,11 @@ document.getElementsByClassName("".footer"").remove();
         private string _AddressWeb = "https://bccp.vnpost.vn/BCCP.aspx?act=Trace";
         private LoadWebChoose _LoadWebChoose = LoadWebChoose.None;
         private ChromiumWebBrowser _WebBrowser;
-        bool isInitializeWeb = false;
+        private bool isInitializeWeb = false;
 
         /// <summary>
         /// Chi load web 1 lan
         /// </summary>
-        bool IsLoadedWeb = false;
+        private bool IsLoadedWeb = false;
     }
 }

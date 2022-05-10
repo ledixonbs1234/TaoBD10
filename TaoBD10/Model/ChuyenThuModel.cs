@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TaoBD10.Model
+﻿namespace TaoBD10.Model
 {
     public class ChuyenThuModel
     {
@@ -16,9 +10,9 @@ namespace TaoBD10.Model
         public string CheckLoai { get; set; }
         public string CheckThuyBo { get; set; }
         public string NameMusic { get; set; }
+
         public ChuyenThuModel()
         {
-
         }
     }
 }

@@ -2,12 +2,8 @@
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -21,8 +17,8 @@ namespace TaoBD10.ViewModels
 {
     public class ChinhViewModel : ObservableObject
     {
+        private DispatcherTimer timerPrint;
 
-        DispatcherTimer timerPrint;
         public ChinhViewModel()
         {
             KTHNCommand = new RelayCommand(KTHN);
@@ -65,57 +61,45 @@ namespace TaoBD10.ViewModels
                     {
                         TamQuan();
                     }
-
                     else if (m.Content == "QuiNhon1")
                     {
                         QuiNhon1();
-
                     }
                     else if (m.Content == "QuiNhon2")
                     {
-
                         QuyNhon2();
                     }
                     else if (m.Content == "PhuMy")
                     {
-
                         PhuMy();
                     }
                     else if (m.Content == "PhuCat")
                     {
-
                         PhuCat();
-
                     }
                     else if (m.Content == "AnNhon")
                     {
                         AnNhon();
-
                     }
                     else if (m.Content == "TongHop")
                     {
                         TongHop();
-
                     }
                     else if (m.Content == "HoaiAn")
                     {
                         HoaiAn();
-
                     }
                     else if (m.Content == "AnLao")
                     {
                         AnLao();
-
                     }
                     else if (m.Content == "AnMy")
                     {
                         AnMy();
-
                     }
                     else if (m.Content == "AnHoa")
                     {
                         AnHoa();
-
                     }
                     else if (m.Content == "LayDuLieu")
                     {
@@ -132,15 +116,12 @@ namespace TaoBD10.ViewModels
                         timerPrint.Start();
                     }
                 }
-
             });
         }
 
         public ICommand BD10DiCommand { get; }
 
-
-
-        void BD10Di()
+        private void BD10Di()
         {
             if (!APIManager.ThoatToDefault("593230", "danh sach bd10 di"))
             {
@@ -150,11 +131,10 @@ namespace TaoBD10.ViewModels
                 PrintDefault();
             }
         }
+
         public ICommand BD10DenCommand { get; }
 
-
-
-        void BD10Den()
+        private void BD10Den()
         {
             if (!APIManager.ThoatToDefault("593230", "danh sach bd10 den"))
             {
@@ -164,11 +144,10 @@ namespace TaoBD10.ViewModels
                 PrintDefault();
             }
         }
+
         public ICommand D420Command { get; }
 
-
-
-        void D420()
+        private void D420()
         {
             foreach (string printer in System.Drawing.Printing.PrinterSettings.InstalledPrinters)
             {
@@ -182,9 +161,7 @@ namespace TaoBD10.ViewModels
 
         public ICommand PrintDefaultCommand { get; }
 
-
-
-        void PrintDefault()
+        private void PrintDefault()
         {
             foreach (string printer in System.Drawing.Printing.PrinterSettings.InstalledPrinters)
             {
@@ -196,16 +173,10 @@ namespace TaoBD10.ViewModels
             }
         }
 
+        private PrintState printState = PrintState.CheckF;
+        private bool isWaitingPrint = false;
 
-
-
-
-
-
-        PrintState printState = PrintState.CheckF;
-        bool isWaitingPrint = false;
-
-        bool isRunFirst = false;
+        private bool isRunFirst = false;
 
         private void TimerPrint_Tick(object sender, EventArgs e)
         {
@@ -519,8 +490,7 @@ namespace TaoBD10.ViewModels
 
         public ICommand LayDuLieuCommand { get; }
 
-
-        void LayDuLieu()
+        private void LayDuLieu()
         {
             APIManager.ThoatToDefault("593200", "Default");
             SendKeys.SendWait("1");
@@ -532,11 +502,9 @@ namespace TaoBD10.ViewModels
             SendKeys.SendWait("{F10}");
         }
 
-
         public ICommand TamQuanCommand { get; }
 
-
-        void TamQuan()
+        private void TamQuan()
         {
             ChuyenThuModel chuyenThu = new ChuyenThuModel();
             chuyenThu.Ten = "Tam Quan Tổng Hợp";
@@ -558,7 +526,6 @@ namespace TaoBD10.ViewModels
             CreateChuyenThu();
         }
 
-
         public ICommand AnHoaCommand { get; }
         public ICommand AnLaoCommand { get; }
         public ICommand AnMyCommand { get; }
@@ -573,7 +540,8 @@ namespace TaoBD10.ViewModels
         public ICommand QuiNhon1Command { get; }
         public ICommand QuyNhon2Command { get; }
         public ICommand TongHopCommand { get; }
-        void AnHoa()
+
+        private void AnHoa()
         {
             ChuyenThuModel chuyenThu = new ChuyenThuModel();
             chuyenThu.Ten = "An Hòa Tổng Hợp";
@@ -595,7 +563,7 @@ namespace TaoBD10.ViewModels
             CreateChuyenThu();
         }
 
-        void AnLao()
+        private void AnLao()
         {
             ChuyenThuModel chuyenThu = new ChuyenThuModel();
             chuyenThu.Ten = "An Lão Tổng Hợp";
@@ -617,7 +585,7 @@ namespace TaoBD10.ViewModels
             CreateChuyenThu();
         }
 
-        void AnMy()
+        private void AnMy()
         {
             ChuyenThuModel chuyenThu = new ChuyenThuModel();
             chuyenThu.Ten = "Ân Mỹ Tổng Hợp";
@@ -639,7 +607,7 @@ namespace TaoBD10.ViewModels
             CreateChuyenThu();
         }
 
-        void AnNhon()
+        private void AnNhon()
         {
             ChuyenThuModel chuyenThu = new ChuyenThuModel();
             chuyenThu.Ten = "An Nhơn Tổng Hợp";
@@ -659,10 +627,9 @@ namespace TaoBD10.ViewModels
                 SendKeys.SendWait("1");
             }
             CreateChuyenThu();
-
         }
 
-        void BCPHN()
+        private void BCPHN()
         {
             ChuyenThuModel chuyenThu = new ChuyenThuModel();
             chuyenThu.Ten = "Khai Thác Hoài Nhơn";
@@ -682,11 +649,9 @@ namespace TaoBD10.ViewModels
                 SendKeys.SendWait("1");
             }
             CreateChuyenThu();
-
-
         }
 
-        void CreateChuyenThu()
+        private void CreateChuyenThu()
         {
             //thuc hien cong viec trong nay
             WindowInfo currentWindow = APIManager.GetActiveWindowTitle(true);
@@ -712,7 +677,6 @@ namespace TaoBD10.ViewModels
                 Thread.Sleep(100);
             }
 
-
             Thread.Sleep(200);
 
             var childsHandle = APIManager.GetAllChildHandles(currentWindow.hwnd);
@@ -720,7 +684,6 @@ namespace TaoBD10.ViewModels
             int indexTinh = 14;
             IntPtr Tinh = childsHandle[indexTinh];
             Thread.Sleep(100);
-
 
             APIManager.SendMessage(Tinh, 0x0007, 0, 0);
             APIManager.SendMessage(Tinh, 0x0007, 0, 0);            //thuc hien nhap vao
@@ -748,7 +711,6 @@ namespace TaoBD10.ViewModels
             }
             Thread.Sleep(200);
 
-
             currentWindow = APIManager.GetActiveWindowTitle(true);
             if (currentWindow == null)
             {
@@ -756,7 +718,6 @@ namespace TaoBD10.ViewModels
             }
             if (currentWindow.text.IndexOf("Đóng chuyến thư") != -1)
             {
-
                 int countInTui = 0;
                 childsHandle = APIManager.GetAllChildHandles(currentWindow.hwnd);
                 string title = APIManager.GetControlText(childsHandle[3]);
@@ -766,7 +727,6 @@ namespace TaoBD10.ViewModels
 
                 if (countInTui > 0)
                 {
-
                 }
                 else
                 {
@@ -802,7 +762,6 @@ namespace TaoBD10.ViewModels
                     }
                     inputImulator.Keyboard.KeyPress(VirtualKeyCode.F10);
                 }
-
             }
             else
             if (currentWindow.text.IndexOf("Tạo túi") != -1)
@@ -878,7 +837,7 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        void EMS()
+        private void EMS()
         {
             ChuyenThuModel chuyenThu = new ChuyenThuModel();
             chuyenThu.Ten = "EMS Nam Trung Bộ";
@@ -898,10 +857,9 @@ namespace TaoBD10.ViewModels
                 SendKeys.SendWait("1");
             }
             CreateChuyenThu();
-
         }
 
-        void HoaiAn()
+        private void HoaiAn()
         {
             ChuyenThuModel chuyenThu = new ChuyenThuModel();
             chuyenThu.Ten = "Hoài Ân Tổng Hợp";
@@ -923,7 +881,7 @@ namespace TaoBD10.ViewModels
             CreateChuyenThu();
         }
 
-        void Kien()
+        private void Kien()
         {
             ChuyenThuModel chuyenThu = new ChuyenThuModel();
             chuyenThu.Ten = "Kiện Nam Trung Bộ";
@@ -943,10 +901,9 @@ namespace TaoBD10.ViewModels
                 SendKeys.SendWait("1");
             }
             CreateChuyenThu();
-
         }
 
-        void KTHN()
+        private void KTHN()
         {
             ChuyenThuModel chuyenThu = new ChuyenThuModel();
             chuyenThu.Ten = "Khai Thác Hoài Nhơn";
@@ -966,10 +923,9 @@ namespace TaoBD10.ViewModels
                 SendKeys.SendWait("1");
             }
             CreateChuyenThu();
-
         }
 
-        void PhuCat()
+        private void PhuCat()
         {
             ChuyenThuModel chuyenThu = new ChuyenThuModel();
             chuyenThu.Ten = "Phù Cát Tổng Hợp";
@@ -989,10 +945,9 @@ namespace TaoBD10.ViewModels
                 SendKeys.SendWait("1");
             }
             CreateChuyenThu();
-
         }
 
-        void PhuMy()
+        private void PhuMy()
         {
             ChuyenThuModel chuyenThu = new ChuyenThuModel();
             chuyenThu.Ten = "Phù Mỹ Tổng Hợp";
@@ -1012,10 +967,9 @@ namespace TaoBD10.ViewModels
                 SendKeys.SendWait("1");
             }
             CreateChuyenThu();
-
         }
 
-        void QuiNhon1()
+        private void QuiNhon1()
         {
             ChuyenThuModel chuyenThu = new ChuyenThuModel();
             chuyenThu.Ten = "Quy Nhơn 1 Tổng Hợp";
@@ -1035,10 +989,9 @@ namespace TaoBD10.ViewModels
                 SendKeys.SendWait("1");
             }
             CreateChuyenThu();
-
         }
 
-        void QuyNhon2()
+        private void QuyNhon2()
         {
             ChuyenThuModel chuyenThu = new ChuyenThuModel();
             chuyenThu.Ten = "Quy Nhơn 2 Tổng Hợp";
@@ -1058,10 +1011,9 @@ namespace TaoBD10.ViewModels
                 SendKeys.SendWait("1");
             }
             CreateChuyenThu();
-
         }
 
-        void TongHop()
+        private void TongHop()
         {
             ChuyenThuModel chuyenThu = new ChuyenThuModel();
             chuyenThu.Ten = "Nam Trung Bộ TH";

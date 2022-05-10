@@ -16,20 +16,20 @@ namespace TaoBD10
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
         }
 
-        void Current_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        private void Current_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             e.Handled = true;
         }
 
-        void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        private void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             e.Handled = true;
         }
 
-        void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            // we cannot handle this, but not to worry, I have not encountered this exception yet.  
-            // However, you can show/log the exception message and show a message that if the application is terminating or not.  
+            // we cannot handle this, but not to worry, I have not encountered this exception yet.
+            // However, you can show/log the exception message and show a message that if the application is terminating or not.
             var isTerminating = e.IsTerminating;
         }
     }

@@ -1,15 +1,10 @@
-﻿using MaterialDesignThemes.Wpf;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Input;
 using TaoBD10.Manager;
 using TaoBD10.Model;
 
@@ -22,10 +17,10 @@ namespace TaoBD10.ViewModels
         public ObservableCollection<TuiHangHoa> ListHangHoa
         {
             get { return _ListHangHoa; }
-            set {
+            set
+            {
                 SetProperty(ref _ListHangHoa, value);
                 ;
-
             }
         }
 
@@ -44,8 +39,7 @@ namespace TaoBD10.ViewModels
 
         public IRelayCommand CapNhatCommand { get; }
 
-
-        void CapNhat()
+        private void CapNhat()
         {
             //cap nhat ma khong co ten thi se chuyen qua chi tiet de kiem tra lai
             BD10InfoModel bd10 = new BD10InfoModel();
@@ -55,7 +49,6 @@ namespace TaoBD10.ViewModels
             bd10.TimeTrongNgay = EnumAll.TimeSet.Sang;
             bd10.TuiHangHoas = ListHangHoa.ToList();
 
-
             if (string.IsNullOrEmpty(NameBD))
             {
                 List<BD10InfoModel> listBD10 = new List<BD10InfoModel>();
@@ -63,7 +56,6 @@ namespace TaoBD10.ViewModels
                 WeakReferenceMessenger.Default.Send<BD10Message>(new BD10Message(listBD10));
                 //thuc hien navigate to chi tiet
                 WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Navigation", Content = "GoChiTiet" });
-
             }
             else
             {
@@ -72,22 +64,14 @@ namespace TaoBD10.ViewModels
                 WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Snackbar", Content = "Đã Tạo BĐ 10 với tên : " + NameBD });
             }
 
-
             //MessageShow("Đã Tạo BĐ 10 với tên : " + NameBD);
         }
 
         public IRelayCommand ClearCommand { get; }
 
-
-        void ClearData()
+        private void ClearData()
         {
-
         }
-
-
-
-
-
 
         private string _TextBD;
 
@@ -104,7 +88,6 @@ namespace TaoBD10.ViewModels
                 }
             }
         }
-
 
         private void CheckEnterKey()
         {
@@ -155,8 +138,7 @@ namespace TaoBD10.ViewModels
 
             CapNhatCommand = new RelayCommand(CapNhat, () =>
             {
-
-                if ( ListHangHoa.Count != 0)
+                if (ListHangHoa.Count != 0)
                 {
                     return true;
                 }
@@ -165,9 +147,6 @@ namespace TaoBD10.ViewModels
                     return false;
                 }
             });
-
         }
-
-
     }
 }

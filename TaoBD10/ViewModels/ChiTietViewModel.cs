@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
-using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -53,7 +52,6 @@ namespace TaoBD10.ViewModels
             set { SetProperty(ref _TextCurrentChuyenThu, value); }
         }
 
-
         public string NameTinhCurrent
         {
             get { return _NameTinhCurrent; }
@@ -80,7 +78,8 @@ namespace TaoBD10.ViewModels
         public IRelayCommand<HangHoaDetailModel> SelectionCommand { get; }
 
         private HangHoaDetailModel CurrentSelectedHangHoaDetail = null;
-        void Selection(HangHoaDetailModel selected)
+
+        private void Selection(HangHoaDetailModel selected)
         {
             if (selected == null)
                 return;
@@ -94,6 +93,7 @@ namespace TaoBD10.ViewModels
             {
                 case BuuCuc.None:
                     return;
+
                 case BuuCuc.KT:
 
                     if (!APIManager.ThoatToDefault("593230", "quan ly chuyen thu chieu den"))
@@ -103,6 +103,7 @@ namespace TaoBD10.ViewModels
                         SendKeys.SendWait("3");
                     }
                     break;
+
                 case BuuCuc.BCP:
                     if (!APIManager.ThoatToDefault("593280", "quan ly chuyen thu chieu den"))
                     {
@@ -111,6 +112,7 @@ namespace TaoBD10.ViewModels
                         SendKeys.SendWait("3");
                     }
                     break;
+
                 default:
                     break;
             }
@@ -118,26 +120,21 @@ namespace TaoBD10.ViewModels
             timer.Start();
         }
 
-
         public IRelayCommand CopySHTuiCommand { get; }
 
-
-        void CopySHTui()
+        private void CopySHTui()
         {
             //thuc hien lenh trong nay
             if (SelectedTui != null)
             {
                 System.Windows.Clipboard.SetDataObject(SelectedTui.TuiHangHoa.SHTui);
-                //SendMessage 
+                //SendMessage
                 WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Snackbar", Content = " Đã Copy" });
             }
-
         }
-
 
         public ChiTietViewModel()
         {
-
             WeakReferenceMessenger.Default.Register<BD10Message>(this, (r, m) =>
             {
                 //Thuc Hien Trong ngay
@@ -181,10 +178,11 @@ namespace TaoBD10.ViewModels
                             continue;
                         }
                         data.Add(hangHoa);
-                   }
+                    }
 
                     WeakReferenceMessenger.Default.Send<TuiHangHoaMessage>(new TuiHangHoaMessage(data));
-                }else if (m.Key == "GuiTrucTiep")
+                }
+                else if (m.Key == "GuiTrucTiep")
                 {
                     GuiTrucTiep();
                 }
@@ -193,7 +191,6 @@ namespace TaoBD10.ViewModels
             timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromMilliseconds(50);
             timer.Tick += Timer_Tick;
-
 
             #region Command Create
 
@@ -224,8 +221,7 @@ namespace TaoBD10.ViewModels
             set { SetProperty(ref _SelectedTime, value); }
         }
 
-
-        void GuiTrucTiep()
+        private void GuiTrucTiep()
         {
             var currentWindow = APIManager.GetActiveWindowTitle();
             if (currentWindow == null)
@@ -276,45 +272,51 @@ namespace TaoBD10.ViewModels
                 isGone = true;
             }
 
-
             bool isRightBD10 = true;
             switch (currentTinh)
             {
                 case PhanLoaiTinh.None:
                     break;
+
                 case PhanLoaiTinh.HA_AL:
                     isGone = true;
                     break;
+
                 case PhanLoaiTinh.TamQuan:
                     if (classNameComBoBox.IndexOf("593330") == -1)
                     {
                         isRightBD10 = false;
                     }
                     break;
+
                 case PhanLoaiTinh.KienDaNang:
                     if (classNameComBoBox.IndexOf("550910") == -1)
                     {
                         isRightBD10 = false;
                     }
                     break;
+
                 case PhanLoaiTinh.EMSDaNang:
                     if (classNameComBoBox.IndexOf("550915") == -1)
                     {
                         isRightBD10 = false;
                     }
                     break;
+
                 case PhanLoaiTinh.QuangNam:
                     if (classNameComBoBox.IndexOf("560100") == -1)
                     {
                         isRightBD10 = false;
                     }
                     break;
+
                 case PhanLoaiTinh.QuangNgai:
                     if (classNameComBoBox.IndexOf("570100") == -1)
                     {
                         isRightBD10 = false;
                     }
                     break;
+
                 case PhanLoaiTinh.DiNgoaiNamTrungBo:
                 case PhanLoaiTinh.TuiNTB:
                 case PhanLoaiTinh.KT1:
@@ -323,18 +325,21 @@ namespace TaoBD10.ViewModels
                         isRightBD10 = false;
                     }
                     break;
+
                 case PhanLoaiTinh.PhuMy:
                     if (classNameComBoBox.IndexOf("592810") == -1)
                     {
                         isRightBD10 = false;
                     }
                     break;
+
                 case PhanLoaiTinh.PhuCat:
                     if (classNameComBoBox.IndexOf("592440") == -1)
                     {
                         isRightBD10 = false;
                     }
                     break;
+
                 case PhanLoaiTinh.AnNhon:
                     if (classNameComBoBox.IndexOf("592020") == -1)
                     {
@@ -367,7 +372,7 @@ namespace TaoBD10.ViewModels
 
             if (!isGone)
             {
-                //kiem tra so luong tui hien tai co bang 
+                //kiem tra so luong tui hien tai co bang
                 int lastCountTuiHienTai = 0;
                 countTemp = 0;
                 foreach (var item in handles)
@@ -389,22 +394,19 @@ namespace TaoBD10.ViewModels
 
                 if (lastCountTuiHienTai - countCurrentTui != ListShowHangHoa.Count)
                 {
-
                     SoundManager.playSound(@"Number\khongkhopsolieu.wav");
                     return;
                 }
             }
         }
 
-        void PrintDiNgoai()
+        private void PrintDiNgoai()
         {
             WindowInfo info = WaitingFindedWindow("thong tin buu gui", 1);
             if (info == null)
                 return;
 
             //thuc hien kiem tra ma trong nay
-
-
 
             SendKeys.SendWait("+{TAB}");
             SendKeys.SendWait("+{TAB}");
@@ -450,7 +452,6 @@ namespace TaoBD10.ViewModels
             Thread.Sleep(50);
             SendKeys.SendWait(" ");
 
-
             WindowInfo infoDocument = WaitingFindedWindow("Print Document", 3, true);
             if (infoDocument == null)
                 return;
@@ -479,7 +480,6 @@ namespace TaoBD10.ViewModels
 
             SendKeys.SendWait("%(p)");
 
-
             WindowInfo infoPrintDocument = WaitingFindedWindow("Print Document", 3, true);
             if (infoPrintDocument == null)
                 return;
@@ -503,9 +503,7 @@ namespace TaoBD10.ViewModels
             SendKeys.SendWait(" ");
         }
 
-
-
-        WindowInfo WaitingFindedWindow(string title, int time, bool isExactly = false)
+        private WindowInfo WaitingFindedWindow(string title, int time, bool isExactly = false)
         {
             WindowInfo currentWindow = null;
             string titleWindow = "";
@@ -525,8 +523,6 @@ namespace TaoBD10.ViewModels
 
                     titleWindow = currentWindow.text;
                 }
-
-
             }
             else
             {
@@ -548,9 +544,9 @@ namespace TaoBD10.ViewModels
             return currentWindow;
         }
 
+        private bool isBusyXacNhan = false;
+        private int countDown = 0;
 
-        bool isBusyXacNhan = false;
-        int countDown = 0;
         private void Timer_Tick(object sender, System.EventArgs e)
         {
             if (isBusyXacNhan)
@@ -594,7 +590,6 @@ namespace TaoBD10.ViewModels
                 timer.Stop();
                 isBusyXacNhan = false;
 
-
                 //var handles = GetAllChildHandles(currentWindow.hwnd);
                 //string textHandleName = "WindowsForms10.EDIT.app.0.1e6fa8e";
                 //foreach (var item in handles)
@@ -614,7 +609,6 @@ namespace TaoBD10.ViewModels
                 //    //focus no
                 //    //xong roi dien vao va nhan enter thoi
                 //}
-
             }
             else
             {
@@ -625,11 +619,11 @@ namespace TaoBD10.ViewModels
                     isBusyXacNhan = false;
                     timer.Stop();
                 }
-
             }
         }
 
         private PhanLoaiTinh currentTinh = PhanLoaiTinh.None;
+
         private void SelectedTinh(PhanLoaiTinh phanLoaiTinh)
         {
             if (currentListHangHoa == null)
@@ -828,9 +822,6 @@ namespace TaoBD10.ViewModels
             set { SetProperty(ref _NTNTB, value); }
         }
 
-
-
-
         private void FillData()
         {
             if (currentListHangHoa.Count == 0)
@@ -927,8 +918,6 @@ namespace TaoBD10.ViewModels
             }
             ResetAndCount();
         }
-
-
 
         private void ResetAndCount()
         {

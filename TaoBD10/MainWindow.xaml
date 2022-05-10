@@ -82,7 +82,6 @@
                 Content="{materialDesign:PackIcon Kind=Home}" />
 
             <!--  Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"  -->
-
         </materialDesign:DrawerHost>
         <TabControl
             Name="TabTui"
@@ -149,7 +148,6 @@
                     <TabItem Header="Tam Quan">
                         <view:TamQuanView />
                     </TabItem>
-
                 </TabControl>
             </TabItem>
             <TabItem Header="KT">
@@ -167,7 +165,6 @@
                         <view:KTChuaPhatView />
                     </TabItem>
                 </TabControl>
-
             </TabItem>
         </TabControl>
 

@@ -26,24 +26,22 @@ namespace TaoBD10.Model
 
     public class ContentMessage : ValueChangedMessage<ContentModel>
     {
-        public ContentMessage(ContentModel content):base (content)
+        public ContentMessage(ContentModel content) : base(content)
         {
-
         }
     }
+
     public class SHTuiMessage : ValueChangedMessage<SHTuiCodeModel>
     {
         public SHTuiMessage(SHTuiCodeModel content) : base(content)
         {
-
         }
     }
 
-    public class WebMessage:ValueChangedMessage<WebContentModel>
+    public class WebMessage : ValueChangedMessage<WebContentModel>
     {
-        public WebMessage(WebContentModel content):base (content)
+        public WebMessage(WebContentModel content) : base(content)
         {
-
         }
     }
 
@@ -51,7 +49,6 @@ namespace TaoBD10.Model
     {
         public KiemTraMessage(KiemTraModel content) : base(content)
         {
-
         }
     }
 }

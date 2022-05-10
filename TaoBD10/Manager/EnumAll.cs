@@ -18,8 +18,9 @@
         public enum BuuCuc
         {
             None,
-            KT,BCP
+            KT, BCP
         }
+
         public enum PrintState
         {
             CheckF,
@@ -31,11 +32,11 @@
             DongChuyenThu,
             DaThoat
         }
+
         public enum StateTaoBd10
         {
             DanhSachBD10,
             LapBD10
-
         }
 
         public enum StateDiNgoai
@@ -95,8 +96,8 @@
 
         public enum TrangThaiBD
         {
-            ChuaChon,DaChon,
-            DaIn,TamQuan
+            ChuaChon, DaChon,
+            DaIn, TamQuan
         }
 
         public enum VungLamViec

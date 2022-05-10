@@ -1,11 +1,7 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -42,7 +38,8 @@ namespace TaoBD10.ViewModels
         public ICommand QuangNamCommand { get; }
         public ICommand QuangNgaiCommand { get; }
         public ICommand XeXaHoiCommand { get; }
-        void AnNhon()
+
+        private void AnNhon()
         {
             var time = DateTime.Now;
             if (time.Hour > 12)
@@ -57,7 +54,7 @@ namespace TaoBD10.ViewModels
             timerTaoBD.Start();
         }
 
-        void EMSDaNang()
+        private void EMSDaNang()
         {
             maBuuCuc = "550915";
             tenDuongThu = "Bình Định - Đà Nẵng";
@@ -67,7 +64,7 @@ namespace TaoBD10.ViewModels
             timerTaoBD.Start();
         }
 
-        void KienDaNang()
+        private void KienDaNang()
         {
             maBuuCuc = "550910";
             tenDuongThu = "Bình Định - Đà Nẵng";
@@ -77,7 +74,7 @@ namespace TaoBD10.ViewModels
             timerTaoBD.Start();
         }
 
-        void NamTrungBo()
+        private void NamTrungBo()
         {
             var time = DateTime.Now;
             if (time.Hour > 12)
@@ -92,7 +89,7 @@ namespace TaoBD10.ViewModels
             timerTaoBD.Start();
         }
 
-        void PhuCat()
+        private void PhuCat()
         {
             var time = DateTime.Now;
             if (time.Hour > 12)
@@ -107,7 +104,7 @@ namespace TaoBD10.ViewModels
             timerTaoBD.Start();
         }
 
-        void PhuMy()
+        private void PhuMy()
         {
             var time = DateTime.Now;
             if (time.Hour > 12)
@@ -122,7 +119,7 @@ namespace TaoBD10.ViewModels
             timerTaoBD.Start();
         }
 
-        void QuangNam()
+        private void QuangNam()
         {
             maBuuCuc = "560100";
             tenDuongThu = "Bình Định - Đà Nẵng";
@@ -132,7 +129,7 @@ namespace TaoBD10.ViewModels
             timerTaoBD.Start();
         }
 
-        void QuangNgai()
+        private void QuangNgai()
         {
             maBuuCuc = "570100";
             tenDuongThu = "Bình Định - Đà Nẵng";
@@ -159,6 +156,7 @@ namespace TaoBD10.ViewModels
                         stateTaoBd10 = StateTaoBd10.LapBD10;
                     }
                     break;
+
                 case StateTaoBd10.LapBD10:
                     if (currentWindow.text.IndexOf("lap bd10") != -1)
                     {
@@ -193,17 +191,16 @@ namespace TaoBD10.ViewModels
                         Thread.Sleep(100);
                         isWaiting = false;
                         timerTaoBD.Stop();
-
                     }
 
                     break;
+
                 default:
                     break;
             }
-
         }
 
-        void XeXaHoi()
+        private void XeXaHoi()
         {
             maBuuCuc = "590100";
             tenDuongThu = "Tam Quan - Quy Nhơn (Xe XH)";
@@ -213,12 +210,12 @@ namespace TaoBD10.ViewModels
             timerTaoBD.Start();
         }
 
-        int countChuyen = 0;
-        int countDuongThu = 0;
-        bool isWaiting = false;
-        string maBuuCuc = "0";
-        StateTaoBd10 stateTaoBd10;
-        string tenDuongThu = "";
-        DispatcherTimer timerTaoBD;
+        private int countChuyen = 0;
+        private int countDuongThu = 0;
+        private bool isWaiting = false;
+        private string maBuuCuc = "0";
+        private StateTaoBd10 stateTaoBd10;
+        private string tenDuongThu = "";
+        private DispatcherTimer timerTaoBD;
     }
 }

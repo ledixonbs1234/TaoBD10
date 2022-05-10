@@ -56,7 +56,6 @@
                 Style="{StaticResource MaterialDesignTabRadioButton}" />
         </StackPanel>
 
-
         <ListView Grid.Row="2" ItemsSource="{Binding BD10List}">
             <ListView.View>
                 <GridView>

@@ -24,9 +24,10 @@ namespace TaoBD10.Manager
             return regex.Replace(temp, String.Empty).Replace('\u0111', 'd').Replace('\u0110', 'D').ToLower();
         }
 
-        const int BN_CLICKED = 0;
-        static int WM_LBUTTONDOWN = 0x0201;
-        static int WM_LBUTTONUP = 0x0202;
+        private const int BN_CLICKED = 0;
+        private static int WM_LBUTTONDOWN = 0x0201;
+        private static int WM_LBUTTONUP = 0x0202;
+
         public static void ClickButton(IntPtr handle)
         {
             SendMessage(handle, 0x00F5, 0, 0);
@@ -46,10 +47,12 @@ namespace TaoBD10.Manager
 
             return true;
         }
+
         public static void showTest(string content)
         {
             WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Test", Content = content });
         }
+
         public static void showSnackbar(string content)
         {
             WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Snackbar", Content = content });
@@ -57,7 +60,6 @@ namespace TaoBD10.Manager
 
         [DllImport("winspool.drv", CharSet = CharSet.Auto, SetLastError = true)]
         public static extern bool SetDefaultPrinter(string Name);
-
 
         public static void SetZ420Print()
         {
@@ -89,7 +91,6 @@ namespace TaoBD10.Manager
             }
             return list;
         }
-
 
         public static WindowInfo GetActiveWindowTitle(bool isExactly = false)
         {
@@ -265,12 +266,12 @@ namespace TaoBD10.Manager
             {
                 return false;
             }
-
         }
 
         [DllImport("user32")]
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool EnumChildWindows(IntPtr window, EnumWindowProc callback, IntPtr lParam);
+
         private const int WM_CLOSE = 0x0010;
         private const int WM_GETTEXT = 0x000D;
         private const int WM_GETTEXTLENGTH = 0x000E;

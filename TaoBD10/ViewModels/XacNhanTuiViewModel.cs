@@ -5,10 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
 using TaoBD10.Manager;
@@ -18,7 +15,6 @@ namespace TaoBD10.ViewModels
 {
     public class XacNhanTuiViewModel : ObservableObject
     {
-
         private ObservableCollection<XacNhanTuiModel> _XacNhanTuis;
 
         public ObservableCollection<XacNhanTuiModel> XacNhanTuis
@@ -49,8 +45,7 @@ namespace TaoBD10.ViewModels
 
         public ICommand MoTuiCommand { get; }
 
-
-        void MoTui()
+        private void MoTui()
         {
             if (!APIManager.ThoatToDefault("593230", "quan ly chuyen thu chieu den"))
             {
@@ -63,7 +58,6 @@ namespace TaoBD10.ViewModels
             SendKeys.SendWait(SelectedXacNhan.SHTui);
             SendKeys.SendWait("{ENTER}");
         }
-
 
         private void OnSelectedTui()
         {
@@ -81,7 +75,6 @@ namespace TaoBD10.ViewModels
             set { SetProperty(ref _KhongTonTais, value); }
         }
 
-
         private string _MaHieu;
 
         public string MaHieu
@@ -93,12 +86,11 @@ namespace TaoBD10.ViewModels
                 OnCheckEnter();
             }
         }
-        string currentSHTui = "";
-        string currentData = "";
 
+        private string currentSHTui = "";
+        private string currentData = "";
 
-
-        void RunGetData()
+        private void RunGetData()
         {
             var currentWindow = APIManager.GetActiveWindowTitle();
             if (currentWindow == null)
@@ -135,7 +127,6 @@ namespace TaoBD10.ViewModels
                 }
             }
 
-
             SendKeys.SendWait("{TAB}");
             Thread.Sleep(50);
             SendKeys.SendWait("{TAB}");
@@ -166,12 +157,12 @@ namespace TaoBD10.ViewModels
             }
             //thuc hien them tui
             AddSHTui(currentSHTui, clipboard);
-            
 
             //thuc hien nhan nut thoat trong nay
         }
 
         private bool _IsExpanded = false;
+
         public bool IsExpanded
         {
             get { return _IsExpanded; }
@@ -190,19 +181,18 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        void ThuHep()
+        private void ThuHep()
         {
             WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Navigation", Content = "SmallRight" });
         }
 
-        void MoRong()
+        private void MoRong()
         {
             WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Navigation", Content = "Center" });
         }
 
-        void AddSHTui(string name, string content)
+        private void AddSHTui(string name, string content)
         {
-
             if (string.IsNullOrEmpty(content) || string.IsNullOrEmpty(name))
                 return;
             XacNhanTuiModel xacNhan = new XacNhanTuiModel();
@@ -219,7 +209,6 @@ namespace TaoBD10.ViewModels
                     }
                 }
             }
-
 
             List<string> texts = content.Split('\n').ToList();
             if (texts[0].IndexOf("STT") != -1)
@@ -260,8 +249,8 @@ namespace TaoBD10.ViewModels
                 temp += item.MaHieuTuis.Count;
             }
             TongCong = temp;
-
         }
+
         private int _TongCong = 0;
 
         public int TongCong
@@ -316,7 +305,6 @@ namespace TaoBD10.ViewModels
             set { SetProperty(ref _Current, value); }
         }
 
-
         public XacNhanTuiViewModel()
         {
             XacNhanTuis = new ObservableCollection<XacNhanTuiModel>();
@@ -328,10 +316,7 @@ namespace TaoBD10.ViewModels
                     return;
                 if (m.Content == "GetData")
                     RunGetData();
-
             });
-
-
         }
     }
 }

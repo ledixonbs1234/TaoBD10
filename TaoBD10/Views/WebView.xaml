@@ -27,6 +27,5 @@
             VerticalAlignment="Top"
             Command="{Binding LoginCommand}"
             Content="Login" />
-
     </Grid>
 </UserControl>

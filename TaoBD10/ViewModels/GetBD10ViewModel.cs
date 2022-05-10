@@ -232,7 +232,6 @@ namespace TaoBD10.ViewModels
                 var info = FileManager.list.Find(m => m.Name == noiGuiBD && m.LanLap == lanLapBD && m.DateCreateBD10.DayOfYear == ngayThang.DayOfYear);
                 if (info != null)
                 {
-                    
                     timer.Stop();
                     isWaitingGetData = false;
                     SoundManager.playSound(@"Number\trungbd.wav");
@@ -300,7 +299,6 @@ namespace TaoBD10.ViewModels
                     }
                     else
                     {
-                        
                         NameBD = "Lỗi! Không Copy Được";
                         timer.Stop();
                         isWaitingGetData = false;
@@ -311,7 +309,6 @@ namespace TaoBD10.ViewModels
                 }
                 if (slTuiInBD != tuiTempHangHoa.Count)
                 {
-                    
                     timer.Stop();
                     isWaitingGetData = false;
                     IsLoading = false;

@@ -10,19 +10,17 @@
     <StackPanel>
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
             <Button Margin="5" Content="Kiện Đà Nẵng" Command="{Binding KienDaNangCommand}" />
-            <Button Margin="5" Content="EMS Đà Nẵng" Command="{Binding EMSDaNangCommand}"/>
+            <Button Margin="5" Content="EMS Đà Nẵng" Command="{Binding EMSDaNangCommand}" />
         </StackPanel>
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
             <Button Margin="5" Content="Quảng Ngãi" Command="{Binding QuangNgaiCommand}" />
-            <Button Margin="5" Content="Quảng Nam" Command="{Binding QuangNamCommand}"/>
+            <Button Margin="5" Content="Quảng Nam" Command="{Binding QuangNamCommand}" />
         </StackPanel>
         <Button Margin="5" Content="Tam Quan" Command="{Binding }" />
         <Button Margin="5" Content="Nam Trung Bộ" Command="{Binding NamTrungBoCommand}" />
-        <Button Margin="5" Content="Phù Mỹ" Command="{Binding PhuMyCommand}"/>
+        <Button Margin="5" Content="Phù Mỹ" Command="{Binding PhuMyCommand}" />
         <Button Margin="5" Content="Phù Cát" Command="{Binding PhuCatCommand}" />
-        <Button Margin="5" Content="An Nhơn" Command="{Binding AnNhonCommand}"/>
+        <Button Margin="5" Content="An Nhơn" Command="{Binding AnNhonCommand}" />
         <Button Margin="5" Content="Xe Xã Hội" Command="{Binding XeXaHoiCommand}" />
-
-
     </StackPanel>
 </UserControl>

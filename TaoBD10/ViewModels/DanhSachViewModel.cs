@@ -19,17 +19,20 @@ namespace TaoBD10.ViewModels
 
         public bool[] BuoiArray
         {
-            get {
-
+            get
+            {
                 string a = "dfd";
-                return _BuoiArray; }
+                return _BuoiArray;
+            }
         }
 
         public int SelectedBuoi
         {
-            get {
+            get
+            {
                 string a = "dfd";
-                return Array.IndexOf(_BuoiArray, true); }
+                return Array.IndexOf(_BuoiArray, true);
+            }
         }
 
         public DateTime CurrentTime
@@ -49,8 +52,7 @@ namespace TaoBD10.ViewModels
 
         public ICommand DeleteCommand { get; }
 
-      
-        void Delete()
+        private void Delete()
         {
             var tempList = new List<BD10InfoModel>(BD10List);
             foreach (var item in tempList)
@@ -61,11 +63,9 @@ namespace TaoBD10.ViewModels
                     BD10List.Remove(item);
                 }
             }
-            //thuc hien save 
+            //thuc hien save
             FileManager.SaveData(null);
-
         }
-
 
         public ObservableCollection<BD10InfoModel> BD10List
         {
@@ -90,21 +90,21 @@ namespace TaoBD10.ViewModels
             });
         }
 
-        void LoadBD10()
+        private void LoadBD10()
         {
             BD10List = new ObservableCollection<BD10InfoModel>();
             //thuc hien lay du lieu
             LoadForDate(CurrentTime, (TimeSet)SelectedBuoi);
         }
 
-        void SelectedBuoiVoid()
+        private void SelectedBuoiVoid()
         {
             LoadBD10();
         }
 
         public ICommand SelectedBuoiCommand { get; }
 
-        void LoadForDate(DateTime time, TimeSet buoi)
+        private void LoadForDate(DateTime time, TimeSet buoi)
         {
             foreach (var item in FileManager.LoadData())
             {
@@ -118,7 +118,6 @@ namespace TaoBD10.ViewModels
                     }
                 }
             }
-
         }
 
         private void LayDuLieu()
@@ -135,7 +134,7 @@ namespace TaoBD10.ViewModels
             }
             WeakReferenceMessenger.Default.Send(new BD10Message(listBD10));
             //thuc hien vao chi tiet
-            WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Content = "GoChiTiet",Key="Navigation" });
+            WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Content = "GoChiTiet", Key = "Navigation" });
         }
 
         //thuc hien viec get Data

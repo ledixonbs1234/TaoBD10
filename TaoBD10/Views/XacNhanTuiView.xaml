@@ -18,7 +18,6 @@
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0">
 
-
             <DataGrid
                 x:Name="dataGrid1"
                 Grid.Column="0"
@@ -40,7 +39,7 @@
                     <DataGridTextColumn Binding="{Binding MaHieuTuis.Count}" Header="All" />
                 </DataGrid.Columns>
             </DataGrid>
-            <Button Margin="10" Content="Mở" Command="{Binding MoTuiCommand}"/>
+            <Button Margin="10" Content="Mở" Command="{Binding MoTuiCommand}" />
             <StackPanel
                 HorizontalAlignment="Right"
                 VerticalAlignment="Bottom"
@@ -97,7 +96,6 @@
                         <DataGridTextColumn Binding="{Binding MaHieu}" Header="Mã Hiệu" />
                     </DataGrid.Columns>
                 </DataGrid>
-
             </Grid>
             <TextBox
                 Width="300"
@@ -105,10 +103,9 @@
                 AcceptsReturn="True"
                 Text="{Binding MaHieu, UpdateSourceTrigger=PropertyChanged}" />
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <TextBlock Margin="10,10,40,10"  Style="{StaticResource MaterialDesignHeadline2TextBlock}" Text="{Binding Current}" Foreground="#FF006C59"/>
-                <TextBlock  Margin="40,10,40,10" Style="{StaticResource MaterialDesignHeadline2TextBlock}" Text="{Binding TongCong}" Foreground="#FF429CF5"/>
+                <TextBlock Margin="10,10,40,10"  Style="{StaticResource MaterialDesignHeadline2TextBlock}" Text="{Binding Current}" Foreground="#FF006C59" />
+                <TextBlock  Margin="40,10,40,10" Style="{StaticResource MaterialDesignHeadline2TextBlock}" Text="{Binding TongCong}" Foreground="#FF429CF5" />
             </StackPanel>
         </StackPanel>
-
     </Grid>
 </UserControl>

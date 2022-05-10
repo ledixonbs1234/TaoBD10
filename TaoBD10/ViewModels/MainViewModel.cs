@@ -252,7 +252,7 @@ namespace TaoBD10.ViewModels
                     MessageQueue = new SnackbarMessageQueue();
                 MessageQueue.Enqueue(content, null, null, null, false, false, TimeSpan.FromSeconds(1));
             });
-           
+
         }
 
         private void OnCloseWindow()
@@ -350,60 +350,8 @@ namespace TaoBD10.ViewModels
                     break;
 
                 case Key.F6:
-                    var danhSach = APIManager.GetActiveWindowTitle();
-                    if (danhSach == null)
-                        return;
-                    if (danhSach.text.IndexOf("sua thong tin bd10") != -1)
-                    {
-                        List<TestAPIModel> datas = APIManager.GetListControlText(danhSach.hwnd);
-                        SendKeys.SendWait("{F3}");
-                        Thread.Sleep(500);
-                        SendKeys.SendWait("{Enter}");
-                        Thread.Sleep(500);
+                    PrintBD10();
 
-                        WindowInfo printD = danhSach;
-                        while (printD.text.IndexOf("print document") == -1)
-                        {
-                            printD = APIManager.GetActiveWindowTitle();
-                            Thread.Sleep(200);
-                        }
-                        SendKeys.SendWait("{Right}");
-                        SendKeys.SendWait(" ");
-                        Thread.Sleep(1000);
-                        SendKeys.SendWait("%{c}");
-                        Thread.Sleep(50);
-                        SendKeys.SendWait("{Up}");
-                        Thread.Sleep(50);
-                        SendKeys.SendWait("{Up}");
-                        Thread.Sleep(50);
-                        SendKeys.SendWait("%{o}");
-                        Thread.Sleep(50);
-                        SendKeys.SendWait("%{p}");
-                        Thread.Sleep(500);
-                        WindowInfo printD1 = danhSach;
-                        while (printD1.text.IndexOf("printing") == -1)
-                        {
-                            printD1 = APIManager.GetActiveWindowTitle();
-                            Thread.Sleep(100);
-                        }
-                        while (printD1.text.IndexOf("printing") != -1)
-                        {
-                            printD1 = APIManager.GetActiveWindowTitle();
-                            Thread.Sleep(100);
-                        }
-                        SendKeys.SendWait("{Right}");
-                        SendKeys.SendWait(" ");
-                        while (printD1.text.IndexOf("sua thong tin bd10") == -1)
-                        {
-                            printD1 = APIManager.GetActiveWindowTitle();
-                            Thread.Sleep(100);
-                        }
-                        Thread.Sleep(500);
-                        SendKeys.SendWait("{Enter}");
-                        SendKeys.SendWait("{Esc}");
-                        Thread.Sleep(100);
-                        SendKeys.SendWait("{Enter}");
-                    }
                     break;
 
                 case Key.Enter:
@@ -545,6 +493,66 @@ namespace TaoBD10.ViewModels
             // use 'Screen.AllScreens[1].WorkingArea' for secondary screen
             _window.Left = desktopWorkingArea.Left + width - _window.Width;
             _window.Top = desktopWorkingArea.Top + 0;
+        }
+
+        void PrintBD10()
+        {
+            var danhSach = APIManager.GetActiveWindowTitle();
+            if (danhSach == null)
+                return;
+            if (danhSach.text.IndexOf("sua thong tin bd10") != -1 || danhSach.text.IndexOf("lap bd10") != -1)
+            {
+                List<TestAPIModel> datas = APIManager.GetListControlText(danhSach.hwnd);
+                SendKeys.SendWait("{F3}");
+                Thread.Sleep(500);
+                SendKeys.SendWait("{Enter}");
+                Thread.Sleep(500);
+
+                WindowInfo printD = danhSach;
+                while (printD.text.IndexOf("print document") == -1)
+                {
+                    printD = APIManager.GetActiveWindowTitle();
+                    Thread.Sleep(200);
+                }
+                SendKeys.SendWait("{Right}");
+                SendKeys.SendWait(" ");
+                Thread.Sleep(1000);
+                SendKeys.SendWait("%{c}");
+                Thread.Sleep(50);
+                SendKeys.SendWait("{Up}");
+                Thread.Sleep(50);
+                SendKeys.SendWait("{Up}");
+                Thread.Sleep(50);
+                SendKeys.SendWait("%{o}");
+                Thread.Sleep(50);
+                SendKeys.SendWait("%{p}");
+                Thread.Sleep(500);
+                WindowInfo printD1 = danhSach;
+                while (printD1.text.IndexOf("printing") == -1)
+                {
+                    printD1 = APIManager.GetActiveWindowTitle();
+                    Thread.Sleep(100);
+                }
+                while (printD1.text.IndexOf("printing") != -1)
+                {
+                    printD1 = APIManager.GetActiveWindowTitle();
+                    Thread.Sleep(100);
+                }
+                Thread.Sleep(100);
+                SendKeys.SendWait("{Right}");
+                SendKeys.SendWait(" ");
+                Thread.Sleep(500);
+                while (printD1.text.IndexOf("sua thong tin bd10") != -1)
+                {
+                    printD1 = APIManager.GetActiveWindowTitle();
+                    Thread.Sleep(100);
+                }
+                Thread.Sleep(200);
+                SendKeys.SendWait("{Enter}");
+                SendKeys.SendWait("{Esc}");
+                Thread.Sleep(100);
+                SendKeys.SendWait("{Enter}");
+            }
         }
 
         private void SetDefaultWindowTui()

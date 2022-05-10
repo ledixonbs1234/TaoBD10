@@ -120,23 +120,26 @@ namespace TaoBD10.ViewModels
             //    return;
             //}
 
-            //kiem tra url
-            if (AddressWeb.ToLower().IndexOf("bccp.vnpost.vn/bccp") != -1)
-            {
-                string script = @"
-                                document.getElementById('MainContent_ctl00_txtID').value='" + code + @"';
-                				document.getElementById('MainContent_ctl00_btnView').click();
-                ";
+            ////kiem tra url
+            //if (AddressWeb.ToLower().IndexOf("bccp.vnpost.vn/bccp") != -1)
+            //{
+                //thuc hien vao dia chi web
+                //string script = @"
+                //                document.getElementById('MainContent_ctl00_txtID').value='" + code + @"';
+                //				document.getElementById('MainContent_ctl00_btnView').click();
+                //";
+
+                WebBrowser.LoadUrl("https://bccp.vnpost.vn/BCCP.aspx?act=Trace&id=" + code);
                 IsLoadedWeb = false;
-                WebBrowser.ExecuteScriptAsync(script);
-            }
-            else
-            {
-                //thuc hien navigate qua
-                WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Navigation", Content = "Web" });
-                IsLoadedWeb = false;
-                WebBrowser.LoadUrl("https://bccp.vnpost.vn/BCCP.aspx?act=Trace");
-            }
+                //WebBrowser.ExecuteScriptAsync(script);
+            //}
+            //else
+            //{
+            //    //thuc hien navigate qua
+            //    WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Navigation", Content = "Web" });
+            //    IsLoadedWeb = false;
+            //    WebBrowser.LoadUrl("https://bccp.vnpost.vn/BCCP.aspx?act=Trace");
+            //}
         }
 
         private void LoadPage(ChromiumWebBrowser web)

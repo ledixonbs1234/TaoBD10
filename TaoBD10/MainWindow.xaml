@@ -11,6 +11,7 @@
     Title="MainWindow"
     Width="800"
     Height="450"
+    Topmost="True"
     Closing="MainView_Closing"
     DataContext="{StaticResource MainVM}"
     WindowStyle="None"
@@ -155,7 +156,7 @@
                     Margin="5"
                     HorizontalContentAlignment="Left"
                     materialDesign:ColorZoneAssist.Mode="SecondaryLight"
-                    SelectedIndex="{Binding IndexTabControl}"
+                    SelectedIndex="{Binding IndexTabKT}"
                     TabStripPlacement="Bottom">
 
                     <TabItem Header="Hang Ton">

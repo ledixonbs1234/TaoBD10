@@ -86,6 +86,24 @@ namespace TaoBD10.ViewModels
             }
         }
 
+        private int _IndexTabKT;
+
+        public int IndexTabKT
+        {
+            get { return _IndexTabKT; }
+            set { SetProperty(ref _IndexTabKT, value);OnSelectedTabKT(); }
+        }
+
+        private void OnSelectedTabKT()
+        {
+            SetChiTietWindow();
+            switch (IndexTabKT)
+            {
+                default:
+                    break;
+            }
+        }
+
         private int _IndexTabTui = 1;
 
         public int IndexTabTui

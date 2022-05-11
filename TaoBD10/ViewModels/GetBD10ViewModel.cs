@@ -45,6 +45,7 @@ namespace TaoBD10.ViewModels
             get { return _ValueLoading; }
             set { SetProperty(ref _ValueLoading, value); }
         }
+        List<MaBD8Model> listMaBD8;
 
         private DispatcherTimer timer;
 
@@ -52,6 +53,8 @@ namespace TaoBD10.ViewModels
 
         public GetBD10ViewModel()
         {
+            listMaBD8 = new List<MaBD8Model>();
+            listMaBD8 = FileManager.GetMaBD8s();
             WeakReferenceMessenger.Default.Register<MessageManager>(this, ReceiveMessage);
             TestCommand = new RelayCommand(new Action(() =>
             {

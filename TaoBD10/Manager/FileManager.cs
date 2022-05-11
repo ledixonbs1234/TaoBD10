@@ -26,6 +26,7 @@ namespace TaoBD10.Manager
         }
 
         private static string _file = Environment.CurrentDirectory + "\\data.json";
+        private static string _fileBD8 = Environment.CurrentDirectory + "\\matuithu.txt";
 
         public static void SaveData(BD10InfoModel bD10Info)
         {
@@ -37,6 +38,28 @@ namespace TaoBD10.Manager
             {
                 serializer.Serialize(jWriter, list);
             }
+        }
+        public static List<MaBD8Model> GetMaBD8s()
+        {
+            if (File.Exists(_fileBD8))
+            {
+
+                string text = File.ReadAllText(_fileBD8);
+                List<MaBD8Model> list = new List<MaBD8Model>();
+                foreach (var item in text.Split('\n'))
+                {
+                    if (!string.IsNullOrEmpty(item))
+                    {
+                        string[] item1 = item.Split('\t');
+                        MaBD8Model maBd = new MaBD8Model(item1[1], item1[2]);
+                        list.Add(maBd);
+                    }
+                    
+                } 
+                return list;
+            }
+            return null;
+            
         }
 
         public static List<BD10InfoModel> LoadData()

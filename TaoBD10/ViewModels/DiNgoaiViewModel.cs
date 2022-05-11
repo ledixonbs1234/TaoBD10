@@ -29,6 +29,7 @@ namespace TaoBD10.ViewModels
             timerDiNgoai.Interval = new TimeSpan(0, 0, 0, 0, 50);
             timerDiNgoai.Tick += TimerDiNgoai_Tick; ;
             SelectionCommand = new RelayCommand<DiNgoaiItemModel>(Selection);
+        SelectionChiTietCommand = new RelayCommand(SelectionChiTiet);
 
             XoaCommand = new RelayCommand(Xoa);
             ClearCommand = new RelayCommand(Clear);
@@ -84,6 +85,15 @@ namespace TaoBD10.ViewModels
             SoundManager.playSound(@"Number\" + selected.Index + ".wav");
             OnSelectedSimple();
         }
+
+        public ICommand SelectionChiTietCommand { get; }
+
+
+        void SelectionChiTiet()
+        {
+            OnSelectedDiNgoai();
+        }
+
 
         public ICommand SortCommand { get; }
 

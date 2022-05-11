@@ -146,6 +146,11 @@
                 ItemsSource="{Binding DiNgoais}"
                 SelectedItem="{Binding SelectedDiNgoai, Mode=OneWayToSource}"
                 SelectionMode="Single">
+                <Behaviors:Interaction.Triggers>
+                    <Behaviors:EventTrigger EventName="MouseLeftButtonUp">
+                        <Behaviors:InvokeCommandAction Command="{Binding SelectionChiTietCommand}" />
+                    </Behaviors:EventTrigger>
+                </Behaviors:Interaction.Triggers>
                 <DataGrid.Columns>
                     <DataGridTextColumn
                         Width="40"
@@ -199,7 +204,10 @@
                     Command="{Binding AddAddressCommand}"
                     Content="Add Address" />
                 <Button Margin="5" Content="Add Selected Address" />
-                <Button Margin="5" Content="Sort" Command="{Binding SortCommand}" />
+                <Button
+                    Margin="5"
+                    Command="{Binding SortCommand}"
+                    Content="Sort" />
                 <Button
                     Margin="5"
                     Command="{Binding XoaDiNgoaiCommand}"
@@ -210,10 +218,22 @@
                     Content="Clear" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
+                <StackPanel Width="200" Orientation="Vertical">
+                    <TextBlock Text="{Binding SelectedDiNgoai.BuuCucGui}" />
+                    <TextBox
+                        Height="85"
+                        VerticalAlignment="Top"
+                        AcceptsReturn="True"
+                        IsEnabled="{Binding IsChecked, ElementName=MaterialDesignFilledTextBoxEnabledComboBox}"
+                        IsReadOnly="True"
+                        Style="{StaticResource MaterialDesignFilledTextBox}"
+                        Text="{Binding SelectedDiNgoai.AddressSend}"
+                        TextWrapping="Wrap" />
+                </StackPanel>
                 <TextBox
                     Width="300"
                     Height="85"
-                    Margin="4"
+                    Margin="7"
                     VerticalAlignment="Top"
                     AcceptsReturn="True"
                     IsEnabled="{Binding IsChecked, ElementName=MaterialDesignFilledTextBoxEnabledComboBox}"

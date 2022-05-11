@@ -284,8 +284,7 @@ namespace TaoBD10.ViewModels
                         }
                         else
                         {
-                            SoundManager.playSound(@"Number\buuguidaduocxacnhan.wav");
-                            break;
+                            SoundManager.playSound2(@"Number\buuguidaduocxacnhan.wav");
                         }
                         break;
                     }

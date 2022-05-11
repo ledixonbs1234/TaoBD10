@@ -138,22 +138,39 @@ namespace TaoBD10.ViewModels
                 case 6:
                     SetDefaultWindowTui();
                     break;
-
                 case 7:
-                    SetDefaultWindowTui();
+                    SetTuiBD10Di();
                     break;
 
                 case 8:
-                    OnSelectedTabBD();
+                    SetDefaultWindowTui();
                     break;
 
                 case 9:
+                    OnSelectedTabBD();
+                    break;
+
+                case 10:
                     SetChiTietWindow();
                     break;
 
                 default:
                     break;
             }
+        }
+
+        private void SetTuiBD10Di()
+        {
+            if (_window == null)
+                return;
+            var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
+            _window.Width = 700;
+            _window.Height = 200;
+            double height = System.Windows.SystemParameters.PrimaryScreenHeight;
+            double width = System.Windows.SystemParameters.PrimaryScreenWidth;
+            // use 'Screen.AllScreens[1].WorkingArea' for secondary screen
+            _window.Left = desktopWorkingArea.Left + width - _window.Width;
+            _window.Top = desktopWorkingArea.Top + 0;
         }
 
         private void OnSelectedTabBD()
@@ -177,27 +194,23 @@ namespace TaoBD10.ViewModels
                     currentTab = CurrentTab.ChiTiet;
                     break;
 
-                case 3:
-                    SetThuGonWindow();
-                    currentTab = CurrentTab.ThuGon;
-                    break;
 
-                case 4:
+                case 3:
                     SetLayChuyenThuWindow();
                     currentTab = CurrentTab.LayChuyenThu;
                     break;
 
-                case 5:
+                case 4:
                     currentTab = CurrentTab.LocTui;
                     SetChiTietWindow();
                     break;
 
-                case 6:
+                case 5:
                     SetChiTietWindow();
                     currentTab = CurrentTab.Address;
                     break;
 
-                case 7:
+                case 6:
                     SetLayChuyenThuWindow();
                     currentTab = CurrentTab.Address;
                     break;

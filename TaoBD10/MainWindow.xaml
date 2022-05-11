@@ -86,29 +86,32 @@
             Name="TabTui"
             SelectedIndex="{Binding IndexTabTui}"
             TabStripPlacement="Left">
-            <TabItem Header="CHINH">
+            <TabItem Header="CHÍNH">
                 <view:ChinhView />
             </TabItem>
             <TabItem Header="WEB">
                 <view:WebView />
             </TabItem>
-            <TabItem Header="DI NGOAI">
+            <TabItem Header="ĐI NGOÀI">
                 <view:DiNgoaiView />
             </TabItem>
             <TabItem Header="XAC NHAN">
                 <TextBlock Text="Chao cac ban" />
             </TabItem>
-            <TabItem Header="LAY CT">
+            <TabItem Header="LẤY CT">
                 <view:LayChuyenThu />
             </TabItem>
 
-            <TabItem Header="LAY BD">
+            <TabItem Header="LẤY BD">
                 <view:LayBDHA />
             </TabItem>
-            <TabItem Header="TAO BD">
+            <TabItem Header="TẠO BĐ">
                 <view:TaoBD10View />
             </TabItem>
-            <TabItem Header="TUI">
+            <TabItem Header="BD ĐI">
+                <view:ThuGonView />
+            </TabItem>
+            <TabItem Header="TÚI">
                 <view:XacNhanTuiView />
             </TabItem>
             <TabItem Header="BĐ 10">
@@ -130,9 +133,6 @@
                     </TabItem>
                     <TabItem Background="Green" Header="Chi Tiết">
                         <view:ChiTietView />
-                    </TabItem>
-                    <TabItem Header="Thu Gọn">
-                        <view:ThuGonView />
                     </TabItem>
                     <TabItem Header="Lấy Chuyến Thư">
                         <view:ChuyenThu />

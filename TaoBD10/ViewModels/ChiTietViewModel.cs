@@ -18,22 +18,22 @@ namespace TaoBD10.ViewModels
     internal class ChiTietViewModel : ObservableObject
     {
         private ObservableCollection<HangHoaDetailModel> _ListShowHangHoa;
-        private string _NAnNhon;
-        private string _NBCP_HN;
-        private string _NEMSDaNang;
-        private string _NHA_AL;
-        private string _NKienDaNang;
-        private string _NKNTB;
-        private string _NKT_HN;
-        private string _NKT1;
-        private string _NPhuCat;
-        private string _NPhuMy;
-        private string _NQuangNam;
-        private string _NQuangNgai;
-        private string _NTamQuan;
-        private string _NTNTB;
-        private string _NameTinhCurrent;
-        private string _NConLai;
+        private string _NAnNhon= "0";
+        private string _NBCP_HN = "0";
+        private string _NEMSDaNang = "0";
+        private string _NHA_AL = "0";
+        private string _NKienDaNang = "0";
+        private string _NKNTB = "0";
+        private string _NKT_HN = "0";
+        private string _NKT1 = "0";
+        private string _NPhuCat = "0";
+        private string _NPhuMy = "0";
+        private string _NQuangNam = "0";
+        private string _NQuangNgai = "0";
+        private string _NTamQuan = "0";
+        private string _NTNTB = "0";
+        private string _NameTinhCurrent ;
+        private string _NConLai = "0";
         private DispatcherTimer timer;
 
         private BuuCuc currentBuuCuc = BuuCuc.None;

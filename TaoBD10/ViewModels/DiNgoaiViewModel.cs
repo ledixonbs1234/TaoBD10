@@ -62,6 +62,7 @@ namespace TaoBD10.ViewModels
                 if (m.Key == "RunPrintDiNgoai")
                 {
                     stateDiNgoai = StateDiNgoai.KhoiTao;
+                    isWaitingPrint = false;
                     timerPrint.Stop();
                     timerPrint.Start();
                 }

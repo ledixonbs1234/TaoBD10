@@ -695,7 +695,6 @@ namespace TaoBD10.ViewModels
 
                     string className = APIManager.GetWindowClass(item);
                     if (className.IndexOf("WindowsForms10.EDIT") != -1)
-
                     {
                         countDongChuyenThu++;
                         if (countDongChuyenThu == 3)
@@ -750,7 +749,7 @@ namespace TaoBD10.ViewModels
                                     if (numberGR > 16)
                                     {
                                         Is16Kg = true;
-                                        SoundManager.playSync(@"Number\tui16kg.wav");
+                                        SoundManager.playSound2(@"Number\tui16kg.wav");
                                     }
                                 }
                             }

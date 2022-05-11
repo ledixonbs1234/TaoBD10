@@ -123,6 +123,7 @@ namespace TaoBD10.ViewModels
 
         private void Run593230()
         {
+            HangTons.Clear();
             currentChuaPhat = ChuaPhat.C593230;
             WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "KTChuaPhat", Content = "Run230" });
 
@@ -140,6 +141,7 @@ namespace TaoBD10.ViewModels
 
         private void Run593280()
         {
+            HangTons.Clear();
             currentChuaPhat = ChuaPhat.C593280;
             WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "KTChuaPhat", Content = "Run280" });
         }

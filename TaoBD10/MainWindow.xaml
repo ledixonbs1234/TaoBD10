@@ -157,11 +157,12 @@
                     materialDesign:ColorZoneAssist.Mode="SecondaryLight"
                     SelectedIndex="{Binding IndexTabControl}"
                     TabStripPlacement="Bottom">
-                    <TabItem Header="Kiem Tra">
-                        <view:KiemTraView />
-                    </TabItem>
+
                     <TabItem Header="Hang Ton">
                         <view:KTChuaPhatView />
+                    </TabItem>
+                    <TabItem Header="Kiem Tra">
+                        <view:KiemTraView />
                     </TabItem>
                 </TabControl>
             </TabItem>

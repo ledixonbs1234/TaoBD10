@@ -29,7 +29,7 @@ namespace TaoBD10.ViewModels
             timerDiNgoai.Interval = new TimeSpan(0, 0, 0, 0, 50);
             timerDiNgoai.Tick += TimerDiNgoai_Tick; ;
             SelectionCommand = new RelayCommand<DiNgoaiItemModel>(Selection);
-        SelectionChiTietCommand = new RelayCommand(SelectionChiTiet);
+            SelectionChiTietCommand = new RelayCommand(SelectionChiTiet);
 
             XoaCommand = new RelayCommand(Xoa);
             ClearCommand = new RelayCommand(Clear);
@@ -611,7 +611,6 @@ namespace TaoBD10.ViewModels
                                 }
                             }
                         }
-                        APIManager.showTest("3");
                         APIManager.SendMessage(loadDiNgoai, 0x0007, 0, 0);
                         APIManager.SendMessage(loadDiNgoai, 0x0007, 0, 0);
                         string temp = "";
@@ -639,7 +638,6 @@ namespace TaoBD10.ViewModels
                         stateDiNgoai = StateDiNgoai.TaoTui;
                         isRunFirst = false;
                         isWaitingPrint = false;
-                        APIManager.showTest("4");
                     }
                     break;
 
@@ -652,7 +650,6 @@ namespace TaoBD10.ViewModels
                             return;
                         }
 
-                        APIManager.showTest("5");
                         isWaitingPrint = true;
                         SendKeys.SendWait("{UP}{UP}{UP}{UP}{UP}");
                         for (int i = 0; i < downTaoTui; i++)
@@ -678,7 +675,38 @@ namespace TaoBD10.ViewModels
                             isRunFirst = true;
                             return;
                         }
-                        APIManager.showTest("7");
+
+                        //thuc hien kiem tra thu co dung khong
+                        List<IntPtr> datas = APIManager.GetAllChildHandles(currentWindow.hwnd);
+                        int countIndexWindowForm = 0;
+                        foreach (var item in datas)
+                        {
+                            //thuc hien lay text cua handle item
+                            String text = APIManager.GetControlText(item);
+
+                            string className = APIManager.GetWindowClass(item);
+                            if (className.IndexOf("WindowsForms10.EDIT") != -1)
+                            {
+                                countIndexWindowForm++;
+                                if (countIndexWindowForm == 3)
+                                {
+                                    if (!string.IsNullOrEmpty(text))
+                                    {
+                                        if (SelectedSimple.MaBuuCuc.ToUpper() != text.Substring(0, 6).ToUpper())
+                                        {
+                                            APIManager.showSnackbar("Không đúng tỉnh rồi");
+
+                                            timerPrint.Stop();
+                                            isWaitingPrint = false;
+
+                                        }
+
+                                    }
+                                }
+                            }
+                        }
+
+
                         isWaitingPrint = true;
                         for (int i = 0; i < 20; i++)
                         {
@@ -734,14 +762,12 @@ namespace TaoBD10.ViewModels
                                 SendKeys.SendWait("{F6}");
                                 Thread.Sleep(200);
                                 SendKeys.SendWait("{F7}");
-                                APIManager.showTest("10");
                                 break;
                             }
                         }
                         stateDiNgoai = StateDiNgoai.In;
                         isRunFirst = false;
                         isWaitingPrint = false;
-                        APIManager.showTest("9");
                     }
 
                     break;
@@ -895,20 +921,6 @@ namespace TaoBD10.ViewModels
                         index++;
                         SelectedSimple = DiNgoais[index];
                         Selection(SelectedSimple);
-                        //dgvDiNgoai_CellClick(this.dgvDiNgoai, new DataGridViewCellEventArgs(0, indexCurrentRow ));
-
-                        ////txtInfo.Text = indexCurrentRow.ToString();
-                        ////hien vi tri dau tien
-                        //dgvDiNgoai.FirstDisplayedScrollingRowIndex = indexCurrentRow;
-                        ////isAutoRun = true;
-
-                        //// cho vao cong doan nhap,
-                        //// sau do thi neu thanh cong thi hien so
-                        ////va ghi du lieu vao cai dang khoi tao nay
-                        ////neu ma khong duoc thi thoat ra khong dung nua
-                        //Thread.Sleep(200);
-                        //SendKeys.SendWait("{F3}");
-                        //timerPrintDiNgoai.Stop();
                         timerPrint.Stop();
                         isWaitingPrint = false;
                     }
@@ -1024,7 +1036,6 @@ namespace TaoBD10.ViewModels
             set
             {
                 SetProperty(ref _SelectedDiNgoai, value);
-                OnSelectedDiNgoai();
             }
         }
 

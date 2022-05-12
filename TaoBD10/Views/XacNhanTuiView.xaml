@@ -42,7 +42,7 @@
                     <DataGridTextColumn Binding="{Binding MaHieuTuis.Count}" Header="All" />
                 </DataGrid.Columns>
             </DataGrid>
-            <TextBox Margin="10,10" Text="{Binding TextSHTui}" />
+            <TextBox Margin="10,10" materialDesign:HintAssist.Hint="Nhập mã vào đây"  Style="{StaticResource MaterialDesignFilledTextBox}" AcceptsReturn="True" Text="{Binding TextSHTui, UpdateSourceTrigger=PropertyChanged}" />
             <StackPanel
                 Margin="10,0"
                 HorizontalAlignment="Center"

@@ -43,16 +43,23 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        private string _TextSHTui;
+        private string _TextSHTui = "";
 
         public string TextSHTui
         {
-            get { return _TextSHTui; }
-            set { SetProperty(ref _TextSHTui, value); OnEnterKey(); }
+            get
+            { return _TextSHTui; }
+            set {
+                SetProperty(ref _TextSHTui, value);
+                OnEnterKey(); 
+            }
         }
+       
+
 
         private void OnEnterKey()
         {
+
             if (TextSHTui.IndexOf('\n') != -1)
             {
                 if (XacNhanTuis.Count != 0)
@@ -60,15 +67,16 @@ namespace TaoBD10.ViewModels
                     XacNhanTuiModel haveData = XacNhanTuis.Where(m => m.SHTui.ToLower() == TextSHTui.ToLower()).FirstOrDefault();
                     if (haveData == null)
                     {
-                        XacNhanTuis.Add(new XacNhanTuiModel() { Index = XacNhanTuis.Count, SHTui = TextSHTui, MaHieuTuis = new ObservableCollection<MaHieuTuiModel>() });
+                        XacNhanTuis.Add(new XacNhanTuiModel() { Index = XacNhanTuis.Count, SHTui = TextSHTui.Trim().ToUpper(), MaHieuTuis = new ObservableCollection<MaHieuTuiModel>() });
                     }
                 }
                 else
                 {
-                    XacNhanTuis.Add(new XacNhanTuiModel() { Index = 1, SHTui = TextSHTui, MaHieuTuis = new ObservableCollection<MaHieuTuiModel>() });
+                    XacNhanTuis.Add(new XacNhanTuiModel() { Index = 1, SHTui = TextSHTui.Trim().ToUpper(), MaHieuTuis = new ObservableCollection<MaHieuTuiModel>() }) ;
                 }
+                TextSHTui = "";
             }
-            TextSHTui = "";
+            
         }
 
         public ICommand LayTuiCommand { get; }

@@ -794,8 +794,7 @@ namespace TaoBD10.ViewModels
                     }
                 }
             }
-            else
-            if (activeWindow.text.IndexOf("xac nhan chi tiet tui thu") != -1)
+            else if (activeWindow.text.IndexOf("xac nhan chi tiet tui thu") != -1)
             {
                 isHaveError = false;
                 foreach (var item in allChild)
@@ -909,7 +908,7 @@ namespace TaoBD10.ViewModels
                     //thuc hien loc du lieu con
                     List<IntPtr> _allChild = APIManager.GetAllChildHandles(activeWindow.hwnd);
 
-                    foreach (var item in allChild)
+                    foreach (var item in _allChild)
                     {
                         //thuc hien lay text cua handle item
                         String text = APIManager.GetControlText(item);
@@ -1013,7 +1012,7 @@ namespace TaoBD10.ViewModels
                     //thuc hien loc du lieu con
                     List<IntPtr> _allChildError = APIManager.GetAllChildHandles(activeWindow.hwnd);
 
-                    foreach (var item in allChild)
+                    foreach (var item in _allChildError)
                     {
                         //thuc hien lay text cua handle item
                         String text = APIManager.GetControlText(item);
@@ -1060,15 +1059,14 @@ namespace TaoBD10.ViewModels
                     }
                 }
             }
-            else
-            if (String.IsNullOrEmpty(activeWindow.text))
+            else if (String.IsNullOrEmpty(activeWindow.text))
             {
                 if (isHaveError == false)
                 {
                     //thuc hien loc du lieu con
                     var allChildError = APIManager.GetAllChildHandles(activeWindow.hwnd);
 
-                    foreach (var item in allChild)
+                    foreach (var item in allChildError)
                     {
                         //thuc hien lay text cua handle item
                         String text = APIManager.GetControlText(item);
@@ -1085,17 +1083,44 @@ namespace TaoBD10.ViewModels
                 }
             }
         }
-
+        double lastWidth = 0;
+        double lastHeight = 0;
         private void ToggleWindow()
         {
             if (isSmallWindow)
             {
                 isSmallWindow = false;
-                DefaultWindowCommand.Execute(null);
+                if (_window == null)
+                    return;
+                if(lastWidth == 1150)
+                {
+                    if (_window == null)
+                        return;
+                    var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
+                    _window.Width = 1150;
+                    _window.Height = 600;
+                    double width = System.Windows.SystemParameters.PrimaryScreenWidth;
+                    double height = System.Windows.SystemParameters.PrimaryScreenHeight;
+                    _window.Left = (width - 1150) / 2;
+                    _window.Top = (height - 600) / 2;
+                }else
+                {
+                    var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
+                    _window.Width = lastWidth;
+                    _window.Height = lastHeight;
+                    double height = System.Windows.SystemParameters.PrimaryScreenHeight;
+                    double width = System.Windows.SystemParameters.PrimaryScreenWidth;
+                    // use 'Screen.AllScreens[1].WorkingArea' for secondary screen
+                    _window.Left = desktopWorkingArea.Left + width - _window.Width;
+                    _window.Top = desktopWorkingArea.Top + 0;
+                }
+                
             }
             else
             {
                 isSmallWindow = true;
+                lastWidth = _window.Width;
+                lastHeight = _window.Height;
                 SmallerWindowCommand.Execute(null);
             }
         }

@@ -996,7 +996,9 @@ namespace TaoBD10.ViewModels
                                 isHaveError = true;
                             }
                             else if (textError.IndexOf("an nut ok de bat dau") != -1)
+                            
                             {
+                                Thread.Sleep(100);
                                 SendKeys.SendWait("{ENTER}");
                                 isHaveError = true;
                             }
@@ -1032,14 +1034,14 @@ namespace TaoBD10.ViewModels
                     }
                 }
             }
-            else if (activeWindow.text == "thong bao")
+            else if (activeWindow.text.IndexOf("thong bao")!= -1)
             {
                 if (isHaveError == false)
                 {
                     //thuc hien loc du lieu con
                     List<IntPtr> _allChildError = APIManager.GetAllChildHandles(activeWindow.hwnd);
 
-                    foreach (var item in allChild)
+                    foreach (var item in _allChildError)
                     {
                         //thuc hien lay text cua handle item
                         String text = APIManager.GetControlText(item);
@@ -1050,6 +1052,7 @@ namespace TaoBD10.ViewModels
                             string textError = APIManager.convertToUnSign3(text).ToLower();
                             if (textError.IndexOf("truyen thong tin chuyen thu") != -1)
                             {
+                                Thread.Sleep(200);
                                 isHaveError = true;
                                 SendKeys.SendWait("{ENTER}");
                             }

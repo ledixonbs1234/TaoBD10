@@ -43,6 +43,60 @@ namespace TaoBD10.ViewModels
             }
         }
 
+        private string _TextSHTui;
+
+        public string TextSHTui
+        {
+            get { return _TextSHTui; }
+            set { SetProperty(ref _TextSHTui, value); OnEnterKey(); }
+        }
+
+        private void OnEnterKey()
+        {
+            if (TextSHTui.IndexOf('\n') != -1)
+            {
+                if (XacNhanTuis.Count != 0)
+                {
+                    XacNhanTuiModel haveData = XacNhanTuis.Where(m => m.SHTui.ToLower() == TextSHTui.ToLower()).FirstOrDefault();
+                    if (haveData == null)
+                    {
+                        XacNhanTuis.Add(new XacNhanTuiModel() { Index = XacNhanTuis.Count, SHTui = TextSHTui, MaHieuTuis = new ObservableCollection<MaHieuTuiModel>() });
+                    }
+                }
+                else
+                {
+                    XacNhanTuis.Add(new XacNhanTuiModel() { Index = 1, SHTui = TextSHTui, MaHieuTuis = new ObservableCollection<MaHieuTuiModel>() });
+                }
+            }
+            TextSHTui = "";
+        }
+
+        public ICommand LayTuiCommand { get; }
+
+
+        void LayTui()
+        {
+            MoTui();
+            var currentWindow = APIManager.GetActiveWindowTitle();
+
+            while (currentWindow.text.IndexOf("xac nhan chi tiet tui thu") == -1)
+            {
+                currentWindow = APIManager.GetActiveWindowTitle();
+                if (currentWindow == null)
+                {
+                    return;
+                }
+                Thread.Sleep(200);
+            }
+            Thread.Sleep(200);
+            RunGetData();
+            //thuc hien ma
+            SendKeys.SendWait("{ESC}");
+
+            //Thuc hien kiem tra thu Cai nay co phai xac nhan tui chi tiet khong
+        }
+
+
         public ICommand MoTuiCommand { get; }
 
         private void MoTui()
@@ -195,20 +249,10 @@ namespace TaoBD10.ViewModels
         {
             if (string.IsNullOrEmpty(content) || string.IsNullOrEmpty(name))
                 return;
+
             XacNhanTuiModel xacNhan = new XacNhanTuiModel();
             xacNhan.Index = XacNhanTuis.Count + 1;
             xacNhan.SHTui = name;
-            if (XacNhanTuis.Count != 0)
-            {
-                foreach (XacNhanTuiModel sHTuiTemp in XacNhanTuis)
-                {
-                    if (sHTuiTemp.SHTui.ToLower() == xacNhan.SHTui.ToLower())
-                    {
-                        APIManager.showSnackbar("Đã có túi này rồi");
-                        return;
-                    }
-                }
-            }
 
             List<string> texts = content.Split('\n').ToList();
             if (texts[0].IndexOf("STT") != -1)
@@ -242,7 +286,34 @@ namespace TaoBD10.ViewModels
             {
                 xacNhan.MaHieuTuis.Add(item);
             }
-            XacNhanTuis.Add(xacNhan);
+
+            bool isAddedSHTuiHaved = false;
+
+
+            if (XacNhanTuis.Count != 0)
+            {
+                foreach (XacNhanTuiModel sHTuiTemp in XacNhanTuis)
+                {
+                    if (sHTuiTemp.SHTui.ToLower() == xacNhan.SHTui.ToLower())
+                    {
+                        if (sHTuiTemp.MaHieuTuis.Count == 0)
+                        {
+                            sHTuiTemp.MaHieuTuis = xacNhan.MaHieuTuis;
+                            isAddedSHTuiHaved = true;
+                            break;
+                        }
+                        else
+                        {
+                            APIManager.showSnackbar("Đã có túi này rồi");
+                            return;
+
+                        }
+                    }
+                }
+            }
+            if (!isAddedSHTuiHaved)
+                XacNhanTuis.Add(xacNhan);
+
             int temp = 0;
             foreach (var item in XacNhanTuis)
             {
@@ -317,6 +388,7 @@ namespace TaoBD10.ViewModels
         {
             XacNhanTuis = new ObservableCollection<XacNhanTuiModel>();
             MoTuiCommand = new RelayCommand(MoTui);
+            LayTuiCommand = new RelayCommand(LayTui);
 
             WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>
             {

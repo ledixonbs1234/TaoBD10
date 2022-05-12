@@ -34,12 +34,31 @@
                         Width="40"
                         Binding="{Binding Index}"
                         Header="Index" />
-                    <DataGridTextColumn Width="120" Binding="{Binding SHTui}" Header="SH Túi" />
+                    <DataGridTextColumn
+                        Width="120"
+                        Binding="{Binding SHTui}"
+                        Header="SH Túi" />
                     <DataGridTextColumn Binding="{Binding TuiHave}" Header="Current" />
                     <DataGridTextColumn Binding="{Binding MaHieuTuis.Count}" Header="All" />
                 </DataGrid.Columns>
             </DataGrid>
-            <Button Margin="10" Content="Mở" Command="{Binding MoTuiCommand}" />
+            <TextBox Margin="10,10" Text="{Binding TextSHTui}" />
+            <StackPanel
+                Margin="10,0"
+                HorizontalAlignment="Center"
+                Orientation="Horizontal">
+                <Button
+                    Margin="5"
+                    Command="{Binding LayTuiCommand}"
+                    Content="Lấy Túi" />
+
+                <Button
+                    Margin="5"
+                    Command="{Binding MoTuiCommand}"
+                    Content="Mở" />
+
+            </StackPanel>
+
             <StackPanel
                 HorizontalAlignment="Right"
                 VerticalAlignment="Bottom"
@@ -102,9 +121,17 @@
                 Margin="10"
                 AcceptsReturn="True"
                 Text="{Binding MaHieu, UpdateSourceTrigger=PropertyChanged}" />
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <TextBlock Margin="10,10,40,10"  Style="{StaticResource MaterialDesignHeadline2TextBlock}" Text="{Binding Current}" Foreground="#FF006C59" />
-                <TextBlock  Margin="40,10,40,10" Style="{StaticResource MaterialDesignHeadline2TextBlock}" Text="{Binding TongCong}" Foreground="#FF429CF5" />
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                <TextBlock
+                    Margin="10,10,40,10"
+                    Foreground="#FF006C59"
+                    Style="{StaticResource MaterialDesignHeadline2TextBlock}"
+                    Text="{Binding Current}" />
+                <TextBlock
+                    Margin="40,10,40,10"
+                    Foreground="#FF429CF5"
+                    Style="{StaticResource MaterialDesignHeadline2TextBlock}"
+                    Text="{Binding TongCong}" />
             </StackPanel>
         </StackPanel>
     </Grid>

@@ -20,7 +20,7 @@ namespace TaoBD10.ViewModels
             set
             {
                 SetProperty(ref _ListHangHoa, value);
-                ;
+
             }
         }
 
@@ -32,7 +32,6 @@ namespace TaoBD10.ViewModels
             set
             {
                 SetProperty(ref _NameBD, value);
-                CapNhatCommand.NotifyCanExecuteChanged();
                 ClearCommand.NotifyCanExecuteChanged();
             }
         }
@@ -103,6 +102,8 @@ namespace TaoBD10.ViewModels
                 if (ListHangHoa.Count == 0)
                 {
                     ListHangHoa.Add(new TuiHangHoa((ListHangHoa.Count + 1).ToString(), TextBD));
+
+                    CapNhatCommand.NotifyCanExecuteChanged();
                     TextBD = "";
                 }
                 else
@@ -116,6 +117,7 @@ namespace TaoBD10.ViewModels
                         }
                     }
                     ListHangHoa.Add(new TuiHangHoa((ListHangHoa.Count + 1).ToString(), TextBD));
+                    CapNhatCommand.NotifyCanExecuteChanged();
                     TextBD = "";
                 }
             }
@@ -123,7 +125,6 @@ namespace TaoBD10.ViewModels
 
         public LocTuiViewModel()
         {
-            ListHangHoa = new ObservableCollection<TuiHangHoa>();
             ClearCommand = new RelayCommand(ClearData, () =>
             {
                 if (ListHangHoa.Count != 0)
@@ -147,6 +148,8 @@ namespace TaoBD10.ViewModels
                     return false;
                 }
             });
+
+            ListHangHoa = new ObservableCollection<TuiHangHoa>();
         }
     }
 }

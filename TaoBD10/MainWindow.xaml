@@ -7,14 +7,14 @@
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:view="clr-namespace:TaoBD10.Views"
-ResizeMode="NoResize"
     Name="MainView"
     Title="MainWindow"
     Width="800"
     Height="450"
-    Topmost="True"
     Closing="MainView_Closing"
     DataContext="{StaticResource MainVM}"
+    ResizeMode="NoResize"
+    Topmost="True"
     WindowStyle="None"
     mc:Ignorable="d">
     <Behaviors:Interaction.Triggers>
@@ -109,9 +109,6 @@ ResizeMode="NoResize"
             </TabItem>
             <TabItem Header="TẠO BĐ">
                 <view:TaoBD10View />
-            </TabItem>
-            <TabItem Header="BD ĐI">
-                <view:ThuGonView />
             </TabItem>
             <TabItem Header="TÚI">
                 <view:XacNhanTuiView />

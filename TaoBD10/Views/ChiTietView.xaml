@@ -9,6 +9,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     DataContext="{StaticResource ChiTietVM}"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <materdesign:NotZeroConverter x:Key="NotZeroConverter" />
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="250" />

@@ -156,19 +156,16 @@ namespace TaoBD10.ViewModels
                 case 6:
                     SetDefaultWindowTui();
                     break;
-                case 7:
-                    SetTuiBD10Di();
-                    break;
 
-                case 8:
+                case 7:
                     SetDefaultWindowTui();
                     break;
 
-                case 9:
+                case 8:
                     OnSelectedTabBD();
                     break;
 
-                case 10:
+                case 9:
                     SetChiTietWindow();
                     break;
 
@@ -176,21 +173,6 @@ namespace TaoBD10.ViewModels
                     break;
             }
         }
-
-        private void SetTuiBD10Di()
-        {
-            if (_window == null)
-                return;
-            var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
-            _window.Width = 700;
-            _window.Height = 200;
-            double height = System.Windows.SystemParameters.PrimaryScreenHeight;
-            double width = System.Windows.SystemParameters.PrimaryScreenWidth;
-            // use 'Screen.AllScreens[1].WorkingArea' for secondary screen
-            _window.Left = desktopWorkingArea.Left + width - _window.Width;
-            _window.Top = desktopWorkingArea.Top + 0;
-        }
-
         private void OnSelectedTabBD()
         {
             switch (IndexTabControl)

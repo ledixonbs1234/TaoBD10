@@ -19,10 +19,11 @@
             <Button
                 Width="115"
                 Margin="5"
+                Background="#FFFFF5DF"
                 Command="{Binding KTHNCommand, Mode=OneWay}"
                 Content="593230"
                 IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                Style="{StaticResource MaterialDesignPaperButton}" Background="#FFDFECFF" />
+                Style="{StaticResource MaterialDesignPaperButton}" />
         </StackPanel>
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
             <Button
@@ -92,10 +93,11 @@
             <Button
                 Width="115"
                 Margin="5"
+                Background="#FFDFFFFC"
                 Command="{Binding BCPHNCommand, Mode=OneWay}"
                 Content="593280"
                 IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                Style="{StaticResource MaterialDesignPaperButton}" Background="#FFDFECFF" />
+                Style="{StaticResource MaterialDesignPaperButton}" />
             <Button
                 Width="115"
                 Margin="5"

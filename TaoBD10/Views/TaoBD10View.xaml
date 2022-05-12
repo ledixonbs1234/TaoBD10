@@ -4,23 +4,182 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:TaoBD10.Views"
+    xmlns:manager="clr-namespace:TaoBD10.Manager"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    DataContext="{StaticResource TaoBDVM}"
+    DataContext="{StaticResource ChiTietVM}"
     mc:Ignorable="d">
     <StackPanel>
-        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-            <Button Margin="5" Content="Kiện Đà Nẵng" Command="{Binding KienDaNangCommand}" />
-            <Button Margin="5" Content="EMS Đà Nẵng" Command="{Binding EMSDaNangCommand}" />
+        <TextBlock
+            Margin="5"
+            HorizontalAlignment="Center"
+            Foreground="#FF6998FF"
+            Style="{StaticResource MaterialDesignHeadline5TextBlock}"
+            Text="{Binding NameTinhCurrent}" />
+        <StackPanel
+            Margin="0,20,0,0"
+            HorizontalAlignment="Center"
+            Orientation="Horizontal">
+            <materialDesign:Badged
+                Margin="10,5"
+                Badge="{Binding NHA_AL}"
+                BadgeColorZoneMode="PrimaryDark">
+                <Button
+                    Width="100"
+                    Command="{Binding SelectedTinhCommand}"
+                    CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.HA_AL}"
+                    Content="HA - AL" />
+            </materialDesign:Badged>
+            <materialDesign:Badged
+                Margin="10,5"
+                Badge="{Binding NTamQuan}"
+                BadgeColorZoneMode="PrimaryDark">
+                <Button
+                    Width="100"
+                    Command="{Binding SelectedTinhCommand}"
+                    CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.TamQuan}"
+                    Content="Tam Quan" />
+            </materialDesign:Badged>
         </StackPanel>
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-            <Button Margin="5" Content="Quảng Ngãi" Command="{Binding QuangNgaiCommand}" />
-            <Button Margin="5" Content="Quảng Nam" Command="{Binding QuangNamCommand}" />
+            <materialDesign:Badged
+                Margin="10,5"
+                Badge="{Binding NKienDaNang}"
+                BadgeColorZoneMode="PrimaryDark">
+                <Button
+                    Width="100"
+                    Command="{Binding SelectedTinhCommand}"
+                    CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.KienDaNang}"
+                    Content="Kiện ĐN" />
+            </materialDesign:Badged>
+
+            <materialDesign:Badged
+                Margin="10,5"
+                Badge="{Binding NEMSDaNang}"
+                BadgeColorZoneMode="PrimaryDark">
+                <Button
+                    Width="100"
+                    Command="{Binding SelectedTinhCommand}"
+                    CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.EMSDaNang}"
+                    Content="EMS ĐN" />
+            </materialDesign:Badged>
         </StackPanel>
-        <Button Margin="5" Content="Tam Quan" Command="{Binding }" />
-        <Button Margin="5" Content="Nam Trung Bộ" Command="{Binding NamTrungBoCommand}" />
-        <Button Margin="5" Content="Phù Mỹ" Command="{Binding PhuMyCommand}" />
-        <Button Margin="5" Content="Phù Cát" Command="{Binding PhuCatCommand}" />
-        <Button Margin="5" Content="An Nhơn" Command="{Binding AnNhonCommand}" />
-        <Button Margin="5" Content="Xe Xã Hội" Command="{Binding XeXaHoiCommand}" />
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+
+            <materialDesign:Badged
+                Margin="10,5"
+                Badge="{Binding NQuangNam}"
+                BadgeColorZoneMode="PrimaryDark">
+                <Button
+                    Width="100"
+                    Command="{Binding SelectedTinhCommand}"
+                    CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.QuangNam}"
+                    Content="Q.Nam" />
+            </materialDesign:Badged>
+            <materialDesign:Badged
+                Margin="10,5"
+                Badge="{Binding NQuangNgai}"
+                BadgeColorZoneMode="PrimaryDark">
+                <Button
+                    Width="100"
+                    Command="{Binding SelectedTinhCommand}"
+                    CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.QuangNgai}"
+                    Content="Q.Ngãi" />
+            </materialDesign:Badged>
+
+        </StackPanel>
+
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+            <materialDesign:Badged
+                Margin="10,5"
+                Badge="{Binding NKNTB}"
+                BadgeColorZoneMode="PrimaryDark">
+                <Button
+                    Width="100"
+                    Command="{Binding SelectedTinhCommand}"
+                    CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.DiNgoaiNamTrungBo}"
+                    Content="Kiện NTB" />
+            </materialDesign:Badged>
+            <materialDesign:Badged
+                Margin="10,5"
+                Badge="{Binding NTNTB}"
+                BadgeColorZoneMode="PrimaryDark">
+                <Button
+                    Width="100"
+                    Command="{Binding SelectedTinhCommand}"
+                    CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.TuiNTB}"
+                    Content="Túi NTB" />
+            </materialDesign:Badged>
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+            <materialDesign:Badged
+                Margin="10,5"
+                Badge="{Binding NPhuMy}"
+                BadgeColorZoneMode="PrimaryDark">
+                <Button
+                    Width="100"
+                    Command="{Binding SelectedTinhCommand}"
+                    CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.PhuMy}"
+                    Content="Phù Mỹ" />
+
+            </materialDesign:Badged>
+            <materialDesign:Badged
+                Margin="10,5"
+                Badge="{Binding NPhuCat}"
+                BadgeColorZoneMode="PrimaryDark">
+                <Button
+                    Width="100"
+                    Command="{Binding SelectedTinhCommand}"
+                    CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.PhuCat}"
+                    Content="Phù Cát" />
+            </materialDesign:Badged>
+        </StackPanel>
+        <materialDesign:Badged
+            Margin="10,5"
+            HorizontalAlignment="Center"
+            Badge="{Binding NAnNhon}"
+            BadgeColorZoneMode="PrimaryDark">
+            <Button
+                Width="200"
+                Command="{Binding SelectedTinhCommand}"
+                CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.AnNhon}"
+                Content="An Nhơn" />
+        </materialDesign:Badged>
+        <StackPanel Orientation="Horizontal">
+            <materialDesign:Badged
+                Margin="10,5"
+                Badge="{Binding NKT1}"
+                BadgeColorZoneMode="PrimaryDark">
+                <Button
+                    Width="100"
+                    Command="{Binding SelectedTinhCommand}"
+                    CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.KT1}"
+                    Content="KT1" />
+            </materialDesign:Badged>
+            <materialDesign:Badged
+                Margin="10,5"
+                Badge="{Binding NConLai}"
+                BadgeColorZoneMode="PrimaryDark">
+                <Button
+                    Width="100"
+                    Command="{Binding SelectedTinhCommand}"
+                    CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.None}"
+                    Content="Còn Lại" />
+            </materialDesign:Badged>
+        </StackPanel>
+
+
+        <Button
+            Margin="5"
+            Command="{Binding XeXaHoiCommand}"
+            Content="Xe Xã Hội" />
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+            <ToggleButton
+                Margin="5,0"
+                IsChecked="{Binding IsTaoBD}"
+                Style="{StaticResource MaterialDesignSwitchAccentToggleButton}"
+                ToolTip="MaterialDesignSwitchAccentToggleButton" />
+            <TextBlock Text="Tạo BD" />
+        </StackPanel>
     </StackPanel>
 </UserControl>

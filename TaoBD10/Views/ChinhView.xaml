@@ -22,7 +22,7 @@
                 Command="{Binding KTHNCommand, Mode=OneWay}"
                 Content="593230"
                 IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                Style="{StaticResource MaterialDesignPaperButton}" />
+                Style="{StaticResource MaterialDesignPaperButton}" Background="#FFDFECFF" />
         </StackPanel>
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
             <Button
@@ -95,7 +95,7 @@
                 Command="{Binding BCPHNCommand, Mode=OneWay}"
                 Content="593280"
                 IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                Style="{StaticResource MaterialDesignPaperButton}" />
+                Style="{StaticResource MaterialDesignPaperButton}" Background="#FFDFECFF" />
             <Button
                 Width="115"
                 Margin="5"

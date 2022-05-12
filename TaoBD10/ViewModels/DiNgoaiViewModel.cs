@@ -55,7 +55,13 @@ namespace TaoBD10.ViewModels
 
                     AutoSetBuuCuc(diNgoai);
                 }
-                AddAddress();
+                if (!string.IsNullOrEmpty(m.AddressReiceive))
+                {
+                    AddAddress();
+                }else
+                {
+                    APIManager.showSnackbar("Không có địa chỉ");
+                }
             });
 
             WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>

@@ -288,7 +288,7 @@ document.getElementsByClassName("".footer"").remove();
                         webContent.AddressReiceive = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblReceiverAddr']").InnerText;
                         if (string.IsNullOrEmpty(webContent.AddressReiceive))
                         {
-                            webContent.AddressReiceive = "chua co";
+                            webContent.AddressReiceive = "";
                         }
                         webContent.AddressSend = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblSenderAddr']").InnerText;
                         var ff = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblDesPOS']").InnerText;

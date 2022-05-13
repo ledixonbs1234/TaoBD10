@@ -311,7 +311,7 @@ namespace TaoBD10.ViewModels
 
                 case Key.F8:
                     //Thuc hien nay
-                    WeakReferenceMessenger.Default.Send<MessageManager>(new MessageManager("getData"));
+                    WeakReferenceMessenger.Default.Send(new MessageManager("getData"));
                     break;
 
                 case Key.F5:
@@ -325,16 +325,16 @@ namespace TaoBD10.ViewModels
 
                     if (textCo.IndexOf("sua thong tin bd10") != -1 || textCo.IndexOf("lap bd10") != -1)
                     {
-                        WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "GuiTrucTiep", Content = "PrintDiNgoai" });
+                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "GuiTrucTiep", Content = "PrintDiNgoai" });
                     }
                     else if (currentWindow.text.IndexOf("thong tin buu gui") != -1)
                     {
-                        WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Navigation", Content = "PrintDiNgoai" });
+                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Navigation", Content = "PrintDiNgoai" });
                     }
                     else if (currentWindow.text.IndexOf("xac nhan chi tiet tui thu") != -1)
                     {
                         //thuc hien lenh trong nay
-                        WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "XacNhan", Content = "GetData" });
+                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "XacNhan", Content = "GetData" });
                     }
                     break;
 
@@ -343,10 +343,10 @@ namespace TaoBD10.ViewModels
                     if (currentWindow1 == null)
                         return;
                     if (currentWindow1.text.IndexOf("khoi tao chuyen thu") != -1)
-                        WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "RunPrintDiNgoai", Content = "PrintDiNgoai" });
+                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "RunPrintDiNgoai", Content = "PrintDiNgoai" });
                     else if (currentWindow1.text.IndexOf("dong chuyen thu") != -1)
                     {
-                        WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Chinh", Content = "Print" });
+                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "Print" });
                     }
                     break;
 
@@ -361,59 +361,59 @@ namespace TaoBD10.ViewModels
                     if (KeyData.IndexOf("mokntb") != -1)
                     {
                         Thread.Sleep(700);
-                        WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Chinh", Content = "Kien" });
+                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "Kien" });
                     }
                     else if (KeyData.IndexOf("moentb") != -1)
                     {
                         Thread.Sleep(700);
-                        WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Chinh", Content = "EMS" });
+                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "EMS" });
                     }
                     else
                    if (KeyData.IndexOf("moqnmth") != -1)
                     {
                         Thread.Sleep(700);
-                        WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Chinh", Content = "QuiNhon1" });
+                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "QuiNhon1" });
                     }
                     else if (KeyData.IndexOf("moqnhth") != -1)
                     {
                         Thread.Sleep(700);
-                        WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Chinh", Content = "QuiNhon2" });
+                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "QuiNhon2" });
                     }
                     else if (KeyData.IndexOf("mopmth") != -1)
                     {
                         Thread.Sleep(700);
-                        WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Chinh", Content = "PhuMy" });
+                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "PhuMy" });
                     }
                     else
                    if (KeyData.IndexOf("mopcth") != -1)
                     {
                         Thread.Sleep(700);
-                        WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Chinh", Content = "PhuCat" });
+                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "PhuCat" });
                     }
                     else if (KeyData.IndexOf("moanth") != -1)
                     {
                         Thread.Sleep(700);
-                        WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Chinh", Content = "AnNhon" });
+                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "AnNhon" });
                     }
                     else if (KeyData.IndexOf("mohath") != -1)
                     {
                         Thread.Sleep(700);
-                        WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Chinh", Content = "HoaiAn" });
+                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "HoaiAn" });
                     }
                     else if (KeyData.IndexOf("moamth") != -1)
                     {
                         Thread.Sleep(700);
-                        WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Chinh", Content = "AnMy" });
+                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "AnMy" });
                     }
                     else if (KeyData.IndexOf("moalth") != -1)
                     {
                         Thread.Sleep(700);
-                        WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Chinh", Content = "AnLao" });
+                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "AnLao" });
                     }
                     else if (KeyData.IndexOf("moahth") != -1)
                     {
                         Thread.Sleep(700);
-                        WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Chinh", Content = "AnHoa" });
+                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "AnHoa" });
                     }
                     //else if (KeyData.IndexOf("thoattui") != -1)
                     //{
@@ -423,12 +423,12 @@ namespace TaoBD10.ViewModels
                     else if (KeyData.IndexOf("montbth") != -1)
                     {
                         Thread.Sleep(700);
-                        WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Chinh", Content = "TongHop" });
+                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "TongHop" });
                     }
                     else if (KeyData.IndexOf("motqth") != -1)
                     {
                         Thread.Sleep(700);
-                        WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Chinh", Content = "TamQuan" });
+                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "TamQuan" });
                     }
                     //else if (KeyData.IndexOf("inbdd8") != -1)
                     //{
@@ -439,17 +439,17 @@ namespace TaoBD10.ViewModels
                     else if (KeyData.IndexOf("dong230") != -1)
                     {
                         Thread.Sleep(700);
-                        WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Chinh", Content = "KT" });
+                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "KT" });
                     }
                     else if (KeyData.IndexOf("laydulieu") != -1)
                     {
                         Thread.Sleep(700);
-                        WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Chinh", Content = "LayDuLieu" });
+                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "LayDuLieu" });
                     }
                     else if (KeyData.IndexOf("dong280") != -1)
                     {
                         Thread.Sleep(700);
-                        WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Chinh", Content = "BCP" });
+                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "BCP" });
                     }
                     KeyData = "";
 
@@ -460,7 +460,7 @@ namespace TaoBD10.ViewModels
 
                 case Key.F2:
                     //thuc hien copy du lieu sau do sang ben kia
-                    WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "TamQuanRun", Content = "" });
+                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "TamQuanRun", Content = "" });
                     break;
 
                 default:

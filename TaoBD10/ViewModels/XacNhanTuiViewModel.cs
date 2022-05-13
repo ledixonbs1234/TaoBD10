@@ -150,7 +150,6 @@ namespace TaoBD10.ViewModels
         }
 
         private string currentSHTui = "";
-        private string currentData = "";
 
         private void RunGetData()
         {
@@ -180,7 +179,7 @@ namespace TaoBD10.ViewModels
 
                         if (string.IsNullOrEmpty(text))
                         {
-                            APIManager.showSnackbar("Không có SH Túi");
+                            APIManager.ShowSnackbar("Không có SH Túi");
                             return;
                         }
                         currentSHTui = text;
@@ -206,15 +205,15 @@ namespace TaoBD10.ViewModels
                     if (!string.IsNullOrEmpty(clipboard))
                         break;
                 }
-                catch (Exception edd)
+                catch 
                 {
-                    APIManager.showSnackbar("Không copy được");
+                    APIManager.ShowSnackbar("Không copy được");
                 }
             }
 
             if (string.IsNullOrEmpty(clipboard))
             {
-                APIManager.showSnackbar("Không copy được");
+                APIManager.ShowSnackbar("Không copy được");
                 return;
             }
             //thuc hien them tui
@@ -280,13 +279,13 @@ namespace TaoBD10.ViewModels
                 }
                 else
                 {
-                    APIManager.showSnackbar("Loi Update SH Tui");
+                    APIManager.ShowSnackbar("Loi Update SH Tui");
                     return;
                 }
             }
             if (items.Count == 0)
             {
-                APIManager.showSnackbar("Khong co ma hieu");
+                APIManager.ShowSnackbar("Khong co ma hieu");
                 return;
             }
             xacNhan.MaHieuTuis = new ObservableCollection<MaHieuTuiModel>();
@@ -312,7 +311,7 @@ namespace TaoBD10.ViewModels
                         }
                         else
                         {
-                            APIManager.showSnackbar("Đã có túi này rồi");
+                            APIManager.ShowSnackbar("Đã có túi này rồi");
                             return;
 
                         }

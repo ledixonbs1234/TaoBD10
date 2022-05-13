@@ -4,6 +4,7 @@ using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
@@ -31,7 +32,7 @@ namespace TaoBD10.ViewModels
             TabTuiChangedCommand = new RelayCommand<System.Windows.Controls.TabControl>(TabTuiChanged);
 
             timerRead = new DispatcherTimer();
-            timerRead.Interval = new TimeSpan(0, 0, 0, 0, 200);
+            timerRead.Interval = new TimeSpan(0, 0, 0, 0, 100);
             timerRead.Tick += TimerRead_Tick;
             timerRead.Start();
 
@@ -91,7 +92,7 @@ namespace TaoBD10.ViewModels
         public int IndexTabKT
         {
             get { return _IndexTabKT; }
-            set { SetProperty(ref _IndexTabKT, value);OnSelectedTabKT(); }
+            set { SetProperty(ref _IndexTabKT, value); OnSelectedTabKT(); }
         }
 
         private void OnSelectedTabKT()
@@ -122,37 +123,31 @@ namespace TaoBD10.ViewModels
             {
                 case 0:
                     //thuc hien chuyen ve
-                    //currentTab = CurrentTab.GetBD10;
 
                     SetDefaultWindowTui();
                     break;
 
                 case 1:
-                    //currentTab = CurrentTab.DanhSach;
 
                     SetDefaultWindowTui();
                     break;
 
                 case 2:
-                    //currentTab = CurrentTab.ChiTiet;
                     SetRightHeigtTuiWindow();
                     break;
 
                 case 3:
-                    //currentTab = CurrentTab.ThuGon;
 
                     DefaultWindowCommand.Execute(null);
                     break;
 
                 case 4:
                     SetDefaultWindowTui();
-                    //currentTab = CurrentTab.LayChuyenThu;
                     break;
 
                 case 5:
                     SetDefaultWindowTui();
                     break;
-                //currentTab = CurrentTab.LocTui;
                 case 6:
                     SetDefaultWindowTui();
                     break;
@@ -180,39 +175,32 @@ namespace TaoBD10.ViewModels
                 case 0:
                     //thuc hien chuyen ve
                     SetGetBD10Window();
-                    currentTab = CurrentTab.GetBD10;
                     break;
 
                 case 1:
                     //SetDanhSachBD10Window();
                     SetChiTietWindow();
-                    currentTab = CurrentTab.DanhSach;
                     break;
 
                 case 2:
                     SetChiTietWindow();
-                    currentTab = CurrentTab.ChiTiet;
                     break;
 
 
                 case 3:
                     SetLayChuyenThuWindow();
-                    currentTab = CurrentTab.LayChuyenThu;
                     break;
 
                 case 4:
-                    currentTab = CurrentTab.LocTui;
                     SetChiTietWindow();
                     break;
 
                 case 5:
                     SetChiTietWindow();
-                    currentTab = CurrentTab.Address;
                     break;
 
                 case 6:
                     SetLayChuyenThuWindow();
-                    currentTab = CurrentTab.Address;
                     break;
 
                 default:
@@ -333,7 +321,7 @@ namespace TaoBD10.ViewModels
                         return;
                     }
 
-                    string textCo = APIManager.convertToUnSign3(currentWindow.text).ToLower();
+                    string textCo = APIManager.ConvertToUnSign3(currentWindow.text).ToLower();
 
                     if (textCo.IndexOf("sua thong tin bd10") != -1 || textCo.IndexOf("lap bd10") != -1)
                     {
@@ -674,11 +662,7 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        //tu khoa handle
-        private string TextCurrentActive = "";
 
-        private string CaiChiTiet = "";
-        private List<IntPtr> allChild;
 
         private void TimerRead_Tick(object sender, EventArgs e)
         {
@@ -692,190 +676,113 @@ namespace TaoBD10.ViewModels
             //class compare
 
             //thuc hien loc du lieu con
-            var allChild = APIManager.GetAllChildHandles(activeWindow.hwnd);
+            List<TestAPIModel> listControl = APIManager.GetListControlText(activeWindow.hwnd);
 
             if (activeWindow.text.IndexOf("dong chuyen thu") != -1)
             {
                 isHaveError = false;
-                int countGr = 0;
-                int countDongChuyenThu = 0;
-                int count = 0;
-                foreach (var item in allChild)
+
+                List<TestAPIModel> listWindowForm = listControl.Where(m => m.ClassName.IndexOf("WindowsForms10.EDIT") != -1).ToList();
+                TestAPIModel apiMaBuuCuc = listWindowForm[2];
+                TestAPIModel apiLoai;
+                TestAPIModel apiSoCT;
+                if (!string.IsNullOrEmpty(apiMaBuuCuc.Text))
                 {
-                    //thuc hien lay text cua handle item
-                    String text = APIManager.GetControlText(item);
-                    count++;
+                    maSoBuuCucCurrent = apiMaBuuCuc.Text.Substring(0, 6);
+                    apiLoai = listWindowForm[3];
+                    apiSoCT = listWindowForm[6];
+                    soCTCurrent = apiSoCT.Text;
+                }
+                else
+                {
+                    apiMaBuuCuc = listWindowForm[3];
+                    maSoBuuCucCurrent = apiMaBuuCuc.Text.Substring(0, 6);
+                    apiLoai = listWindowForm[4];
+                    apiSoCT = listWindowForm[7];
+                    soCTCurrent = apiSoCT.Text;
+                }
 
-                    string className = APIManager.GetWindowClass(item);
-                    if (className.IndexOf("WindowsForms10.EDIT") != -1)
-                    {
-                        countDongChuyenThu++;
-                        if (countDongChuyenThu == 3)
-                        {
-                            if (!string.IsNullOrEmpty(text))
-                            {
-                                maSoBuuCucCurrent = text.Substring(0, 6);
-                            }
-                            else
-                            {
-                                countDongChuyenThu--;
-                            }
-                        }
-                        if (countDongChuyenThu == 4)
-                        {
-                            string temLow = APIManager.convertToUnSign3(text).ToLower();
-                            if (temLow.IndexOf("buu kien") != -1)
-                            {
-                                loaiCurrent = "C";
-                            }
-                            else if (temLow.IndexOf("ems") != -1)
-                            {
-                                loaiCurrent = "E";
-                            }
-                            else if (temLow.IndexOf("buu pham") != -1)
-                            {
-                                loaiCurrent = "R";
-                            }
-                            else if (temLow.IndexOf("logi") != -1)
-                            {
-                                loaiCurrent = "P";
-                            }
-                        }
-                        if (countDongChuyenThu == 7)
-                        {
-                            soCTCurrent = text;
-                        }
-                    }
 
-                    if (text.IndexOf("gr") != -1 && countGr == 0)
+                string textLoai = APIManager.ConvertToUnSign3(apiLoai.Text).ToLower();
+                if (textLoai.IndexOf("buu kien") != -1)
+                {
+                    loaiCurrent = "C";
+                }
+                else if (textLoai.IndexOf("ems") != -1)
+                {
+                    loaiCurrent = "E";
+                }
+                else if (textLoai.IndexOf("buu pham") != -1)
+                {
+                    loaiCurrent = "R";
+                }
+                else if (textLoai.IndexOf("logi") != -1)
+                {
+                    loaiCurrent = "P";
+                }
+
+                //kiem tra gr
+                TestAPIModel apiGr = listControl.First(m => m.Text.IndexOf("gr") != -1);
+                string textGr = apiGr.Text.Replace("(gr)", "");
+                if (textGr.IndexOf('.') != -1)
+                {
+                    bool isRight = double.TryParse(textGr, out double numberGR);
+                    if (isRight)
                     {
-                        countGr++;
-                        text = text.Replace("(gr)", "");
-                        if (text.IndexOf('.') != -1)
+                        if (!Is16Kg)
                         {
-                            bool isRight = double.TryParse(text, out double numberGR);
-                            if (isRight)
+                            //txtInfo.Text = numberGR.ToString();
+                            if (numberGR > 16)
                             {
-                                if (!Is16Kg)
-                                {
-                                    //txtInfo.Text = numberGR.ToString();
-                                    if (numberGR > 16)
-                                    {
-                                        Is16Kg = true;
-                                        SoundManager.playSound2(@"Number\tui16kg.wav");
-                                    }
-                                }
+                                Is16Kg = true;
+                                SoundManager.playSound2(@"Number\tui16kg.wav");
                             }
                         }
-                    }
-
-                    //loc name
-                    if (text.IndexOf("cái") != -1)
-                    {
-                        int.TryParse(Regex.Match(text, @"\d+").Value, out numberRead);
                     }
                 }
+
+                //kiem tra cai
+                TestAPIModel apiCai = listControl.First(m => m.Text.IndexOf("cái") != -1);
+                int.TryParse(Regex.Match(apiCai.Text, @"\d+").Value, out numberRead);
             }
             else if (activeWindow.text.IndexOf("xac nhan chi tiet tui thu") != -1)
             {
                 isHaveError = false;
-                foreach (var item in allChild)
-                {
-                    //thuc hien lay text cua handle item
-                    String text = APIManager.GetControlText(item);
-
-                    //loc name
-                    if (text.IndexOf("cái") != -1)
-                    {
-                        //thuc hien cai thu 2
-                        //regex get number
-                        int.TryParse(Regex.Match(text, @"\d+").Value, out numberRead);
-                        break;
-                        //thuc hien doc so
-                    }
-                }
+                TestAPIModel apiCai = listControl.First(m => m.Text.IndexOf("cái") != -1);
+                int.TryParse(Regex.Match(apiCai.Text, @"\d+").Value, out numberRead);
             }
             else if (activeWindow.text.IndexOf("xac nhan bd10 theo so hieu tui") != -1)
             {
                 isHaveError = false;
-                int count = 0;
-                foreach (var item in allChild)
-                {
-                    string cWindow = APIManager.GetWindowClass(item);
-                    if (cWindow.IndexOf("WindowsForms10.STATIC.app.0.1e6fa8e") != -1)
-                    {
-                        if (count == 8)
-                        {
-                            //thuc hien lay class nay
-                            int.TryParse(Regex.Match(APIManager.GetControlText(item), @"\d+").Value, out numberRead);
-                            break;
-                        }
-                        count++;
-                    }
-                }
+
+                List<TestAPIModel> listWindowStatic = listControl.Where(m => m.ClassName.IndexOf("WindowsForms10.STATIC.app") != -1).ToList();
+                TestAPIModel apiNumber = listWindowStatic[8];
+                int.TryParse(Regex.Match(apiNumber.Text, @"\d+").Value, out numberRead);
             }
             else if (activeWindow.text.IndexOf("lap bd10 theo duong thu") != -1)
             {
                 isHaveError = false;
-                int count = 0;
-                foreach (var item in allChild)
-                {
-                    string cWindow = APIManager.GetWindowClass(item);
-                    if (cWindow.IndexOf("WindowsForms10.STATIC.app.0.1e6fa8e") != -1)
-                    {
-                        if (count == 7)
-                        {
-                            int.TryParse(Regex.Match(APIManager.GetControlText(item), @"\d+").Value, out numberRead);
-                            break;
-                        }
-                        count++;
-                    }
-                }
+
+                List<TestAPIModel> listWindowStatic = listControl.Where(m => m.ClassName.IndexOf("WindowsForms10.STATIC.app") != -1).ToList();
+                TestAPIModel apiNumber = listWindowStatic[7];
+                int.TryParse(Regex.Match(apiNumber.Text, @"\d+").Value, out numberRead);
             }
             else if (activeWindow.text.IndexOf("sua thong tin bd10") != -1)
             {
                 isHaveError = false;
-                int count = 0;
-                int countEdit = 0;
-                foreach (var item in allChild)
-                {
-                    string cWindow = APIManager.GetWindowClass(item);
-                    if (cWindow.IndexOf("WindowsForms10.STATIC.app.0.1e6fa8e") != -1)
-                    {
-                        if (count == 9)
-                        {
-                            //thuc hien lay class nay
-                            int.TryParse(Regex.Match(APIManager.GetControlText(item), @"\d+").Value, out numberRead);
-                        }
-                        count++;
-                    }
-                    if (cWindow == "Edit")
-                    {
-                        if (countEdit == 3)
-                        {
-                            string content = APIManager.GetControlText(item);
-                            //if (content.IndexOf("590100") != -1)
-                            //{
-                            //    txtInfo.Text = "Dang mo BD Nam Trung Bo";
-                            //}
-                            //else if (content.IndexOf("593330") != -1)
-                            //{
-                            //    txtInfo.Text = "Dang mo BD Tam Quan";
-                            //}
-                        }
-                        countEdit++;
-                    }
-                }
+
+                List<TestAPIModel> listWindowStatic = listControl.Where(m => m.ClassName.IndexOf("WindowsForms10.STATIC.app") != -1).ToList();
+                TestAPIModel apiNumber = listWindowStatic[9];
+                int.TryParse(Regex.Match(apiNumber.Text, @"\d+").Value, out numberRead);
             }
+
+
             if (numberRead <= 300)
             {
                 if (lastNumber != numberRead)
                 {
-                    isNewNumber = true;
-                    isReading = true;
 
                     SoundManager.playSound(@"Number\" + numberRead.ToString() + ".wav");
-                    isReading = false;
                     lastNumber = numberRead;
                 }
             }
@@ -883,39 +790,31 @@ namespace TaoBD10.ViewModels
             //get error window
             if (activeWindow.text.IndexOf("canh bao") != -1)
             {
-                //thuc hien viec truy xuat thong tin trong nay
-
                 if (isHaveError == false)
                 {
-                    //thuc hien loc du lieu con
-                    List<IntPtr> _allChild = APIManager.GetAllChildHandles(activeWindow.hwnd);
-
-                    foreach (var item in _allChild)
+                    foreach (TestAPIModel apiContent in listControl)
                     {
                         //thuc hien lay text cua handle item
-                        String text = APIManager.GetControlText(item);
-                        if (!String.IsNullOrEmpty(text))
+                        if (!string.IsNullOrEmpty(apiContent.Text))
                         {
-                            isErrorSay = true;
-                            countError = 1;
-                            string textError = APIManager.convertToUnSign3(text).ToLower();
+                            string textError = APIManager.ConvertToUnSign3(apiContent.Text).ToLower();
                             if (textError.IndexOf("buu gui da duoc dong") != -1)
                             {
                                 //thuc hien su ly trong nay
                                 Regex regex = new Regex(@"Số: ((\w||\W)+?)\r(\w||\W)+?Đến BC: ((\w||\W)+?)\r((\w||\W)+?)Dịch vụ: ((\w||\W)+?).");
-                                var match = regex.Match(text);
+                                Match match = regex.Match(apiContent.Text);
                                 string tempSct = match.Groups[1].Value;
                                 string tempMaBuuCucNhan = match.Groups[4].Value;
                                 string tempLoai = match.Groups[8].Value;
                                 if (tempSct == soCTCurrent && tempMaBuuCucNhan == maSoBuuCucCurrent && tempLoai == loaiCurrent)
                                 {
-                                    SoundManager.playSound(@"Number\buiguiduocdong.wav");
+                                    SoundManager.playSound2(@"Number\buiguiduocdong.wav");
                                     SendKeys.SendWait("{ENTER}");
                                     isHaveError = true;
                                 }
                                 else
                                 {
-                                    SoundManager.playSound(@"Number\dacochuyenthukhac.wav");
+                                    SoundManager.playSound2(@"Number\dacochuyenthukhac.wav");
                                     isHaveError = true;
                                 }
                             }
@@ -926,58 +825,57 @@ namespace TaoBD10.ViewModels
                             else
                             if (textError.IndexOf("khong co buu gui") != -1)
                             {
-                                SoundManager.playSound(@"Number\khongcobuugui.wav");
+                                SoundManager.playSound2(@"Number\khongcobuugui.wav");
                                 SendKeys.SendWait("{ENTER}");
                                 isHaveError = true;
                             }
                             else
                             if (textError.IndexOf("buu gui khong ton tai trong co so du lieu") != -1)
                             {
-                                SoundManager.playSound(@"Number\buuguikhongtontai.wav");
+                                SoundManager.playSound2(@"Number\buuguikhongtontai.wav");
                                 SendKeys.SendWait("{ENTER}");
                                 isHaveError = true;
                             }
                             else
                             if (textError.IndexOf("khong tim thay tui thu co ma tui") != -1)
                             {
-                                SoundManager.playSound(@"Number\khongtimthaytuithucomanay.wav");
+                                SoundManager.playSound2(@"Number\khongtimthaytuithucomanay.wav");
                                 SendKeys.SendWait("{ENTER}");
                                 isHaveError = true;
                             }
                             else
                             if (textError.IndexOf("buu gui da duoc giao cho buu ta") != -1)
                             {
-                                SoundManager.playSound(@"Number\buuguidaduocgiao.wav");
+                                SoundManager.playSound2(@"Number\buuguidaduocgiao.wav");
                                 SendKeys.SendWait("{ENTER}");
                                 isHaveError = true;
                             }
                             else
                             if (textError.IndexOf("buu gui da duoc xac nhan") != -1)
                             {
-                                SoundManager.playSound(@"Number\buuguidaduocxacnhan.wav");
+                                SoundManager.playSound2(@"Number\buuguidaduocxacnhan.wav");
                                 SendKeys.SendWait("{ENTER}");
                                 isHaveError = true;
                             }
                             else if (textError.IndexOf("buu gui chua duoc xac nhan den") != -1)
                             {
-                                SoundManager.playSound(@"Number\buuguichuaduocxacnhan.wav");
+                                SoundManager.playSound2(@"Number\buuguichuaduocxacnhan.wav");
                                 SendKeys.SendWait("{ENTER}");
                                 isHaveError = true;
                             }
                             else
                             if (textError.IndexOf("buu gui khong dung dich vu") != -1)
                             {
-                                SoundManager.playSound(@"Number\buuguikhongdungdichvu.wav");
+                                SoundManager.playSound2(@"Number\buuguikhongdungdichvu.wav");
                                 SendKeys.SendWait("{ENTER}");
                                 isHaveError = true;
                             }
                             else if (textError.IndexOf("phat sinh su vu") != -1)
                             {
-                                SoundManager.playSound(@"Number\phatsinhsuvu.wav");
+                                SoundManager.playSound2(@"Number\phatsinhsuvu.wav");
                                 isHaveError = true;
                             }
                             else if (textError.IndexOf("an nut ok de bat dau") != -1)
-                            
                             {
                                 Thread.Sleep(100);
                                 SendKeys.SendWait("{ENTER}");
@@ -991,46 +889,34 @@ namespace TaoBD10.ViewModels
             {
                 if (isHaveError == false)
                 {
-                    //thuc hien loc du lieu con
-                    List<IntPtr> _allChildError = APIManager.GetAllChildHandles(activeWindow.hwnd);
-
-                    foreach (var item in _allChildError)
+                    foreach (TestAPIModel apiContent in listControl)
                     {
                         //thuc hien lay text cua handle item
-                        String text = APIManager.GetControlText(item);
-                        if (!String.IsNullOrEmpty(text))
+                        if (!string.IsNullOrEmpty(apiContent.Text))
                         {
-                            isErrorSay = true;
-                            countError = 1;
-                            string textError = APIManager.convertToUnSign3(text).ToLower();
+                            string textError = APIManager.ConvertToUnSign3(apiContent.Text).ToLower();
                             if (textError.IndexOf("ban co chac muon") != -1)
                             {
                             }
                             else if (textError.IndexOf("phat sinh su vu") != -1)
                             {
-                                SoundManager.playSound(@"Number\phatsinhsuvu.wav");
+                                SoundManager.playSound2(@"Number\phatsinhsuvu.wav");
                                 isHaveError = true;
                             }
                         }
                     }
                 }
             }
-            else if (activeWindow.text.IndexOf("thong bao")!= -1)
+            else if (activeWindow.text.IndexOf("thong bao") != -1)
             {
                 if (isHaveError == false)
                 {
-                    //thuc hien loc du lieu con
-                    List<IntPtr> _allChildError = APIManager.GetAllChildHandles(activeWindow.hwnd);
-
-                    foreach (var item in _allChildError)
+                    foreach (TestAPIModel apiContent in listControl)
                     {
                         //thuc hien lay text cua handle item
-                        String text = APIManager.GetControlText(item);
-                        if (!String.IsNullOrEmpty(text))
+                        if (!string.IsNullOrEmpty(apiContent.Text))
                         {
-                            isErrorSay = true;
-                            countError = 1;
-                            string textError = APIManager.convertToUnSign3(text).ToLower();
+                            string textError = APIManager.ConvertToUnSign3(apiContent.Text).ToLower();
                             if (textError.IndexOf("truyen thong tin chuyen thu") != -1)
                             {
                                 Thread.Sleep(200);
@@ -1041,23 +927,19 @@ namespace TaoBD10.ViewModels
                     }
                 }
             }
-            else if (String.IsNullOrEmpty(activeWindow.text))
+            else if (string.IsNullOrEmpty(activeWindow.text))
             {
                 if (isHaveError == false)
                 {
-                    //thuc hien loc du lieu con
-                    var allChildError = APIManager.GetAllChildHandles(activeWindow.hwnd);
-
-                    foreach (var item in allChildError)
+                    foreach (TestAPIModel apiContent in listControl)
                     {
                         //thuc hien lay text cua handle item
-                        String text = APIManager.GetControlText(item);
-                        if (!String.IsNullOrEmpty(text))
+                        if (!string.IsNullOrEmpty(apiContent.Text))
                         {
-                            string textError = APIManager.convertToUnSign3(text).ToLower();
+                            string textError = APIManager.ConvertToUnSign3(apiContent.Text).ToLower();
                             if (textError.IndexOf("khong co ma tui nay") != -1)
                             {
-                                SoundManager.playSound(@"Number\khongcomatuinaytronghethong.wav");
+                                SoundManager.playSound2(@"Number\khongcomatuinaytronghethong.wav");
                                 isHaveError = true;
                             }
                         }
@@ -1074,7 +956,7 @@ namespace TaoBD10.ViewModels
                 isSmallWindow = false;
                 if (_window == null)
                     return;
-                if(lastWidth == 1150)
+                if (lastWidth == 1150)
                 {
                     if (_window == null)
                         return;
@@ -1085,7 +967,8 @@ namespace TaoBD10.ViewModels
                     double height = System.Windows.SystemParameters.PrimaryScreenHeight;
                     _window.Left = (width - 1150) / 2;
                     _window.Top = (height - 600) / 2;
-                }else
+                }
+                else
                 {
                     var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
                     _window.Width = lastWidth;
@@ -1096,7 +979,7 @@ namespace TaoBD10.ViewModels
                     _window.Left = desktopWorkingArea.Left + width - _window.Width;
                     _window.Top = desktopWorkingArea.Top + 0;
                 }
-                
+
             }
             else
             {
@@ -1112,13 +995,7 @@ namespace TaoBD10.ViewModels
         private Y2KeyboardHook _keyboardHook;
         private SnackbarMessageQueue _MessageQueue;
         private Window _window;
-        private int countError = 1;
-        private CurrentTab currentTab = CurrentTab.GetBD10;
-        private bool isErrorSay = true;
         private bool isHaveError = false;
-        private bool isNewNumber = true;
-        private bool isReading = true;
-        private bool isSmallerWindow = false;
         private bool isSmallWindow = false;
         private int lastNumber = 0;
         private int lastSelectedTabTui = 0;

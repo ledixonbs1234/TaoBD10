@@ -13,7 +13,6 @@ namespace TaoBD10.ViewModels
     {
         private DispatcherTimer timer;
         private string maBuuCuc = "";
-        private int lanLap = 1;
         private bool isWating = false;
 
         public LayBDHAViewModel()

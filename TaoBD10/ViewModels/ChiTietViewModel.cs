@@ -55,8 +55,8 @@ namespace TaoBD10.ViewModels
 
                     foreach (HangHoaDetailModel hangHoa in tempData)
                     {
-                        string temp = APIManager.convertToUnSign3(hangHoa.TuiHangHoa.DichVu).ToLower();
-                        string temp1 = APIManager.convertToUnSign3(hangHoa.TuiHangHoa.PhanLoai).ToLower();
+                        string temp = APIManager.ConvertToUnSign3(hangHoa.TuiHangHoa.DichVu).ToLower();
+                        string temp1 = APIManager.ConvertToUnSign3(hangHoa.TuiHangHoa.PhanLoai).ToLower();
                         if (temp.IndexOf("phat hanh") != -1 || temp1.IndexOf("tui") != -1)
                         {
                             continue;
@@ -72,12 +72,17 @@ namespace TaoBD10.ViewModels
                 }
             });
 
-            timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromMilliseconds(50);
+            XeXaHoiCommand = new RelayCommand(XeXaHoi);
+            timer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromMilliseconds(50)
+            };
             timer.Tick += Timer_Tick;
 
-            timerTaoBD = new DispatcherTimer();
-            timerTaoBD.Interval = new TimeSpan(0, 0, 0, 0, 200);
+            timerTaoBD = new DispatcherTimer
+            {
+                Interval = new TimeSpan(0, 0, 0, 0, 200)
+            };
             timerTaoBD.Tick += TimerTaoBD_Tick;
 
             #region Command Create
@@ -101,137 +106,19 @@ namespace TaoBD10.ViewModels
             #endregion Command Create
         }
 
-        public IRelayCommand CopySHTuiCommand { get; }
-        public bool IsTaoBD
+        private void AnNhon()
         {
-            get { return _IsTaoBD; }
-            set { SetProperty(ref _IsTaoBD, value); }
-        }
+            var time = DateTime.Now;
+            if (time.Hour > 12)
+                countChuyen = 2;
+            else
+                countChuyen = 1;
 
-        public ObservableCollection<HangHoaDetailModel> ListShowHangHoa
-        {
-            get { return _ListShowHangHoa; }
-            set { SetProperty(ref _ListShowHangHoa, value); }
-        }
-
-        public string NameTinhCurrent
-        {
-            get { return _NameTinhCurrent; }
-            set { SetProperty(ref _NameTinhCurrent, value); }
-        }
-
-        public string NAnNhon
-        {
-            get { return _NAnNhon; }
-            set { SetProperty(ref _NAnNhon, value); }
-        }
-
-        public string NBCP_HN
-        {
-            get { return _NBCP_HN; }
-            set { SetProperty(ref _NBCP_HN, value); }
-        }
-
-        public string NConLai
-        {
-            get { return _NConLai; }
-            set { SetProperty(ref _NConLai, value); }
-        }
-
-        public string NEMSDaNang
-        {
-            get { return _NEMSDaNang; }
-            set { SetProperty(ref _NEMSDaNang, value); }
-        }
-
-        public string NHA_AL
-        {
-            get { return _NHA_AL; }
-            set { SetProperty(ref _NHA_AL, value); }
-        }
-
-        public string NKienDaNang
-        {
-            get { return _NKienDaNang; }
-            set { SetProperty(ref _NKienDaNang, value); }
-        }
-
-        public string NKNTB
-        {
-            get { return _NKNTB; }
-            set { SetProperty(ref _NKNTB, value); }
-        }
-
-        public string NKT_HN
-        {
-            get { return _NKT_HN; }
-            set { SetProperty(ref _NKT_HN, value); }
-        }
-
-        public string NKT1
-        {
-            get { return _NKT1; }
-            set { SetProperty(ref _NKT1, value); }
-        }
-
-        public string NPhuCat
-        {
-            get { return _NPhuCat; }
-            set { SetProperty(ref _NPhuCat, value); }
-        }
-
-        public string NPhuMy
-        {
-            get { return _NPhuMy; }
-            set { SetProperty(ref _NPhuMy, value); }
-        }
-
-        public string NQuangNam
-        {
-            get { return _NQuangNam; }
-            set { SetProperty(ref _NQuangNam, value); }
-        }
-
-        public string NQuangNgai
-        {
-            get { return _NQuangNgai; }
-            set { SetProperty(ref _NQuangNgai, value); }
-        }
-
-        public string NTamQuan
-        {
-            get { return _NTamQuan; }
-            set { SetProperty(ref _NTamQuan, value); }
-        }
-
-        public string NTNTB
-        {
-            get { return _NTNTB; }
-            set { SetProperty(ref _NTNTB, value); }
-        }
-
-        public string SelectedTime
-        {
-            get { return _SelectedTime; }
-            set { SetProperty(ref _SelectedTime, value); }
-        }
-
-        public ICommand SelectedTinhCommand { get; }
-        public HangHoaDetailModel SelectedTui
-        {
-            get { return _SelectedTui; }
-            set
-            {
-                SetProperty(ref _SelectedTui, value);
-                CopySHTuiCommand.NotifyCanExecuteChanged();
-            }
-        }
-
-        public IRelayCommand<HangHoaDetailModel> SelectionCommand { get; }
-        public string TextCurrentChuyenThu
-        {
-            get { return _TextCurrentChuyenThu; }
-            set { SetProperty(ref _TextCurrentChuyenThu, value); }
+            maBuuCuc = "592020";
+            tenDuongThu = "Đà Nẵng - Bình Định";
+            countDuongThu = 2;
+            stateTaoBd10 = StateTaoBd10.DanhSachBD10;
+            timerTaoBD.Start();
         }
 
         private void CopySHTui()
@@ -243,6 +130,16 @@ namespace TaoBD10.ViewModels
                 //SendMessage
                 WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Snackbar", Content = " Đã Copy" });
             }
+        }
+
+        private void EMSDaNang()
+        {
+            maBuuCuc = "550915";
+            tenDuongThu = "Bình Định - Đà Nẵng";
+            countDuongThu = 4;
+            countChuyen = 2;
+            stateTaoBd10 = StateTaoBd10.DanhSachBD10;
+            timerTaoBD.Start();
         }
 
         private void FillData()
@@ -305,7 +202,7 @@ namespace TaoBD10.ViewModels
                         {
                             currentListHangHoa[countForeach].PhanLoai = Manager.EnumAll.PhanLoaiTinh.TuiNTB;
                         }
-                        else if (APIManager.convertToUnSign3(hangHoa.TuiHangHoa.PhanLoai).ToLower().IndexOf("ngoai") != -1)
+                        else if (APIManager.ConvertToUnSign3(hangHoa.TuiHangHoa.PhanLoai).ToLower().IndexOf("ngoai") != -1)
                         {
                             currentListHangHoa[countForeach].PhanLoai = Manager.EnumAll.PhanLoaiTinh.DiNgoaiNamTrungBo;
                         }
@@ -316,7 +213,7 @@ namespace TaoBD10.ViewModels
                     string temp = fillNTB.FirstOrDefault(m => m == maSoTinh);
                     if (!string.IsNullOrEmpty(temp))
                     {
-                        if (APIManager.convertToUnSign3(hangHoa.TuiHangHoa.PhanLoai).ToLower().IndexOf("ngoai") != -1)
+                        if (APIManager.ConvertToUnSign3(hangHoa.TuiHangHoa.PhanLoai).ToLower().IndexOf("ngoai") != -1)
                         {
                             currentListHangHoa[countForeach].PhanLoai = Manager.EnumAll.PhanLoaiTinh.DiNgoaiNamTrungBo;
                         }
@@ -347,19 +244,13 @@ namespace TaoBD10.ViewModels
             var currentWindow = APIManager.GetActiveWindowTitle();
             if (currentWindow == null)
                 return;
-
-            string textCo = APIManager.convertToUnSign3(currentWindow.text).ToLower();
+            _ = APIManager.ConvertToUnSign3(currentWindow.text).ToLower();
 
             //thuc hien kiem tra thu hien tai dang dung cai nao
             var handles = APIManager.GetAllChildHandles(currentWindow.hwnd);
             string textHandleName = "WindowsForms10.COMBOBOX.app.0.1e6fa8e";
             string textSoLuongTui = "WindowsForms10.STATIC.app.0.1e6fa8e";
             int countTemp = 0;
-
-            string noiGuiBD = "";
-            string ngayThangBD = "";
-            string lanLapBD = "";
-
             string classNameComBoBox = "";
             int countCurrentTui = 0;
 
@@ -521,6 +412,61 @@ namespace TaoBD10.ViewModels
             }
         }
 
+        private void KienDaNang()
+        {
+            maBuuCuc = "550910";
+            tenDuongThu = "Bình Định - Đà Nẵng";
+            countDuongThu = 4;
+            countChuyen = 2;
+            stateTaoBd10 = StateTaoBd10.DanhSachBD10;
+            timerTaoBD.Start();
+        }
+
+        private void NamTrungBo()
+        {
+            var time = DateTime.Now;
+            if (time.Hour > 12)
+                countChuyen = 2;
+            else
+                countChuyen = 1;
+
+            maBuuCuc = "590100";
+            tenDuongThu = "Đà Nẵng - Bình Định";
+            countDuongThu = 2;
+            stateTaoBd10 = StateTaoBd10.DanhSachBD10;
+            timerTaoBD.Start();
+        }
+
+        private void PhuCat()
+        {
+            var time = DateTime.Now;
+            if (time.Hour > 12)
+                countChuyen = 2;
+            else
+                countChuyen = 1;
+
+            maBuuCuc = "592440";
+            tenDuongThu = "Đà Nẵng - Bình Định";
+            countDuongThu = 2;
+            stateTaoBd10 = StateTaoBd10.DanhSachBD10;
+            timerTaoBD.Start();
+        }
+
+        private void PhuMy()
+        {
+            var time = DateTime.Now;
+            if (time.Hour > 12)
+                countChuyen = 2;
+            else
+                countChuyen = 1;
+
+            maBuuCuc = "592810";
+            tenDuongThu = "Đà Nẵng - Bình Định";
+            countDuongThu = 2;
+            stateTaoBd10 = StateTaoBd10.DanhSachBD10;
+            timerTaoBD.Start();
+        }
+
         private void PrintDiNgoai()
         {
             WindowInfo info = WaitingFindedWindow("thong tin buu gui", 1);
@@ -624,121 +570,6 @@ namespace TaoBD10.ViewModels
             SendKeys.SendWait(" ");
         }
 
-        private void ResetAndCount()
-        {
-            NHA_AL = "0";
-            NTamQuan = "0";
-            NKienDaNang = "0";
-            NEMSDaNang = "0";
-            NQuangNam = "0";
-            NQuangNgai = "0";
-            NKNTB = "0";
-            NTNTB = "0";
-            NKT_HN = "0";
-            NBCP_HN = "0";
-            NPhuMy = "0";
-            NPhuCat = "0";
-            NAnNhon = "0";
-            NKT1 = "0";
-            NConLai = "0";
-
-            NHA_AL = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.HA_AL).Count.ToString();
-            NTamQuan = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.TamQuan).Count.ToString();
-            NKienDaNang = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.KienDaNang).Count.ToString();
-            NEMSDaNang = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.EMSDaNang).Count.ToString();
-            NQuangNam = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.QuangNam).Count.ToString();
-            NQuangNgai = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.QuangNgai).Count.ToString();
-            NKNTB = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.DiNgoaiNamTrungBo).Count.ToString();
-            NTNTB = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.TuiNTB).Count.ToString();
-            NKT_HN = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.KTHN).Count.ToString();
-            NBCP_HN = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.BCPHN).Count.ToString();
-            NPhuMy = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.PhuMy).Count.ToString();
-            NPhuCat = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.PhuCat).Count.ToString();
-            NAnNhon = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.AnNhon).Count.ToString();
-            NKT1 = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.KT1).Count.ToString();
-            NConLai = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.None).Count.ToString();
-        }
-
-        private void AnNhon()
-        {
-            var time = DateTime.Now;
-            if (time.Hour > 12)
-                countChuyen = 2;
-            else
-                countChuyen = 1;
-
-            maBuuCuc = "592020";
-            tenDuongThu = "Đà Nẵng - Bình Định";
-            countDuongThu = 2;
-            stateTaoBd10 = StateTaoBd10.DanhSachBD10;
-            timerTaoBD.Start();
-        }
-
-        private void EMSDaNang()
-        {
-            maBuuCuc = "550915";
-            tenDuongThu = "Bình Định - Đà Nẵng";
-            countDuongThu = 4;
-            countChuyen = 2;
-            stateTaoBd10 = StateTaoBd10.DanhSachBD10;
-            timerTaoBD.Start();
-        }
-
-        private void KienDaNang()
-        {
-            maBuuCuc = "550910";
-            tenDuongThu = "Bình Định - Đà Nẵng";
-            countDuongThu = 4;
-            countChuyen = 2;
-            stateTaoBd10 = StateTaoBd10.DanhSachBD10;
-            timerTaoBD.Start();
-        }
-
-        private void NamTrungBo()
-        {
-            var time = DateTime.Now;
-            if (time.Hour > 12)
-                countChuyen = 2;
-            else
-                countChuyen = 1;
-
-            maBuuCuc = "590100";
-            tenDuongThu = "Đà Nẵng - Bình Định";
-            countDuongThu = 2;
-            stateTaoBd10 = StateTaoBd10.DanhSachBD10;
-            timerTaoBD.Start();
-        }
-
-        private void PhuCat()
-        {
-            var time = DateTime.Now;
-            if (time.Hour > 12)
-                countChuyen = 2;
-            else
-                countChuyen = 1;
-
-            maBuuCuc = "592440";
-            tenDuongThu = "Đà Nẵng - Bình Định";
-            countDuongThu = 2;
-            stateTaoBd10 = StateTaoBd10.DanhSachBD10;
-            timerTaoBD.Start();
-        }
-
-        private void PhuMy()
-        {
-            var time = DateTime.Now;
-            if (time.Hour > 12)
-                countChuyen = 2;
-            else
-                countChuyen = 1;
-
-            maBuuCuc = "592810";
-            tenDuongThu = "Đà Nẵng - Bình Định";
-            countDuongThu = 2;
-            stateTaoBd10 = StateTaoBd10.DanhSachBD10;
-            timerTaoBD.Start();
-        }
-
         private void QuangNam()
         {
             maBuuCuc = "560100";
@@ -759,84 +590,53 @@ namespace TaoBD10.ViewModels
             timerTaoBD.Start();
         }
 
-        private void TimerTaoBD_Tick(object sender, EventArgs e)
+        private void ResetAndCount()
         {
-            if (isWaiting)
-                return;
-            var currentWindow = APIManager.GetActiveWindowTitle();
-            if (currentWindow == null)
-                return;
+            NHA_AL = "0";
+            NTamQuan = "0";
+            NKienDaNang = "0";
+            NEMSDaNang = "0";
+            NQuangNam = "0";
+            NQuangNgai = "0";
+            NKNTB = "0";
+            NTNTB = "0";
+            NKT_HN = "0";
+            NBCP_HN = "0";
+            NPhuMy = "0";
+            NPhuCat = "0";
+            NAnNhon = "0";
+            NKT1 = "0";
+            NConLai = "0";
 
-            switch (stateTaoBd10)
-            {
-                case StateTaoBd10.DanhSachBD10:
-                    if (currentWindow.text.IndexOf("danh sach bd10 di") != -1)
-                    {
-                        SendKeys.SendWait("{F1}");
-                        stateTaoBd10 = StateTaoBd10.LapBD10;
-                    }
-                    break;
-
-                case StateTaoBd10.LapBD10:
-                    if (currentWindow.text.IndexOf("lap bd10") != -1)
-                    {
-                        isWaiting = true;
-                        for (int i = 0; i < countDuongThu; i++)
-                        {
-                            SendKeys.SendWait("{DOWN}");
-                            Thread.Sleep(50);
-                        }
-                        SendKeys.SendWait("^(c)");
-                        Thread.Sleep(100);
-                        string clip = Clipboard.GetText();
-                        if (clip.IndexOf(tenDuongThu) == -1)
-                        {
-                            isWaiting = false;
-                            timerTaoBD.Stop();
-                        }
-                        SendKeys.SendWait("{TAB}");
-                        Thread.Sleep(100);
-                        for (int i = 0; i < countChuyen; i++)
-                        {
-                            SendKeys.SendWait("{DOWN}");
-                            Thread.Sleep(50);
-                        }
-                        SendKeys.SendWait("{TAB}");
-                        Thread.Sleep(100);
-                        SendKeys.SendWait(maBuuCuc);
-                        Thread.Sleep(100);
-                        SendKeys.SendWait("{TAB}");
-                        Thread.Sleep(100);
-                        SendKeys.SendWait("{TAB}");
-                        Thread.Sleep(100);
-                        isWaiting = false;
-                        timerTaoBD.Stop();
-                    }
-
-                    break;
-
-                default:
-                    break;
-            }
+            NHA_AL = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.HA_AL).Count.ToString();
+            if (NHA_AL != "0") IsEnHAAL = true; else IsEnHAAL = false;
+            NTamQuan = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.TamQuan).Count.ToString();
+            if (NTamQuan != "0") IsEnTamQuan = true; else IsEnTamQuan = false;
+            NKienDaNang = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.KienDaNang).Count.ToString();
+            if (NKienDaNang != "0") IsEnKDN = true; else IsEnKDN = false;
+            NEMSDaNang = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.EMSDaNang).Count.ToString();
+            if (NEMSDaNang != "0") IsEnEDN = true; else IsEnEDN = false;
+            NQuangNam = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.QuangNam).Count.ToString();
+            if (NQuangNam != "0") IsEnQNam = true; else IsEnQNam = false;
+            NQuangNgai = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.QuangNgai).Count.ToString();
+            if (NQuangNgai != "0") IsEnQNgai = true; else IsEnQNgai = false;
+            NKNTB = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.DiNgoaiNamTrungBo).Count.ToString();
+            if (NKNTB != "0") IsEnKNTB = true; else IsEnKNTB = false;
+            NTNTB = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.TuiNTB).Count.ToString();
+            if (NTNTB != "0") IsEnTNTB = true; else IsEnTNTB = false;
+            NKT_HN = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.KTHN).Count.ToString();
+            NBCP_HN = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.BCPHN).Count.ToString();
+            NPhuMy = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.PhuMy).Count.ToString();
+            if (NPhuMy != "0") IsEnPM = true; else IsEnPM = false;
+            NPhuCat = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.PhuCat).Count.ToString();
+            if (NPhuCat != "0") IsEnPC = true; else IsEnPC = false;
+            NAnNhon = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.AnNhon).Count.ToString();
+            if (NAnNhon != "0") IsEnAN = true; else IsEnAN = false;
+            NKT1 = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.KT1).Count.ToString();
+            if (NKT1 != "0") IsEnKT1 = true; else IsEnKT1 = false;
+            NConLai = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.None).Count.ToString();
+            if (NConLai != "0") IsEnConLai = true; else IsEnConLai = false;
         }
-
-        private void XeXaHoi()
-        {
-            maBuuCuc = "590100";
-            tenDuongThu = "Tam Quan - Quy Nhơn (Xe XH)";
-            countDuongThu = 9;
-            countChuyen = 2;
-            stateTaoBd10 = StateTaoBd10.DanhSachBD10;
-            timerTaoBD.Start();
-        }
-
-        private int countChuyen = 0;
-        private int countDuongThu = 0;
-        private bool isWaiting = false;
-        private string maBuuCuc = "0";
-        private StateTaoBd10 stateTaoBd10;
-        private string tenDuongThu = "";
-        private DispatcherTimer timerTaoBD;
 
         private void SelectedTinh(PhanLoaiTinh phanLoaiTinh)
         {
@@ -888,7 +688,8 @@ namespace TaoBD10.ViewModels
                         break;
                 }
 
-            }else
+            }
+            else
             {
                 if (currentListHangHoa == null)
                 {
@@ -905,8 +706,8 @@ namespace TaoBD10.ViewModels
                     {
                         if (phanLoaiTinh == PhanLoaiTinh.KTHN || phanLoaiTinh == PhanLoaiTinh.BCPHN)
                         {
-                            string temp = APIManager.convertToUnSign3(hangHoa.TuiHangHoa.DichVu).ToLower();
-                            string temp1 = APIManager.convertToUnSign3(hangHoa.TuiHangHoa.PhanLoai).ToLower();
+                            string temp = APIManager.ConvertToUnSign3(hangHoa.TuiHangHoa.DichVu).ToLower();
+                            string temp1 = APIManager.ConvertToUnSign3(hangHoa.TuiHangHoa.PhanLoai).ToLower();
                             if (temp.IndexOf("phat hanh") != -1 || temp1.IndexOf("tui") != -1)
                             {
                                 continue;
@@ -918,7 +719,7 @@ namespace TaoBD10.ViewModels
                     ShowNameTinh(phanLoaiTinh);
                 }
             }
-           
+
         }
 
         private void Selection(HangHoaDetailModel selected)
@@ -1047,7 +848,7 @@ namespace TaoBD10.ViewModels
             if (currentWindow == null)
                 return;
 
-            string textCo = APIManager.convertToUnSign3(currentWindow.text).ToLower();
+            string textCo = APIManager.ConvertToUnSign3(currentWindow.text).ToLower();
 
             if (textCo.IndexOf("quan ly chuyen thu") != -1)
             {
@@ -1112,6 +913,67 @@ namespace TaoBD10.ViewModels
             }
         }
 
+        private void TimerTaoBD_Tick(object sender, EventArgs e)
+        {
+            if (isWaiting)
+                return;
+            var currentWindow = APIManager.GetActiveWindowTitle();
+            if (currentWindow == null)
+                return;
+
+            switch (stateTaoBd10)
+            {
+                case StateTaoBd10.DanhSachBD10:
+                    if (currentWindow.text.IndexOf("danh sach bd10 di") != -1)
+                    {
+                        SendKeys.SendWait("{F1}");
+                        stateTaoBd10 = StateTaoBd10.LapBD10;
+                    }
+                    break;
+
+                case StateTaoBd10.LapBD10:
+                    if (currentWindow.text.IndexOf("lap bd10") != -1)
+                    {
+                        isWaiting = true;
+                        for (int i = 0; i < countDuongThu; i++)
+                        {
+                            SendKeys.SendWait("{DOWN}");
+                            Thread.Sleep(50);
+                        }
+                        SendKeys.SendWait("^(c)");
+                        Thread.Sleep(100);
+                        string clip = Clipboard.GetText();
+                        if (clip.IndexOf(tenDuongThu) == -1)
+                        {
+                            isWaiting = false;
+                            timerTaoBD.Stop();
+                        }
+                        SendKeys.SendWait("{TAB}");
+                        Thread.Sleep(100);
+                        for (int i = 0; i < countChuyen; i++)
+                        {
+                            SendKeys.SendWait("{DOWN}");
+                            Thread.Sleep(50);
+                        }
+                        SendKeys.SendWait("{TAB}");
+                        Thread.Sleep(100);
+                        SendKeys.SendWait(maBuuCuc);
+                        Thread.Sleep(100);
+                        SendKeys.SendWait("{TAB}");
+                        Thread.Sleep(100);
+                        SendKeys.SendWait("{TAB}");
+                        Thread.Sleep(100);
+                        isWaiting = false;
+                        timerTaoBD.Stop();
+                    }
+
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
         private WindowInfo WaitingFindedWindow(string title, int time, bool isExactly = false)
         {
             WindowInfo currentWindow = null;
@@ -1146,13 +1008,248 @@ namespace TaoBD10.ViewModels
                     if (currentWindow == null)
                         return null;
 
-                    titleWindow = APIManager.convertToUnSign3(currentWindow.text).ToLower();
+                    titleWindow = APIManager.ConvertToUnSign3(currentWindow.text).ToLower();
                 }
             }
             Thread.Sleep(100);
             return currentWindow;
         }
 
+        private void XeXaHoi()
+        {
+            maBuuCuc = "590100";
+            tenDuongThu = "Tam Quan - Quy Nhơn (Xe XH)";
+            countDuongThu = 9;
+            countChuyen = 2;
+            stateTaoBd10 = StateTaoBd10.DanhSachBD10;
+            timerTaoBD.Start();
+        }
+
+        public IRelayCommand CopySHTuiCommand { get; }
+        public bool IsEnAN
+        {
+            get { return _IsEnAN; }
+            set { SetProperty(ref _IsEnAN, value); }
+        }
+
+        public bool IsEnConLai
+        {
+            get { return _IsEnConLai; }
+            set { SetProperty(ref _IsEnConLai, value); }
+        }
+
+        public bool IsEnEDN
+        {
+            get { return _IsEnEDN; }
+            set { SetProperty(ref _IsEnEDN, value); }
+        }
+
+        public bool IsEnHAAL
+        {
+            get { return _IsEnHAAL; }
+            set { SetProperty(ref _IsEnHAAL, value); }
+        }
+
+        public bool IsEnKDN
+        {
+            get { return _IsEnKDN; }
+            set { SetProperty(ref _IsEnKDN, value); }
+        }
+
+        public bool IsEnKNTB
+        {
+            get { return _IsEnKNTB; }
+            set { SetProperty(ref _IsEnKNTB, value); }
+        }
+
+        public bool IsEnKT1
+        {
+            get { return _IsEnKT1; }
+            set { SetProperty(ref _IsEnKT1, value); }
+        }
+
+        public bool IsEnPC
+        {
+            get { return _IsEnPC; }
+            set { SetProperty(ref _IsEnPC, value); }
+        }
+
+        public bool IsEnPM
+        {
+            get { return _IsEnPM; }
+            set { SetProperty(ref _IsEnPM, value); }
+        }
+
+        public bool IsEnQNam
+        {
+            get { return _IsEnQNam; }
+            set { SetProperty(ref _IsEnQNam, value); }
+        }
+
+        public bool IsEnQNgai
+        {
+            get { return _IsEnQNgai; }
+            set { SetProperty(ref _IsEnQNgai, value); }
+        }
+
+        public bool IsEnTamQuan
+        {
+            get { return _IsEnTamQuan; }
+            set { SetProperty(ref _IsEnTamQuan, value); }
+        }
+
+        public bool IsEnTNTB
+        {
+            get { return _IsEnTNTB; }
+            set { SetProperty(ref _IsEnTNTB, value); }
+        }
+
+        public bool IsTaoBD
+        {
+            get { return _IsTaoBD; }
+            set { SetProperty(ref _IsTaoBD, value); }
+        }
+
+        public ObservableCollection<HangHoaDetailModel> ListShowHangHoa
+        {
+            get { return _ListShowHangHoa; }
+            set { SetProperty(ref _ListShowHangHoa, value); }
+        }
+
+        public string NameTinhCurrent
+        {
+            get { return _NameTinhCurrent; }
+            set { SetProperty(ref _NameTinhCurrent, value); }
+        }
+
+        public string NAnNhon
+        {
+            get { return _NAnNhon; }
+            set { SetProperty(ref _NAnNhon, value); }
+        }
+
+        public string NBCP_HN
+        {
+            get { return _NBCP_HN; }
+            set { SetProperty(ref _NBCP_HN, value); }
+        }
+
+        public string NConLai
+        {
+            get { return _NConLai; }
+            set { SetProperty(ref _NConLai, value); }
+        }
+
+        public string NEMSDaNang
+        {
+            get { return _NEMSDaNang; }
+            set { SetProperty(ref _NEMSDaNang, value); }
+        }
+
+        public string NHA_AL
+        {
+            get { return _NHA_AL; }
+            set { SetProperty(ref _NHA_AL, value); }
+        }
+
+        public string NKienDaNang
+        {
+            get { return _NKienDaNang; }
+            set { SetProperty(ref _NKienDaNang, value); }
+        }
+
+        public string NKNTB
+        {
+            get { return _NKNTB; }
+            set { SetProperty(ref _NKNTB, value); }
+        }
+
+        public string NKT_HN
+        {
+            get { return _NKT_HN; }
+            set { SetProperty(ref _NKT_HN, value); }
+        }
+
+        public string NKT1
+        {
+            get { return _NKT1; }
+            set { SetProperty(ref _NKT1, value); }
+        }
+
+        public string NPhuCat
+        {
+            get { return _NPhuCat; }
+            set { SetProperty(ref _NPhuCat, value); }
+        }
+
+        public string NPhuMy
+        {
+            get { return _NPhuMy; }
+            set { SetProperty(ref _NPhuMy, value); }
+        }
+
+        public string NQuangNam
+        {
+            get { return _NQuangNam; }
+            set { SetProperty(ref _NQuangNam, value); }
+        }
+
+        public string NQuangNgai
+        {
+            get { return _NQuangNgai; }
+            set { SetProperty(ref _NQuangNgai, value); }
+        }
+
+        public string NTamQuan
+        {
+            get { return _NTamQuan; }
+            set { SetProperty(ref _NTamQuan, value); }
+        }
+
+        public string NTNTB
+        {
+            get { return _NTNTB; }
+            set { SetProperty(ref _NTNTB, value); }
+        }
+
+        public string SelectedTime
+        {
+            get { return _SelectedTime; }
+            set { SetProperty(ref _SelectedTime, value); }
+        }
+
+        public ICommand SelectedTinhCommand { get; }
+        public HangHoaDetailModel SelectedTui
+        {
+            get { return _SelectedTui; }
+            set
+            {
+                SetProperty(ref _SelectedTui, value);
+                CopySHTuiCommand.NotifyCanExecuteChanged();
+            }
+        }
+
+        public IRelayCommand<HangHoaDetailModel> SelectionCommand { get; }
+        public string TextCurrentChuyenThu
+        {
+            get { return _TextCurrentChuyenThu; }
+            set { SetProperty(ref _TextCurrentChuyenThu, value); }
+        }
+
+        public ICommand XeXaHoiCommand { get; }
+        private bool _IsEnAN = true;
+        private bool _IsEnConLai = true;
+        private bool _IsEnEDN = true;
+        private bool _IsEnHAAL = true;
+        private bool _IsEnKDN = true;
+        private bool _IsEnKNTB = true;
+        private bool _IsEnKT1 = true;
+        private bool _IsEnPC = true;
+        private bool _IsEnPM = true;
+        private bool _IsEnQNam = true;
+        private bool _IsEnQNgai = true;
+        private bool _IsEnTamQuan = true;
+        private bool _IsEnTNTB = true;
         private bool _IsTaoBD = false;
         private ObservableCollection<HangHoaDetailModel> _ListShowHangHoa;
         private string _NameTinhCurrent;
@@ -1174,7 +1271,9 @@ namespace TaoBD10.ViewModels
         private string _SelectedTime = "0.5";
         private HangHoaDetailModel _SelectedTui;
         private string _TextCurrentChuyenThu;
+        private int countChuyen = 0;
         private int countDown = 0;
+        private int countDuongThu = 0;
         private BuuCuc currentBuuCuc = BuuCuc.None;
         private List<HangHoaDetailModel> currentListHangHoa;
         private HangHoaDetailModel CurrentSelectedHangHoaDetail = null;
@@ -1183,6 +1282,11 @@ namespace TaoBD10.ViewModels
         private string[] fillNoiTinh = new string[] { "591218", "591520", "591720", "591760", "591900", "592100", "592120", "592220", "594080", "594090", "594210", "594220", "594300", "594350", "594560", "594610", "590100" };
         private string[] fillNTB = new string[] { "88", "79", "96", "93", "82", "83", "80", "97", "90", "63", "64", "81", "87", "60", "91", "70", "65", "92", "58", "67", "85", "66", "62", "95", "84", "86", "94", "89", "74" };
         private bool isBusyXacNhan = false;
+        private bool isWaiting = false;
+        private string maBuuCuc = "0";
+        private StateTaoBd10 stateTaoBd10;
+        private string tenDuongThu = "";
         private DispatcherTimer timer;
+        private DispatcherTimer timerTaoBD;
     }
 }

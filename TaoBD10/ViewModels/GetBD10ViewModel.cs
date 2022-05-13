@@ -161,7 +161,7 @@ namespace TaoBD10.ViewModels
             if (currentWindow == null)
                 return;
 
-            string textCo = APIManager.convertToUnSign3(currentWindow.text).ToLower();
+            string textCo = APIManager.ConvertToUnSign3(currentWindow.text).ToLower();
 
             if (textCo.IndexOf("xac nhan bd10 den") != -1)
             {
@@ -270,7 +270,7 @@ namespace TaoBD10.ViewModels
                     {
                         textClip = (string)System.Windows.Clipboard.GetDataObject().GetData(DataFormats.Text) + '\n';
                     }
-                    catch (Exception ex)
+                    catch
                     {
                         NameBD = "Chạy Lại";
                         isWaitingGetData = false;

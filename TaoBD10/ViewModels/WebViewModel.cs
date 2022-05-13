@@ -218,7 +218,7 @@ document.getElementsByClassName("".footer"").remove();
                         HtmlNodeCollection Items = document.DocumentNode.SelectNodes(@"//*[@id=""root""]/section/section/section[1]/table/tbody/tr");
                         if (Items == null)
                         {
-                            APIManager.showSnackbar("Lỗi NULL");
+                            APIManager.ShowSnackbar("Lỗi NULL");
                             return;
                         }
                         List<HangTonModel> hangTons = new List<HangTonModel>();
@@ -262,7 +262,7 @@ document.getElementsByClassName("".footer"").remove();
                         var check = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblBarcode']");
                         if (check == null)
                         {
-                            APIManager.showSnackbar("Lỗi Web");
+                            APIManager.ShowSnackbar("Lỗi Web");
                             return;
                         }
                         string barcodeWeb = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblBarcode']").InnerText;

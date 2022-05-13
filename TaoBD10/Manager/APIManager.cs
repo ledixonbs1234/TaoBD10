@@ -17,16 +17,15 @@ namespace TaoBD10.Manager
     {
         public delegate bool EnumWindowProc(IntPtr hwnd, IntPtr lParam);
 
-        public static string convertToUnSign3(string s)
+        public static string ConvertToUnSign3(string s)
         {
             Regex regex = new Regex("\\p{IsCombiningDiacriticalMarks}+");
             string temp = s.Normalize(NormalizationForm.FormD);
             return regex.Replace(temp, String.Empty).Replace('\u0111', 'd').Replace('\u0110', 'D').ToLower();
         }
 
-        private const int BN_CLICKED = 0;
-        private static int WM_LBUTTONDOWN = 0x0201;
-        private static int WM_LBUTTONUP = 0x0202;
+        //private static int WM_LBUTTONDOWN = 0x0201;
+        //private static int WM_LBUTTONUP = 0x0202;
 
         public static void ClickButton(IntPtr handle)
         {
@@ -48,12 +47,12 @@ namespace TaoBD10.Manager
             return true;
         }
 
-        public static void showTest(string content)
+        public static void ShowTest(string content)
         {
             WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Test", Content = content });
         }
 
-        public static void showSnackbar(string content)
+        public static void ShowSnackbar(string content)
         {
             WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Snackbar", Content = content });
         }
@@ -81,13 +80,16 @@ namespace TaoBD10.Manager
             int count = 0;
             foreach (var item in allChild)
             {
-                TestAPIModel test = new TestAPIModel();
-                test.Index = count;
-                count++;
-                test.Text = APIManager.GetControlText(item);
-                test.Handle = item;
-                test.ClassName = APIManager.GetWindowClass(item);
+
+                TestAPIModel test = new TestAPIModel
+                {
+                    Index = count,
+                    Text = GetControlText(item),
+                    Handle = item,
+                    ClassName = GetWindowClass(item)
+                };
                 list.Add(test);
+                count++;
             }
             return list;
         }
@@ -100,11 +102,10 @@ namespace TaoBD10.Manager
 
             if (GetWindowText(handle, Buff, nChars) > 0)
             {
-                string text = "";
-                text = Buff.ToString();
+                string text = Buff.ToString();
                 if (isExactly != true)
                 {
-                    text = convertToUnSign3(text).ToLower();
+                    text = ConvertToUnSign3(text).ToLower();
                 }
                 return new WindowInfo(text, handle);
             }
@@ -208,10 +209,10 @@ namespace TaoBD10.Manager
                 if (p.ProcessName.IndexOf("Ctin") != -1)
                 {
                     windowHandle = p.MainWindowHandle;
-                    var handles = APIManager.GetAllChildHandles(windowHandle);
+                    List<IntPtr> handles = GetAllChildHandles(windowHandle);
                     foreach (IntPtr item1 in handles)
                     {
-                        String title = GetControlText(item1);
+                        string title = GetControlText(item1);
                         if (title.ToString().IndexOf(maBuuCuc) != -1)
                         {
                             isHaveProgram = true;
@@ -225,7 +226,7 @@ namespace TaoBD10.Manager
             if (isHaveProgram)
             {
                 //APIManager.SetForegroundWindow(p.MainWindowHandle);
-                IntPtr last = APIManager.GetLastActivePopup(windowHandle);
+                IntPtr last = GetLastActivePopup(windowHandle);
                 if (last != windowHandle)
                 {
                     SetForegroundWindow(last);
@@ -237,7 +238,7 @@ namespace TaoBD10.Manager
                     while (currentWindow.hwnd != windowHandle)
                     {
                         currentWindow = APIManager.GetActiveWindowTitle();
-                        string textKoDau = convertToUnSign3(currentWindow.text);
+                        string textKoDau = ConvertToUnSign3(currentWindow.text);
                         if (textKoDau.IndexOf(nameHandleChildToHangOn) != -1)
                         {
                             return true;

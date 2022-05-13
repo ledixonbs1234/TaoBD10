@@ -60,7 +60,7 @@ namespace TaoBD10.ViewModels
                     AddAddress();
                 }else
                 {
-                    APIManager.showSnackbar("Không có địa chỉ");
+                    APIManager.ShowSnackbar("Không có địa chỉ");
                 }
             });
 
@@ -572,7 +572,7 @@ namespace TaoBD10.ViewModels
                     countTimer = 0;
                     isWaitingTimer = false;
                     isWaitDiNgoai = false;
-                    APIManager.showSnackbar("Close");
+                    APIManager.ShowSnackbar("Close");
                     timerDiNgoai.Stop();
                 }
             }
@@ -586,7 +586,7 @@ namespace TaoBD10.ViewModels
         private void TimerPrint_Tick(object sender, EventArgs e)
         {
             if (isWaitingPrint) return;
-            APIManager.showTest("1");
+            APIManager.ShowTest("1");
             var currentWindow = APIManager.GetActiveWindowTitle();
             if (currentWindow == null)
             {
@@ -596,7 +596,7 @@ namespace TaoBD10.ViewModels
             switch (stateDiNgoai)
             {
                 case StateDiNgoai.KhoiTao:
-                    APIManager.showTest("2");
+                    APIManager.ShowTest("2");
                     if (currentWindow.text.IndexOf("khoi tao chuyen thu") != -1)
                     {
                         isWaitingPrint = true;
@@ -669,7 +669,7 @@ namespace TaoBD10.ViewModels
                         //stateDiNgoai = StateDiNgoai.MoLaiTiep;
                         isWaitingPrint = false;
                         isRunFirst = false;
-                        APIManager.showTest("6");
+                        APIManager.ShowTest("6");
                     }
                     break;
 
@@ -700,7 +700,7 @@ namespace TaoBD10.ViewModels
                                     {
                                         if (SelectedSimple.MaBuuCuc.ToUpper() != text.Substring(0, 6).ToUpper())
                                         {
-                                            APIManager.showSnackbar("Không đúng tỉnh rồi");
+                                            APIManager.ShowSnackbar("Không đúng tỉnh rồi");
 
                                             timerPrint.Stop();
                                             isWaitingPrint = false;
@@ -751,7 +751,7 @@ namespace TaoBD10.ViewModels
                                 SendKeys.SendWait("{LEFT}");
                                 SendKeys.SendWait(" ");
                                 Thread.Sleep(500);
-                                APIManager.showTest("11");
+                                APIManager.ShowTest("11");
                                 //Kiem tra Da dong tui chua
                                 SendKeys.SendWait("^C");
                                 Thread.Sleep(200);
@@ -761,7 +761,7 @@ namespace TaoBD10.ViewModels
                                     isWaitingPrint = false;
                                     timerPrint.Stop();
                                     WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Snackbar", Content = "Lỗi chưa chọn" });
-                                    APIManager.showTest("8");
+                                    APIManager.ShowTest("8");
                                     return;
                                 }
 
@@ -1292,7 +1292,7 @@ namespace TaoBD10.ViewModels
 
         private string boDauAndToLower(string text)
         {
-            return APIManager.convertToUnSign3(text).ToLower();
+            return APIManager.ConvertToUnSign3(text).ToLower();
         }
 
         private void CheckEnterKey()
@@ -1430,6 +1430,5 @@ namespace TaoBD10.ViewModels
         private string _SelectedBuuCuc;
         private DiNgoaiItemModel _SelectedDiNgoai;
         private string _TextCode;
-        private int count = 0;
     }
 }

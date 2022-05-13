@@ -76,7 +76,7 @@ namespace TaoBD10.ViewModels
             if (currentWindow == null)
                 return;
 
-            string textCo = APIManager.convertToUnSign3(currentWindow.text).ToLower();
+            string textCo = APIManager.ConvertToUnSign3(currentWindow.text).ToLower();
             if (textCo.IndexOf("xem chuyen thu chieu den") != -1)
             {
                 isBusyTamQuan = true;

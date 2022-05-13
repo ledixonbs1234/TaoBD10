@@ -112,7 +112,7 @@ namespace TaoBD10.ViewModels
                     {
                         foreach (var fill in fillTamQuan)
                         {
-                            if (APIManager.convertToUnSign3(hangHoa.Address).ToLower().IndexOf(fill) != -1)
+                            if (APIManager.ConvertToUnSign3(hangHoa.Address).ToLower().IndexOf(fill) != -1)
                             {
                                 hangHoa.IsTamQuan = true;
                                 SetCountTamQuan();

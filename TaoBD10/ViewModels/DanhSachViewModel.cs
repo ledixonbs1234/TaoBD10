@@ -21,7 +21,6 @@ namespace TaoBD10.ViewModels
         {
             get
             {
-                string a = "dfd";
                 return _BuoiArray;
             }
         }
@@ -30,7 +29,6 @@ namespace TaoBD10.ViewModels
         {
             get
             {
-                string a = "dfd";
                 return Array.IndexOf(_BuoiArray, true);
             }
         }

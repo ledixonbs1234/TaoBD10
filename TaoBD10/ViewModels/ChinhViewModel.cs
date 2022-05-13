@@ -17,7 +17,7 @@ namespace TaoBD10.ViewModels
 {
     public class ChinhViewModel : ObservableObject
     {
-        private DispatcherTimer timerPrint;
+        private readonly DispatcherTimer timerPrint;
 
         public ChinhViewModel()
         {
@@ -41,8 +41,10 @@ namespace TaoBD10.ViewModels
             BD10DenCommand = new RelayCommand(BD10Den);
             D420Command = new RelayCommand(D420);
             PrintDefaultCommand = new RelayCommand(PrintDefault);
-            timerPrint = new DispatcherTimer();
-            timerPrint.Interval = new TimeSpan(0, 0, 0, 0, 200);
+            timerPrint = new DispatcherTimer
+            {
+                Interval = new TimeSpan(0, 0, 0, 0, 200)
+            };
             timerPrint.Tick += TimerPrint_Tick;
 
             WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>
@@ -203,9 +205,8 @@ namespace TaoBD10.ViewModels
                         var allChild = APIManager.GetAllChildHandles(currentWindow.hwnd);
                         int countGr = 0;
                         double numberGR = 0;
-                        foreach (var item in allChild)
+                        foreach (IntPtr item in allChild)
                         {
-                            int count = 0;
 
                             //thuc hien lay text cua handle item
                             String text = APIManager.GetControlText(item);
@@ -506,15 +507,17 @@ namespace TaoBD10.ViewModels
 
         private void TamQuan()
         {
-            ChuyenThuModel chuyenThu = new ChuyenThuModel();
-            chuyenThu.Ten = "Tam Quan Tổng Hợp";
-            chuyenThu.NumberTinh = "593330";
-            chuyenThu.TextLoai = "Bưu phẩm bảo";
-            chuyenThu.TextTui = "Tổng hợp (Túi";
-            chuyenThu.CheckTinh = "593330";
-            chuyenThu.CheckLoai = "buu pham bao dam";
-            chuyenThu.CheckThuyBo = "thuy bo";
-            chuyenThu.NameMusic = "tuitamquanth";
+            ChuyenThuModel chuyenThu = new ChuyenThuModel
+            {
+                Ten = "Tam Quan Tổng Hợp",
+                NumberTinh = "593330",
+                TextLoai = "Bưu phẩm bảo",
+                TextTui = "Tổng hợp (Túi",
+                CheckTinh = "593330",
+                CheckLoai = "buu pham bao dam",
+                CheckThuyBo = "thuy bo",
+                NameMusic = "tuitamquanth"
+            };
             currentChuyenThu = chuyenThu;
 
             if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
@@ -543,15 +546,17 @@ namespace TaoBD10.ViewModels
 
         private void AnHoa()
         {
-            ChuyenThuModel chuyenThu = new ChuyenThuModel();
-            chuyenThu.Ten = "An Hòa Tổng Hợp";
-            chuyenThu.NumberTinh = "593880";
-            chuyenThu.TextLoai = "Bưu phẩm bảo";
-            chuyenThu.TextTui = "Tổng hợp (Túi";
-            chuyenThu.CheckTinh = "593880";
-            chuyenThu.CheckLoai = "buu pham bao dam";
-            chuyenThu.CheckThuyBo = "thuy bo";
-            chuyenThu.NameMusic = "anhoath";
+            ChuyenThuModel chuyenThu = new ChuyenThuModel
+            {
+                Ten = "An Hòa Tổng Hợp",
+                NumberTinh = "593880",
+                TextLoai = "Bưu phẩm bảo",
+                TextTui = "Tổng hợp (Túi",
+                CheckTinh = "593880",
+                CheckLoai = "buu pham bao dam",
+                CheckThuyBo = "thuy bo",
+                NameMusic = "anhoath"
+            };
             currentChuyenThu = chuyenThu;
 
             if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
@@ -565,15 +570,17 @@ namespace TaoBD10.ViewModels
 
         private void AnLao()
         {
-            ChuyenThuModel chuyenThu = new ChuyenThuModel();
-            chuyenThu.Ten = "An Lão Tổng Hợp";
-            chuyenThu.NumberTinh = "593850";
-            chuyenThu.TextLoai = "Bưu phẩm bảo";
-            chuyenThu.TextTui = "Tổng hợp (Túi";
-            chuyenThu.CheckTinh = "593850";
-            chuyenThu.CheckLoai = "buu pham bao dam";
-            chuyenThu.CheckThuyBo = "thuy bo";
-            chuyenThu.NameMusic = "anlaoth";
+            ChuyenThuModel chuyenThu = new ChuyenThuModel
+            {
+                Ten = "An Lão Tổng Hợp",
+                NumberTinh = "593850",
+                TextLoai = "Bưu phẩm bảo",
+                TextTui = "Tổng hợp (Túi",
+                CheckTinh = "593850",
+                CheckLoai = "buu pham bao dam",
+                CheckThuyBo = "thuy bo",
+                NameMusic = "anlaoth"
+            };
             currentChuyenThu = chuyenThu;
 
             if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
@@ -587,15 +594,17 @@ namespace TaoBD10.ViewModels
 
         private void AnMy()
         {
-            ChuyenThuModel chuyenThu = new ChuyenThuModel();
-            chuyenThu.Ten = "Ân Mỹ Tổng Hợp";
-            chuyenThu.NumberTinh = "593630";
-            chuyenThu.TextLoai = "Bưu phẩm bảo";
-            chuyenThu.TextTui = "Tổng hợp (Túi";
-            chuyenThu.CheckTinh = "593630";
-            chuyenThu.CheckLoai = "buu pham bao dam";
-            chuyenThu.CheckThuyBo = "thuy bo";
-            chuyenThu.NameMusic = "anmyth";
+            ChuyenThuModel chuyenThu = new ChuyenThuModel
+            {
+                Ten = "Ân Mỹ Tổng Hợp",
+                NumberTinh = "593630",
+                TextLoai = "Bưu phẩm bảo",
+                TextTui = "Tổng hợp (Túi",
+                CheckTinh = "593630",
+                CheckLoai = "buu pham bao dam",
+                CheckThuyBo = "thuy bo",
+                NameMusic = "anmyth"
+            };
             currentChuyenThu = chuyenThu;
 
             if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
@@ -609,15 +618,17 @@ namespace TaoBD10.ViewModels
 
         private void AnNhon()
         {
-            ChuyenThuModel chuyenThu = new ChuyenThuModel();
-            chuyenThu.Ten = "An Nhơn Tổng Hợp";
-            chuyenThu.NumberTinh = "592020";
-            chuyenThu.TextLoai = "Bưu phẩm bảo";
-            chuyenThu.TextTui = "Tổng hợp (Túi";
-            chuyenThu.CheckTinh = "592020";
-            chuyenThu.CheckLoai = "buu pham bao dam";
-            chuyenThu.CheckThuyBo = "thuy bo";
-            chuyenThu.NameMusic = "annhonth";
+            ChuyenThuModel chuyenThu = new ChuyenThuModel
+            {
+                Ten = "An Nhơn Tổng Hợp",
+                NumberTinh = "592020",
+                TextLoai = "Bưu phẩm bảo",
+                TextTui = "Tổng hợp (Túi",
+                CheckTinh = "592020",
+                CheckLoai = "buu pham bao dam",
+                CheckThuyBo = "thuy bo",
+                NameMusic = "annhonth"
+            };
             currentChuyenThu = chuyenThu;
 
             if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
@@ -631,15 +642,17 @@ namespace TaoBD10.ViewModels
 
         private void BCPHN()
         {
-            ChuyenThuModel chuyenThu = new ChuyenThuModel();
-            chuyenThu.Ten = "Khai Thác Hoài Nhơn";
-            chuyenThu.NumberTinh = "593280";
-            chuyenThu.TextLoai = "Bưu kiện";
-            chuyenThu.TextTui = "";
-            chuyenThu.CheckTinh = "593280";
-            chuyenThu.CheckLoai = "buu kien";
-            chuyenThu.CheckThuyBo = "thuy bo";
-            chuyenThu.NameMusic = "buucucphatk";
+            ChuyenThuModel chuyenThu = new ChuyenThuModel
+            {
+                Ten = "Khai Thác Hoài Nhơn",
+                NumberTinh = "593280",
+                TextLoai = "Bưu kiện",
+                TextTui = "",
+                CheckTinh = "593280",
+                CheckLoai = "buu kien",
+                CheckThuyBo = "thuy bo",
+                NameMusic = "buucucphatk"
+            };
             currentChuyenThu = chuyenThu;
 
             if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
@@ -718,12 +731,11 @@ namespace TaoBD10.ViewModels
             }
             if (currentWindow.text.IndexOf("Đóng chuyến thư") != -1)
             {
-                int countInTui = 0;
                 childsHandle = APIManager.GetAllChildHandles(currentWindow.hwnd);
                 string title = APIManager.GetControlText(childsHandle[3]);
                 //kiem tra so luong la bao nhieu
                 string resultString = Regex.Match(title, @"\d+").Value;
-                bool isRight = int.TryParse(resultString, out countInTui);
+                int.TryParse(resultString, out int countInTui);
 
                 if (countInTui > 0)
                 {
@@ -749,14 +761,13 @@ namespace TaoBD10.ViewModels
 
                     //thuc hien co tui trong nay
                     var childTaoTuiHandle = APIManager.GetAllChildHandles(currentWindow.hwnd);
-                    IntPtr loai1 = IntPtr.Zero;
 
                    
                         APIManager.SendMessage(childTaoTuiHandle[8], 0x0007, 0, 0);
                         APIManager.SendMessage(childTaoTuiHandle[8], 0x0007, 0, 0);
                         inputImulator.Keyboard.TextEntry(currentChuyenThu.TextTui);
                         inputImulator.Keyboard.KeyPress(VirtualKeyCode.TAB);
-                    APIManager.showSnackbar(currentChuyenThu.TextTui);
+                    APIManager.ShowSnackbar(currentChuyenThu.TextTui);
                     
                     inputImulator.Keyboard.KeyPress(VirtualKeyCode.F10);
                 }
@@ -765,7 +776,6 @@ namespace TaoBD10.ViewModels
             if (currentWindow.text.IndexOf("Tạo túi") != -1)
             {
                 var childTaoTuiHandle = APIManager.GetAllChildHandles(currentWindow.hwnd);
-                IntPtr loai1 = IntPtr.Zero;
 
                
                     APIManager.SendMessage(childTaoTuiHandle[8], 0x0007, 0, 0);
@@ -799,7 +809,7 @@ namespace TaoBD10.ViewModels
             {
                 string className = APIManager.GetWindowClass(item);
                 string temp = APIManager.GetControlText(item);
-                String text = APIManager.convertToUnSign3(temp).ToLower();
+                String text = APIManager.ConvertToUnSign3(temp).ToLower();
 
                 string classDefault = "WindowsForms10.EDIT.app.0.1e6fa8e";
                 if (className == classDefault)
@@ -834,15 +844,17 @@ namespace TaoBD10.ViewModels
 
         private void EMS()
         {
-            ChuyenThuModel chuyenThu = new ChuyenThuModel();
-            chuyenThu.Ten = "EMS Nam Trung Bộ";
-            chuyenThu.NumberTinh = "590100";
-            chuyenThu.TextLoai = "EMS";
-            chuyenThu.TextTui = "EMS H";
-            chuyenThu.CheckTinh = "590100";
-            chuyenThu.CheckLoai = "chuyen phat nhanh";
-            chuyenThu.CheckThuyBo = "ems thuong";
-            chuyenThu.NameMusic = "emsntbth";
+            ChuyenThuModel chuyenThu = new ChuyenThuModel
+            {
+                Ten = "EMS Nam Trung Bộ",
+                NumberTinh = "590100",
+                TextLoai = "EMS",
+                TextTui = "EMS H",
+                CheckTinh = "590100",
+                CheckLoai = "chuyen phat nhanh",
+                CheckThuyBo = "ems thuong",
+                NameMusic = "emsntbth"
+            };
             currentChuyenThu = chuyenThu;
 
             if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
@@ -856,15 +868,17 @@ namespace TaoBD10.ViewModels
 
         private void HoaiAn()
         {
-            ChuyenThuModel chuyenThu = new ChuyenThuModel();
-            chuyenThu.Ten = "Hoài Ân Tổng Hợp";
-            chuyenThu.NumberTinh = "593740";
-            chuyenThu.TextLoai = "Bưu phẩm bảo";
-            chuyenThu.TextTui = "Tổng hợp (Túi";
-            chuyenThu.CheckTinh = "593740";
-            chuyenThu.CheckLoai = "buu pham bao dam";
-            chuyenThu.CheckThuyBo = "thuy bo";
-            chuyenThu.NameMusic = "hoaianth";
+            ChuyenThuModel chuyenThu = new ChuyenThuModel
+            {
+                Ten = "Hoài Ân Tổng Hợp",
+                NumberTinh = "593740",
+                TextLoai = "Bưu phẩm bảo",
+                TextTui = "Tổng hợp (Túi",
+                CheckTinh = "593740",
+                CheckLoai = "buu pham bao dam",
+                CheckThuyBo = "thuy bo",
+                NameMusic = "hoaianth"
+            };
             currentChuyenThu = chuyenThu;
 
             if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
@@ -878,15 +892,17 @@ namespace TaoBD10.ViewModels
 
         private void Kien()
         {
-            ChuyenThuModel chuyenThu = new ChuyenThuModel();
-            chuyenThu.Ten = "Kiện Nam Trung Bộ";
-            chuyenThu.NumberTinh = "590100";
-            chuyenThu.TextLoai = "Bưu kiện";
-            chuyenThu.TextTui = "BK (Túi)";
-            chuyenThu.CheckTinh = "590100";
-            chuyenThu.CheckLoai = "buu kien";
-            chuyenThu.CheckThuyBo = "thuy bo";
-            chuyenThu.NameMusic = "kiennamtrungboth";
+            ChuyenThuModel chuyenThu = new ChuyenThuModel
+            {
+                Ten = "Kiện Nam Trung Bộ",
+                NumberTinh = "590100",
+                TextLoai = "Bưu kiện",
+                TextTui = "BK (Túi)",
+                CheckTinh = "590100",
+                CheckLoai = "buu kien",
+                CheckThuyBo = "thuy bo",
+                NameMusic = "kiennamtrungboth"
+            };
             currentChuyenThu = chuyenThu;
 
             if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
@@ -900,15 +916,17 @@ namespace TaoBD10.ViewModels
 
         private void KTHN()
         {
-            ChuyenThuModel chuyenThu = new ChuyenThuModel();
-            chuyenThu.Ten = "Khai Thác Hoài Nhơn";
-            chuyenThu.NumberTinh = "593230";
-            chuyenThu.TextLoai = "Bưu kiện";
-            chuyenThu.TextTui = "";
-            chuyenThu.CheckTinh = "593230";
-            chuyenThu.CheckLoai = "buu kien";
-            chuyenThu.CheckThuyBo = "thuy bo";
-            chuyenThu.NameMusic = "khaithack";
+            ChuyenThuModel chuyenThu = new ChuyenThuModel
+            {
+                Ten = "Khai Thác Hoài Nhơn",
+                NumberTinh = "593230",
+                TextLoai = "Bưu kiện",
+                TextTui = "",
+                CheckTinh = "593230",
+                CheckLoai = "buu kien",
+                CheckThuyBo = "thuy bo",
+                NameMusic = "khaithack"
+            };
             currentChuyenThu = chuyenThu;
 
             if (!APIManager.ThoatToDefault("593200", "khoi tao chuyen thu"))
@@ -922,15 +940,17 @@ namespace TaoBD10.ViewModels
 
         private void PhuCat()
         {
-            ChuyenThuModel chuyenThu = new ChuyenThuModel();
-            chuyenThu.Ten = "Phù Cát Tổng Hợp";
-            chuyenThu.NumberTinh = "592460";
-            chuyenThu.TextLoai = "Bưu phẩm bảo";
-            chuyenThu.TextTui = "Tổng hợp (Túi";
-            chuyenThu.CheckTinh = "592460";
-            chuyenThu.CheckLoai = "buu pham bao dam";
-            chuyenThu.CheckThuyBo = "thuy bo";
-            chuyenThu.NameMusic = "phucatth";
+            ChuyenThuModel chuyenThu = new ChuyenThuModel
+            {
+                Ten = "Phù Cát Tổng Hợp",
+                NumberTinh = "592460",
+                TextLoai = "Bưu phẩm bảo",
+                TextTui = "Tổng hợp (Túi",
+                CheckTinh = "592460",
+                CheckLoai = "buu pham bao dam",
+                CheckThuyBo = "thuy bo",
+                NameMusic = "phucatth"
+            };
             currentChuyenThu = chuyenThu;
 
             if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
@@ -944,15 +964,17 @@ namespace TaoBD10.ViewModels
 
         private void PhuMy()
         {
-            ChuyenThuModel chuyenThu = new ChuyenThuModel();
-            chuyenThu.Ten = "Phù Mỹ Tổng Hợp";
-            chuyenThu.NumberTinh = "592810";
-            chuyenThu.TextLoai = "Bưu phẩm bảo";
-            chuyenThu.TextTui = "Tổng hợp (Túi";
-            chuyenThu.CheckTinh = "592810";
-            chuyenThu.CheckLoai = "buu pham bao dam";
-            chuyenThu.CheckThuyBo = "thuy bo";
-            chuyenThu.NameMusic = "phumyth";
+            ChuyenThuModel chuyenThu = new ChuyenThuModel
+            {
+                Ten = "Phù Mỹ Tổng Hợp",
+                NumberTinh = "592810",
+                TextLoai = "Bưu phẩm bảo",
+                TextTui = "Tổng hợp (Túi",
+                CheckTinh = "592810",
+                CheckLoai = "buu pham bao dam",
+                CheckThuyBo = "thuy bo",
+                NameMusic = "phumyth"
+            };
             currentChuyenThu = chuyenThu;
 
             if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
@@ -966,15 +988,17 @@ namespace TaoBD10.ViewModels
 
         private void QuiNhon1()
         {
-            ChuyenThuModel chuyenThu = new ChuyenThuModel();
-            chuyenThu.Ten = "Quy Nhơn 1 Tổng Hợp";
-            chuyenThu.NumberTinh = "591520";
-            chuyenThu.TextLoai = "Bưu phẩm bảo";
-            chuyenThu.TextTui = "Tổng hợp (Túi";
-            chuyenThu.CheckTinh = "591520";
-            chuyenThu.CheckLoai = "buu pham bao dam";
-            chuyenThu.CheckThuyBo = "thuy bo";
-            chuyenThu.NameMusic = "qn1th";
+            ChuyenThuModel chuyenThu = new ChuyenThuModel
+            {
+                Ten = "Quy Nhơn 1 Tổng Hợp",
+                NumberTinh = "591520",
+                TextLoai = "Bưu phẩm bảo",
+                TextTui = "Tổng hợp (Túi",
+                CheckTinh = "591520",
+                CheckLoai = "buu pham bao dam",
+                CheckThuyBo = "thuy bo",
+                NameMusic = "qn1th"
+            };
             currentChuyenThu = chuyenThu;
 
             if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
@@ -988,15 +1012,17 @@ namespace TaoBD10.ViewModels
 
         private void QuyNhon2()
         {
-            ChuyenThuModel chuyenThu = new ChuyenThuModel();
-            chuyenThu.Ten = "Quy Nhơn 2 Tổng Hợp";
-            chuyenThu.NumberTinh = "591218";
-            chuyenThu.TextLoai = "Bưu phẩm bảo";
-            chuyenThu.TextTui = "Tổng hợp (Túi";
-            chuyenThu.CheckTinh = "591218";
-            chuyenThu.CheckLoai = "buu pham bao dam";
-            chuyenThu.CheckThuyBo = "thuy bo";
-            chuyenThu.NameMusic = "tuiqn2th";
+            ChuyenThuModel chuyenThu = new ChuyenThuModel
+            {
+                Ten = "Quy Nhơn 2 Tổng Hợp",
+                NumberTinh = "591218",
+                TextLoai = "Bưu phẩm bảo",
+                TextTui = "Tổng hợp (Túi",
+                CheckTinh = "591218",
+                CheckLoai = "buu pham bao dam",
+                CheckThuyBo = "thuy bo",
+                NameMusic = "tuiqn2th"
+            };
             currentChuyenThu = chuyenThu;
 
             if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
@@ -1010,15 +1036,17 @@ namespace TaoBD10.ViewModels
 
         private void TongHop()
         {
-            ChuyenThuModel chuyenThu = new ChuyenThuModel();
-            chuyenThu.Ten = "Nam Trung Bộ TH";
-            chuyenThu.NumberTinh = "590100";
-            chuyenThu.TextLoai = "Bưu phẩm bảo";
-            chuyenThu.TextTui = "Tổng hợp (Túi";
-            chuyenThu.CheckTinh = "590100";
-            chuyenThu.CheckLoai = "buu pham bao dam";
-            chuyenThu.CheckThuyBo = "thuy bo";
-            chuyenThu.NameMusic = "ntbth";
+            ChuyenThuModel chuyenThu = new ChuyenThuModel
+            {
+                Ten = "Nam Trung Bộ TH",
+                NumberTinh = "590100",
+                TextLoai = "Bưu phẩm bảo",
+                TextTui = "Tổng hợp (Túi",
+                CheckTinh = "590100",
+                CheckLoai = "buu pham bao dam",
+                CheckThuyBo = "thuy bo",
+                NameMusic = "ntbth"
+            };
             currentChuyenThu = chuyenThu;
 
             if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))

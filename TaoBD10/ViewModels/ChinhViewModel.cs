@@ -751,15 +751,13 @@ namespace TaoBD10.ViewModels
                     var childTaoTuiHandle = APIManager.GetAllChildHandles(currentWindow.hwnd);
                     IntPtr loai1 = IntPtr.Zero;
 
-                    if (currentChuyenThu.Ten == "EMS Nam Trung Bộ" || currentChuyenThu.Ten == "Kiện Nam Trung Bộ")
-                    { }
-                    else
-                    {
+                   
                         APIManager.SendMessage(childTaoTuiHandle[8], 0x0007, 0, 0);
                         APIManager.SendMessage(childTaoTuiHandle[8], 0x0007, 0, 0);
                         inputImulator.Keyboard.TextEntry(currentChuyenThu.TextTui);
                         inputImulator.Keyboard.KeyPress(VirtualKeyCode.TAB);
-                    }
+                    APIManager.showSnackbar(currentChuyenThu.TextTui);
+                    
                     inputImulator.Keyboard.KeyPress(VirtualKeyCode.F10);
                 }
             }
@@ -769,15 +767,12 @@ namespace TaoBD10.ViewModels
                 var childTaoTuiHandle = APIManager.GetAllChildHandles(currentWindow.hwnd);
                 IntPtr loai1 = IntPtr.Zero;
 
-                if (currentChuyenThu.Ten == "EMS Nam Trung Bộ" || currentChuyenThu.Ten == "Kiện Nam Trung Bộ")
-                { }
-                else
-                {
+               
                     APIManager.SendMessage(childTaoTuiHandle[8], 0x0007, 0, 0);
                     APIManager.SendMessage(childTaoTuiHandle[8], 0x0007, 0, 0);
                     inputImulator.Keyboard.TextEntry(currentChuyenThu.TextTui);
                     inputImulator.Keyboard.KeyPress(VirtualKeyCode.TAB);
-                }
+                
                 inputImulator.Keyboard.KeyPress(VirtualKeyCode.F10);
             }
             countTempReturn = 0;
@@ -887,7 +882,7 @@ namespace TaoBD10.ViewModels
             chuyenThu.Ten = "Kiện Nam Trung Bộ";
             chuyenThu.NumberTinh = "590100";
             chuyenThu.TextLoai = "Bưu kiện";
-            chuyenThu.TextTui = "BK (";
+            chuyenThu.TextTui = "BK (Túi)";
             chuyenThu.CheckTinh = "590100";
             chuyenThu.CheckLoai = "buu kien";
             chuyenThu.CheckThuyBo = "thuy bo";

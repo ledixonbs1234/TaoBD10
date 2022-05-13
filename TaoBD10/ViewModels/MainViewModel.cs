@@ -104,7 +104,7 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        private int _IndexTabTui = 1;
+        private int _IndexTabTui = 0;
 
         public int IndexTabTui
         {

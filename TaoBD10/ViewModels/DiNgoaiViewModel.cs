@@ -625,17 +625,17 @@ namespace TaoBD10.ViewModels
                         if (charCodeFirst == "c")
                         {
                             temp = "bưu k";
-                            downTaoTui = 1;
+                            downTaoTui = 2;
                         }
                         else if (charCodeFirst == "e")
                         {
                             temp = "em";
-                            downTaoTui = 2;
+                            downTaoTui = 6;
                         }
                         else if (charCodeFirst == "p")
                         {
                             temp = "lo";
-                            downTaoTui = 3;
+                            downTaoTui = 4;
                         }
 
                         SendKeys.SendWait("{BS}" + temp + "{TAB}");
@@ -1238,6 +1238,19 @@ namespace TaoBD10.ViewModels
                 {
                     diNgoai.TenBuuCuc = "550100 - Đà Nẵng EMS NT";
                     diNgoai.MaBuuCuc = "550100";
+                }
+            }
+            else if (diNgoai.MaTinh == "85")
+            {
+                if (loai == "C")
+                {
+                    diNgoai.TenBuuCuc = "850100 - KTC1 Long An";
+                    diNgoai.MaBuuCuc = "850100";
+                }
+                else if (loai == "E")
+                {
+                    diNgoai.TenBuuCuc = "850100 - KTC1 Long An";
+                    diNgoai.MaBuuCuc = "850100";
                 }
             }
             else

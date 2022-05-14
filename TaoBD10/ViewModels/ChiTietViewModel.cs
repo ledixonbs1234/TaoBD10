@@ -473,6 +473,7 @@ namespace TaoBD10.ViewModels
             if (info == null)
                 return;
             List<TestAPIModel> listControl = APIManager.GetListControlText(info.hwnd);
+            var listWindowForm = listControl.Where(m => m.ClassName.IndexOf("10.Window.8.ap") != -1);
 
             //thuc hien kiem tra ma trong nay
 

@@ -473,9 +473,13 @@ namespace TaoBD10.ViewModels
             if (info == null)
                 return;
             List<TestAPIModel> listControl = APIManager.GetListControlText(info.hwnd);
-            var listWindowForm = listControl.Where(m => m.ClassName.IndexOf("10.Window.8.ap") != -1).ToList();
+            List<TestAPIModel> listWindowForm = listControl.Where(m => m.ClassName.IndexOf("10.Window.8.ap") != -1).ToList();
+            APIManager.SendMessage(listWindowForm[23].Handle, 0x0007, 0, 0);
+            Thread.Sleep(50);
+            APIManager.SendMessage(listWindowForm[23].Handle, 0x0007, 0, 0);
 
             //thuc hien kiem tra ma trong nay
+            SendKeys.SendWait("^(a)");
 
             SendKeys.SendWait("+{TAB}");
             SendKeys.SendWait("+{TAB}");

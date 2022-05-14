@@ -514,8 +514,8 @@ namespace TaoBD10.ViewModels
                     printD = APIManager.GetActiveWindowTitle();
                     Thread.Sleep(200);
                 }
-                Thread.Sleep(100);
-                SendKeys.SendWait("{Right}");
+                Thread.Sleep(200);
+                SendKeys.SendWait("{TAB}");
                 SendKeys.SendWait(" ");
                 Thread.Sleep(1000);
                 SendKeys.SendWait("%{c}");

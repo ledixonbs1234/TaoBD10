@@ -466,6 +466,14 @@ namespace TaoBD10.ViewModels
             stateTaoBd10 = StateTaoBd10.DanhSachBD10;
             timerTaoBD.Start();
         }
+        private string _TestText;
+
+        public string TestText
+        {
+            get { return _TestText; }
+            set { SetProperty(ref _TestText, value); }
+        }
+
 
         private void PrintDiNgoai()
         {
@@ -526,10 +534,15 @@ namespace TaoBD10.ViewModels
             while (printD.text.IndexOf("print document") == -1)
             {
                 printD = APIManager.GetActiveWindowTitle();
+                if (printD == null) {
+                    APIManager.ShowSnackbar("Null Title");
+                    return;
+                }
+                TestText += printD.text+ "\n";
                 Thread.Sleep(100);
             }
-            Thread.Sleep(100);
-            SendKeys.SendWait("{Right}");
+            Thread.Sleep(200);
+            SendKeys.SendWait("{TAB}");
             SendKeys.SendWait(" ");
 
             WindowInfo infoPrint = WaitingFindedWindow("Print", 3, true);

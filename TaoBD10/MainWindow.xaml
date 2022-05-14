@@ -98,7 +98,7 @@
                 <view:DiNgoaiView />
             </TabItem>
             <TabItem Header="XAC NHAN">
-                <TextBlock Text="Chao cac ban" />
+                <view:FillView/>
             </TabItem>
             <TabItem Header="LẤY CT">
                 <view:LayChuyenThu />

@@ -472,6 +472,7 @@ namespace TaoBD10.ViewModels
             WindowInfo info = WaitingFindedWindow("thong tin buu gui", 1);
             if (info == null)
                 return;
+            List<TestAPIModel> listControl = APIManager.GetListControlText(info.hwnd);
 
             //thuc hien kiem tra ma trong nay
 
@@ -479,11 +480,11 @@ namespace TaoBD10.ViewModels
             SendKeys.SendWait("+{TAB}");
             SendKeys.SendWait("+{TAB}");
             SendKeys.SendWait("^(a)");
-            Thread.Sleep(200);
+            Thread.Sleep(50);
             SendKeys.SendWait("^(c)");
-            Thread.Sleep(200);
+            Thread.Sleep(50);
             string clipboard = System.Windows.Clipboard.GetText();
-            Thread.Sleep(200);
+            Thread.Sleep(50);
             if (string.IsNullOrEmpty(clipboard))
             {
                 return;

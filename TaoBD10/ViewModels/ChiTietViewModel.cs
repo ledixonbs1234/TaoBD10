@@ -474,7 +474,7 @@ namespace TaoBD10.ViewModels
                 return;
             List<TestAPIModel> listControl = APIManager.GetListControlText(info.hwnd);
             List<TestAPIModel> listWindowForm = listControl.Where(m => m.ClassName.IndexOf("10.Window.8.ap") != -1).ToList();
-         
+
             //thuc hien kiem tra ma trong nay
             SendKeys.SendWait("^(a)");
 
@@ -522,28 +522,16 @@ namespace TaoBD10.ViewModels
             Thread.Sleep(50);
             SendKeys.SendWait(" ");
 
-            WindowInfo infoDocument = WaitingFindedWindow("Print Document", 3, true);
-            if (infoDocument == null)
-                return;
-
-            Thread.Sleep(600);
-            List<IntPtr> childs = APIManager.GetAllChildHandles(infoDocument.hwnd);
-            int countButton = 0;
-            foreach (var item in childs)
+            WindowInfo printD = new WindowInfo();
+            while (printD.text.IndexOf("print document") == -1)
             {
-                string a = APIManager.GetWindowClass(item);
-
-                if (a.IndexOf("WindowsForms10.BUTTON.app.0.1e6fa8e") != -1)
-                {
-                    countButton++;
-                    if (countButton == 2)
-                    {
-                        SendKeys.SendWait("{RIGHT}");
-                        SendKeys.SendWait(" ");
-                        break;
-                    }
-                }
+                printD = APIManager.GetActiveWindowTitle();
+                Thread.Sleep(100);
             }
+            Thread.Sleep(100);
+            SendKeys.SendWait("{Right}");
+            SendKeys.SendWait(" ");
+
             WindowInfo infoPrint = WaitingFindedWindow("Print", 3, true);
             if (infoPrint == null)
                 return;

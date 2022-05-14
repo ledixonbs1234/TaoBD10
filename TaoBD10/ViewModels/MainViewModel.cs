@@ -507,7 +507,6 @@ namespace TaoBD10.ViewModels
                 SendKeys.SendWait("{F3}");
                 Thread.Sleep(500);
                 SendKeys.SendWait("{Enter}");
-                Thread.Sleep(500);
 
                 WindowInfo printD = danhSach;
                 while (printD.text.IndexOf("print document") == -1)
@@ -515,6 +514,7 @@ namespace TaoBD10.ViewModels
                     printD = APIManager.GetActiveWindowTitle();
                     Thread.Sleep(200);
                 }
+                Thread.Sleep(100);
                 SendKeys.SendWait("{Right}");
                 SendKeys.SendWait(" ");
                 Thread.Sleep(1000);

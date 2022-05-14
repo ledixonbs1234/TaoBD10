@@ -285,6 +285,11 @@ namespace TaoBD10.Manager
             this.text = text;
             this.hwnd = hwnd;
         }
+        public WindowInfo()
+        {
+            this.text = "";
+            this.hwnd = IntPtr.Zero;
+        }
 
         public IntPtr hwnd;
         public string text;

@@ -979,12 +979,13 @@ namespace TaoBD10.ViewModels
                         return null;
 
                     Thread.Sleep(200);
-                    currentWindow = APIManager.GetActiveWindowTitle();
+                    currentWindow = APIManager.GetActiveWindowTitle(true);
                     if (currentWindow == null)
                         return null;
 
                     titleWindow = currentWindow.text;
                 }
+                string text = "lal";
             }
             else
             {

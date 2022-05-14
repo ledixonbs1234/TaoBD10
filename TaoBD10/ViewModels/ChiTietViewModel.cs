@@ -541,14 +541,23 @@ namespace TaoBD10.ViewModels
             WindowInfo infoPrintDocument = WaitingFindedWindow("Print Document", 3, true);
             if (infoPrintDocument == null)
                 return;
-
-            Thread.Sleep(1500);
-
+            WindowInfo printD1 = new WindowInfo();
+            while (printD1.text.IndexOf("printing") == -1)
+            {
+                printD1 = APIManager.GetActiveWindowTitle();
+                Thread.Sleep(100);
+            }
+            while (printD1.text.IndexOf("printing") != -1)
+            {
+                printD1 = APIManager.GetActiveWindowTitle();
+                Thread.Sleep(100);
+            }
             if (CurrentSelectedHangHoaDetail != null)
             {
                 CurrentSelectedHangHoaDetail.TrangThaiBD = TrangThaiBD.DaIn;
             }
 
+            Thread.Sleep(200);
             SendKeys.SendWait("{RIGHT}");
             Thread.Sleep(50);
             SendKeys.SendWait(" ");

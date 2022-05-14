@@ -548,7 +548,7 @@ namespace TaoBD10.ViewModels
                     printD1 = APIManager.GetActiveWindowTitle();
                     Thread.Sleep(100);
                 }
-                Thread.Sleep(200);
+                Thread.Sleep(500);
                 SendKeys.SendWait("{Enter}");
                 SendKeys.SendWait("{Esc}");
                 Thread.Sleep(100);

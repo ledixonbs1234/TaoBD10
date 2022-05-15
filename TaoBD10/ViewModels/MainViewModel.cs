@@ -678,6 +678,7 @@ namespace TaoBD10.ViewModels
 
             if (activeWindow == null)
             {
+                TestText += "null";
                 return;
             }
             TestText += "reading";

@@ -764,6 +764,10 @@ namespace TaoBD10.ViewModels
                 isHaveError = false;
 
                 List<TestAPIModel> listWindowStatic = listControl.Where(m => m.ClassName.IndexOf("WindowsForms10.STATIC.app") != -1).ToList();
+                if(listWindowStatic.Count ==0)
+                {
+                    return;
+                }
                 TestAPIModel apiNumber = listWindowStatic[8];
                 int.TryParse(Regex.Match(apiNumber.Text, @"\d+").Value, out numberRead);
             }
@@ -772,6 +776,10 @@ namespace TaoBD10.ViewModels
                 isHaveError = false;
 
                 List<TestAPIModel> listWindowStatic = listControl.Where(m => m.ClassName.IndexOf("WindowsForms10.STATIC.app") != -1).ToList();
+                if (listWindowStatic.Count == 0)
+                {
+                    return;
+                }
                 TestAPIModel apiNumber = listWindowStatic[7];
                 int.TryParse(Regex.Match(apiNumber.Text, @"\d+").Value, out numberRead);
             }
@@ -780,6 +788,10 @@ namespace TaoBD10.ViewModels
                 isHaveError = false;
 
                 List<TestAPIModel> listWindowStatic = listControl.Where(m => m.ClassName.IndexOf("WindowsForms10.STATIC.app") != -1).ToList();
+                if (listWindowStatic.Count == 0)
+                {
+                    return;
+                }
                 TestAPIModel apiNumber = listWindowStatic[9];
                 TestText += apiNumber.Text + "\n";
                 int.TryParse(Regex.Match(apiNumber.Text, @"\d+").Value, out numberRead);

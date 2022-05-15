@@ -748,16 +748,16 @@ namespace TaoBD10.ViewModels
                         }
                     }
                 }
-
                 //kiem tra cai
                 TestAPIModel apiCai = listControl.First(m => m.Text.IndexOf("cái") != -1);
+                TestText += apiCai.Text + "\n";
                 int.TryParse(Regex.Match(apiCai.Text, @"\d+").Value, out numberRead);
             }
             else if (activeWindow.text.IndexOf("xac nhan chi tiet tui thu") != -1)
             {
                 isHaveError = false;
                 TestAPIModel apiCai = listControl.First(m => m.Text.IndexOf("cái") != -1);
-                TestText += apiCai.Text + "\n";
+               
                 int.TryParse(Regex.Match(apiCai.Text, @"\d+").Value, out numberRead);
             }
             else if (activeWindow.text.IndexOf("xac nhan bd10 theo so hieu tui") != -1)

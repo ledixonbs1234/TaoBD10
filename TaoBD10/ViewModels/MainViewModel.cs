@@ -32,7 +32,7 @@ namespace TaoBD10.ViewModels
             TabTuiChangedCommand = new RelayCommand<System.Windows.Controls.TabControl>(TabTuiChanged);
 
             timerRead = new DispatcherTimer();
-            timerRead.Interval = new TimeSpan(0, 0, 0, 0, 1000);
+            timerRead.Interval = new TimeSpan(0, 0, 0, 0, 100);
             timerRead.Tick += TimerRead_Tick;
             timerRead.Start();
 

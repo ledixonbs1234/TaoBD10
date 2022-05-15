@@ -681,6 +681,9 @@ namespace TaoBD10.ViewModels
                 return;
             }
             TestText += "reading";
+            int count =TestText.Split('\n').Length;
+            if (count > 10)
+                TestText = "";
 
             //class compare
 

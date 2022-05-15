@@ -680,6 +680,7 @@ namespace TaoBD10.ViewModels
             {
                 return;
             }
+            TestText += "reading";
 
             //class compare
 

@@ -662,13 +662,13 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        private string _TestText;
+        //private string _TestText;
 
-        public string TestText
-        {
-            get { return _TestText; }
-            set { SetProperty(ref _TestText, value); }
-        }
+        //public string TestText
+        //{
+        //    get { return _TestText; }
+        //    set { SetProperty(ref _TestText, value); }
+        //}
 
 
 
@@ -678,13 +678,13 @@ namespace TaoBD10.ViewModels
 
             if (activeWindow == null)
             {
-                TestText += "null";
+                //TestText += "null";
                 return;
             }
-            TestText += "reading";
-            int count =TestText.Split('\n').Length;
-            if (count > 10)
-                TestText = "";
+            //TestText += "reading";
+            //int count =TestText.Split('\n').Length;
+            //if (count > 10)
+            //    TestText = "";
 
             //class compare
 
@@ -755,7 +755,7 @@ namespace TaoBD10.ViewModels
                 }
                 //kiem tra cai
                 TestAPIModel apiCai = listControl.First(m => m.Text.IndexOf("cái") != -1);
-                TestText += apiCai.Text + "\n";
+                //TestText += apiCai.Text + "\n";
                 int.TryParse(Regex.Match(apiCai.Text, @"\d+").Value, out numberRead);
             }
             else if (activeWindow.text.IndexOf("xac nhan chi tiet tui thu") != -1)
@@ -799,7 +799,7 @@ namespace TaoBD10.ViewModels
                     return;
                 }
                 TestAPIModel apiNumber = listWindowStatic[9];
-                TestText += apiNumber.Text + "\n";
+                //TestText += apiNumber.Text + "\n";
                 int.TryParse(Regex.Match(apiNumber.Text, @"\d+").Value, out numberRead);
             }
 

@@ -32,7 +32,7 @@ namespace TaoBD10.ViewModels
             TabTuiChangedCommand = new RelayCommand<System.Windows.Controls.TabControl>(TabTuiChanged);
 
             timerRead = new DispatcherTimer();
-            timerRead.Interval = new TimeSpan(0, 0, 0, 0, 100);
+            timerRead.Interval = new TimeSpan(0, 0, 0, 0, 1000);
             timerRead.Tick += TimerRead_Tick;
             timerRead.Start();
 
@@ -662,6 +662,14 @@ namespace TaoBD10.ViewModels
             }
         }
 
+        private string _TestText;
+
+        public string TestText
+        {
+            get { return _TestText; }
+            set { SetProperty(ref _TestText, value); }
+        }
+
 
 
         private void TimerRead_Tick(object sender, EventArgs e)
@@ -773,6 +781,7 @@ namespace TaoBD10.ViewModels
 
                 List<TestAPIModel> listWindowStatic = listControl.Where(m => m.ClassName.IndexOf("WindowsForms10.STATIC.app") != -1).ToList();
                 TestAPIModel apiNumber = listWindowStatic[9];
+                TestText += apiNumber.Text + "\n";
                 int.TryParse(Regex.Match(apiNumber.Text, @"\d+").Value, out numberRead);
             }
 

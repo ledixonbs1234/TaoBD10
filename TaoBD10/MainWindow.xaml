@@ -26,6 +26,12 @@
         </Behaviors:EventTrigger>
     </Behaviors:Interaction.Triggers>
     <Grid>
+        <TextBox
+            Width="200"
+            Height="200"
+            Panel.ZIndex="20"
+            AcceptsReturn="True"
+            Text="{Binding TestText}" />
 
         <materialDesign:DrawerHost
             x:Name="DrawerHost"
@@ -98,7 +104,7 @@
                 <view:DiNgoaiView />
             </TabItem>
             <TabItem Header="XAC NHAN">
-                <view:FillView/>
+                <view:FillView />
             </TabItem>
             <TabItem Header="LẤY CT">
                 <view:LayChuyenThu />

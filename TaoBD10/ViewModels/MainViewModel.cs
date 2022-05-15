@@ -770,7 +770,7 @@ namespace TaoBD10.ViewModels
                 isHaveError = false;
 
                 List<TestAPIModel> listWindowStatic = listControl.Where(m => m.ClassName.IndexOf("WindowsForms10.STATIC.app") != -1).ToList();
-                if(listWindowStatic.Count ==0)
+                if(listWindowStatic.Count <9)
                 {
                     return;
                 }
@@ -782,7 +782,7 @@ namespace TaoBD10.ViewModels
                 isHaveError = false;
 
                 List<TestAPIModel> listWindowStatic = listControl.Where(m => m.ClassName.IndexOf("WindowsForms10.STATIC.app") != -1).ToList();
-                if (listWindowStatic.Count == 0)
+                if (listWindowStatic.Count < 7)
                 {
                     return;
                 }
@@ -794,7 +794,7 @@ namespace TaoBD10.ViewModels
                 isHaveError = false;
 
                 List<TestAPIModel> listWindowStatic = listControl.Where(m => m.ClassName.IndexOf("WindowsForms10.STATIC.app") != -1).ToList();
-                if (listWindowStatic.Count == 0)
+                if (listWindowStatic.Count < 10)
                 {
                     return;
                 }

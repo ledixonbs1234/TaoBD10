@@ -596,7 +596,6 @@ namespace TaoBD10.ViewModels
             switch (stateDiNgoai)
             {
                 case StateDiNgoai.KhoiTao:
-                    APIManager.ShowTest("2");
                     if (currentWindow.text.IndexOf("khoi tao chuyen thu") != -1)
                     {
                         isWaitingPrint = true;

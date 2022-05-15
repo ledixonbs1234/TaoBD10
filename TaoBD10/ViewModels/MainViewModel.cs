@@ -503,6 +503,7 @@ namespace TaoBD10.ViewModels
                 return;
             if (danhSach.text.IndexOf("sua thong tin bd10") != -1 || danhSach.text.IndexOf("lap bd10") != -1)
             {
+                APIManager.SetDefaultPrint();
                 List<TestAPIModel> datas = APIManager.GetListControlText(danhSach.hwnd);
                 SendKeys.SendWait("{F3}");
                 Thread.Sleep(500);

@@ -58,7 +58,7 @@ namespace TaoBD10.Manager
         }
 
         [DllImport("winspool.drv", CharSet = CharSet.Auto, SetLastError = true)]
-        public static extern bool SetDefaultPrinter(string Name);
+        private static extern bool SetDefaultPrinter(string Name);
 
         public static void SetZ420Print()
         {
@@ -67,6 +67,17 @@ namespace TaoBD10.Manager
                 if (printer.IndexOf("ZDesigner") != -1)
                 {
                     SetDefaultPrinter(printer);
+                    break;
+                }
+            }
+        }
+        public static void SetDefaultPrint()
+        {
+            foreach (string printer in PrinterSettings.InstalledPrinters)
+            {
+                if (printer.IndexOf("M201") != -1)
+                {
+                    APIManager.SetDefaultPrinter(printer);
                     break;
                 }
             }

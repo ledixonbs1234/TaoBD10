@@ -151,28 +151,14 @@ namespace TaoBD10.ViewModels
 
         private void D420()
         {
-            foreach (string printer in System.Drawing.Printing.PrinterSettings.InstalledPrinters)
-            {
-                if (printer.IndexOf("ZDesigner") != -1)
-                {
-                    APIManager.SetDefaultPrinter(printer);
-                    break;
-                }
-            }
+            APIManager.SetZ420Print();
         }
 
         public ICommand PrintDefaultCommand { get; }
 
         private void PrintDefault()
         {
-            foreach (string printer in System.Drawing.Printing.PrinterSettings.InstalledPrinters)
-            {
-                if (printer.IndexOf("M201") != -1)
-                {
-                    APIManager.SetDefaultPrinter(printer);
-                    break;
-                }
-            }
+            APIManager.SetDefaultPrint();
         }
 
         private PrintState printState = PrintState.CheckF;
@@ -762,13 +748,13 @@ namespace TaoBD10.ViewModels
                     //thuc hien co tui trong nay
                     var childTaoTuiHandle = APIManager.GetAllChildHandles(currentWindow.hwnd);
 
-                   
-                        APIManager.SendMessage(childTaoTuiHandle[8], 0x0007, 0, 0);
-                        APIManager.SendMessage(childTaoTuiHandle[8], 0x0007, 0, 0);
-                        inputImulator.Keyboard.TextEntry(currentChuyenThu.TextTui);
-                        inputImulator.Keyboard.KeyPress(VirtualKeyCode.TAB);
+
+                    APIManager.SendMessage(childTaoTuiHandle[8], 0x0007, 0, 0);
+                    APIManager.SendMessage(childTaoTuiHandle[8], 0x0007, 0, 0);
+                    inputImulator.Keyboard.TextEntry(currentChuyenThu.TextTui);
+                    inputImulator.Keyboard.KeyPress(VirtualKeyCode.TAB);
                     APIManager.ShowSnackbar(currentChuyenThu.TextTui);
-                    
+
                     inputImulator.Keyboard.KeyPress(VirtualKeyCode.F10);
                 }
             }
@@ -777,12 +763,12 @@ namespace TaoBD10.ViewModels
             {
                 var childTaoTuiHandle = APIManager.GetAllChildHandles(currentWindow.hwnd);
 
-               
-                    APIManager.SendMessage(childTaoTuiHandle[8], 0x0007, 0, 0);
-                    APIManager.SendMessage(childTaoTuiHandle[8], 0x0007, 0, 0);
-                    inputImulator.Keyboard.TextEntry(currentChuyenThu.TextTui);
-                    inputImulator.Keyboard.KeyPress(VirtualKeyCode.TAB);
-                
+
+                APIManager.SendMessage(childTaoTuiHandle[8], 0x0007, 0, 0);
+                APIManager.SendMessage(childTaoTuiHandle[8], 0x0007, 0, 0);
+                inputImulator.Keyboard.TextEntry(currentChuyenThu.TextTui);
+                inputImulator.Keyboard.KeyPress(VirtualKeyCode.TAB);
+
                 inputImulator.Keyboard.KeyPress(VirtualKeyCode.F10);
             }
             countTempReturn = 0;

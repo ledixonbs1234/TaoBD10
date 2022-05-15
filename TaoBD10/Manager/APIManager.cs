@@ -168,7 +168,8 @@ namespace TaoBD10.Manager
                 int cchClassNameLength = GetClassNameW(hWnd, sb, length);
                 if (cchClassNameLength == 0)
                 {
-                    throw new Win32Exception(Marshal.GetLastWin32Error());
+                    //throw new Win32Exception(Marshal.GetLastWin32Error());
+                    return "null";
                 }
                 else if (cchClassNameLength < length - 1) // -1 for null terminator
                 {

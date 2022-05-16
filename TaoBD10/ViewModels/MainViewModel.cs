@@ -22,12 +22,15 @@ namespace TaoBD10.ViewModels
         private bool Is16Kg = false;
         public IRelayCommand<Window> CloseWindowCommand { get; }
 
-       
+
         void CloseWindow(Window window)
         {
             window.Close();
         }
-
+        private string boDauAndToLower(string text)
+        {
+            return APIManager.ConvertToUnSign3(text).ToLower();
+        }
 
         public MainViewModel()
         {
@@ -80,6 +83,49 @@ namespace TaoBD10.ViewModels
                 {
                     Is16Kg = false;
                 }
+            });
+
+            WeakReferenceMessenger.Default.Register<WebContentModel>(this, (r, m) =>
+            {
+                if (m.Key == "AddressDongChuyenThu")
+                {
+                    List<string> fillAddress = m.AddressReiceive.Split('-').Select(s => s.Trim()).ToList();
+                    if (fillAddress == null)
+                        return;
+                    if (fillAddress.Count < 3)
+                        return;
+                    string addressExactly = fillAddress[fillAddress.Count - 2];
+                    if (maSoBuuCucCurrent == "590100")
+                    {
+                        if (m.BuuCucPhat == "59")
+                        {
+                            //thuc hien loai thang nay ra
+                            APIManager.ShowSnackbar("Không đúng tỉnh");
+                        }
+                    }
+                    else if (maSoBuuCucCurrent == "592810")
+                    {
+                        if (boDauAndToLower(addressExactly).IndexOf("phu my") == -1)
+                            APIManager.ShowSnackbar("Không đúng tỉnh");
+
+                    }
+                    else if (maSoBuuCucCurrent == "592460")
+                    {
+                        if (boDauAndToLower(addressExactly).IndexOf("phu cat") == -1)
+                            APIManager.ShowSnackbar("Không đúng tỉnh");
+                    }
+                    else if (maSoBuuCucCurrent == "592020")
+                    {
+                        if (boDauAndToLower(addressExactly).IndexOf("an nhon") == -1)
+                            APIManager.ShowSnackbar("Không đúng tỉnh");
+                    }
+                    else if (maSoBuuCucCurrent == "591520" || maSoBuuCucCurrent == "591218")
+                    {
+                        if (boDauAndToLower(addressExactly).IndexOf("quy nhon") == -1)
+                            APIManager.ShowSnackbar("Không đúng tỉnh");
+                    }
+                }
+
             });
         }
 
@@ -460,6 +506,20 @@ namespace TaoBD10.ViewModels
                         Thread.Sleep(700);
                         WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "BCP" });
                     }
+                    else if (KeyData.IndexOf("vn") != -1)
+                    {
+                        WindowInfo activeWindow = APIManager.GetActiveWindowTitle();
+                        if (activeWindow.text.IndexOf("dong chuyen thu") != -1)
+                        {
+                            //get code = 
+                            string code = getCodeFromString(KeyData.ToLower());
+
+                            //lay dia chi cua ma can tim
+                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "LoadAddressDong", Content = code });
+                        }
+
+
+                    }
                     KeyData = "";
 
                     break;
@@ -476,6 +536,12 @@ namespace TaoBD10.ViewModels
                     KeyData += e.KeyPressed.ToString();
                     break;
             }
+        }
+
+        string getCodeFromString(string content)
+        {
+            int index = content.LastIndexOf("vn");
+            return content.Substring(index - 11, 13);
         }
 
         private void SetChiTietWindow()
@@ -772,7 +838,7 @@ namespace TaoBD10.ViewModels
             {
                 isHaveError = false;
                 TestAPIModel apiCai = listControl.First(m => m.Text.IndexOf("cái") != -1);
-               
+
                 int.TryParse(Regex.Match(apiCai.Text, @"\d+").Value, out numberRead);
             }
             else if (activeWindow.text.IndexOf("xac nhan bd10 theo so hieu tui") != -1)
@@ -780,7 +846,7 @@ namespace TaoBD10.ViewModels
                 isHaveError = false;
 
                 List<TestAPIModel> listWindowStatic = listControl.Where(m => m.ClassName.IndexOf("WindowsForms10.STATIC.app") != -1).ToList();
-                if(listWindowStatic.Count <9)
+                if (listWindowStatic.Count < 9)
                 {
                     return;
                 }

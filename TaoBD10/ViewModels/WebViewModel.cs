@@ -49,6 +49,11 @@ namespace TaoBD10.ViewModels
                 {
                     _LoadWebChoose = LoadWebChoose.KiemTraWeb;
                     LoadAddressDiNgoai(m.Content);
+                }else if (m.Key == "LoadAddressDong")
+                {
+
+                    _LoadWebChoose = LoadWebChoose.DongChuyenThu;
+                    LoadAddressDiNgoai(m.Content);
                 }
                 else if (m.Key == "KTChuaPhat")
                 {
@@ -304,6 +309,10 @@ document.getElementsByClassName("".footer"").remove();
                             webContent.Key = "AddressTamQuan";
                         else if (_LoadWebChoose == LoadWebChoose.AddressChuaPhat)
                             webContent.Key = "AddressChuaPhat";
+                        else if (_LoadWebChoose == LoadWebChoose.DongChuyenThu)
+                        {
+                            webContent.Key = "AddressDongChuyenThu";
+                        }
                         //Thuc hien send Web content qua do
                         WeakReferenceMessenger.Default.Send<WebContentModel>(webContent);
                     }

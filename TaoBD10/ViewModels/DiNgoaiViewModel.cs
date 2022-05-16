@@ -586,7 +586,6 @@ namespace TaoBD10.ViewModels
         private void TimerPrint_Tick(object sender, EventArgs e)
         {
             if (isWaitingPrint) return;
-            APIManager.ShowTest("1");
             var currentWindow = APIManager.GetActiveWindowTitle();
             if (currentWindow == null)
             {
@@ -668,7 +667,6 @@ namespace TaoBD10.ViewModels
                         //stateDiNgoai = StateDiNgoai.MoLaiTiep;
                         isWaitingPrint = false;
                         isRunFirst = false;
-                        APIManager.ShowTest("6");
                     }
                     break;
 

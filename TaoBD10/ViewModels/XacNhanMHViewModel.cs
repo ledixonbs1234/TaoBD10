@@ -40,7 +40,17 @@ namespace TaoBD10.ViewModels
             if (XacNhanMH.BuuCucNhan.IndexOf("593280") != -1)
             {
                 //thuc hien go to chuyen  thu
-
+                XuLyThongTin();
+                if (!APIManager.ThoatToDefault("593280", "quan ly chuyen thu chieu den"))
+                {
+                    SendKeys.SendWait("1");
+                    Thread.Sleep(200);
+                    SendKeys.SendWait("3");
+                }
+                timer.Stop();
+                isWaitingChuyenThuChieuDen = false;
+                stateChuyenThuChieuDen = StateChuyenThuChieuDen.GetData;
+                timer.Start();
             }
             else if (XacNhanMH.BuuCucNhan.IndexOf("593230") != -1)
             {
@@ -86,7 +96,7 @@ namespace TaoBD10.ViewModels
             buuCucDong = XacNhanMH.BuuCucDong.Substring(0, 6);
         }
 
-        private void ChuyenThuDen()
+        private void ChuyenThuDen(bool is280 = false)
         {
             if (isR)
             {
@@ -96,9 +106,18 @@ namespace TaoBD10.ViewModels
             }
             else
             {
-                SendKeys.SendWait("{UP}{UP}{UP}{UP}{UP}{UP}{UP}{UP}{UP}");
-                //buu pham bao dam
-                SendKeys.SendWait("{DOWN}{DOWN}{DOWN}{DOWN}{DOWN}{DOWN}{DOWN}");
+                if (!is280)
+                {
+                    SendKeys.SendWait("{UP}{UP}{UP}{UP}{UP}{UP}{UP}{UP}{UP}");
+                    //buu pham bao dam
+                    SendKeys.SendWait("{DOWN}{DOWN}{DOWN}{DOWN}{DOWN}{DOWN}{DOWN}");
+                }
+                else
+                {
+                    SendKeys.SendWait("{UP}{UP}{UP}{UP}{UP}{UP}{UP}{UP}{UP}");
+                    //buu pham bao dam
+                    SendKeys.SendWait("{DOWN}");
+                }
             }
             SendKeys.SendWait("{TAB}");
             SendKeys.SendWait(buuCucDong);
@@ -241,16 +260,16 @@ namespace TaoBD10.ViewModels
                 });
 
             }
-    //KiemTraModel a = new KiemTraModel();
-    //a.Address = m.Value.Address;
-    //a.BuuCucDong = m.Value.BuuCucDong;
-    //a.BuuCucNhan = m.Value.BuuCucNhan;
-    //a.Date = m.Value.Date;
-    //a.Index = m.Value.Index;
-    //a.MaHieu = m.Value.MaHieu;
-    //a.Address = m.Value.Address;
-    //KiemTras.Add(a);
-});
+            //KiemTraModel a = new KiemTraModel();
+            //a.Address = m.Value.Address;
+            //a.BuuCucDong = m.Value.BuuCucDong;
+            //a.BuuCucNhan = m.Value.BuuCucNhan;
+            //a.Date = m.Value.Date;
+            //a.Index = m.Value.Index;
+            //a.MaHieu = m.Value.MaHieu;
+            //a.Address = m.Value.Address;
+            //KiemTras.Add(a);
+        });
         }
     }
 }

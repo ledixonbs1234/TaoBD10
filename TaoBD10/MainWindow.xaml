@@ -33,27 +33,27 @@
             AcceptsReturn="True"
             Text="{Binding TestText}" />-->
 
-    
+
         <Button
-                Grid.Row="1"
-                Grid.Column="0"
-                Margin="2,30,5,5"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
+            Grid.Row="1"
+            Grid.Column="0"
+            Margin="2,30,5,5"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
             Panel.ZIndex="20"
-                Command="{Binding ToggleWindowCommand}"
-                CommandParameter="{x:Static Dock.Left}"
-                Content="{materialDesign:PackIcon Kind=Home}" />
+            Command="{Binding ToggleWindowCommand}"
+            CommandParameter="{x:Static Dock.Left}"
+            Content="{materialDesign:PackIcon Kind=Home}" />
         <Button
-                Grid.Row="1"
+            Grid.Row="1"
+            Grid.Column="0"
             Margin="0,50"
-                Grid.Column="0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Bottom"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Bottom"
             Panel.ZIndex="20"
-                Command="{Binding CloseWindowCommand}"
-            
-                Content="{materialDesign:PackIcon Kind=Close}" CommandParameter="{Binding ElementName=MainView, Mode=OneWay}" />
+            Command="{Binding CloseWindowCommand}"
+            CommandParameter="{Binding ElementName=MainView, Mode=OneWay}"
+            Content="{materialDesign:PackIcon Kind=Close}" />
         <TabControl
             Name="TabTui"
             SelectedIndex="{Binding IndexTabTui}"
@@ -68,7 +68,7 @@
                 <view:DiNgoaiView />
             </TabItem>
             <TabItem Header="XAC NHAN">
-                <view:FillView />
+                <view:XacNhanMHView />
             </TabItem>
             <TabItem Header="LẤY CT">
                 <view:LayChuyenThu />

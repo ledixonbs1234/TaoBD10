@@ -52,13 +52,17 @@ namespace TaoBD10.ViewModels
                     Thread.Sleep(200);
                     SendKeys.SendWait("3");
                 }
+
+                timer.Stop();
+                isWaitingChuyenThuChieuDen = false;
+                stateChuyenThuChieuDen = StateChuyenThuChieuDen.GetData;
                 timer.Start();
             }
 
 
         }
         bool isR = false;
-        string[] date =new string[3];
+        string[] date = new string[3];
         string soCT = "0";
         string buuCucDong = "";
 
@@ -66,14 +70,14 @@ namespace TaoBD10.ViewModels
         private void XuLyThongTin()
         {
             //xu ly date
-            var dates= XacNhanMH.Date.Split('/');
+            var dates = XacNhanMH.Date.Split('/');
             date[0] = dates[0];
             date[1] = dates[1];
             date[2] = dates[2].Substring(0, 4);
             //xu ly ct
             string[] temps = XacNhanMH.TTCT.ToLower().Split('/');
             string loaiCT = temps[0].Replace("chuyến thư ", "");
-            if(loaiCT == "r")
+            if (loaiCT == "r")
             {
                 isR = true;
             }
@@ -110,9 +114,7 @@ namespace TaoBD10.ViewModels
             SendKeys.SendWait("{F8}");
         }
 
-        private bool isBaoDamChuyenThuDen = false;
         private bool isWaitingChuyenThuChieuDen = false;
-        private string maBuuCucChuyenThuDen = "";
         private StateChuyenThuChieuDen stateChuyenThuChieuDen = StateChuyenThuChieuDen.GetData;
         private void Timer_Tick(object sender, EventArgs e)
         {
@@ -237,16 +239,16 @@ namespace TaoBD10.ViewModels
                 });
 
             }
-            //KiemTraModel a = new KiemTraModel();
-            //a.Address = m.Value.Address;
-            //a.BuuCucDong = m.Value.BuuCucDong;
-            //a.BuuCucNhan = m.Value.BuuCucNhan;
-            //a.Date = m.Value.Date;
-            //a.Index = m.Value.Index;
-            //a.MaHieu = m.Value.MaHieu;
-            //a.Address = m.Value.Address;
-            //KiemTras.Add(a);
-        });
+    //KiemTraModel a = new KiemTraModel();
+    //a.Address = m.Value.Address;
+    //a.BuuCucDong = m.Value.BuuCucDong;
+    //a.BuuCucNhan = m.Value.BuuCucNhan;
+    //a.Date = m.Value.Date;
+    //a.Index = m.Value.Index;
+    //a.MaHieu = m.Value.MaHieu;
+    //a.Address = m.Value.Address;
+    //KiemTras.Add(a);
+});
         }
     }
 }

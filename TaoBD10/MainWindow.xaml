@@ -67,7 +67,7 @@
             <TabItem Header="ĐI NGOÀI">
                 <view:DiNgoaiView />
             </TabItem>
-            <TabItem Header="XAC NHAN">
+            <TabItem Header="XÁC NHẬN">
                 <view:XacNhanMHView />
             </TabItem>
             <TabItem Header="LẤY CT">

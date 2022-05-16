@@ -62,7 +62,7 @@ namespace TaoBD10.ViewModels
 
         }
         bool isR = false;
-        string[] date = new string[3];
+        readonly string[] date = new string[3];
         string soCT = "0";
         string buuCucDong = "";
 
@@ -205,7 +205,7 @@ namespace TaoBD10.ViewModels
             get { return _MaHieu; }
             set { SetProperty(ref _MaHieu, value); OnEnterKey(); }
         }
-        private DispatcherTimer timer;
+        private readonly DispatcherTimer timer;
         private void OnEnterKey()
         {
             if (MaHieu.IndexOf('\n') != -1)
@@ -226,8 +226,10 @@ namespace TaoBD10.ViewModels
         public XacNhanMHViewModel()
         {
             GoToCTCommand = new RelayCommand(GoToCT);
-            timer = new DispatcherTimer();
-            timer.Interval = new TimeSpan(2000);
+            timer = new DispatcherTimer
+            {
+                Interval = new TimeSpan(2000)
+            };
             timer.Tick += Timer_Tick;
             WeakReferenceMessenger.Default.Register<KiemTraMessage>(this, (r, m) =>
         {

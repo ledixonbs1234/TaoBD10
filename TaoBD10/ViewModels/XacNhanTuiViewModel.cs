@@ -257,9 +257,11 @@ namespace TaoBD10.ViewModels
             if (string.IsNullOrEmpty(content) || string.IsNullOrEmpty(name))
                 return;
 
-            XacNhanTuiModel xacNhan = new XacNhanTuiModel();
-            xacNhan.Index = XacNhanTuis.Count + 1;
-            xacNhan.SHTui = name;
+            XacNhanTuiModel xacNhan = new XacNhanTuiModel
+            {
+                Index = XacNhanTuis.Count + 1,
+                SHTui = name
+            };
 
             List<string> texts = content.Split('\n').ToList();
             if (texts[0].IndexOf("STT") != -1)

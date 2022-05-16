@@ -137,7 +137,8 @@ namespace TaoBD10.ViewModels
 
             WebBrowser.ExecuteScriptAsync(script);
         }
-        string scriptLogin = @"
+
+        readonly string scriptLogin = @"
 Element.prototype.remove = function() {
     this.parentElement.removeChild(this);
 }

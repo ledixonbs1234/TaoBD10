@@ -14,8 +14,10 @@ namespace TaoBD10.ViewModels
     {
         public LayChuyenThuViewModel()
         {
-            timer = new DispatcherTimer();
-            timer.Interval = new TimeSpan(2000);
+            timer = new DispatcherTimer
+            {
+                Interval = new TimeSpan(2000)
+            };
             timer.Tick += Timer_Tick;
             BongSonCommand = new RelayCommand(BongSon);
             HoaiXuanCommand = new RelayCommand(HoaiXuan);
@@ -38,7 +40,7 @@ namespace TaoBD10.ViewModels
         public ICommand HoaiTanCommand { get; }
         public ICommand HoaiXuanCommand { get; }
 
-        public void btn593200()
+        public void Btn593200()
         {
             maBuuCucChuyenThuDen = "593200";
             isBaoDamChuyenThuDen = false;
@@ -286,6 +288,6 @@ namespace TaoBD10.ViewModels
         private bool isWaitingChuyenThuChieuDen = false;
         private string maBuuCucChuyenThuDen = "";
         private StateChuyenThuChieuDen stateChuyenThuChieuDen = StateChuyenThuChieuDen.GetData;
-        private DispatcherTimer timer;
+        private readonly DispatcherTimer timer;
     }
 }

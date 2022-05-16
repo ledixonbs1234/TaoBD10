@@ -43,15 +43,17 @@ namespace TaoBD10.ViewModels
             TabTuiChangedCommand = new RelayCommand<System.Windows.Controls.TabControl>(TabTuiChanged);
             CloseWindowCommand = new RelayCommand<Window>(CloseWindow);
 
-            timerRead = new DispatcherTimer();
-            timerRead.Interval = new TimeSpan(0, 0, 0, 0, 100);
+            timerRead = new DispatcherTimer
+            {
+                Interval = new TimeSpan(0, 0, 0, 0, 100)
+            };
             timerRead.Tick += TimerRead_Tick;
             timerRead.Start();
 
             _keyboardHook = new Y2KeyboardHook();
             _keyboardHook.OnKeyPressed += OnKeyPress;
             _keyboardHook.HookKeyboard();
-            createConnection();
+            CreateConnection();
             SoundManager.SetUpDirectory();
 
             WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>
@@ -276,7 +278,7 @@ namespace TaoBD10.ViewModels
         public ICommand TabTuiChangedCommand { get; }
         public ICommand ToggleWindowCommand { get; }
 
-        private void createConnection()
+        private void CreateConnection()
         {
             //var pathDB = System.IO.Path.Combine(Environment.CurrentDirectory, "dulieu.sqlite");
             //string _strConnect = @"DataSource=" + pathDB + ";Version=3";
@@ -547,29 +549,13 @@ namespace TaoBD10.ViewModels
         {
             if (_window == null)
                 return;
-            var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
             _window.Width = 1150;
             _window.Height = 600;
-            double width = System.Windows.SystemParameters.PrimaryScreenWidth;
-            double height = System.Windows.SystemParameters.PrimaryScreenHeight;
+            double width = SystemParameters.PrimaryScreenWidth;
+            double height = SystemParameters.PrimaryScreenHeight;
             _window.Left = (width - 1150) / 2;
             _window.Top = (height - 600) / 2;
         }
-
-        private void SetDanhSachBD10Window()
-        {
-            if (_window == null)
-                return;
-            var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
-            _window.Width = 570;
-            _window.Height = 500;
-            double height = System.Windows.SystemParameters.PrimaryScreenHeight;
-            double width = System.Windows.SystemParameters.PrimaryScreenWidth;
-            // use 'Screen.AllScreens[1].WorkingArea' for secondary screen
-            _window.Left = desktopWorkingArea.Left + width - _window.Width;
-            _window.Top = desktopWorkingArea.Top + 0;
-        }
-
         void PrintBD10()
         {
             var danhSach = APIManager.GetActiveWindowTitle();
@@ -578,7 +564,6 @@ namespace TaoBD10.ViewModels
             if (danhSach.text.IndexOf("sua thong tin bd10") != -1 || danhSach.text.IndexOf("lap bd10") != -1)
             {
                 APIManager.SetDefaultPrint();
-                List<TestAPIModel> datas = APIManager.GetListControlText(danhSach.hwnd);
                 SendKeys.SendWait("{F3}");
                 Thread.Sleep(500);
                 SendKeys.SendWait("{Enter}");
@@ -638,8 +623,8 @@ namespace TaoBD10.ViewModels
             var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
             _window.Width = 360;
             _window.Height = 450;
-            double height = System.Windows.SystemParameters.PrimaryScreenHeight;
-            double width = System.Windows.SystemParameters.PrimaryScreenWidth;
+            _ = SystemParameters.PrimaryScreenHeight;
+            double width = SystemParameters.PrimaryScreenWidth;
             // use 'Screen.AllScreens[1].WorkingArea' for secondary screen
             _window.Left = desktopWorkingArea.Left + width - _window.Width;
             _window.Top = desktopWorkingArea.Top + 0;
@@ -652,8 +637,7 @@ namespace TaoBD10.ViewModels
             var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
             _window.Width = 470;
             _window.Height = 300;
-            double height = System.Windows.SystemParameters.PrimaryScreenHeight;
-            double width = System.Windows.SystemParameters.PrimaryScreenWidth;
+            double width = SystemParameters.PrimaryScreenWidth;
             // use 'Screen.AllScreens[1].WorkingArea' for secondary screen
             _window.Left = desktopWorkingArea.Left + width - _window.Width;
             _window.Top = desktopWorkingArea.Top + 0;
@@ -666,8 +650,7 @@ namespace TaoBD10.ViewModels
             var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
             _window.Width = 410;
             _window.Height = 640;
-            double height = System.Windows.SystemParameters.PrimaryScreenHeight;
-            double width = System.Windows.SystemParameters.PrimaryScreenWidth;
+            double width = SystemParameters.PrimaryScreenWidth;
             // use 'Screen.AllScreens[1].WorkingArea' for secondary screen
             _window.Left = desktopWorkingArea.Left + width - _window.Width;
             _window.Top = desktopWorkingArea.Top + 0;
@@ -680,27 +663,11 @@ namespace TaoBD10.ViewModels
             var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
             _window.Width = 360;
             _window.Height = 600;
-            double height = System.Windows.SystemParameters.PrimaryScreenHeight;
-            double width = System.Windows.SystemParameters.PrimaryScreenWidth;
+            double width = SystemParameters.PrimaryScreenWidth;
             // use 'Screen.AllScreens[1].WorkingArea' for secondary screen
             _window.Left = desktopWorkingArea.Left + width - _window.Width;
             _window.Top = desktopWorkingArea.Top + 0;
         }
-
-        private void SetThuGonWindow()
-        {
-            if (_window == null)
-                return;
-            var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
-            _window.Width = 350;
-            _window.Height = 550;
-            double height = System.Windows.SystemParameters.PrimaryScreenHeight;
-            double width = System.Windows.SystemParameters.PrimaryScreenWidth;
-            // use 'Screen.AllScreens[1].WorkingArea' for secondary screen
-            _window.Left = desktopWorkingArea.Left + width - _window.Width;
-            _window.Top = desktopWorkingArea.Top + 0;
-        }
-
         private void SmallerWindow()
         {
             if (_window == null)
@@ -708,8 +675,7 @@ namespace TaoBD10.ViewModels
             var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
             _window.Width = 100;
             _window.Height = 335;
-            double height = System.Windows.SystemParameters.PrimaryScreenHeight;
-            double width = System.Windows.SystemParameters.PrimaryScreenWidth;
+            double width = SystemParameters.PrimaryScreenWidth;
             // use 'Screen.AllScreens[1].WorkingArea' for secondary screen
             _window.Left = desktopWorkingArea.Left + width - _window.Width;
             _window.Top = desktopWorkingArea.Top + 0;
@@ -1068,21 +1034,20 @@ namespace TaoBD10.ViewModels
                 {
                     if (_window == null)
                         return;
-                    var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
+                    _ = SystemParameters.WorkArea;
                     _window.Width = 1150;
                     _window.Height = 600;
-                    double width = System.Windows.SystemParameters.PrimaryScreenWidth;
-                    double height = System.Windows.SystemParameters.PrimaryScreenHeight;
+                    double width = SystemParameters.PrimaryScreenWidth;
+                    double height = SystemParameters.PrimaryScreenHeight;
                     _window.Left = (width - 1150) / 2;
                     _window.Top = (height - 600) / 2;
                 }
                 else
                 {
-                    var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
+                    Rect desktopWorkingArea = SystemParameters.WorkArea;
                     _window.Width = lastWidth;
                     _window.Height = lastHeight;
-                    double height = System.Windows.SystemParameters.PrimaryScreenHeight;
-                    double width = System.Windows.SystemParameters.PrimaryScreenWidth;
+                    double width = SystemParameters.PrimaryScreenWidth;
                     // use 'Screen.AllScreens[1].WorkingArea' for secondary screen
                     _window.Left = desktopWorkingArea.Left + width - _window.Width;
                     _window.Top = desktopWorkingArea.Top + 0;
@@ -1100,7 +1065,7 @@ namespace TaoBD10.ViewModels
 
         private string _CountInBD;
         private int _IndexTabControl = 0;
-        private Y2KeyboardHook _keyboardHook;
+        private readonly Y2KeyboardHook _keyboardHook;
         private SnackbarMessageQueue _MessageQueue;
         private Window _window;
         private bool isHaveError = false;
@@ -1112,7 +1077,9 @@ namespace TaoBD10.ViewModels
         private int numberRead = 0;
         private string soCTCurrent = "";
         private System.Windows.Controls.TabControl tabControl;
+
+      
         private System.Windows.Controls.TabControl tabTuiControl;
-        private DispatcherTimer timerRead;
+        private readonly DispatcherTimer timerRead;
     }
 }

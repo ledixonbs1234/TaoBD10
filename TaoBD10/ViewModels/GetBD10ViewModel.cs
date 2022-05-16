@@ -16,7 +16,7 @@ namespace TaoBD10.ViewModels
 {
     public class GetBD10ViewModel : ObservableObject
     {
-        private bool[] _BuoiArray = new bool[] { true, false, false, false };
+        private readonly bool[] _BuoiArray = new bool[] { true, false, false, false };
 
         private string _NameBD = "";
 
@@ -45,9 +45,10 @@ namespace TaoBD10.ViewModels
             get { return _ValueLoading; }
             set { SetProperty(ref _ValueLoading, value); }
         }
-        List<MaBD8Model> listMaBD8;
 
-        private DispatcherTimer timer;
+        private readonly List<MaBD8Model> listMaBD8;
+
+        private readonly DispatcherTimer timer;
 
         private List<TuiHangHoa> tuiTempHangHoa;
 
@@ -59,8 +60,10 @@ namespace TaoBD10.ViewModels
             TestCommand = new RelayCommand(new Action(() =>
             {
             }));
-            timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromMilliseconds(50);
+            timer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromMilliseconds(50)
+            };
             timer.Tick += Timer_Tick;
         }
 

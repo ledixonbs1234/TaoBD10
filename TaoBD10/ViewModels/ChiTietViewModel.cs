@@ -1299,7 +1299,7 @@ namespace TaoBD10.ViewModels
         private string maBuuCuc = "0";
         private StateTaoBd10 stateTaoBd10;
         private string tenDuongThu = "";
-        private DispatcherTimer timer;
-        private DispatcherTimer timerTaoBD;
+        private readonly DispatcherTimer timer;
+        private readonly DispatcherTimer timerTaoBD;
     }
 }

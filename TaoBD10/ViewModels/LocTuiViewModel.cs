@@ -41,17 +41,21 @@ namespace TaoBD10.ViewModels
         private void CapNhat()
         {
             //cap nhat ma khong co ten thi se chuyen qua chi tiet de kiem tra lai
-            BD10InfoModel bd10 = new BD10InfoModel();
-            bd10.Name = "Tam Thoi";
-            bd10.DateCreateBD10 = DateTime.Now;
-            bd10.LanLap = "1";
-            bd10.TimeTrongNgay = EnumAll.TimeSet.Sang;
-            bd10.TuiHangHoas = ListHangHoa.ToList();
+            BD10InfoModel bd10 = new BD10InfoModel
+            {
+                Name = "Tam Thoi",
+                DateCreateBD10 = DateTime.Now,
+                LanLap = "1",
+                TimeTrongNgay = EnumAll.TimeSet.Sang,
+                TuiHangHoas = ListHangHoa.ToList()
+            };
 
             if (string.IsNullOrEmpty(NameBD))
             {
-                List<BD10InfoModel> listBD10 = new List<BD10InfoModel>();
-                listBD10.Add(bd10);
+                List<BD10InfoModel> listBD10 = new List<BD10InfoModel>
+                {
+                    bd10
+                };
                 WeakReferenceMessenger.Default.Send<BD10Message>(new BD10Message(listBD10));
                 //thuc hien navigate to chi tiet
                 WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Navigation", Content = "GoChiTiet" });

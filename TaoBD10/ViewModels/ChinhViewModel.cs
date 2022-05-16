@@ -497,8 +497,8 @@ namespace TaoBD10.ViewModels
             {
                 Ten = "Tam Quan Tổng Hợp",
                 NumberTinh = "593330",
-                TextLoai = "Bưu phẩm bảo",
-                TextTui = "Tổng hợp (Túi",
+                TextLoai = "Bưu phẩm bảo đảm - Registed Mail",
+                TextTui = "Tổng hợp (Túi)",
                 CheckTinh = "593330",
                 CheckLoai = "buu pham bao dam",
                 CheckThuyBo = "thuy bo",
@@ -536,8 +536,8 @@ namespace TaoBD10.ViewModels
             {
                 Ten = "An Hòa Tổng Hợp",
                 NumberTinh = "593880",
-                TextLoai = "Bưu phẩm bảo",
-                TextTui = "Tổng hợp (Túi",
+                TextLoai = "Bưu phẩm bảo đảm - Registed Mail",
+                TextTui = "Tổng hợp (Túi)",
                 CheckTinh = "593880",
                 CheckLoai = "buu pham bao dam",
                 CheckThuyBo = "thuy bo",
@@ -560,8 +560,8 @@ namespace TaoBD10.ViewModels
             {
                 Ten = "An Lão Tổng Hợp",
                 NumberTinh = "593850",
-                TextLoai = "Bưu phẩm bảo",
-                TextTui = "Tổng hợp (Túi",
+                TextLoai = "Bưu phẩm bảo đảm - Registed Mail",
+                TextTui = "Tổng hợp (Túi)",
                 CheckTinh = "593850",
                 CheckLoai = "buu pham bao dam",
                 CheckThuyBo = "thuy bo",
@@ -584,8 +584,8 @@ namespace TaoBD10.ViewModels
             {
                 Ten = "Ân Mỹ Tổng Hợp",
                 NumberTinh = "593630",
-                TextLoai = "Bưu phẩm bảo",
-                TextTui = "Tổng hợp (Túi",
+                TextLoai = "Bưu phẩm bảo đảm - Registed Mail",
+                TextTui = "Tổng hợp (Túi)",
                 CheckTinh = "593630",
                 CheckLoai = "buu pham bao dam",
                 CheckThuyBo = "thuy bo",
@@ -608,8 +608,8 @@ namespace TaoBD10.ViewModels
             {
                 Ten = "An Nhơn Tổng Hợp",
                 NumberTinh = "592020",
-                TextLoai = "Bưu phẩm bảo",
-                TextTui = "Tổng hợp (Túi",
+                TextLoai = "Bưu phẩm bảo đảm - Registed Mail",
+                TextTui = "Tổng hợp (Túi)",
                 CheckTinh = "592020",
                 CheckLoai = "buu pham bao dam",
                 CheckThuyBo = "thuy bo",
@@ -632,7 +632,7 @@ namespace TaoBD10.ViewModels
             {
                 Ten = "Khai Thác Hoài Nhơn",
                 NumberTinh = "593280",
-                TextLoai = "Bưu kiện",
+                TextLoai = "Bưu kiện - Parcel",
                 TextTui = "",
                 CheckTinh = "593280",
                 CheckLoai = "buu kien",
@@ -690,7 +690,7 @@ namespace TaoBD10.ViewModels
             inputImulator.Keyboard.KeyPress(VirtualKeyCode.BACK);
             inputImulator.Keyboard.KeyPress(VirtualKeyCode.BACK);
             inputImulator.Keyboard.TextEntry(currentChuyenThu.NumberTinh);
-            Thread.Sleep(500);
+            Thread.Sleep(50);
             inputImulator.Keyboard.KeyPress(VirtualKeyCode.TAB);
 
             inputImulator.Keyboard.TextEntry(currentChuyenThu.TextLoai);
@@ -708,7 +708,7 @@ namespace TaoBD10.ViewModels
                 }
                 Thread.Sleep(100);
             }
-            Thread.Sleep(200);
+            Thread.Sleep(100);
 
             currentWindow = APIManager.GetActiveWindowTitle(true);
             if (currentWindow == null)
@@ -742,9 +742,9 @@ namespace TaoBD10.ViewModels
                         {
                             return;
                         }
-                        Thread.Sleep(200);
+                        Thread.Sleep(100);
                     }
-
+                    Thread.Sleep(200);
                     //thuc hien co tui trong nay
                     var childTaoTuiHandle = APIManager.GetAllChildHandles(currentWindow.hwnd);
 
@@ -761,6 +761,7 @@ namespace TaoBD10.ViewModels
             else
             if (currentWindow.text.IndexOf("Tạo túi") != -1)
             {
+                Thread.Sleep(200);
                 var childTaoTuiHandle = APIManager.GetAllChildHandles(currentWindow.hwnd);
 
 
@@ -834,8 +835,8 @@ namespace TaoBD10.ViewModels
             {
                 Ten = "EMS Nam Trung Bộ",
                 NumberTinh = "590100",
-                TextLoai = "EMS",
-                TextTui = "EMS H",
+                TextLoai = "EMS - Chuyển phát nhanh - Express Mail Service",
+                TextTui = "EMS Hàng hóa (Túi)",
                 CheckTinh = "590100",
                 CheckLoai = "chuyen phat nhanh",
                 CheckThuyBo = "ems thuong",
@@ -858,8 +859,8 @@ namespace TaoBD10.ViewModels
             {
                 Ten = "Hoài Ân Tổng Hợp",
                 NumberTinh = "593740",
-                TextLoai = "Bưu phẩm bảo",
-                TextTui = "Tổng hợp (Túi",
+                TextLoai = "Bưu phẩm bảo đảm - Registed Mail",
+                TextTui = "Tổng hợp (Túi)",
                 CheckTinh = "593740",
                 CheckLoai = "buu pham bao dam",
                 CheckThuyBo = "thuy bo",
@@ -882,7 +883,7 @@ namespace TaoBD10.ViewModels
             {
                 Ten = "Kiện Nam Trung Bộ",
                 NumberTinh = "590100",
-                TextLoai = "Bưu kiện",
+                TextLoai = "Bưu kiện - Parcel",
                 TextTui = "BK (Túi)",
                 CheckTinh = "590100",
                 CheckLoai = "buu kien",
@@ -906,7 +907,7 @@ namespace TaoBD10.ViewModels
             {
                 Ten = "Khai Thác Hoài Nhơn",
                 NumberTinh = "593230",
-                TextLoai = "Bưu kiện",
+                TextLoai = "Bưu kiện - Parcel",
                 TextTui = "",
                 CheckTinh = "593230",
                 CheckLoai = "buu kien",
@@ -930,8 +931,8 @@ namespace TaoBD10.ViewModels
             {
                 Ten = "Phù Cát Tổng Hợp",
                 NumberTinh = "592460",
-                TextLoai = "Bưu phẩm bảo",
-                TextTui = "Tổng hợp (Túi",
+                TextLoai = "Bưu phẩm bảo đảm - Registed Mail",
+                TextTui = "Tổng hợp (Túi)",
                 CheckTinh = "592460",
                 CheckLoai = "buu pham bao dam",
                 CheckThuyBo = "thuy bo",
@@ -954,8 +955,8 @@ namespace TaoBD10.ViewModels
             {
                 Ten = "Phù Mỹ Tổng Hợp",
                 NumberTinh = "592810",
-                TextLoai = "Bưu phẩm bảo",
-                TextTui = "Tổng hợp (Túi",
+                TextLoai = "Bưu phẩm bảo đảm - Registed Mail",
+                TextTui = "Tổng hợp (Túi)",
                 CheckTinh = "592810",
                 CheckLoai = "buu pham bao dam",
                 CheckThuyBo = "thuy bo",
@@ -978,8 +979,8 @@ namespace TaoBD10.ViewModels
             {
                 Ten = "Quy Nhơn 1 Tổng Hợp",
                 NumberTinh = "591520",
-                TextLoai = "Bưu phẩm bảo",
-                TextTui = "Tổng hợp (Túi",
+                TextLoai = "Bưu phẩm bảo đảm - Registed Mail",
+                TextTui = "Tổng hợp (Túi)",
                 CheckTinh = "591520",
                 CheckLoai = "buu pham bao dam",
                 CheckThuyBo = "thuy bo",
@@ -1002,8 +1003,8 @@ namespace TaoBD10.ViewModels
             {
                 Ten = "Quy Nhơn 2 Tổng Hợp",
                 NumberTinh = "591218",
-                TextLoai = "Bưu phẩm bảo",
-                TextTui = "Tổng hợp (Túi",
+                TextLoai = "Bưu phẩm bảo đảm - Registed Mail",
+                TextTui = "Tổng hợp (Túi)",
                 CheckTinh = "591218",
                 CheckLoai = "buu pham bao dam",
                 CheckThuyBo = "thuy bo",
@@ -1026,8 +1027,8 @@ namespace TaoBD10.ViewModels
             {
                 Ten = "Nam Trung Bộ TH",
                 NumberTinh = "590100",
-                TextLoai = "Bưu phẩm bảo",
-                TextTui = "Tổng hợp (Túi",
+                TextLoai = "Bưu phẩm bảo đảm - Registed Mail",
+                TextTui = "Tổng hợp (Túi)",
                 CheckTinh = "590100",
                 CheckLoai = "buu pham bao dam",
                 CheckThuyBo = "thuy bo",

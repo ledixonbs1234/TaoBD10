@@ -33,63 +33,27 @@
             AcceptsReturn="True"
             Text="{Binding TestText}" />-->
 
-        <materialDesign:DrawerHost
-            x:Name="DrawerHost"
-            Panel.ZIndex="11"
-            BorderBrush="{DynamicResource MaterialDesignDivider}"
-            BorderThickness="2"
-            BottomDrawerCornerRadius="20 20 0 0">
-            <materialDesign:DrawerHost.Style>
-                <Style BasedOn="{StaticResource {x:Type materialDesign:DrawerHost}}" TargetType="materialDesign:DrawerHost">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsChecked, ElementName=BackgroundToggle}" Value="True">
-                            <Setter Property="OverlayBackground" Value="{DynamicResource PrimaryHueMidBrush}" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </materialDesign:DrawerHost.Style>
-            <materialDesign:DrawerHost.LeftDrawerContent>
-                <StackPanel Margin="16">
-                    <TextBlock
-                        Margin="4"
-                        HorizontalAlignment="Center"
-                        Text="LEFT FIELD" />
-
-                    <Button
-                        Margin="4"
-                        HorizontalAlignment="Center"
-                        Command="{Binding SmallerWindowCommand}"
-                        CommandParameter="{x:Static Dock.Left}"
-                        Content="Thu Nhỏ"
-                        Style="{StaticResource MaterialDesignFlatButton}" />
-                    <Button
-                        Margin="4"
-                        HorizontalAlignment="Center"
-                        Command="{Binding DefaultWindowCommand}"
-                        CommandParameter="{Binding ElementName=TabControl, Mode=OneWay}"
-                        Content="Default"
-                        Style="{StaticResource MaterialDesignFlatButton}" />
-                    <Button
-                        Margin="4"
-                        HorizontalAlignment="Center"
-                        Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
-                        CommandParameter="{x:Static Dock.Left}"
-                        Content="CLOSE THIS"
-                        Style="{StaticResource MaterialDesignFlatButton}" />
-                </StackPanel>
-            </materialDesign:DrawerHost.LeftDrawerContent>
-            <Button
+    
+        <Button
                 Grid.Row="1"
                 Grid.Column="0"
                 Margin="2,30,5,5"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
+            Panel.ZIndex="20"
                 Command="{Binding ToggleWindowCommand}"
                 CommandParameter="{x:Static Dock.Left}"
                 Content="{materialDesign:PackIcon Kind=Home}" />
-
-            <!--  Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"  -->
-        </materialDesign:DrawerHost>
+        <Button
+                Grid.Row="1"
+            Margin="0,50"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+            Panel.ZIndex="20"
+                Command="{Binding CloseWindowCommand}"
+            
+                Content="{materialDesign:PackIcon Kind=Close}" CommandParameter="{Binding ElementName=MainView, Mode=OneWay}" />
         <TabControl
             Name="TabTui"
             SelectedIndex="{Binding IndexTabTui}"

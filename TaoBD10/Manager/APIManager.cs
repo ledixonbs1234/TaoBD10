@@ -120,7 +120,7 @@ namespace TaoBD10.Manager
                 }
                 return new WindowInfo(text, handle);
             }
-            return null;
+            return new WindowInfo("", handle);
         }
 
         public static List<IntPtr> GetAllChildHandles(IntPtr handle)

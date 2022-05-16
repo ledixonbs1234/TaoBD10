@@ -20,6 +20,14 @@ namespace TaoBD10.ViewModels
     public class MainViewModel : ObservableObject
     {
         private bool Is16Kg = false;
+        public IRelayCommand<Window> CloseWindowCommand { get; }
+
+       
+        void CloseWindow(Window window)
+        {
+            window.Close();
+        }
+
 
         public MainViewModel()
         {
@@ -30,6 +38,7 @@ namespace TaoBD10.ViewModels
             DefaultWindowCommand = new RelayCommand<System.Windows.Controls.TabControl>(DefaultWindow);
             ToggleWindowCommand = new RelayCommand(ToggleWindow);
             TabTuiChangedCommand = new RelayCommand<System.Windows.Controls.TabControl>(TabTuiChanged);
+            CloseWindowCommand = new RelayCommand<Window>(CloseWindow);
 
             timerRead = new DispatcherTimer();
             timerRead.Interval = new TimeSpan(0, 0, 0, 0, 100);
@@ -968,6 +977,12 @@ namespace TaoBD10.ViewModels
                             if (textError.IndexOf("khong co ma tui nay") != -1)
                             {
                                 SoundManager.playSound2(@"Number\khongcomatuinaytronghethong.wav");
+                                isHaveError = true;
+                            }
+                            else if (textError.IndexOf("ma tui nay da duoc them") != -1)
+                            {
+                                SoundManager.playSound2(@"Number\khongcomatuinaytronghethong.wav");
+                                SendKeys.SendWait("{ENTER}");
                                 isHaveError = true;
                             }
                         }

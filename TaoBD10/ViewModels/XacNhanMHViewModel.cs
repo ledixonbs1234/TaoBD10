@@ -30,6 +30,7 @@ namespace TaoBD10.ViewModels
         public ICommand GoToCTCommand { get; }
 
 
+        bool Is280 = false;
         void GoToCT()
         {
             //quy trinh thuc hien 
@@ -39,6 +40,7 @@ namespace TaoBD10.ViewModels
             //sau do chay vao do dua vao thong tin cua no va dien len
             if (XacNhanMH.BuuCucNhan.IndexOf("593280") != -1)
             {
+                Is280 = true;
                 //thuc hien go to chuyen  thu
                 XuLyThongTin();
                 if (!APIManager.ThoatToDefault("593280", "quan ly chuyen thu chieu den"))
@@ -54,6 +56,7 @@ namespace TaoBD10.ViewModels
             }
             else if (XacNhanMH.BuuCucNhan.IndexOf("593230") != -1)
             {
+                Is280 = false;
                 //thuc hien xu ly thong tin can thiet
                 XuLyThongTin();
                 if (!APIManager.ThoatToDefault("593230", "quan ly chuyen thu chieu den"))
@@ -96,7 +99,7 @@ namespace TaoBD10.ViewModels
             buuCucDong = XacNhanMH.BuuCucDong.Substring(0, 6);
         }
 
-        private void ChuyenThuDen(bool is280 = false)
+        private void ChuyenThuDen()
         {
             if (isR)
             {
@@ -106,7 +109,7 @@ namespace TaoBD10.ViewModels
             }
             else
             {
-                if (!is280)
+                if (!Is280)
                 {
                     SendKeys.SendWait("{UP}{UP}{UP}{UP}{UP}{UP}{UP}{UP}{UP}");
                     //buu pham bao dam

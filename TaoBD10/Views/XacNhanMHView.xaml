@@ -10,22 +10,38 @@
     mc:Ignorable="d">
     <materialDesign:Card Margin="5">
         <StackPanel>
-            <TextBlock Text="Ngày đóng CT" />
-            <TextBlock Margin="40,0,0,0" Text="{Binding XacNhanMH.Date}" />
+            <TextBlock
+                HorizontalAlignment="Center"
+                Style="{StaticResource MaterialDesignHeadline5TextBlock}"
+                Text="{Binding XacNhanMH.MaHieu}" />
+            <TextBlock Style="{StaticResource MaterialDesignSubtitle2TextBlock}" Text="Ngày đóng CT" />
+            <TextBlock
+                Margin="40,0,0,0"
+                Style="{StaticResource MaterialDesignBody1TextBlock}"
+                Text="{Binding XacNhanMH.Date}" />
 
-            <TextBlock Text="Bưu cục đóng" />
-            <TextBlock Margin="40,0,0,0" Text="{Binding XacNhanMH.BuuCucDong}" />
-            <TextBlock Text="Bưu cục nhận" />
-            <TextBlock Margin="40,0,0,0" Text="{Binding XacNhanMH.BuuCucNhan}" />
-            <TextBlock Text="Chuyến Thư" />
-            <TextBlock Margin="40,0,0,0" Text="{Binding XacNhanMH.TTCT}" />
+            <TextBlock Style="{StaticResource MaterialDesignSubtitle2TextBlock}" Text="Bưu cục đóng" />
+            <TextBlock
+                Margin="40,0,0,0"
+                Style="{StaticResource MaterialDesignBody1TextBlock}"
+                Text="{Binding XacNhanMH.BuuCucDong}" />
+            <TextBlock Style="{StaticResource MaterialDesignSubtitle2TextBlock}" Text="Bưu cục nhận" />
+            <TextBlock
+                Margin="40,0,0,0"
+                Style="{StaticResource MaterialDesignBody1TextBlock}"
+                Text="{Binding XacNhanMH.BuuCucNhan}" />
+            <TextBlock Style="{StaticResource MaterialDesignSubtitle2TextBlock}" Text="Chuyến Thư" />
+            <TextBlock
+                Margin="40,0,0,0"
+                Style="{StaticResource MaterialDesignBody1TextBlock}"
+                Text="{Binding XacNhanMH.TTCT}" />
 
 
 
 
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                 <TextBox
-                    Width="300"
+                    Width="200"
                     AcceptsReturn="True"
                     Text="{Binding MaHieu, UpdateSourceTrigger=PropertyChanged}" />
                 <Button Content="Go CT" />

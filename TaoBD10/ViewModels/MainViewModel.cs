@@ -125,7 +125,6 @@ namespace TaoBD10.ViewModels
                             APIManager.ShowSnackbar("Không đúng tỉnh");
                     }
                 }
-
             });
         }
 

@@ -63,7 +63,8 @@
             AddressTamQuan,
             KiemTraWeb,
             AddressChuaPhat,
-            DongChuyenThu
+            DongChuyenThu,
+            XacNhanMH
         }
 
         public enum PhanLoaiTinh

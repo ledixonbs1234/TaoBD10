@@ -49,7 +49,13 @@ namespace TaoBD10.ViewModels
                 {
                     _LoadWebChoose = LoadWebChoose.KiemTraWeb;
                     LoadAddressDiNgoai(m.Content);
-                }else if (m.Key == "LoadAddressDong")
+                }
+                else if (m.Key == "XacNhanMH")
+                {
+                    _LoadWebChoose = LoadWebChoose.XacNhanMH;
+                    LoadAddressDiNgoai(m.Content);
+                }
+                else if (m.Key == "LoadAddressDong")
                 {
 
                     _LoadWebChoose = LoadWebChoose.DongChuyenThu;
@@ -342,7 +348,7 @@ document.getElementsByClassName("".footer"").remove();
                             WeakReferenceMessenger.Default.Send<SHTuiMessage>(new SHTuiMessage(new SHTuiCodeModel { Key = "ReturnSHTui", Code = giatri, SHTui = barcodeWeb }));
                         }
                     }
-                    else if (_LoadWebChoose == LoadWebChoose.KiemTraWeb)
+                    else if (_LoadWebChoose == LoadWebChoose.KiemTraWeb || _LoadWebChoose == LoadWebChoose.XacNhanMH)
                     {
                         KiemTraModel kiemTra = new KiemTraModel();
 
@@ -364,7 +370,16 @@ document.getElementsByClassName("".footer"").remove();
                         kiemTra.TTCT = aa[5].InnerText;
 
                         //thuc hien send thong tin qua kiem tra model
-                        WeakReferenceMessenger.Default.Send<KiemTraMessage>(new KiemTraMessage(kiemTra));
+                        if (_LoadWebChoose == LoadWebChoose.KiemTraWeb)
+                        {
+                            kiemTra.Key = "KiemTraWeb";
+                            WeakReferenceMessenger.Default.Send<KiemTraMessage>(new KiemTraMessage(kiemTra));
+                        }
+                        else if (_LoadWebChoose == LoadWebChoose.XacNhanMH)
+                        {
+                            kiemTra.Key = "XacNhanMH";
+                            WeakReferenceMessenger.Default.Send<KiemTraMessage>(new KiemTraMessage(kiemTra));
+                        }
                     }
                 }
             }

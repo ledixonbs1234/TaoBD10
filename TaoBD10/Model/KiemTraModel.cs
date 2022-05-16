@@ -8,6 +8,15 @@ namespace TaoBD10.Model
         private string _Date;
         private string _MaHieu;
 
+        private string _Key;
+
+        public string Key
+        {
+            get { return _Key; }
+            set { SetProperty(ref _Key, value); }
+        }
+
+
         public string MaHieu
         {
             get { return _MaHieu; }

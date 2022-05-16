@@ -53,14 +53,18 @@ namespace TaoBD10.ViewModels
             KiemTras = new ObservableCollection<KiemTraModel>();
             WeakReferenceMessenger.Default.Register<KiemTraMessage>(this, (r, m) =>
             {
-                App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
+                if (m.Value.Key == "KiemTraWeb")
                 {
-                    m.Value.Index = KiemTras.Count + 1;
-                    KiemTras.Add(m.Value);
+                    App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
+                    {
+                        m.Value.Index = KiemTras.Count + 1;
+                        KiemTras.Add(m.Value);
 
                     //thuc hien loc trong nay ten cua buu ta
                     ReadNameBuuTa(m.Value.BuuCucNhan);
-                });
+                    });
+
+                }
                 //KiemTraModel a = new KiemTraModel();
                 //a.Address = m.Value.Address;
                 //a.BuuCucDong = m.Value.BuuCucDong;

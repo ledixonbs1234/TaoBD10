@@ -180,6 +180,7 @@
     <Compile Include="ViewModels\TaoBDViewModel.cs" />
     <Compile Include="ViewModels\Tnread.cs" />
     <Compile Include="ViewModels\WebViewModel.cs" />
+    <Compile Include="ViewModels\XacNhanMHViewModel.cs" />
     <Compile Include="ViewModels\XacNhanTuiViewModel.cs" />
     <Compile Include="Views\AddressView.xaml.cs">
       <DependentUpon>AddressView.xaml</DependentUpon>
@@ -231,6 +232,9 @@
     </Compile>
     <Compile Include="Views\WebView.xaml.cs">
       <DependentUpon>WebView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\XacNhanMHView.xaml.cs">
+      <DependentUpon>XacNhanMHView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\XacNhanTuiView.xaml.cs">
       <DependentUpon>XacNhanTuiView.xaml</DependentUpon>
@@ -316,6 +320,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\WebView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\XacNhanMHView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -16,23 +16,23 @@
                 Text="{Binding XacNhanMH.MaHieu}" />
             <TextBlock Style="{StaticResource MaterialDesignSubtitle2TextBlock}" Text="Ngày đóng CT" />
             <TextBlock
-                Margin="40,0,0,0"
+                Margin="30,0,0,0"
                 Style="{StaticResource MaterialDesignBody1TextBlock}"
                 Text="{Binding XacNhanMH.Date}" />
 
             <TextBlock Style="{StaticResource MaterialDesignSubtitle2TextBlock}" Text="Bưu cục đóng" />
             <TextBlock
-                Margin="40,0,0,0"
+                Margin="30,0,0,0"
                 Style="{StaticResource MaterialDesignBody1TextBlock}"
                 Text="{Binding XacNhanMH.BuuCucDong}" />
             <TextBlock Style="{StaticResource MaterialDesignSubtitle2TextBlock}" Text="Bưu cục nhận" />
             <TextBlock
-                Margin="40,0,0,0"
+                Margin="30,0,0,0"
                 Style="{StaticResource MaterialDesignBody1TextBlock}"
                 Text="{Binding XacNhanMH.BuuCucNhan}" />
             <TextBlock Style="{StaticResource MaterialDesignSubtitle2TextBlock}" Text="Chuyến Thư" />
             <TextBlock
-                Margin="40,0,0,0"
+                Margin="30,0,0,0"
                 Style="{StaticResource MaterialDesignBody1TextBlock}"
                 Text="{Binding XacNhanMH.TTCT}" />
 
@@ -40,11 +40,17 @@
 
 
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+
                 <TextBox
-                    Width="200"
+                    Width="150"
+                    Margin="5"
                     AcceptsReturn="True"
+                    FontSize="16"
                     Text="{Binding MaHieu, UpdateSourceTrigger=PropertyChanged}" />
-                <Button Content="Go CT" />
+                <Button
+                    Margin="5"
+                    Command="{Binding GoToCTCommand}"
+                    Content="Go CT" />
             </StackPanel>
         </StackPanel>
     </materialDesign:Card>

@@ -22,6 +22,9 @@ namespace TaoBD10.ViewModels
             CheckCommand = new RelayCommand(Check);
             AddAddressCommand = new RelayCommand(AddAddress);
             HangTons = new ObservableCollection<HangTonModel>();
+            HangTonsDelete = new ObservableCollection<HangTonModel>();
+            LocCommand = new RelayCommand(Loc);
+
 
             WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>
             {
@@ -64,6 +67,86 @@ namespace TaoBD10.ViewModels
             });
         }
 
+        public ICommand LocCommand { get; }
+
+
+        void Loc()
+        {
+            if (HangTonsDelete.Count == 0)
+                return;
+            foreach (HangTonModel deleteItem in HangTonsDelete)
+            {
+                foreach (HangTonModel hangTon in HangTons.ToList())
+                {
+                    bool isCanDelete = false;
+                    if (!string.IsNullOrEmpty(deleteItem.MaHieu))
+                    {
+                        if (hangTon.MaHieu.ToLower().IndexOf(deleteItem.MaHieu.ToLower()) != -1)
+                            isCanDelete = true;
+                        else
+                        {
+                            continue;
+                        }
+                    }
+                    if (!string.IsNullOrEmpty(deleteItem.KhoiLuong))
+                    {
+                        if (hangTon.KhoiLuong == deleteItem.KhoiLuong)
+                            isCanDelete = true;
+                        else
+                        {
+                            continue;
+                        }
+                    }
+
+                    if (!string.IsNullOrEmpty(deleteItem.BuuCucPhatHanh))
+                    {
+                        if (hangTon.BuuCucPhatHanh.ToLower().IndexOf(deleteItem.BuuCucPhatHanh.ToLower()) != -1)
+                            isCanDelete = true;
+                        else
+                        {
+                            continue;
+                        }
+                    }
+
+                    if (!string.IsNullOrEmpty(deleteItem.TimeGui))
+                    {
+                        if (hangTon.TimeGui.ToLower().IndexOf(deleteItem.TimeGui.ToLower()) != -1)
+                            isCanDelete = true;
+                        else
+                        {
+                            continue;
+                        }
+                    }
+                    if (!string.IsNullOrEmpty(deleteItem.TimeCapNhat))
+                    {
+                        if (hangTon.TimeCapNhat.ToLower().IndexOf(deleteItem.TimeCapNhat.ToLower()) != -1)
+                            isCanDelete = true;
+                        else
+                        {
+                            continue;
+                        }
+                    }
+                    if (!string.IsNullOrEmpty(deleteItem.NguoiGui))
+                    {
+                        if (hangTon.NguoiGui.ToLower().IndexOf(deleteItem.NguoiGui.ToLower()) != -1)
+                            isCanDelete = true;
+                        else
+                        {
+                            continue;
+                        }
+                    }
+
+                    if (isCanDelete)
+                    {
+                        HangTons.Remove(hangTon);
+                    }
+
+                }
+
+            }
+
+        }
+
         public ICommand AddAddressCommand { get; }
         public ICommand CheckCommand { get; }
         public ICommand ChiTietCommand { get; }
@@ -79,6 +162,15 @@ namespace TaoBD10.ViewModels
             get { return _HangTons; }
             set { SetProperty(ref _HangTons, value); }
         }
+
+        private ObservableCollection<HangTonModel> _HangTonsDelete;
+
+        public ObservableCollection<HangTonModel> HangTonsDelete
+        {
+            get { return _HangTonsDelete; }
+            set { SetProperty(ref _HangTonsDelete, value); }
+        }
+
 
         public string IsOk
         {

@@ -19,6 +19,17 @@ namespace TaoBD10.ViewModels
     {
         private readonly DispatcherTimer timerPrint;
 
+        private bool _IsChecking = true;
+
+        public bool IsChecking
+        {
+            get { return _IsChecking; }
+            set { SetProperty(ref _IsChecking, value);
+                WeakReferenceMessenger.Default.Send(new ContentModel { Key = "TopMost", Content = value.ToString() });
+            
+            }
+        }
+
         public ChinhViewModel()
         {
             KTHNCommand = new RelayCommand(KTHN);

@@ -22,6 +22,15 @@ namespace TaoBD10.ViewModels
         private bool Is16Kg = false;
         public IRelayCommand<Window> CloseWindowCommand { get; }
 
+        private bool _IsTopMost = true;
+
+        public bool IsTopMost
+        {
+            get { return _IsTopMost; }
+            set { SetProperty(ref _IsTopMost, value); }
+        }
+
+
 
         void CloseWindow(Window window)
         {
@@ -84,6 +93,17 @@ namespace TaoBD10.ViewModels
                 else if (m.Key == "SetFalseKg")
                 {
                     Is16Kg = false;
+                }else if(m.Key == "TopMost")
+                {
+                    if(m.Content == "False")
+                    {
+
+                        IsTopMost = false;
+                    }else
+                    {
+
+                        IsTopMost = true;
+                    }
                 }
             });
 

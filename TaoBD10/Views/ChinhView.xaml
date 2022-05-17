@@ -171,5 +171,9 @@
                 IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                 Style="{StaticResource MaterialDesignPaperButton}" />
         </StackPanel>
+        <CheckBox
+            HorizontalAlignment="Center"
+            Content="Top Most"
+            IsChecked="{Binding IsChecking}" />
     </StackPanel>
 </UserControl>

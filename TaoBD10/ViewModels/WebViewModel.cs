@@ -405,9 +405,7 @@ document.getElementsByClassName("".footer"").remove();
                     {
                         var child1 = childPage[i + 1];
                         string id = child1.SelectSingleNode("./input").Id;
-                        string script = @"
-            		document.getElementById('" + id + @"').click();
-";
+                        string script = @"document.getElementById('" + id + "').click();";
                         IsLoadedWeb = false;
                         WebBrowser.ExecuteScriptAsync(script);
                         break;

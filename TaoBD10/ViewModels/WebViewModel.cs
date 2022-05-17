@@ -390,22 +390,32 @@ document.getElementsByClassName("".footer"").remove();
 
         private void CheckPageMPS(HtmlDocument document)
         {
+            IEnumerable<HtmlNode> pageHave = document.DocumentNode.Descendants("section").Where(d => d.Attributes["class"].Value.Contains("paging"));
             bool isHasPaging = document.DocumentNode.HasClass("paging");
-            if (!isHasPaging)
+            if (pageHave== null)
                 return;
-            HtmlNode PagingClass = document.DocumentNode.SelectSingleNode("//section[contains(@class,'paging']");
-            HtmlNodeCollection childPage = PagingClass.FirstChild.ChildNodes;
+            HtmlNodeCollection childPage = document.DocumentNode.SelectNodes(@"//section[contains(@class,'paging')]/ul/li");
+            //HtmlNodeCollection childPage = PagingClass.FirstChild.ChildNodes;
             for (int i = 0; i < childPage.Count; i++)
             {
                 if(i != childPage.Count - 1)
                 {
-                    var isCurrentPage = childPage[i].HasClass("paging--active");
-                    string script = @"
-            		document.getElementById('"+childPage[i+1].Id+@"').click();
+                    HtmlNode child = childPage[i];
+                    if(child.InnerHtml.Contains("active") )
+                    {
+                        var child1 = childPage[i + 1];
+                        string id = child1.SelectSingleNode("./input").Id;
+                        string script = @"
+            		document.getElementById('" + id + @"').click();
 ";
-
-                    WebBrowser.ExecuteScriptAsync(script);
-                    break;
+                        IsLoadedWeb = false;
+                        WebBrowser.ExecuteScriptAsync(script);
+                        break;
+                    }
+                   
+                   
+                   
+                   
 
                 }
             }

@@ -245,6 +245,11 @@ namespace TaoBD10.ViewModels
             if (currentWindow == null)
                 return;
             _ = APIManager.ConvertToUnSign3(currentWindow.text).ToLower();
+            if(_ListShowHangHoa.Count == 0)
+            {
+                APIManager.ShowSnackbar("Chưa có dữ liệu");
+                return;
+            }
 
             //thuc hien kiem tra thu hien tai dang dung cai nao
             var handles = APIManager.GetAllChildHandles(currentWindow.hwnd);

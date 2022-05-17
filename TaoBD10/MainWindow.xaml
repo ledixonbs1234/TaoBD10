@@ -14,9 +14,8 @@
     Closing="MainView_Closing"
     DataContext="{StaticResource MainVM}"
     ResizeMode="NoResize"
-    Topmost="True"
     WindowStyle="None"
-    mc:Ignorable="d">
+    mc:Ignorable="d" Topmost="True">
     <Behaviors:Interaction.Triggers>
         <Behaviors:EventTrigger EventName="Loaded">
             <Behaviors:InvokeCommandAction Command="{Binding LoadPageCommand}" CommandParameter="{Binding ElementName=MainView}" />

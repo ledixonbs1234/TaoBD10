@@ -19,6 +19,7 @@
         <StackPanel Grid.Column="0">
 
             <DataGrid
+                Height="250"
                 x:Name="dataGrid1"
                 Grid.Column="0"
                 Margin="5"

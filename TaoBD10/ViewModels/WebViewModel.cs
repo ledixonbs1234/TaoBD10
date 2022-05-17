@@ -407,6 +407,7 @@ document.getElementsByClassName("".footer"").remove();
                         string id = child1.SelectSingleNode("./input").Id;
                         string script = @"document.getElementById('" + id + "').click();";
                         IsLoadedWeb = false;
+                        IsRunningChuaPhat = true;
                         WebBrowser.ExecuteScriptAsync(script);
                         break;
                     }

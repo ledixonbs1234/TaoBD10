@@ -144,6 +144,7 @@ namespace TaoBD10.ViewModels
                 }
 
             }
+            Count = HangTons.Count;
 
         }
 

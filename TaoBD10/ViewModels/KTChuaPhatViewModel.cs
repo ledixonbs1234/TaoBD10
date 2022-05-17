@@ -41,7 +41,6 @@ namespace TaoBD10.ViewModels
                 {
                     App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
                     {
-                        HangTons.Clear();
                         foreach (HangTonModel item in m.Value)
                         {
                             HangTons.Add(item);

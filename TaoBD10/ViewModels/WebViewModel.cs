@@ -252,6 +252,8 @@ document.getElementsByClassName("".footer"").remove();
                         }
                         //thuc hien send Du Lieu sang Map
                         WeakReferenceMessenger.Default.Send<HangTonMessage>(new HangTonMessage(hangTons));
+
+                        CheckPageMPS(document);
                     }
                 }
                 else if (diachi.IndexOf("bccp.vnpost.vn/bccp") != -1)
@@ -384,6 +386,30 @@ document.getElementsByClassName("".footer"").remove();
                     }
                 }
             }
+        }
+
+        private void CheckPageMPS(HtmlDocument document)
+        {
+            bool isHasPaging = document.DocumentNode.HasClass("paging");
+            if (!isHasPaging)
+                return;
+            HtmlNode PagingClass = document.DocumentNode.SelectSingleNode("//section[contains(@class,'paging']");
+            HtmlNodeCollection childPage = PagingClass.FirstChild.ChildNodes;
+            for (int i = 0; i < childPage.Count; i++)
+            {
+                if(i != childPage.Count - 1)
+                {
+                    var isCurrentPage = childPage[i].HasClass("paging--active");
+                    string script = @"
+            		document.getElementById('"+childPage[i+1].Id+@"').click();
+";
+
+                    WebBrowser.ExecuteScriptAsync(script);
+                    break;
+
+                }
+            }
+
         }
 
         public IRelayCommand<ChromiumWebBrowser> LoadPageCommand;

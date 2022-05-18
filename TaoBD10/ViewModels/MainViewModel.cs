@@ -101,13 +101,15 @@ namespace TaoBD10.ViewModels
                 else if (m.Key == "SetFalseKg")
                 {
                     Is16Kg = false;
-                }else if(m.Key == "TopMost")
+                }
+                else if (m.Key == "TopMost")
                 {
-                    if(m.Content == "False")
+                    if (m.Content == "False")
                     {
 
                         IsTopMost = false;
-                    }else
+                    }
+                    else
                     {
 
                         IsTopMost = true;
@@ -160,6 +162,7 @@ namespace TaoBD10.ViewModels
 
         private void BackgroundWorkerRead_DoWork(object sender, DoWorkEventArgs e)
         {
+
             while (true)
             {
                 Thread.Sleep(50);
@@ -183,69 +186,94 @@ namespace TaoBD10.ViewModels
                 if (activeWindow.text.IndexOf("dong chuyen thu") != -1)
                 {
                     isHaveError = false;
+                    try
+                    {
+                        List<TestAPIModel> listWindowForm = listControl.Where(m => m.ClassName.IndexOf("WindowsForms10.EDIT") != -1).ToList();
+                        if (listWindowForm.Count < 7)
+                            continue;
+                        TestAPIModel apiMaBuuCuc = listWindowForm[2];
+                        TestAPIModel apiLoai;
+                        TestAPIModel apiSoCT;
+                        
 
-                    List<TestAPIModel> listWindowForm = listControl.Where(m => m.ClassName.IndexOf("WindowsForms10.EDIT") != -1).ToList();
-                    TestAPIModel apiMaBuuCuc = listWindowForm[2];
-                    TestAPIModel apiLoai;
-                    TestAPIModel apiSoCT;
-                    if (!string.IsNullOrEmpty(apiMaBuuCuc.Text))
-                    {
-                        maSoBuuCucCurrent = apiMaBuuCuc.Text.Substring(0, 6);
-                        apiLoai = listWindowForm[3];
-                        apiSoCT = listWindowForm[6];
-                        soCTCurrent = apiSoCT.Text;
-                    }
-                    else
-                    {
-                        apiMaBuuCuc = listWindowForm[3];
-                        maSoBuuCucCurrent = apiMaBuuCuc.Text.Substring(0, 6);
-                        apiLoai = listWindowForm[4];
-                        apiSoCT = listWindowForm[7];
-                        soCTCurrent = apiSoCT.Text;
-                    }
-
-
-                    string textLoai = APIManager.ConvertToUnSign3(apiLoai.Text).ToLower();
-                    if (textLoai.IndexOf("buu kien") != -1)
-                    {
-                        loaiCurrent = "C";
-                    }
-                    else if (textLoai.IndexOf("ems") != -1)
-                    {
-                        loaiCurrent = "E";
-                    }
-                    else if (textLoai.IndexOf("buu pham") != -1)
-                    {
-                        loaiCurrent = "R";
-                    }
-                    else if (textLoai.IndexOf("logi") != -1)
-                    {
-                        loaiCurrent = "P";
-                    }
-
-                    //kiem tra gr
-                    TestAPIModel apiGr = listControl.First(m => m.Text.IndexOf("gr") != -1);
-                    string textGr = apiGr.Text.Replace("(gr)", "");
-                    if (textGr.IndexOf('.') != -1)
-                    {
-                        bool isRight = double.TryParse(textGr, out double numberGR);
-                        if (isRight)
+                        if (!string.IsNullOrEmpty(apiMaBuuCuc.Text))
                         {
-                            if (!Is16Kg)
+                            maSoBuuCucCurrent = apiMaBuuCuc.Text.Substring(0, 6);
+                            apiLoai = listWindowForm[3];
+                            apiSoCT = listWindowForm[6];
+                            soCTCurrent = apiSoCT.Text;
+                        }
+                        else
+                        {
+                            apiMaBuuCuc = listWindowForm[3];
+                            maSoBuuCucCurrent = apiMaBuuCuc.Text.Substring(0, 6);
+                            apiLoai = listWindowForm[4];
+                            apiSoCT = listWindowForm[7];
+                            soCTCurrent = apiSoCT.Text;
+                        }
+
+
+                        string textLoai = APIManager.ConvertToUnSign3(apiLoai.Text).ToLower();
+                        if (textLoai.IndexOf("buu kien") != -1)
+                        {
+                            loaiCurrent = "C";
+                        }
+                        else if (textLoai.IndexOf("ems") != -1)
+                        {
+                            loaiCurrent = "E";
+                        }
+                        else if (textLoai.IndexOf("buu pham") != -1)
+                        {
+                            loaiCurrent = "R";
+                        }
+                        else if (textLoai.IndexOf("logi") != -1)
+                        {
+                            loaiCurrent = "P";
+                        }
+
+                    }
+                    catch (Exception)
+                    {
+                        APIManager.ShowSnackbar("loi trong");
+                        throw;
+                    }
+
+
+
+                    try
+                    {
+                        //kiem tra gr
+                        TestAPIModel apiGr = listControl.First(m => m.Text.IndexOf("gr") != -1);
+                        string textGr = apiGr.Text.Replace("(gr)", "");
+                        if (textGr.IndexOf('.') != -1)
+                        {
+                            bool isRight = double.TryParse(textGr, out double numberGR);
+                            if (isRight)
                             {
-                                //txtInfo.Text = numberGR.ToString();
-                                if (numberGR > 16)
+                                if (!Is16Kg)
                                 {
-                                    Is16Kg = true;
-                                    SoundManager.playSound2(@"Number\tui16kg.wav");
+                                    //txtInfo.Text = numberGR.ToString();
+                                    if (numberGR > 16)
+                                    {
+                                        Is16Kg = true;
+                                        SoundManager.playSound2(@"Number\tui16kg.wav");
+                                    }
                                 }
                             }
                         }
+                        //kiem tra cai
+                        TestAPIModel apiCai = listControl.First(m => m.Text.IndexOf("cái") != -1);
+                        //TestText += apiCai.Text + "\n";
+                        int.TryParse(Regex.Match(apiCai.Text, @"\d+").Value, out numberRead);
                     }
-                    //kiem tra cai
-                    TestAPIModel apiCai = listControl.First(m => m.Text.IndexOf("cái") != -1);
-                    //TestText += apiCai.Text + "\n";
-                    int.TryParse(Regex.Match(apiCai.Text, @"\d+").Value, out numberRead);
+                    catch (Exception)
+                    {
+                        APIManager.ShowSnackbar("Loi ngoai");
+                        throw;
+                    }
+
+
+
                 }
                 else if (activeWindow.text.IndexOf("xac nhan chi tiet tui thu") != -1)
                 {
@@ -473,6 +501,8 @@ namespace TaoBD10.ViewModels
                     }
                 }
             }
+
+
         }
 
         public string CountInBD { get => _CountInBD; set => SetProperty(ref _CountInBD, value); }
@@ -1423,7 +1453,7 @@ namespace TaoBD10.ViewModels
         private string soCTCurrent = "";
         private System.Windows.Controls.TabControl tabControl;
 
-      
+
         private System.Windows.Controls.TabControl tabTuiControl;
         private readonly DispatcherTimer timerRead;
     }

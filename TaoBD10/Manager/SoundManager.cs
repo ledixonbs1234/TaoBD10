@@ -1,6 +1,8 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Media;
 using System.Windows;
+using System.Windows.Forms;
 
 namespace TaoBD10.Manager
 {
@@ -27,12 +29,18 @@ namespace TaoBD10.Manager
             //player.Play();
             try
             {
-                p1.Open(new System.Uri(dir + @"\" + path));
-                p1.Play();
+               
+                System.Windows.Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    p1.Stop();
+                    p1.Open(new Uri(dir + @"\" + path));
+                    p1.Play();
+                }));
+
             }
             catch (System.Exception e)
             {
-                MessageBox.Show(e.Message + " " + path);
+                APIManager.ShowSnackbar(e.Message + " " + path);
             }
         }
 
@@ -42,12 +50,16 @@ namespace TaoBD10.Manager
             //player.Play();
             try
             {
-                p2.Open(new System.Uri(dir + @"\" + path));
-                p2.Play();
+                System.Windows.Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    p2.Stop();
+                    p2.Open(new Uri(dir + @"\" + path));
+                    p2.Play();
+                }));
             }
             catch (System.Exception e)
             {
-                MessageBox.Show(e.Message + " " + path);
+                APIManager.ShowSnackbar(e.Message + " " + path);
             }
         }
 

@@ -83,6 +83,53 @@ namespace TaoBD10.Manager
             }
         }
 
+        /// <summary>
+        /// Cho toi khi nao co active window
+        /// </summary>
+        /// <param name="title"> tieu de</param>
+        /// <param name="time">thoi gian s* 0.2</param>
+        /// <param name="isExactly">co chinh xac title khong</param>
+        /// <returns>null neu khong tim thay</returns>
+        public static WindowInfo WaitingFindedWindow(string title, int time = 15, bool isExactly = false)
+        {
+            WindowInfo currentWindow = null;
+            string titleWindow = "";
+            time *= 5;
+            if (isExactly)
+            {
+                while (titleWindow != title)
+                {
+                    time--;
+                    if (time <= 0)
+                        return null;
+
+                    Thread.Sleep(200);
+                    currentWindow = APIManager.GetActiveWindowTitle(true);
+
+                    titleWindow = currentWindow.text;
+                }
+            }
+            else
+            {
+                while (titleWindow.IndexOf(title) == -1)
+                {
+                    time--;
+                    if (time <= 0)
+                        return null;
+
+                    Thread.Sleep(200);
+                    currentWindow = APIManager.GetActiveWindowTitle();
+                    if (!string.IsNullOrEmpty(currentWindow.text))
+                    {
+                        titleWindow = APIManager.ConvertToUnSign3(currentWindow.text).ToLower();
+                    }
+
+                }
+            }
+            Thread.Sleep(100);
+            return currentWindow;
+        }
+
         public static List<TestAPIModel> GetListControlText(IntPtr handleActiveWindow)
         {
             var allChild = GetAllChildHandles(handleActiveWindow);

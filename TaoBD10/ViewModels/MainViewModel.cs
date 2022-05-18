@@ -182,95 +182,80 @@ namespace TaoBD10.ViewModels
 
                 //thuc hien loc du lieu con
                 List<TestAPIModel> listControl = APIManager.GetListControlText(activeWindow.hwnd);
+                if (listControl.Count == 0)
+                    continue;
 
                 if (activeWindow.text.IndexOf("dong chuyen thu") != -1)
                 {
                     isHaveError = false;
-                    try
+                    List<TestAPIModel> listWindowForm = listControl.Where(m => m.ClassName.IndexOf("WindowsForms10.EDIT") != -1).ToList();
+                    if (listWindowForm.Count < 7)
+                        continue;
+                    TestAPIModel apiMaBuuCuc = listWindowForm[2];
+                    TestAPIModel apiLoai;
+                    TestAPIModel apiSoCT;
+
+
+                    if (!string.IsNullOrEmpty(apiMaBuuCuc.Text))
                     {
-                        List<TestAPIModel> listWindowForm = listControl.Where(m => m.ClassName.IndexOf("WindowsForms10.EDIT") != -1).ToList();
-                        if (listWindowForm.Count < 7)
-                            continue;
-                        TestAPIModel apiMaBuuCuc = listWindowForm[2];
-                        TestAPIModel apiLoai;
-                        TestAPIModel apiSoCT;
-                        
-
-                        if (!string.IsNullOrEmpty(apiMaBuuCuc.Text))
-                        {
-                            maSoBuuCucCurrent = apiMaBuuCuc.Text.Substring(0, 6);
-                            apiLoai = listWindowForm[3];
-                            apiSoCT = listWindowForm[6];
-                            soCTCurrent = apiSoCT.Text;
-                        }
-                        else
-                        {
-                            apiMaBuuCuc = listWindowForm[3];
-                            maSoBuuCucCurrent = apiMaBuuCuc.Text.Substring(0, 6);
-                            apiLoai = listWindowForm[4];
-                            apiSoCT = listWindowForm[7];
-                            soCTCurrent = apiSoCT.Text;
-                        }
-
-
-                        string textLoai = APIManager.ConvertToUnSign3(apiLoai.Text).ToLower();
-                        if (textLoai.IndexOf("buu kien") != -1)
-                        {
-                            loaiCurrent = "C";
-                        }
-                        else if (textLoai.IndexOf("ems") != -1)
-                        {
-                            loaiCurrent = "E";
-                        }
-                        else if (textLoai.IndexOf("buu pham") != -1)
-                        {
-                            loaiCurrent = "R";
-                        }
-                        else if (textLoai.IndexOf("logi") != -1)
-                        {
-                            loaiCurrent = "P";
-                        }
-
+                        maSoBuuCucCurrent = apiMaBuuCuc.Text.Substring(0, 6);
+                        apiLoai = listWindowForm[3];
+                        apiSoCT = listWindowForm[6];
+                        soCTCurrent = apiSoCT.Text;
                     }
-                    catch (Exception)
+                    else
                     {
-                        APIManager.ShowSnackbar("loi trong");
-                        throw;
+                        apiMaBuuCuc = listWindowForm[3];
+                        maSoBuuCucCurrent = apiMaBuuCuc.Text.Substring(0, 6);
+                        apiLoai = listWindowForm[4];
+                        apiSoCT = listWindowForm[7];
+                        soCTCurrent = apiSoCT.Text;
+                    }
+
+
+                    string textLoai = APIManager.ConvertToUnSign3(apiLoai.Text).ToLower();
+                    if (textLoai.IndexOf("buu kien") != -1)
+                    {
+                        loaiCurrent = "C";
+                    }
+                    else if (textLoai.IndexOf("ems") != -1)
+                    {
+                        loaiCurrent = "E";
+                    }
+                    else if (textLoai.IndexOf("buu pham") != -1)
+                    {
+                        loaiCurrent = "R";
+                    }
+                    else if (textLoai.IndexOf("logi") != -1)
+                    {
+                        loaiCurrent = "P";
                     }
 
 
 
-                    try
+                    //kiem tra gr
+                    TestAPIModel apiGr = listControl.First(m => m.Text.IndexOf("gr") != -1);
+                    string textGr = apiGr.Text.Replace("(gr)", "");
+                    if (textGr.IndexOf('.') != -1)
                     {
-                        //kiem tra gr
-                        TestAPIModel apiGr = listControl.First(m => m.Text.IndexOf("gr") != -1);
-                        string textGr = apiGr.Text.Replace("(gr)", "");
-                        if (textGr.IndexOf('.') != -1)
+                        bool isRight = double.TryParse(textGr, out double numberGR);
+                        if (isRight)
                         {
-                            bool isRight = double.TryParse(textGr, out double numberGR);
-                            if (isRight)
+                            if (!Is16Kg)
                             {
-                                if (!Is16Kg)
+                                //txtInfo.Text = numberGR.ToString();
+                                if (numberGR > 16)
                                 {
-                                    //txtInfo.Text = numberGR.ToString();
-                                    if (numberGR > 16)
-                                    {
-                                        Is16Kg = true;
-                                        SoundManager.playSound2(@"Number\tui16kg.wav");
-                                    }
+                                    Is16Kg = true;
+                                    SoundManager.playSound2(@"Number\tui16kg.wav");
                                 }
                             }
                         }
-                        //kiem tra cai
-                        TestAPIModel apiCai = listControl.First(m => m.Text.IndexOf("cái") != -1);
-                        //TestText += apiCai.Text + "\n";
-                        int.TryParse(Regex.Match(apiCai.Text, @"\d+").Value, out numberRead);
                     }
-                    catch (Exception)
-                    {
-                        APIManager.ShowSnackbar("Loi ngoai");
-                        throw;
-                    }
+                    //kiem tra cai
+                    TestAPIModel apiCai = listControl.First(m => m.Text.IndexOf("cái") != -1);
+                    //TestText += apiCai.Text + "\n";
+                    int.TryParse(Regex.Match(apiCai.Text, @"\d+").Value, out numberRead);
 
 
 
@@ -291,9 +276,10 @@ namespace TaoBD10.ViewModels
                     isHaveError = false;
 
                     List<TestAPIModel> listWindowStatic = listControl.Where(m => m.ClassName.IndexOf("WindowsForms10.STATIC.app") != -1).ToList();
+
                     if (listWindowStatic.Count < 9)
                     {
-                        return;
+                        continue;
                     }
                     TestAPIModel apiNumber = listWindowStatic[8];
                     int.TryParse(Regex.Match(apiNumber.Text, @"\d+").Value, out numberRead);
@@ -305,7 +291,7 @@ namespace TaoBD10.ViewModels
                     List<TestAPIModel> listWindowStatic = listControl.Where(m => m.ClassName.IndexOf("WindowsForms10.STATIC.app") != -1).ToList();
                     if (listWindowStatic.Count < 7)
                     {
-                        return;
+                        continue;
                     }
                     TestAPIModel apiNumber = listWindowStatic[7];
                     int.TryParse(Regex.Match(apiNumber.Text, @"\d+").Value, out numberRead);
@@ -317,7 +303,7 @@ namespace TaoBD10.ViewModels
                     List<TestAPIModel> listWindowStatic = listControl.Where(m => m.ClassName.IndexOf("WindowsForms10.STATIC.app") != -1).ToList();
                     if (listWindowStatic.Count < 10)
                     {
-                        return;
+                        continue;
                     }
                     TestAPIModel apiNumber = listWindowStatic[9];
                     //TestText += apiNumber.Text + "\n";
@@ -536,7 +522,7 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        private int _IndexTabTui = 0;
+        private int _IndexTabTui = 1;
 
         public int IndexTabTui
         {

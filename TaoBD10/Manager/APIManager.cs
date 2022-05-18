@@ -90,7 +90,7 @@ namespace TaoBD10.Manager
         /// <param name="time">thoi gian s* 0.2</param>
         /// <param name="isExactly">co chinh xac title khong</param>
         /// <returns>null neu khong tim thay</returns>
-        public static WindowInfo WaitingFindedWindow(string title, int time = 15, bool isExactly = false)
+        public static WindowInfo WaitingFindedWindow(string title, string title2 = "null", int time = 15, bool isExactly = false)
         {
             WindowInfo currentWindow = null;
             string titleWindow = "";
@@ -104,24 +104,24 @@ namespace TaoBD10.Manager
                         return null;
 
                     Thread.Sleep(200);
-                    currentWindow = APIManager.GetActiveWindowTitle(true);
+                    currentWindow = GetActiveWindowTitle(true);
 
                     titleWindow = currentWindow.text;
                 }
             }
             else
             {
-                while (titleWindow.IndexOf(title) == -1)
+                while (titleWindow.IndexOf(title) == -1 && titleWindow.IndexOf(title2) == -1)
                 {
                     time--;
                     if (time <= 0)
                         return null;
 
                     Thread.Sleep(200);
-                    currentWindow = APIManager.GetActiveWindowTitle();
+                    currentWindow = GetActiveWindowTitle();
                     if (!string.IsNullOrEmpty(currentWindow.text))
                     {
-                        titleWindow = APIManager.ConvertToUnSign3(currentWindow.text).ToLower();
+                        titleWindow = ConvertToUnSign3(currentWindow.text).ToLower();
                     }
 
                 }

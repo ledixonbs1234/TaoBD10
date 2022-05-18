@@ -66,32 +66,19 @@ namespace TaoBD10.ViewModels
             List<TestAPIModel> listCombobox = controls.Where(m => m.ClassName.ToLower().IndexOf("combobox") != -1).ToList();
             IntPtr comboHandle = listCombobox[3].Handle;
 
-            IntPtr combo = IntPtr.Zero;
-
-            APIManager.SendMessage(combo, 0x0007, 0, 0);
-            APIManager.SendMessage(combo, 0x0007, 0, 0);
-
+            APIManager.SendMessage(comboHandle, 0x0007, 0, 0);
+            APIManager.SendMessage(comboHandle, 0x0007, 0, 0);
             ChuyenThuDen();
             Thread.Sleep(200);
             SendKeys.SendWait("{ENTER}");
 
-            window = APIManager.WaitingFindedWindow("canh bao");
+            window = APIManager.WaitingFindedWindow("canh bao","thong bao");
             if (window == null)
             {
                 APIManager.ShowSnackbar("Không tìm thấy cảnh báo");
                 return;
             }
 
-            SendKeys.SendWait("{ENTER}");
-            Thread.Sleep(500);
-            SendKeys.SendWait("{F5}");
-
-            window = APIManager.WaitingFindedWindow("thong bao");
-            if (window == null)
-            {
-                APIManager.ShowSnackbar("Không tìm thấy thông báo");
-                return;
-            }
             SendKeys.SendWait("{ENTER}");
             Thread.Sleep(500);
             SendKeys.SendWait("{F5}");
@@ -152,10 +139,11 @@ namespace TaoBD10.ViewModels
                     Thread.Sleep(200);
                     SendKeys.SendWait("3");
                 }
-                timer.Stop();
-                isWaitingChuyenThuChieuDen = false;
-                stateChuyenThuChieuDen = StateChuyenThuChieuDen.GetData;
-                timer.Start();
+                //timer.Stop();
+                //isWaitingChuyenThuChieuDen = false;
+                //stateChuyenThuChieuDen = StateChuyenThuChieuDen.GetData;
+                //timer.Start();
+                backgroundWorkerXacNhan.RunWorkerAsync();
             }
             else if (XacNhanMH.BuuCucNhan.IndexOf("593230") != -1)
             {
@@ -169,10 +157,12 @@ namespace TaoBD10.ViewModels
                     SendKeys.SendWait("3");
                 }
 
-                timer.Stop();
-                isWaitingChuyenThuChieuDen = false;
-                stateChuyenThuChieuDen = StateChuyenThuChieuDen.GetData;
-                timer.Start();
+                //timer.Stop();
+                //isWaitingChuyenThuChieuDen = false;
+                //stateChuyenThuChieuDen = StateChuyenThuChieuDen.GetData;
+                //timer.Start();
+
+                backgroundWorkerXacNhan.RunWorkerAsync();
             }
 
 

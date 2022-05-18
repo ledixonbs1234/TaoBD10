@@ -168,11 +168,6 @@ namespace TaoBD10.ViewModels
                 Thread.Sleep(50);
                 WindowInfo activeWindow = APIManager.GetActiveWindowTitle();
 
-                if (activeWindow == null)
-                {
-                    //TestText += "null";
-                    continue;
-                }
                 //TestText += "reading";
                 //int count =TestText.Split('\n').Length;
                 //if (count > 10)
@@ -180,8 +175,26 @@ namespace TaoBD10.ViewModels
 
                 //class compare
 
+                List<TestAPIModel> listControl = null;
                 //thuc hien loc du lieu con
-                List<TestAPIModel> listControl = APIManager.GetListControlText(activeWindow.hwnd);
+                if (activeWindow.text == "" ||
+                    activeWindow.text.IndexOf("dong chuyen thu") != -1 ||
+                   activeWindow.text.IndexOf("xac nhan chi tiet tui thu") != -1 ||
+                   activeWindow.text.IndexOf("khoi tao chuyen thu") != -1 ||
+                   activeWindow.text.IndexOf("xac nhan bd10 theo so hieu tui") != -1 ||
+                   activeWindow.text.IndexOf("lap bd10 theo duong thu") != -1 ||
+                   activeWindow.text.IndexOf("sua thong tin bd10") != -1 ||
+                   activeWindow.text.IndexOf("canh bao") != -1 ||
+                   activeWindow.text.IndexOf("xac nhan") != -1 ||
+                   activeWindow.text.IndexOf("thong bao") != -1
+                   )
+                {
+                    listControl = APIManager.GetListControlText(activeWindow.hwnd);
+                }
+                else
+                {
+                    continue;
+                }
                 if (listControl.Count == 0)
                     continue;
 

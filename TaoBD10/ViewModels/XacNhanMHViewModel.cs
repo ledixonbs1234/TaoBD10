@@ -3,6 +3,7 @@ using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -25,6 +26,36 @@ namespace TaoBD10.ViewModels
         {
             get { return _XacNhanMH; }
             set { SetProperty(ref _XacNhanMH, value); }
+        }
+        private string _TestText;
+
+        public string TestText
+        {
+            get { return _TestText; }
+            set { SetProperty(ref _TestText, value); }
+        }
+        public ICommand TestCommand { get; }
+
+        BackgroundWorker backgroundWorker;
+
+        void Test()
+        {
+            backgroundWorker.RunWorkerAsync();
+        }
+
+
+
+        private void Woker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            TestText += "Lan 1" + '\n';
+            Thread.Sleep(1000);
+            TestText += "Lan 2" + '\n';
+            Thread.Sleep(2000);
+            SendKeys.SendWait("khong co gi");
+            TestText += "Lan 3" + '\n';
+            SendKeys.SendWait("khong ddco gi");
+            Thread.Sleep(2000);
+            TestText += "Lan 4" + '\n';
         }
 
         public ICommand GoToCTCommand { get; }
@@ -247,6 +278,11 @@ namespace TaoBD10.ViewModels
 
         public XacNhanMHViewModel()
         {
+            TestCommand = new RelayCommand(Test);
+             backgroundWorker = new BackgroundWorker();
+            backgroundWorker.DoWork += Woker_DoWork;
+
+
             GoToCTCommand = new RelayCommand(GoToCT);
             timer = new DispatcherTimer
             {

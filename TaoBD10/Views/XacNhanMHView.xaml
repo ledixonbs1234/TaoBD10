@@ -52,6 +52,9 @@
                     Command="{Binding GoToCTCommand}"
                     Content="Go CT" />
             </StackPanel>
+
+            <Button Command="{Binding TestCommand}"/>
+            <TextBox Height="100" AcceptsReturn="True" Text="{Binding TestText}" /> 
         </StackPanel>
     </materialDesign:Card>
 

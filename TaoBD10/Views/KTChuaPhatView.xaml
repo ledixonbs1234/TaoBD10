@@ -58,6 +58,7 @@
             AutoGenerateColumns="False"
             CanUserAddRows="False"
             CanUserResizeColumns="True"
+            SelectionMode="Single"
             IsReadOnly="True"
             ItemsSource="{Binding HangTons}"
             SelectedItem="{Binding Selected}">

@@ -254,6 +254,10 @@ namespace TaoBD10.ViewModels
 
                     int.TryParse(Regex.Match(apiCai.Text, @"\d+").Value, out numberRead);
                 }
+                else if (activeWindow.text.IndexOf("khoi tao chuyen thu") != -1)
+                {
+                    isHaveError = false;
+                }
                 else if (activeWindow.text.IndexOf("xac nhan bd10 theo so hieu tui") != -1)
                 {
                     isHaveError = false;

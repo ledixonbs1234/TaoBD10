@@ -271,7 +271,7 @@ namespace TaoBD10.ViewModels
                         }
                         //kiem tra cai
                         TestAPIModel apiCai = listControl.FirstOrDefault(m => m.Text.IndexOf("cái") != -1);
-                        if(apiCai == null)
+                        if (apiCai == null)
                         {
                             continue;
                         }
@@ -925,11 +925,33 @@ namespace TaoBD10.ViewModels
                     //thuc hien copy du lieu sau do sang ben kia
                     WeakReferenceMessenger.Default.Send(new ContentModel { Key = "TamQuanRun", Content = "" });
                     break;
+                case Key.F12:
+                     WindowInfo activeWindows = APIManager.GetActiveWindowTitle();
+                    if (activeWindows.text.IndexOf("xem chuyen thu") != -1)
+                    {
+                        PrintBanKe();
+                    }
+                    break;
 
                 default:
                     KeyData += e.KeyPressed.ToString();
                     break;
             }
+        }
+
+        private void PrintBanKe()
+        {
+            SendKeys.SendWait("{F7}");
+            Thread.Sleep(500);
+            SendKeys.SendWait("{UP}");
+            SendKeys.SendWait(" ");
+            SendKeys.SendWait("{DOWN}");
+            SendKeys.SendWait(" ");
+            SendKeys.SendWait("{F10}");
+            Thread.Sleep(500);
+            SendKeys.SendWait("{F10}");
+
+
         }
 
         string getCodeFromString(string content)
@@ -951,62 +973,63 @@ namespace TaoBD10.ViewModels
         }
         void PrintBD10()
         {
-            var danhSach = APIManager.GetActiveWindowTitle();
-            if (danhSach == null)
-                return;
-            if (danhSach.text.IndexOf("sua thong tin bd10") != -1 || danhSach.text.IndexOf("lap bd10") != -1)
+            WindowInfo currentWindow = APIManager.WaitingFindedWindow("sua thong tin bd10", "lap bd10");
+            if (currentWindow == null)
             {
-                APIManager.SetDefaultPrint();
-                SendKeys.SendWait("{F3}");
-                Thread.Sleep(500);
-                SendKeys.SendWait("{Enter}");
-
-                WindowInfo printD = danhSach;
-                while (printD.text.IndexOf("print document") == -1)
-                {
-                    printD = APIManager.GetActiveWindowTitle();
-                    Thread.Sleep(200);
-                }
-                Thread.Sleep(200);
-                SendKeys.SendWait("{TAB}");
-                SendKeys.SendWait(" ");
-                Thread.Sleep(1000);
-                SendKeys.SendWait("%{c}");
-                Thread.Sleep(50);
-                SendKeys.SendWait("{Up}");
-                Thread.Sleep(50);
-                SendKeys.SendWait("{Up}");
-                Thread.Sleep(50);
-                SendKeys.SendWait("%{o}");
-                Thread.Sleep(50);
-                SendKeys.SendWait("%{p}");
-                Thread.Sleep(500);
-                WindowInfo printD1 = danhSach;
-                while (printD1.text.IndexOf("printing") == -1)
-                {
-                    printD1 = APIManager.GetActiveWindowTitle();
-                    Thread.Sleep(100);
-                }
-                while (printD1.text.IndexOf("printing") != -1)
-                {
-                    printD1 = APIManager.GetActiveWindowTitle();
-                    Thread.Sleep(100);
-                }
-                Thread.Sleep(100);
-                SendKeys.SendWait("{Right}");
-                SendKeys.SendWait(" ");
-                Thread.Sleep(500);
-                while (printD1.text.IndexOf("sua thong tin bd10") != -1)
-                {
-                    printD1 = APIManager.GetActiveWindowTitle();
-                    Thread.Sleep(100);
-                }
-                Thread.Sleep(500);
-                SendKeys.SendWait("{Enter}");
-                SendKeys.SendWait("{Esc}");
-                Thread.Sleep(100);
-                SendKeys.SendWait("{Enter}");
+                MessageShow("Không tìm thấy window bd 10");
+                return;
             }
+
+            APIManager.SetDefaultPrint();
+            SendKeys.SendWait("{F3}");
+            Thread.Sleep(500);
+            SendKeys.SendWait("{Enter}");
+
+            currentWindow = APIManager.WaitingFindedWindow("print document");
+            if (currentWindow == null)
+            {
+                MessageShow("Không tìm thấy window bd 10");
+                return;
+            }
+
+            SendKeys.SendWait("{TAB}");
+            SendKeys.SendWait(" ");
+            Thread.Sleep(1000);
+            SendKeys.SendWait("%{c}");
+            Thread.Sleep(50);
+            SendKeys.SendWait("{Up}");
+            Thread.Sleep(50);
+            SendKeys.SendWait("{Up}");
+            Thread.Sleep(50);
+            SendKeys.SendWait("%{o}");
+            Thread.Sleep(50);
+            SendKeys.SendWait("%{p}");
+            Thread.Sleep(500);
+            WindowInfo printD1 = currentWindow;
+            while (printD1.text.IndexOf("printing") == -1)
+            {
+                printD1 = APIManager.GetActiveWindowTitle();
+                Thread.Sleep(100);
+            }
+            while (printD1.text.IndexOf("printing") != -1)
+            {
+                printD1 = APIManager.GetActiveWindowTitle();
+                Thread.Sleep(100);
+            }
+            Thread.Sleep(100);
+            SendKeys.SendWait("{Right}");
+            SendKeys.SendWait(" ");
+            Thread.Sleep(500);
+            while (printD1.text.IndexOf("sua thong tin bd10") != -1)
+            {
+                printD1 = APIManager.GetActiveWindowTitle();
+                Thread.Sleep(100);
+            }
+            Thread.Sleep(500);
+            SendKeys.SendWait("{Enter}");
+            SendKeys.SendWait("{Esc}");
+            Thread.Sleep(100);
+            SendKeys.SendWait("{Enter}");
         }
 
         private void SetDefaultWindowTui()

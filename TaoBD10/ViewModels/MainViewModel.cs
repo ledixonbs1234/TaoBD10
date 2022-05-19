@@ -57,6 +57,8 @@ namespace TaoBD10.ViewModels
             backgroundWorkerRead = new BackgroundWorker();
             backgroundWorkerRead.DoWork += BackgroundWorkerRead_DoWork;
             backgroundWorkerRead.RunWorkerAsync();
+            bwPrintBanKe = new BackgroundWorker();
+            bwPrintBanKe.DoWork += BwPrintBanKe_DoWork;
 
 
 
@@ -158,6 +160,82 @@ namespace TaoBD10.ViewModels
                     }
                 }
             });
+        }
+
+        private void BwPrintBanKe_DoWork(object sender, DoWorkEventArgs e)
+        {
+            SendKeys.SendWait("{F7}");
+            Thread.Sleep(500);
+            SendKeys.SendWait("{UP}");
+            SendKeys.SendWait(" ");
+            SendKeys.SendWait("{DOWN}");
+            SendKeys.SendWait(" ");
+            SendKeys.SendWait("{F10}");
+            Thread.Sleep(500);
+            SendKeys.SendWait("{F10}");
+
+            WindowInfo currentWindow = APIManager.WaitingFindedWindow("print document");
+            if (currentWindow == null)
+            {
+                MessageShow("Không tìm thấy window print document");
+                return;
+            }
+
+            Thread.Sleep(200);
+            SendKeys.SendWait("{TAB}");
+            SendKeys.SendWait(" ");
+            Thread.Sleep(1000);
+            SendKeys.SendWait("%{r}");
+            Thread.Sleep(50);
+            SendKeys.SendWait("%{u}");
+            Thread.Sleep(50);
+            SendKeys.SendWait("{ENTER}");
+            Thread.Sleep(50);
+            SendKeys.SendWait("%{p}");
+            Thread.Sleep(500);
+            WindowInfo printD1 = currentWindow;
+            APIManager.WaitingFindedWindow("printing");
+            while (printD1.text.IndexOf("printing") != -1)
+            {
+                printD1 = APIManager.GetActiveWindowTitle();
+                Thread.Sleep(100);
+            }
+            Thread.Sleep(100);
+            SendKeys.SendWait("{Right}");
+            SendKeys.SendWait(" ");
+            Thread.Sleep(2000);
+
+            SendKeys.SendWait("{F10}");
+
+            currentWindow = APIManager.WaitingFindedWindow("print document");
+            if (currentWindow == null)
+            {
+                MessageShow("Không tìm thấy window print document");
+                return;
+            }
+
+            Thread.Sleep(200);
+            SendKeys.SendWait("{TAB}");
+            SendKeys.SendWait(" ");
+            Thread.Sleep(1000);
+            SendKeys.SendWait("%{r}");
+            Thread.Sleep(50);
+            SendKeys.SendWait("%{u}");
+            Thread.Sleep(50);
+            SendKeys.SendWait("{ENTER}");
+            Thread.Sleep(50);
+            SendKeys.SendWait("%{p}");
+            Thread.Sleep(500);
+            printD1 = currentWindow;
+            APIManager.WaitingFindedWindow("printing");
+            while (printD1.text.IndexOf("printing") != -1)
+            {
+                printD1 = APIManager.GetActiveWindowTitle();
+                Thread.Sleep(100);
+            }
+            Thread.Sleep(100);
+            SendKeys.SendWait("{Right}");
+            SendKeys.SendWait(" ");
         }
 
         private void BackgroundWorkerRead_DoWork(object sender, DoWorkEventArgs e)
@@ -929,7 +1007,7 @@ namespace TaoBD10.ViewModels
                     WindowInfo activeWindows = APIManager.GetActiveWindowTitle();
                     if (activeWindows.text.IndexOf("xem chuyen thu") != -1)
                     {
-                        PrintBanKe();
+                        bwPrintBanKe.RunWorkerAsync();
                     }
                     break;
 
@@ -938,80 +1016,7 @@ namespace TaoBD10.ViewModels
                     break;
             }
         }
-
-        private void PrintBanKe()
-        {
-            SendKeys.SendWait("{F7}");
-            Thread.Sleep(500);
-            SendKeys.SendWait("{UP}");
-            SendKeys.SendWait(" ");
-            SendKeys.SendWait("{DOWN}");
-            SendKeys.SendWait(" ");
-            SendKeys.SendWait("{F10}");
-            Thread.Sleep(500);
-            SendKeys.SendWait("{F10}");
-
-            WindowInfo currentWindow = APIManager.WaitingFindedWindow("print document");
-            if (currentWindow == null)
-            {
-                MessageShow("Không tìm thấy window print document");
-                return;
-            }
-
-            SendKeys.SendWait("{TAB}");
-            SendKeys.SendWait(" ");
-            Thread.Sleep(1000);
-            SendKeys.SendWait("%{r}");
-            Thread.Sleep(50);
-            SendKeys.SendWait("%{u}");
-            Thread.Sleep(50);
-            SendKeys.SendWait("{ENTER}");
-            Thread.Sleep(50);
-            SendKeys.SendWait("%{p}");
-            Thread.Sleep(500);
-            WindowInfo printD1 = currentWindow;
-            APIManager.WaitingFindedWindow("printing");
-            while (printD1.text.IndexOf("printing") != -1)
-            {
-                printD1 = APIManager.GetActiveWindowTitle();
-                Thread.Sleep(100);
-            }
-            Thread.Sleep(100);
-            SendKeys.SendWait("{Right}");
-            SendKeys.SendWait(" ");
-            Thread.Sleep(2000);
-
-            SendKeys.SendWait("{F10}");
-
-             currentWindow = APIManager.WaitingFindedWindow("print document");
-            if (currentWindow == null)
-            {
-                MessageShow("Không tìm thấy window print document");
-                return;
-            }
-
-            SendKeys.SendWait("{TAB}");
-            SendKeys.SendWait(" ");
-            Thread.Sleep(1000);
-            SendKeys.SendWait("%{r}");
-            Thread.Sleep(50);
-            SendKeys.SendWait("%{u}");
-            Thread.Sleep(50);
-            SendKeys.SendWait("{ENTER}");
-            Thread.Sleep(50);
-            SendKeys.SendWait("%{p}");
-            Thread.Sleep(500);
-             printD1 = currentWindow;
-            APIManager.WaitingFindedWindow("printing");
-            while (printD1.text.IndexOf("printing") != -1)
-            {
-                printD1 = APIManager.GetActiveWindowTitle();
-                Thread.Sleep(100);
-            }
-            Thread.Sleep(100);
-            SendKeys.SendWait("{Right}");
-            SendKeys.SendWait(" ");
-        }
+        BackgroundWorker bwPrintBanKe;
 
         string getCodeFromString(string content)
         {

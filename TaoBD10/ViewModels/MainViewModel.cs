@@ -926,7 +926,7 @@ namespace TaoBD10.ViewModels
                     WeakReferenceMessenger.Default.Send(new ContentModel { Key = "TamQuanRun", Content = "" });
                     break;
                 case Key.F12:
-                     WindowInfo activeWindows = APIManager.GetActiveWindowTitle();
+                    WindowInfo activeWindows = APIManager.GetActiveWindowTitle();
                     if (activeWindows.text.IndexOf("xem chuyen thu") != -1)
                     {
                         PrintBanKe();
@@ -967,25 +967,50 @@ namespace TaoBD10.ViewModels
             Thread.Sleep(50);
             SendKeys.SendWait("{ENTER}");
             Thread.Sleep(50);
-            //SendKeys.SendWait("%{o}");
-            //Thread.Sleep(50);
-            //SendKeys.SendWait("%{p}");
-            //Thread.Sleep(500);
-            //WindowInfo printD1 = currentWindow;
-            //while (printD1.text.IndexOf("printing") == -1)
-            //{
-            //    printD1 = APIManager.GetActiveWindowTitle();
-            //    Thread.Sleep(100);
-            //}
-            //while (printD1.text.IndexOf("printing") != -1)
-            //{
-            //    printD1 = APIManager.GetActiveWindowTitle();
-            //    Thread.Sleep(100);
-            //}
-            //Thread.Sleep(100);
-            //SendKeys.SendWait("{Right}");
-            //SendKeys.SendWait(" ");
-            //Thread.Sleep(500);
+            SendKeys.SendWait("%{p}");
+            Thread.Sleep(500);
+            WindowInfo printD1 = currentWindow;
+            APIManager.WaitingFindedWindow("printing");
+            while (printD1.text.IndexOf("printing") != -1)
+            {
+                printD1 = APIManager.GetActiveWindowTitle();
+                Thread.Sleep(100);
+            }
+            Thread.Sleep(100);
+            SendKeys.SendWait("{Right}");
+            SendKeys.SendWait(" ");
+            Thread.Sleep(2000);
+
+            SendKeys.SendWait("{F10}");
+
+             currentWindow = APIManager.WaitingFindedWindow("print document");
+            if (currentWindow == null)
+            {
+                MessageShow("Không tìm thấy window print document");
+                return;
+            }
+
+            SendKeys.SendWait("{TAB}");
+            SendKeys.SendWait(" ");
+            Thread.Sleep(1000);
+            SendKeys.SendWait("%{r}");
+            Thread.Sleep(50);
+            SendKeys.SendWait("%{u}");
+            Thread.Sleep(50);
+            SendKeys.SendWait("{ENTER}");
+            Thread.Sleep(50);
+            SendKeys.SendWait("%{p}");
+            Thread.Sleep(500);
+             printD1 = currentWindow;
+            APIManager.WaitingFindedWindow("printing");
+            while (printD1.text.IndexOf("printing") != -1)
+            {
+                printD1 = APIManager.GetActiveWindowTitle();
+                Thread.Sleep(100);
+            }
+            Thread.Sleep(100);
+            SendKeys.SendWait("{Right}");
+            SendKeys.SendWait(" ");
         }
 
         string getCodeFromString(string content)

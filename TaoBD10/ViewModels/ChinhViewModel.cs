@@ -201,23 +201,15 @@ namespace TaoBD10.ViewModels
             }
             else if (currentWindow.text.IndexOf("tao tui") != -1)
             {
-                {
-                    Thread.Sleep(200);
-                    var childTaoTuiHandle = APIManager.GetAllChildHandles(currentWindow.hwnd);
+                Thread.Sleep(200);
+                var childTaoTuiHandle = APIManager.GetAllChildHandles(currentWindow.hwnd);
 
+                APIManager.SendMessage(childTaoTuiHandle[8], 0x0007, 0, 0);
+                APIManager.SendMessage(childTaoTuiHandle[8], 0x0007, 0, 0);
+                inputImulator.Keyboard.TextEntry(currentChuyenThu.TextTui);
+                inputImulator.Keyboard.KeyPress(VirtualKeyCode.TAB);
 
-                    APIManager.SendMessage(childTaoTuiHandle[8], 0x0007, 0, 0);
-                    APIManager.SendMessage(childTaoTuiHandle[8], 0x0007, 0, 0);
-                    inputImulator.Keyboard.TextEntry(currentChuyenThu.TextTui);
-                    inputImulator.Keyboard.KeyPress(VirtualKeyCode.TAB);
-
-                    inputImulator.Keyboard.KeyPress(VirtualKeyCode.F10);
-                }
-
-                if (currentWindow == null)
-                {
-                    return;
-                }
+                inputImulator.Keyboard.KeyPress(VirtualKeyCode.F10);
             }
 
             currentWindow = APIManager.WaitingFindedWindow("dong chuyen thu");
@@ -266,6 +258,7 @@ namespace TaoBD10.ViewModels
             else
             {
                 //Kiem tra lai
+                SoundManager.playSound2(@"\Number\khongkhopsolieu.wav");
             }
 
         }

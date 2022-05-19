@@ -140,7 +140,6 @@ namespace TaoBD10.ViewModels
         private void BackgroundCreateChuyenThu_DoWork(object sender, DoWorkEventArgs e)
         {
             //thuc hien cong viec trong nay
-            int countTempReturn = 0;
             WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "SetFalseKg", Content = "" });
 
             WindowInfo currentWindow = APIManager.WaitingFindedWindow("khoi tao chuyen thu");
@@ -164,7 +163,6 @@ namespace TaoBD10.ViewModels
             inputImulator.Keyboard.TextEntry(currentChuyenThu.TextLoai);
             inputImulator.Keyboard.KeyPress(VirtualKeyCode.TAB);
             inputImulator.Keyboard.KeyPress(VirtualKeyCode.F10);
-            countTempReturn = 0;
 
 
             currentWindow = APIManager.WaitingFindedWindow("dong chuyen thu", "tao tui");
@@ -176,25 +174,12 @@ namespace TaoBD10.ViewModels
 
             if (currentWindow.text.IndexOf("dong chuyen thu") != -1)
             {
-                string title = APIManager.GetListControlText(currentWindow.hwnd)[3].Text;
-                //kiem tra so luong la bao nhieu
-                string resultString = Regex.Match(title, @"\d+").Value;
-                int.TryParse(resultString, out int countInTui);
 
-                if (countInTui > 0)
+                Thread.Sleep(500);
+                //thuc hien cho tao tui 10 lan
+                currentWindow = APIManager.GetActiveWindowTitle();
+                if (currentWindow.text.IndexOf("tao tui") != -1)
                 {
-                }
-                else
-                {
-                    //thuc hien cho tao tui 10 lan
-                    countTempReturn = 0;
-                    currentWindow = APIManager.WaitingFindedWindow("tao tui");
-                    if (currentWindow == null)
-                    {
-                        APIManager.ShowSnackbar("Không tìm thấy window Tạo Túi");
-                        return;
-                    }
-                    //thuc hien co tui trong nay
                     IntPtr handleTaoTui = APIManager.GetListControlText(currentWindow.hwnd)[8].Handle;
 
 
@@ -206,76 +191,81 @@ namespace TaoBD10.ViewModels
 
                     inputImulator.Keyboard.KeyPress(VirtualKeyCode.F10);
                 }
-            }
-            else
-            {
-                Thread.Sleep(200);
-                var childTaoTuiHandle = APIManager.GetAllChildHandles(currentWindow.hwnd);
-
-
-                APIManager.SendMessage(childTaoTuiHandle[8], 0x0007, 0, 0);
-                APIManager.SendMessage(childTaoTuiHandle[8], 0x0007, 0, 0);
-                inputImulator.Keyboard.TextEntry(currentChuyenThu.TextTui);
-                inputImulator.Keyboard.KeyPress(VirtualKeyCode.TAB);
-
-                inputImulator.Keyboard.KeyPress(VirtualKeyCode.F10);
-            }
-
-
-
-
-            countTempReturn = 0;
-            if (currentWindow == null)
-            {
-                return;
-            }
-
-            currentWindow = APIManager.WaitingFindedWindow("dong chuyen thu");
-            if (currentWindow == null)
-            {
-                APIManager.ShowSnackbar("Không tìm thấy window Đóng chuyến thư");
-                return;
-            }
-
-            var childHandles = APIManager.GetAllChildHandles(currentWindow.hwnd);
-            int countEdit = 0;
-            string tempCheckTinh = "";
-            string tempCheckLoai = "";
-            string tempCheckThuyBo = "";
-            foreach (var item in childHandles)
-            {
-                string className = APIManager.GetWindowClass(item);
-                string temp = APIManager.GetControlText(item);
-                String text = APIManager.ConvertToUnSign3(temp).ToLower();
-
-                string classDefault = "WindowsForms10.EDIT.app.0.1e6fa8e";
-                if (className == classDefault)
+                else
                 {
-                    if (countEdit == 2)
-                    {
-                        tempCheckTinh = text;
-                    }
-                    else if (countEdit == 3)
-                    {
-                        tempCheckLoai = text;
-                    }
-                    else if (countEdit == 4)
-                    {
-                        tempCheckThuyBo = text;
-                        break;
-                    }
-                    countEdit++;
+
                 }
+
+                //thuc hien co tui trong nay
+
             }
-            if (tempCheckTinh.IndexOf(currentChuyenThu.CheckTinh) != -1 && tempCheckLoai.IndexOf(currentChuyenThu.CheckLoai) != -1 && tempCheckThuyBo.IndexOf(currentChuyenThu.CheckThuyBo) != -1)
+            else if (currentWindow.text.IndexOf("tao tui") != -1)
             {
-                SendKeys.SendWait("A{BS}{BS}");
-                Thread.Sleep(700);
-                SoundManager.playSound2(@"\music\" + currentChuyenThu.NameMusic + ".wav");
-            }
-            else
-            {
-                //Kiem tra lai
+                {
+                    Thread.Sleep(200);
+                    var childTaoTuiHandle = APIManager.GetAllChildHandles(currentWindow.hwnd);
+
+
+                    APIManager.SendMessage(childTaoTuiHandle[8], 0x0007, 0, 0);
+                    APIManager.SendMessage(childTaoTuiHandle[8], 0x0007, 0, 0);
+                    inputImulator.Keyboard.TextEntry(currentChuyenThu.TextTui);
+                    inputImulator.Keyboard.KeyPress(VirtualKeyCode.TAB);
+
+                    inputImulator.Keyboard.KeyPress(VirtualKeyCode.F10);
+                }
+
+                if (currentWindow == null)
+                {
+                    return;
+                }
+
+                currentWindow = APIManager.WaitingFindedWindow("dong chuyen thu");
+                if (currentWindow == null)
+                {
+                    APIManager.ShowSnackbar("Không tìm thấy window Đóng chuyến thư");
+                    return;
+                }
+
+                var childHandles = APIManager.GetAllChildHandles(currentWindow.hwnd);
+                int countEdit = 0;
+                string tempCheckTinh = "";
+                string tempCheckLoai = "";
+                string tempCheckThuyBo = "";
+                foreach (var item in childHandles)
+                {
+                    string className = APIManager.GetWindowClass(item);
+                    string temp = APIManager.GetControlText(item);
+                    String text = APIManager.ConvertToUnSign3(temp).ToLower();
+
+                    string classDefault = "WindowsForms10.EDIT.app.0.1e6fa8e";
+                    if (className == classDefault)
+                    {
+                        if (countEdit == 2)
+                        {
+                            tempCheckTinh = text;
+                        }
+                        else if (countEdit == 3)
+                        {
+                            tempCheckLoai = text;
+                        }
+                        else if (countEdit == 4)
+                        {
+                            tempCheckThuyBo = text;
+                            break;
+                        }
+                        countEdit++;
+                    }
+                }
+                if (tempCheckTinh.IndexOf(currentChuyenThu.CheckTinh) != -1 && tempCheckLoai.IndexOf(currentChuyenThu.CheckLoai) != -1 && tempCheckThuyBo.IndexOf(currentChuyenThu.CheckThuyBo) != -1)
+                {
+                    SendKeys.SendWait("A{BS}{BS}");
+                    Thread.Sleep(700);
+                    SoundManager.playSound2(@"\music\" + currentChuyenThu.NameMusic + ".wav");
+                }
+                else
+                {
+                    //Kiem tra lai
+                }
             }
         }
 
@@ -809,147 +799,6 @@ namespace TaoBD10.ViewModels
         }
 
         BackgroundWorker backgroundCreateChuyenThu;
-
-        private void CreateChuyenThu()
-        {
-            //thuc hien cong viec trong nay
-            int countTempReturn = 0;
-            WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "SetFalseKg", Content = "" });
-
-            WindowInfo currentWindow = APIManager.WaitingFindedWindow("khoi tao chuyen thu");
-            if (currentWindow == null)
-            {
-                APIManager.ShowSnackbar("Không tìm thấy window khởi tạo chuyến thư");
-                return;
-            }
-            System.Collections.Generic.List<TestAPIModel> childControls = APIManager.GetListControlText(currentWindow.hwnd);
-            //thuc hien lay vi tri nao do
-
-            APIManager.SendMessage(childControls[14].Handle, 0x0007, 0, 0);
-            APIManager.SendMessage(childControls[14].Handle, 0x0007, 0, 0);            //thuc hien nhap vao
-            var inputImulator = new InputSimulator();
-            inputImulator.Keyboard.KeyPress(VirtualKeyCode.BACK);
-            inputImulator.Keyboard.KeyPress(VirtualKeyCode.BACK);
-            inputImulator.Keyboard.TextEntry(currentChuyenThu.NumberTinh);
-            Thread.Sleep(50);
-            inputImulator.Keyboard.KeyPress(VirtualKeyCode.TAB);
-
-            inputImulator.Keyboard.TextEntry(currentChuyenThu.TextLoai);
-            inputImulator.Keyboard.KeyPress(VirtualKeyCode.TAB);
-            inputImulator.Keyboard.KeyPress(VirtualKeyCode.F10);
-            countTempReturn = 0;
-
-
-            currentWindow = APIManager.WaitingFindedWindow("dong chuyen thu","tao tui");
-            if (currentWindow == null)
-            {
-                APIManager.ShowSnackbar("Không tìm thấy window Đóng chuyến thư");
-                return;
-            }
-
-            if(currentWindow.text.IndexOf("dong chuyen thu")!= -1)
-            {
-                 string title = APIManager.GetListControlText(currentWindow.hwnd)[3].Text;
-                //kiem tra so luong la bao nhieu
-                string  resultString = Regex.Match(title, @"\d+").Value;
-                int.TryParse(resultString, out int countInTui);
-
-                if (countInTui > 0)
-                {
-                }
-                else
-                {
-                    //thuc hien cho tao tui 10 lan
-                    countTempReturn = 0;
-                    currentWindow = APIManager.WaitingFindedWindow("tao tui");
-                    if (currentWindow == null)
-                    {
-                        APIManager.ShowSnackbar("Không tìm thấy window Tạo Túi");
-                        return;
-                    }
-                    //thuc hien co tui trong nay
-                    IntPtr handleTaoTui = APIManager.GetListControlText(currentWindow.hwnd)[8].Handle;
-
-
-                    APIManager.SendMessage(handleTaoTui, 0x0007, 0, 0);
-                    APIManager.SendMessage(handleTaoTui, 0x0007, 0, 0);
-                    inputImulator.Keyboard.TextEntry(currentChuyenThu.TextTui);
-                    inputImulator.Keyboard.KeyPress(VirtualKeyCode.TAB);
-                    APIManager.ShowSnackbar(currentChuyenThu.TextTui);
-
-                    inputImulator.Keyboard.KeyPress(VirtualKeyCode.F10);
-                }
-            }else
-            {
-                Thread.Sleep(200);
-                var childTaoTuiHandle = APIManager.GetAllChildHandles(currentWindow.hwnd);
-
-
-                APIManager.SendMessage(childTaoTuiHandle[8], 0x0007, 0, 0);
-                APIManager.SendMessage(childTaoTuiHandle[8], 0x0007, 0, 0);
-                inputImulator.Keyboard.TextEntry(currentChuyenThu.TextTui);
-                inputImulator.Keyboard.KeyPress(VirtualKeyCode.TAB);
-
-                inputImulator.Keyboard.KeyPress(VirtualKeyCode.F10);
-            }
-
-
-
-
-            countTempReturn = 0;
-            if (currentWindow == null)
-            {
-                return;
-            }
-
-            currentWindow = APIManager.WaitingFindedWindow("dong chuyen thu");
-            if (currentWindow == null)
-            {
-                APIManager.ShowSnackbar("Không tìm thấy window Đóng chuyến thư");
-                return;
-            }
-
-            var childHandles = APIManager.GetAllChildHandles(currentWindow.hwnd);
-            int countEdit = 0;
-            string tempCheckTinh = "";
-            string tempCheckLoai = "";
-            string tempCheckThuyBo = "";
-            foreach (var item in childHandles)
-            {
-                string className = APIManager.GetWindowClass(item);
-                string temp = APIManager.GetControlText(item);
-                String text = APIManager.ConvertToUnSign3(temp).ToLower();
-
-                string classDefault = "WindowsForms10.EDIT.app.0.1e6fa8e";
-                if (className == classDefault)
-                {
-                    if (countEdit == 2)
-                    {
-                        tempCheckTinh = text;
-                    }
-                    else if (countEdit == 3)
-                    {
-                        tempCheckLoai = text;
-                    }
-                    else if (countEdit == 4)
-                    {
-                        tempCheckThuyBo = text;
-                        break;
-                    }
-                    countEdit++;
-                }
-            }
-            if (tempCheckTinh.IndexOf(currentChuyenThu.CheckTinh) != -1 && tempCheckLoai.IndexOf(currentChuyenThu.CheckLoai) != -1 && tempCheckThuyBo.IndexOf(currentChuyenThu.CheckThuyBo) != -1)
-            {
-                SendKeys.SendWait("A{BS}{BS}");
-                Thread.Sleep(700);
-                SoundManager.playSound2(@"\music\" + currentChuyenThu.NameMusic + ".wav");
-            }
-            else
-            {
-                //Kiem tra lai
-            }
-        }
 
         private void EMS()
         {

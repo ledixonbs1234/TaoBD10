@@ -164,7 +164,12 @@ namespace TaoBD10.ViewModels
             maBuuCuc = "550915";
             tenDuongThu = "Đà Nẵng - Bình Định";
             countDuongThu = 2;
-            countChuyen = 2;
+            var time = DateTime.Now;
+            if (time.Hour <18 && time.Hour>9)
+                countChuyen = 2;
+            else
+                countChuyen = 1;
+
             stateTaoBd10 = StateTaoBd10.DanhSachBD10;
             timerTaoBD.Start();
         }
@@ -989,7 +994,7 @@ namespace TaoBD10.ViewModels
         {
             maBuuCuc = "590100";
             tenDuongThu = "Tam Quan - Quy Nhơn (Xe XH)";
-            countDuongThu = 9;
+            countDuongThu = 11;
             countChuyen = 2;
             stateTaoBd10 = StateTaoBd10.DanhSachBD10;
             timerTaoBD.Start();

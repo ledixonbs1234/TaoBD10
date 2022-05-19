@@ -218,55 +218,56 @@ namespace TaoBD10.ViewModels
                 {
                     return;
                 }
+            }
 
-                currentWindow = APIManager.WaitingFindedWindow("dong chuyen thu");
-                if (currentWindow == null)
+            currentWindow = APIManager.WaitingFindedWindow("dong chuyen thu");
+            if (currentWindow == null)
+            {
+                APIManager.ShowSnackbar("Không tìm thấy window Đóng chuyến thư");
+                return;
+            }
+
+            var childHandles = APIManager.GetAllChildHandles(currentWindow.hwnd);
+            int countEdit = 0;
+            string tempCheckTinh = "";
+            string tempCheckLoai = "";
+            string tempCheckThuyBo = "";
+            foreach (var item in childHandles)
+            {
+                string className = APIManager.GetWindowClass(item);
+                string temp = APIManager.GetControlText(item);
+                String text = APIManager.ConvertToUnSign3(temp).ToLower();
+
+                string classDefault = "WindowsForms10.EDIT.app.0.1e6fa8e";
+                if (className == classDefault)
                 {
-                    APIManager.ShowSnackbar("Không tìm thấy window Đóng chuyến thư");
-                    return;
-                }
-
-                var childHandles = APIManager.GetAllChildHandles(currentWindow.hwnd);
-                int countEdit = 0;
-                string tempCheckTinh = "";
-                string tempCheckLoai = "";
-                string tempCheckThuyBo = "";
-                foreach (var item in childHandles)
-                {
-                    string className = APIManager.GetWindowClass(item);
-                    string temp = APIManager.GetControlText(item);
-                    String text = APIManager.ConvertToUnSign3(temp).ToLower();
-
-                    string classDefault = "WindowsForms10.EDIT.app.0.1e6fa8e";
-                    if (className == classDefault)
+                    if (countEdit == 2)
                     {
-                        if (countEdit == 2)
-                        {
-                            tempCheckTinh = text;
-                        }
-                        else if (countEdit == 3)
-                        {
-                            tempCheckLoai = text;
-                        }
-                        else if (countEdit == 4)
-                        {
-                            tempCheckThuyBo = text;
-                            break;
-                        }
-                        countEdit++;
+                        tempCheckTinh = text;
                     }
-                }
-                if (tempCheckTinh.IndexOf(currentChuyenThu.CheckTinh) != -1 && tempCheckLoai.IndexOf(currentChuyenThu.CheckLoai) != -1 && tempCheckThuyBo.IndexOf(currentChuyenThu.CheckThuyBo) != -1)
-                {
-                    SendKeys.SendWait("A{BS}{BS}");
-                    Thread.Sleep(700);
-                    SoundManager.playSound2(@"\music\" + currentChuyenThu.NameMusic + ".wav");
-                }
-                else
-                {
-                    //Kiem tra lai
+                    else if (countEdit == 3)
+                    {
+                        tempCheckLoai = text;
+                    }
+                    else if (countEdit == 4)
+                    {
+                        tempCheckThuyBo = text;
+                        break;
+                    }
+                    countEdit++;
                 }
             }
+            if (tempCheckTinh.IndexOf(currentChuyenThu.CheckTinh) != -1 && tempCheckLoai.IndexOf(currentChuyenThu.CheckLoai) != -1 && tempCheckThuyBo.IndexOf(currentChuyenThu.CheckThuyBo) != -1)
+            {
+                SendKeys.SendWait("A{BS}{BS}");
+                Thread.Sleep(700);
+                SoundManager.playSound2(@"\music\" + currentChuyenThu.NameMusic + ".wav");
+            }
+            else
+            {
+                //Kiem tra lai
+            }
+
         }
 
         public ICommand BD10DiCommand { get; }

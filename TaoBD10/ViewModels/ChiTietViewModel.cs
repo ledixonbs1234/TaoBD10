@@ -4,6 +4,7 @@ using Microsoft.Toolkit.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
@@ -17,8 +18,12 @@ namespace TaoBD10.ViewModels
 {
     internal class ChiTietViewModel : ObservableObject
     {
+
+        BackgroundWorker bwChiTiet;
         public ChiTietViewModel()
         {
+            bwChiTiet = new BackgroundWorker();
+            bwChiTiet.DoWork += BwChiTiet_DoWork;
             WeakReferenceMessenger.Default.Register<BD10Message>(this, (r, m) =>
             {
                 //Thuc Hien Trong ngay
@@ -73,12 +78,6 @@ namespace TaoBD10.ViewModels
             });
 
             XeXaHoiCommand = new RelayCommand(XeXaHoi);
-            timer = new DispatcherTimer
-            {
-                Interval = TimeSpan.FromMilliseconds(50)
-            };
-            timer.Tick += Timer_Tick;
-
             timerTaoBD = new DispatcherTimer
             {
                 Interval = new TimeSpan(0, 0, 0, 0, 200)
@@ -104,6 +103,34 @@ namespace TaoBD10.ViewModels
             });
 
             #endregion Command Create
+        }
+
+        private void BwChiTiet_DoWork(object sender, DoWorkEventArgs e)
+        {
+            WindowInfo window = APIManager.WaitingFindedWindow("quan ly chuyen thu");
+            if (window == null)
+            {
+                APIManager.ShowSnackbar("Không tìm thấy quản lý chuyến thư");
+                return;
+            }
+
+            List<TestAPIModel> controls = APIManager.GetListControlText(window.hwnd);
+            if (controls.Count == 0)
+            {
+                APIManager.ShowSnackbar("Window lỗi");
+                return;
+            }
+            List<TestAPIModel> listCombobox = controls.Where(m => m.ClassName.ToLower().IndexOf("combobox") != -1).ToList();
+            IntPtr comboHandle = listCombobox[3].Handle;
+
+            APIManager.SendMessage(comboHandle, 0x0007, 0, 0);
+            APIManager.SendMessage(comboHandle, 0x0007, 0, 0);
+
+            SendKeys.SendWait("{F3}");
+            SendKeys.SendWait(CurrentSelectedHangHoaDetail.TuiHangHoa.SHTui);
+            SendKeys.SendWait("{ENTER}");
+            timer.Stop();
+            isBusyXacNhan = false;
         }
 
         private void AnNhon()
@@ -135,8 +162,8 @@ namespace TaoBD10.ViewModels
         private void EMSDaNang()
         {
             maBuuCuc = "550915";
-            tenDuongThu = "Bình Định - Đà Nẵng";
-            countDuongThu = 4;
+            tenDuongThu = "Đà Nẵng - Bình Định";
+            countDuongThu = 2;
             countChuyen = 2;
             stateTaoBd10 = StateTaoBd10.DanhSachBD10;
             timerTaoBD.Start();
@@ -176,7 +203,7 @@ namespace TaoBD10.ViewModels
                 else if (hangHoa.TuiHangHoa.ToBC.IndexOf("592440") != -1 || hangHoa.TuiHangHoa.ToBC.IndexOf("592460") != -1)
                 {
                     currentListHangHoa[countForeach].PhanLoai = Manager.EnumAll.PhanLoaiTinh.PhuCat;
-                }   
+                }
                 else if (hangHoa.TuiHangHoa.ToBC.IndexOf("592020") != -1 || hangHoa.TuiHangHoa.ToBC.IndexOf("592040") != -1)
                 {
                     currentListHangHoa[countForeach].PhanLoai = Manager.EnumAll.PhanLoaiTinh.AnNhon;
@@ -245,7 +272,7 @@ namespace TaoBD10.ViewModels
             if (currentWindow == null)
                 return;
             _ = APIManager.ConvertToUnSign3(currentWindow.text).ToLower();
-            if(_ListShowHangHoa.Count == 0)
+            if (_ListShowHangHoa.Count == 0)
             {
                 APIManager.ShowSnackbar("Chưa có dữ liệu");
                 return;
@@ -539,11 +566,12 @@ namespace TaoBD10.ViewModels
             while (printD.text.IndexOf("print document") == -1)
             {
                 printD = APIManager.GetActiveWindowTitle();
-                if (printD == null) {
+                if (printD == null)
+                {
                     APIManager.ShowSnackbar("Null Title");
                     return;
                 }
-                TestText += printD.text+ "\n";
+                TestText += printD.text + "\n";
                 Thread.Sleep(100);
             }
             Thread.Sleep(200);
@@ -778,7 +806,7 @@ namespace TaoBD10.ViewModels
                     break;
             }
             countDown = 60;
-            timer.Start();
+            bwChiTiet.RunWorkerAsync();
         }
 
         private void ShowNameTinh(PhanLoaiTinh phanLoaiTinh)
@@ -855,82 +883,6 @@ namespace TaoBD10.ViewModels
             }
             NameTinhCurrent = textTemp;
         }
-
-        private void Timer_Tick(object sender, System.EventArgs e)
-        {
-            if (isBusyXacNhan)
-            {
-                return;
-            }
-            var currentWindow = APIManager.GetActiveWindowTitle();
-            if (currentWindow == null)
-                return;
-
-            string textCo = APIManager.ConvertToUnSign3(currentWindow.text).ToLower();
-
-            if (textCo.IndexOf("quan ly chuyen thu") != -1)
-            {
-                isBusyXacNhan = true;
-                var childHandles3 = APIManager.GetAllChildHandles(currentWindow.hwnd);
-                int countCombobox = 0;
-                IntPtr combo = IntPtr.Zero;
-                foreach (var item in childHandles3)
-                {
-                    string className = APIManager.GetWindowClass(item);
-                    string classDefault = "WindowsForms10.COMBOBOX.app.0.1e6fa8e";
-                    //string classDefault = "WindowsForms10.COMBOBOX.app.0.141b42a_r8_ad1";
-                    if (className == classDefault)
-                    {
-                        if (countCombobox == 3)
-                        {
-                            //road = item;
-                            combo = item;
-                            break;
-                        }
-                        countCombobox++;
-                    }
-                }
-                APIManager.SendMessage(combo, 0x0007, 0, 0);
-                APIManager.SendMessage(combo, 0x0007, 0, 0);
-
-                SendKeys.SendWait("{F3}");
-                SendKeys.SendWait(CurrentSelectedHangHoaDetail.TuiHangHoa.SHTui);
-                SendKeys.SendWait("{ENTER}");
-                timer.Stop();
-                isBusyXacNhan = false;
-
-                //var handles = GetAllChildHandles(currentWindow.hwnd);
-                //string textHandleName = "WindowsForms10.EDIT.app.0.1e6fa8e";
-                //foreach (var item in handles)
-                //{
-                //    string classText = GetWindowClass(item);
-
-                //    if (classText.IndexOf(textHandleName) != -1)
-                //    {
-                //        SendMessage(item, 0x0007, 0, 0);
-                //        Thread.Sleep(1000);
-                //        SendKeys.SendWait("chao");
-                //        timerXacNhan.Stop();
-                //        isBusyXacNhan = false;
-                //        break;
-                //    }
-                //    //tim cai o cua sh tui
-                //    //focus no
-                //    //xong roi dien vao va nhan enter thoi
-                //}
-            }
-            else
-            {
-                countDown--;
-                if (countDown <= 0)
-                {
-                    countDown = 10;
-                    isBusyXacNhan = false;
-                    timer.Stop();
-                }
-            }
-        }
-
         private void TimerTaoBD_Tick(object sender, EventArgs e)
         {
             if (isWaiting)

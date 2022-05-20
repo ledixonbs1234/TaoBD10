@@ -3,6 +3,7 @@ using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
@@ -32,6 +33,7 @@ namespace TaoBD10.ViewModels
 
             }
         }
+        BackgroundWorker bwPrint;
 
         public ChinhViewModel()
         {
@@ -57,6 +59,8 @@ namespace TaoBD10.ViewModels
             PrintDefaultCommand = new RelayCommand(PrintDefault);
             backgroundCreateChuyenThu = new BackgroundWorker();
             backgroundCreateChuyenThu.DoWork += BackgroundCreateChuyenThu_DoWork;
+            bwPrint = new BackgroundWorker();
+            bwPrint.DoWork += BwPrint_DoWork;
             timerPrint = new DispatcherTimer
             {
                 Interval = new TimeSpan(0, 0, 0, 0, 200)
@@ -129,12 +133,246 @@ namespace TaoBD10.ViewModels
                     }
                     else if (m.Content == "Print")
                     {
-                        isWaitingPrint = false;
-                        timerPrint.Stop();
-                        timerPrint.Start();
+                        bwPrint.RunWorkerAsync();
                     }
                 }
             });
+        }
+
+        private void BwPrint_DoWork(object sender, DoWorkEventArgs e)
+        {
+            var currentWindow = APIManager.WaitingFindedWindow("dong chuyen thu");
+            if (currentWindow == null)
+            {
+                APIManager.ShowSnackbar("Không tìm thấy window đóng chuyến thư");
+                return;
+            }
+
+            System.Collections.Generic.List<TestAPIModel> allChild = APIManager.GetListControlText(currentWindow.hwnd);
+            TestAPIModel grControl = allChild.FirstOrDefault(m => m.Text.IndexOf("gr") != -1);
+            if (grControl == null)
+            {
+                APIManager.ShowSnackbar("Không tìm thấy label gr");
+
+                return;
+            }
+            string textGr = grControl.Text.Replace("(gr)", "");
+            double numberGR = 0;
+            if (textGr.IndexOf('.') == -1)
+            {
+                int.TryParse(textGr, out int numberGr);
+                if (numberGr < 100)
+                {
+                    textGr = "0.2";
+                    numberGR = 0.1;
+                }
+                else
+                    textGr = "0." + textGr;
+            }
+
+            numberGR = double.Parse(textGr);
+
+            SendKeys.SendWait("{F6}");
+
+            SendKeys.SendWait("{F5}");
+            SendKeys.SendWait("{LEFT}");
+            SendKeys.SendWait("{LEFT}");
+            SendKeys.SendWait("{LEFT}");
+            SendKeys.SendWait("{LEFT}");
+            SendKeys.SendWait("{LEFT}");
+            SendKeys.SendWait("{LEFT}");
+            SendKeys.SendWait("{RIGHT}");
+            Thread.Sleep(50);
+            SendKeys.SendWait("{RIGHT}");
+            Thread.Sleep(50);
+            SendKeys.SendWait((numberGR + 0.1).ToString());
+            Thread.Sleep(50);
+            SendKeys.SendWait("{RIGHT}");
+            Thread.Sleep(50);
+            SendKeys.SendWait("{RIGHT}");
+            Thread.Sleep(50);
+            SendKeys.SendWait(" ");
+
+            Thread.Sleep(500);
+            SendKeys.SendWait("{F4}");
+            Thread.Sleep(500);
+            currentWindow = APIManager.GetActiveWindowTitle();
+            if (currentWindow.text.IndexOf("nhap thong tin khoi luong") != -1)
+            {
+                SendKeys.SendWait("{F10}");
+                Thread.Sleep(200);
+                SendKeys.SendWait("{ENTER}");
+                Thread.Sleep(200);
+            }
+
+            Thread.Sleep(500);
+
+            currentWindow = APIManager.GetActiveWindowTitle();
+
+            if (currentWindow.text.IndexOf("tao tui") != -1)
+            {
+                return;
+            }
+
+            isRunFirst = false;
+            isWaitingPrint = false;
+
+
+            currentWindow = APIManager.GetActiveWindowTitle();
+
+            if (currentWindow.text.IndexOf("dong chuyen thu") != -1)
+            {
+                if (!isRunFirst)
+                {
+                    isRunFirst = true;
+                    return;
+                }
+
+                allChild = APIManager.GetListControlText(currentWindow.hwnd);
+                bool isClosedTui = false;
+                TestAPIModel dongTuiControl = allChild.First(m => m.Text.IndexOf("F4") != -1);
+                if (dongTuiControl.Text.IndexOf("Mở túi") != -1)
+                {
+                    isClosedTui = true;
+                }
+
+                if (!isClosedTui)
+                {
+                    return;
+                }
+
+                Thread.Sleep(100);
+
+                SendKeys.SendWait("{F6}");
+                SendKeys.SendWait("{F5}");
+                SendKeys.SendWait("{F5}");
+                SendKeys.SendWait("{DOWN}");
+                SendKeys.SendWait("{LEFT}");
+                SendKeys.SendWait("{LEFT}");
+                SendKeys.SendWait("{LEFT}");
+                SendKeys.SendWait("{LEFT}");
+                SendKeys.SendWait("{LEFT}");
+
+                SendKeys.SendWait(" ");
+                Thread.Sleep(200);
+            }else
+            {
+                return;
+            }
+
+            SendKeys.SendWait("{F6}");
+            Thread.Sleep(100);
+            SendKeys.SendWait("{F7}");
+
+            currentWindow = APIManager.WaitingFindedWindow("in an pham");
+            if(currentWindow == null)
+            {
+                return;
+            }
+            APIManager.SetZ420Print();
+            SendKeys.SendWait("{TAB}");
+            Thread.Sleep(100);
+            SendKeys.SendWait("{TAB}");
+            Thread.Sleep(100);
+
+            SendKeys.SendWait("^(a)");
+            SendKeys.SendWait("^(c)");
+            Thread.Sleep(200);
+            string clipboard = Clipboard.GetText();
+            if (string.IsNullOrEmpty(clipboard))
+                return;
+            if (clipboard.IndexOf("BĐ8") == -1)
+                return;
+
+            foreach (string item in clipboard.Split('\n'))
+            {
+                var datas = item.Split('\t');
+                if (datas[1].IndexOf("BĐ8") != -1)
+                {
+                    SendKeys.SendWait(" ");
+                    break;
+                }
+                if (datas[4].IndexOf("BĐ8") != -1)
+                {
+                    SendKeys.SendWait("{RIGHT}");
+                    Thread.Sleep(50);
+                    SendKeys.SendWait("{RIGHT}");
+                    Thread.Sleep(50);
+                    SendKeys.SendWait("{RIGHT}");
+                    Thread.Sleep(50);
+                    SendKeys.SendWait(" ");
+                    Thread.Sleep(100);
+
+                    break;
+                }
+                SendKeys.SendWait("{DOWN}");
+            }
+
+            currentWindow = APIManager.GetActiveWindowTitle();
+            var childHandlesIn = APIManager.GetAllChildHandles(currentWindow.hwnd);
+            IntPtr buttonThoat = IntPtr.Zero;
+            foreach (var item in childHandlesIn)
+            {
+                string className = APIManager.GetWindowClass(item);
+                string classDefault = "WindowsForms10.BUTTON.app.0.1e6fa8e";
+                //string classDefault = "WindowsForms10.COMBOBOX.app.0.141b42a_r8_ad1";
+                if (className == classDefault)
+                {
+                    buttonThoat = item;
+                    break;
+                }
+            }
+
+            SendKeys.SendWait("{F10}");
+            if (buttonThoat != IntPtr.Zero)
+            {
+                APIManager.SendMessage(buttonThoat, 0x00F5, 0, 0);
+            }
+            isRunFirst = false;
+            isWaitingPrint = false;
+
+
+            if (currentWindow.text.IndexOf("dong chuyen thu") != -1)
+            {
+                if (!isRunFirst)
+                {
+                    isRunFirst = true;
+                    return;
+                }
+
+                isWaitingPrint = true;
+                SendKeys.SendWait("{F10}");
+                Thread.Sleep(200);
+                SendKeys.SendWait("{F10}");
+                Thread.Sleep(200);
+                SendKeys.SendWait("{ENTER}");
+                printState = PrintState.DaThoat;
+                isWaitingPrint = false;
+            }
+
+            if (currentWindow.text.IndexOf("khoi tao chuyen") != -1)
+            {
+                var childHandles3 = APIManager.GetAllChildHandles(currentWindow.hwnd);
+                int countCombobox = 0;
+                IntPtr tinh = IntPtr.Zero;
+                foreach (var item in childHandles3)
+                {
+                    string className = APIManager.GetWindowClass(item);
+                    string classDefault = "WindowsForms10.COMBOBOX.app.0.1e6fa8e";
+                    //string classDefault = "WindowsForms10.COMBOBOX.app.0.141b42a_r8_ad1";
+                    if (className == classDefault)
+                    {
+                        if (countCombobox == 2)
+                        {
+                            tinh = item;
+                            break;
+                        }
+                        countCombobox++;
+                    }
+                }
+                APIManager.SendMessage(tinh, 0x0007, 0, 0);
+                APIManager.SendMessage(tinh, 0x0007, 0, 0);
+            }
         }
 
         private void BackgroundCreateChuyenThu_DoWork(object sender, DoWorkEventArgs e)
@@ -605,7 +843,6 @@ namespace TaoBD10.ViewModels
                         }
                         APIManager.SendMessage(tinh, 0x0007, 0, 0);
                         APIManager.SendMessage(tinh, 0x0007, 0, 0);
-                        SoundManager.playSync(@"music\thoatthu.wav");
                         timerPrint.Stop();
                     }
                     timerPrint.Stop();

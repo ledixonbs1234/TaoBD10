@@ -1005,7 +1005,7 @@ namespace TaoBD10.ViewModels
                     break;
                 case Key.F12:
                     WindowInfo activeWindows = APIManager.GetActiveWindowTitle();
-                    if (activeWindows.text.IndexOf("xem chuyen thu") != -1)
+                    if (activeWindows.text.IndexOf("dong chuyen thu") != -1)
                     {
                         bwPrintBanKe.RunWorkerAsync();
                     }

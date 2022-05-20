@@ -186,7 +186,8 @@ namespace TaoBD10.ViewModels
 
         void Test()
         {
-            backgroundWorker.RunWorkerAsync();
+            //backgroundWorker.RunWorkerAsync();
+            
         }
 
         private void Timer_Tick(object sender, EventArgs e)

@@ -175,7 +175,6 @@
     <Compile Include="ViewModels\LayChuyenThuViewModel.cs" />
     <Compile Include="ViewModels\LocTuiViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="ViewModels\MoRong.cs" />
     <Compile Include="ViewModels\TamQuanViewModel.cs" />
     <Compile Include="ViewModels\TaoBDViewModel.cs" />
     <Compile Include="ViewModels\WebViewModel.cs" />

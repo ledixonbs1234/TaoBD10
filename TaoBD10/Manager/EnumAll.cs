@@ -15,6 +15,13 @@
             C593280
         }
 
+        public enum PhanLoaiTamQuan
+        {
+            None,
+            BCP,
+            ChuaXacDinh
+        }
+
         public enum BuuCuc
         {
             None,

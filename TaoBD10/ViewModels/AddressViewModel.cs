@@ -40,12 +40,18 @@ namespace TaoBD10.ViewModels
             string dataSend = "";
             foreach (var item in HangHoas)
             {
-                if (item.IsTamQuan)
+                if (item.IsTamQuan != "None")
                 {
-                    dataSend += item.TuiHangHoa.SHTui + "\n";
+                    if (item.IsTamQuan == "TamQuan")
+                    {
+                        dataSend += item.TuiHangHoa.SHTui + "|" + item.TuiHangHoa.ToBC + "\n";
+                    }else if(item.IsTamQuan == "ChuaXacDinh")
+                    {
+                        dataSend += item.TuiHangHoa.SHTui + "|chuaxacdinh\n";
+                    }
                 }
             }
-            client.Publish("tamquanget", Encoding.UTF8.GetBytes(dataSend), MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, true);
+            client.Publish("tamquanget1", Encoding.UTF8.GetBytes(dataSend), MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, true);
         }
 
         private string _clientId;
@@ -53,6 +59,10 @@ namespace TaoBD10.ViewModels
         public AddressViewModel()
         {
             HangHoas = new ObservableCollection<HangHoaDetailModel>();
+            LoaiAddress = new ObservableCollection<string>();
+            LoaiAddress.Add("None");
+            LoaiAddress.Add("TamQuan");
+            LoaiAddress.Add("ChuaXacDinh");
 
             LayDanhSachCommand = new RelayCommand(LayDanhSach);
             LocCommand = new RelayCommand(Loc);
@@ -98,6 +108,17 @@ namespace TaoBD10.ViewModels
                     Loc();
                 }
             });
+            WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>
+            {
+                if (m.Key == "IsTamQuan")
+                {
+                    if (m.Content == "Update")
+                    {
+                        SetCountTamQuan();
+                    }
+                }
+
+            });
             string[] fillTamQuan = { "tam quan", "hoai son", "hoai chau", "hoai hao", "hoai phu", "hoai thanh" };
             WeakReferenceMessenger.Default.Register<WebContentModel>(this, (r, m) =>
             {
@@ -114,7 +135,7 @@ namespace TaoBD10.ViewModels
                         {
                             if (APIManager.ConvertToUnSign3(hangHoa.Address).ToLower().IndexOf(fill) != -1)
                             {
-                                hangHoa.IsTamQuan = true;
+                                hangHoa.IsTamQuan = "TamQuan";
                                 SetCountTamQuan();
                                 break;
                             }
@@ -124,10 +145,18 @@ namespace TaoBD10.ViewModels
                 }
             });
         }
+        private ObservableCollection<string> _LoaiAddress;
+
+        public ObservableCollection<string> LoaiAddress
+        {
+            get { return _LoaiAddress; }
+            set { SetProperty(ref _LoaiAddress, value); }
+        }
+
 
         private void SetCountTamQuan()
         {
-            var data = HangHoas.Where(m => m.IsTamQuan);
+            var data = HangHoas.Where(m => m.IsTamQuan != "None");
             if (data != null)
             {
                 CountTamQuan = data.Count();

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Messaging;
 using static TaoBD10.Manager.EnumAll;
 
 namespace TaoBD10.Model
@@ -18,12 +19,15 @@ namespace TaoBD10.Model
             set { SetProperty(ref _Address, value); }
         }
 
-        private bool _IsTamQuan = false;
+        private string _IsTamQuan ="None";
 
-        public bool IsTamQuan
+        public string IsTamQuan
         {
             get { return _IsTamQuan; }
-            set { SetProperty(ref _IsTamQuan, value); }
+            set { SetProperty(ref _IsTamQuan, value);
+                //WeakReferenceMessenger.Default.Send(new ContentModel { Key = "IsTamQuan", Content = "Update" });
+            
+            }
         }
 
         private string _Code;

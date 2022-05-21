@@ -135,6 +135,13 @@ namespace TaoBD10.ViewModels
                     else if (m.Content == "Print")
                     {
                         bwPrint.RunWorkerAsync();
+                    }else if(m.Content == "True")
+                    {
+                        IsChecking = true;
+
+                    }else if(m.Content == "False")
+                    {
+                        IsChecking = false;
                     }
                 }
             });
@@ -393,6 +400,7 @@ namespace TaoBD10.ViewModels
                 APIManager.ShowSnackbar("Không tìm thấy window khởi tạo chuyến thư");
                 return;
             }
+            IsChecking = false;
             System.Collections.Generic.List<TestAPIModel> childControls = APIManager.GetListControlText(currentWindow.hwnd);
             //thuc hien lay vi tri nao do
 
@@ -414,6 +422,7 @@ namespace TaoBD10.ViewModels
             if (currentWindow == null)
             {
                 APIManager.ShowSnackbar("Không tìm thấy window Đóng chuyến thư");
+                IsChecking = true;
                 return;
             }
 
@@ -461,6 +470,7 @@ namespace TaoBD10.ViewModels
             if (currentWindow == null)
             {
                 APIManager.ShowSnackbar("Không tìm thấy window Đóng chuyến thư");
+                IsChecking = true;
                 return;
             }
 
@@ -505,7 +515,7 @@ namespace TaoBD10.ViewModels
                 //Kiem tra lai
                 SoundManager.playSound2(@"\Number\khongkhopsolieu.wav");
             }
-
+            IsChecking = true;
         }
 
         public ICommand BD10DiCommand { get; }

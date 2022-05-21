@@ -58,7 +58,7 @@ namespace TaoBD10.ViewModels
                 };
                 WeakReferenceMessenger.Default.Send<BD10Message>(new BD10Message(listBD10));
                 //thuc hien navigate to chi tiet
-                WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Navigation", Content = "GoChiTiet" });
+                WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Navigation", Content = "GoTaoTui" });
             }
             else
             {

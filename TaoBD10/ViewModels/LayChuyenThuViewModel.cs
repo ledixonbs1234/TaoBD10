@@ -1,5 +1,6 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -42,11 +43,13 @@ namespace TaoBD10.ViewModels
                 APIManager.ShowSnackbar("Không tìm thấy quản lý chuyến thư");
                 return;
             }
+            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "False" });
 
             List<TestAPIModel> controls = APIManager.GetListControlText(window.hwnd);
             if (controls.Count == 0)
             {
                 APIManager.ShowSnackbar("Window lỗi");
+                WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "True" });
                 return;
             }
             List<TestAPIModel> listCombobox = controls.Where(m => m.ClassName.ToLower().IndexOf("combobox") != -1).ToList();
@@ -63,12 +66,14 @@ namespace TaoBD10.ViewModels
             if (window == null)
             {
                 APIManager.ShowSnackbar("Không tìm thấy cảnh báo");
+                WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "True" });
                 return;
             }
 
             SendKeys.SendWait("{ENTER}");
             Thread.Sleep(500);
             SendKeys.SendWait("{F5}");
+            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "False" });
 
         }
 

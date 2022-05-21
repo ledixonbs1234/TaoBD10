@@ -107,9 +107,7 @@
                         <view:ChuyenThu />
                     </TabItem>
 
-                    <TabItem Header="Lọc Túi">
-                        <view:LocTuiView />
-                    </TabItem>
+
                     <TabItem Header="Get Address">
                         <view:AddressView />
                     </TabItem>
@@ -117,6 +115,9 @@
                         <view:TamQuanView />
                     </TabItem>
                 </TabControl>
+            </TabItem>
+            <TabItem Header="Lọc Túi">
+                <view:LocTuiView />
             </TabItem>
             <TabItem Header="KT">
                 <TabControl

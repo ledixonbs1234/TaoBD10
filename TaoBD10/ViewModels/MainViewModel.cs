@@ -89,6 +89,9 @@ namespace TaoBD10.ViewModels
                     else if (m.Content == "Web")
                     {
                         IndexTabTui = 1;
+                    }else if (m.Content == "GoTaoTui")
+                    {
+                        IndexTabTui = 7;
                     }
                 }
                 else if (m.Key == "Snackbar")
@@ -657,7 +660,7 @@ namespace TaoBD10.ViewModels
                 var frame = st.GetFrame(0);
                 // Get the line number from the stack frame
                 var line = frame.GetFileLineNumber();
-                APIManager.OpenNotePad(ex.Message+'\n'+"loi Line "+line+" Number Line "+GetLineNumber(ex), "loi ");
+                APIManager.OpenNotePad(ex.Message + '\n' + "loi Line " + line + " Number Line " + GetLineNumber(ex), "loi ");
                 throw;
             }
 
@@ -769,6 +772,10 @@ namespace TaoBD10.ViewModels
                 case 9:
                     SetChiTietWindow();
                     break;
+                case 10:
+                    SetChiTietWindow();
+                    break;
+
 
                 default:
                     break;
@@ -800,12 +807,7 @@ namespace TaoBD10.ViewModels
                 case 4:
                     SetChiTietWindow();
                     break;
-
                 case 5:
-                    SetChiTietWindow();
-                    break;
-
-                case 6:
                     SetLayChuyenThuWindow();
                     break;
 

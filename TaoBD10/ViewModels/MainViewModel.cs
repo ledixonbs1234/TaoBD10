@@ -347,6 +347,8 @@ namespace TaoBD10.ViewModels
 
                         if (!string.IsNullOrEmpty(apiMaBuuCuc.Text))
                         {
+                            if (apiMaBuuCuc.Text.Length < 6)
+                                continue;
                             maSoBuuCucCurrent = apiMaBuuCuc.Text.Substring(0, 6);
                             apiLoai = listWindowForm[3];
                             apiSoCT = listWindowForm[6];

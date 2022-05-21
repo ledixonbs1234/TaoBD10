@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -222,26 +223,30 @@ namespace TaoBD10.ViewModels
 
             if (currentWindow.text.IndexOf("dong chuyen thu") != -1)
             {
-                if (!isRunFirst)
-                {
-                    isRunFirst = true;
-                    return;
-                }
-
-                allChild = APIManager.GetListControlText(currentWindow.hwnd);
+               
                 bool isClosedTui = false;
-                TestAPIModel dongTuiControl = allChild.First(m => m.Text.IndexOf("F4") != -1);
-                if (dongTuiControl.Text.IndexOf("Mở túi") != -1)
+                int countReturn = 50;
+                while (!isClosedTui)
                 {
-                    isClosedTui = true;
+                    countReturn--;
+                    if (countReturn <= 0)
+                        return;
+                    Thread.Sleep(50);
+                    allChild = APIManager.GetListControlText(currentWindow.hwnd);
+
+                    TestAPIModel dongTuiControl = allChild.First(m => m.Text.IndexOf("F4") != -1);
+                    if (dongTuiControl.Text.IndexOf("Mở túi") != -1)
+                    {
+                        isClosedTui = true;
+                    }
                 }
 
                 if (!isClosedTui)
                 {
                     return;
                 }
-
                 Thread.Sleep(100);
+                
 
                 SendKeys.SendWait("{F6}");
                 SendKeys.SendWait("{F5}");
@@ -274,11 +279,28 @@ namespace TaoBD10.ViewModels
             Thread.Sleep(100);
             SendKeys.SendWait("{TAB}");
             Thread.Sleep(100);
-
+            Thread thread = new Thread(() => System.Windows.Clipboard.Clear());
+            thread.SetApartmentState(ApartmentState.STA); //Set the thread to STA
+            thread.Start();
+            thread.Join();
+            
             SendKeys.SendWait("^(a)");
             SendKeys.SendWait("^(c)");
-            Thread.Sleep(200);
-            string clipboard = Clipboard.GetText();
+            string clipboard = "";
+            for (int i = 0; i < 10; i++)
+            {
+                thread = new Thread(() =>clipboard = System.Windows.Clipboard.GetText());
+                thread.SetApartmentState(ApartmentState.STA); //Set the thread to STA
+                thread.Start();
+                thread.Join(); //Wait for the thread to end
+                if(!string.IsNullOrEmpty(clipboard))
+                {
+                    break;
+                }
+                SendKeys.SendWait("^(c)");
+                Thread.Sleep(50);
+                
+            }
             if (string.IsNullOrEmpty(clipboard))
                 return;
             if (clipboard.IndexOf("BĐ8") == -1)
@@ -328,30 +350,15 @@ namespace TaoBD10.ViewModels
             {
                 APIManager.SendMessage(buttonThoat, 0x00F5, 0, 0);
             }
-            isRunFirst = false;
-            isWaitingPrint = false;
+            APIManager.WaitingFindedWindow("dong chuyen thu");
 
-
-            if (currentWindow.text.IndexOf("dong chuyen thu") != -1)
-            {
-                if (!isRunFirst)
-                {
-                    isRunFirst = true;
-                    return;
-                }
-
-                isWaitingPrint = true;
                 SendKeys.SendWait("{F10}");
                 Thread.Sleep(200);
-                SendKeys.SendWait("{F10}");
+                SendKeys.SendWait("{F10 }");
                 Thread.Sleep(200);
                 SendKeys.SendWait("{ENTER}");
-                printState = PrintState.DaThoat;
-                isWaitingPrint = false;
-            }
+            APIManager.WaitingFindedWindow("khoi tao chuyen");
 
-            if (currentWindow.text.IndexOf("khoi tao chuyen") != -1)
-            {
                 var childHandles3 = APIManager.GetAllChildHandles(currentWindow.hwnd);
                 int countCombobox = 0;
                 IntPtr tinh = IntPtr.Zero;
@@ -372,7 +379,7 @@ namespace TaoBD10.ViewModels
                 }
                 APIManager.SendMessage(tinh, 0x0007, 0, 0);
                 APIManager.SendMessage(tinh, 0x0007, 0, 0);
-            }
+            
         }
 
         private void BackgroundCreateChuyenThu_DoWork(object sender, DoWorkEventArgs e)
@@ -737,7 +744,7 @@ namespace TaoBD10.ViewModels
                         SendKeys.SendWait("^(a)");
                         SendKeys.SendWait("^(c)");
                         Thread.Sleep(200);
-                        string clipboard = Clipboard.GetText();
+                        string clipboard = System.Windows.Clipboard.GetText();
                         if (string.IsNullOrEmpty(clipboard))
                         {
                             timerPrint.Stop();

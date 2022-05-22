@@ -27,7 +27,16 @@ namespace TaoBD10.ViewModels
             PhuMyCommand = new RelayCommand(PhuMy);
             PhuCatCommand = new RelayCommand(PhuCat);
             AnNhonCommand = new RelayCommand(AnNhon);
+            AddBDTinhCommand = new RelayCommand(AddBDTinh);
         }
+        public ICommand AddBDTinhCommand { get; }
+
+
+        void AddBDTinh()
+        {
+
+        }
+
 
         public ICommand AnNhonCommand { get; }
         public ICommand EMSDaNangCommand { get; }

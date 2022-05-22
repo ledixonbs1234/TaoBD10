@@ -17,52 +17,92 @@
             Style="{StaticResource MaterialDesignHeadline5TextBlock}"
             Text="{Binding NameTinhCurrent}" />
         <StackPanel
-            Margin="0,20,0,0"
+            Margin="5,20,5,0"
             HorizontalAlignment="Center"
             Orientation="Horizontal">
+            <Button
+                Width="20"
+                Padding="0"
+                Command="{Binding AddBDTinhCommand}"
+                CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.HA_AL}"
+                Content="{materialDesign:PackIcon Kind=Add}"
+                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                Style="{StaticResource MaterialDesignPaperSecondaryDarkButton}"
+                ToolTip="Icon" />
             <materialDesign:Badged
-                Margin="10,5"
+                Margin="0,5,10,5"
                 Badge="{Binding NHA_AL}"
                 BadgeColorZoneMode="PrimaryDark"
                 IsEnabled="{Binding IsEnHAAL}">
                 <Button
-                    Width="100"
+                    Width="85"
                     Command="{Binding SelectedTinhCommand}"
                     CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.HA_AL}"
                     Content="HA - AL" />
             </materialDesign:Badged>
+            <Button
+                Width="20"
+                Padding="0"
+                Command="{Binding AddBDTinhCommand}"
+                CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.TamQuan}"
+                Content="{materialDesign:PackIcon Kind=Add}"
+                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                Style="{StaticResource MaterialDesignPaperSecondaryDarkButton}"
+                ToolTip="Icon" />
             <materialDesign:Badged
-                Margin="10,5"
+                Margin="0,5,10,5"
                 Badge="{Binding NTamQuan}"
                 BadgeColorZoneMode="PrimaryDark">
                 <Button
-                    Width="100"
+                    Width="85"
+                    Padding="0"
                     Command="{Binding SelectedTinhCommand}"
                     CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.TamQuan}"
                     Content="Tam Quan"
                     IsEnabled="{Binding IsEnTamQuan}" />
             </materialDesign:Badged>
         </StackPanel>
-        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+        <StackPanel
+            Margin="5,0"
+            HorizontalAlignment="Center"
+            Orientation="Horizontal">
+            <Button
+                Width="20"
+                Padding="0"
+                Command="{Binding AddBDTinhCommand}"
+                CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.KienDaNang}"
+                Content="{materialDesign:PackIcon Kind=Add}"
+                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                Style="{StaticResource MaterialDesignPaperSecondaryDarkButton}"
+                ToolTip="Icon" />
             <materialDesign:Badged
-                Margin="10,5"
+                Margin="0,5,10,5"
                 Badge="{Binding NKienDaNang}"
                 BadgeColorZoneMode="PrimaryDark"
                 IsEnabled="{Binding IsEnKDN}">
                 <Button
-                    Width="100"
+                    Width="85"
                     Command="{Binding SelectedTinhCommand}"
                     CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.KienDaNang}"
                     Content="Kiện ĐN" />
             </materialDesign:Badged>
 
+            <Button
+                Width="20"
+                Padding="0"
+                Command="{Binding AddBDTinhCommand}"
+                CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.EMSDaNang}"
+                Content="{materialDesign:PackIcon Kind=Add}"
+                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                Style="{StaticResource MaterialDesignPaperSecondaryDarkButton}"
+                ToolTip="Icon" />
             <materialDesign:Badged
-                Margin="10,5"
+                Margin="0,5,10,5"
                 Badge="{Binding NEMSDaNang}"
                 BadgeColorZoneMode="PrimaryDark"
                 IsEnabled="{Binding IsEnEDN}">
                 <Button
-                    Width="100"
+                    Width="85"
                     Command="{Binding SelectedTinhCommand}"
                     CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.EMSDaNang}"
                     Content="EMS ĐN" />
@@ -70,24 +110,42 @@
         </StackPanel>
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
 
+            <Button
+                Width="20"
+                Padding="0"
+                Command="{Binding AddBDTinhCommand}"
+                CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.QuangNam}"
+                Content="{materialDesign:PackIcon Kind=Add}"
+                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                Style="{StaticResource MaterialDesignPaperSecondaryDarkButton}"
+                ToolTip="Icon" />
             <materialDesign:Badged
-                Margin="10,5"
+                Margin="0,5,10,5"
                 Badge="{Binding NQuangNam}"
                 BadgeColorZoneMode="PrimaryDark"
                 IsEnabled="{Binding IsEnQNam}">
                 <Button
-                    Width="100"
+                    Width="85"
                     Command="{Binding SelectedTinhCommand}"
                     CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.QuangNam}"
                     Content="Q.Nam" />
             </materialDesign:Badged>
+            <Button
+                Width="20"
+                Padding="0"
+                Command="{Binding AddBDTinhCommand}"
+                CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.QuangNgai}"
+                Content="{materialDesign:PackIcon Kind=Add}"
+                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                Style="{StaticResource MaterialDesignPaperSecondaryDarkButton}"
+                ToolTip="Icon" />
             <materialDesign:Badged
-                Margin="10,5"
+                Margin="0,5,10,5"
                 Badge="{Binding NQuangNgai}"
                 BadgeColorZoneMode="PrimaryDark"
                 IsEnabled="{Binding IsEnQNgai}">
                 <Button
-                    Width="100"
+                    Width="85"
                     Command="{Binding SelectedTinhCommand}"
                     CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.QuangNgai}"
                     Content="Q.Ngãi" />
@@ -96,74 +154,130 @@
         </StackPanel>
 
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+            <Button
+                Width="20"
+                Padding="0"
+                Command="{Binding AddBDTinhCommand}"
+                CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.DiNgoaiNamTrungBo}"
+                Content="{materialDesign:PackIcon Kind=Add}"
+                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                Style="{StaticResource MaterialDesignPaperSecondaryDarkButton}"
+                ToolTip="Icon" />
             <materialDesign:Badged
-                Margin="10,5"
+                Margin="0,5,10,5"
                 Badge="{Binding NKNTB}"
                 BadgeColorZoneMode="PrimaryDark"
                 IsEnabled="{Binding IsEnKNTB}">
                 <Button
-                    Width="100"
+                    Width="85"
                     Command="{Binding SelectedTinhCommand}"
                     CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.DiNgoaiNamTrungBo}"
                     Content="Kiện NTB" />
             </materialDesign:Badged>
+            <Button
+                Width="20"
+                Padding="0"
+                Command="{Binding AddBDTinhCommand}"
+                CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.TuiNTB}"
+                Content="{materialDesign:PackIcon Kind=Add}"
+                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                Style="{StaticResource MaterialDesignPaperSecondaryDarkButton}"
+                ToolTip="Icon" />
             <materialDesign:Badged
-                Margin="10,5"
+                Margin="0,5,10,5"
                 Badge="{Binding NTNTB}"
                 BadgeColorZoneMode="PrimaryDark"
                 IsEnabled="{Binding IsEnTNTB}">
                 <Button
-                    Width="100"
+                    Width="85"
                     Command="{Binding SelectedTinhCommand}"
                     CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.TuiNTB}"
                     Content="Túi NTB" />
             </materialDesign:Badged>
         </StackPanel>
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+            <Button
+                Width="20"
+                Padding="0"
+                Command="{Binding AddBDTinhCommand}"
+                CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.PhuMy}"
+                Content="{materialDesign:PackIcon Kind=Add}"
+                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                Style="{StaticResource MaterialDesignPaperSecondaryDarkButton}"
+                ToolTip="Icon" />
             <materialDesign:Badged
-                Margin="10,5"
+                Margin="0,5,10,5"
                 Badge="{Binding NPhuMy}"
                 BadgeColorZoneMode="PrimaryDark"
                 IsEnabled="{Binding IsEnPM}">
                 <Button
-                    Width="100"
+                    Width="85"
                     Command="{Binding SelectedTinhCommand}"
                     CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.PhuMy}"
                     Content="Phù Mỹ" />
 
             </materialDesign:Badged>
+            <Button
+                Width="20"
+                Padding="0"
+                Command="{Binding AddBDTinhCommand}"
+                CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.PhuCat}"
+                Content="{materialDesign:PackIcon Kind=Add}"
+                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                Style="{StaticResource MaterialDesignPaperSecondaryDarkButton}"
+                ToolTip="Icon" />
             <materialDesign:Badged
-                Margin="10,5"
+                Margin="0,5,10,5"
                 Badge="{Binding NPhuCat}"
                 BadgeColorZoneMode="PrimaryDark"
                 IsEnabled="{Binding IsEnPC}">
                 <Button
-                    Width="100"
+                    Width="85"
                     Command="{Binding SelectedTinhCommand}"
                     CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.PhuCat}"
                     Content="Phù Cát" />
             </materialDesign:Badged>
         </StackPanel>
-        <materialDesign:Badged
-            Margin="10,5"
-            HorizontalAlignment="Center"
-            Badge="{Binding NAnNhon}"
-            BadgeColorZoneMode="PrimaryDark"
-            IsEnabled="{Binding IsEnAN}">
+
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
             <Button
-                Width="200"
-                Command="{Binding SelectedTinhCommand}"
+                Width="20"
+                Padding="0"
+                Command="{Binding AddBDTinhCommand}"
                 CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.AnNhon}"
-                Content="An Nhơn" />
-        </materialDesign:Badged>
-        <StackPanel Orientation="Horizontal">
+                Content="{materialDesign:PackIcon Kind=Add}"
+                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                Style="{StaticResource MaterialDesignPaperSecondaryDarkButton}"
+                ToolTip="Icon" />
             <materialDesign:Badged
-                Margin="10,5"
+                Margin="0,5,10,5"
+                HorizontalAlignment="Center"
+                Badge="{Binding NAnNhon}"
+                BadgeColorZoneMode="PrimaryDark"
+                IsEnabled="{Binding IsEnAN}">
+                <Button
+                    Command="{Binding SelectedTinhCommand}"
+                    CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.AnNhon}"
+                    Content="An Nhơn" />
+            </materialDesign:Badged>
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+            <Button
+                Width="20"
+                Padding="0"
+                Command="{Binding AddBDTinhCommand}"
+                CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.KT1}"
+                Content="{materialDesign:PackIcon Kind=Add}"
+                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                Style="{StaticResource MaterialDesignPaperSecondaryDarkButton}"
+                ToolTip="Icon" />
+            <materialDesign:Badged
+                Margin="0,5,10,5"
                 Badge="{Binding NKT1}"
                 BadgeColorZoneMode="PrimaryDark"
                 IsEnabled="{Binding IsEnKT1}">
                 <Button
-                    Width="100"
+                    Width="85"
                     Command="{Binding SelectedTinhCommand}"
                     CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.KT1}"
                     Content="KT1" />
@@ -174,7 +288,7 @@
                 BadgeColorZoneMode="PrimaryDark"
                 IsEnabled="{Binding IsEnConLai}">
                 <Button
-                    Width="100"
+                    Width="85"
                     Command="{Binding SelectedTinhCommand}"
                     CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.None}"
                     Content="Còn Lại" />
@@ -186,13 +300,5 @@
             Margin="5"
             Command="{Binding XeXaHoiCommand}"
             Content="Xe Xã Hội" />
-        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-            <ToggleButton
-                Margin="5,0"
-                IsChecked="{Binding IsTaoBD}"
-                Style="{StaticResource MaterialDesignSwitchAccentToggleButton}"
-                ToolTip="MaterialDesignSwitchAccentToggleButton" />
-            <TextBlock Text="Tạo BD" />
-        </StackPanel>
     </StackPanel>
 </UserControl>

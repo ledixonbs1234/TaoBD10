@@ -37,6 +37,21 @@
             ItemsSource="{Binding HangHoas}"
             SelectedItem="{Binding SelectedDiNgoai, Mode=OneWayToSource}"
             SelectionMode="Single">
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsTamQuan}" Value="None">
+                            <Setter Property="Background" Value="White" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsTamQuan}" Value="TamQuan">
+                            <Setter Property="Background" Value="Coral" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsTamQuan}" Value="ChuaXacDinh">
+                            <Setter Property="Background" Value="CornflowerBlue" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
             <DataGrid.Columns>
                 <!--<DataGridCheckBoxColumn Binding="{Binding IsTamQuan}" Header="Choose" />-->
                 <materialDesign:DataGridComboBoxColumn ItemsSourceBinding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.LoaiAddress}" SelectedItemBinding="{Binding IsTamQuan}" />

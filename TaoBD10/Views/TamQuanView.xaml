@@ -30,6 +30,6 @@
                 AcceptsReturn="True"
                 Text="{Binding TextFill}" />
         </design:Card>
-        <Button Content="Lọc Mã Hiệu" Command="{Binding FillMaHieuCommand}" />
+        <Button Command="{Binding FillMaHieuCommand}" Content="Lọc Mã Hiệu" />
     </StackPanel>
 </UserControl>

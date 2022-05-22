@@ -20,6 +20,60 @@ namespace TaoBD10.ViewModels
     {
 
         BackgroundWorker bwChiTiet;
+
+        public RelayCommand<PhanLoaiTinh> AddBDTinhCommand { get; }
+
+
+        void AddBDTinh(PhanLoaiTinh phanLoaiTinh)
+        {
+            switch (phanLoaiTinh)
+            {
+                case PhanLoaiTinh.None:
+                    break;
+                case PhanLoaiTinh.HA_AL:
+                    break;
+                case PhanLoaiTinh.TamQuan:
+                    break;
+                case PhanLoaiTinh.KienDaNang:
+                    KienDaNang();
+                    break;
+                case PhanLoaiTinh.EMSDaNang:
+                    EMSDaNang();
+                    break;
+                case PhanLoaiTinh.QuangNam:
+                    QuangNam();
+                    break;
+                case PhanLoaiTinh.QuangNgai:
+                    QuangNgai();
+                    break;
+                case PhanLoaiTinh.DiNgoaiNamTrungBo:
+                    NamTrungBo();
+                    break;
+                case PhanLoaiTinh.TuiNTB:
+                    NamTrungBo();
+                    break;
+                case PhanLoaiTinh.PhuMy:
+                    PhuMy();
+                    break;
+                case PhanLoaiTinh.PhuCat:
+                    PhuCat();
+                    break;
+                case PhanLoaiTinh.AnNhon:
+                    AnNhon();
+                    break;
+                case PhanLoaiTinh.KT1:
+                    NamTrungBo();
+                    break;
+                case PhanLoaiTinh.KTHN:
+                    break;
+                case PhanLoaiTinh.BCPHN:
+                    break;
+                default:
+                    break;
+            }
+
+        }
+
         public ChiTietViewModel()
         {
             bwChiTiet = new BackgroundWorker();
@@ -78,6 +132,7 @@ namespace TaoBD10.ViewModels
             });
 
             XeXaHoiCommand = new RelayCommand(XeXaHoi);
+            AddBDTinhCommand = new RelayCommand<PhanLoaiTinh>(AddBDTinh);
             timerTaoBD = new DispatcherTimer
             {
                 Interval = new TimeSpan(0, 0, 0, 0, 200)
@@ -165,7 +220,7 @@ namespace TaoBD10.ViewModels
             tenDuongThu = "Đà Nẵng - Bình Định";
             countDuongThu = 2;
             var time = DateTime.Now;
-            if (time.Hour <18 && time.Hour>9)
+            if (time.Hour < 18 && time.Hour > 9)
                 countChuyen = 2;
             else
                 countChuyen = 1;
@@ -691,84 +746,32 @@ namespace TaoBD10.ViewModels
 
         private void SelectedTinh(PhanLoaiTinh phanLoaiTinh)
         {
-            if (IsTaoBD)
+            if (currentListHangHoa == null)
             {
-                switch (phanLoaiTinh)
-                {
-                    case PhanLoaiTinh.None:
-                        break;
-                    case PhanLoaiTinh.HA_AL:
-                        break;
-                    case PhanLoaiTinh.TamQuan:
-                        break;
-                    case PhanLoaiTinh.KienDaNang:
-                        KienDaNang();
-                        break;
-                    case PhanLoaiTinh.EMSDaNang:
-                        EMSDaNang();
-                        break;
-                    case PhanLoaiTinh.QuangNam:
-                        QuangNam();
-                        break;
-                    case PhanLoaiTinh.QuangNgai:
-                        QuangNgai();
-                        break;
-                    case PhanLoaiTinh.DiNgoaiNamTrungBo:
-                        NamTrungBo();
-                        break;
-                    case PhanLoaiTinh.TuiNTB:
-                        NamTrungBo();
-                        break;
-                    case PhanLoaiTinh.PhuMy:
-                        PhuMy();
-                        break;
-                    case PhanLoaiTinh.PhuCat:
-                        PhuCat();
-                        break;
-                    case PhanLoaiTinh.AnNhon:
-                        AnNhon();
-                        break;
-                    case PhanLoaiTinh.KT1:
-                        NamTrungBo();
-                        break;
-                    case PhanLoaiTinh.KTHN:
-                        break;
-                    case PhanLoaiTinh.BCPHN:
-                        break;
-                    default:
-                        break;
-                }
-
+                return;
             }
-            else
+            var data = currentListHangHoa.FindAll(m => m.PhanLoai == phanLoaiTinh);
+            if (data != null)
             {
-                if (currentListHangHoa == null)
-                {
-                    return;
-                }
-                var data = currentListHangHoa.FindAll(m => m.PhanLoai == phanLoaiTinh);
-                if (data != null)
-                {
-                    currentTinh = phanLoaiTinh;
+                currentTinh = phanLoaiTinh;
 
-                    ListShowHangHoa = new ObservableCollection<HangHoaDetailModel>();
+                ListShowHangHoa = new ObservableCollection<HangHoaDetailModel>();
 
-                    foreach (HangHoaDetailModel hangHoa in data)
+                foreach (HangHoaDetailModel hangHoa in data)
+                {
+                    if (phanLoaiTinh == PhanLoaiTinh.KTHN || phanLoaiTinh == PhanLoaiTinh.BCPHN)
                     {
-                        if (phanLoaiTinh == PhanLoaiTinh.KTHN || phanLoaiTinh == PhanLoaiTinh.BCPHN)
+                        string temp = APIManager.ConvertToUnSign3(hangHoa.TuiHangHoa.DichVu).ToLower();
+                        string temp1 = APIManager.ConvertToUnSign3(hangHoa.TuiHangHoa.PhanLoai).ToLower();
+                        if (temp.IndexOf("phat hanh") != -1 || temp1.IndexOf("tui") != -1)
                         {
-                            string temp = APIManager.ConvertToUnSign3(hangHoa.TuiHangHoa.DichVu).ToLower();
-                            string temp1 = APIManager.ConvertToUnSign3(hangHoa.TuiHangHoa.PhanLoai).ToLower();
-                            if (temp.IndexOf("phat hanh") != -1 || temp1.IndexOf("tui") != -1)
-                            {
-                                continue;
-                            }
+                            continue;
                         }
-                        ListShowHangHoa.Add(hangHoa);
                     }
-                    //thuc hien show Ten Tinh
-                    ShowNameTinh(phanLoaiTinh);
+                    ListShowHangHoa.Add(hangHoa);
                 }
+                //thuc hien show Ten Tinh
+                ShowNameTinh(phanLoaiTinh);
             }
 
         }

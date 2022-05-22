@@ -58,10 +58,11 @@
             AutoGenerateColumns="False"
             CanUserAddRows="False"
             CanUserResizeColumns="True"
-            SelectionMode="Single"
             IsReadOnly="True"
             ItemsSource="{Binding HangTons}"
-            SelectedItem="{Binding Selected}">
+            SelectedItem="{Binding Selected}"
+            SelectionMode="Extended"
+            SelectionUnit="CellOrRowHeader">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Index}" Header="Index" />
                 <DataGridTextColumn Binding="{Binding MaHieu}" Header="Mã Hiệu" />
@@ -89,7 +90,10 @@
                     Width="50"
                     Binding="{Binding TimeGui}"
                     Header="Ngày Gửi" />
-                <DataGridTextColumn Binding="{Binding TimeCapNhat}" Width="100" Header="Ngày Cập Nhật" />
+                <DataGridTextColumn
+                    Width="100"
+                    Binding="{Binding TimeCapNhat}"
+                    Header="Ngày Cập Nhật" />
                 <DataGridTextColumn Binding="{Binding ChuyenHoan}" Header="Chuyển Hoàn" />
                 <DataGridTextColumn Binding="{Binding NguoiGui}" Header="Người Gửi" />
             </DataGrid.Columns>
@@ -103,25 +107,30 @@
             CanUserResizeColumns="True"
             ItemsSource="{Binding HangTonsDelete}">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Index}" Header="Index" />
-                <DataGridTextColumn Binding="{Binding MaHieu}" Header="Mã Hiệu" />
-                <DataGridTextColumn Binding="{Binding KhoiLuong}" Header="Khối Lượng" />
-                <DataGridTextColumn Binding="{Binding TienThuHo}" Header="Tiền Thu Hộ" />
                 <DataGridTextColumn
-                    Width="80"
+                    Width="200"
+                    Binding="{Binding MaHieu}"
+                    Header="Mã Hiệu" />
+                <DataGridTextColumn
+                    Width="100"
+                    Binding="{Binding KhoiLuong}"
+                    Header="Khối Lượng" />
+                <DataGridTextColumn
+                    Width="100"
                     Binding="{Binding BuuCucPhatHanh}"
                     Header="Bưu Cục Gửi" />
                 <DataGridTextColumn
-                    Width="80"
-                    Binding="{Binding BuuCucLuuGiu}"
-                    Header="Bưu Cục Nhận" />
-                <DataGridTextColumn
-                    Width="50"
+                    Width="100"
                     Binding="{Binding TimeGui}"
                     Header="Ngày Gửi" />
-                <DataGridTextColumn Binding="{Binding TimeCapNhat}" Header="Ngày Cập Nhật" />
-                <DataGridTextColumn Binding="{Binding ChuyenHoan}" Header="Chuyển Hoàn" />
-                <DataGridTextColumn Binding="{Binding NguoiGui}" Header="Người Gửi" />
+                <DataGridTextColumn
+                    Width="150"
+                    Binding="{Binding TimeCapNhat}"
+                    Header="Ngày Cập Nhật" />
+                <DataGridTextColumn
+                    Width="200"
+                    Binding="{Binding NguoiGui}"
+                    Header="Người Gửi" />
             </DataGrid.Columns>
         </DataGrid>
         <StackPanel Grid.Row="3" Orientation="Horizontal">
@@ -139,6 +148,13 @@
                 HorizontalAlignment="Left"
                 Command="{Binding LocCommand}"
                 Content="Lọc" />
+            <Button
+                Width="130"
+                Height="40"
+                Margin="70,5,5,5"
+                HorizontalAlignment="Left"
+                Command="{Binding CopyCommand}"
+                Content="Copy to Send" />
         </StackPanel>
         <TextBlock
             Grid.Row="3"

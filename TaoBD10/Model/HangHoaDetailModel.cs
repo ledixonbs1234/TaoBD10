@@ -25,7 +25,7 @@ namespace TaoBD10.Model
         {
             get { return _IsTamQuan; }
             set { SetProperty(ref _IsTamQuan, value);
-                //WeakReferenceMessenger.Default.Send(new ContentModel { Key = "IsTamQuan", Content = "Update" });
+                WeakReferenceMessenger.Default.Send(new ContentModel { Key = "IsTamQuan", Content = "Update" });
             
             }
         }

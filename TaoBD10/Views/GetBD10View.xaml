@@ -47,18 +47,29 @@
                 Margin="15"
                 Style="{StaticResource MaterialDesignHeadline5TextBlock}"
                 Text="{Binding NameBD}" />
-            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal">
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <TextBlock
+                        Margin="20,0"
+                        HorizontalAlignment="Center"
+                        Style="{StaticResource MaterialDesignHeadline4TextBlock}"
+                        Text="{Binding CountTui}" />
+                    <materialDesign:Card Padding="15" UniformCornerRadius="30">
+                        <ProgressBar
+                            IsIndeterminate="{Binding IsLoading}"
+                            Style="{StaticResource MaterialDesignCircularProgressBar}"
+                            Value="{Binding ValueLoading}" />
+                    </materialDesign:Card>
+                </StackPanel>
+                <ToggleButton
+                    Margin="5"
+                    IsChecked="{Binding IsStopInChiTiet}"
+                    Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                    ToolTip="MaterialDesignSwitchToggleButton" />
                 <TextBlock
-                    Margin="20,0"
-                    HorizontalAlignment="Center"
-                    Style="{StaticResource MaterialDesignHeadline4TextBlock}"
-                    Text="{Binding CountTui}" />
-                <materialDesign:Card Padding="15" UniformCornerRadius="30">
-                    <ProgressBar
-                        IsIndeterminate="{Binding IsLoading}"
-                        Style="{StaticResource MaterialDesignCircularProgressBar}"
-                        Value="{Binding ValueLoading}" />
-                </materialDesign:Card>
+                    VerticalAlignment="Center"
+                    Style="{StaticResource MaterialDesignBody2TextBlock}"
+                    Text="Dừng tại chi tiết" />
             </StackPanel>
         </StackPanel>
     </StackPanel>

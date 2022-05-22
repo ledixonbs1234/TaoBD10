@@ -2,6 +2,7 @@
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
@@ -24,7 +25,7 @@ namespace TaoBD10.ViewModels
             HangTons = new ObservableCollection<HangTonModel>();
             HangTonsDelete = new ObservableCollection<HangTonModel>();
             LocCommand = new RelayCommand(Loc);
-
+            CopyCommand = new RelayCommand(Copy);
 
             WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>
             {
@@ -66,6 +67,23 @@ namespace TaoBD10.ViewModels
                 AddAddress();
             });
         }
+
+        public ICommand CopyCommand { get; }
+
+
+        void Copy()
+        {
+            List<TamQuanModel> listTQ = new List<TamQuanModel>();
+            for (int i = 0; i < HangTons.Count; i++)
+            {
+                TamQuanModel tq = new TamQuanModel(i + 1, HangTons[i].MaHieu);
+                listTQ.Add(tq);
+            }
+            if (listTQ.Count != 0)
+                WeakReferenceMessenger.Default.Send(new TamQuansMessage(listTQ));
+
+        }
+
 
         public ICommand LocCommand { get; }
 

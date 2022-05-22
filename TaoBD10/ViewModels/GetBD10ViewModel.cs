@@ -24,6 +24,14 @@ namespace TaoBD10.ViewModels
 
         private int _AnimatedProgressInCard = 50;
 
+        private bool _IsStopInChiTiet;
+
+        public bool IsStopInChiTiet
+        {
+            get { return _IsStopInChiTiet; }
+            set { SetProperty(ref _IsStopInChiTiet, value); }
+        }
+
         public int AnimatedProgressInCard
         {
             get => _AnimatedProgressInCard;
@@ -266,20 +274,32 @@ namespace TaoBD10.ViewModels
                 tuiTempHangHoa = new List<TuiHangHoa>();
                 while (countSame <= 3)
                 {
-                    SendKeys.SendWait("^C");
-                    Thread.Sleep(100);
-                    string textClip;
-                    try
+                    string textClip="";
+
+                    for (int i = 0; i < 3; i++)
                     {
-                        textClip = (string)System.Windows.Clipboard.GetDataObject().GetData(DataFormats.Text) + '\n';
+                        try
+                        {
+                            SendKeys.SendWait("^(c)");
+                            Thread.Sleep(100);
+                            textClip = System.Windows.Clipboard.GetText() + "\n";
+                            if (!string.IsNullOrEmpty(textClip))
+                                break;
+                        }
+                        catch
+                        {
+                        }
                     }
-                    catch
+
+                    if (string.IsNullOrEmpty(textClip))
                     {
                         NameBD = "Chạy Lại";
                         isWaitingGetData = false;
                         timer.Stop();
                         return;
                     }
+
+
 
                     if (textClip.IndexOf("STT") != -1)
                     {
@@ -354,7 +374,8 @@ namespace TaoBD10.ViewModels
 
                 FileManager.SaveData(new BD10InfoModel(noiGuiBD, tuiTempHangHoa, ngayThang, (EnumAll.TimeSet)SelectedBuoi, lanLapBD));
                 CountTui = tuiTempHangHoa.Count().ToString();
-                SendKeys.SendWait("{ESC}");
+                if (!IsStopInChiTiet)
+                    SendKeys.SendWait("{ESC}");
                 isWaitingGetData = false;
                 timer.Stop();
                 WeakReferenceMessenger.Default.Send<string>("LoadBD10");

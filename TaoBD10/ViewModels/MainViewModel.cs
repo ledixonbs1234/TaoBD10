@@ -92,6 +92,10 @@ namespace TaoBD10.ViewModels
                     }else if (m.Content == "GoTaoTui")
                     {
                         IndexTabTui = 7;
+                    }else if(m.Content == "TamQuan")
+                    {
+                        IndexTabTui = 8;
+                        IndexTabControl = 5;
                     }
                 }
                 else if (m.Key == "Snackbar")

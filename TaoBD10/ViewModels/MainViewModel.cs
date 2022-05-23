@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Media;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
@@ -864,6 +865,7 @@ namespace TaoBD10.ViewModels
                 if (MessageQueue == null)
                     MessageQueue = new SnackbarMessageQueue();
                 MessageQueue.Enqueue(content, null, null, null, false, false, TimeSpan.FromSeconds(2));
+            SystemSounds.Beep.Play();
             });
 
         }

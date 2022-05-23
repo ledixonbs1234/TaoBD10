@@ -185,6 +185,7 @@ namespace TaoBD10.ViewModels
                 MessageShow("Không tìm thấy window bd 10");
                 return;
             }
+            Thread.Sleep(500);
 
             SendKeys.SendWait("{TAB}");
             SendKeys.SendWait(" ");

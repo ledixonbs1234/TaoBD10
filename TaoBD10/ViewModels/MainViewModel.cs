@@ -634,7 +634,7 @@ namespace TaoBD10.ViewModels
                     {
                         if(listControl.Count > 50)
                         {
-                            return;
+                            continue;
                         }
                         if (isHaveError == false)
                         {

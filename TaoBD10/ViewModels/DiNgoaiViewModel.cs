@@ -105,17 +105,17 @@ namespace TaoBD10.ViewModels
 
             if (charCodeFirst == "c")
             {
-                temp = "bưu k";
+                temp = "Bưu kiện - Parcel";
                 downTaoTui = 2;
             }
             else if (charCodeFirst == "e")
             {
-                temp = "em";
+                temp = "EMS - Chuyển phát nhanh - Express Mail Service";
                 downTaoTui = 6;
             }
             else if (charCodeFirst == "p")
             {
-                temp = "lo";
+                temp = "Logistic";
                 downTaoTui = 4;
             }
 

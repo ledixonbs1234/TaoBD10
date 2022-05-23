@@ -487,7 +487,14 @@ namespace TaoBD10.ViewModels
                 {
                     if (countEdit == 2)
                     {
-                        tempCheckTinh = text;
+                        if (!string.IsNullOrEmpty(text))
+                        {
+                            tempCheckTinh = text;
+                        }else
+                        {
+                            countEdit = 1;
+                        }
+                        
                     }
                     else if (countEdit == 3)
                     {

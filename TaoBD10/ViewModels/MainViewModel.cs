@@ -1064,6 +1064,15 @@ namespace TaoBD10.ViewModels
                         Thread.Sleep(700);
                         WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "BCP" });
                     }
+                    else if (KeyData.IndexOf("inbd8") != -1)
+                    {
+                        Thread.Sleep(100);
+                        currentWindow = APIManager.GetActiveWindowTitle();
+                        if (currentWindow.text.IndexOf("dong chuyen thu") != -1)
+                        {
+                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "Print" });
+                        }
+                    }
                     else if (KeyData.IndexOf("vn") != -1)
                     {
                         WindowInfo activeWindow = APIManager.GetActiveWindowTitle();

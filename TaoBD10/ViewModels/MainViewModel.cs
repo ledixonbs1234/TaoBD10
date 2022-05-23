@@ -631,6 +631,10 @@ namespace TaoBD10.ViewModels
                     }
                     else if (string.IsNullOrEmpty(activeWindow.text))
                     {
+                        if(listControl.Count > 50)
+                        {
+                            return;
+                        }
                         if (isHaveError == false)
                         {
                             foreach (TestAPIModel apiContent in listControl)
@@ -1075,20 +1079,24 @@ namespace TaoBD10.ViewModels
                             WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "Print" });
                         }
                     }
-                    else if (KeyData.IndexOf("vn") != -1)
-                    {
-                        WindowInfo activeWindow = APIManager.GetActiveWindowTitle();
-                        if (activeWindow.text.IndexOf("dong chuyen thu") != -1)
-                        {
-                            //get code = 
-                            string code = getCodeFromString(KeyData.ToLower());
+                    //else if (KeyData.IndexOf("vn") != -1)
+                    //{
+                    //    WindowInfo activeWindow = APIManager.GetActiveWindowTitle();
+                    //    if (activeWindow.text.IndexOf("dong chuyen thu") != -1)
+                    //    {
+                    //        //get code = 
+                    //        string code = getCodeFromString(KeyData.ToLower());
 
-                            //lay dia chi cua ma can tim
-                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "LoadAddressDong", Content = code });
-                        }
+                    //        //lay dia chi cua ma can tim
+                            
+                    //        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "LoadAddressDong", Content = code });
+                    //    }
 
 
-                    }
+                    //}
+                    
+                    
+                    
                     KeyData = "";
 
                     break;

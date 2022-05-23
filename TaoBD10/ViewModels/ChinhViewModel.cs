@@ -364,31 +364,20 @@ namespace TaoBD10.ViewModels
 
             SendKeys.SendWait("{F10}");
             Thread.Sleep(200);
-            SendKeys.SendWait("{F10 }");
+            SendKeys.SendWait("{F10}");
             Thread.Sleep(200);
             SendKeys.SendWait("{ENTER}");
-            _ = APIManager.WaitingFindedWindow("khoi tao chuyen");
-
-            System.Collections.Generic.List<IntPtr> childHandles3 = APIManager.GetAllChildHandles(currentWindow.hwnd);
-            int countCombobox = 0;
-            IntPtr tinh = IntPtr.Zero;
-            foreach (IntPtr item in childHandles3)
+            currentWindow = APIManager.WaitingFindedWindow("khoi tao chuyen thu");
+            if (currentWindow == null)
             {
-                string className = APIManager.GetWindowClass(item);
-                string classDefault = "WindowsForms10.COMBOBOX.app.0.1e6fa8e";
-                //string classDefault = "WindowsForms10.COMBOBOX.app.0.141b42a_r8_ad1";
-                if (className == classDefault)
-                {
-                    if (countCombobox == 2)
-                    {
-                        tinh = item;
-                        break;
-                    }
-                    countCombobox++;
-                }
+                APIManager.ShowSnackbar("Không tìm thấy window khởi tạo chuyến thư");
+                return;
             }
-            _ = APIManager.SendMessage(tinh, 0x0007, 0, 0);
-            _ = APIManager.SendMessage(tinh, 0x0007, 0, 0);
+            System.Collections.Generic.List<TestAPIModel> childControls = APIManager.GetListControlText(currentWindow.hwnd);
+            //thuc hien lay vi tri nao do
+
+            APIManager.SendMessage(childControls[14].Handle, 0x0007, 0, 0);
+            APIManager.SendMessage(childControls[14].Handle, 0x0007, 0, 0);
 
         }
 

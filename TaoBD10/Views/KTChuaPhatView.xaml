@@ -57,8 +57,7 @@
             IsReadOnly="True"
             ItemsSource="{Binding HangTons}"
             SelectedItem="{Binding Selected}"
-            SelectionMode="Extended"
-            SelectionUnit="CellOrRowHeader">
+            SelectionMode="Extended">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Index}" Header="Index" />
                 <DataGridTextColumn Binding="{Binding MaHieu}" Header="Mã Hiệu" />

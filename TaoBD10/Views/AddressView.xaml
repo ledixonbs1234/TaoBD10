@@ -35,7 +35,6 @@
             AutoGenerateColumns="False"
             CanUserAddRows="False"
             ItemsSource="{Binding HangHoas}"
-            SelectedItem="{Binding SelectedDiNgoai, Mode=OneWayToSource}"
             SelectionMode="Single">
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">

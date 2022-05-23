@@ -27,15 +27,11 @@
                 VerticalAlignment="Center"
                 Badge="{Binding IsOk}"
                 BadgeColorZoneMode="Dark">
-                <Button
-                    Command="{Binding CheckCommand}"
-                    Content="CHECK"
-                    IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" />
+                <Button Command="{Binding CheckCommand}" Content="CHECK" />
             </materialDesign:Badged>
             <DatePicker
                 Width="180"
                 Margin="10,0"
-                SelectedDate="{Binding CurrentTime, Mode=TwoWay, StringFormat=dd/MM/yyyy}"
                 SelectedDateFormat="Short"
                 Style="{StaticResource MaterialDesignFilledDatePicker}" />
             <Button

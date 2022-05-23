@@ -13,7 +13,7 @@
     Height="450"
     Closing="MainView_Closing"
     DataContext="{StaticResource MainVM}"
-    ResizeMode="NoResize"
+    ResizeMode="CanMinimize"
     Topmost="{Binding IsTopMost}"
     WindowStyle="None"
     mc:Ignorable="d">
@@ -26,14 +26,7 @@
         </Behaviors:EventTrigger>
     </Behaviors:Interaction.Triggers>
     <Grid>
-        <!--<TextBox
-            Width="200"
-            Height="200"
-            Panel.ZIndex="20"
-            AcceptsReturn="True"
-            Text="{Binding TestText}" />-->
-
-
+      
         <Button
             Grid.Row="1"
             Grid.Column="0"

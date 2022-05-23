@@ -26,7 +26,6 @@
                 Command="{Binding AddBDTinhCommand}"
                 CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.HA_AL}"
                 Content="{materialDesign:PackIcon Kind=Add}"
-                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                 Style="{StaticResource MaterialDesignPaperSecondaryDarkButton}"
                 ToolTip="Icon" />
             <materialDesign:Badged
@@ -46,7 +45,6 @@
                 Command="{Binding AddBDTinhCommand}"
                 CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.TamQuan}"
                 Content="{materialDesign:PackIcon Kind=Add}"
-                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                 Style="{StaticResource MaterialDesignPaperSecondaryDarkButton}"
                 ToolTip="Icon" />
             <materialDesign:Badged
@@ -72,7 +70,6 @@
                 Command="{Binding AddBDTinhCommand}"
                 CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.KienDaNang}"
                 Content="{materialDesign:PackIcon Kind=Add}"
-                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                 Style="{StaticResource MaterialDesignPaperSecondaryDarkButton}"
                 ToolTip="Icon" />
             <materialDesign:Badged
@@ -93,7 +90,6 @@
                 Command="{Binding AddBDTinhCommand}"
                 CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.EMSDaNang}"
                 Content="{materialDesign:PackIcon Kind=Add}"
-                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                 Style="{StaticResource MaterialDesignPaperSecondaryDarkButton}"
                 ToolTip="Icon" />
             <materialDesign:Badged
@@ -116,7 +112,6 @@
                 Command="{Binding AddBDTinhCommand}"
                 CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.QuangNam}"
                 Content="{materialDesign:PackIcon Kind=Add}"
-                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                 Style="{StaticResource MaterialDesignPaperSecondaryDarkButton}"
                 ToolTip="Icon" />
             <materialDesign:Badged
@@ -136,7 +131,6 @@
                 Command="{Binding AddBDTinhCommand}"
                 CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.QuangNgai}"
                 Content="{materialDesign:PackIcon Kind=Add}"
-                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                 Style="{StaticResource MaterialDesignPaperSecondaryDarkButton}"
                 ToolTip="Icon" />
             <materialDesign:Badged
@@ -160,7 +154,6 @@
                 Command="{Binding AddBDTinhCommand}"
                 CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.DiNgoaiNamTrungBo}"
                 Content="{materialDesign:PackIcon Kind=Add}"
-                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                 Style="{StaticResource MaterialDesignPaperSecondaryDarkButton}"
                 ToolTip="Icon" />
             <materialDesign:Badged
@@ -180,7 +173,6 @@
                 Command="{Binding AddBDTinhCommand}"
                 CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.TuiNTB}"
                 Content="{materialDesign:PackIcon Kind=Add}"
-                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                 Style="{StaticResource MaterialDesignPaperSecondaryDarkButton}"
                 ToolTip="Icon" />
             <materialDesign:Badged
@@ -202,7 +194,6 @@
                 Command="{Binding AddBDTinhCommand}"
                 CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.PhuMy}"
                 Content="{materialDesign:PackIcon Kind=Add}"
-                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                 Style="{StaticResource MaterialDesignPaperSecondaryDarkButton}"
                 ToolTip="Icon" />
             <materialDesign:Badged
@@ -223,7 +214,6 @@
                 Command="{Binding AddBDTinhCommand}"
                 CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.PhuCat}"
                 Content="{materialDesign:PackIcon Kind=Add}"
-                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                 Style="{StaticResource MaterialDesignPaperSecondaryDarkButton}"
                 ToolTip="Icon" />
             <materialDesign:Badged
@@ -246,7 +236,6 @@
                 Command="{Binding AddBDTinhCommand}"
                 CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.AnNhon}"
                 Content="{materialDesign:PackIcon Kind=Add}"
-                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                 Style="{StaticResource MaterialDesignPaperSecondaryDarkButton}"
                 ToolTip="Icon" />
             <materialDesign:Badged
@@ -268,7 +257,6 @@
                 Command="{Binding AddBDTinhCommand}"
                 CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.KT1}"
                 Content="{materialDesign:PackIcon Kind=Add}"
-                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                 Style="{StaticResource MaterialDesignPaperSecondaryDarkButton}"
                 ToolTip="Icon" />
             <materialDesign:Badged

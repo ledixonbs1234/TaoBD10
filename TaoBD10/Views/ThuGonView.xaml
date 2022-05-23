@@ -28,7 +28,6 @@
                         CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.HA_AL}"
                         Content="HA-AL"
                         FontSize="10"
-                        IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                         Style="{StaticResource MaterialDesignPaperLightButton}" />
                 </StackPanel>
                 <StackPanel Margin="5,0">
@@ -43,7 +42,6 @@
                         CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.TamQuan}"
                         Content="Tam Quan"
                         FontSize="10"
-                        IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                         Style="{StaticResource MaterialDesignPaperLightButton}" />
                 </StackPanel>
                 <StackPanel Margin="5,0,2,0">
@@ -58,7 +56,6 @@
                         CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.KienDaNang}"
                         Content="Kiện Đà Nẵng"
                         FontSize="10"
-                        IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                         Style="{StaticResource MaterialDesignPaperLightButton}" />
                 </StackPanel>
                 <StackPanel Margin="5,0">
@@ -73,7 +70,6 @@
                         CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.EMSDaNang}"
                         Content="Ems Đà Nẵng"
                         FontSize="10"
-                        IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                         Style="{StaticResource MaterialDesignPaperLightButton}" />
                 </StackPanel>
                 <StackPanel Margin="5,0">
@@ -88,7 +84,6 @@
                         CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.QuangNam}"
                         Content="Quảng Nam"
                         FontSize="10"
-                        IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                         Style="{StaticResource MaterialDesignPaperLightButton}" />
                 </StackPanel>
                 <StackPanel Margin="5,0">
@@ -103,7 +98,6 @@
                         CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.QuangNgai}"
                         Content="Quảng Ngãi"
                         FontSize="10"
-                        IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                         Style="{StaticResource MaterialDesignPaperLightButton}" />
                 </StackPanel>
             </StackPanel>
@@ -121,7 +115,6 @@
                             CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.DiNgoaiNamTrungBo}"
                             Content="Kiện NTB"
                             FontSize="10"
-                            IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                             Style="{StaticResource MaterialDesignPaperLightButton}" />
                     </StackPanel>
                     <StackPanel Margin="2,0">
@@ -136,7 +129,6 @@
                             CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.TuiNTB}"
                             Content="Túi NTB"
                             FontSize="10"
-                            IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                             Style="{StaticResource MaterialDesignPaperLightButton}" />
                     </StackPanel>
                     <StackPanel Margin="4,0,0,0">
@@ -151,7 +143,6 @@
                             CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.PhuMy}"
                             Content="Phù Mỹ"
                             FontSize="10"
-                            IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                             Style="{StaticResource MaterialDesignPaperLightButton}" />
                     </StackPanel>
                     <StackPanel Margin="2,0">
@@ -166,7 +157,6 @@
                             CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.PhuCat}"
                             Content="Phù Cát"
                             FontSize="10"
-                            IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                             Style="{StaticResource MaterialDesignPaperLightButton}" />
                     </StackPanel>
                     <StackPanel Margin="2,0">
@@ -181,7 +171,6 @@
                             CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.AnNhon}"
                             Content="An Nhơn"
                             FontSize="10"
-                            IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                             Style="{StaticResource MaterialDesignPaperLightButton}" />
                     </StackPanel>
                     <StackPanel Margin="4,0,0,0">
@@ -196,7 +185,6 @@
                             CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.KT1}"
                             Content="KT1"
                             FontSize="10"
-                            IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                             Style="{StaticResource MaterialDesignPaperLightButton}" />
                     </StackPanel>
                     <StackPanel Margin="2,0">
@@ -211,7 +199,6 @@
                             CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.None}"
                             Content="Còn Lại"
                             FontSize="10"
-                            IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                             Style="{StaticResource MaterialDesignPaperLightButton}" />
                     </StackPanel>
                 </StackPanel>

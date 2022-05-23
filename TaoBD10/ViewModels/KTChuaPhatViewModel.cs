@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Input;
+using TaoBD10.Manager;
 using TaoBD10.Model;
 using static TaoBD10.Manager.EnumAll;
 
@@ -146,7 +147,7 @@ namespace TaoBD10.ViewModels
                     }
                     if (!string.IsNullOrEmpty(deleteItem.NguoiGui))
                     {
-                        if (hangTon.NguoiGui.ToLower().IndexOf(deleteItem.NguoiGui.ToLower()) != -1)
+                        if (APIManager.ConvertToUnSign3(hangTon.NguoiGui.ToLower()).IndexOf(APIManager.ConvertToUnSign3(deleteItem.NguoiGui.ToLower())) != -1)
                             isCanDelete = true;
                         else
                         {

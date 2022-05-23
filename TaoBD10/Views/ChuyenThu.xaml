@@ -32,7 +32,6 @@
                     Command="{Binding SelectedTinhCommand}"
                     CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.KTHN}"
                     Content="593230"
-                    IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                     Style="{StaticResource MaterialDesignPaperLightButton}"
                     ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
             </StackPanel>
@@ -46,7 +45,6 @@
                     Command="{Binding SelectedTinhCommand}"
                     CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.BCPHN}"
                     Content="593280"
-                    IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                     Style="{StaticResource MaterialDesignPaperLightButton}"
                     ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
             </StackPanel>

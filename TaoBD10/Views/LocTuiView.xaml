@@ -23,7 +23,6 @@
             VerticalAlignment="Center"
             materialDesign:HintAssist.Hint="Nhập SH Túi"
             AcceptsReturn="True"
-            IsEnabled="{Binding IsChecked, ElementName=MaterialDesignFilledTextBoxEnabledComboBox}"
             Style="{StaticResource MaterialDesignFilledTextBox}"
             Text="{Binding TextBD, UpdateSourceTrigger=PropertyChanged}" />
         <StackPanel
@@ -36,21 +35,18 @@
                 VerticalAlignment="Center"
                 materialDesign:HintAssist.Hint=" Nhập tên BĐ 10"
                 AcceptsReturn="True"
-                IsEnabled="{Binding IsChecked, ElementName=MaterialDesignFilledTextBoxEnabledComboBox}"
                 Style="{StaticResource MaterialDesignFilledTextBox}"
                 Text="{Binding NameBD, UpdateSourceTrigger=PropertyChanged}" />
             <Button
                 Margin="30,0"
                 Command="{Binding CapNhatCommand}"
                 Content="Cập Nhật"
-                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                 Style="{StaticResource MaterialDesignRaisedSecondaryButton}"
                 ToolTip="Resource name: MaterialDesignRaisedSecondaryButton" />
             <Button
                 Margin="30,0"
                 Background="{DynamicResource MaterialDesignTextFieldBoxBackground}"
                 Command="{Binding ClearCommand}"
-                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                 Style="{StaticResource MaterialDesignIconButton}"
                 ToolTip="MaterialDesignIconButton">
 

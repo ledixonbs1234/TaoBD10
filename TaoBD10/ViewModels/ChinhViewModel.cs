@@ -135,11 +135,13 @@ namespace TaoBD10.ViewModels
                     else if (m.Content == "Print")
                     {
                         bwPrint.RunWorkerAsync();
-                    }else if(m.Content == "True")
+                    }
+                    else if (m.Content == "True")
                     {
                         IsChecking = true;
 
-                    }else if(m.Content == "False")
+                    }
+                    else if (m.Content == "False")
                     {
                         IsChecking = false;
                     }
@@ -230,7 +232,7 @@ namespace TaoBD10.ViewModels
 
             if (currentWindow.text.IndexOf("dong chuyen thu") != -1)
             {
-               
+
                 bool isClosedTui = false;
                 int countReturn = 50;
                 while (!isClosedTui)
@@ -253,7 +255,7 @@ namespace TaoBD10.ViewModels
                     return;
                 }
                 Thread.Sleep(100);
-                
+
 
                 SendKeys.SendWait("{F6}");
                 SendKeys.SendWait("{F5}");
@@ -267,7 +269,8 @@ namespace TaoBD10.ViewModels
 
                 SendKeys.SendWait(" ");
                 Thread.Sleep(200);
-            }else
+            }
+            else
             {
                 return;
             }
@@ -277,7 +280,7 @@ namespace TaoBD10.ViewModels
             SendKeys.SendWait("{F7}");
 
             currentWindow = APIManager.WaitingFindedWindow("in an pham");
-            if(currentWindow == null)
+            if (currentWindow == null)
             {
                 return;
             }
@@ -290,23 +293,23 @@ namespace TaoBD10.ViewModels
             thread.SetApartmentState(ApartmentState.STA); //Set the thread to STA
             thread.Start();
             thread.Join();
-            
+
             SendKeys.SendWait("^(a)");
             SendKeys.SendWait("^(c)");
             string clipboard = "";
             for (int i = 0; i < 10; i++)
             {
-                thread = new Thread(() =>clipboard = System.Windows.Clipboard.GetText());
+                thread = new Thread(() => clipboard = System.Windows.Clipboard.GetText());
                 thread.SetApartmentState(ApartmentState.STA); //Set the thread to STA
                 thread.Start();
                 thread.Join(); //Wait for the thread to end
-                if(!string.IsNullOrEmpty(clipboard))
+                if (!string.IsNullOrEmpty(clipboard))
                 {
                     break;
                 }
                 SendKeys.SendWait("^(c)");
                 Thread.Sleep(50);
-                
+
             }
             if (string.IsNullOrEmpty(clipboard))
                 return;
@@ -359,34 +362,34 @@ namespace TaoBD10.ViewModels
             }
             APIManager.WaitingFindedWindow("dong chuyen thu");
 
-                SendKeys.SendWait("{F10}");
-                Thread.Sleep(200);
-                SendKeys.SendWait("{F10 }");
-                Thread.Sleep(200);
-                SendKeys.SendWait("{ENTER}");
-            APIManager.WaitingFindedWindow("khoi tao chuyen");
+            SendKeys.SendWait("{F10}");
+            Thread.Sleep(200);
+            SendKeys.SendWait("{F10 }");
+            Thread.Sleep(200);
+            SendKeys.SendWait("{ENTER}");
+            _ = APIManager.WaitingFindedWindow("khoi tao chuyen");
 
-                var childHandles3 = APIManager.GetAllChildHandles(currentWindow.hwnd);
-                int countCombobox = 0;
-                IntPtr tinh = IntPtr.Zero;
-                foreach (var item in childHandles3)
+            System.Collections.Generic.List<IntPtr> childHandles3 = APIManager.GetAllChildHandles(currentWindow.hwnd);
+            int countCombobox = 0;
+            IntPtr tinh = IntPtr.Zero;
+            foreach (IntPtr item in childHandles3)
+            {
+                string className = APIManager.GetWindowClass(item);
+                string classDefault = "WindowsForms10.COMBOBOX.app.0.1e6fa8e";
+                //string classDefault = "WindowsForms10.COMBOBOX.app.0.141b42a_r8_ad1";
+                if (className == classDefault)
                 {
-                    string className = APIManager.GetWindowClass(item);
-                    string classDefault = "WindowsForms10.COMBOBOX.app.0.1e6fa8e";
-                    //string classDefault = "WindowsForms10.COMBOBOX.app.0.141b42a_r8_ad1";
-                    if (className == classDefault)
+                    if (countCombobox == 2)
                     {
-                        if (countCombobox == 2)
-                        {
-                            tinh = item;
-                            break;
-                        }
-                        countCombobox++;
+                        tinh = item;
+                        break;
                     }
+                    countCombobox++;
                 }
-                APIManager.SendMessage(tinh, 0x0007, 0, 0);
-                APIManager.SendMessage(tinh, 0x0007, 0, 0);
-            
+            }
+            _ = APIManager.SendMessage(tinh, 0x0007, 0, 0);
+            _ = APIManager.SendMessage(tinh, 0x0007, 0, 0);
+
         }
 
         private void BackgroundCreateChuyenThu_DoWork(object sender, DoWorkEventArgs e)
@@ -490,11 +493,12 @@ namespace TaoBD10.ViewModels
                         if (!string.IsNullOrEmpty(text))
                         {
                             tempCheckTinh = text;
-                        }else
+                        }
+                        else
                         {
                             countEdit = 1;
                         }
-                        
+
                     }
                     else if (countEdit == 3)
                     {

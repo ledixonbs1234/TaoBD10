@@ -13,13 +13,11 @@
                 Width="115"
                 Margin="5"
                 Content="593200"
-                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                 Style="{StaticResource MaterialDesignPaperButton}" Command="{Binding GiaoDichCommand}" />
             <Button
                 Width="115"
                 Margin="5"
                 Content="593230"
-                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                 Style="{StaticResource MaterialDesignPaperButton}" />
         </StackPanel>
 
@@ -27,7 +25,6 @@
                 Width="115"
                 Margin="5"
                 Content="593280"
-                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                 Style="{StaticResource MaterialDesignPaperButton}" Command="{Binding BCPCommand}" />
 
         <Button
@@ -35,43 +32,36 @@
             Command="{Binding BongSonCommand}"
                 Margin="5"
                 Content="593522 - Bồng Sơn"
-                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                 Style="{StaticResource MaterialDesignPaperButton}" />
         <Button
                 Width="170"
                 Margin="5"
                 Content="593270 - Hoài Hương"
-                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                 Style="{StaticResource MaterialDesignPaperButton}" Command="{Binding HoaiHuongCommand}" />
         <Button
                 Width="170"
                 Margin="5"
                 Content="593260 - Hoài Hải"
-                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                 Style="{StaticResource MaterialDesignPaperButton}" Command="{Binding HoaiHaiCommand}" />
         <Button
                 Width="170"
                 Margin="5"
                 Content="593240 - Hoài Mỹ"
-                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                 Style="{StaticResource MaterialDesignPaperButton}" Command="{Binding HoaiMyCommand}" />
         <Button
                 Width="170"
                 Margin="5"
                 Content="593500 - Hoài Đức"
-                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                 Style="{StaticResource MaterialDesignPaperButton}" Command="{Binding HoaiDucCommand}" />
         <Button
                 Width="170"
                 Margin="5"
                 Content="593220 - Hoài Xuân"
-                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                 Style="{StaticResource MaterialDesignPaperButton}" Command="{Binding HoaiXuanCommand}" />
         <Button
                 Width="170"
                 Margin="5"
                 Content="593370 - Hoài Tân"
-                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                 Style="{StaticResource MaterialDesignPaperButton}" Command="{Binding HoaiTanCommand}" />
     </StackPanel>
 </UserControl>

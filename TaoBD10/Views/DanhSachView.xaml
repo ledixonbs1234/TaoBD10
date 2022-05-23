@@ -86,7 +86,6 @@
                 Width="120"
                 Command="{Binding LayDuLieuCommand}"
                 Content="Lấy Dữ Liệu"
-                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                 Style="{StaticResource MaterialDesignRaisedButton}"
                 ToolTip="Resource name: MaterialDesignRaisedButton" />
 
@@ -94,7 +93,6 @@
                 Margin="20,0"
                 Background="{DynamicResource MaterialDesignTextFieldBoxBackground}"
                 Command="{Binding DeleteCommand}"
-                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                 Style="{StaticResource MaterialDesignIconButton}"
                 ToolTip="MaterialDesignIconButton">
 

@@ -24,7 +24,10 @@ namespace TaoBD10.ViewModels
             TamQuans = new ObservableCollection<TamQuanModel>();
             SendCommand = new RelayCommand(Send);
             FillMaHieuCommand = new RelayCommand(FillMaHieu);
-
+            Numbers = new ObservableCollection<int>();
+            Numbers.Add(1);
+            Numbers.Add(2);
+            Numbers.Add(3);
             WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>
             {
                 if (m.Key == "TamQuan")
@@ -51,6 +54,23 @@ namespace TaoBD10.ViewModels
             
             });
         }
+
+        private int _CurrentNumber = 2;
+
+        public int CurrentNumber
+        {
+            get { return _CurrentNumber; }
+            set { SetProperty(ref _CurrentNumber, value); }
+        }
+
+        private ObservableCollection<int> _Numbers;
+
+        public ObservableCollection<int> Numbers
+        {
+            get { return _Numbers; }
+            set { SetProperty(ref _Numbers, value); }
+        }
+
 
         void FillMaHieu()
         {
@@ -98,7 +118,7 @@ namespace TaoBD10.ViewModels
             {
                 SendKeys.SendWait(item.MaHieu);
                 SendKeys.SendWait("{ENTER}");
-                Thread.Sleep(1500);
+                Thread.Sleep(CurrentNumber * 500);
             }
         }
 

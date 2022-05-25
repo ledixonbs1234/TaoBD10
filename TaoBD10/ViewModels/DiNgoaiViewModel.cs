@@ -190,10 +190,15 @@ namespace TaoBD10.ViewModels
             SendKeys.SendWait(" ");
             Thread.Sleep(500);
             //Kiem tra Da dong tui chua
-            SendKeys.SendWait("^C");
-            Thread.Sleep(200);
-            string textClip1 = Clipboard.GetText();
-            if (textClip1.IndexOf("Selected") == -1)
+            
+            string clipboard = APIManager.GetCopyData();
+
+            if (string.IsNullOrEmpty(clipboard))
+            {
+                APIManager.ShowSnackbar("Khong copy duoc");
+                return;
+            }
+            if (clipboard.IndexOf("Selected") == -1)
             {
                 APIManager.ShowSnackbar("Chưa đóng túi được");
                 return;
@@ -219,12 +224,11 @@ namespace TaoBD10.ViewModels
             Thread.Sleep(100);
 
             SendKeys.SendWait("^(a)");
-            SendKeys.SendWait("^(c)");
-            Thread.Sleep(200);
-            string clipboard = Clipboard.GetText();
+            clipboard = APIManager.GetCopyData();
+
             if (string.IsNullOrEmpty(clipboard))
             {
-                APIManager.ShowSnackbar("Không copy được");
+                APIManager.ShowSnackbar("Khong copy duoc");
                 return;
             }
             if (clipboard.IndexOf("BĐ8") == -1)

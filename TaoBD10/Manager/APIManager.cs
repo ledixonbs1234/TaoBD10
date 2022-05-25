@@ -32,6 +32,27 @@ namespace TaoBD10.Manager
             SendMessage(handle, 0x00F5, 0, 0);
         }
 
+        public static string GetCopyData()
+        {
+            string clipboard = "";
+            Thread thread;
+            thread = new Thread(() => clipboard = System.Windows.Clipboard.GetText());
+            thread.SetApartmentState(ApartmentState.STA); //Set the thread to STA
+            for (int i = 0; i < 10; i++)
+            {
+                SendKeys.SendWait("^(c)");
+                Thread.Sleep(50);
+                
+                thread.Start();
+                thread.Join(); //Wait for the thread to end
+                if (!string.IsNullOrEmpty(clipboard))
+                {
+                    break;
+                }
+            }
+            return clipboard;
+        }
+
         public static bool EnumWindow(IntPtr hWnd, IntPtr lParam)
         {
             GCHandle gcChildhandlesList = GCHandle.FromIntPtr(lParam);

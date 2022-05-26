@@ -1,6 +1,7 @@
 ﻿using CefSharp;
 using CefSharp.Wpf;
 using HtmlAgilityPack;
+using IronXL;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
@@ -127,6 +128,18 @@ namespace TaoBD10.ViewModels
 
             public void OnDownloadUpdated(IWebBrowser chromiumWebBrowser, IBrowser browser, DownloadItem downloadItem, IDownloadItemCallback callback)
             {
+                if (downloadItem.IsValid)
+                {
+                    if (downloadItem.IsComplete)
+                    {
+                        //thuc hien doc du lieu tu file nao do
+                        WorkBook workBook = new WorkBook(downloadItem.FullPath);
+                        WorkSheet sheet = workBook.WorkSheets.First();
+                        string cellValue = sheet["B5"].StringValue;
+
+
+                    }
+                }
 
             }
         }

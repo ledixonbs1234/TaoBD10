@@ -932,17 +932,23 @@ namespace TaoBD10.ViewModels
 
                 case Key.F8:
                     //Thuc hien nay
-                    WeakReferenceMessenger.Default.Send(new MessageManager("getData"));
+                    WindowInfo currentWindow = APIManager.GetActiveWindowTitle();
+                    if (currentWindow == null)
+                        return;
+                    string textCo = APIManager.ConvertToUnSign3(currentWindow.text).ToLower();
+
+                    if (textCo.IndexOf("sua thong tin bd10") != -1 || textCo.IndexOf("lap bd10") != -1)
+                        WeakReferenceMessenger.Default.Send(new MessageManager("getData"));
                     break;
 
                 case Key.F5:
-                    var currentWindow = APIManager.GetActiveWindowTitle();
+                    currentWindow = APIManager.GetActiveWindowTitle();
                     if (currentWindow == null)
                     {
                         return;
                     }
 
-                    string textCo = APIManager.ConvertToUnSign3(currentWindow.text).ToLower();
+                    textCo = APIManager.ConvertToUnSign3(currentWindow.text).ToLower();
 
                     if (textCo.IndexOf("sua thong tin bd10") != -1 || textCo.IndexOf("lap bd10") != -1)
                     {

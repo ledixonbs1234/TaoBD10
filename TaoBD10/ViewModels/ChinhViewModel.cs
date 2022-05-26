@@ -132,6 +132,10 @@ namespace TaoBD10.ViewModels
                     {
                         KTHN();
                     }
+                    else if (m.Content == "BCP")
+                    {
+                        BCPHN();
+                    }
                     else if (m.Content == "Print")
                     {
                         bwPrint.RunWorkerAsync();

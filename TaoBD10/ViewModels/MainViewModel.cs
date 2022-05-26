@@ -90,10 +90,12 @@ namespace TaoBD10.ViewModels
                     else if (m.Content == "Web")
                     {
                         IndexTabTui = 1;
-                    }else if (m.Content == "GoTaoTui")
+                    }
+                    else if (m.Content == "GoTaoTui")
                     {
                         IndexTabTui = 7;
-                    }else if(m.Content == "TamQuan")
+                    }
+                    else if (m.Content == "TamQuan")
                     {
                         IndexTabTui = 8;
                         IndexTabControl = 5;
@@ -632,7 +634,7 @@ namespace TaoBD10.ViewModels
                     }
                     else if (string.IsNullOrEmpty(activeWindow.text))
                     {
-                        if(listControl.Count > 50)
+                        if (listControl.Count > 50)
                         {
                             continue;
                         }
@@ -870,7 +872,7 @@ namespace TaoBD10.ViewModels
                 if (MessageQueue == null)
                     MessageQueue = new SnackbarMessageQueue();
                 MessageQueue.Enqueue(content, null, null, null, false, false, TimeSpan.FromSeconds(2));
-            SystemSounds.Beep.Play();
+                SystemSounds.Beep.Play();
             });
 
         }
@@ -958,12 +960,12 @@ namespace TaoBD10.ViewModels
                     break;
 
                 case Key.F1:
-                    var currentWindow1 = APIManager.GetActiveWindowTitle();
-                    if (currentWindow1 == null)
+                    currentWindow = APIManager.GetActiveWindowTitle();
+                    if (currentWindow == null)
                         return;
-                    if (currentWindow1.text.IndexOf("khoi tao chuyen thu") != -1)
+                    if (currentWindow.text.IndexOf("khoi tao chuyen thu") != -1)
                         WeakReferenceMessenger.Default.Send(new ContentModel { Key = "RunPrintDiNgoai", Content = "PrintDiNgoai" });
-                    else if (currentWindow1.text.IndexOf("dong chuyen thu") != -1)
+                    else if (currentWindow.text.IndexOf("dong chuyen thu") != -1)
                     {
                         WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "Print" });
                     }
@@ -971,6 +973,8 @@ namespace TaoBD10.ViewModels
 
                 case Key.F6:
                     currentWindow = APIManager.GetActiveWindowTitle();
+                    if (currentWindow == null)
+                        return;
                     if (currentWindow.text.IndexOf("sua thong tin bd10") != -1 || currentWindow.text.IndexOf("lap bd10") != -1)
                         bwPrintBD10.RunWorkerAsync();
                     break;
@@ -1089,22 +1093,16 @@ namespace TaoBD10.ViewModels
                     //        string code = getCodeFromString(KeyData.ToLower());
 
                     //        //lay dia chi cua ma can tim
-                            
+
                     //        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "LoadAddressDong", Content = code });
                     //    }
 
 
                     //}
-                    
-                    
-                    
                     KeyData = "";
-
                     break;
-
                 case Key.LeftShift:
                     break;
-
                 case Key.F2:
                     //thuc hien copy du lieu sau do sang ben kia
                     WeakReferenceMessenger.Default.Send(new ContentModel { Key = "TamQuanRun", Content = "" });
@@ -1116,7 +1114,6 @@ namespace TaoBD10.ViewModels
                         bwPrintBanKe.RunWorkerAsync();
                     }
                     break;
-
                 default:
                     KeyData += e.KeyPressed.ToString();
                     break;
@@ -1229,17 +1226,6 @@ namespace TaoBD10.ViewModels
                 return;
             }
         }
-
-        //private string _TestText;
-
-        //public string TestText
-        //{
-        //    get { return _TestText; }
-        //    set { SetProperty(ref _TestText, value); }
-        //}
-
-
-
         double lastWidth = 0;
         double lastHeight = 0;
         private void ToggleWindow()

@@ -129,13 +129,13 @@
                 Margin="5"
                 Command="{Binding BD10DiCommand}"
                 Content="BĐ 10 Di"
-                Style="{StaticResource MaterialDesignPaperButton}" />
+                Style="{StaticResource MaterialDesignPaperButton}" Background="#FFE2E5FF" />
             <Button
                 Width="115"
                 Margin="5"
                 Command="{Binding BD10DenCommand}"
                 Content="BĐ 10 Đến"
-                Style="{StaticResource MaterialDesignPaperButton}" />
+                Style="{StaticResource MaterialDesignPaperButton}" Background="#FFF7FFF4" />
         </StackPanel>
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
             <Button

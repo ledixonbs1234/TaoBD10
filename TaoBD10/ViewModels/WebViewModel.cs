@@ -107,6 +107,27 @@ namespace TaoBD10.ViewModels
             {
                 SetProperty(ref _AddressWeb, value);
                 WebBrowser.LoadingStateChanged += WebBrowser_LoadingStateChanged;
+                WebBrowser.DownloadHandler = new MyDownloadHandler();
+            }
+        }
+        
+
+        public class MyDownloadHandler : IDownloadHandler
+        {
+            public void OnBeforeDownload(IWebBrowser chromiumWebBrowser, IBrowser browser, DownloadItem downloadItem, IBeforeDownloadCallback callback)
+            {
+                if (!callback.IsDisposed)
+                {
+                    using (callback)
+                    {
+                        callback.Continue(System.IO.Path.Combine(@"c:\downloadFolder", downloadItem.SuggestedFileName), showDialog: false);
+                    }
+                }
+            }
+
+            public void OnDownloadUpdated(IWebBrowser chromiumWebBrowser, IBrowser browser, DownloadItem downloadItem, IDownloadItemCallback callback)
+            {
+
             }
         }
 

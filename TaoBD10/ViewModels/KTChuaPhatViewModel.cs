@@ -237,17 +237,6 @@ namespace TaoBD10.ViewModels
         {
             HangTons.Clear();
             WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "KTChuaPhat", Content = "Run230" });
-
-            /*
-            Quy trinh thuc hien nhu sau
-            vao trang web do
-            //kiem tra thu ip address co thay doi gi khong
-            //neu co thi tu dong dang nhap
-            sau do kiem tra thu phai default khong
-            neu dung thi thuc hien cac cong viec binh thuong
-            neu chua thi tu dang nhap
-
-             */
         }
 
         private void Run593280()

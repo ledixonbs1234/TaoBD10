@@ -937,7 +937,7 @@ namespace TaoBD10.ViewModels
                         return;
                     string textCo = APIManager.ConvertToUnSign3(currentWindow.text).ToLower();
 
-                    if (textCo.IndexOf("sua thong tin bd10") != -1 || textCo.IndexOf("lap bd10") != -1)
+                    if (textCo.IndexOf("xac nhan bd10 den") != -1)
                         WeakReferenceMessenger.Default.Send(new MessageManager("getData"));
                     break;
 

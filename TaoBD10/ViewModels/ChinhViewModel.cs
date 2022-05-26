@@ -60,6 +60,7 @@ namespace TaoBD10.ViewModels
             PrintDefaultCommand = new RelayCommand(PrintDefault);
             bwCreateChuyenThu = new BackgroundWorker();
             bwCreateChuyenThu.DoWork += BackgroundCreateChuyenThu_DoWork;
+            bwCreateChuyenThu.WorkerSupportsCancellation = true;
             bwPrint = new BackgroundWorker();
             bwPrint.DoWork += BwPrint_DoWork;
             timerPrint = new DispatcherTimer
@@ -908,6 +909,7 @@ namespace TaoBD10.ViewModels
                 Thread.Sleep(200);
                 SendKeys.SendWait("1");
             }
+            bwCreateChuyenThu.CancelAsync();
             bwCreateChuyenThu.RunWorkerAsync();
         }
 
@@ -947,6 +949,7 @@ namespace TaoBD10.ViewModels
                 Thread.Sleep(200);
                 SendKeys.SendWait("1");
             }
+            bwCreateChuyenThu.CancelAsync();
             bwCreateChuyenThu.RunWorkerAsync();
         }
 
@@ -971,6 +974,7 @@ namespace TaoBD10.ViewModels
                 Thread.Sleep(200);
                 SendKeys.SendWait("1");
             }
+            bwCreateChuyenThu.CancelAsync();
             bwCreateChuyenThu.RunWorkerAsync();
         }
 
@@ -995,6 +999,7 @@ namespace TaoBD10.ViewModels
                 Thread.Sleep(200);
                 SendKeys.SendWait("1");
             }
+            bwCreateChuyenThu.CancelAsync();
             bwCreateChuyenThu.RunWorkerAsync();
         }
 
@@ -1019,6 +1024,7 @@ namespace TaoBD10.ViewModels
                 Thread.Sleep(200);
                 SendKeys.SendWait("1");
             }
+            bwCreateChuyenThu.CancelAsync();
             bwCreateChuyenThu.RunWorkerAsync();
         }
 
@@ -1043,6 +1049,7 @@ namespace TaoBD10.ViewModels
                 Thread.Sleep(200);
                 SendKeys.SendWait("1");
             }
+            bwCreateChuyenThu.CancelAsync();
             bwCreateChuyenThu.RunWorkerAsync();
         }
 
@@ -1069,6 +1076,7 @@ namespace TaoBD10.ViewModels
                 Thread.Sleep(200);
                 SendKeys.SendWait("1");
             }
+            bwCreateChuyenThu.CancelAsync();
             bwCreateChuyenThu.RunWorkerAsync();
         }
 
@@ -1093,6 +1101,7 @@ namespace TaoBD10.ViewModels
                 Thread.Sleep(200);
                 SendKeys.SendWait("1");
             }
+            bwCreateChuyenThu.CancelAsync();
             bwCreateChuyenThu.RunWorkerAsync();
         }
 
@@ -1117,6 +1126,7 @@ namespace TaoBD10.ViewModels
                 Thread.Sleep(200);
                 SendKeys.SendWait("1");
             }
+            bwCreateChuyenThu.CancelAsync();
             bwCreateChuyenThu.RunWorkerAsync();
         }
 
@@ -1141,6 +1151,7 @@ namespace TaoBD10.ViewModels
                 Thread.Sleep(200);
                 SendKeys.SendWait("1");
             }
+            bwCreateChuyenThu.CancelAsync();
             bwCreateChuyenThu.RunWorkerAsync();
         }
 
@@ -1165,6 +1176,7 @@ namespace TaoBD10.ViewModels
                 Thread.Sleep(200);
                 SendKeys.SendWait("1");
             }
+            bwCreateChuyenThu.CancelAsync();
             bwCreateChuyenThu.RunWorkerAsync();
         }
 
@@ -1189,6 +1201,7 @@ namespace TaoBD10.ViewModels
                 Thread.Sleep(200);
                 SendKeys.SendWait("1");
             }
+            bwCreateChuyenThu.CancelAsync();
             bwCreateChuyenThu.RunWorkerAsync();
         }
 
@@ -1213,6 +1226,7 @@ namespace TaoBD10.ViewModels
                 Thread.Sleep(200);
                 SendKeys.SendWait("1");
             }
+            bwCreateChuyenThu.CancelAsync();
             bwCreateChuyenThu.RunWorkerAsync();
         }
 
@@ -1237,6 +1251,7 @@ namespace TaoBD10.ViewModels
                 Thread.Sleep(200);
                 SendKeys.SendWait("1");
             }
+            bwCreateChuyenThu.CancelAsync();
             bwCreateChuyenThu.RunWorkerAsync();
         }
 
@@ -1261,6 +1276,7 @@ namespace TaoBD10.ViewModels
                 Thread.Sleep(200);
                 SendKeys.SendWait("1");
             }
+            bwCreateChuyenThu.CancelAsync();
             bwCreateChuyenThu.RunWorkerAsync();
         }
 

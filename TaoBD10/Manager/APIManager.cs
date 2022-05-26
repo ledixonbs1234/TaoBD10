@@ -135,7 +135,7 @@ namespace TaoBD10.Manager
         /// <param name="time">thoi gian s* 0.2</param>
         /// <param name="isExactly">co chinh xac title khong</param>
         /// <returns>null neu khong tim thay</returns>
-        public static WindowInfo WaitingFindedWindow(string title, string title2 = "null", int time = 7, bool isExactly = false)
+        public static WindowInfo WaitingFindedWindow(string title, string title2 = "null", int time = 5, bool isExactly = false)
         {
             WindowInfo currentWindow = null;
             string titleWindow = "";

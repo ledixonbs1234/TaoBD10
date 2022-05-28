@@ -130,6 +130,7 @@ namespace TaoBD10.ViewModels
                 return;
             }
 
+            Thread.Sleep(100);
             SendKeys.SendWait("{UP}{UP}{UP}{UP}{UP}");
             for (int i = 0; i < downTaoTui; i++)
             {
@@ -187,18 +188,30 @@ namespace TaoBD10.ViewModels
             SendKeys.SendWait("{LEFT}");
             SendKeys.SendWait("{LEFT}");
             SendKeys.SendWait("{LEFT}");
-            SendKeys.SendWait(" ");
-            Thread.Sleep(500);
-            //Kiem tra Da dong tui chua
-            
-            string clipboard = APIManager.GetCopyData();
-
-            if (string.IsNullOrEmpty(clipboard))
+            string clipboard = "";
+            bool isCheckTui = false;
+            for (int i = 0; i < 2; i++)
             {
-                APIManager.ShowSnackbar("Khong copy duoc");
-                return;
+                Thread.Sleep(100);
+                SendKeys.SendWait(" ");
+                Thread.Sleep(500);
+                //Kiem tra Da dong tui chua
+
+                clipboard = APIManager.GetCopyData();
+
+                if (string.IsNullOrEmpty(clipboard))
+                {
+                    APIManager.ShowSnackbar("Khong copy duoc");
+                    return;
+                }
+
+                if (clipboard.IndexOf("Selected") != -1)
+                {
+                    isCheckTui = true;
+                    break;
+                }
             }
-            if (clipboard.IndexOf("Selected") == -1)
+            if (!isCheckTui)
             {
                 APIManager.ShowSnackbar("Chưa đóng túi được");
                 return;

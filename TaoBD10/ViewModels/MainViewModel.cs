@@ -872,7 +872,7 @@ namespace TaoBD10.ViewModels
                 if (MessageQueue == null)
                     MessageQueue = new SnackbarMessageQueue();
                 MessageQueue.Enqueue(content, null, null, null, false, false, TimeSpan.FromSeconds(2));
-                SystemSounds.Beep.Play();
+                SystemSounds.Hand.Play();
             });
 
         }

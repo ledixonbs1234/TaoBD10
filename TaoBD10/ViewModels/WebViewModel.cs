@@ -111,7 +111,7 @@ namespace TaoBD10.ViewModels
                 WebBrowser.DownloadHandler = new MyDownloadHandler();
             }
         }
-        
+
 
         public class MyDownloadHandler : IDownloadHandler
         {
@@ -132,18 +132,23 @@ namespace TaoBD10.ViewModels
                 {
                     if (downloadItem.IsComplete)
                     {
-                        //thuc hien doc du lieu tu file nao do
-                        WorkBook workBook = new WorkBook(downloadItem.FullPath);
-                        WorkSheet sheet = workBook.WorkSheets.First();
-                        string cellValue = sheet["B5"].StringValue;
-
-
+                        GetListAddress(downloadItem.FullPath);
                     }
                 }
 
             }
+            void GetListAddress(string fullPath)
+            {
+                //Send list address to Data;
+                //thuc hien doc du lieu tu file nao do
+                WorkBook workBook = new WorkBook(fullPath);
+                WorkSheet sheet = workBook.WorkSheets.First();
+
+                string cellValue = sheet["B5"].StringValue;
+            }
         }
 
+        //thuc hien lay du lieu tu danh sach da co
         public ICommand LoginCommand { get; }
         public ChromiumWebBrowser WebBrowser
         {
@@ -426,7 +431,7 @@ document.getElementsByClassName("".footer"").remove();
             }
             catch (System.Exception ex)
             {
-                
+
                 // Get stack trace for the exception with source file information
                 var st = new StackTrace(ex, true);
                 // Get the top stack frame
@@ -436,23 +441,23 @@ document.getElementsByClassName("".footer"").remove();
                 APIManager.OpenNotePad(ex.Message + '\n' + "loi Line " + line, "loi ");
                 throw;
             }
-            
+
         }
 
         private void CheckPageMPS(HtmlDocument document)
         {
             IEnumerable<HtmlNode> pageHave = document.DocumentNode.Descendants("section").Where(d => d.Attributes["class"].Value.Contains("paging"));
             bool isHasPaging = document.DocumentNode.HasClass("paging");
-            if (pageHave== null)
+            if (pageHave == null)
                 return;
             HtmlNodeCollection childPage = document.DocumentNode.SelectNodes(@"//section[contains(@class,'paging')]/ul/li");
             //HtmlNodeCollection childPage = PagingClass.FirstChild.ChildNodes;
             for (int i = 0; i < childPage.Count; i++)
             {
-                if(i != childPage.Count - 1)
+                if (i != childPage.Count - 1)
                 {
                     HtmlNode child = childPage[i];
-                    if(child.InnerHtml.Contains("active") )
+                    if (child.InnerHtml.Contains("active"))
                     {
                         var child1 = childPage[i + 1];
                         string id = child1.SelectSingleNode("./input").Id;
@@ -462,10 +467,10 @@ document.getElementsByClassName("".footer"").remove();
                         WebBrowser.ExecuteScriptAsync(script);
                         break;
                     }
-                   
-                   
-                   
-                   
+
+
+
+
 
                 }
             }

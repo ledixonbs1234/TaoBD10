@@ -265,12 +265,12 @@ namespace TaoBD10.ViewModels
                 SendKeys.SendWait("{F6}");
                 SendKeys.SendWait("{F5}");
                 SendKeys.SendWait("{F5}");
+                SendKeys.SendWait("{LEFT}");
+                SendKeys.SendWait("{LEFT}");
+                SendKeys.SendWait("{LEFT}");
+                SendKeys.SendWait("{LEFT}");
+                SendKeys.SendWait("{LEFT}");
                 SendKeys.SendWait("{DOWN}");
-                SendKeys.SendWait("{LEFT}");
-                SendKeys.SendWait("{LEFT}");
-                SendKeys.SendWait("{LEFT}");
-                SendKeys.SendWait("{LEFT}");
-                SendKeys.SendWait("{LEFT}");
 
                 SendKeys.SendWait(" ");
                 Thread.Sleep(200);

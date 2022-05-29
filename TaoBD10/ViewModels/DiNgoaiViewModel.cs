@@ -190,8 +190,9 @@ namespace TaoBD10.ViewModels
             SendKeys.SendWait("{LEFT}");
             string clipboard = "";
             bool isCheckTui = false;
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < 3; i++)
             {
+                SendKeys.SendWait("{F5}");
                 Thread.Sleep(100);
                 SendKeys.SendWait(" ");
                 Thread.Sleep(500);

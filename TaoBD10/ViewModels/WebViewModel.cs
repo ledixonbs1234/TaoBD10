@@ -222,12 +222,12 @@ document.getElementsByClassName("".footer"").remove();
                         {
                             WebBrowser.BackCommand.Execute(null);
                             WebBrowser.LoadUrl("https://bccp.vnpost.vn/BCCP.aspx?act=Trace&id=" + currentMaHieu);
+                            IsLoadedWeb = false;
                         }
                         else
                         {
                             WebBrowser.ExecuteScriptAsync(scriptLogin);
                         }
-
                     }
                     else if (diachi.IndexOf("mps.vnpost.vn/login") != -1)
                     {

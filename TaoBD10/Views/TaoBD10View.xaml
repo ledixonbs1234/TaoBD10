@@ -285,7 +285,7 @@
 
 
         <Button
-            Margin="5"
+            Margin="5,40"
             Command="{Binding XeXaHoiCommand}"
             Content="Xe Xã Hội" />
     </StackPanel>

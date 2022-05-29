@@ -74,6 +74,7 @@ namespace TaoBD10.ViewModels
 
         private void ClearData()
         {
+            ListHangHoa.Clear();
         }
 
         private string _TextBD;

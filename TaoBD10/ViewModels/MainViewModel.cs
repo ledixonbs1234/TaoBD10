@@ -356,7 +356,7 @@ namespace TaoBD10.ViewModels
                         TestAPIModel apiSoCT;
 
 
-                        if (!string.IsNullOrEmpty(apiMaBuuCuc.Text))
+                        if (!string.IsNullOrEmpty(apiMaBuuCuc.Text)&&apiMaBuuCuc.Text.Length!= 13)
                         {
                             if (apiMaBuuCuc.Text.Length < 6)
                                 continue;
@@ -583,6 +583,16 @@ namespace TaoBD10.ViewModels
                                     else if (textError.IndexOf("an nut ok de bat dau") != -1)
                                     {
                                         Thread.Sleep(100);
+                                        SendKeys.SendWait("{ENTER}");
+                                        isHaveError = true;
+                                    }
+                                    else if (textError.IndexOf("khong tao duoc tui thu") != -1)
+                                    {
+                                        Thread.Sleep(100);
+                                        SendKeys.SendWait("{ENTER}");
+                                        Thread.Sleep(100);
+                                        SendKeys.SendWait("1");
+                                        SendKeys.SendWait("{ENTER}");
                                         SendKeys.SendWait("{ENTER}");
                                         isHaveError = true;
                                     }

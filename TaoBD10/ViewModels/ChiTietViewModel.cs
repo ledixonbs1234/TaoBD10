@@ -501,6 +501,11 @@ namespace TaoBD10.ViewModels
                     SoundManager.playSound(@"Number\khongkhopsolieu.wav");
                     return;
                 }
+                else
+                {
+                    SoundManager.playSound(@"Number\khongkhopsolieu.wav");
+                    return;
+                }
             }
         }
 
@@ -569,7 +574,7 @@ namespace TaoBD10.ViewModels
 
         private void PrintDiNgoai()
         {
-            WindowInfo info = WaitingFindedWindow("thong tin buu gui", 1);
+            WindowInfo info =APIManager.WaitingFindedWindow("thong tin buu gui");
             if (info == null)
                 return;
             List<TestAPIModel> listControl = APIManager.GetListControlText(info.hwnd);
@@ -638,13 +643,13 @@ namespace TaoBD10.ViewModels
             SendKeys.SendWait("{TAB}");
             SendKeys.SendWait(" ");
 
-            WindowInfo infoPrint = WaitingFindedWindow("Print", 3, true);
+            WindowInfo infoPrint = APIManager.WaitingFindedWindow("Print", isExactly: true);
             if (infoPrint == null)
                 return;
 
             SendKeys.SendWait("%(p)");
 
-            WindowInfo infoPrintDocument = WaitingFindedWindow("Print Document", 3, true);
+            WindowInfo infoPrintDocument = APIManager.WaitingFindedWindow("Print Document", isExactly: true);
             if (infoPrintDocument == null)
                 return;
             WindowInfo printD1 = new WindowInfo();
@@ -668,7 +673,7 @@ namespace TaoBD10.ViewModels
             Thread.Sleep(50);
             SendKeys.SendWait(" ");
 
-            WindowInfo infoThongTin = WaitingFindedWindow("thong tin buu gui", 3);
+            WindowInfo infoThongTin = APIManager.WaitingFindedWindow("thong tin buu gui");
             if (infoThongTin == null)
                 return;
             SendKeys.SendWait("{RIGHT}");
@@ -952,47 +957,7 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        private WindowInfo WaitingFindedWindow(string title, int time, bool isExactly = false)
-        {
-            WindowInfo currentWindow = null;
-            string titleWindow = "";
-            time *= 5;
-            if (isExactly)
-            {
-                while (titleWindow != title)
-                {
-                    time--;
-                    if (time <= 0)
-                        return null;
-
-                    Thread.Sleep(200);
-                    currentWindow = APIManager.GetActiveWindowTitle(true);
-                    if (currentWindow == null)
-                        return null;
-
-                    titleWindow = currentWindow.text;
-                }
-            }
-            else
-            {
-                while (titleWindow.IndexOf(title) == -1)
-                {
-                    time--;
-                    if (time <= 0)
-                        return null;
-
-                    Thread.Sleep(200);
-                    currentWindow = APIManager.GetActiveWindowTitle();
-                    if (currentWindow == null)
-                        return null;
-
-                    titleWindow = APIManager.ConvertToUnSign3(currentWindow.text).ToLower();
-                }
-            }
-            Thread.Sleep(100);
-            return currentWindow;
-        }
-
+      
         private void XeXaHoi()
         {
             maBuuCuc = "590100";

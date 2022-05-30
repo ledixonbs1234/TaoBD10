@@ -663,7 +663,7 @@ namespace TaoBD10.ViewModels
                                     }
                                     else if (textError.IndexOf("ma tui nay da duoc them") != -1)
                                     {
-                                        SoundManager.playSound2(@"Number\khongcomatuinaytronghethong.wav");
+                                        SoundManager.playSound2(@"Number\nhanbd8.wav");
                                         SendKeys.SendWait("{ENTER}");
                                         isHaveError = true;
                                     }

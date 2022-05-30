@@ -503,7 +503,7 @@ namespace TaoBD10.ViewModels
                 }
                 else
                 {
-                    SoundManager.playSound(@"Number\tingting.wav");
+                    SoundManager.playSound2(@"Number\tingting.wav");
                     return;
                 }
             }

@@ -477,7 +477,7 @@ namespace TaoBD10.ViewModels
             {
                 string className = APIManager.GetWindowClass(item);
                 string temp = APIManager.GetControlText(item);
-                String text = APIManager.ConvertToUnSign3(temp).ToLower();
+                string text = APIManager.ConvertToUnSign3(temp).ToLower();
 
                 string classDefault = "WindowsForms10.EDIT.app.0.1e6fa8e";
                 if (className == classDefault)
@@ -509,7 +509,6 @@ namespace TaoBD10.ViewModels
             if (tempCheckTinh.IndexOf(currentChuyenThu.CheckTinh) != -1 && tempCheckLoai.IndexOf(currentChuyenThu.CheckLoai) != -1 && tempCheckThuyBo.IndexOf(currentChuyenThu.CheckThuyBo) != -1)
             {
                 SendKeys.SendWait("A{BS}{BS}");
-                Thread.Sleep(700);
                 SoundManager.playSound2(@"\music\" + currentChuyenThu.NameMusic + ".wav");
             }
             else

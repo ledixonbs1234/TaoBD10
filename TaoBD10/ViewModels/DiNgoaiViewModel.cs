@@ -29,9 +29,6 @@ namespace TaoBD10.ViewModels
             timerPrint = new DispatcherTimer();
             timerPrint.Interval = new TimeSpan(0, 0, 0, 0, 50);
             timerPrint.Tick += TimerPrint_Tick;
-            timerDiNgoai = new DispatcherTimer();
-            timerDiNgoai.Interval = new TimeSpan(0, 0, 0, 0, 50);
-            timerDiNgoai.Tick += TimerDiNgoai_Tick; ;
             SelectionCommand = new RelayCommand<DiNgoaiItemModel>(Selection);
             SelectionChiTietCommand = new RelayCommand(SelectionChiTiet);
             bwKhoiTao = new BackgroundWorker();
@@ -95,7 +92,7 @@ namespace TaoBD10.ViewModels
                 return;
             }
 
-            System.Collections.Generic.List<TestAPIModel> childControls = APIManager.GetListControlText(currentWindow.hwnd);
+            List<TestAPIModel> childControls = APIManager.GetListControlText(currentWindow.hwnd);
             //thuc hien lay vi tri nao do
 
             APIManager.SendMessage(childControls[11].Handle, 0x0007, 0, 0);
@@ -193,6 +190,9 @@ namespace TaoBD10.ViewModels
             for (int i = 0; i < 3; i++)
             {
                 SendKeys.SendWait("{F5}");
+                SendKeys.SendWait("{F5}");
+                SendKeys.SendWait("{LEFT}");
+                SendKeys.SendWait("{LEFT}");
                 Thread.Sleep(100);
                 SendKeys.SendWait(" ");
                 Thread.Sleep(500);
@@ -380,7 +380,6 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        private bool isWaitDiNgoai = false;
         BackgroundWorker bwKhoiTao;
 
         public IRelayCommand<DiNgoaiItemModel> SelectionCommand { get; }
@@ -747,136 +746,6 @@ namespace TaoBD10.ViewModels
                     default:
                         diNgoai.TenTinh = "AAA";
                         break;
-                }
-            }
-        }
-
-        private void TimerDiNgoai_Tick(object sender, EventArgs e)
-        {
-            if (isWaitDiNgoai)
-            {
-                return;
-            }
-            var currentWindow = APIManager.GetActiveWindowTitle();
-            if (currentWindow == null)
-            {
-                return;
-            }
-
-            if (currentWindow.text.IndexOf("khoi tao chuyen thu") != -1)
-            {
-                isWaitingTimer = false;
-                isWaitDiNgoai = true;
-                //Form1.instance.infoShare.Text = "Đang chọn bưu cục";
-                Thread.Sleep(100);
-                IntPtr loaiDiNgoai = IntPtr.Zero;
-                //Thread.Sleep(400);
-                var childHandles3 = APIManager.GetAllChildHandles(currentWindow.hwnd);
-                int countCombobox = 0;
-                IntPtr tinh = IntPtr.Zero;
-
-                List<TestAPIModel> list = APIManager.GetListControlText(currentWindow.hwnd);
-                string a = "";
-                foreach (var item in list)
-                {
-                    a += item.Index.ToString() + "|" + item.Text + "|" + item.ClassName + "\n";
-                }
-
-                //int.TryParse(Regex.Match(APIManager.GetControlText(allChild[22]), @"\d+").Value, out numberRead);
-                foreach (var item in childHandles3)
-                {
-                    string className = APIManager.GetWindowClass(item);
-                    string classDefault = "WindowsForms10.COMBOBOX.app.0.1e6fa8e";
-                    //string classDefault = "WindowsForms10.COMBOBOX.app.0.141b42a_r8_ad1";
-                    if (className == classDefault)
-                    {
-                        if (countCombobox == 2)
-                        {
-                            tinh = item;
-                            break;
-                        }
-                        else
-                        if (countCombobox == 1)
-                        {
-                            loaiDiNgoai = item;
-                            //StringBuilder sbBuffer = new StringBuilder();
-
-                            //const int WM_GETTEXT = 0x000D;
-
-                            //APIManager.SendMessageA(item, WM_GETTEXT, IntPtr.Zero, sbBuffer);
-                            //MessageBox.Show(sbBuffer.ToString()) ;
-                        }
-                        countCombobox++;
-                    }
-                }
-
-                APIManager.SendMessage(tinh, 0x0007, 0, 0);
-                Thread.Sleep(50);
-                APIManager.SendMessage(tinh, 0x0007, 0, 0);
-                Thread.Sleep(50);
-                SendKeys.SendWait("{BS}{BS}{BS}{BS}");
-
-                //Thuc hien trong nay
-                if (!string.IsNullOrEmpty(SelectedSimple.MaBuuCuc))
-                {
-                    SendKeys.SendWait(SelectedSimple.MaBuuCuc);
-                    Thread.Sleep(300);
-                    SendKeys.SendWait("{DOWN}");
-                    Thread.Sleep(100);
-                    SendKeys.SendWait("{TAB}");
-                    Thread.Sleep(200);
-
-                    //Nhan F1 ngang cho nay
-                    if (IsAutoF1)
-                    {
-                        SendKeys.SendWait("{F1}");
-                    }
-                }
-                else
-                {
-                    if (string.IsNullOrEmpty(SelectedSimple.MaTinh))
-                    {
-                        //Form1.instance.infoShare.Text = "Chưa có mã Tỉnh";
-
-                        timerDiNgoai.Stop();
-                        isWaitDiNgoai = false;
-                        return;
-                    }
-                    SendKeys.SendWait(SelectedSimple.MaTinh);
-                }
-
-                //////////////////////////////////////////////////////
-
-                timerDiNgoai.Stop();
-                isWaitDiNgoai = false;
-                return;
-            }
-            else
-            {
-                WaitingCloseTimer(timerDiNgoai);
-            }
-        }
-
-        private bool isWaitingTimer = false;
-        private int countTimer = 0;
-
-        private void WaitingCloseTimer(DispatcherTimer timerDiNgoai)
-        {
-            if (!isWaitingTimer)
-            {
-                isWaitingTimer = true;
-                countTimer = 0;
-            }
-            else
-            {
-                countTimer++;
-                if (countTimer >= 200)
-                {
-                    countTimer = 0;
-                    isWaitingTimer = false;
-                    isWaitDiNgoai = false;
-                    APIManager.ShowSnackbar("Close");
-                    timerDiNgoai.Stop();
                 }
             }
         }

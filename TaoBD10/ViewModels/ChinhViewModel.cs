@@ -439,7 +439,6 @@ namespace TaoBD10.ViewModels
                         APIManager.SendMessage(handleTaoTui, 0x0007, 0, 0);
                         inputImulator.Keyboard.TextEntry(currentChuyenThu.TextTui);
                         inputImulator.Keyboard.KeyPress(VirtualKeyCode.TAB);
-                        APIManager.ShowSnackbar(currentChuyenThu.TextTui);
 
                         inputImulator.Keyboard.KeyPress(VirtualKeyCode.F10);
                     }

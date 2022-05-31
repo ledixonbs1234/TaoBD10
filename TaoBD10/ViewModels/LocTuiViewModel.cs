@@ -114,6 +114,7 @@ namespace TaoBD10.ViewModels
                     ListHangHoa.Add(new TuiHangHoa((ListHangHoa.Count + 1).ToString(), TextBD));
 
                     CapNhatCommand.NotifyCanExecuteChanged();
+                    ClearCommand.NotifyCanExecuteChanged();
                     TextBD = "";
                 }
                 else
@@ -128,6 +129,7 @@ namespace TaoBD10.ViewModels
                     }
                     ListHangHoa.Add(new TuiHangHoa((ListHangHoa.Count + 1).ToString(), TextBD));
                     CapNhatCommand.NotifyCanExecuteChanged();
+                    ClearCommand.NotifyCanExecuteChanged();
                     TextBD = "";
                 }
             }

@@ -389,7 +389,7 @@ namespace TaoBD10.ViewModels
         private void BackgroundCreateChuyenThu_DoWork(object sender, DoWorkEventArgs e)
         {
             //thuc hien cong viec trong nay
-            WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "SetFalseKg", Content = "" });
+            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "SetFalseKg", Content = "" });
 
             WindowInfo currentWindow = APIManager.WaitingFindedWindow("khoi tao chuyen thu");
             if (currentWindow == null)

@@ -682,7 +682,7 @@ namespace TaoBD10.ViewModels
                 var frame = st.GetFrame(0);
                 // Get the line number from the stack frame
                 var line = frame.GetFileLineNumber();
-                APIManager.OpenNotePad(ex.Message + '\n' + "loi Line " + line + " Number Line " + GetLineNumber(ex), "loi ");
+                APIManager.OpenNotePad(ex.Message + '\n' + "loi Line " + line + " Number Line " + APIManager.GetLineNumber(ex), "loi ");
                 throw;
             }
 
@@ -690,20 +690,7 @@ namespace TaoBD10.ViewModels
 
         }
 
-        public int GetLineNumber(Exception ex)
-        {
-            var lineNumber = 0;
-            const string lineSearch = ":line ";
-            var index = ex.StackTrace.LastIndexOf(lineSearch);
-            if (index != -1)
-            {
-                var lineNumberText = ex.StackTrace.Substring(index + lineSearch.Length);
-                if (int.TryParse(lineNumberText, out lineNumber))
-                {
-                }
-            }
-            return lineNumber;
-        }
+       
 
         public string CountInBD { get => _CountInBD; set => SetProperty(ref _CountInBD, value); }
         public IRelayCommand<System.Windows.Controls.TabControl> DefaultWindowCommand { get; }

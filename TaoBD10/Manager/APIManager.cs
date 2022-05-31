@@ -23,7 +23,20 @@ namespace TaoBD10.Manager
             string temp = s.Normalize(NormalizationForm.FormD);
             return regex.Replace(temp, String.Empty).Replace('\u0111', 'd').Replace('\u0110', 'D').ToLower();
         }
-
+        public static int GetLineNumber(Exception ex)
+        {
+            var lineNumber = 0;
+            const string lineSearch = ":line ";
+            var index = ex.StackTrace.LastIndexOf(lineSearch);
+            if (index != -1)
+            {
+                var lineNumberText = ex.StackTrace.Substring(index + lineSearch.Length);
+                if (int.TryParse(lineNumberText, out lineNumber))
+                {
+                }
+            }
+            return lineNumber;
+        }
         //private static int WM_LBUTTONDOWN = 0x0201;
         //private static int WM_LBUTTONUP = 0x0202;
 

@@ -49,12 +49,13 @@ namespace TaoBD10.ViewModels
         {
             get
             { return _TextSHTui; }
-            set {
+            set
+            {
                 SetProperty(ref _TextSHTui, value);
-                OnEnterKey(); 
+                OnEnterKey();
             }
         }
-       
+
 
 
         private void OnEnterKey()
@@ -72,11 +73,11 @@ namespace TaoBD10.ViewModels
                 }
                 else
                 {
-                    XacNhanTuis.Add(new XacNhanTuiModel() { Index = 1, SHTui = TextSHTui.Trim().ToUpper(), MaHieuTuis = new ObservableCollection<MaHieuTuiModel>() }) ;
+                    XacNhanTuis.Add(new XacNhanTuiModel() { Index = 1, SHTui = TextSHTui.Trim().ToUpper(), MaHieuTuis = new ObservableCollection<MaHieuTuiModel>() });
                 }
                 TextSHTui = "";
             }
-            
+
         }
 
         public ICommand LayTuiCommand { get; }
@@ -85,18 +86,8 @@ namespace TaoBD10.ViewModels
         void LayTui()
         {
             MoTui();
-            var currentWindow = APIManager.GetActiveWindowTitle();
 
-            while (currentWindow.text.IndexOf("xac nhan chi tiet tui thu") == -1)
-            {
-                currentWindow = APIManager.GetActiveWindowTitle();
-                if (currentWindow == null)
-                {
-                    return;
-                }
-                Thread.Sleep(200);
-            }
-            Thread.Sleep(200);
+            APIManager.WaitingFindedWindow("xac nhan chi tiet tui thu");
             RunGetData();
             //thuc hien ma
             SendKeys.SendWait("{ESC}");
@@ -205,7 +196,7 @@ namespace TaoBD10.ViewModels
                     if (!string.IsNullOrEmpty(clipboard))
                         break;
                 }
-                catch 
+                catch
                 {
                     APIManager.ShowSnackbar("Không copy được");
                 }

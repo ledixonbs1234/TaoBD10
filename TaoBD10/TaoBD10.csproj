@@ -181,6 +181,7 @@
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\TamQuanViewModel.cs" />
     <Compile Include="ViewModels\TaoBDViewModel.cs" />
+    <Compile Include="ViewModels\TuyChonViewModel.cs" />
     <Compile Include="ViewModels\WebViewModel.cs" />
     <Compile Include="ViewModels\XacNhanMHViewModel.cs" />
     <Compile Include="ViewModels\XacNhanTuiViewModel.cs" />
@@ -231,6 +232,9 @@
     </Compile>
     <Compile Include="Views\ThuGonView.xaml.cs">
       <DependentUpon>ThuGonView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TuyChonView.xaml.cs">
+      <DependentUpon>TuyChonView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\WebView.xaml.cs">
       <DependentUpon>WebView.xaml</DependentUpon>
@@ -318,6 +322,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ThuGonView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TuyChonView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -26,7 +26,7 @@
         </Behaviors:EventTrigger>
     </Behaviors:Interaction.Triggers>
     <Grid>
-      
+
         <Button
             Grid.Row="1"
             Grid.Column="0"
@@ -109,7 +109,7 @@
                     </TabItem>
                 </TabControl>
             </TabItem>
-            <TabItem Header="Lọc Túi">
+            <TabItem Header="LỌC TÚI">
                 <view:LocTuiView />
             </TabItem>
             <TabItem Header="KT">
@@ -121,13 +121,16 @@
                     SelectedIndex="{Binding IndexTabKT}"
                     TabStripPlacement="Bottom">
 
-                    <TabItem Header="Hang Ton">
+                    <TabItem Header="Hàng Tồn">
                         <view:KTChuaPhatView />
                     </TabItem>
-                    <TabItem Header="Kiem Tra">
+                    <TabItem Header="Kiểm Tra">
                         <view:KiemTraView />
                     </TabItem>
                 </TabControl>
+            </TabItem>
+            <TabItem Header="TÙY CHỌN">
+                <view:TuyChonView />
             </TabItem>
         </TabControl>
 

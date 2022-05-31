@@ -93,7 +93,7 @@ namespace TaoBD10.ViewModels
                     }
                     else if (m.Content == "GoTaoTui")
                     {
-                        IndexTabTui = 7;
+                        IndexTabTui = 6;
                     }
                     else if (m.Content == "TamQuan")
                     {
@@ -216,17 +216,17 @@ namespace TaoBD10.ViewModels
             Thread.Sleep(100);
             SendKeys.SendWait("{Right}");
             SendKeys.SendWait(" ");
-            //Thread.Sleep(500);
-            //while (printD1.text.IndexOf("sua thong tin bd10") != -1)
-            //{
-            //    printD1 = APIManager.GetActiveWindowTitle();
-            //    Thread.Sleep(100);
-            //}
-            //Thread.Sleep(500);
-            //SendKeys.SendWait("{Enter}");
-            //SendKeys.SendWait("{Esc}");
-            //Thread.Sleep(100);
-            //SendKeys.SendWait("{Enter}");
+            Thread.Sleep(500);
+            while (printD1.text.IndexOf("sua thong tin bd10") != -1)
+            {
+                printD1 = APIManager.GetActiveWindowTitle();
+                Thread.Sleep(100);
+            }
+            Thread.Sleep(500);
+            SendKeys.SendWait("{Enter}");
+            SendKeys.SendWait("{Esc}");
+            Thread.Sleep(100);
+            SendKeys.SendWait("{Enter}");
         }
 
         private void BwPrintBanKe_DoWork(object sender, DoWorkEventArgs e)
@@ -663,15 +663,7 @@ namespace TaoBD10.ViewModels
                                     }
                                     else if (textError.IndexOf("ma tui nay da duoc them") != -1)
                                     {
-                                        SoundManager.playSound2(@"Number\nhanbd8.wav");
-                                        SendKeys.SendWait("{ENTER}");
-                                        isHaveError = true;
-                                    }
-                                    else if (textError.IndexOf("da truyen bd10 di thanh cong") != -1)
-                                    {
-                                        SendKeys.SendWait("{ENTER}");
-                                        SendKeys.SendWait("{ESC}");
-                                        Thread.Sleep(100);
+                                        SoundManager.playSound2(@"Number\khongcomatuinaytronghethong.wav");
                                         SendKeys.SendWait("{ENTER}");
                                         isHaveError = true;
                                     }
@@ -890,7 +882,7 @@ namespace TaoBD10.ViewModels
                 if (MessageQueue == null)
                     MessageQueue = new SnackbarMessageQueue();
                 MessageQueue.Enqueue(content, null, null, null, false, false, TimeSpan.FromSeconds(2));
-                SoundManager.playSound2(@"Number\tingting.wav");
+                SystemSounds.Hand.Play();
             });
 
         }

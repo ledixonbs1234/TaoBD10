@@ -62,6 +62,11 @@ namespace TaoBD10.ViewModels
             }
             else
             {
+                List<BD10InfoModel> listBD10 = new List<BD10InfoModel>
+                {
+                    bd10
+                };
+                WeakReferenceMessenger.Default.Send<BD10Message>(new BD10Message(listBD10));
                 FileManager.SaveData(new BD10InfoModel(NameBD, ListHangHoa.ToList(), DateTime.Now, EnumAll.TimeSet.Sang, "1"));
                 WeakReferenceMessenger.Default.Send<string>("LoadBD10");
                 WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Snackbar", Content = "Đã Tạo BĐ 10 với tên : " + NameBD });

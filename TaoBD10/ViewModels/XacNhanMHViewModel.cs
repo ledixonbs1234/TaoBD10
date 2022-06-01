@@ -49,7 +49,6 @@ namespace TaoBD10.ViewModels
 
         private void BackgroundWorkerXacNhan_DoWork(object sender, DoWorkEventArgs e)
         {
-
             WindowInfo window = APIManager.WaitingFindedWindow("quan ly chuyen thu");
             if (window == null)
             {
@@ -82,6 +81,26 @@ namespace TaoBD10.ViewModels
             SendKeys.SendWait("{ENTER}");
             Thread.Sleep(500);
             SendKeys.SendWait("{F5}");
+            Thread.Sleep(500);
+            SendKeys.SendWait("{F6}");
+            SendKeys.SendWait("{UP}");
+            SendKeys.SendWait("{UP}");
+            SendKeys.SendWait("{UP}");
+            SendKeys.SendWait("{UP}");
+            string dataCopyed =APIManager.GetCopyData();
+            if (string.IsNullOrEmpty(dataCopyed))
+                return;
+            string[] datas = dataCopyed.Split('\t');
+            if(datas[3].Trim() == soCT.Trim() && datas[1].Trim() == buuCucDong.Trim())
+            {
+                SendKeys.SendWait("{F10}");
+                WindowInfo windows = APIManager.WaitingFindedWindow("xem chuyen thu chieu den");
+                if (windows == null)
+                    return;
+                SendKeys.SendWait("A{BS}{BS}");
+                SendKeys.SendWait("{F4}");
+            }
+
         }
 
         private void ChuyenThuDen()
@@ -133,7 +152,7 @@ namespace TaoBD10.ViewModels
                 Is280 = true;
                 //thuc hien go to chuyen  thu
                 XuLyThongTin();
-                if (!APIManager.ThoatToDefault("593280", "quan ly chuyen thu chieu den"))
+                if (!APIManager.ThoatToDefault("593280", "quan ly chuyen thu chieu deen"))
                 {
                     SendKeys.SendWait("1");
                     Thread.Sleep(200);
@@ -150,7 +169,7 @@ namespace TaoBD10.ViewModels
                 Is280 = false;
                 //thuc hien xu ly thong tin can thiet
                 XuLyThongTin();
-                if (!APIManager.ThoatToDefault("593230", "quan ly chuyen thu chieu den"))
+                if (!APIManager.ThoatToDefault("593230", "quan ly chuyen thu chieu deen"))
                 {
                     SendKeys.SendWait("1");
                     Thread.Sleep(200);

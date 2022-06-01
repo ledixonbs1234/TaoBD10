@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Media;
 using System.Threading;
@@ -85,119 +86,161 @@ namespace TaoBD10.ViewModels
 
         private void BwPrintDiNgoai_DoWork(object sender, DoWorkEventArgs e)
         {
-            WindowInfo currentWindow = APIManager.WaitingFindedWindow("khoi tao chuyen thu");
-            if (currentWindow == null)
+            try
             {
-                APIManager.ShowSnackbar("Không tìm thấy window khởi tạo chuyến thư");
-                return;
-            }
-
-            List<TestAPIModel> childControls = APIManager.GetListControlText(currentWindow.hwnd);
-            //thuc hien lay vi tri nao do
-
-            APIManager.SendMessage(childControls[11].Handle, 0x0007, 0, 0);
-            APIManager.SendMessage(childControls[11].Handle, 0x0007, 0, 0);
-            string temp = "";
-            string charCodeFirst = SelectedSimple.Code[0].ToString().ToLower();
-
-            if (charCodeFirst == "c")
-            {
-                temp = "Bưu kiện - Parcel";
-                downTaoTui = 2;
-            }
-            else if (charCodeFirst == "e")
-            {
-                temp = "EMS - Chuyển phát nhanh - Express Mail Service";
-                downTaoTui = 6;
-            }
-            else if (charCodeFirst == "p")
-            {
-                temp = "Logistic";
-                downTaoTui = 4;
-            }
-
-            SendKeys.SendWait("{BS}" + temp + "{TAB}");
-            Thread.Sleep(100);
-            SendKeys.SendWait("{F10}");
-
-            currentWindow = APIManager.WaitingFindedWindow("tao tui");
-            if (currentWindow == null)
-            {
-                APIManager.ShowSnackbar("Không tìm thấy window tao tui");
-                return;
-            }
-
-            Thread.Sleep(100);
-            SendKeys.SendWait("{UP}{UP}{UP}{UP}{UP}");
-            for (int i = 0; i < downTaoTui; i++)
-            {
-                SendKeys.SendWait("{DOWN}");
-            }
-            SendKeys.SendWait("{F10}");
-            SendKeys.SendWait("A{BS}{BS}");
-
-            currentWindow = APIManager.WaitingFindedWindow("dong chuyen thu");
-
-            if (currentWindow == null)
-            {
-                APIManager.ShowSnackbar("Không tìm thấy window đóng chuyến thư");
-                return;
-            }
-
-            childControls = APIManager.GetListControlText(currentWindow.hwnd);
-            TestAPIModel tinhControl = childControls.Where(m => m.ClassName.IndexOf("WindowsForms10.EDIT") != -1).ToList()[2];
-
-            if (!string.IsNullOrEmpty(tinhControl.Text))
-            {
-                if (SelectedSimple.MaBuuCuc.ToUpper() != tinhControl.Text.Substring(0, 6).ToUpper())
+                WindowInfo currentWindow = APIManager.WaitingFindedWindow("khoi tao chuyen thu");
+                if (currentWindow == null)
                 {
-                    APIManager.ShowSnackbar("Không đúng tỉnh rồi");
+                    APIManager.ShowSnackbar("Không tìm thấy window khởi tạo chuyến thư");
                     return;
                 }
 
-            }
-            SendKeys.SendWait("{F5}");
+                List<TestAPIModel> childControls = APIManager.GetListControlText(currentWindow.hwnd);
+                //thuc hien lay vi tri nao do
 
+                APIManager.SendMessage(childControls[11].Handle, 0x0007, 0, 0);
+                APIManager.SendMessage(childControls[11].Handle, 0x0007, 0, 0);
+                string temp = "";
+                string charCodeFirst = SelectedSimple.Code[0].ToString().ToLower();
 
-            SendKeys.SendWait("{DOWN}");
-            SendKeys.SendWait("{LEFT}");
-            SendKeys.SendWait("{LEFT}");
-            SendKeys.SendWait("{LEFT}");
-            SendKeys.SendWait("{LEFT}");
-            SendKeys.SendWait("{LEFT}");
-            SendKeys.SendWait("{RIGHT}");
-            SendKeys.SendWait("{RIGHT}");
-            SendKeys.SendWait("{RIGHT}");
-            SendKeys.SendWait("{RIGHT}");
-            SendKeys.SendWait(" ");
-            Thread.Sleep(50);
-            SendKeys.SendWait("{F6}");
-            SendKeys.SendWait("{F6}");
-            Thread.Sleep(200);
-            SendKeys.SendWait(SelectedSimple.Code);
-            SendKeys.SendWait("{ENTER}");
-            Thread.Sleep(200);
-            SendKeys.SendWait("{F5}");
-            SendKeys.SendWait("{LEFT}");
-            SendKeys.SendWait("{LEFT}");
-            SendKeys.SendWait("{LEFT}");
-            SendKeys.SendWait("{LEFT}");
-            SendKeys.SendWait("{LEFT}");
-            SendKeys.SendWait("{LEFT}");
-            SendKeys.SendWait("{LEFT}");
-            string clipboard = "";
-            bool isCheckTui = false;
-            for (int i = 0; i < 3; i++)
-            {
-                SendKeys.SendWait("{F5}");
-                SendKeys.SendWait("{F5}");
-                SendKeys.SendWait("{LEFT}");
-                SendKeys.SendWait("{LEFT}");
+                if (charCodeFirst == "c")
+                {
+                    temp = "Bưu kiện - Parcel";
+                    downTaoTui = 2;
+                }
+                else if (charCodeFirst == "e")
+                {
+                    temp = "EMS - Chuyển phát nhanh - Express Mail Service";
+                    downTaoTui = 6;
+                }
+                else if (charCodeFirst == "p")
+                {
+                    temp = "Logistic";
+                    downTaoTui = 4;
+                }
+
+                SendKeys.SendWait("{BS}" + temp + "{TAB}");
                 Thread.Sleep(100);
-                SendKeys.SendWait(" ");
-                Thread.Sleep(500);
-                //Kiem tra Da dong tui chua
+                SendKeys.SendWait("{F10}");
 
+                currentWindow = APIManager.WaitingFindedWindow("tao tui");
+                if (currentWindow == null)
+                {
+                    APIManager.ShowSnackbar("Không tìm thấy window tao tui");
+                    return;
+                }
+
+                Thread.Sleep(100);
+                SendKeys.SendWait("{UP}{UP}{UP}{UP}{UP}");
+                for (int i = 0; i < downTaoTui; i++)
+                {
+                    SendKeys.SendWait("{DOWN}");
+                }
+                SendKeys.SendWait("{F10}");
+                SendKeys.SendWait("A{BS}{BS}");
+
+                currentWindow = APIManager.WaitingFindedWindow("dong chuyen thu");
+
+                if (currentWindow == null)
+                {
+                    APIManager.ShowSnackbar("Không tìm thấy window đóng chuyến thư");
+                    return;
+                }
+
+                childControls = APIManager.GetListControlText(currentWindow.hwnd);
+                TestAPIModel tinhControl = childControls.Where(m => m.ClassName.IndexOf("WindowsForms10.EDIT") != -1).ToList()[2];
+
+                if (!string.IsNullOrEmpty(tinhControl.Text))
+                {
+                    if (SelectedSimple.MaBuuCuc.ToUpper() != tinhControl.Text.Substring(0, 6).ToUpper())
+                    {
+                        APIManager.ShowSnackbar("Không đúng tỉnh rồi");
+                        return;
+                    }
+
+                }
+                SendKeys.SendWait("{F5}");
+
+
+                SendKeys.SendWait("{DOWN}");
+                SendKeys.SendWait("{LEFT}");
+                SendKeys.SendWait("{LEFT}");
+                SendKeys.SendWait("{LEFT}");
+                SendKeys.SendWait("{LEFT}");
+                SendKeys.SendWait("{LEFT}");
+                SendKeys.SendWait("{RIGHT}");
+                SendKeys.SendWait("{RIGHT}");
+                SendKeys.SendWait("{RIGHT}");
+                SendKeys.SendWait("{RIGHT}");
+                SendKeys.SendWait(" ");
+                Thread.Sleep(50);
+                SendKeys.SendWait("{F6}");
+                SendKeys.SendWait("{F6}");
+                Thread.Sleep(200);
+                SendKeys.SendWait(SelectedSimple.Code);
+                SendKeys.SendWait("{ENTER}");
+                Thread.Sleep(200);
+                SendKeys.SendWait("{F5}");
+                SendKeys.SendWait("{LEFT}");
+                SendKeys.SendWait("{LEFT}");
+                SendKeys.SendWait("{LEFT}");
+                SendKeys.SendWait("{LEFT}");
+                SendKeys.SendWait("{LEFT}");
+                SendKeys.SendWait("{LEFT}");
+                SendKeys.SendWait("{LEFT}");
+                string clipboard = "";
+                bool isCheckTui = false;
+                for (int i = 0; i < 3; i++)
+                {
+                    SendKeys.SendWait("{F5}");
+                    SendKeys.SendWait("{F5}");
+                    SendKeys.SendWait("{LEFT}");
+                    SendKeys.SendWait("{LEFT}");
+                    Thread.Sleep(100);
+                    SendKeys.SendWait(" ");
+                    Thread.Sleep(500);
+                    //Kiem tra Da dong tui chua
+
+                    clipboard = APIManager.GetCopyData();
+
+                    if (string.IsNullOrEmpty(clipboard))
+                    {
+                        APIManager.ShowSnackbar("Khong copy duoc");
+                        return;
+                    }
+
+                    if (clipboard.IndexOf("Selected") != -1)
+                    {
+                        isCheckTui = true;
+                        break;
+                    }
+                }
+                if (!isCheckTui)
+                {
+                    APIManager.ShowSnackbar("Chưa đóng túi được");
+                    return;
+                }
+
+                SendKeys.SendWait("{F6}");
+                Thread.Sleep(200);
+                SendKeys.SendWait("{F7}");
+
+                currentWindow = APIManager.WaitingFindedWindow("in an pham");
+
+                if (currentWindow == null)
+                {
+                    APIManager.ShowSnackbar("Không tìm thấy window in ấn phẩm");
+                    return;
+                }
+
+                APIManager.SetZ420Print();
+
+                SendKeys.SendWait("{TAB}");
+                Thread.Sleep(100);
+                SendKeys.SendWait("{TAB}");
+                Thread.Sleep(100);
+
+                SendKeys.SendWait("^(a)");
                 clipboard = APIManager.GetCopyData();
 
                 if (string.IsNullOrEmpty(clipboard))
@@ -205,137 +248,110 @@ namespace TaoBD10.ViewModels
                     APIManager.ShowSnackbar("Khong copy duoc");
                     return;
                 }
-
-                if (clipboard.IndexOf("Selected") != -1)
+                if (clipboard.IndexOf("BĐ8") == -1)
                 {
-                    isCheckTui = true;
-                    break;
+                    APIManager.ShowSnackbar("Không tìm thấy BĐ8");
+                    return;
                 }
-            }
-            if (!isCheckTui)
-            {
-                APIManager.ShowSnackbar("Chưa đóng túi được");
-                return;
-            }
 
-            SendKeys.SendWait("{F6}");
-            Thread.Sleep(200);
-            SendKeys.SendWait("{F7}");
-
-            currentWindow = APIManager.WaitingFindedWindow("in an pham");
-
-            if (currentWindow == null)
-            {
-                APIManager.ShowSnackbar("Không tìm thấy window in ấn phẩm");
-                return;
-            }
-
-            APIManager.SetZ420Print();
-
-            SendKeys.SendWait("{TAB}");
-            Thread.Sleep(100);
-            SendKeys.SendWait("{TAB}");
-            Thread.Sleep(100);
-
-            SendKeys.SendWait("^(a)");
-            clipboard = APIManager.GetCopyData();
-
-            if (string.IsNullOrEmpty(clipboard))
-            {
-                APIManager.ShowSnackbar("Khong copy duoc");
-                return;
-            }
-            if (clipboard.IndexOf("BĐ8") == -1)
-            {
-                APIManager.ShowSnackbar("Không tìm thấy BĐ8");
-                return;
-            }
-
-            foreach (string item in clipboard.Split('\n'))
-            {
-                string[] datas1 = item.Split('\t');
-                if (datas1[1].IndexOf("BĐ8") != -1)
+                foreach (string item in clipboard.Split('\n'))
                 {
-                    SendKeys.SendWait(" ");
-                    break;
+                    string[] datas1 = item.Split('\t');
+                    if (datas1[1].IndexOf("BĐ8") != -1)
+                    {
+                        SendKeys.SendWait(" ");
+                        break;
+                    }
+                    if (datas1[4].IndexOf("BĐ8") != -1)
+                    {
+                        SendKeys.SendWait("{RIGHT}");
+                        Thread.Sleep(50);
+                        SendKeys.SendWait("{RIGHT}");
+                        Thread.Sleep(50);
+                        SendKeys.SendWait("{RIGHT}");
+                        Thread.Sleep(50);
+                        SendKeys.SendWait(" ");
+                        Thread.Sleep(100);
+
+                        break;
+                    }
+                    SendKeys.SendWait("{DOWN}");
                 }
-                if (datas1[4].IndexOf("BĐ8") != -1)
+
+                childControls = APIManager.GetListControlText(currentWindow.hwnd);
+                TestAPIModel thoatControl = childControls.FirstOrDefault(m => m.ClassName.IndexOf("WindowsForms10.BUTTON.app") != -1);
+                if (thoatControl == null)
                 {
-                    SendKeys.SendWait("{RIGHT}");
-                    Thread.Sleep(50);
-                    SendKeys.SendWait("{RIGHT}");
-                    Thread.Sleep(50);
-                    SendKeys.SendWait("{RIGHT}");
-                    Thread.Sleep(50);
-                    SendKeys.SendWait(" ");
-                    Thread.Sleep(100);
-
-                    break;
+                    APIManager.ShowSnackbar("Không tìm thấy button thoát");
+                    return;
                 }
-                SendKeys.SendWait("{DOWN}");
-            }
 
-            childControls = APIManager.GetListControlText(currentWindow.hwnd);
-            TestAPIModel thoatControl = childControls.FirstOrDefault(m => m.ClassName.IndexOf("WindowsForms10.BUTTON.app") != -1);
-            if (thoatControl == null)
+                SendKeys.SendWait("{F10}");
+                APIManager.SendMessage(thoatControl.Handle, 0x00F5, 0, 0);
+
+                currentWindow = APIManager.WaitingFindedWindow("dong chuyen thu");
+
+                if (currentWindow == null)
+                {
+                    APIManager.ShowSnackbar("Không tìm thấy window đóng chuyến thư");
+                    return;
+                }
+
+
+                SendKeys.SendWait("{F10}");
+                Thread.Sleep(200);
+                SendKeys.SendWait("{F10}");
+                Thread.Sleep(200);
+                SendKeys.SendWait("{ENTER}");
+
+                // coi chung loi cho nay
+                currentWindow = APIManager.WaitingFindedWindow("khoi tao chuyen thu");
+                if (currentWindow == null)
+                {
+                    APIManager.ShowSnackbar("Không tìm thấy window khởi tạo chuyến thư");
+                    return;
+                }
+
+
+                if (DiNgoais.Count == 0)
+                {
+                    APIManager.ShowSnackbar("Không có dữ liệu");
+                    return;
+                }
+                //lay vi tri tiep theo
+                //get index
+                int index = DiNgoais.IndexOf(SelectedSimple);
+                if (index == -1)
+                {
+                    APIManager.ShowSnackbar("Chưa chọn mã hiệu");
+                    return;
+                }
+
+                if (index > DiNgoais.Count - 1)
+                {
+
+                    APIManager.ShowSnackbar("Đã tới vị trí cuối cùng");
+                    //txtInfo.Text = "Đã tới vị trí cuối cùng";
+                    return;
+                }
+
+                //////xem thu no co chay cai gi khong
+                index++;
+                SelectedSimple = DiNgoais[index];
+                Selection(SelectedSimple);
+            }
+            catch (Exception ex)
             {
-                APIManager.ShowSnackbar("Không tìm thấy button thoát");
-                return;
+                // Get stack trace for the exception with source file information
+                var st = new StackTrace(ex, true);
+                // Get the top stack frame
+                var frame = st.GetFrame(0);
+                // Get the line number from the stack frame
+                var line = frame.GetFileLineNumber();
+                APIManager.OpenNotePad(ex.Message + '\n' + "loi Line " + line + " Number Line " + APIManager.GetLineNumber(ex), "loi ");
+                throw;
             }
 
-            SendKeys.SendWait("{F10}");
-            APIManager.SendMessage(thoatControl.Handle, 0x00F5, 0, 0);
-
-            currentWindow = APIManager.WaitingFindedWindow("dong chuyen thu");
-
-            if (currentWindow == null)
-            {
-                APIManager.ShowSnackbar("Không tìm thấy window đóng chuyến thư");
-                return;
-            }
-
-
-            SendKeys.SendWait("{F10}");
-            Thread.Sleep(200);
-            SendKeys.SendWait("{F10}");
-            Thread.Sleep(200);
-            SendKeys.SendWait("{ENTER}");
-
-            // coi chung loi cho nay
-            currentWindow = APIManager.WaitingFindedWindow("khoi tao chuyen thu");
-            if (currentWindow == null)
-            {
-                APIManager.ShowSnackbar("Không tìm thấy window khởi tạo chuyến thư");
-                return;
-            }
-
-
-            if (DiNgoais.Count == 0)
-            {
-                APIManager.ShowSnackbar("Không có dữ liệu");
-                return;
-            }
-            //lay vi tri tiep theo
-            //get index
-            int index = DiNgoais.IndexOf(SelectedSimple);
-            if (index == -1)
-            {
-                APIManager.ShowSnackbar("Chưa chọn mã hiệu");
-                return;
-            }
-
-            if (index > DiNgoais.Count - 1)
-            {
-
-                APIManager.ShowSnackbar("Đã tới vị trí cuối cùng");
-                //txtInfo.Text = "Đã tới vị trí cuối cùng";
-                return;
-            }
-
-            //////xem thu no co chay cai gi khong
-            index++;
-            SelectedSimple = DiNgoais[index];
-            Selection(SelectedSimple);
         }
 
         private void BwKhoiTao_DoWork(object sender, DoWorkEventArgs e)

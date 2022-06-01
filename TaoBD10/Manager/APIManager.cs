@@ -55,7 +55,7 @@ namespace TaoBD10.Manager
             {
                 SendKeys.SendWait("^(c)");
                 Thread.Sleep(50);
-                
+
                 thread.Start();
                 thread.Join(); //Wait for the thread to end
                 if (!string.IsNullOrEmpty(clipboard))
@@ -317,73 +317,88 @@ namespace TaoBD10.Manager
         /// <returns></returns>
         public static bool ThoatToDefault(string maBuuCuc, string nameHandleChildToHangOn)
         {
-            Process[] processes = Process.GetProcesses();
-            IntPtr windowHandle = IntPtr.Zero;
-            bool isHaveProgram = false;
-
-            foreach (Process p in processes)
+            try
             {
-                if (p.ProcessName.IndexOf("Ctin") != -1)
+                Process[] processes = Process.GetProcesses();
+                IntPtr windowHandle = IntPtr.Zero;
+                bool isHaveProgram = false;
+
+                foreach (Process p in processes)
                 {
-                    windowHandle = p.MainWindowHandle;
-                    List<IntPtr> handles = GetAllChildHandles(windowHandle);
-                    foreach (IntPtr item1 in handles)
+                    if (p.ProcessName.IndexOf("Ctin") != -1)
                     {
-                        string title = GetControlText(item1);
-                        if (title.ToString().IndexOf(maBuuCuc) != -1)
+                        windowHandle = p.MainWindowHandle;
+                        List<IntPtr> handles = GetAllChildHandles(windowHandle);
+                        foreach (IntPtr item1 in handles)
                         {
-                            isHaveProgram = true;
+                            string title = GetControlText(item1);
+                            if (title.ToString().IndexOf(maBuuCuc) != -1)
+                            {
+                                isHaveProgram = true;
+                                break;
+                            }
+                        }
+                        if (isHaveProgram)
                             break;
-                        }
                     }
-                    if (isHaveProgram)
-                        break;
                 }
-            }
-            if (isHaveProgram)
-            {
-                //APIManager.SetForegroundWindow(p.MainWindowHandle);
-                IntPtr last = GetLastActivePopup(windowHandle);
-                if (last != windowHandle)
+                if (isHaveProgram)
                 {
-                    SetForegroundWindow(last);
-
-                    //Kiem tra handle name trong nay thu
-                    WindowInfo currentWindow = GetActiveWindowTitle();
-
-                    //thuc hien xoa tuan tu cho toi window main handle
-                    while (currentWindow.hwnd != windowHandle)
+                    //APIManager.SetForegroundWindow(p.MainWindowHandle);
+                    IntPtr last = GetLastActivePopup(windowHandle);
+                    if (last != windowHandle)
                     {
-                        currentWindow = APIManager.GetActiveWindowTitle();
-                        string textKoDau = ConvertToUnSign3(currentWindow.text);
-                        if (textKoDau.IndexOf(nameHandleChildToHangOn) != -1)
-                        {
-                            return true;
-                        }
-                        last = GetLastActivePopup(windowHandle);
                         SetForegroundWindow(last);
 
-                        if (last != windowHandle)
+                        //Kiem tra handle name trong nay thu
+                        WindowInfo currentWindow = GetActiveWindowTitle();
+
+                        //thuc hien xoa tuan tu cho toi window main handle
+                        while (currentWindow.hwnd != windowHandle)
                         {
-                            SendMessage(last, WM_CLOSE, 0, 0);
+                            currentWindow = APIManager.GetActiveWindowTitle();
+                            string textKoDau = ConvertToUnSign3(currentWindow.text);
+                            if (textKoDau.IndexOf(nameHandleChildToHangOn) != -1)
+                            {
+                                return true;
+                            }
+                            last = GetLastActivePopup(windowHandle);
+                            SetForegroundWindow(last);
+
+                            if (last != windowHandle)
+                            {
+                                SendMessage(last, WM_CLOSE, 0, 0);
+                            }
+                            Thread.Sleep(100);
                         }
-                        Thread.Sleep(100);
                     }
+                    else
+                    {
+                        APIManager.SetForegroundWindow(last);
+                    }
+                    Thread.Sleep(300);
+                    SendKeys.SendWait("{F7}");
+                    Thread.Sleep(300);
+
+                    return false;
                 }
                 else
                 {
-                    APIManager.SetForegroundWindow(last);
+                    return false;
                 }
-                Thread.Sleep(300);
-                SendKeys.SendWait("{F7}");
-                Thread.Sleep(300);
-
-                return false;
             }
-            else
+            catch (Exception ex)
             {
-                return false;
+                // Get stack trace for the exception with source file information
+                var st = new StackTrace(ex, true);
+                // Get the top stack frame
+                var frame = st.GetFrame(0);
+                // Get the line number from the stack frame
+                var line = frame.GetFileLineNumber();
+                APIManager.OpenNotePad(ex.Message + '\n' + "loi Line " + line + " Number Line " + APIManager.GetLineNumber(ex), "loi ");
+                throw;
             }
+
         }
 
         [DllImport("user32")]

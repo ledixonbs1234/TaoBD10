@@ -305,6 +305,7 @@ namespace TaoBD10.ViewModels
             //SendKeys.SendWait(" ");
         }
 
+        bool isReadDuRoi = false;
         private void BackgroundWorkerRead_DoWork(object sender, DoWorkEventArgs e)
         {
 
@@ -448,12 +449,26 @@ namespace TaoBD10.ViewModels
 
                         List<TestAPIModel> listWindowStatic = listControl.Where(m => m.ClassName.IndexOf("WindowsForms10.STATIC.app") != -1).ToList();
 
-                        if (listWindowStatic.Count < 9)
+                        if (listWindowStatic.Count < 15)
                         {
                             continue;
                         }
                         TestAPIModel apiNumber = listWindowStatic[8];
                         int.TryParse(Regex.Match(apiNumber.Text, @"\d+").Value, out numberRead);
+                        TestAPIModel tongSoTui = listWindowStatic[15];
+                        int.TryParse(Regex.Match(apiNumber.Text, @"\d+").Value, out numberRead);
+                        if (apiNumber.Text.Trim() == tongSoTui.Text.Trim())
+                        {
+                            if (!isReadDuRoi)
+                            {
+                                isReadDuRoi = true;
+                                SoundManager.playSound2(@"Number\tingting.wav");
+                            }
+                        }
+                        else
+                        {
+                            isReadDuRoi = false;
+                        }
                     }
                     else if (activeWindow.text.IndexOf("lap bd10 theo duong thu") != -1)
                     {

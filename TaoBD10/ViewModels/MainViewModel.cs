@@ -663,7 +663,15 @@ namespace TaoBD10.ViewModels
                                     }
                                     else if (textError.IndexOf("ma tui nay da duoc them") != -1)
                                     {
-                                        SoundManager.playSound2(@"Number\khongcomatuinaytronghethong.wav");
+                                        SoundManager.playSound2(@"Number\nhanbd8.wav");
+                                        SendKeys.SendWait("{ENTER}");
+                                        isHaveError = true;
+                                    }
+                                    else if (textError.IndexOf("da truyen bd10 di thanh cong") != -1)
+                                    {
+                                        SendKeys.SendWait("{ENTER}");
+                                        SendKeys.SendWait("{ESC}");
+                                        Thread.Sleep(100);
                                         SendKeys.SendWait("{ENTER}");
                                         isHaveError = true;
                                     }

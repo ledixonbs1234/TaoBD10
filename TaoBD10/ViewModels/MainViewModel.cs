@@ -356,7 +356,7 @@ namespace TaoBD10.ViewModels
                         TestAPIModel apiSoCT;
 
 
-                        if (!string.IsNullOrEmpty(apiMaBuuCuc.Text)&&apiMaBuuCuc.Text.Length!= 13)
+                        if (!string.IsNullOrEmpty(apiMaBuuCuc.Text) && apiMaBuuCuc.Text.Length != 13)
                         {
                             if (apiMaBuuCuc.Text.Length < 6)
                                 continue;
@@ -698,7 +698,7 @@ namespace TaoBD10.ViewModels
 
         }
 
-       
+
 
         public string CountInBD { get => _CountInBD; set => SetProperty(ref _CountInBD, value); }
         public IRelayCommand<System.Windows.Controls.TabControl> DefaultWindowCommand { get; }

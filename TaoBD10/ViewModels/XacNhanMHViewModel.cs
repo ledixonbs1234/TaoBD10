@@ -90,7 +90,15 @@ namespace TaoBD10.ViewModels
             string dataCopyed =APIManager.GetCopyData();
             if (string.IsNullOrEmpty(dataCopyed))
                 return;
-            string[] datas = dataCopyed.Split('\t');
+
+            List<string> listTemp = dataCopyed.Split('\n').ToList();
+            if (listTemp[0].IndexOf("STT") != -1)
+            {
+                listTemp.RemoveAt(0);
+            }
+
+            string[] datas = listTemp[0].Split('\t');
+            
             if(datas[3].Trim() == soCT.Trim() && datas[1].Trim() == buuCucDong.Trim())
             {
                 SendKeys.SendWait("{F10}");
@@ -152,7 +160,7 @@ namespace TaoBD10.ViewModels
                 Is280 = true;
                 //thuc hien go to chuyen  thu
                 XuLyThongTin();
-                if (!APIManager.ThoatToDefault("593280", "quan ly chuyen thu chieu deen"))
+                if (!APIManager.ThoatToDefault("593280", "quan ly chuyen thu chieu den"))
                 {
                     SendKeys.SendWait("1");
                     Thread.Sleep(200);
@@ -169,7 +177,7 @@ namespace TaoBD10.ViewModels
                 Is280 = false;
                 //thuc hien xu ly thong tin can thiet
                 XuLyThongTin();
-                if (!APIManager.ThoatToDefault("593230", "quan ly chuyen thu chieu deen"))
+                if (!APIManager.ThoatToDefault("593230", "quan ly chuyen thu chieu den"))
                 {
                     SendKeys.SendWait("1");
                     Thread.Sleep(200);

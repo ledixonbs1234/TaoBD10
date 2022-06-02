@@ -110,6 +110,16 @@ namespace TaoBD10.ViewModels
             SendKeys.SendWait("{F3}");
             SendKeys.SendWait(SelectedXacNhan.SHTui);
             SendKeys.SendWait("{ENTER}");
+            WindowInfo window = APIManager.WaitingFindedWindow("xac nhan chi tiet tui thu");
+            if(SelectedXacNhan.TuiHave == SelectedXacNhan.MaHieuTuis.Count)
+            {
+                SendKeys.SendWait("{TAB}");
+                Thread.Sleep(50);
+                SendKeys.SendWait("{TAB}");
+                Thread.Sleep(50);
+                SendKeys.SendWait("^(a)");
+            }
+            
         }
 
         private void OnSelectedTui()

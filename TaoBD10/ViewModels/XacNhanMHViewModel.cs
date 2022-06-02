@@ -158,7 +158,7 @@ namespace TaoBD10.ViewModels
                 Is280 = true;
                 //thuc hien go to chuyen  thu
                 XuLyThongTin();
-                if (!APIManager.ThoatToDefault("593280", "quan ly chuyen thu chieu den"))
+                if (!APIManager.ThoatToDefault("593280", "quan ly chuyen thu chieu deen"))
                 {
                     SendKeys.SendWait("1");
                     Thread.Sleep(200);
@@ -175,7 +175,7 @@ namespace TaoBD10.ViewModels
                 Is280 = false;
                 //thuc hien xu ly thong tin can thiet
                 XuLyThongTin();
-                if (!APIManager.ThoatToDefault("593230", "quan ly chuyen thu chieu den"))
+                if (!APIManager.ThoatToDefault("593230", "quan ly chuyen thu chieu deen"))
                 {
                     SendKeys.SendWait("1");
                     Thread.Sleep(200);

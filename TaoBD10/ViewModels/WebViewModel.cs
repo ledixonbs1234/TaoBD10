@@ -221,6 +221,7 @@ document.getElementsByClassName("".footer"").remove();
                         if (isFirstLoginSuccess)
                         {
                             WebBrowser.BackCommand.Execute(null);
+                            isFirstLoginSuccess = false;
                             WebBrowser.LoadUrl("https://bccp.vnpost.vn/BCCP.aspx?act=Trace&id=" + currentMaHieu);
                             IsLoadedWeb = false;
                         }

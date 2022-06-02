@@ -1268,30 +1268,6 @@ namespace TaoBD10.ViewModels
                     break;
                 }
             }
-            //            if (chrWeb.IsBrowserInitialized)
-            //            {
-            //                chrWeb.Stop();
-            //            }
-            //            else
-            //            {
-            //                NavigateToWebControl();
-            //                return;
-            //            }
-            //            for (int i = 0; i < diNgoaiViewModel.diNgoais.Count; i++)
-            //            {
-            //                if (string.IsNullOrEmpty(diNgoaiViewModel.diNgoais[i].MaTinh))
-            //                {
-            //                    iCurrentItemDiNgoai = i;
-
-            //                    string script = @"
-            //                document.getElementById('MainContent_ctl00_txtID').value='" + diNgoaiViewModel.diNgoais[i].Code + @"';
-            //				document.getElementById('MainContent_ctl00_btnView').click();
-            //";
-            //                    txtInfo.Text = "Web Loadding " + iCurrentItemDiNgoai.ToString();
-            //                    chrWeb.ExecuteScriptAsync(script);
-            //                    break;
-            //                }
-            //            }
         }
 
         private void AddRange()

@@ -320,7 +320,7 @@ namespace TaoBD10.ViewModels
             //xu ly ct
             string[] temps = XacNhanMH.TTCT.ToLower().Split('/');
             string loaiCT = temps[0].Replace("chuyến thư ", "");
-            if (loaiCT == "r")
+            if (loaiCT.ToLower() == "r")
             {
                 isR = true;
             }

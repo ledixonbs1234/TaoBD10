@@ -162,9 +162,6 @@ namespace TaoBD10.ViewModels
                         }
                         TamQuans.Add(new TamQuanModel(TamQuans.Count + 1, code.ToUpper()));
 
-                        SoundManager.playSound(@"Number\tamquan.wav");
-                        Thread.Sleep(500);
-
                         SoundManager.playSound(@"Number\" + TamQuans.Count.ToString() + ".wav");
                     }
                 }

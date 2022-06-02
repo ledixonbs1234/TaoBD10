@@ -46,6 +46,8 @@ namespace TaoBD10.ViewModels
             XoaDiNgoaiCommand = new RelayCommand(XoaDiNgoai);
             SortCommand = new RelayCommand(Sort);
             TestCommand = new RelayCommand(Test);
+            StopDiNgoaiCommand = new RelayCommand(StopDiNgoai);
+
 
             AddAddressCommand = new RelayCommand(AddAddress);
             WeakReferenceMessenger.Default.Register<WebContentModel>(this, (r, m) =>
@@ -157,7 +159,6 @@ namespace TaoBD10.ViewModels
                         APIManager.ShowSnackbar("Không đúng tỉnh rồi");
                         return;
                     }
-
                 }
                 SendKeys.SendWait("{F5}");
 
@@ -348,7 +349,7 @@ namespace TaoBD10.ViewModels
                 var frame = st.GetFrame(0);
                 // Get the line number from the stack frame
                 var line = frame.GetFileLineNumber();
-                APIManager.OpenNotePad(ex.Message + '\n' + "loi Line " + line + " Number Line " + APIManager.GetLineNumber(ex), "loi ");
+                APIManager.OpenNotePad(ex.Message + '\n' + "loi Line  " + line + " DiNgoaiViewModel Number Line " + APIManager.GetLineNumber(ex), "loi ");
                 throw;
             }
 
@@ -770,6 +771,15 @@ namespace TaoBD10.ViewModels
         private StateDiNgoai stateDiNgoai = StateDiNgoai.KhoiTao;
         private bool isRunFirst = false;
         private int downTaoTui = 0;
+
+        public ICommand StopDiNgoaiCommand { get; }
+
+       
+        void StopDiNgoai()
+        {
+            bwPrintDiNgoai.CancelAsync();
+        }
+
 
         private void TimerPrint_Tick(object sender, EventArgs e)
         {

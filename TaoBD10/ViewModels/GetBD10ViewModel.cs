@@ -274,7 +274,7 @@ namespace TaoBD10.ViewModels
                 tuiTempHangHoa = new List<TuiHangHoa>();
                 while (countSame <= 3)
                 {
-                    string textClip="";
+                    string textClip = "";
 
                     for (int i = 0; i < 3; i++)
                     {
@@ -378,6 +378,7 @@ namespace TaoBD10.ViewModels
                     SendKeys.SendWait("{ESC}");
                 isWaitingGetData = false;
                 timer.Stop();
+                SoundManager.playSound2(@"Number\tingting.wav");
                 WeakReferenceMessenger.Default.Send<string>("LoadBD10");
             }
         }

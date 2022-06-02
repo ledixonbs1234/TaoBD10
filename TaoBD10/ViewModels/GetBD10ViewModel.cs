@@ -378,6 +378,7 @@ namespace TaoBD10.ViewModels
                     SendKeys.SendWait("{ESC}");
                 isWaitingGetData = false;
                 timer.Stop();
+                SoundManager.playSound2(@"Number\tingting.wav");
                 WeakReferenceMessenger.Default.Send<string>("LoadBD10");
             }
         }

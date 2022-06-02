@@ -47,6 +47,9 @@ namespace TaoBD10.ViewModels
             SortCommand = new RelayCommand(Sort);
             TestCommand = new RelayCommand(Test);
 
+            StopDiNgoaiCommand = new RelayCommand(StopDiNgoai);
+
+
             AddAddressCommand = new RelayCommand(AddAddress);
             WeakReferenceMessenger.Default.Register<WebContentModel>(this, (r, m) =>
             {
@@ -83,6 +86,14 @@ namespace TaoBD10.ViewModels
 
             FileManager.GetCode();
         }
+        public ICommand StopDiNgoaiCommand { get; }
+
+
+        void StopDiNgoai()
+        {
+            bwPrintDiNgoai.CancelAsync();
+        }
+
 
         private void BwPrintDiNgoai_DoWork(object sender, DoWorkEventArgs e)
         {

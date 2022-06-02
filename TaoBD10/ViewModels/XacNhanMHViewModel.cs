@@ -90,9 +90,14 @@ namespace TaoBD10.ViewModels
             string dataCopyed =APIManager.GetCopyData();
             if (string.IsNullOrEmpty(dataCopyed))
                 return;
-            string[]
-            string[] datas = dataCopyed.Split('\t');
-            if(datas[3].Trim() == soCT.Trim() && datas[1].Trim() == buuCucDong.Trim())
+            List<string> listTemp = dataCopyed.Split('\n').ToList();
+            if (listTemp[0].IndexOf("STT") != -1)
+            {
+                listTemp.RemoveAt(0);
+            }
+
+            string[] datas = listTemp[0].Split('\t');
+            if (datas[3].Trim() == soCT.Trim() && datas[1].Trim() == buuCucDong.Trim())
             {
                 SendKeys.SendWait("{F10}");
                 WindowInfo windows = APIManager.WaitingFindedWindow("xem chuyen thu chieu den");

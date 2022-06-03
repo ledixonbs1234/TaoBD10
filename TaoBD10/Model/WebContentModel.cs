@@ -11,5 +11,6 @@ namespace TaoBD10.Model
         public string BuuCucPhat { get; set; }
         public string BuuCucGui { get; set; }
         public string NguoiGui { get; set; }
+        public KiemTraModel KiemTraWeb { get; set; }
     }
 }

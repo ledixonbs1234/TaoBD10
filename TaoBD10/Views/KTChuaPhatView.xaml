@@ -91,6 +91,8 @@
                     Header="Ngày Cập Nhật" />
                 <DataGridTextColumn Binding="{Binding ChuyenHoan}" Header="Chuyển Hoàn" />
                 <DataGridTextColumn Binding="{Binding NguoiGui}" Header="Người Gửi" />
+                <DataGridTextColumn Binding="{Binding BuuCucDong}" Header="Buu Cuc Dong" />
+                <DataGridTextColumn Binding="{Binding BuuCucNhan}" Header="Buu Cuc Nhan" />
             </DataGrid.Columns>
         </DataGrid>
         <DataGrid
@@ -126,6 +128,8 @@
                     Width="200"
                     Binding="{Binding NguoiGui}"
                     Header="Người Gửi" />
+                <DataGridTextColumn Binding="{Binding BuuCucDong}" Header="Buu Cuc Dong" />
+                <DataGridTextColumn Binding="{Binding BuuCucNhan}" Header="Buu Cuc Nhan" />
             </DataGrid.Columns>
         </DataGrid>
         <StackPanel Grid.Row="3" Orientation="Horizontal">

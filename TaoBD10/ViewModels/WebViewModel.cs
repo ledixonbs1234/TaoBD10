@@ -355,12 +355,30 @@ document.getElementsByClassName("".footer"").remove();
                             }
                             webContent.BuuCucGui = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblFrPOS']").InnerText;
                             webContent.NguoiGui = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblSenderName']").InnerText;
+
+                            HtmlNodeCollection tables = document.DocumentNode.SelectNodes("//table[@id='MainContent_ctl00_grvItemMailTrip']/tbody");
+                            
+                            if(tables == null)
+                            {
+                                APIManager.ShowSnackbar("Error");
+                                return;
+                            }
+                            HtmlNode table = tables.First();
+                            HtmlNodeCollection aa = table.LastChild.PreviousSibling.SelectNodes("td");
+                           
                             if (_LoadWebChoose == LoadWebChoose.DiNgoaiAddress)
                                 webContent.Key = "DiNgoaiAddress";
                             else if (_LoadWebChoose == LoadWebChoose.AddressTamQuan)
                                 webContent.Key = "AddressTamQuan";
                             else if (_LoadWebChoose == LoadWebChoose.AddressChuaPhat)
+                            {
+                                webContent.KiemTraWeb = new KiemTraModel();
+                                webContent.KiemTraWeb.Date = aa[2].InnerText;
+                                webContent.KiemTraWeb.BuuCucDong = aa[3].InnerText;
+                                webContent.KiemTraWeb.BuuCucNhan = aa[4].InnerText;
+                                webContent.KiemTraWeb.TTCT = aa[5].InnerText;
                                 webContent.Key = "AddressChuaPhat";
+                            }
                             else if (_LoadWebChoose == LoadWebChoose.DongChuyenThu)
                             {
                                 webContent.Key = "AddressDongChuyenThu";

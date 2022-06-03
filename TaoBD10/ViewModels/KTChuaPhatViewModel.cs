@@ -64,6 +64,9 @@ namespace TaoBD10.ViewModels
                 {
                     hangTon.Address = m.AddressReiceive.Trim();
                     hangTon.NguoiGui = m.NguoiGui;
+                    hangTon.BuuCucDong = m.KiemTraWeb.BuuCucDong;
+                    hangTon.BuuCucNhan = m.KiemTraWeb.BuuCucNhan;
+                    
                 }
                 AddAddress();
             });

@@ -424,7 +424,14 @@ document.getElementsByClassName("".footer"").remove();
                             kiemTra.MaHieu = barcode.Substring(0, 13);
                             //thuc hien lay barcode
 
-                            kiemTra.Address = document.DocumentNode.SelectNodes("//*[@id='MainContent_ctl00_lblReceiverAddr']").First().InnerText;
+                            var addresss = document.DocumentNode.SelectNodes("//*[@id='MainContent_ctl00_lblReceiverAddr']");
+                            if(addresss == null)
+                            {
+                                APIManager.ShowSnackbar("Error");
+                                return;
+
+                            }
+                            kiemTra.Address = addresss.First().InnerText;
 
                             HtmlNode table = document.DocumentNode.SelectNodes("//table[@id='MainContent_ctl00_grvItemMailTrip']/tbody").First();
                             HtmlNodeCollection aa = table.LastChild.PreviousSibling.SelectNodes("td");

@@ -23,18 +23,6 @@ namespace TaoBD10.ViewModels
     {
         private readonly DispatcherTimer timerPrint;
 
-        private bool _IsChecking = true;
-
-        public bool IsChecking
-        {
-            get { return _IsChecking; }
-            set
-            {
-                SetProperty(ref _IsChecking, value);
-                WeakReferenceMessenger.Default.Send(new ContentModel { Key = "TopMost", Content = value.ToString() });
-
-            }
-        }
         BackgroundWorker bwPrint;
 
         public ChinhViewModel()
@@ -141,15 +129,6 @@ namespace TaoBD10.ViewModels
                     else if (m.Content == "Print")
                     {
                         bwPrint.RunWorkerAsync();
-                    }
-                    else if (m.Content == "True")
-                    {
-                        IsChecking = true;
-
-                    }
-                    else if (m.Content == "False")
-                    {
-                        IsChecking = false;
                     }
                 }
             });

@@ -282,10 +282,20 @@
                     Content="Còn Lại" />
             </materialDesign:Badged>
         </StackPanel>
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+            <Button 
+                Width="100"
+                Margin="0,20,10,5"
+                Content="BĐ 10 Đi" Command="{Binding BD10DiCommand, Source={StaticResource ChinhVM}}" />
+            <Button
+                Width="100"
+                Margin="0,20,10,5"
+                Content="BĐ 10 Đến" Command="{Binding BD10DenCommand, Source={StaticResource ChinhVM}}" />
+        </StackPanel>
 
 
         <Button
-            Margin="5,40"
+            Margin="5,5"
             Command="{Binding XeXaHoiCommand}"
             Content="Xe Xã Hội" />
     </StackPanel>

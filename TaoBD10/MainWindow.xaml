@@ -26,117 +26,127 @@
         </Behaviors:EventTrigger>
     </Behaviors:Interaction.Triggers>
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="30" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Button
+                Grid.Row="1"
+                Grid.Column="0"
+                Margin="2,30,5,5"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Panel.ZIndex="20"
+                Command="{Binding ToggleWindowCommand}"
+                CommandParameter="{x:Static Dock.Left}"
+                Content="{materialDesign:PackIcon Kind=Home}" />
+            <Button
+                Grid.Row="1"
+                Grid.Column="0"
+                Margin="0,50"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Panel.ZIndex="20"
+                Command="{Binding CloseWindowCommand}"
+                CommandParameter="{Binding ElementName=MainView, Mode=OneWay}"
+                Content="{materialDesign:PackIcon Kind=Close}" />
+            <TabControl
+                Name="TabTui"
+                SelectedIndex="{Binding IndexTabTui}"
+                TabStripPlacement="Left">
+                <TabItem Header="CHÍNH">
+                    <view:ChinhView />
+                </TabItem>
+                <TabItem Header="WEB">
+                    <view:WebView />
+                </TabItem>
+                <TabItem Header="ĐI NGOÀI">
+                    <view:DiNgoaiView />
+                </TabItem>
+                <TabItem Header="XÁC NHẬN">
+                    <view:XacNhanMHView />
+                </TabItem>
+                <TabItem Header="LẤY CT">
+                    <view:LayChuyenThu />
+                </TabItem>
 
-        <Button
+                <TabItem Header="LẤY BD">
+                    <view:LayBDHA />
+                </TabItem>
+                <TabItem Header="TẠO BĐ">
+                    <view:TaoBD10View />
+                </TabItem>
+                <TabItem Header="TÚI">
+                    <view:XacNhanTuiView />
+                </TabItem>
+                <TabItem Header="BĐ 10">
+                    <TabControl
+                        x:Name="TabControl"
+                        Margin="5"
+                        HorizontalContentAlignment="Left"
+                        materialDesign:ColorZoneAssist.Mode="SecondaryLight"
+                        SelectedIndex="{Binding IndexTabControl}"
+                        TabStripPlacement="Bottom">
+                        <TabItem>
+                            <TabItem.Header>
+                                <TextBlock Text="Get BD 10" />
+                            </TabItem.Header>
+                            <view:GetBD10View />
+                        </TabItem>
+                        <TabItem Header="Danh Sách">
+                            <view:DanhSachView />
+                        </TabItem>
+                        <TabItem Background="Green" Header="Chi Tiết">
+                            <view:ChiTietView />
+                        </TabItem>
+                        <TabItem Header="Lấy Chuyến Thư">
+                            <view:ChuyenThu />
+                        </TabItem>
+
+
+                        <TabItem Header="Get Address">
+                            <view:AddressView />
+                        </TabItem>
+                        <TabItem Header="Tam Quan">
+                            <view:TamQuanView />
+                        </TabItem>
+                    </TabControl>
+                </TabItem>
+                <TabItem Header="LỌC TÚI">
+                    <view:LocTuiView />
+                </TabItem>
+                <TabItem Header="KT">
+                    <TabControl
+                        x:Name="TabControlKT"
+                        Margin="5"
+                        HorizontalContentAlignment="Left"
+                        materialDesign:ColorZoneAssist.Mode="SecondaryLight"
+                        SelectedIndex="{Binding IndexTabKT}"
+                        TabStripPlacement="Bottom">
+
+                        <TabItem Header="Hàng Tồn">
+                            <view:KTChuaPhatView />
+                        </TabItem>
+                        <TabItem Header="Kiểm Tra">
+                            <view:KiemTraView />
+                        </TabItem>
+                    </TabControl>
+                </TabItem>
+                <TabItem Header="TÙY CHỌN">
+                    <view:TuyChonView />
+                </TabItem>
+            </TabControl>
+
+            <materialDesign:Snackbar
+                Margin="0,0,0,70"
+                Panel.ZIndex="10"
+                MessageQueue="{Binding MessageQueue, Mode=TwoWay}" />
+        </Grid>
+
+        <CheckBox
             Grid.Row="1"
-            Grid.Column="0"
-            Margin="2,30,5,5"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            Panel.ZIndex="20"
-            Command="{Binding ToggleWindowCommand}"
-            CommandParameter="{x:Static Dock.Left}"
-            Content="{materialDesign:PackIcon Kind=Home}" />
-        <Button
-            Grid.Row="1"
-            Grid.Column="0"
-            Margin="0,50"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Bottom"
-            Panel.ZIndex="20"
-            Command="{Binding CloseWindowCommand}"
-            CommandParameter="{Binding ElementName=MainView, Mode=OneWay}"
-            Content="{materialDesign:PackIcon Kind=Close}" />
-        <TabControl
-            Name="TabTui"
-            SelectedIndex="{Binding IndexTabTui}"
-            TabStripPlacement="Left">
-            <TabItem Header="CHÍNH">
-                <view:ChinhView />
-            </TabItem>
-            <TabItem Header="WEB">
-                <view:WebView />
-            </TabItem>
-            <TabItem Header="ĐI NGOÀI">
-                <view:DiNgoaiView />
-            </TabItem>
-            <TabItem Header="XÁC NHẬN">
-                <view:XacNhanMHView />
-            </TabItem>
-            <TabItem Header="LẤY CT">
-                <view:LayChuyenThu />
-            </TabItem>
-
-            <TabItem Header="LẤY BD">
-                <view:LayBDHA />
-            </TabItem>
-            <TabItem Header="TẠO BĐ">
-                <view:TaoBD10View />
-            </TabItem>
-            <TabItem Header="TÚI">
-                <view:XacNhanTuiView />
-            </TabItem>
-            <TabItem Header="BĐ 10">
-                <TabControl
-                    x:Name="TabControl"
-                    Margin="5"
-                    HorizontalContentAlignment="Left"
-                    materialDesign:ColorZoneAssist.Mode="SecondaryLight"
-                    SelectedIndex="{Binding IndexTabControl}"
-                    TabStripPlacement="Bottom">
-                    <TabItem>
-                        <TabItem.Header>
-                            <TextBlock Text="Get BD 10" />
-                        </TabItem.Header>
-                        <view:GetBD10View />
-                    </TabItem>
-                    <TabItem Header="Danh Sách">
-                        <view:DanhSachView />
-                    </TabItem>
-                    <TabItem Background="Green" Header="Chi Tiết">
-                        <view:ChiTietView />
-                    </TabItem>
-                    <TabItem Header="Lấy Chuyến Thư">
-                        <view:ChuyenThu />
-                    </TabItem>
-
-
-                    <TabItem Header="Get Address">
-                        <view:AddressView />
-                    </TabItem>
-                    <TabItem Header="Tam Quan">
-                        <view:TamQuanView />
-                    </TabItem>
-                </TabControl>
-            </TabItem>
-            <TabItem Header="LỌC TÚI">
-                <view:LocTuiView />
-            </TabItem>
-            <TabItem Header="KT">
-                <TabControl
-                    x:Name="TabControlKT"
-                    Margin="5"
-                    HorizontalContentAlignment="Left"
-                    materialDesign:ColorZoneAssist.Mode="SecondaryLight"
-                    SelectedIndex="{Binding IndexTabKT}"
-                    TabStripPlacement="Bottom">
-
-                    <TabItem Header="Hàng Tồn">
-                        <view:KTChuaPhatView />
-                    </TabItem>
-                    <TabItem Header="Kiểm Tra">
-                        <view:KiemTraView />
-                    </TabItem>
-                </TabControl>
-            </TabItem>
-            <TabItem Header="TÙY CHỌN">
-                <view:TuyChonView />
-            </TabItem>
-        </TabControl>
-
-        <materialDesign:Snackbar
-            Margin="0,0,0,70"
-            Panel.ZIndex="10"
-            MessageQueue="{Binding MessageQueue, Mode=TwoWay}" />
+            HorizontalAlignment="Center"
+            Content="Top Most" IsChecked="{Binding IsTopMost}" />
     </Grid>
 </Window>

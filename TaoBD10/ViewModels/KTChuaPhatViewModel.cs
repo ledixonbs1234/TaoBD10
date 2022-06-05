@@ -229,6 +229,10 @@ namespace TaoBD10.ViewModels
 
         private void ChiTiet()
         {
+            if(Selected == null)
+            {
+                return;
+            }
             WeakReferenceMessenger.Default.Send(new ContentModel { Key = "TopMost", Content = "False" });
             Process.Start("chrome.exe", "https://bccp.vnpost.vn/BCCP.aspx?act=Trace&id=" + Selected.MaHieu);
         }

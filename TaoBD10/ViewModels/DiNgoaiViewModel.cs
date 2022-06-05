@@ -367,44 +367,60 @@ namespace TaoBD10.ViewModels
 
         private void BwKhoiTao_DoWork(object sender, DoWorkEventArgs e)
         {
-            WindowInfo currentWindow = APIManager.WaitingFindedWindow("khoi tao chuyen thu");
-            if (currentWindow == null)
+            try
             {
-                APIManager.ShowSnackbar("Không tìm thấy window khởi tạo chuyến thư");
-                return;
-            }
-            System.Collections.Generic.List<TestAPIModel> childControls = APIManager.GetListControlText(currentWindow.hwnd);
-            //thuc hien lay vi tri nao do
-
-            APIManager.SendMessage(childControls[14].Handle, 0x0007, 0, 0);
-            APIManager.SendMessage(childControls[14].Handle, 0x0007, 0, 0);
-            SendKeys.SendWait("{BS}{BS}{BS}{BS}");
-
-            //Thuc hien trong nay
-            if (!string.IsNullOrEmpty(SelectedSimple.MaBuuCuc))
-            {
-                SendKeys.SendWait(SelectedSimple.MaBuuCuc);
-                Thread.Sleep(300);
-                SendKeys.SendWait("{DOWN}");
-                Thread.Sleep(100);
-                SendKeys.SendWait("{TAB}");
-                Thread.Sleep(200);
-
-                //Nhan F1 ngang cho nay
-                if (IsAutoF1)
+                WindowInfo currentWindow = APIManager.WaitingFindedWindow("khoi tao chuyen thu");
+                if (currentWindow == null)
                 {
-                    SendKeys.SendWait("{F1}");
-                }
-            }
-            else
-            {
-                if (string.IsNullOrEmpty(SelectedSimple.MaTinh))
-                {
-                    APIManager.ShowSnackbar("Không có mã tỉnh");
+                    APIManager.ShowSnackbar("Không tìm thấy window khởi tạo chuyến thư");
                     return;
                 }
-                SendKeys.SendWait(SelectedSimple.MaTinh);
+                System.Collections.Generic.List<TestAPIModel> childControls = APIManager.GetListControlText(currentWindow.hwnd);
+                //thuc hien lay vi tri nao do
+
+                APIManager.SendMessage(childControls[14].Handle, 0x0007, 0, 0);
+                APIManager.SendMessage(childControls[14].Handle, 0x0007, 0, 0);
+                SendKeys.SendWait("{BS}{BS}{BS}{BS}");
+
+                //Thuc hien trong nay
+                if (!string.IsNullOrEmpty(SelectedSimple.MaBuuCuc))
+                {
+                    SendKeys.SendWait(SelectedSimple.MaBuuCuc);
+                    Thread.Sleep(300);
+                    SendKeys.SendWait("{DOWN}");
+                    Thread.Sleep(100);
+                    SendKeys.SendWait("{TAB}");
+                    Thread.Sleep(200);
+
+                    //Nhan F1 ngang cho nay
+                    if (IsAutoF1)
+                    {
+                        SendKeys.SendWait("{F1}");
+                    }
+                }
+                else
+                {
+                    if (string.IsNullOrEmpty(SelectedSimple.MaTinh))
+                    {
+                        APIManager.ShowSnackbar("Không có mã tỉnh");
+                        return;
+                    }
+                    SendKeys.SendWait(SelectedSimple.MaTinh);
+                }
             }
+            catch (Exception ex)
+            {
+                // Get stack trace for the exception with source file information
+                var st = new StackTrace(ex, true);
+                // Get the top stack frame
+                var frame = st.GetFrame(0);
+                // Get the line number from the stack frame
+                var line = frame.GetFileLineNumber();
+                APIManager.OpenNotePad(ex.Message + '\n' + "loi Line DiNgoaiViewModel" + line + " Number Line " + APIManager.GetLineNumber(ex), "loi ");
+                throw;
+                throw;
+            }
+
         }
 
         BackgroundWorker bwKhoiTao;

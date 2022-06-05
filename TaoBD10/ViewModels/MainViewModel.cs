@@ -306,6 +306,7 @@ namespace TaoBD10.ViewModels
         }
 
         bool isReadDuRoi = false;
+        int lastConLai = 0;
         private void BackgroundWorkerRead_DoWork(object sender, DoWorkEventArgs e)
         {
 
@@ -454,20 +455,29 @@ namespace TaoBD10.ViewModels
                             continue;
                         }
                         TestAPIModel apiNumber = listWindowStatic[8];
-                        int.TryParse(Regex.Match(apiNumber.Text, @"\d+").Value, out numberRead);
                         TestAPIModel tongSoTui = listWindowStatic[15];
                         int.TryParse(Regex.Match(apiNumber.Text, @"\d+").Value, out numberRead);
+                        int.TryParse(Regex.Match(tongSoTui.Text, @"\d+").Value, out int tongSoTuiN);
                         if (apiNumber.Text.Trim() == tongSoTui.Text.Trim())
                         {
                             if (!isReadDuRoi)
                             {
                                 isReadDuRoi = true;
-                                SoundManager.playSound2(@"Number\tingting.wav");
+                                SoundManager.playSound2(@"Number\dusoluong.wav");
                             }
                         }
                         else
                         {
                             isReadDuRoi = false;
+                            if(tongSoTuiN - numberRead < 5)
+                            {
+                                if(lastConLai != tongSoTuiN - numberRead)
+                                {
+                                    lastConLai = tongSoTuiN - numberRead;
+                                    Thread.Sleep(2000);
+                                    SoundManager.playSound(@"Number\" + lastConLai.ToString() + ".wav");
+                                }
+                            }
                         }
                     }
                     else if (activeWindow.text.IndexOf("lap bd10 theo duong thu") != -1)
@@ -1158,11 +1168,11 @@ namespace TaoBD10.ViewModels
             if (_window == null)
                 return;
             _window.Width = 1150;
-            _window.Height = 600;
+            _window.Height = 630;
             double width = SystemParameters.PrimaryScreenWidth;
             double height = SystemParameters.PrimaryScreenHeight;
             _window.Left = (width - 1150) / 2;
-            _window.Top = (height - 600) / 2;
+            _window.Top = (height - 630) / 2;
         }
         BackgroundWorker bwPrintBD10;
 
@@ -1172,7 +1182,7 @@ namespace TaoBD10.ViewModels
                 return;
             var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
             _window.Width = 360;
-            _window.Height = 450;
+            _window.Height = 480;
             _ = SystemParameters.PrimaryScreenHeight;
             double width = SystemParameters.PrimaryScreenWidth;
             // use 'Screen.AllScreens[1].WorkingArea' for secondary screen
@@ -1186,7 +1196,7 @@ namespace TaoBD10.ViewModels
                 return;
             var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
             _window.Width = 470;
-            _window.Height = 300;
+            _window.Height = 330;
             double width = SystemParameters.PrimaryScreenWidth;
             // use 'Screen.AllScreens[1].WorkingArea' for secondary screen
             _window.Left = desktopWorkingArea.Left + width - _window.Width;
@@ -1199,7 +1209,7 @@ namespace TaoBD10.ViewModels
                 return;
             var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
             _window.Width = 410;
-            _window.Height = 640;
+            _window.Height = 670;
             double width = SystemParameters.PrimaryScreenWidth;
             // use 'Screen.AllScreens[1].WorkingArea' for secondary screen
             _window.Left = desktopWorkingArea.Left + width - _window.Width;
@@ -1212,7 +1222,7 @@ namespace TaoBD10.ViewModels
                 return;
             var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
             _window.Width = 360;
-            _window.Height = 600;
+            _window.Height = 630;
             double width = SystemParameters.PrimaryScreenWidth;
             // use 'Screen.AllScreens[1].WorkingArea' for secondary screen
             _window.Left = desktopWorkingArea.Left + width - _window.Width;
@@ -1267,11 +1277,11 @@ namespace TaoBD10.ViewModels
                         return;
                     _ = SystemParameters.WorkArea;
                     _window.Width = 1150;
-                    _window.Height = 600;
+                    _window.Height = 630;
                     double width = SystemParameters.PrimaryScreenWidth;
                     double height = SystemParameters.PrimaryScreenHeight;
                     _window.Left = (width - 1150) / 2;
-                    _window.Top = (height - 600) / 2;
+                    _window.Top = (height - 630) / 2;
                 }
                 else
                 {

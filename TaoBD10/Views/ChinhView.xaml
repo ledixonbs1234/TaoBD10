@@ -127,15 +127,17 @@
             <Button
                 Width="115"
                 Margin="5"
+                Background="#FFE2E5FF"
                 Command="{Binding BD10DiCommand}"
                 Content="BĐ 10 Di"
-                Style="{StaticResource MaterialDesignPaperButton}" Background="#FFE2E5FF" />
+                Style="{StaticResource MaterialDesignPaperButton}" />
             <Button
                 Width="115"
                 Margin="5"
+                Background="#FFF7FFF4"
                 Command="{Binding BD10DenCommand}"
                 Content="BĐ 10 Đến"
-                Style="{StaticResource MaterialDesignPaperButton}" Background="#FFF7FFF4" />
+                Style="{StaticResource MaterialDesignPaperButton}" />
         </StackPanel>
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
             <Button
@@ -151,9 +153,5 @@
                 Content="Print Default"
                 Style="{StaticResource MaterialDesignPaperButton}" />
         </StackPanel>
-        <CheckBox
-            HorizontalAlignment="Center"
-            Content="Top Most"
-            IsChecked="{Binding IsChecking}" />
     </StackPanel>
 </UserControl>

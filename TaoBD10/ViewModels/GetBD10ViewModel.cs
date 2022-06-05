@@ -86,7 +86,7 @@ namespace TaoBD10.ViewModels
             var currentWindow = APIManager.GetActiveWindowTitle();
             if (currentWindow == null)
                 return;
-            System.Windows.Clipboard.Clear();
+            //System.Windows.Clipboard.Clear();
 
             //thuc hien lay thong tin cua bd nay
             List<TestAPIModel> childHandles = APIManager.GetListControlText(currentWindow.hwnd);
@@ -95,7 +95,6 @@ namespace TaoBD10.ViewModels
             string lanLapBD = "";
             int slTuiInBD = 0;
             noiGuiBD = childHandles.Where(m => m.ClassName.IndexOf("COMBOBOX.app") != -1).ToList()[7].Text;
-            ngayThangBD = childHandles.Where(m => m.ClassName.IndexOf("SysDateTimePick32") != -1).ToList()[1].Text;
             ngayThangBD = childHandles.Where(m => m.ClassName.IndexOf("SysDateTimePick32") != -1).ToList()[1].Text;
             lanLapBD = childHandles.Last(m => m.ClassName.IndexOf(".EDIT.app.0") != -1).Text;
             slTuiInBD = int.Parse(childHandles.Where(m => m.ClassName.IndexOf(".STATIC.app") != -1).ToList()[22].Text);

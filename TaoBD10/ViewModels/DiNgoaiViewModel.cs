@@ -337,7 +337,7 @@ namespace TaoBD10.ViewModels
                     APIManager.ShowSnackbar("Chưa chọn mã hiệu");
                     return;
                 }
-
+                index++;
                 if (index > DiNgoais.Count - 1)
                 {
 
@@ -347,7 +347,7 @@ namespace TaoBD10.ViewModels
                 }
 
                 //////xem thu no co chay cai gi khong
-                index++;
+                
                 SelectedSimple = DiNgoais[index];
                 Selection(SelectedSimple);
             }

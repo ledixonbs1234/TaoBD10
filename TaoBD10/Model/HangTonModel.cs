@@ -84,6 +84,21 @@ namespace TaoBD10.Model
             get { return _Index; }
             set { SetProperty(ref _Index, value); }
         }
+        private string _BuuCucDong;
+
+        public string BuuCucDong
+        {
+            get { return _BuuCucDong; }
+            set { SetProperty(ref _BuuCucDong, value); }
+        }
+        private string _BuuCucNhan;
+
+        public string BuuCucNhan
+        {
+            get { return _BuuCucNhan; }
+            set { SetProperty(ref _BuuCucNhan, value); }
+        }
+
 
         public HangTonModel()
         {

@@ -3,6 +3,7 @@ using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
@@ -31,6 +32,7 @@ namespace TaoBD10.ViewModels
             get { return _IsStopInChiTiet; }
             set { SetProperty(ref _IsStopInChiTiet, value); }
         }
+        BackgroundWorker bwGetData;
 
         public int AnimatedProgressInCard
         {
@@ -68,11 +70,230 @@ namespace TaoBD10.ViewModels
             TestCommand = new RelayCommand(new Action(() =>
             {
             }));
+
+            bwGetData = new BackgroundWorker();
+            bwGetData.WorkerSupportsCancellation = true;
+            bwGetData.DoWork += BwGetData_DoWork;
             timer = new DispatcherTimer
             {
                 Interval = TimeSpan.FromMilliseconds(50)
             };
             timer.Tick += Timer_Tick;
+        }
+
+        private void BwGetData_DoWork(object sender, DoWorkEventArgs e)
+        {
+            var currentWindow = APIManager.GetActiveWindowTitle();
+            if (currentWindow == null)
+                return;
+            System.Windows.Clipboard.Clear();
+
+            //thuc hien lay thong tin cua bd nay
+            var childHandles = APIManager.GetListControlText(currentWindow.hwnd);
+
+
+
+            var handles = APIManager.GetAllChildHandles(currentWindow.hwnd);
+            string textHandleName = "WindowsForms10.COMBOBOX.app.0.1e6fa8e";
+            string textDateTime = "WindowsForms10.SysDateTimePick32.app.0.1e6fa8e";
+            string textEdit = "WindowsForms10.EDIT.app.0.1e6fa8e";
+            string textSoLuongTui = "WindowsForms10.STATIC.app.0.1e6fa8e";
+            int countTuiInBD = 0;
+            int slTuiInBD = 0;
+            int countComBoBox = 0;
+            int countDateTime = 0;
+            string noiGuiBD = "";
+            string ngayThangBD = "";
+            string lanLapBD = "";
+            foreach (var item in handles)
+            {
+                string classText = APIManager.GetWindowClass(item);
+
+                if (classText.IndexOf(textHandleName) != -1)
+                {
+                    if (countComBoBox == 7)
+                    {
+                        noiGuiBD = APIManager.GetControlText(item);
+                        countComBoBox++;
+                    }
+                    else
+                    {
+                        countComBoBox++;
+                    }
+                }
+                else
+                if (classText.IndexOf(textDateTime) != -1)
+                {
+                    if (countDateTime == 1)
+                    {
+                        ngayThangBD = APIManager.GetControlText(item);
+
+                        countDateTime++;
+                    }
+                    else
+                    {
+                        countDateTime++;
+                    }
+                }
+                else if (classText.IndexOf(textEdit) != -1)
+                {
+                    lanLapBD = APIManager.GetControlText(item);
+                }
+                else if (classText.IndexOf(textSoLuongTui) != -1)
+                {
+                    if (countTuiInBD == 22)
+                    {
+                        slTuiInBD = int.Parse(APIManager.GetControlText(item));
+                    }
+                    countTuiInBD++;
+                }
+                //tim cai o cua sh tui
+                //focus no
+                //xong roi dien vao va nhan enter thoi
+            }
+
+            //thuc hien xu ly ngay thang bd
+            DateTime ngayThang = DateTime.Now;
+            DateTime.TryParseExact(ngayThangBD, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out ngayThang);
+
+            var info = FileManager.list.Find(m => m.Name == noiGuiBD && m.LanLap == lanLapBD && m.DateCreateBD10.DayOfYear == ngayThang.DayOfYear);
+            if (info != null)
+            {
+                timer.Stop();
+                isWaitingGetData = false;
+                SoundManager.playSound(@"Number\trungbd.wav");
+                return;
+            }
+
+            if (SelectedBuoi == -1)
+            {
+                timer.Stop();
+                isWaitingGetData = false;
+                WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Snackbar", Content = "Ban chua chon buoi trong ngay" });
+                return;
+            }
+
+            NameBD = noiGuiBD;
+            IsLoading = true;
+            ValueLoading = 50;
+
+            SendKeys.SendWait("{F3}");
+            Thread.Sleep(200);
+            SendKeys.SendWait("^{UP}");
+            Thread.Sleep(200);
+
+            String lastText = "";
+            int countSame = 0;
+            tuiTempHangHoa = new List<TuiHangHoa>();
+            while (countSame <= 3)
+            {
+                string textClip = "";
+
+                for (int i = 0; i < 3; i++)
+                {
+                    try
+                    {
+                        SendKeys.SendWait("^(c)");
+                        Thread.Sleep(100);
+                        textClip = System.Windows.Clipboard.GetText() + "\n";
+                        if (!string.IsNullOrEmpty(textClip))
+                            break;
+                    }
+                    catch
+                    {
+                    }
+                }
+
+                if (string.IsNullOrEmpty(textClip))
+                {
+                    NameBD = "Chạy Lại";
+                    isWaitingGetData = false;
+                    timer.Stop();
+                    return;
+                }
+
+
+
+                if (textClip.IndexOf("STT") != -1)
+                {
+                    textClip = textClip.Split('\n')[1];
+                }
+                if (lastText == textClip)
+                {
+                    countSame++;
+                }
+                else
+                {
+                    lastText = textClip;
+                    countSame = 0;
+                }
+
+                List<string> listString = textClip.Split('\t').ToList();
+                if (listString.Count == 11)
+                {
+                    if (tuiTempHangHoa.FindIndex(m => m.SHTui == listString[9]) == -1)
+                    {
+                        tuiTempHangHoa.Add(new TuiHangHoa(listString[0], listString[1], listString[3], listString[2], listString[4], listString[5], listString[6], listString[8], listString[9]));
+                    }
+                }
+                else
+                {
+                    NameBD = "Lỗi! Không Copy Được";
+                    timer.Stop();
+                    isWaitingGetData = false;
+                    return;
+                }
+                //tuiHangHoas.Add(TuiHangHoa);
+                SendKeys.SendWait("{DOWN}");
+            }
+            if (slTuiInBD != tuiTempHangHoa.Count)
+            {
+                timer.Stop();
+                isWaitingGetData = false;
+                IsLoading = false;
+                ValueLoading = 0;
+
+                SoundManager.playSound(@"Number\chuadusoluong.wav");
+                return;
+            }
+
+            /// Kiem tra trong nay co trung so luong voi file khong neu khong thi hie nra thong bao loi
+
+            //dgvMain.DataSource = tuiHangHoas;
+            CountTui = tuiTempHangHoa.Count.ToString();
+
+            //thuc hien vao xac nhan chi tiet trong nay
+            SendKeys.SendWait("{F4}");
+            Thread.Sleep(500);
+            for (int i = 0; i < 4; i++)
+            {
+                SendKeys.SendWait("{TAB}");
+                Thread.Sleep(50);
+            }
+            //thuc hien ctrl a
+            SendKeys.SendWait("^(a)");
+            Thread.Sleep(700);
+
+            //thuc hien ctrl c
+            SendKeys.SendWait("^(c)");
+            Thread.Sleep(100);
+
+            String textXacNhan = System.Windows.Clipboard.GetText();
+            if (string.IsNullOrEmpty(textXacNhan))
+                return;
+            PhanLoai(textXacNhan);
+            IsLoading = false;
+            ValueLoading = 100;
+
+            FileManager.SaveData(new BD10InfoModel(noiGuiBD, tuiTempHangHoa, ngayThang, (EnumAll.TimeSet)SelectedBuoi, lanLapBD));
+            CountTui = tuiTempHangHoa.Count().ToString();
+            if (!IsStopInChiTiet)
+                SendKeys.SendWait("{ESC}");
+            isWaitingGetData = false;
+            timer.Stop();
+            SoundManager.playSound2(@"Number\tingting.wav");
+            WeakReferenceMessenger.Default.Send<string>("LoadBD10");
+
         }
 
         public bool[] BuoiArray
@@ -274,7 +495,7 @@ namespace TaoBD10.ViewModels
                 tuiTempHangHoa = new List<TuiHangHoa>();
                 while (countSame <= 3)
                 {
-                    string textClip="";
+                    string textClip = "";
 
                     for (int i = 0; i < 3; i++)
                     {

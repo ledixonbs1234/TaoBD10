@@ -89,68 +89,16 @@ namespace TaoBD10.ViewModels
             System.Windows.Clipboard.Clear();
 
             //thuc hien lay thong tin cua bd nay
-            var childHandles = APIManager.GetListControlText(currentWindow.hwnd);
-
-
-
-            var handles = APIManager.GetAllChildHandles(currentWindow.hwnd);
-            string textHandleName = "WindowsForms10.COMBOBOX.app.0.1e6fa8e";
-            string textDateTime = "WindowsForms10.SysDateTimePick32.app.0.1e6fa8e";
-            string textEdit = "WindowsForms10.EDIT.app.0.1e6fa8e";
-            string textSoLuongTui = "WindowsForms10.STATIC.app.0.1e6fa8e";
-            int countTuiInBD = 0;
-            int slTuiInBD = 0;
-            int countComBoBox = 0;
-            int countDateTime = 0;
+            List<TestAPIModel> childHandles = APIManager.GetListControlText(currentWindow.hwnd);
             string noiGuiBD = "";
             string ngayThangBD = "";
             string lanLapBD = "";
-            foreach (var item in handles)
-            {
-                string classText = APIManager.GetWindowClass(item);
-
-                if (classText.IndexOf(textHandleName) != -1)
-                {
-                    if (countComBoBox == 7)
-                    {
-                        noiGuiBD = APIManager.GetControlText(item);
-                        countComBoBox++;
-                    }
-                    else
-                    {
-                        countComBoBox++;
-                    }
-                }
-                else
-                if (classText.IndexOf(textDateTime) != -1)
-                {
-                    if (countDateTime == 1)
-                    {
-                        ngayThangBD = APIManager.GetControlText(item);
-
-                        countDateTime++;
-                    }
-                    else
-                    {
-                        countDateTime++;
-                    }
-                }
-                else if (classText.IndexOf(textEdit) != -1)
-                {
-                    lanLapBD = APIManager.GetControlText(item);
-                }
-                else if (classText.IndexOf(textSoLuongTui) != -1)
-                {
-                    if (countTuiInBD == 22)
-                    {
-                        slTuiInBD = int.Parse(APIManager.GetControlText(item));
-                    }
-                    countTuiInBD++;
-                }
-                //tim cai o cua sh tui
-                //focus no
-                //xong roi dien vao va nhan enter thoi
-            }
+            int slTuiInBD = 0;
+            noiGuiBD = childHandles.Where(m => m.ClassName.IndexOf("COMBOBOX.app") != -1).ToList()[7].Text;
+            ngayThangBD = childHandles.Where(m => m.ClassName.IndexOf("SysDateTimePick32") != -1).ToList()[1].Text;
+            ngayThangBD = childHandles.Where(m => m.ClassName.IndexOf("SysDateTimePick32") != -1).ToList()[1].Text;
+            lanLapBD = childHandles.Last(m => m.ClassName.IndexOf(".EDIT.app.0") != -1).Text;
+            slTuiInBD = int.Parse(childHandles.Where(m => m.ClassName.IndexOf(".STATIC.app") != -1).ToList()[22].Text);
 
             //thuc hien xu ly ngay thang bd
             DateTime ngayThang = DateTime.Now;
@@ -159,16 +107,12 @@ namespace TaoBD10.ViewModels
             var info = FileManager.list.Find(m => m.Name == noiGuiBD && m.LanLap == lanLapBD && m.DateCreateBD10.DayOfYear == ngayThang.DayOfYear);
             if (info != null)
             {
-                timer.Stop();
-                isWaitingGetData = false;
                 SoundManager.playSound(@"Number\trungbd.wav");
                 return;
             }
 
             if (SelectedBuoi == -1)
             {
-                timer.Stop();
-                isWaitingGetData = false;
                 WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Snackbar", Content = "Ban chua chon buoi trong ngay" });
                 return;
             }
@@ -207,8 +151,6 @@ namespace TaoBD10.ViewModels
                 if (string.IsNullOrEmpty(textClip))
                 {
                     NameBD = "Chạy Lại";
-                    isWaitingGetData = false;
-                    timer.Stop();
                     return;
                 }
 
@@ -239,8 +181,6 @@ namespace TaoBD10.ViewModels
                 else
                 {
                     NameBD = "Lỗi! Không Copy Được";
-                    timer.Stop();
-                    isWaitingGetData = false;
                     return;
                 }
                 //tuiHangHoas.Add(TuiHangHoa);
@@ -248,8 +188,6 @@ namespace TaoBD10.ViewModels
             }
             if (slTuiInBD != tuiTempHangHoa.Count)
             {
-                timer.Stop();
-                isWaitingGetData = false;
                 IsLoading = false;
                 ValueLoading = 0;
 
@@ -264,24 +202,29 @@ namespace TaoBD10.ViewModels
 
             //thuc hien vao xac nhan chi tiet trong nay
             SendKeys.SendWait("{F4}");
-            Thread.Sleep(500);
+            WindowInfo window = APIManager.WaitingFindedWindow("xac nhan tui thu den");
+            if(window == null)
+            {
+                APIManager.ShowSnackbar("Không tìm thấy window xác nhận");
+            }
+
             for (int i = 0; i < 4; i++)
             {
                 SendKeys.SendWait("{TAB}");
                 Thread.Sleep(50);
             }
             //thuc hien ctrl a
+            Clipboard.Clear();
             SendKeys.SendWait("^(a)");
-            Thread.Sleep(700);
 
-            //thuc hien ctrl c
-            SendKeys.SendWait("^(c)");
-            Thread.Sleep(100);
+            string dataCopyed = APIManager.GetCopyData();
+            if (string.IsNullOrEmpty(dataCopyed))
+            {
+                APIManager.ShowSnackbar("Không copy được");
 
-            String textXacNhan = System.Windows.Clipboard.GetText();
-            if (string.IsNullOrEmpty(textXacNhan))
                 return;
-            PhanLoai(textXacNhan);
+            }
+            PhanLoai(dataCopyed);
             IsLoading = false;
             ValueLoading = 100;
 
@@ -289,8 +232,6 @@ namespace TaoBD10.ViewModels
             CountTui = tuiTempHangHoa.Count().ToString();
             if (!IsStopInChiTiet)
                 SendKeys.SendWait("{ESC}");
-            isWaitingGetData = false;
-            timer.Stop();
             SoundManager.playSound2(@"Number\tingting.wav");
             WeakReferenceMessenger.Default.Send<string>("LoadBD10");
 

@@ -458,7 +458,7 @@ namespace TaoBD10.ViewModels
                         TestAPIModel tongSoTui = listWindowStatic[15];
                         int.TryParse(Regex.Match(apiNumber.Text, @"\d+").Value, out numberRead);
                         int.TryParse(Regex.Match(tongSoTui.Text, @"\d+").Value, out int tongSoTuiN);
-                        if (apiNumber.Text.Trim() == tongSoTui.Text.Trim())
+                        if (apiNumber.Text.Trim() == tongSoTui.Text.Trim() && tongSoTuiN != 0)
                         {
                             if (!isReadDuRoi)
                             {
@@ -469,13 +469,16 @@ namespace TaoBD10.ViewModels
                         else
                         {
                             isReadDuRoi = false;
-                            if(tongSoTuiN - numberRead < 5)
+                            if (tongSoTuiN != 0)
                             {
-                                if(lastConLai != tongSoTuiN - numberRead)
+                                if (tongSoTuiN - numberRead < 5)
                                 {
-                                    lastConLai = tongSoTuiN - numberRead;
-                                    Thread.Sleep(2000);
-                                    SoundManager.playSound(@"Number\" + lastConLai.ToString() + ".wav");
+                                    if (lastConLai != tongSoTuiN - numberRead)
+                                    {
+                                        lastConLai = tongSoTuiN - numberRead;
+                                        Thread.Sleep(2000);
+                                        SoundManager.playSound(@"Number\" + lastConLai.ToString() + ".wav");
+                                    }
                                 }
                             }
                         }

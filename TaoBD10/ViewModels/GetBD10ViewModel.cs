@@ -265,7 +265,7 @@ namespace TaoBD10.ViewModels
 
         public void RunAutoGetData()
         {
-            timer.Start();
+            bwGetData.RunWorkerAsync();
         }
 
         private void PhanLoai(string textXacNhan)

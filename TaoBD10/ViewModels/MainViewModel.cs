@@ -457,7 +457,7 @@ namespace TaoBD10.ViewModels
                         int.TryParse(Regex.Match(apiNumber.Text, @"\d+").Value, out numberRead);
                         TestAPIModel tongSoTui = listWindowStatic[15];
                         int.TryParse(Regex.Match(apiNumber.Text, @"\d+").Value, out numberRead);
-                        if (apiNumber.Text.Trim() == tongSoTui.Text.Trim())
+                        if (apiNumber.Text.Trim() == tongSoTui.Text.Trim()&& tongSoTui.Text !="0")
                         {
                             if (!isReadDuRoi)
                             {

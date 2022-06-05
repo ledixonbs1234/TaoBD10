@@ -5,6 +5,7 @@ using IronXL;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -228,6 +229,11 @@ document.getElementsByClassName("".footer"").remove();
                         else
                         {
                             WebBrowser.ExecuteScriptAsync(scriptLogin);
+                            App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
+                            {
+                                WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Navigation", Content = "Web" });
+                            });
+                            
                         }
                     }
                     else if (diachi.IndexOf("mps.vnpost.vn/login") != -1)

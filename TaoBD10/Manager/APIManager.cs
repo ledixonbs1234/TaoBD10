@@ -150,42 +150,58 @@ namespace TaoBD10.Manager
         /// <returns>null neu khong tim thay</returns>
         public static WindowInfo WaitingFindedWindow(string title, string title2 = "null", int time = 8, bool isExactly = false)
         {
-            WindowInfo currentWindow = null;
-            string titleWindow = "";
-            time *= 5;
-            if (isExactly)
+            try
             {
-                while (titleWindow != title)
+                WindowInfo currentWindow = null;
+                string titleWindow = "";
+                time *= 5;
+                if (isExactly)
                 {
-                    time--;
-                    if (time <= 0)
-                        return null;
-
-                    Thread.Sleep(200);
-                    currentWindow = GetActiveWindowTitle(true);
-
-                    titleWindow = currentWindow.text;
-                }
-            }
-            else
-            {
-                while (titleWindow.IndexOf(title) == -1 && titleWindow.IndexOf(title2) == -1)
-                {
-                    time--;
-                    if (time <= 0)
-                        return null;
-
-                    Thread.Sleep(200);
-                    currentWindow = GetActiveWindowTitle();
-                    if (!string.IsNullOrEmpty(currentWindow.text))
+                    while (titleWindow != title)
                     {
-                        titleWindow = ConvertToUnSign3(currentWindow.text).ToLower();
-                    }
+                        time--;
+                        if (time <= 0)
+                            return null;
 
+                        Thread.Sleep(200);
+                        currentWindow = GetActiveWindowTitle(true);
+
+                        titleWindow = currentWindow.text;
+                    }
                 }
+                else
+                {
+                    while (titleWindow.IndexOf(title) == -1 && titleWindow.IndexOf(title2) == -1)
+                    {
+                        time--;
+                        if (time <= 0)
+                            return null;
+
+                        Thread.Sleep(200);
+                        currentWindow = GetActiveWindowTitle();
+                        if (!string.IsNullOrEmpty(currentWindow.text))
+                        {
+                            titleWindow = ConvertToUnSign3(currentWindow.text).ToLower();
+                        }
+
+                    }
+                }
+                Thread.Sleep(100);
+                return currentWindow;
             }
-            Thread.Sleep(100);
-            return currentWindow;
+            catch (Exception ex)
+            {
+                // Get stack trace for the exception with source file information
+                var st = new StackTrace(ex, true);
+                // Get the top stack frame
+                var frame = st.GetFrame(0);
+                // Get the line number from the stack frame
+                var line = frame.GetFileLineNumber();
+                APIManager.OpenNotePad(ex.Message + '\n' + "loi Line WebViewModel " + line + " Number Line " + APIManager.GetLineNumber(ex), "loi ");
+                throw;
+                throw;
+            }
+            
         }
 
         public static List<TestAPIModel> GetListControlText(IntPtr handleActiveWindow)

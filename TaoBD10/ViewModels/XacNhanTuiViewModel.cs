@@ -194,8 +194,24 @@ namespace TaoBD10.ViewModels
             SendKeys.SendWait("{TAB}");
             Thread.Sleep(50);
             SendKeys.SendWait("^(a)");
-            string clipboard = APIManager.GetCopyData();
-            
+            Thread.Sleep(500);
+            string clipboard = "";
+            for (int i = 0; i < 3; i++)
+            {
+                try
+                {
+                    SendKeys.SendWait("^(c)");
+                    Thread.Sleep(100);
+                    clipboard = System.Windows.Clipboard.GetText();
+                    if (!string.IsNullOrEmpty(clipboard))
+                        break;
+                }
+                catch
+                {
+                    APIManager.ShowSnackbar("Không copy được");
+                }
+            }
+
             if (string.IsNullOrEmpty(clipboard))
             {
                 APIManager.ShowSnackbar("Không copy được");

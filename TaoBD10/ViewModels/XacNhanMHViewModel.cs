@@ -41,6 +41,7 @@ namespace TaoBD10.ViewModels
                 App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
                 {
                     XacNhanMH = m.Value;
+                    GoToCTCommand.Execute(null);
                 });
 
             }

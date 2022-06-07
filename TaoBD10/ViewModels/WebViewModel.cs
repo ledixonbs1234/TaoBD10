@@ -229,10 +229,10 @@ document.getElementsByClassName("".footer"").remove();
                         else
                         {
                             WebBrowser.ExecuteScriptAsync(scriptLogin);
-                            App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
-                            {
-                                WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Navigation", Content = "Web" });
-                            });
+                            //App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
+                            //{
+                            //    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Navigation", Content = "Web" });
+                            //});
                             
                         }
                     }
@@ -439,7 +439,12 @@ document.getElementsByClassName("".footer"").remove();
                             }
                             kiemTra.Address = addresss.First().InnerText;
 
-                            HtmlNode table = document.DocumentNode.SelectNodes("//table[@id='MainContent_ctl00_grvItemMailTrip']/tbody").First();
+                            HtmlNodeCollection tables = document.DocumentNode.SelectNodes("//table[@id='MainContent_ctl00_grvItemMailTrip']/tbody");
+                            if(tables == null)
+                            {
+                                return;
+                            }
+                            var table = tables.First();
                             HtmlNodeCollection aa = table.LastChild.PreviousSibling.SelectNodes("td");
                             kiemTra.Date = aa[2].InnerText;
                             kiemTra.BuuCucDong = aa[3].InnerText;

@@ -130,22 +130,8 @@ namespace TaoBD10.ViewModels
             tuiTempHangHoa = new List<TuiHangHoa>();
             while (countSame <= 3)
             {
-                string textClip = "";
+                string textClip = APIManager.GetCopyData();
 
-                for (int i = 0; i < 3; i++)
-                {
-                    try
-                    {
-                        SendKeys.SendWait("^(c)");
-                        Thread.Sleep(100);
-                        textClip = System.Windows.Clipboard.GetText() + "\n";
-                        if (!string.IsNullOrEmpty(textClip))
-                            break;
-                    }
-                    catch
-                    {
-                    }
-                }
 
                 if (string.IsNullOrEmpty(textClip))
                 {
@@ -213,7 +199,6 @@ namespace TaoBD10.ViewModels
                 Thread.Sleep(50);
             }
             //thuc hien ctrl a
-            Clipboard.Clear();
             SendKeys.SendWait("^(a)");
 
             string dataCopyed = APIManager.GetCopyData();

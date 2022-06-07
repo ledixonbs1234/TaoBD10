@@ -192,6 +192,7 @@ namespace TaoBD10.ViewModels
             //thuc hien loc danh sach tu bd8
             if (HangHoas.Count == 0)
                 return;
+            bool isLast = false;
 
             foreach (HangHoaDetailModel diNgoaiItem in HangHoas)
             {

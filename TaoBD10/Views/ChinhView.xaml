@@ -144,13 +144,13 @@
                 Width="115"
                 Margin="5"
                 Command="{Binding D420Command}"
-                Content="D420"
+                Content="Print BĐ 8"
                 Style="{StaticResource MaterialDesignPaperButton}" />
             <Button
                 Width="115"
                 Margin="5"
                 Command="{Binding PrintDefaultCommand}"
-                Content="Print Default"
+                Content="Print BĐ 10"
                 Style="{StaticResource MaterialDesignPaperButton}" />
         </StackPanel>
     </StackPanel>

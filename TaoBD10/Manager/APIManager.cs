@@ -16,6 +16,8 @@ namespace TaoBD10.Manager
     public static class APIManager
     {
         public delegate bool EnumWindowProc(IntPtr hwnd, IntPtr lParam);
+        public static string namePrinterBD8 = "";
+        public static string namePrinterBD10 = "";
 
         public static string ConvertToUnSign3(string s)
         {
@@ -118,26 +120,19 @@ namespace TaoBD10.Manager
         [DllImport("winspool.drv", CharSet = CharSet.Auto, SetLastError = true)]
         private static extern bool SetDefaultPrinter(string Name);
 
-        public static void SetZ420Print()
+        public static void SetPrintBD8()
         {
-            foreach (string printer in PrinterSettings.InstalledPrinters)
+            if (!string.IsNullOrEmpty(namePrinterBD8))
             {
-                if (printer.IndexOf("ZDesigner") != -1)
-                {
-                    SetDefaultPrinter(printer);
-                    break;
-                }
+                SetDefaultPrinter(namePrinterBD8);
             }
+            
         }
-        public static void SetDefaultPrint()
+        public static void SetPrintBD10()
         {
-            foreach (string printer in PrinterSettings.InstalledPrinters)
+            if (!string.IsNullOrEmpty(namePrinterBD10))
             {
-                if (printer.IndexOf("M201") != -1)
-                {
-                    APIManager.SetDefaultPrinter(printer);
-                    break;
-                }
+                SetDefaultPrinter(namePrinterBD10);
             }
         }
 
@@ -201,7 +196,7 @@ namespace TaoBD10.Manager
                 throw;
                 throw;
             }
-            
+
         }
 
         public static List<TestAPIModel> GetListControlText(IntPtr handleActiveWindow)

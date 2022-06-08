@@ -246,7 +246,7 @@ namespace TaoBD10.ViewModels
                     return;
                 }
 
-                APIManager.SetZ420Print();
+                APIManager.SetPrintBD8();
 
                 SendKeys.SendWait("{TAB}");
                 Thread.Sleep(100);
@@ -1000,7 +1000,7 @@ namespace TaoBD10.ViewModels
                     }
 
                     isWaitingPrint = true;
-                    APIManager.SetZ420Print();
+                    APIManager.SetPrintBD8();
 
                     Thread.Sleep(200);
                     SendKeys.SendWait("{TAB}");

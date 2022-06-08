@@ -204,10 +204,6 @@ namespace TaoBD10.ViewModels
                 return;
             }
 
-            isRunFirst = false;
-            isWaitingPrint = false;
-
-
             currentWindow = APIManager.GetActiveWindowTitle();
 
             if (currentWindow.text.IndexOf("dong chuyen thu") != -1)
@@ -264,7 +260,7 @@ namespace TaoBD10.ViewModels
             {
                 return;
             }
-            APIManager.SetZ420Print();
+            APIManager.SetPrintBD8();
             SendKeys.SendWait("{TAB}");
             Thread.Sleep(100);
             SendKeys.SendWait("{TAB}");
@@ -538,22 +534,15 @@ namespace TaoBD10.ViewModels
 
         private void D420()
         {
-            APIManager.SetZ420Print();
+            APIManager.SetPrintBD8();
         }
 
         public ICommand PrintDefaultCommand { get; }
 
         private void PrintDefault()
         {
-            APIManager.SetDefaultPrint();
+            APIManager.SetPrintBD10();
         }
-
-        private PrintState printState = PrintState.CheckF;
-        private bool isWaitingPrint = false;
-
-        private bool isRunFirst = false;
-
-        
 
         public ICommand LayDuLieuCommand { get; }
 

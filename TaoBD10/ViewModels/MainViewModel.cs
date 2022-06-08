@@ -176,7 +176,7 @@ namespace TaoBD10.ViewModels
                 return;
             }
 
-            APIManager.SetDefaultPrint();
+            APIManager.SetPrintBD10();
             SendKeys.SendWait("{F3}");
             Thread.Sleep(500);
             SendKeys.SendWait("{Enter}");

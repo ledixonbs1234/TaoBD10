@@ -179,51 +179,65 @@ namespace TaoBD10.ViewModels
 
         private void BwRunPrints_DoWork(object sender, DoWorkEventArgs e)
         {
-            string lastcopy = "";
-            string data = APIManager.GetCopyData();
-            while (lastcopy != data)
+            try
             {
-                Thread.Sleep(100);
-                data = APIManager.GetCopyData();
-                if (string.IsNullOrEmpty(data))
+                string lastcopy = "";
+                string data = APIManager.GetCopyData();
+                while (lastcopy != data)
                 {
-                    return;
-                }
-                lastcopy = data;
-                //550910-VCKV - Đà Nẵng LT	08/06/2022	1	Ô tô	21	206,4	Đã đi
-                //590100-VCKV Nam Trung Bộ	08/06/2022	2	Ô tô	50	456,1	Khởi tạo
-                if (data.IndexOf("550910") != -1
-                    || data.IndexOf("550915") != -1
-                    || data.IndexOf("590100") != -1
-                    || data.IndexOf("592020") != -1
-                    || data.IndexOf("592440") != -1
-                    || data.IndexOf("592810") != -1
-                    || data.IndexOf("560100") != -1
-                    || data.IndexOf("570100") != -1
-                    && data.IndexOf("Khởi tạo") != -1)
-                {
-                    SendKeys.SendWait("^{TAB}");
-                    Thread.Sleep(50);
-                    SendKeys.SendWait("{LEFT}");
-                    Thread.Sleep(50);
-                    SendKeys.SendWait("{LEFT}");
-                    Thread.Sleep(50);
-                    SendKeys.SendWait("{LEFT}");
-                    SendKeys.SendWait(" ");
-                    var window = APIManager.WaitingFindedWindow("sua thong tin bd10");
-                    if (window == null)
+                    Thread.Sleep(100);
+                    data = APIManager.GetCopyData();
+                    if (string.IsNullOrEmpty(data))
                     {
                         return;
                     }
-                    Thread.Sleep(500);
-                    SendKeys.SendWait("{F6}");
+                    lastcopy = data;
+                    //550910-VCKV - Đà Nẵng LT	08/06/2022	1	Ô tô	21	206,4	Đã đi
+                    //590100-VCKV Nam Trung Bộ	08/06/2022	2	Ô tô	50	456,1	Khởi tạo
+                    if (data.IndexOf("550910") != -1
+                        || data.IndexOf("550915") != -1
+                        || data.IndexOf("590100") != -1
+                        || data.IndexOf("592020") != -1
+                        || data.IndexOf("592440") != -1
+                        || data.IndexOf("592810") != -1
+                        || data.IndexOf("560100") != -1
+                        || data.IndexOf("570100") != -1
+                        && data.IndexOf("Khởi tạo") != -1)
+                    {
+                        SendKeys.SendWait("^{TAB}");
+                        Thread.Sleep(50);
+                        SendKeys.SendWait("{LEFT}");
+                        Thread.Sleep(50);
+                        SendKeys.SendWait("{LEFT}");
+                        Thread.Sleep(50);
+                        SendKeys.SendWait("{LEFT}");
+                        SendKeys.SendWait(" ");
+                        var window = APIManager.WaitingFindedWindow("sua thong tin bd10");
+                        if (window == null)
+                        {
+                            return;
+                        }
+                        Thread.Sleep(500);
+                        SendKeys.SendWait("{F6}");
+                    }
+                    else
+                    {
+                        SendKeys.SendWait("{DOWN}");
+                    }
                 }
-                else
-                {
-                    SendKeys.SendWait("{DOWN}");
-                }
+                APIManager.ShowSnackbar("Run print list bd 10 complete");
             }
-            APIManager.ShowSnackbar("Run print list bd 10 complete");
+            catch (Exception ex)
+            {
+                var st = new StackTrace(ex, true);
+                // Get the top stack frame
+                var frame = st.GetFrame(0);
+                // Get the line number from the stack frame
+                var line = frame.GetFileLineNumber();
+                APIManager.OpenNotePad(ex.Message + '\n' + "MainViewModel " + line + " Number Line " + APIManager.GetLineNumber(ex), "loi ");
+                throw;
+            }
+
         }
 
         private void BwPrintBD10_DoWork(object sender, DoWorkEventArgs e)

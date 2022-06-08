@@ -201,6 +201,7 @@ namespace TaoBD10.ViewModels
             }
             //thuc hien ctrl a
             SendKeys.SendWait("^(a)");
+            Thread.Sleep(500);
 
             string dataCopyed = APIManager.GetCopyData();
             if (string.IsNullOrEmpty(dataCopyed))

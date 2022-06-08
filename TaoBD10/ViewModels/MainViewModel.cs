@@ -63,6 +63,8 @@ namespace TaoBD10.ViewModels
             bwPrintBD10.DoWork += BwPrintBD10_DoWork;
             bwPrintBanKe = new BackgroundWorker();
             bwPrintBanKe.DoWork += BwPrintBanKe_DoWork;
+            bwRunPrints = new BackgroundWorker();
+            bwRunPrints.DoWork += BwRunPrints_DoWork;
 
 
             _keyboardHook = new Y2KeyboardHook();
@@ -165,6 +167,41 @@ namespace TaoBD10.ViewModels
                     }
                 }
             });
+        }
+
+        private void BwRunPrints_DoWork(object sender, DoWorkEventArgs e)
+        {
+            string lastcopy = "";
+            string data = APIManager.GetCopyData();
+            while (lastcopy != data)
+            {
+                data = APIManager.GetCopyData();
+                if (string.IsNullOrEmpty(data))
+                {
+                    return;
+                }
+                lastcopy = data;
+                //550910-VCKV - Đà Nẵng LT	08/06/2022	1	Ô tô	21	206,4	Đã đi
+                //590100-VCKV Nam Trung Bộ	08/06/2022	2	Ô tô	50	456,1	Khởi tạo
+                if (data.IndexOf("550910") != -1
+                    || data.IndexOf("550915") != -1
+                    || data.IndexOf("590100") != -1
+                    || data.IndexOf("592020") != -1
+                    || data.IndexOf("592440") != -1
+                    || data.IndexOf("592810") != -1
+                    || data.IndexOf("560100") != -1
+                    || data.IndexOf("570100") != -1
+                    && data.IndexOf("Khởi tạo") != -1)
+                {
+
+
+                }
+                else
+                {
+                    SendKeys.SendWait("{DOWN}");
+                }
+            }
+
         }
 
         private void BwPrintBD10_DoWork(object sender, DoWorkEventArgs e)
@@ -968,9 +1005,8 @@ namespace TaoBD10.ViewModels
                     WindowInfo currentWindow = APIManager.GetActiveWindowTitle();
                     if (currentWindow == null)
                         return;
-                    string textCo = APIManager.ConvertToUnSign3(currentWindow.text).ToLower();
 
-                    if (textCo.IndexOf("xac nhan bd10 den") != -1)
+                    if (currentWindow.text.IndexOf("xac nhan bd10 den") != -1)
                         WeakReferenceMessenger.Default.Send(new MessageManager("getData"));
                     break;
 
@@ -981,9 +1017,8 @@ namespace TaoBD10.ViewModels
                         return;
                     }
 
-                    textCo = APIManager.ConvertToUnSign3(currentWindow.text).ToLower();
 
-                    if (textCo.IndexOf("sua thong tin bd10") != -1 || textCo.IndexOf("lap bd10") != -1)
+                    if (currentWindow.text.IndexOf("sua thong tin bd10") != -1 || currentWindow.text.IndexOf("lap bd10") != -1)
                     {
                         WeakReferenceMessenger.Default.Send(new ContentModel { Key = "GuiTrucTiep", Content = "PrintDiNgoai" });
                     }
@@ -1153,12 +1188,21 @@ namespace TaoBD10.ViewModels
                         bwPrintBanKe.RunWorkerAsync();
                     }
                     break;
+                case Key.F4:
+                    activeWindows = APIManager.GetActiveWindowTitle();
+                    if (activeWindows.text.IndexOf("danh sach bd10 di") != -1)
+                    {
+                        bwPrintBanKe.RunWorkerAsync();
+                    }
+                    break;
+
                 default:
                     KeyData += e.KeyPressed.ToString();
                     break;
             }
         }
         BackgroundWorker bwPrintBanKe;
+        BackgroundWorker bwRunPrints;
 
         string getCodeFromString(string content)
         {

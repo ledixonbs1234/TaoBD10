@@ -194,14 +194,14 @@ namespace TaoBD10.ViewModels
                     lastcopy = data;
                     //550910-VCKV - Đà Nẵng LT	08/06/2022	1	Ô tô	21	206,4	Đã đi
                     //590100-VCKV Nam Trung Bộ	08/06/2022	2	Ô tô	50	456,1	Khởi tạo
-                    if (data.IndexOf("550910") != -1
+                    if ((data.IndexOf("550910") != -1
                         || data.IndexOf("550915") != -1
                         || data.IndexOf("590100") != -1
                         || data.IndexOf("592020") != -1
                         || data.IndexOf("592440") != -1
                         || data.IndexOf("592810") != -1
                         || data.IndexOf("560100") != -1
-                        || data.IndexOf("570100") != -1
+                        || data.IndexOf("570100") != -1)
                         && data.IndexOf("Khởi tạo") != -1)
                     {
                         SendKeys.SendWait("^{TAB}");

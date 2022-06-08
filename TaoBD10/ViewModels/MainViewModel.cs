@@ -183,6 +183,7 @@ namespace TaoBD10.ViewModels
             string data = APIManager.GetCopyData();
             while (lastcopy != data)
             {
+                Thread.Sleep(100);
                 data = APIManager.GetCopyData();
                 if (string.IsNullOrEmpty(data))
                 {

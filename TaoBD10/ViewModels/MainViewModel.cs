@@ -35,6 +35,14 @@ namespace TaoBD10.ViewModels
 
         BackgroundWorker backgroundWorkerRead;
 
+        private bool _IsAutoF4 = false;
+
+        public bool IsAutoF4
+        {
+            get { return _IsAutoF4; }
+            set { SetProperty(ref _IsAutoF4, value); }
+        }
+
 
 
         void CloseWindow(Window window)
@@ -193,15 +201,28 @@ namespace TaoBD10.ViewModels
                     || data.IndexOf("570100") != -1
                     && data.IndexOf("Khởi tạo") != -1)
                 {
-
-
+                    SendKeys.SendWait("^{TAB}");
+                    Thread.Sleep(50);
+                    SendKeys.SendWait("{LEFT}");
+                    Thread.Sleep(50);
+                    SendKeys.SendWait("{LEFT}");
+                    Thread.Sleep(50);
+                    SendKeys.SendWait("{LEFT}");
+                    SendKeys.SendWait(" ");
+                    var window = APIManager.WaitingFindedWindow("sua thong tin bd10");
+                    if (window == null)
+                    {
+                        return;
+                    }
+                    Thread.Sleep(500);
+                    SendKeys.SendWait("{F6}");
                 }
                 else
                 {
                     SendKeys.SendWait("{DOWN}");
                 }
             }
-
+            APIManager.ShowSnackbar("Run print list bd 10 complete");
         }
 
         private void BwPrintBD10_DoWork(object sender, DoWorkEventArgs e)
@@ -264,6 +285,16 @@ namespace TaoBD10.ViewModels
             SendKeys.SendWait("{Esc}");
             Thread.Sleep(100);
             SendKeys.SendWait("{Enter}");
+            if (IsAutoF4)
+            {
+                WindowInfo window = APIManager.WaitingFindedWindow("danh sach bd10 di");
+                if (window == null)
+                {
+                    return;
+                }
+                Thread.Sleep(500);
+                SendKeys.SendWait("{F4}");
+            }
         }
 
         private void BwPrintBanKe_DoWork(object sender, DoWorkEventArgs e)

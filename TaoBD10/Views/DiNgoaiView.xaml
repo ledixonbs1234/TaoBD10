@@ -169,13 +169,12 @@
                     <DataGridTextColumn
                         Binding="{Binding TinhGocGui}"
                         Header="Tỉnh Gửi"
-                         
                         IsReadOnly="True" />
                     <DataGridTextColumn
+                        Width="100"
                         Binding="{Binding BuuCucGui}"
                         Header="BC Gửi"
-                        Width="100"
-                        IsReadOnly="True" >
+                        IsReadOnly="True">
                         <DataGridTextColumn.CellStyle>
                             <Style TargetType="{x:Type DataGridCell}">
                                 <Setter Property="ToolTip" Value="{Binding BuuCucGui}" />
@@ -183,9 +182,9 @@
                         </DataGridTextColumn.CellStyle>
                     </DataGridTextColumn>
                     <DataGridTextColumn
+                        Width="100"
                         Binding="{Binding BuuCucNhanTemp}"
                         Header="BC Temp"
-                        Width="100"
                         IsReadOnly="True">
                         <DataGridTextColumn.CellStyle>
                             <Style TargetType="{x:Type DataGridCell}">
@@ -236,12 +235,12 @@
                 <Button
                     Margin="5"
                     Command="{Binding AddAddressCommand}"
-                    Content="Add Address" />
+                    Content="Thêm Địa Chỉ" />
                 <Button Margin="5" Content="Add Selected Address" />
                 <Button
                     Margin="5"
                     Command="{Binding SortCommand}"
-                    Content="Sort" />
+                    Content="Sắp xếp" />
                 <Button
                     Margin="5"
                     Command="{Binding XoaDiNgoaiCommand}"

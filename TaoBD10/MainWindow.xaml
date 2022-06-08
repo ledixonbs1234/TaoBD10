@@ -143,10 +143,16 @@
                 Panel.ZIndex="10"
                 MessageQueue="{Binding MessageQueue, Mode=TwoWay}" />
         </Grid>
-
-        <CheckBox
+        <StackPanel
             Grid.Row="1"
             HorizontalAlignment="Center"
-            Content="Top Most" IsChecked="{Binding IsTopMost}" />
+            VerticalAlignment="Center"
+            Orientation="Horizontal">
+            <CheckBox Content="Top Most" IsChecked="{Binding IsTopMost}" />
+            <CheckBox Content="Auto F4" IsChecked="{Binding IsAutoF4}" />
+
+        </StackPanel>
+
+
     </Grid>
 </Window>

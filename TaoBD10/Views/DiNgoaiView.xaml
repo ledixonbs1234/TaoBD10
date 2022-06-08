@@ -169,15 +169,30 @@
                     <DataGridTextColumn
                         Binding="{Binding TinhGocGui}"
                         Header="Tỉnh Gửi"
+                         
                         IsReadOnly="True" />
                     <DataGridTextColumn
                         Binding="{Binding BuuCucGui}"
                         Header="BC Gửi"
-                        IsReadOnly="True" />
+                        Width="100"
+                        IsReadOnly="True" >
+                        <DataGridTextColumn.CellStyle>
+                            <Style TargetType="{x:Type DataGridCell}">
+                                <Setter Property="ToolTip" Value="{Binding BuuCucGui}" />
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                    </DataGridTextColumn>
                     <DataGridTextColumn
                         Binding="{Binding BuuCucNhanTemp}"
                         Header="BC Temp"
-                        IsReadOnly="True" />
+                        Width="100"
+                        IsReadOnly="True">
+                        <DataGridTextColumn.CellStyle>
+                            <Style TargetType="{x:Type DataGridCell}">
+                                <Setter Property="ToolTip" Value="{Binding BuuCucNhan}" />
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                    </DataGridTextColumn>
 
 
                     <DataGridTextColumn

@@ -4,12 +4,20 @@ namespace TaoBD10.Model
 {
     public class DiNgoaiItemModel : ObservableObject
     {
-        public int Index { get; set; }
-        public string Code { get; set; }
-        public string BuuCucGui { get; set; }
-        public string AddressSend { get; set; }
+        public DiNgoaiItemModel(int index, string code)
+        {
+            this.Index = index;
+            Code = code;
+        }
 
-        private string _Address;
+        public DiNgoaiItemModel(int index, string code, string buuCucGui, string buuCucNhan, string tinhGocGui)
+        {
+            this.Index = index;
+            Code = code;
+            this.BuuCucGui = buuCucGui;
+            BuuCucNhanTemp = buuCucNhan;
+            TinhGocGui = tinhGocGui;
+        }
 
         public string Address
         {
@@ -21,7 +29,21 @@ namespace TaoBD10.Model
             set { SetProperty(ref _Address, value); }
         }
 
-        private string _MaTinh;
+        public string AddressSend { get; set; }
+        public string BuuCucGui { get; set; }
+        public string BuuCucNhanTemp
+        {
+            get { return _BuuCucNhanTemp; }
+            set { SetProperty(ref _BuuCucNhanTemp, value); }
+        }
+
+        public string Code { get; set; }
+        public int Index { get; set; }
+        public string MaBuuCuc
+        {
+            get { return _MaBuuCuc; }
+            set { SetProperty(ref _MaBuuCuc, value); }
+        }
 
         public string MaTinh
         {
@@ -29,23 +51,11 @@ namespace TaoBD10.Model
             set { SetProperty(ref _MaTinh, value); }
         }
 
-        private string _MaBuuCuc;
-
-        public string MaBuuCuc
-        {
-            get { return _MaBuuCuc; }
-            set { SetProperty(ref _MaBuuCuc, value); }
-        }
-
-        private string _TenBuuCuc;
-
         public string TenBuuCuc
         {
             get { return _TenBuuCuc; }
             set { SetProperty(ref _TenBuuCuc, value); }
         }
-
-        private string _TenTinh;
 
         public string TenTinh
         {
@@ -53,10 +63,13 @@ namespace TaoBD10.Model
             set { SetProperty(ref _TenTinh, value); }
         }
 
-        public DiNgoaiItemModel(int index, string code)
-        {
-            this.Index = index;
-            Code = code;
-        }
+        public string TinhGocGui { get; set; }
+    
+        private string _Address;
+        private string _BuuCucNhanTemp;
+        private string _MaBuuCuc;
+        private string _MaTinh;
+        private string _TenBuuCuc;
+        private string _TenTinh;
     }
 }

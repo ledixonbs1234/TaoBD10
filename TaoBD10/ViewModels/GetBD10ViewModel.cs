@@ -192,6 +192,7 @@ namespace TaoBD10.ViewModels
             {
                 APIManager.ShowSnackbar("Không tìm thấy window xác nhận");
             }
+            Thread thread = new Thread(() => System.Windows.Clipboard.Clear());
 
             for (int i = 0; i < 4; i++)
             {
@@ -205,7 +206,6 @@ namespace TaoBD10.ViewModels
             if (string.IsNullOrEmpty(dataCopyed))
             {
                 APIManager.ShowSnackbar("Không copy được");
-
                 return;
             }
             PhanLoai(dataCopyed);

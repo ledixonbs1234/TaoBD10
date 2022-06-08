@@ -46,6 +46,8 @@ namespace TaoBD10.ViewModels
             XoaDiNgoaiCommand = new RelayCommand(XoaDiNgoai);
             SortCommand = new RelayCommand(Sort);
             TestCommand = new RelayCommand(Test);
+            SetTinhCommand = new RelayCommand(SetTinh);
+
 
             StopDiNgoaiCommand = new RelayCommand(StopDiNgoai);
 
@@ -347,7 +349,7 @@ namespace TaoBD10.ViewModels
                 }
 
                 //////xem thu no co chay cai gi khong
-                
+
                 SelectedSimple = DiNgoais[index];
                 Selection(SelectedSimple);
             }
@@ -1285,28 +1287,70 @@ namespace TaoBD10.ViewModels
                 }
             }
         }
+        public ICommand SetTinhCommand { get; }
+
+
+        void SetTinh()
+        {
+            foreach (var item in DiNgoais)
+            {
+                if (string.IsNullOrEmpty(item.BuuCucNhanTemp))
+                {
+                    continue;
+                }
+                string maTinh = item.BuuCucNhanTemp.Substring(0, 2);
+                switch (maTinh)
+                {
+                    case "11":
+                    case "12":
+                    case "15":
+                        item.MaTinh = "10";
+                        break;
+                    case "45":
+                        item.MaTinh = "44";
+                        break;
+                    case "73":
+                    case "75":
+                    case "76":
+                    case "71":
+                    case "74":
+                    case "72":
+                        item.MaTinh = "70";
+                        break;
+                    default:
+                        item.MaTinh = maTinh;
+                        break;
+                }
+            }
+            //Thuc hien xu ly lay tinh thanh command
+        }
+
 
         private void AddRange()
         {
-            foreach (string item in LocTextTho(TextsRange))
+            foreach (MaHieuDiNgoaiInfo item in LocTextTho(TextsRange))
             {
-                if (string.IsNullOrEmpty(item))
-                    continue;
-                string textChanged = item.Trim().ToUpper();
-                if (textChanged.Length != 13)
+                if (item.Code.Length != 13)
                 {
                     continue;
                 }                //    //kiem tra trung khong
                 if (DiNgoais.Count == 0)
                 {
-                    DiNgoais.Add(new DiNgoaiItemModel(DiNgoais.Count + 1, textChanged));
+                    if (string.IsNullOrEmpty(item.TinhGocGui))
+                    {
+                        DiNgoais.Add(new DiNgoaiItemModel(DiNgoais.Count + 1, item.Code));
+                    }
+                    else
+                    {
+                        DiNgoais.Add(new DiNgoaiItemModel(DiNgoais.Count + 1, item.Code, item.BuuCucGui, item.BuuCucNhanTemp, item.TinhGocGui));
+                    }
                 }
                 else
                 {
                     bool isTrundle = false;
                     foreach (DiNgoaiItemModel diNgoai in DiNgoais)
                     {
-                        if (diNgoai.Code == textChanged)
+                        if (diNgoai.Code.ToUpper() == item.Code)
                         {
                             isTrundle = true;
                             break;
@@ -1315,23 +1359,49 @@ namespace TaoBD10.ViewModels
                     if (isTrundle)
                         continue;
 
-                    DiNgoais.Add(new DiNgoaiItemModel(DiNgoais.Count + 1, textChanged));
+                    if (string.IsNullOrEmpty(item.TinhGocGui))
+                    {
+                        DiNgoais.Add(new DiNgoaiItemModel(DiNgoais.Count + 1, item.Code));
+                    }
+                    else
+                    {
+                        DiNgoais.Add(new DiNgoaiItemModel(DiNgoais.Count + 1, item.Code, item.BuuCucGui, item.BuuCucNhanTemp, item.TinhGocGui));
+                    }
                 }
             }
         }
 
-        private List<string> LocTextTho(string textsRange)
+        private List<MaHieuDiNgoaiInfo> LocTextTho(string textsRange)
         {
-            List<string> list = new List<string>();
+            //thuc hien loc ma hieu dia chi gui va dia chi nhan
+            List<MaHieuDiNgoaiInfo> list = new List<MaHieuDiNgoaiInfo>();
             var datas = textsRange.Split('\n');
             foreach (string data in datas)
             {
+                //thuc hien loc danh sach trong nay
                 if (data.Count() < 13)
                     continue;
-                var indexVN = data.ToUpper().IndexOf("VN");
-                if (indexVN - 11 < 0)
-                    continue;
-                list.Add(data.Substring(indexVN - 11, 13));
+                string[] splitedData = data.Split(' ');
+
+                int length = splitedData.Length;
+                if (splitedData.Length >= 10 && data.ToUpper().IndexOf("VN") != -1)
+                {
+                    list.Add(new MaHieuDiNgoaiInfo(splitedData[1].ToUpper(), splitedData[3], splitedData[2], splitedData[4]));
+                }
+                else
+                if (splitedData.Length == 7 && data.ToUpper().IndexOf("VN") != -1)
+                {
+                    list.Add(new MaHieuDiNgoaiInfo(splitedData[1].ToUpper(), splitedData[2], "", splitedData[3]));
+                }
+                else
+                {
+                    int indexVN = data.ToUpper().IndexOf("VN");
+                    if (indexVN - 11 < 0)
+                        continue;
+
+                    list.Add(new MaHieuDiNgoaiInfo(data.Substring(indexVN - 11, 13).Trim().ToUpper()));
+                }
+                //if(splitedData.Length )
             }
             return list;
         }

@@ -167,6 +167,20 @@
                         Header="Code"
                         IsReadOnly="True" />
                     <DataGridTextColumn
+                        Binding="{Binding TinhGocGui}"
+                        Header="Tỉnh Gửi"
+                        IsReadOnly="True" />
+                    <DataGridTextColumn
+                        Binding="{Binding BuuCucGui}"
+                        Header="BC Gửi"
+                        IsReadOnly="True" />
+                    <DataGridTextColumn
+                        Binding="{Binding BuuCucNhanTemp}"
+                        Header="BC Temp"
+                        IsReadOnly="True" />
+
+
+                    <DataGridTextColumn
                         Binding="{Binding MaTinh}"
                         Header="Mã Tỉnh"
                         IsReadOnly="False" />
@@ -196,13 +210,14 @@
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
-                    <DataGridTextColumn
-                        Binding="{Binding TenTinh}"
-                        Header="Tên Tỉnh"
-                        IsReadOnly="True" />
                 </DataGrid.Columns>
             </DataGrid>
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                <Button
+                    Margin="40,5"
+                    Command="{Binding SetTinhCommand}"
+                    Content="Set Tỉnh" />
+
                 <Button
                     Margin="5"
                     Command="{Binding AddAddressCommand}"

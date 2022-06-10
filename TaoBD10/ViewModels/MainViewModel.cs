@@ -182,11 +182,10 @@ namespace TaoBD10.ViewModels
             try
             {
                 string lastcopy = "";
-                string data = APIManager.GetCopyData();
+                string data = "null";
+                data = APIManager.GetCopyData();
                 while (lastcopy != data)
                 {
-                    Thread.Sleep(100);
-                    data = APIManager.GetCopyData();
                     if (string.IsNullOrEmpty(data))
                     {
                         return;
@@ -223,6 +222,8 @@ namespace TaoBD10.ViewModels
                     else
                     {
                         SendKeys.SendWait("{DOWN}");
+                        Thread.Sleep(100);
+                        data = APIManager.GetCopyData();
                     }
                 }
                 APIManager.ShowSnackbar("Run print list bd 10 complete");
@@ -1238,7 +1239,7 @@ namespace TaoBD10.ViewModels
                     activeWindows = APIManager.GetActiveWindowTitle();
                     if (activeWindows.text.IndexOf("danh sach bd10 di") != -1)
                     {
-                        bwPrintBanKe.RunWorkerAsync();
+                        bwRunPrints.RunWorkerAsync();
                     }
                     break;
 

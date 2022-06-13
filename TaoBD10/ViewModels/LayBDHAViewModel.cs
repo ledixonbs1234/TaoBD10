@@ -45,8 +45,8 @@ namespace TaoBD10.ViewModels
             IntPtr combo = IntPtr.Zero;
 
             string classDefault = "WindowsForms10.COMBOBOX.app.0.1e6fa8e";
-            string classEditDefault = "WindowsForms10.EDIT.app.0.1e6fa8e"; 
-                string classButtonDefault = "WindowsForms10.BUTTON.app.0.1e6fa8e";
+            string classEditDefault = "WindowsForms10.EDIT.app.0.1e6fa8e";
+            string classButtonDefault = "WindowsForms10.BUTTON.app.0.1e6fa8e";
 
             if (childControl.Count < 5)
             {
@@ -57,13 +57,14 @@ namespace TaoBD10.ViewModels
             Model.TestAPIModel buttonFindControl = childControl.FindAll(m => m.ClassName == classButtonDefault)[5];
             Model.TestAPIModel buttonGetControl = childControl.FindAll(m => m.ClassName == classButtonDefault)[5];
             const int CB_SETCURSEL = 0x014E;
-                APIManager.SendMessage(combobox.Handle, CB_SETCURSEL,indexBuuCuc,0);
+            APIManager.SendMessage(combobox.Handle, CB_SETCURSEL, indexBuuCuc, 0);
             APIManager.SendMessage(editControl.Handle, WM_SETTEXT, IntPtr.Zero, new StringBuilder("1"));
 
             int wparam = (0 << 16) | (0x79 & 0xffff);
             int WM_COMMAND = 0x0111;
-            APIManager.SendMessage(currentWindow.hwnd, WM_COMMAND,wparam, (int)buttonGetControl.Handle);
+            APIManager.SendMessage(currentWindow.hwnd, WM_COMMAND, wparam, (int)buttonGetControl.Handle);
             APIManager.SendMessage(currentWindow.hwnd, WM_COMMAND, wparam, (int)buttonFindControl.Handle);
+            isRunComplete = true;
         }
         bool isRunComplete = false;
         public ICommand LayToanBoCommand { get; }

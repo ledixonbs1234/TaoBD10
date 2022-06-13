@@ -27,11 +27,18 @@ namespace TaoBD10.ViewModels
             LayToanBoCommand = new RelayCommand(LayToanBo);
             bwLayBD = new BackgroundWorker();
             bwLayBD.DoWork += BwLayBD_DoWork;
+            bwLayBD.RunWorkerCompleted += BwLayBD_RunWorkerCompleted;
 
             timer = new DispatcherTimer();
             timer.Interval = new TimeSpan(0, 0, 0, 0, 500);
             timer.Tick += Timer_Tick;
         }
+
+        private void BwLayBD_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            isRunComplete = true;
+        }
+
         const uint WM_SETTEXT = 0x000C;
         private void BwLayBD_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -64,7 +71,7 @@ namespace TaoBD10.ViewModels
             int WM_COMMAND = 0x0111;
             APIManager.SendMessage(currentWindow.hwnd, WM_COMMAND, wparam, (int)buttonGetControl.Handle);
             APIManager.SendMessage(currentWindow.hwnd, WM_COMMAND, wparam, (int)buttonFindControl.Handle);
-            isRunComplete = true;
+           
         }
         bool isRunComplete = false;
         public ICommand LayToanBoCommand { get; }
@@ -72,25 +79,9 @@ namespace TaoBD10.ViewModels
 
         void LayToanBo()
         {
-            isRunComplete = false;
             AnMy();
-            while (!isRunComplete)
-            {
-                Thread.Sleep(200);
-            }
-            isRunComplete = false;
             HoaiAn();
-            while (!isRunComplete)
-            {
-                Thread.Sleep(200);
-            }
-            isRunComplete = false;
             AnLao();
-            while (!isRunComplete)
-            {
-                Thread.Sleep(200);
-            }
-            isRunComplete = false;
             AnHoa();
 
         }

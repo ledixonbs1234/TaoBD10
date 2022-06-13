@@ -45,32 +45,35 @@ namespace TaoBD10.ViewModels
             IntPtr combo = IntPtr.Zero;
 
             string classDefault = "WindowsForms10.COMBOBOX.app.0.1e6fa8e";
+            string classEditDefault = "WindowsForms10.EDIT.app.0.1e6fa8e";
             
             if (childControl.Count < 5)
             {
                 return;
             }
             Model.TestAPIModel combobox = childControl.FindAll(m => m.ClassName == classDefault)[1];
+            Model.TestAPIModel editControl = childControl.FindAll(m => m.ClassName == classEditDefault)[1];
 
             APIManager.SendMessage(combobox.Handle, WM_SETTEXT, IntPtr.Zero, new StringBuilder("noi dung"));
+            APIManager.SendMessage(editControl.Handle, WM_SETTEXT, IntPtr.Zero, new StringBuilder("1"));
 
-            APIManager.SendMessage(combo, 0x0007, 0, 0);
-            APIManager.SendMessage(combo, 0x0007, 0, 0);
-            SendKeys.SendWait(maBuuCuc);
-            SendKeys.SendWait("{TAB}");
-            Thread.Sleep(200);
-            SendKeys.SendWait("{TAB}");
-            Thread.Sleep(200);
-            //thuc hien ctrl A
-            SendKeys.SendWait("^(a){BS}");
-            SendKeys.SendWait("1");
-            SendKeys.SendWait("{TAB}");
-            Thread.Sleep(200);
-            SendKeys.SendWait("{TAB}");
-            Thread.Sleep(500);
-            SendKeys.SendWait("{TAB}");
-            Thread.Sleep(200);
-            SendKeys.SendWait(" ");
+            //APIManager.SendMessage(combo, 0x0007, 0, 0);
+            //APIManager.SendMessage(combo, 0x0007, 0, 0);
+            //SendKeys.SendWait(maBuuCuc);
+            //SendKeys.SendWait("{TAB}");
+            //Thread.Sleep(200);
+            //SendKeys.SendWait("{TAB}");
+            //Thread.Sleep(200);
+            ////thuc hien ctrl A
+            //SendKeys.SendWait("^(a){BS}");
+            //SendKeys.SendWait("1");
+            //SendKeys.SendWait("{TAB}");
+            //Thread.Sleep(200);
+            //SendKeys.SendWait("{TAB}");
+            //Thread.Sleep(500);
+            //SendKeys.SendWait("{TAB}");
+            //Thread.Sleep(200);
+            //SendKeys.SendWait(" ");
 
         }
 

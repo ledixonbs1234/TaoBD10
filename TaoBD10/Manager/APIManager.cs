@@ -316,6 +316,8 @@ namespace TaoBD10.Manager
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = false)]
         public static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, StringBuilder lParam);
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = false)]
+        public static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, int wParam,IntPtr lParam);
 
         [DllImportAttribute("User32.dll")]
         public static extern IntPtr SetForegroundWindow(IntPtr hWnd);

@@ -46,7 +46,7 @@ namespace TaoBD10.ViewModels
 
             string classDefault = "WindowsForms10.COMBOBOX.app.0.1e6fa8e";
             string classEditDefault = "WindowsForms10.EDIT.app.0.1e6fa8e";
-            
+
             if (childControl.Count < 5)
             {
                 return;
@@ -75,13 +75,34 @@ namespace TaoBD10.ViewModels
             //Thread.Sleep(200);
             //SendKeys.SendWait(" ");
 
+            isRunComplete = true;
         }
-
+        bool isRunComplete = false;
         public ICommand LayToanBoCommand { get; }
 
 
         void LayToanBo()
         {
+            isRunComplete = false;
+            AnMy();
+            while (!isRunComplete)
+            {
+                Thread.Sleep(200);
+            }
+            isRunComplete = false;
+            HoaiAn();
+            while (!isRunComplete)
+            {
+                Thread.Sleep(200);
+            }
+            isRunComplete = false;
+            AnLao();
+            while (!isRunComplete)
+            {
+                Thread.Sleep(200);
+            }
+            isRunComplete = false;
+            AnHoa();
 
         }
 

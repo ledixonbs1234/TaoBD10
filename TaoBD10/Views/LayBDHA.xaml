@@ -5,13 +5,29 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:TaoBD10.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-
     DataContext="{StaticResource LayBDHAVM}"
     mc:Ignorable="d">
     <StackPanel VerticalAlignment="Center">
-        <Button Margin="5,20,5,5" Content="Hoài Ân" Command="{Binding HoaiAnCommand}" />
-        <Button Margin="5" Content="Ân Mỹ" Command="{Binding AnMyCommand}" />
-        <Button Margin="5" Content="An Lão" Command="{Binding AnLaoCommand}" />
-        <Button Margin="5" Content="An Hòa" Command="{Binding AnHoaCommand}" />
+        <Button
+            Margin="5,20,5,5"
+            Command="{Binding HoaiAnCommand}"
+            Content="Hoài Ân" />
+        <Button
+            Margin="5"
+            Command="{Binding AnMyCommand}"
+            Content="Ân Mỹ" />
+        <Button
+            Margin="5"
+            Command="{Binding AnLaoCommand}"
+            Content="An Lão" />
+        <Button
+            Margin="5"
+            Command="{Binding AnHoaCommand}"
+            Content="An Hòa" />
+        <Button
+            Margin="10"
+            Background="#FFFFB515"
+            Command="{Binding LayToanBoCommand}"
+            Content="Lấy Toàn Bộ" />
     </StackPanel>
 </UserControl>

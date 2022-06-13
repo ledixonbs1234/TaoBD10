@@ -1,6 +1,8 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using System;
+using System.ComponentModel;
+using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -14,6 +16,7 @@ namespace TaoBD10.ViewModels
         private DispatcherTimer timer;
         private string maBuuCuc = "";
         private bool isWating = false;
+        BackgroundWorker bwLayBD;
 
         public LayBDHAViewModel()
         {
@@ -21,10 +24,64 @@ namespace TaoBD10.ViewModels
             HoaiAnCommand = new RelayCommand(HoaiAn);
             AnMyCommand = new RelayCommand(AnMy);
             AnHoaCommand = new RelayCommand(AnHoa);
+            LayToanBoCommand = new RelayCommand(LayToanBo);
+            bwLayBD = new BackgroundWorker();
+            bwLayBD.DoWork += BwLayBD_DoWork;
+
             timer = new DispatcherTimer();
             timer.Interval = new TimeSpan(0, 0, 0, 0, 500);
             timer.Tick += Timer_Tick;
         }
+        const uint WM_SETTEXT = 0x000C;
+        private void BwLayBD_DoWork(object sender, DoWorkEventArgs e)
+        {
+            WindowInfo currentWindow = APIManager.WaitingFindedWindow("danh sach bd10 den");
+            if (currentWindow == null)
+            {
+                return;
+            }
+            System.Collections.Generic.List<Model.TestAPIModel> childControl = APIManager.GetListControlText(currentWindow.hwnd);
+            int countCombobox = 0;
+            IntPtr combo = IntPtr.Zero;
+
+            string classDefault = "WindowsForms10.COMBOBOX.app.0.1e6fa8e";
+            
+            if (childControl.Count < 5)
+            {
+                return;
+            }
+            Model.TestAPIModel combobox = childControl.FindAll(m => m.ClassName == classDefault)[1];
+
+            APIManager.SendMessage(combobox.Handle, WM_SETTEXT, IntPtr.Zero, new StringBuilder("noi dung"));
+
+            APIManager.SendMessage(combo, 0x0007, 0, 0);
+            APIManager.SendMessage(combo, 0x0007, 0, 0);
+            SendKeys.SendWait(maBuuCuc);
+            SendKeys.SendWait("{TAB}");
+            Thread.Sleep(200);
+            SendKeys.SendWait("{TAB}");
+            Thread.Sleep(200);
+            //thuc hien ctrl A
+            SendKeys.SendWait("^(a){BS}");
+            SendKeys.SendWait("1");
+            SendKeys.SendWait("{TAB}");
+            Thread.Sleep(200);
+            SendKeys.SendWait("{TAB}");
+            Thread.Sleep(500);
+            SendKeys.SendWait("{TAB}");
+            Thread.Sleep(200);
+            SendKeys.SendWait(" ");
+
+        }
+
+        public ICommand LayToanBoCommand { get; }
+
+
+        void LayToanBo()
+        {
+
+        }
+
 
         private void Timer_Tick(object sender, EventArgs e)
         {
@@ -91,7 +148,8 @@ namespace TaoBD10.ViewModels
         private void AnHoa()
         {
             maBuuCuc = "593880";
-            timer.Start();
+            //timer.Start();
+            bwLayBD.RunWorkerAsync();
         }
 
         private void AnLao()

@@ -184,8 +184,17 @@ namespace TaoBD10.ViewModels
             SendKeys.SendWait("{F3}");
             SendKeys.SendWait(CurrentSelectedHangHoaDetail.TuiHangHoa.SHTui);
             SendKeys.SendWait("{ENTER}");
-            timer.Stop();
-            isBusyXacNhan = false;
+            window = APIManager.WaitingFindedWindow("xac nhan chi tiet tui thu","xem chuyen thu chieu den");
+            if (window == null)
+                return;
+            if(window.text.IndexOf("xac nhan chi tiet tui thu")!= -1)
+            {
+                SendKeys.SendWait("{ESC}");
+            }else if(window.text.IndexOf("xem chuyen thu chieu den")!= -1)
+            {
+
+            }
+
         }
 
         private void AnNhon()

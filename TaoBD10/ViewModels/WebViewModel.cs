@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Windows.Input;
 using TaoBD10.Manager;
 using TaoBD10.Model;
@@ -109,45 +110,45 @@ namespace TaoBD10.ViewModels
             {
                 SetProperty(ref _AddressWeb, value);
                 WebBrowser.LoadingStateChanged += WebBrowser_LoadingStateChanged;
-                WebBrowser.DownloadHandler = new MyDownloadHandler();
+                //WebBrowser.DownloadHandler = new MyDownloadHandler();
             }
         }
 
 
-        public class MyDownloadHandler : IDownloadHandler
-        {
-            public void OnBeforeDownload(IWebBrowser chromiumWebBrowser, IBrowser browser, DownloadItem downloadItem, IBeforeDownloadCallback callback)
-            {
-                if (!callback.IsDisposed)
-                {
-                    using (callback)
-                    {
-                        callback.Continue(System.IO.Path.Combine(@"c:\downloadFolder", downloadItem.SuggestedFileName), showDialog: false);
-                    }
-                }
-            }
+        //public class MyDownloadHandler : IDownloadHandler
+        //{
+        //    public void OnBeforeDownload(IWebBrowser chromiumWebBrowser, IBrowser browser, DownloadItem downloadItem, IBeforeDownloadCallback callback)
+        //    {
+        //        if (!callback.IsDisposed)
+        //        {
+        //            using (callback)
+        //            {
+        //                callback.Continue(System.IO.Path.Combine(@"c:\downloadFolder", downloadItem.SuggestedFileName), showDialog: false);
+        //            }
+        //        }
+        //    }
 
-            public void OnDownloadUpdated(IWebBrowser chromiumWebBrowser, IBrowser browser, DownloadItem downloadItem, IDownloadItemCallback callback)
-            {
-                if (downloadItem.IsValid)
-                {
-                    if (downloadItem.IsComplete)
-                    {
-                        GetListAddress(downloadItem.FullPath);
-                    }
-                }
+        //    public void OnDownloadUpdated(IWebBrowser chromiumWebBrowser, IBrowser browser, DownloadItem downloadItem, IDownloadItemCallback callback)
+        //    {
+        //        if (downloadItem.IsValid)
+        //        {
+        //            if (downloadItem.IsComplete)
+        //            {
+        //                GetListAddress(downloadItem.FullPath);
+        //            }
+        //        }
 
-            }
-            void GetListAddress(string fullPath)
-            {
-                //Send list address to Data;
-                //thuc hien doc du lieu tu file nao do
-                WorkBook workBook = new WorkBook(fullPath);
-                WorkSheet sheet = workBook.WorkSheets.First();
+        //    }
+        //    void GetListAddress(string fullPath)
+        //    {
+        //        //Send list address to Data;
+        //        //thuc hien doc du lieu tu file nao do
+        //        WorkBook workBook = new WorkBook(fullPath);
+        //        WorkSheet sheet = workBook.WorkSheets.First();
 
-                string cellValue = sheet["B5"].StringValue;
-            }
-        }
+        //        string cellValue = sheet["B5"].StringValue;
+        //    }
+        //}
 
         //thuc hien lay du lieu tu danh sach da co
         public ICommand LoginCommand { get; }
@@ -222,6 +223,8 @@ document.getElementsByClassName("".footer"").remove();
                         if (isFirstLoginSuccess)
                         {
                             WebBrowser.BackCommand.Execute(null);
+                            SoundManager.playSound2(@"Number\tingting.wav");
+                            Thread.Sleep(1000);
                             isFirstLoginSuccess = false;
                             WebBrowser.LoadUrl("https://bccp.vnpost.vn/BCCP.aspx?act=Trace&id=" + currentMaHieu);
                             IsLoadedWeb = false;

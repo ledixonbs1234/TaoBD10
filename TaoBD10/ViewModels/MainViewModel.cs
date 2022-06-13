@@ -1205,6 +1205,14 @@ namespace TaoBD10.ViewModels
                             WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "Print" });
                         }
                     }
+                    else if (KeyData.IndexOf("xnmh") != -1)
+                    {
+                        Thread.Sleep(100);
+                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Active", Content = "MainView" });
+                        IndexTabTui = 3;
+                        Thread.Sleep(100);
+                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Focus", Content = "Box" });
+                    }
                     //else if (KeyData.IndexOf("vn") != -1)
                     //{
                     //    WindowInfo activeWindow = APIManager.GetActiveWindowTitle();
@@ -1415,6 +1423,5 @@ namespace TaoBD10.ViewModels
 
 
         private System.Windows.Controls.TabControl tabTuiControl;
-        private readonly DispatcherTimer timerRead;
     }
 }

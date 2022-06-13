@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Mvvm.Messaging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TaoBD10.Model;
 
 namespace TaoBD10.Views
 {
@@ -23,6 +25,18 @@ namespace TaoBD10.Views
         public XacNhanMHView()
         {
             InitializeComponent();
+            WeakReferenceMessenger.Default.Register<ContentModel>(this, (r,m) => {
+
+                if (m.Key == "Focus")
+                {
+                    if (m.Content == "Box")
+                    {
+                        Box.Focus();
+                    }
+                }
+            });
         }
+
+        
     }
 }

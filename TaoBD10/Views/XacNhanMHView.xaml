@@ -36,15 +36,28 @@
                 Style="{StaticResource MaterialDesignBody1TextBlock}"
                 Text="{Binding XacNhanMH.TTCT}" />
 
+            <materialDesign:Card
+                Width="40"
+                Height="40"
+                Padding="4"
+                UniformCornerRadius="14">
+                <ProgressBar
+                    IsIndeterminate="{Binding IsWaitingComplete}"
+                    Style="{StaticResource MaterialDesignCircularProgressBar}"
+                    Value="50" />
+            </materialDesign:Card>
+
 
 
 
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
 
                 <TextBox
+                    Name="Box"
                     Width="150"
                     Margin="5"
                     AcceptsReturn="True"
+                    Focusable="True"
                     FontSize="16"
                     Text="{Binding MaHieu, UpdateSourceTrigger=PropertyChanged}" />
                 <Button
@@ -53,8 +66,6 @@
                     Content="Go CT" />
             </StackPanel>
 
-            <Button Command="{Binding TestCommand}"/>
-            <TextBox Height="100" AcceptsReturn="True" Text="{Binding TestText}" /> 
         </StackPanel>
     </materialDesign:Card>
 

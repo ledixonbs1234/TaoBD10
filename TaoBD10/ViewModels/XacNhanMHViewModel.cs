@@ -41,12 +41,22 @@ namespace TaoBD10.ViewModels
                 App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
                 {
                     XacNhanMH = m.Value;
+                    IsWaitingComplete = false;
                     GoToCTCommand.Execute(null);
                 });
 
             }
         });
         }
+        private bool _IsWaitingComplete =false;
+
+        public bool IsWaitingComplete
+        {
+            get { return _IsWaitingComplete; }
+            set { SetProperty(ref _IsWaitingComplete, value); }
+        }
+
+
 
         private void BackgroundWorkerXacNhan_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -206,6 +216,7 @@ namespace TaoBD10.ViewModels
                     return;
                 }
                 WeakReferenceMessenger.Default.Send(new ContentModel { Key = "XacNhanMH", Content = _MaHieu.Trim().ToLower() });
+                IsWaitingComplete = true;
 
                 MaHieu = "";
             }

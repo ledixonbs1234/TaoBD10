@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:TaoBD10.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Name="ChinhViewWindow"
     DataContext="{StaticResource ChinhVM}"
     mc:Ignorable="d">
     <StackPanel>

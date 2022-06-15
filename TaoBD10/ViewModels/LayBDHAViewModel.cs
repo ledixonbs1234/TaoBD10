@@ -26,6 +26,8 @@ namespace TaoBD10.ViewModels
             AnHoaCommand = new RelayCommand(AnHoa);
             LayToanBoCommand = new RelayCommand(LayToanBo);
             bwLayBD = new BackgroundWorker();
+            NamTrungBoCommand = new RelayCommand(NamTrungBo);
+            DaNangCommand = new RelayCommand(DaNang);
             bwLayBD.DoWork += BwLayBD_DoWork;
             bwLayBD.RunWorkerCompleted += BwLayBD_RunWorkerCompleted;
 
@@ -33,11 +35,45 @@ namespace TaoBD10.ViewModels
             timer.Interval = new TimeSpan(0, 0, 0, 0, 500);
             timer.Tick += Timer_Tick;
         }
+        private readonly bool[] _LanLapArray = new bool[] { true, false, false, false,false };
+        public bool[] LanLapArray
+        {
+            get { return _LanLapArray; }
+        }
+
+        public int SelectedLanLap
+        {
+            get { return Array.IndexOf(_LanLapArray, true); }
+        }
 
         private void BwLayBD_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             isRunComplete = true;
         }
+
+        public ICommand DaNangCommand { get; }
+
+        
+        public ICommand NamTrungBoCommand { get; }
+
+        
+
+        void NamTrungBo()
+        {
+            maBuuCuc = "590100";
+            indexBuuCuc = 515;
+            //timer.Start();
+            bwLayBD.RunWorkerAsync();
+        }
+
+        void DaNang()
+        {
+            maBuuCuc = "550910";
+            indexBuuCuc = 446;
+            //timer.Start();
+            bwLayBD.RunWorkerAsync();
+        }
+
 
         const uint WM_SETTEXT = 0x000C;
         private void BwLayBD_DoWork(object sender, DoWorkEventArgs e)
@@ -62,16 +98,12 @@ namespace TaoBD10.ViewModels
             Model.TestAPIModel combobox = childControl.FindAll(m => m.ClassName == classDefault)[1];
             Model.TestAPIModel editControl = childControl.FindAll(m => m.ClassName == classEditDefault)[1];
             Model.TestAPIModel buttonFindControl = childControl.FindAll(m => m.ClassName == classButtonDefault)[5];
-            Model.TestAPIModel buttonGetControl = childControl.FindAll(m => m.ClassName == classButtonDefault)[5];
+            Model.TestAPIModel buttonGetControl = childControl.FindAll(m => m.ClassName == classButtonDefault)[4];
             const int CB_SETCURSEL = 0x014E;
             APIManager.SendMessage(combobox.Handle, CB_SETCURSEL, indexBuuCuc, 0);
-            APIManager.SendMessage(editControl.Handle, WM_SETTEXT, IntPtr.Zero, new StringBuilder("1"));
-
-            int wparam = (0 << 16) | (0x79 & 0xffff);
-            int WM_COMMAND = 0x0111;
-            APIManager.SendMessage(currentWindow.hwnd, WM_COMMAND, wparam, (int)buttonGetControl.Handle);
-            APIManager.SendMessage(currentWindow.hwnd, WM_COMMAND, wparam, (int)buttonFindControl.Handle);
-           
+            APIManager.SendMessage(editControl.Handle, WM_SETTEXT, IntPtr.Zero, new StringBuilder((SelectedLanLap+1).ToString()));
+            APIManager.ClickButton(currentWindow.hwnd, buttonGetControl.Handle);
+            APIManager.ClickButton(currentWindow.hwnd, buttonFindControl.Handle);
         }
         bool isRunComplete = false;
         public ICommand LayToanBoCommand { get; }

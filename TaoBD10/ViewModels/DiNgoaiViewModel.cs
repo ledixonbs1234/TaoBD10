@@ -44,9 +44,11 @@ namespace TaoBD10.ViewModels
             ClearDiNgoaiCommand = new RelayCommand(ClearDiNgoai);
             AddRangeCommand = new RelayCommand(AddRange);
             XoaDiNgoaiCommand = new RelayCommand(XoaDiNgoai);
+            SetMaTinhGuiCommand = new RelayCommand(SetMaTinhGui);
+
             SortCommand = new RelayCommand(Sort);
             TestCommand = new RelayCommand(Test);
-            SetTinhCommand = new RelayCommand(SetTinh);
+            SetTinhCommand = new RelayCommand(SetTinhs);
 
 
             StopDiNgoaiCommand = new RelayCommand(StopDiNgoai);
@@ -95,6 +97,21 @@ namespace TaoBD10.ViewModels
         {
             bwPrintDiNgoai.CancelAsync();
         }
+
+        public ICommand SetMaTinhGuiCommand { get; }
+
+        
+        void SetMaTinhGui()
+        {
+            if (SelectedDiNgoai == null)
+                return;
+            if (DiNgoais.Count == 0)
+                return;
+            if (string.IsNullOrEmpty(SelectedDiNgoai.BuuCucGui))
+                return;
+            SelectedDiNgoai.MaTinh = GetTinhFromBuuCuc(SelectedDiNgoai.BuuCucGui);
+        }
+
 
 
         private void BwPrintDiNgoai_DoWork(object sender, DoWorkEventArgs e)
@@ -1289,40 +1306,45 @@ namespace TaoBD10.ViewModels
         }
         public ICommand SetTinhCommand { get; }
 
-
-        void SetTinh()
+        string GetTinhFromBuuCuc(string buucuc)
+        {
+            string maTinhFilled = "";
+            if (string.IsNullOrEmpty(buucuc))
+            {
+                return "";
+            }
+            string maTinh = buucuc.Substring(0, 2);
+            switch (maTinh)
+            {
+                case "11":
+                case "12":
+                case "13":
+                case "15":
+                    maTinhFilled = "10";
+                    break;
+                case "45":
+                    maTinhFilled = "44";
+                    break;
+                case "73":
+                case "75":
+                case "76":
+                case "71":
+                case "74":
+                case "72":
+                    maTinhFilled = "70";
+                    break;
+                default:
+                    maTinhFilled = maTinh;
+                    break;
+            }
+            return maTinhFilled;
+        }
+        void SetTinhs()
         {
             foreach (var item in DiNgoais)
             {
-                if (string.IsNullOrEmpty(item.BuuCucNhanTemp))
-                {
-                    continue;
-                }
-                string maTinh = item.BuuCucNhanTemp.Substring(0, 2);
-                switch (maTinh)
-                {
-                    case "11":
-                    case "12":
-                    case "15":
-                        item.MaTinh = "10";
-                        break;
-                    case "45":
-                        item.MaTinh = "44";
-                        break;
-                    case "73":
-                    case "75":
-                    case "76":
-                    case "71":
-                    case "74":
-                    case "72":
-                        item.MaTinh = "70";
-                        break;
-                    default:
-                        item.MaTinh = maTinh;
-                        break;
-                }
+                item.MaTinh = GetTinhFromBuuCuc(item.BuuCucNhanTemp);
             }
-            //Thuc hien xu ly lay tinh thanh command
         }
 
 

@@ -10,8 +10,17 @@
     <StackPanel VerticalAlignment="Center">
         <Button
             Margin="5,20,5,5"
+            Command="{Binding DaNangCommand}"
+            Content="Đà Nẵng" />
+        <Button
+            Margin="5,5,5,20"
+            Command="{Binding NamTrungBoCommand}"
+            Content="Nam Trung Bộ" />
+        <Button
+            Margin="5"
             Command="{Binding HoaiAnCommand}"
             Content="Hoài Ân" />
+        
         <Button
             Margin="5"
             Command="{Binding AnMyCommand}"
@@ -29,5 +38,36 @@
             Background="#FFFFB515"
             Command="{Binding LayToanBoCommand}"
             Content="Lấy Toàn Bộ" />
+        <StackPanel
+  Orientation="Horizontal" HorizontalAlignment="Center"
+  Margin="4">
+            <RadioButton
+                Style="{StaticResource MaterialDesignRadioButton}"
+    
+    Margin="4"
+    IsChecked="{Binding Path=LanLapArray[0], Mode=TwoWay}"
+    Content="1" />
+            <RadioButton
+   Style="{StaticResource MaterialDesignRadioButton}"
+    Margin="4"
+    IsChecked="{Binding Path=LanLapArray[1], Mode=TwoWay}"
+    Content="2" />
+            <RadioButton
+   Style="{StaticResource MaterialDesignRadioButton}"
+    Margin="4"
+    IsChecked="{Binding Path=LanLapArray[2], Mode=TwoWay}"
+    Content="3" />
+            <RadioButton
+   Style="{StaticResource MaterialDesignRadioButton}"
+    Margin="4"
+    IsChecked="{Binding Path=LanLapArray[3], Mode=TwoWay}"
+    Content="4" />
+            <RadioButton
+   Style="{StaticResource MaterialDesignRadioButton}"
+    Margin="4"
+    IsChecked="{Binding Path=LanLapArray[4], Mode=TwoWay}"
+    Content="5" />
+        </StackPanel>
     </StackPanel>
+
 </UserControl>

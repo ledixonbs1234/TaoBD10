@@ -321,6 +321,13 @@ namespace TaoBD10.Manager
 
         [DllImportAttribute("User32.dll")]
         public static extern IntPtr SetForegroundWindow(IntPtr hWnd);
+        const int WM_COMMAND = 0x0111;
+        public static void ClickButton(IntPtr mainHandle,IntPtr buttonHandle)
+        {
+
+            int wparam = (0 << 16) | (0x79 & 0xffff);
+            APIManager.SendMessage(mainHandle, WM_COMMAND, wparam, (int)buttonHandle);
+        }
 
         /// <summary>
         /// Thoat toi view

@@ -371,6 +371,31 @@ namespace TaoBD10.ViewModels
             }
             SendKeys.SendWait("%{p}");
 
+            WindowInfo printD1 = currentWindow;
+            while (printD1.text.IndexOf("printing") == -1)
+            {
+                printD1 = APIManager.GetActiveWindowTitle();
+                Thread.Sleep(100);
+            }
+            while (printD1.text.IndexOf("printing") != -1)
+            {
+                printD1 = APIManager.GetActiveWindowTitle();
+                Thread.Sleep(100);
+            }
+            Thread.Sleep(100);
+            currentWindow = APIManager.WaitingFindedWindow("print document");
+            if (currentWindow == null)
+            {
+                MessageShow("Không tìm thấy window print document");
+                return;
+            }
+            controls = APIManager.GetListControlText(currentWindow.hwnd);
+            TestAPIModel control = controls.Find(m => m.Text == "Thoát");
+            APIManager.ClickButton(control.Handle);
+
+
+
+
             //Thread.Sleep(50);
             //SendKeys.SendWait("{ENTER}");
             //Thread.Sleep(50);

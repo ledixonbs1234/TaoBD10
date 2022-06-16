@@ -396,7 +396,7 @@ namespace TaoBD10.ViewModels
             SendKeys.SendWait("{Right}");
             SendKeys.SendWait("{Right}");
             SendKeys.SendWait(" ");
-            Thread.Sleep(2000);
+            Thread.Sleep(1000);
 
             SendKeys.SendWait("{F10}");
 

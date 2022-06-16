@@ -29,11 +29,7 @@ namespace TaoBD10.ViewModels
 
 
             GoToCTCommand = new RelayCommand(GoToCT);
-            timer = new DispatcherTimer
-            {
-                Interval = new TimeSpan(2000)
-            };
-            timer.Tick += Timer_Tick;
+
             WeakReferenceMessenger.Default.Register<KiemTraMessage>(this, (r, m) =>
         {
             if (m.Value.Key == "XacNhanMH")
@@ -48,7 +44,7 @@ namespace TaoBD10.ViewModels
             }
         });
         }
-        private bool _IsWaitingComplete =false;
+        private bool _IsWaitingComplete = false;
 
         public bool IsWaitingComplete
         {
@@ -82,7 +78,7 @@ namespace TaoBD10.ViewModels
             Thread.Sleep(200);
             SendKeys.SendWait("{ENTER}");
 
-            window = APIManager.WaitingFindedWindow("canh bao","thong bao");
+            window = APIManager.WaitingFindedWindow("canh bao", "thong bao");
             if (window == null)
             {
                 APIManager.ShowSnackbar("Không tìm thấy cảnh báo");
@@ -98,7 +94,7 @@ namespace TaoBD10.ViewModels
             SendKeys.SendWait("{UP}");
             SendKeys.SendWait("{UP}");
             SendKeys.SendWait("{UP}");
-            string dataCopyed =APIManager.GetCopyData();
+            string dataCopyed = APIManager.GetCopyData();
             if (string.IsNullOrEmpty(dataCopyed))
                 return;
             List<string> listTemp = dataCopyed.Split('\n').ToList();
@@ -116,6 +112,7 @@ namespace TaoBD10.ViewModels
                     return;
                 SendKeys.SendWait("A{BS}{BS}");
                 SendKeys.SendWait("{F4}");
+                WeakReferenceMessenger.Default.Send(new ContentModel { Key = "XacNhanChiTiet", Content = "True" });
             }
 
         }
@@ -206,7 +203,7 @@ namespace TaoBD10.ViewModels
 
         private void OnEnterKey()
         {
-            
+
             if (MaHieu.IndexOf('\n') != -1)
             {
                 MaHieu = MaHieu.Trim();
@@ -225,88 +222,7 @@ namespace TaoBD10.ViewModels
         void Test()
         {
             //backgroundWorker.RunWorkerAsync();
-            
-        }
 
-        private void Timer_Tick(object sender, EventArgs e)
-        {
-            if (isWaitingChuyenThuChieuDen)
-                return;
-            var currentWindow = APIManager.GetActiveWindowTitle();
-            if (currentWindow == null)
-                return;
-
-            switch (stateChuyenThuChieuDen)
-            {
-                case StateChuyenThuChieuDen.GetData:
-                    if (currentWindow.text.IndexOf("quan ly chuyen thu") != -1)
-                    {
-                        Thread.Sleep(200);
-                        isWaitingChuyenThuChieuDen = true;
-
-                        //lay combobox hien tai
-                        var childHandles3 = APIManager.GetAllChildHandles(currentWindow.hwnd);
-                        int countCombobox = 0;
-                        IntPtr combo = IntPtr.Zero;
-                        foreach (var item in childHandles3)
-                        {
-                            string className = APIManager.GetWindowClass(item);
-                            string classDefault = "WindowsForms10.COMBOBOX.app.0.1e6fa8e";
-                            //string classDefault = "WindowsForms10.COMBOBOX.app.0.141b42a_r8_ad1";
-                            if (className == classDefault)
-                            {
-                                if (countCombobox == 3)
-                                {
-                                    //road = item;
-                                    combo = item;
-                                    break;
-                                }
-                                countCombobox++;
-                            }
-                        }
-                        APIManager.SendMessage(combo, 0x0007, 0, 0);
-                        APIManager.SendMessage(combo, 0x0007, 0, 0);
-
-                        ChuyenThuDen();
-                        stateChuyenThuChieuDen = StateChuyenThuChieuDen.ShowInfo;
-                        Thread.Sleep(200);
-                        SendKeys.SendWait("{ENTER}");
-
-                        isWaitingChuyenThuChieuDen = false;
-                    }
-
-                    break;
-
-                case StateChuyenThuChieuDen.ShowInfo:
-                    APIManager.ShowTest("3");
-                    if (currentWindow.text.IndexOf("canh bao") != -1)
-                    {
-                        isWaitingChuyenThuChieuDen = true;
-                        SendKeys.SendWait("{ENTER}");
-                        Thread.Sleep(500);
-                        SendKeys.SendWait("{F5}");
-                        timer.Stop();
-                        isWaitingChuyenThuChieuDen = false;
-                    }
-                    else if (currentWindow.text.IndexOf("thong bao") != -1)
-                    {
-                        isWaitingChuyenThuChieuDen = true;
-                        SendKeys.SendWait("{ENTER}");
-                        Thread.Sleep(500);
-                        SendKeys.SendWait("{F5}");
-                        timer.Stop();
-                        isWaitingChuyenThuChieuDen = false;
-                    }
-                    APIManager.ShowTest("4");
-
-                    break;
-
-                case StateChuyenThuChieuDen.Find:
-                    break;
-
-                default:
-                    break;
-            }
         }
 
         private void Woker_DoWork(object sender, DoWorkEventArgs e)

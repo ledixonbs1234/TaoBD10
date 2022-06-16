@@ -27,6 +27,8 @@ namespace TaoBD10.ViewModels
 
         private bool _IsTopMost = true;
 
+        private bool _IsXacNhanChiTieting = false;
+
         public bool IsTopMost
         {
             get { return _IsTopMost; }
@@ -130,6 +132,17 @@ namespace TaoBD10.ViewModels
                     {
 
                         IsTopMost = true;
+                    }
+                }
+                else if (m.Key == "XacNhanChiTiet")
+                {
+                    if (m.Content == "True")
+                    {
+                        _IsXacNhanChiTieting = true;
+                    }
+                    else
+                    {
+                        _IsXacNhanChiTieting = false;
                     }
                 }
             });
@@ -340,7 +353,7 @@ namespace TaoBD10.ViewModels
             var inAnPham = controls.Where(m => m.ClassName == "WindowsForms10.BUTTON.app.0.1e6fa8e").ToList()[1];
             APIManager.ClickButton(inAnPham.Handle);
 
-            currentWindow = APIManager.WaitingFindedWindow("Print",isExactly:true);
+            currentWindow = APIManager.WaitingFindedWindow("Print", isExactly: true);
             if (currentWindow == null)
             {
                 MessageShow("Không tìm thấy window print document");
@@ -355,7 +368,7 @@ namespace TaoBD10.ViewModels
                 return;
             }
             controls = APIManager.GetListControlText(currentWindow.hwnd);
-            
+
             Thread.Sleep(50);
             SendKeys.SendWait("%{u}");
             if (controls[35].Text != "OK")
@@ -400,7 +413,7 @@ namespace TaoBD10.ViewModels
 
             SendKeys.SendWait("{F10}");
 
-             currentWindow = APIManager.WaitingFindedWindow("print document");
+            currentWindow = APIManager.WaitingFindedWindow("print document");
             if (currentWindow == null)
             {
                 MessageShow("Không tìm thấy window print document");
@@ -409,7 +422,7 @@ namespace TaoBD10.ViewModels
 
             Thread.Sleep(200);
             controls = APIManager.GetListControlText(currentWindow.hwnd);
-             inAnPham = controls.Where(m => m.ClassName == "WindowsForms10.BUTTON.app.0.1e6fa8e").ToList()[1];
+            inAnPham = controls.Where(m => m.ClassName == "WindowsForms10.BUTTON.app.0.1e6fa8e").ToList()[1];
             APIManager.ClickButton(inAnPham.Handle);
 
             currentWindow = APIManager.WaitingFindedWindow("Print", isExactly: true);
@@ -432,7 +445,7 @@ namespace TaoBD10.ViewModels
             SendKeys.SendWait("%{u}");
             if (controls[35].Text != "OK")
                 return;
-             okHandle = controls[35].Handle;
+            okHandle = controls[35].Handle;
             APIManager.ClickButton(okHandle);
 
             currentWindow = APIManager.WaitingFindedWindow("Print", isExactly: true);
@@ -462,7 +475,7 @@ namespace TaoBD10.ViewModels
                 return;
             }
             controls = APIManager.GetListControlText(currentWindow.hwnd);
-             control = controls.Find(m => m.Text == "Thoát");
+            control = controls.Find(m => m.Text == "Thoát");
             APIManager.ClickButton(control.Handle);
 
             SendKeys.SendWait("{Right}");
@@ -709,6 +722,26 @@ namespace TaoBD10.ViewModels
                         TestAPIModel apiNumber = listWindowStatic[7];
                         int.TryParse(Regex.Match(apiNumber.Text, @"\d+").Value, out numberRead);
                     }
+                    else if (activeWindow.text.IndexOf("xem chuyen thu chieu den") != -1)
+                    {
+                        if (_IsXacNhanChiTieting)
+                        {
+                            _IsXacNhanChiTieting = false;
+                            SendKeys.SendWait("{F5}");
+                            //Túi số  KL(kg) Loại túi    F xác nhận
+                            //False   1   3,4 Ði ngoài(EMS)   True Cleared
+                            //False   1   2,2 Ði ngoài(EMS)   False Selected
+                            string dataCopped = APIManager.GetCopyData();
+                            if (dataCopped.IndexOf("Selected") != -1)
+                            {
+                                SendKeys.SendWait("{F10}");
+                                Thread.Sleep(200);
+                                SendKeys.SendWait(" ");
+                            }
+
+
+                        }
+                    }
                     else if (activeWindow.text.IndexOf("sua thong tin bd10") != -1)
                     {
                         isHaveError = false;
@@ -880,10 +913,17 @@ namespace TaoBD10.ViewModels
                                         isHaveError = true;
                                         SendKeys.SendWait("{ENTER}");
                                     }
+                                    else if (textError.IndexOf("da truyen du lieu thanh cong") != -1)
+                                    {
+                                        Thread.Sleep(200);
+                                        isHaveError = true;
+                                        SendKeys.SendWait("{ENTER}");
+                                    }
                                 }
                             }
                         }
                     }
+
                     else if (string.IsNullOrEmpty(activeWindow.text))
                     {
                         if (listControl.Count > 50)

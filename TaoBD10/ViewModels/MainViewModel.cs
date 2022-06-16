@@ -393,8 +393,81 @@ namespace TaoBD10.ViewModels
             TestAPIModel control = controls.Find(m => m.Text == "Thoát");
             APIManager.ClickButton(control.Handle);
 
+            SendKeys.SendWait("{Right}");
+            SendKeys.SendWait("{Right}");
+            SendKeys.SendWait(" ");
+            Thread.Sleep(2000);
 
+            SendKeys.SendWait("{F10}");
 
+             currentWindow = APIManager.WaitingFindedWindow("print document");
+            if (currentWindow == null)
+            {
+                MessageShow("Không tìm thấy window print document");
+                return;
+            }
+
+            Thread.Sleep(200);
+            controls = APIManager.GetListControlText(currentWindow.hwnd);
+             inAnPham = controls.Where(m => m.ClassName == "WindowsForms10.BUTTON.app.0.1e6fa8e").ToList()[1];
+            APIManager.ClickButton(inAnPham.Handle);
+
+            currentWindow = APIManager.WaitingFindedWindow("Print", isExactly: true);
+            if (currentWindow == null)
+            {
+                MessageShow("Không tìm thấy window print document");
+                return;
+            }
+            SendKeys.SendWait("%{r}");
+            currentWindow = APIManager.WaitingFindedWindow("printing preferences");
+
+            if (currentWindow == null)
+            {
+                MessageShow("Không tìm thấy window print pre");
+                return;
+            }
+            controls = APIManager.GetListControlText(currentWindow.hwnd);
+
+            Thread.Sleep(50);
+            SendKeys.SendWait("%{u}");
+            if (controls[35].Text != "OK")
+                return;
+             okHandle = controls[35].Handle;
+            APIManager.ClickButton(okHandle);
+
+            currentWindow = APIManager.WaitingFindedWindow("Print", isExactly: true);
+            if (currentWindow == null)
+            {
+                MessageShow("Không tìm thấy window print document");
+                return;
+            }
+            SendKeys.SendWait("%{p}");
+
+            printD1 = currentWindow;
+            while (printD1.text.IndexOf("printing") == -1)
+            {
+                printD1 = APIManager.GetActiveWindowTitle();
+                Thread.Sleep(100);
+            }
+            while (printD1.text.IndexOf("printing") != -1)
+            {
+                printD1 = APIManager.GetActiveWindowTitle();
+                Thread.Sleep(100);
+            }
+            Thread.Sleep(100);
+            currentWindow = APIManager.WaitingFindedWindow("print document");
+            if (currentWindow == null)
+            {
+                MessageShow("Không tìm thấy window print document");
+                return;
+            }
+            controls = APIManager.GetListControlText(currentWindow.hwnd);
+             control = controls.Find(m => m.Text == "Thoát");
+            APIManager.ClickButton(control.Handle);
+
+            SendKeys.SendWait("{Right}");
+            SendKeys.SendWait("{Right}");
+            SendKeys.SendWait(" ");
 
             //Thread.Sleep(50);
             //SendKeys.SendWait("{ENTER}");

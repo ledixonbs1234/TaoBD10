@@ -44,9 +44,11 @@ namespace TaoBD10.Manager
 
         public static void ClickButton(IntPtr handle)
         {
-            SendMessage(handle, 0x00F5, 0, 0);
+            PostMessage(handle, 0x00F5, 0, 0);
         }
 
+        [DllImport("user32.dll")]
+        static extern bool PostMessage(IntPtr hWnd, uint Msg, int wParam, int lParam);
         public static string GetCopyData()
         {
             string clipboard = "";

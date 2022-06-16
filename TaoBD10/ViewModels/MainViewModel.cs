@@ -336,12 +336,41 @@ namespace TaoBD10.ViewModels
             }
 
             Thread.Sleep(200);
-            SendKeys.SendWait("{TAB}");
-            SendKeys.SendWait(" ");
-            Thread.Sleep(1000);
+            var controls = APIManager.GetListControlText(currentWindow.hwnd);
+            var inAnPham = controls.Where(m => m.ClassName == "WindowsForms10.BUTTON.app.0.1e6fa8e").ToList()[1];
+            APIManager.ClickButton(inAnPham.Handle);
+
+            currentWindow = APIManager.WaitingFindedWindow("Print",isExactly:true);
+            if (currentWindow == null)
+            {
+                MessageShow("Không tìm thấy window print document");
+                return;
+            }
             SendKeys.SendWait("%{r}");
+            currentWindow = APIManager.WaitingFindedWindow("printing preferences");
+
+            if (currentWindow == null)
+            {
+                MessageShow("Không tìm thấy window print pre");
+                return;
+            }
+            controls = APIManager.GetListControlText(currentWindow.hwnd);
+            
             Thread.Sleep(50);
             SendKeys.SendWait("%{u}");
+            if (controls[35].Text != "OK")
+                return;
+            IntPtr okHandle = controls[35].Handle;
+            APIManager.ClickButton(okHandle);
+
+            currentWindow = APIManager.WaitingFindedWindow("Print", isExactly: true);
+            if (currentWindow == null)
+            {
+                MessageShow("Không tìm thấy window print document");
+                return;
+            }
+            SendKeys.SendWait("%{p}");
+
             //Thread.Sleep(50);
             //SendKeys.SendWait("{ENTER}");
             //Thread.Sleep(50);

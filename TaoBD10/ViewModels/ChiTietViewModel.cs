@@ -358,19 +358,18 @@ namespace TaoBD10.ViewModels
             bool isGone = false;
             if (currentTinh != PhanLoaiTinh.HA_AL)
             {
-                foreach (var item in handles)
+                var controls = APIManager.GetListControlText(currentWindow.hwnd);
+                foreach (var item in controls)
                 {
-                    string classText = APIManager.GetWindowClass(item);
-
-                    if (classText.IndexOf(textHandleName) != -1)
+                    if (item.ClassName.IndexOf(textHandleName) != -1)
                     {
-                        classNameComBoBox = APIManager.GetControlText(item);
+                        classNameComBoBox = item.Text;
                     }
-                    else if (classText.IndexOf(textSoLuongTui) != -1)
+                    else if (item.ClassName.IndexOf(textSoLuongTui) != -1)
                     {
-                        if (countTemp == 9)
+                        if (countTemp == 10)
                         {
-                            countCurrentTui = int.Parse(APIManager.GetControlText(item));
+                            countCurrentTui = int.Parse(item.Text);
                         }
                         countTemp++;
                     }
@@ -494,7 +493,7 @@ namespace TaoBD10.ViewModels
 
                     if (classText.IndexOf(textSoLuongTui) != -1)
                     {
-                        if (countTemp == 9)
+                        if (countTemp == 10)
                         {
                             lastCountTuiHienTai = int.Parse(APIManager.GetControlText(item));
                         }

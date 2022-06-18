@@ -751,7 +751,7 @@ namespace TaoBD10.ViewModels
                         {
                             continue;
                         }
-                        TestAPIModel apiNumber = listWindowStatic[9];
+                        TestAPIModel apiNumber = listWindowStatic[10];
                         //TestText += apiNumber.Text + "\n";
                         int.TryParse(Regex.Match(apiNumber.Text, @"\d+").Value, out numberRead);
                     }

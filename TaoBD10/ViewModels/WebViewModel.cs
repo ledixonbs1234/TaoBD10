@@ -26,6 +26,7 @@ namespace TaoBD10.ViewModels
         {
             LoadPageCommand = new RelayCommand<ChromiumWebBrowser>(LoadPage);
             LoginCommand = new RelayCommand(Login);
+            DefaultCommand = new RelayCommand(Default);
 
             WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>
             {
@@ -101,6 +102,13 @@ namespace TaoBD10.ViewModels
                     }
                 }
             });
+        }
+        public ICommand DefaultCommand { get; }
+
+
+        void Default()
+        {
+            WebBrowser.LoadUrl(defaultWeb);
         }
 
         public string AddressWeb
@@ -224,7 +232,6 @@ document.getElementsByClassName("".footer"").remove();
                         {
                             WebBrowser.BackCommand.Execute(null);
                             SoundManager.playSound2(@"Number\tingting.wav");
-                            Thread.Sleep(1000);
                             isFirstLoginSuccess = false;
                             WebBrowser.LoadUrl("https://bccp.vnpost.vn/BCCP.aspx?act=Trace&id=" + currentMaHieu);
                             IsLoadedWeb = false;
@@ -236,7 +243,7 @@ document.getElementsByClassName("".footer"").remove();
                             //{
                             //    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Navigation", Content = "Web" });
                             //});
-                            
+
                         }
                     }
                     else if (diachi.IndexOf("mps.vnpost.vn/login") != -1)
@@ -365,7 +372,7 @@ document.getElementsByClassName("".footer"").remove();
                             webContent.BuuCucGui = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblFrPOS']").InnerText;
                             webContent.NguoiGui = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblSenderName']").InnerText;
 
-                           
+
                             if (_LoadWebChoose == LoadWebChoose.DiNgoaiAddress)
                                 webContent.Key = "DiNgoaiAddress";
                             else if (_LoadWebChoose == LoadWebChoose.AddressTamQuan)
@@ -437,7 +444,7 @@ document.getElementsByClassName("".footer"").remove();
                             //thuc hien lay barcode
 
                             var addresss = document.DocumentNode.SelectNodes("//*[@id='MainContent_ctl00_lblReceiverAddr']");
-                            if(addresss == null)
+                            if (addresss == null)
                             {
                                 APIManager.ShowSnackbar("Error");
                                 return;
@@ -446,7 +453,7 @@ document.getElementsByClassName("".footer"").remove();
                             kiemTra.Address = addresss.First().InnerText;
 
                             HtmlNodeCollection tables = document.DocumentNode.SelectNodes("//table[@id='MainContent_ctl00_grvItemMailTrip']/tbody");
-                            if(tables == null)
+                            if (tables == null)
                             {
                                 return;
                             }
@@ -519,6 +526,7 @@ document.getElementsByClassName("".footer"").remove();
             }
 
         }
+        string defaultWeb = "https://bccp.vnpost.vn/BCCP.aspx?act=Trace";
 
         public IRelayCommand<ChromiumWebBrowser> LoadPageCommand;
         private string _AddressWeb = "https://bccp.vnpost.vn/BCCP.aspx?act=Trace";

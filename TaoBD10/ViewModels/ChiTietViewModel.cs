@@ -184,13 +184,18 @@ namespace TaoBD10.ViewModels
             SendKeys.SendWait("{F3}");
             SendKeys.SendWait(CurrentSelectedHangHoaDetail.TuiHangHoa.SHTui);
             SendKeys.SendWait("{ENTER}");
-            window = APIManager.WaitingFindedWindow("xac nhan chi tiet tui thu","xem chuyen thu chieu den");
+            window = APIManager.WaitingFindedWindow("xac nhan chi tiet tui thu", "xem chuyen thu chieu den");
             if (window == null)
                 return;
-            if(window.text.IndexOf("xac nhan chi tiet tui thu")!= -1)
+            Thread.Sleep(500);
+            window = APIManager.WaitingFindedWindow("xac nhan chi tiet tui thu", "xem chuyen thu chieu den");
+            if (window == null)
+                return;
+            if (window.text.IndexOf("xac nhan chi tiet tui thu") != -1)
             {
                 SendKeys.SendWait("{ESC}");
-            }else if(window.text.IndexOf("xem chuyen thu chieu den")!= -1)
+            }
+            else if (window.text.IndexOf("xem chuyen thu chieu den") != -1)
             {
 
             }
@@ -582,7 +587,7 @@ namespace TaoBD10.ViewModels
 
         private void PrintDiNgoai()
         {
-            WindowInfo info =APIManager.WaitingFindedWindow("thong tin buu gui");
+            WindowInfo info = APIManager.WaitingFindedWindow("thong tin buu gui");
             if (info == null)
                 return;
             List<TestAPIModel> listControl = APIManager.GetListControlText(info.hwnd);
@@ -965,7 +970,7 @@ namespace TaoBD10.ViewModels
             }
         }
 
-      
+
         private void XeXaHoi()
         {
             maBuuCuc = "590100";

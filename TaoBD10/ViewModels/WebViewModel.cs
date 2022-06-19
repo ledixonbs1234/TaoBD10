@@ -230,7 +230,6 @@ document.getElementsByClassName("".footer"").remove();
                             return;
                         if (isFirstLoginSuccess)
                         {
-                            WebBrowser.BackCommand.Execute(null);
                             SoundManager.playSound2(@"Number\tingting.wav");
                             isFirstLoginSuccess = false;
                             WebBrowser.LoadUrl("https://bccp.vnpost.vn/BCCP.aspx?act=Trace&id=" + currentMaHieu);

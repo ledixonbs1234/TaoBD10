@@ -20,7 +20,10 @@
             Grid.Row="0"
             Address="{Binding AddressWeb, Mode=TwoWay}"
             WebBrowser="{Binding WebBrowser, Mode=OneWayToSource}" />
-        <StackPanel Grid.Row="1" Orientation="Horizontal">
+        <StackPanel
+            Grid.Row="1"
+            HorizontalAlignment="Center"
+            Orientation="Horizontal">
             <Button
                 Width="75"
                 Margin="5"

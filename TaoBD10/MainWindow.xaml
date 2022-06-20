@@ -13,10 +13,11 @@
     Height="450"
     Closing="MainView_Closing"
     DataContext="{StaticResource MainVM}"
+    Icon="payment_calculation_bill_icon_221357.ico"
     ResizeMode="CanMinimize"
     Topmost="{Binding IsTopMost}"
     WindowStyle="None"
-    mc:Ignorable="d" Icon="payment_calculation_bill_icon_221357.ico">
+    mc:Ignorable="d">
     <Behaviors:Interaction.Triggers>
         <Behaviors:EventTrigger EventName="Loaded">
             <Behaviors:InvokeCommandAction Command="{Binding LoadPageCommand}" CommandParameter="{Binding ElementName=MainView}" />
@@ -139,7 +140,7 @@
             </TabControl>
 
             <materialDesign:Snackbar
-                Margin="0,0,0,70"
+                Margin="0,0,0,0"
                 Panel.ZIndex="10"
                 MessageQueue="{Binding MessageQueue, Mode=TwoWay}" />
         </Grid>

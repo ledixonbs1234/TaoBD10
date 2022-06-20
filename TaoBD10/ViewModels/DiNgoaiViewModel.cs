@@ -48,7 +48,6 @@ namespace TaoBD10.ViewModels
             SetMaTinhGuiCommand = new RelayCommand(SetMaTinhGui);
 
             SortCommand = new RelayCommand(Sort);
-            TestCommand = new RelayCommand(Test);
             SetTinhCommand = new RelayCommand(SetTinhs);
 
 
@@ -1195,15 +1194,6 @@ namespace TaoBD10.ViewModels
 
         public ICommand AddAddressCommand { get; }
         public ICommand AddRangeCommand { get; }
-
-        public ICommand TestCommand { get; }
-
-        private void Test()
-        {
-            var da = DiNgoais[1];
-            SelectedSimple = da;
-            Selection(SelectedSimple);
-        }
 
         public ObservableCollection<string> BuuCucs
         {

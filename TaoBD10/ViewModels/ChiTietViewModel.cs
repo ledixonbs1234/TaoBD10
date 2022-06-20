@@ -299,7 +299,7 @@ namespace TaoBD10.ViewModels
                     string temp = fillNoiTinh.FirstOrDefault(m => m.IndexOf(hangHoa.TuiHangHoa.ToBC) != -1);
                     if (!string.IsNullOrEmpty(temp))
                     {
-                        if (hangHoa.TuiHangHoa.PhanLoai.IndexOf("Túi") != -1)
+                        if (hangHoa.TuiHangHoa.PhanLoai.IndexOf("Túi") != -1| hangHoa.TuiHangHoa.PhanLoai.IndexOf("TMĐT") != -1)
                         {
                             currentListHangHoa[countForeach].PhanLoai = Manager.EnumAll.PhanLoaiTinh.TuiNTB;
                         }

@@ -37,6 +37,7 @@ namespace TaoBD10.ViewModels
             bwPrintDiNgoai = new BackgroundWorker();
             bwPrintDiNgoai.DoWork += BwPrintDiNgoai_DoWork;
             bwPrintDiNgoai.WorkerSupportsCancellation = true;
+            SortTinhCommand = new RelayCommand(SortTinh);
 
             XoaCommand = new RelayCommand(Xoa);
             ClearCommand = new RelayCommand(Clear);
@@ -100,7 +101,7 @@ namespace TaoBD10.ViewModels
 
         public ICommand SetMaTinhGuiCommand { get; }
 
-        
+
         void SetMaTinhGui()
         {
             if (SelectedDiNgoai == null)
@@ -110,6 +111,30 @@ namespace TaoBD10.ViewModels
             if (string.IsNullOrEmpty(SelectedDiNgoai.BuuCucGui))
                 return;
             SelectedDiNgoai.MaTinh = GetTinhFromBuuCuc(SelectedDiNgoai.BuuCucGui);
+        }
+
+        public ICommand SortTinhCommand { get; }
+
+
+        void SortTinh()
+        {
+            if (DiNgoais.Count == 0)
+                return;
+            setTinhFromMaTinh();
+            List<DiNgoaiItemModel> listDiNgoai = new List<DiNgoaiItemModel>();
+            //Thuc hien soft Tinh
+            IOrderedEnumerable<DiNgoaiItemModel> dingoaisRa = DiNgoais.Where(m => int.Parse(m.MaTinh) < 59).OrderByDescending(x => x.TenTinh);
+            IOrderedEnumerable<DiNgoaiItemModel> dingoaisVo = DiNgoais.Where(m => int.Parse(m.MaTinh) >= 59).OrderByDescending(x => x.TenTinh);
+            listDiNgoai.AddRange(dingoaisRa);
+            listDiNgoai.AddRange(dingoaisVo);
+            DiNgoais.Clear();
+            int index = 0;
+            foreach (DiNgoaiItemModel diNgoai in listDiNgoai)
+            {
+                index++;
+                diNgoai.Index = index;
+                DiNgoais.Add(diNgoai);
+            }
         }
 
 

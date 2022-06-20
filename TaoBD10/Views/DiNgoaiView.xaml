@@ -227,21 +227,25 @@
                 </DataGrid.Columns>
             </DataGrid>
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-               
+
                 <Button
                     Margin="5,5"
+                    Background="#FF83C4F7"
                     Command="{Binding SetMaTinhGuiCommand}"
-                    Content="Set BC Gửi" Background="#FF83C4F7" />
+                    Content="Set BC Gửi" />
                 <Button
                     Margin="5,5,20,5"
-                    Command="{Binding SetTinhCommand}"
                     Background="#FF83C4F7"
+                    Command="{Binding SetTinhCommand}"
                     Content="Set Tỉnh" />
                 <Button
                     Margin="5"
                     Command="{Binding AddAddressCommand}"
                     Content="Thêm Địa Chỉ" />
-                <Button Margin="5" Content="Add Selected Address" />
+                <Button
+                    Margin="5"
+                    Command="{Binding SortTinhCommand}"
+                    Content="Sắp xếp Theo Tỉnh" />
                 <Button
                     Margin="5"
                     Command="{Binding SortCommand}"

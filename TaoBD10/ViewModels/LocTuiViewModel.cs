@@ -50,27 +50,25 @@ namespace TaoBD10.ViewModels
                 TuiHangHoas = ListHangHoa.ToList()
             };
 
-            if (string.IsNullOrEmpty(NameBD))
-            {
-                List<BD10InfoModel> listBD10 = new List<BD10InfoModel>
+            List<BD10InfoModel> listBD10 = new List<BD10InfoModel>
                 {
                     bd10
                 };
-                WeakReferenceMessenger.Default.Send<BD10Message>(new BD10Message(listBD10));
-                //thuc hien navigate to chi tiet
-                WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Navigation", Content = "GoTaoTui" });
+            WeakReferenceMessenger.Default.Send<BD10Message>(new BD10Message(listBD10));
+            if (string.IsNullOrEmpty(NameBD))
+            {
+                FileManager.SaveData(new BD10InfoModel("Tam Thoi " + DateTime.Now.ToShortTimeString(), ListHangHoa.ToList(), DateTime.Now, EnumAll.TimeSet.Sang, "1"));
+                WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Snackbar", Content = "Đã Tạo BĐ 10 với tên : Tam Thoi"});
             }
             else
             {
-                List<BD10InfoModel> listBD10 = new List<BD10InfoModel>
-                {
-                    bd10
-                };
-                WeakReferenceMessenger.Default.Send<BD10Message>(new BD10Message(listBD10));
-                FileManager.SaveData(new BD10InfoModel(NameBD, ListHangHoa.ToList(), DateTime.Now, EnumAll.TimeSet.Sang, "1"));
-                WeakReferenceMessenger.Default.Send<string>("LoadBD10");
+                FileManager.SaveData(new BD10InfoModel(NameBD + " " + DateTime.Now.ToShortTimeString(), ListHangHoa.ToList(), DateTime.Now, EnumAll.TimeSet.Sang, "1"));
                 WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Snackbar", Content = "Đã Tạo BĐ 10 với tên : " + NameBD });
             }
+            WeakReferenceMessenger.Default.Send<string>("LoadBD10");
+            WeakReferenceMessenger.Default.Send<BD10Message>(new BD10Message(listBD10));
+            //thuc hien navigate to chi tiet
+            WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Navigation", Content = "GoTaoTui" });
 
             //MessageShow("Đã Tạo BĐ 10 với tên : " + NameBD);
         }

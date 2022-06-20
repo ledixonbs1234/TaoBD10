@@ -58,7 +58,7 @@ namespace TaoBD10.ViewModels
             if (string.IsNullOrEmpty(NameBD))
             {
                 FileManager.SaveData(new BD10InfoModel("Tam Thoi " + DateTime.Now.ToShortTimeString(), ListHangHoa.ToList(), DateTime.Now, EnumAll.TimeSet.Sang, "1"));
-                WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Snackbar", Content = "Đã Tạo BĐ 10 với tên : Tam Thoi"});
+                WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Snackbar", Content = "Đã Tạo BĐ 10 với tên : Tam Thoi" });
             }
             else
             {
@@ -66,7 +66,6 @@ namespace TaoBD10.ViewModels
                 WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Snackbar", Content = "Đã Tạo BĐ 10 với tên : " + NameBD });
             }
             WeakReferenceMessenger.Default.Send<string>("LoadBD10");
-            WeakReferenceMessenger.Default.Send<BD10Message>(new BD10Message(listBD10));
             //thuc hien navigate to chi tiet
             WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Navigation", Content = "GoTaoTui" });
 

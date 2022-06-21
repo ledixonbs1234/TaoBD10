@@ -133,29 +133,44 @@
                 <DataGridTextColumn Binding="{Binding BuuCucNhan}" Header="Buu Cuc Nhan" />
             </DataGrid.Columns>
         </DataGrid>
-        <StackPanel Grid.Row="3" Orientation="Horizontal">
-            <Button
-                Width="100"
-                Height="40"
-                Margin="5"
+        <StackPanel Grid.Row="3" Orientation="Vertical">
+            <TextBox
+                Width="400"
+                Height="100"
+                Margin="10"
                 HorizontalAlignment="Left"
-                Command="{Binding ChiTietCommand}"
-                Content="Chi Tiet" />
-            <Button
-                Width="100"
-                Height="40"
-                Margin="5"
-                HorizontalAlignment="Left"
-                Command="{Binding LocCommand}"
-                Content="Lọc" />
-            <Button
-                Width="130"
-                Height="40"
-                Margin="70,5,5,5"
-                HorizontalAlignment="Left"
-                Command="{Binding CopyCommand}"
-                Content="Copy to Send" />
+                VerticalAlignment="Top"
+                materialDesign:HintAssist.Hint="Nhập lượng lớn bưu gửi"
+                AcceptsReturn="True"
+                Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                Text="{Binding TextsRange, Mode=OneWayToSource}"
+                TextWrapping="Wrap"
+                VerticalScrollBarVisibility="Auto" />
+            <StackPanel Orientation="Horizontal">
+                <Button
+                    Width="100"
+                    Height="40"
+                    Margin="5"
+                    HorizontalAlignment="Left"
+                    Command="{Binding ChiTietCommand}"
+                    Content="Chi Tiet" />
+                <Button
+                    Width="100"
+                    Height="40"
+                    Margin="5"
+                    HorizontalAlignment="Left"
+                    Command="{Binding LocCommand}"
+                    Content="Lọc" />
+                <Button
+                    Width="130"
+                    Height="40"
+                    Margin="70,5,5,5"
+                    HorizontalAlignment="Left"
+                    Command="{Binding CopyCommand}"
+                    Content="Copy to Send" />
+            </StackPanel>
         </StackPanel>
+
         <TextBlock
             Grid.Row="3"
             Margin="5"

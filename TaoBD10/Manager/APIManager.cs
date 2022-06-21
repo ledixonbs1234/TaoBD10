@@ -196,7 +196,6 @@ namespace TaoBD10.Manager
                 var line = frame.GetFileLineNumber();
                 APIManager.OpenNotePad(ex.Message + '\n' + "loi Line WebViewModel " + line + " Number Line " + APIManager.GetLineNumber(ex), "loi ");
                 throw;
-                throw;
             }
 
         }

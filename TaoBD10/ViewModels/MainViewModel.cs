@@ -923,6 +923,35 @@ namespace TaoBD10.ViewModels
                             }
                         }
                     }
+                    else if (activeWindow.text.IndexOf("loi") != -1)
+                    {
+                        if (isHaveError == false)
+                        {
+                            foreach (TestAPIModel apiContent in listControl)
+                            {
+                                //thuc hien lay text cua handle item
+                                if (!string.IsNullOrEmpty(apiContent.Text))
+                                {
+                                    string textError = APIManager.ConvertToUnSign3(apiContent.Text).ToLower();
+                                    if (textError.IndexOf("tui khong duoc dong buu gui") != -1)
+                                    {
+                                        Thread.Sleep(200);
+                                        isHaveError = true;
+
+                                        SoundManager.playSound2(@"Number\emsthuong.wav");
+                                        SendKeys.SendWait("{ENTER}");
+                                    }
+                                    else if (textError.IndexOf("tui buu gui ems tmdt dg") != -1)
+                                    {
+                                        Thread.Sleep(200);
+                                        isHaveError = true;
+                                        SoundManager.playSound2(@"Number\tmdt.wav");
+                                        SendKeys.SendWait("{ENTER}");
+                                    }
+                                }
+                            }
+                        }
+                    }
 
                     else if (string.IsNullOrEmpty(activeWindow.text))
                     {

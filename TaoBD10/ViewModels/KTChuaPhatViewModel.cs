@@ -40,7 +40,10 @@ namespace TaoBD10.ViewModels
                 }
             });
 
-            WeakReferenceMessenger.Default.Register<HangTonMessage>(this, (r, m) =>
+
+
+
+        WeakReferenceMessenger.Default.Register<HangTonMessage>(this, (r, m) =>
             {
                 if (m.Value != null)
                 {
@@ -71,10 +74,70 @@ namespace TaoBD10.ViewModels
                 AddAddress();
             });
         }
+        private string _TextsRange;
+
+        public string TextsRange
+        {
+            get { return _TextsRange; }
+            set { SetProperty(ref _TextsRange, value); }
+        }
+
+        private List<MaHieuDiNgoaiInfo> LocTextTho(string textsRange)
+        {
+            //thuc hien loc ma hieu dia chi gui va dia chi nhan
+            List<MaHieuDiNgoaiInfo> list = new List<MaHieuDiNgoaiInfo>();
+            var datas = textsRange.Split('\n');
+            foreach (string data in datas)
+            {
+                //thuc hien loc danh sach trong nay
+                if (data.Count() < 13)
+                    continue;
+                string[] splitedData = data.Split(' ');
+
+                int length = splitedData.Length;
+                if (splitedData.Length >= 10 && data.ToUpper().IndexOf("VN") != -1)
+                {
+                    list.Add(new MaHieuDiNgoaiInfo(splitedData[1].ToUpper(), splitedData[3], splitedData[2], splitedData[4]));
+                }
+                else
+                if (splitedData.Length == 7 && data.ToUpper().IndexOf("VN") != -1)
+                {
+                    list.Add(new MaHieuDiNgoaiInfo(splitedData[1].ToUpper(), splitedData[2], "", splitedData[3]));
+                }
+                else
+                {
+                    int indexVN = data.ToUpper().IndexOf("VN");
+                    if (indexVN - 11 < 0)
+                        continue;
+
+                    list.Add(new MaHieuDiNgoaiInfo(data.Substring(indexVN - 11, 13).Trim().ToUpper()));
+                }
+                //if(splitedData.Length )
+            }
+            return list;
+        }
+
+        void LocRange()
+        {
+            foreach (MaHieuDiNgoaiInfo item in LocTextTho(TextsRange))
+            {
+                if (item.Code.Length != 13)
+                {
+                    continue;
+                }                //    //kiem tra trung khong
+                foreach (HangTonModel hangTon in HangTons.ToList())
+                {
+                    if (hangTon.MaHieu.ToUpper() == item.Code)
+                    {
+                        HangTons.Remove(hangTon);
+
+                        break;
+                    }
+                }
+            }
+        }
 
         public ICommand CopyCommand { get; }
-
-
         void Copy()
         {
             List<TamQuanModel> listTQ = new List<TamQuanModel>();
@@ -165,6 +228,11 @@ namespace TaoBD10.ViewModels
 
                 }
 
+            }
+
+            if (!string.IsNullOrEmpty(TextsRange))
+            {
+                LocRange();
             }
             Count = HangTons.Count;
 

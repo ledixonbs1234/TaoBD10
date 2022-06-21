@@ -560,7 +560,7 @@ namespace TaoBD10.ViewModels
                        activeWindow.text.IndexOf("sua thong tin bd10") != -1 ||
                        activeWindow.text.IndexOf("canh bao") != -1 ||
                        activeWindow.text.IndexOf("xac nhan") != -1 ||
-                       activeWindow.text.IndexOf("thong bao") != -1
+                       activeWindow.text.IndexOf("thong bao") != -1|| activeWindow.text.IndexOf("loi") != -1
                        )
                     {
                         listControl = APIManager.GetListControlText(activeWindow.hwnd);
@@ -921,7 +921,7 @@ namespace TaoBD10.ViewModels
                             }
                         }
                     }
-                    else if (activeWindow.text.IndexOf("loi") != -1)
+                    else if (activeWindow.text == "loi")
                     {
                         if (isHaveError == false)
                         {

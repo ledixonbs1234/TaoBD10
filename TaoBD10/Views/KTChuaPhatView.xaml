@@ -53,16 +53,17 @@
             materialDesign:DataGridAssist.ColumnHeaderPadding="4 2 2 2"
             AutoGenerateColumns="False"
             CanUserAddRows="False"
+            CanUserDeleteRows="True"
             CanUserResizeColumns="True"
-            IsReadOnly="True"
             ItemsSource="{Binding HangTons}"
             SelectedItem="{Binding Selected}"
             SelectionMode="Extended">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Index}" Header="Index" />
-                <DataGridTextColumn Binding="{Binding MaHieu}" Header="Mã Hiệu" />
+                <DataGridTextColumn Binding="{Binding MaHieu}" IsReadOnly="True" Header="Mã Hiệu" />
                 <DataGridTextColumn
                     Width="200"
+                    IsReadOnly="True"
                     Binding="{Binding Address}"
                     Header="Địa chỉ">
                     <DataGridTextColumn.CellStyle>
@@ -71,8 +72,8 @@
                         </Style>
                     </DataGridTextColumn.CellStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding KhoiLuong}" Header="Khối Lượng" />
-                <DataGridTextColumn Binding="{Binding TienThuHo}" Header="Tiền Thu Hộ" />
+                <DataGridTextColumn IsReadOnly="True" Binding="{Binding KhoiLuong}" Header="Khối Lượng" />
+                <DataGridTextColumn IsReadOnly="True" Binding="{Binding TienThuHo}" Header="Tiền Thu Hộ" />
                 <DataGridTextColumn
                     Width="80"
                     Binding="{Binding BuuCucPhatHanh}"

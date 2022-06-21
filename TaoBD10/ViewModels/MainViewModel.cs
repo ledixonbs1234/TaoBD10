@@ -197,8 +197,6 @@ namespace TaoBD10.ViewModels
                 string lastcopy = "";
                 string data = "null";
 
-                System.Windows.Clipboard.Clear();
-
                 data = APIManager.GetCopyData();
                 while (lastcopy != data)
                 {

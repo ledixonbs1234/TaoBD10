@@ -157,77 +157,78 @@ namespace TaoBD10.ViewModels
 
         void Loc()
         {
-            if (HangTonsDelete.Count == 0)
-                return;
-            foreach (HangTonModel deleteItem in HangTonsDelete)
+            if (HangTonsDelete.Count != 0)
             {
-                foreach (HangTonModel hangTon in HangTons.ToList())
+                foreach (HangTonModel deleteItem in HangTonsDelete)
                 {
-                    bool isCanDelete = false;
-                    if (!string.IsNullOrEmpty(deleteItem.MaHieu))
+                    foreach (HangTonModel hangTon in HangTons.ToList())
                     {
-                        if (hangTon.MaHieu.ToLower().IndexOf(deleteItem.MaHieu.ToLower()) != -1)
-                            isCanDelete = true;
-                        else
+                        bool isCanDelete = false;
+                        if (!string.IsNullOrEmpty(deleteItem.MaHieu))
                         {
-                            continue;
+                            if (hangTon.MaHieu.ToLower().IndexOf(deleteItem.MaHieu.ToLower()) != -1)
+                                isCanDelete = true;
+                            else
+                            {
+                                continue;
+                            }
                         }
-                    }
-                    if (!string.IsNullOrEmpty(deleteItem.KhoiLuong))
-                    {
-                        if (hangTon.KhoiLuong == deleteItem.KhoiLuong)
-                            isCanDelete = true;
-                        else
+                        if (!string.IsNullOrEmpty(deleteItem.KhoiLuong))
                         {
-                            continue;
+                            if (hangTon.KhoiLuong == deleteItem.KhoiLuong)
+                                isCanDelete = true;
+                            else
+                            {
+                                continue;
+                            }
                         }
-                    }
 
-                    if (!string.IsNullOrEmpty(deleteItem.BuuCucPhatHanh))
-                    {
-                        if (hangTon.BuuCucPhatHanh.ToLower().IndexOf(deleteItem.BuuCucPhatHanh.ToLower()) != -1)
-                            isCanDelete = true;
-                        else
+                        if (!string.IsNullOrEmpty(deleteItem.BuuCucPhatHanh))
                         {
-                            continue;
+                            if (hangTon.BuuCucPhatHanh.ToLower().IndexOf(deleteItem.BuuCucPhatHanh.ToLower()) != -1)
+                                isCanDelete = true;
+                            else
+                            {
+                                continue;
+                            }
                         }
-                    }
 
-                    if (!string.IsNullOrEmpty(deleteItem.TimeGui))
-                    {
-                        if (hangTon.TimeGui.ToLower().IndexOf(deleteItem.TimeGui.ToLower()) != -1)
-                            isCanDelete = true;
-                        else
+                        if (!string.IsNullOrEmpty(deleteItem.TimeGui))
                         {
-                            continue;
+                            if (hangTon.TimeGui.ToLower().IndexOf(deleteItem.TimeGui.ToLower()) != -1)
+                                isCanDelete = true;
+                            else
+                            {
+                                continue;
+                            }
                         }
-                    }
-                    if (!string.IsNullOrEmpty(deleteItem.TimeCapNhat))
-                    {
-                        if (hangTon.TimeCapNhat.ToLower().IndexOf(deleteItem.TimeCapNhat.ToLower()) != -1)
-                            isCanDelete = true;
-                        else
+                        if (!string.IsNullOrEmpty(deleteItem.TimeCapNhat))
                         {
-                            continue;
+                            if (hangTon.TimeCapNhat.ToLower().IndexOf(deleteItem.TimeCapNhat.ToLower()) != -1)
+                                isCanDelete = true;
+                            else
+                            {
+                                continue;
+                            }
                         }
-                    }
-                    if (!string.IsNullOrEmpty(deleteItem.NguoiGui))
-                    {
-                        if (APIManager.ConvertToUnSign3(hangTon.NguoiGui.ToLower()).IndexOf(APIManager.ConvertToUnSign3(deleteItem.NguoiGui.ToLower())) != -1)
-                            isCanDelete = true;
-                        else
+                        if (!string.IsNullOrEmpty(deleteItem.NguoiGui))
                         {
-                            continue;
+                            if (APIManager.ConvertToUnSign3(hangTon.NguoiGui.ToLower()).IndexOf(APIManager.ConvertToUnSign3(deleteItem.NguoiGui.ToLower())) != -1)
+                                isCanDelete = true;
+                            else
+                            {
+                                continue;
+                            }
                         }
-                    }
 
-                    if (isCanDelete)
-                    {
-                        HangTons.Remove(hangTon);
+                        if (isCanDelete)
+                        {
+                            HangTons.Remove(hangTon);
+                        }
+
                     }
 
                 }
-
             }
 
             if (!string.IsNullOrEmpty(TextsRange))

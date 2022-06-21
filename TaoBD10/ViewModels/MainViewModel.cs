@@ -713,11 +713,11 @@ namespace TaoBD10.ViewModels
                         isHaveError = false;
 
                         List<TestAPIModel> listWindowStatic = listControl.Where(m => m.ClassName.IndexOf("WindowsForms10.STATIC.app") != -1).ToList();
-                        if (listWindowStatic.Count < 7)
+                        if (listWindowStatic.Count < 8)
                         {
                             continue;
                         }
-                        TestAPIModel apiNumber = listWindowStatic[7];
+                        TestAPIModel apiNumber = listWindowStatic[8];
                         int.TryParse(Regex.Match(apiNumber.Text, @"\d+").Value, out numberRead);
                     }
                     else if (activeWindow.text.IndexOf("xem chuyen thu chieu den") != -1)

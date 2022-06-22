@@ -45,7 +45,8 @@ namespace TaoBD10.ViewModels
                     if (item.IsTamQuan == "TamQuan")
                     {
                         dataSend += item.TuiHangHoa.SHTui + "|" + item.TuiHangHoa.ToBC + "\n";
-                    }else if(item.IsTamQuan == "ChuaXacDinh")
+                    }
+                    else if (item.IsTamQuan == "ChuaXacDinh")
                     {
                         dataSend += item.TuiHangHoa.SHTui + "|chuaxacdinh\n";
                     }

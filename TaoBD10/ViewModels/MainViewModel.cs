@@ -539,16 +539,8 @@ namespace TaoBD10.ViewModels
             {
                 while (true)
                 {
-                    Thread.Sleep(50);
+                    Thread.Sleep(100);
                     WindowInfo activeWindow = APIManager.GetActiveWindowTitle();
-
-                    //TestText += "reading";
-                    //int count =TestText.Split('\n').Length;
-                    //if (count > 10)
-                    //    TestText = "";
-
-                    //class compare
-
                     List<TestAPIModel> listControl = null;
                     //thuc hien loc du lieu con
                     if (activeWindow.text == "" ||

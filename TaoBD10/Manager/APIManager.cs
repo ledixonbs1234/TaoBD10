@@ -39,12 +39,31 @@ namespace TaoBD10.Manager
             }
             return lineNumber;
         }
+
+        public static void ClearClipboard()
+        {
+            Thread thread = new Thread(() => System.Windows.Clipboard.Clear());
+        }
         //private static int WM_LBUTTONDOWN = 0x0201;
         //private static int WM_LBUTTONUP = 0x0202;
 
         public static void ClickButton(IntPtr handle)
         {
             PostMessage(handle, 0x00F5, 0, 0);
+        }
+
+        public static void ClickButton(IntPtr window,string name)
+        {
+            List<TestAPIModel> controls = APIManager.GetListControlText(window);
+            foreach (TestAPIModel control in controls)
+            {
+                if(control.Text == name)
+                {
+                    ClickButton(control.Handle);
+                    break;
+                }
+            }
+
         }
 
         [DllImport("user32.dll")]

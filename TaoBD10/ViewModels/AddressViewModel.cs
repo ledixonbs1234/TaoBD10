@@ -103,6 +103,18 @@ namespace TaoBD10.ViewModels
                             }
                         }
                     }
+                    if (!string.IsNullOrEmpty(hangHoa.AddressSend))
+                    {
+                        foreach (var fill in fillTamQuan)
+                        {
+                            if (APIManager.ConvertToUnSign3(hangHoa.AddressSend).ToLower().IndexOf(fill) != -1)
+                            {
+                                hangHoa.IsTamQuan = "TamQuan";
+                                SetCountTamQuan();
+                                break;
+                            }
+                        }
+                    }
                     LayDiaChi();
                 }
             });

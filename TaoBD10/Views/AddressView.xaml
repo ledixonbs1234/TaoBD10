@@ -76,6 +76,18 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
+                <DataGridTextColumn
+                    MaxWidth="400"
+                    Binding="{Binding AddressSend}"
+                    Header="Địa Chỉ Gửi"
+                    IsReadOnly="True">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="TextBlock.TextWrapping" Value="NoWrap" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
             </DataGrid.Columns>
         </DataGrid>
 

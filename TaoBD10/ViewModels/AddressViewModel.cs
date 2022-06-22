@@ -16,47 +16,6 @@ namespace TaoBD10.ViewModels
 {
     public class AddressViewModel : ObservableObject
     {
-        private ObservableCollection<HangHoaDetailModel> _HangHoas;
-        private readonly MqttClient client;
-
-        public ObservableCollection<HangHoaDetailModel> HangHoas
-        {
-            get { return _HangHoas; }
-            set { SetProperty(ref _HangHoas, value); }
-        }
-
-        private int _CountTamQuan;
-
-        public int CountTamQuan
-        {
-            get { return _CountTamQuan; }
-            set { SetProperty(ref _CountTamQuan, value); }
-        }
-
-        public ICommand SendDataCommand { get; }
-
-        private void SendData()
-        {
-            string dataSend = "";
-            foreach (var item in HangHoas)
-            {
-                if (item.IsTamQuan != "None")
-                {
-                    if (item.IsTamQuan == "TamQuan")
-                    {
-                        dataSend += item.TuiHangHoa.SHTui + "|" + item.TuiHangHoa.ToBC + "\n";
-                    }
-                    else if (item.IsTamQuan == "ChuaXacDinh")
-                    {
-                        dataSend += item.TuiHangHoa.SHTui + "|chuaxacdinh\n";
-                    }
-                }
-            }
-            client.Publish("tamquanget1", Encoding.UTF8.GetBytes(dataSend), MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, true);
-        }
-
-        private string _clientId;
-
         public AddressViewModel()
         {
             HangHoas = new ObservableCollection<HangHoaDetailModel>();
@@ -128,7 +87,9 @@ namespace TaoBD10.ViewModels
                 HangHoaDetailModel hangHoa = HangHoas.FirstOrDefault(c => m.Code.ToUpper().IndexOf(c.Code.ToUpper()) != -1);
                 if (hangHoa != null)
                 {
+                    
                     hangHoa.Address = m.AddressReiceive.Trim();
+                    hangHoa.AddressSend = m.AddressSend.Trim();
                     //thuc hien kiem tra tam quan
                     if (!string.IsNullOrEmpty(hangHoa.Address))
                     {
@@ -146,27 +107,12 @@ namespace TaoBD10.ViewModels
                 }
             });
         }
-        private ObservableCollection<string> _LoaiAddress;
 
-        public ObservableCollection<string> LoaiAddress
+        private void LayDanhSach()
         {
-            get { return _LoaiAddress; }
-            set { SetProperty(ref _LoaiAddress, value); }
+            //thuc hien lay danh sach trong nay
+            WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "LayHangHoa" });
         }
-
-
-        private void SetCountTamQuan()
-        {
-            var data = HangHoas.Where(m => m.IsTamQuan != "None");
-            if (data != null)
-            {
-                CountTamQuan = data.Count();
-            }
-        }
-
-        public ICommand LayDanhSachCommand { get; }
-        public ICommand LocCommand { get; }
-        public ICommand LayDiaChiCommand { get; }
 
         private void LayDiaChi()
         {
@@ -215,10 +161,61 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        private void LayDanhSach()
+        private void SendData()
         {
-            //thuc hien lay danh sach trong nay
-            WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "LayHangHoa" });
+            string dataSend = "";
+            foreach (var item in HangHoas)
+            {
+                if (item.IsTamQuan != "None")
+                {
+                    if (item.IsTamQuan == "TamQuan")
+                    {
+                        dataSend += item.TuiHangHoa.SHTui + "|" + item.TuiHangHoa.ToBC + "\n";
+                    }
+                    else if (item.IsTamQuan == "ChuaXacDinh")
+                    {
+                        dataSend += item.TuiHangHoa.SHTui + "|chuaxacdinh\n";
+                    }
+                }
+            }
+            client.Publish("tamquanget1", Encoding.UTF8.GetBytes(dataSend), MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, true);
         }
+
+        private void SetCountTamQuan()
+        {
+            var data = HangHoas.Where(m => m.IsTamQuan != "None");
+            if (data != null)
+            {
+                CountTamQuan = data.Count();
+            }
+        }
+
+        public int CountTamQuan
+        {
+            get { return _CountTamQuan; }
+            set { SetProperty(ref _CountTamQuan, value); }
+        }
+
+        public ObservableCollection<HangHoaDetailModel> HangHoas
+        {
+            get { return _HangHoas; }
+            set { SetProperty(ref _HangHoas, value); }
+        }
+
+        public ICommand LayDanhSachCommand { get; }
+        public ICommand LayDiaChiCommand { get; }
+        public ObservableCollection<string> LoaiAddress
+        {
+            get { return _LoaiAddress; }
+            set { SetProperty(ref _LoaiAddress, value); }
+        }
+
+        public ICommand LocCommand { get; }
+        public ICommand SendDataCommand { get; }
+        private readonly MqttClient client;
+        private string _clientId;
+        private int _CountTamQuan;
+        private ObservableCollection<HangHoaDetailModel> _HangHoas;
+        private ObservableCollection<string> _LoaiAddress;
     }
 }

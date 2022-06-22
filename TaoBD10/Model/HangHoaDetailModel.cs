@@ -18,6 +18,14 @@ namespace TaoBD10.Model
             get { return _Address; }
             set { SetProperty(ref _Address, value); }
         }
+        private string _AddressSend;
+
+        public string AddressSend
+        {
+            get { return _AddressSend; }
+            set { SetProperty(ref _AddressSend, value); }
+        }
+
 
         private string _IsTamQuan ="None";
 

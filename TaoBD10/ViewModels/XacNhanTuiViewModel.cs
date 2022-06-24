@@ -429,7 +429,7 @@ namespace TaoBD10.ViewModels
                         foreach (XacNhanTuiModel item in XacNhanTuis)
                         {
 
-                            MaHieuTuiModel have = item.MaHieuTuis.Where(s => s.MaHieu.ToUpper() == chiTietTui.MaHieu.ToUpper()).FirstOrDefault();
+                            MaHieuTuiModel have = item.MaHieuTuis.FirstOrDefault(s => s.MaHieu.ToUpper() == chiTietTui.MaHieu.ToUpper());
                             if (have != null)
                             {
                                 isFinded = true;

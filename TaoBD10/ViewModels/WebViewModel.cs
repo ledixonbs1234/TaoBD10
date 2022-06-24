@@ -181,7 +181,7 @@ namespace TaoBD10.ViewModels
                             //thuc hien send data tra ve
                             if(chiTietTui.Count!= 0)
                             {
-                                WeakReferenceMessenger.Default.Send(chiTietTui);
+                                WeakReferenceMessenger.Default.Send(new ChiTietTuiMessage(chiTietTui));
                             }
                         }
 

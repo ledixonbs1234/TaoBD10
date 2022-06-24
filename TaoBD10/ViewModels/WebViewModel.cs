@@ -66,6 +66,11 @@ namespace TaoBD10.ViewModels
                     _LoadWebChoose = LoadWebChoose.DongChuyenThu;
                     LoadAddressDiNgoai(m.Content);
                 }
+                else if (m.Key == "ListAddress")
+                {
+                    WebBrowser.LoadUrl(m.Content);
+                    IsLoadedWeb = false;
+                }
                 else if (m.Key == "KTChuaPhat")
                 {
                     if (m.Content == "LoadUrl")
@@ -118,45 +123,51 @@ namespace TaoBD10.ViewModels
             {
                 SetProperty(ref _AddressWeb, value);
                 WebBrowser.LoadingStateChanged += WebBrowser_LoadingStateChanged;
-                //WebBrowser.DownloadHandler = new MyDownloadHandler();
+                WebBrowser.DownloadHandler = new MyDownloadHandler();
             }
         }
 
 
-        //public class MyDownloadHandler : IDownloadHandler
-        //{
-        //    public void OnBeforeDownload(IWebBrowser chromiumWebBrowser, IBrowser browser, DownloadItem downloadItem, IBeforeDownloadCallback callback)
-        //    {
-        //        if (!callback.IsDisposed)
-        //        {
-        //            using (callback)
-        //            {
-        //                callback.Continue(System.IO.Path.Combine(@"c:\downloadFolder", downloadItem.SuggestedFileName), showDialog: false);
-        //            }
-        //        }
-        //    }
+        public class MyDownloadHandler : IDownloadHandler
+        {
+            public bool CanDownload(IWebBrowser chromiumWebBrowser, IBrowser browser, string url, string requestMethod)
+            {
+                return true;
+            }
 
-        //    public void OnDownloadUpdated(IWebBrowser chromiumWebBrowser, IBrowser browser, DownloadItem downloadItem, IDownloadItemCallback callback)
-        //    {
-        //        if (downloadItem.IsValid)
-        //        {
-        //            if (downloadItem.IsComplete)
-        //            {
-        //                GetListAddress(downloadItem.FullPath);
-        //            }
-        //        }
+            public void OnBeforeDownload(IWebBrowser chromiumWebBrowser, IBrowser browser, DownloadItem downloadItem, IBeforeDownloadCallback callback)
+            {
+                if (!callback.IsDisposed)
+                {
+                    using (callback)
+                    {
+                        callback.Continue(System.IO.Path.Combine(@"c:\downloadFolder", downloadItem.SuggestedFileName), showDialog: false);
+                    }
+                }
+            }
 
-        //    }
-        //    void GetListAddress(string fullPath)
-        //    {
-        //        //Send list address to Data;
-        //        //thuc hien doc du lieu tu file nao do
-        //        WorkBook workBook = new WorkBook(fullPath);
-        //        WorkSheet sheet = workBook.WorkSheets.First();
+            public void OnDownloadUpdated(IWebBrowser chromiumWebBrowser, IBrowser browser, DownloadItem downloadItem, IDownloadItemCallback callback)
+            {
+                if (downloadItem.IsValid)
+                {
+                    if (downloadItem.IsComplete)
+                    {
+                        GetListAddress(downloadItem.FullPath);
+                    }
+                }
 
-        //        string cellValue = sheet["B5"].StringValue;
-        //    }
-        //}
+            }
+            void GetListAddress(string fullPath)
+            {
+                //Send list address to Data;
+                //thuc hien doc du lieu tu file nao do
+                WorkBook workBook = new WorkBook(fullPath);
+                WorkSheet sheet = workBook.WorkSheets.First();
+
+                string cellValue = sheet["B5"].StringValue;
+                APIManager.ShowSnackbar(cellValue);
+            }
+        }
 
         //thuc hien lay du lieu tu danh sach da co
         public ICommand LoginCommand { get; }
@@ -314,7 +325,7 @@ document.getElementsByClassName("".footer"").remove();
                             CheckPageMPS(document);
                         }
                     }
-                    else if (diachi.IndexOf("bccp.vnpost.vn/bccp") != -1)
+                    else if (diachi.IndexOf("bccp.vnpost.vn/bccp.aspx?act=trace") != -1)
                     {
                         if (!IsLoadedWeb)
                         {
@@ -475,6 +486,27 @@ document.getElementsByClassName("".footer"").remove();
                                 WeakReferenceMessenger.Default.Send<KiemTraMessage>(new KiemTraMessage(kiemTra));
                             }
                         }
+                    }
+                    else if (diachi.IndexOf("bccp.vnpost.vn/bccp.aspx?act=multitrace") != -1)
+                    {
+                        if (!IsLoadedWeb)
+                        {
+                            IsLoadedWeb = true;
+                        }
+                        else
+                            return;
+                        isFirstLoginSuccess = true;
+                        //kiem tra dieu kien url
+                        string html = await WebBrowser.GetSourceAsync();
+                        HtmlDocument document = new HtmlDocument();
+                        document.LoadHtml(html);
+                        string script = @"
+                     document.getElementById('MainContent_ctl00_btnExportV2').click();
+";
+                        WebBrowser.ExecuteScriptAsync(script);
+
+
+
                     }
                 }
             }

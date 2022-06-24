@@ -43,6 +43,26 @@ namespace TaoBD10.ViewModels
             }
         }
 
+        public ICommand GetAddressCommand { get; }
+
+        
+
+        void GetAddress()
+        {
+            string listMaHieu = "";
+            string addressDefault = "https://bccp.vnpost.vn/BCCP.aspx?act=MultiTrace&id=";
+            foreach (XacNhanTuiModel tui in XacNhanTuis)
+            {
+                foreach (MaHieuTuiModel maHieu in tui.MaHieuTuis)
+                {
+                    listMaHieu += maHieu.MaHieu + ",";
+                }
+            }
+            addressDefault += listMaHieu;
+            WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "ListAddress", Content = addressDefault });
+        }
+
+
         private string _TextSHTui = "";
 
         public string TextSHTui
@@ -384,7 +404,7 @@ namespace TaoBD10.ViewModels
             XacNhanTuis = new ObservableCollection<XacNhanTuiModel>();
             MoTuiCommand = new RelayCommand(MoTui);
             LayTuiCommand = new RelayCommand(LayTui);
-
+            GetAddressCommand = new RelayCommand(GetAddress);
             WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>
             {
                 if (m.Key != "XacNhan")

@@ -52,6 +52,10 @@
                     Margin="5"
                     Command="{Binding LayTuiCommand}"
                     Content="Lấy Túi" />
+                <Button
+                    Margin="5"
+                    Command="{Binding GetAddressCommand}"
+                    Content="Địa Chỉ" />
 
                 <Button
                     Margin="5"

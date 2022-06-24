@@ -392,7 +392,7 @@ namespace TaoBD10.ViewModels
             //    printD1 = APIManager.GetActiveWindowTitle();
             //    Thread.Sleep(50);
             //}
-            //Thread.Sleep(100);
+            Thread.Sleep(300);
             currentWindow = APIManager.WaitingFindedWindow("print document");
             if (currentWindow == null)
             {
@@ -465,7 +465,7 @@ namespace TaoBD10.ViewModels
             //    printD1 = APIManager.GetActiveWindowTitle();
             //    Thread.Sleep(100);
             //}
-            Thread.Sleep(100);
+            Thread.Sleep(300);
             currentWindow = APIManager.WaitingFindedWindow("print document");
             if (currentWindow == null)
             {
@@ -1291,8 +1291,13 @@ namespace TaoBD10.ViewModels
 
                 case Key.Enter:
                     KeyData = KeyData.ToLower();
+                    if(KeyData.Count() == 13)
+                    {
+                        WindowInfo dongChuyenThu = APIManager.GetActiveWindowTitle();
+                        
+                    }
 
-                    if (KeyData.IndexOf("mokntb") != -1)
+                    else if (KeyData.IndexOf("mokntb") != -1)
                     {
                         Thread.Sleep(700);
                         WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "Kien" });

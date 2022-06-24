@@ -302,6 +302,7 @@
                     Margin="5"
                     Command="{Binding AddRangeCommand}"
                     Content="Add Range" />
+                <CheckBox IsChecked="{Binding IsChooseLan}" Margin="10,0" Content="Chọn lọc Lan"/>
             </StackPanel>
         </StackPanel>
     </Grid>

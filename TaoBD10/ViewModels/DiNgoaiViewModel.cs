@@ -136,6 +136,15 @@ namespace TaoBD10.ViewModels
             }
         }
 
+        private bool _IsChooseLan =false;
+
+        public bool IsChooseLan
+        {
+            get { return _IsChooseLan; }
+            set { SetProperty(ref _IsChooseLan, value); }
+        }
+
+
 
 
         private void BwPrintDiNgoai_DoWork(object sender, DoWorkEventArgs e)

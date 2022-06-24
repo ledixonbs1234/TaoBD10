@@ -12,6 +12,7 @@ namespace TaoBD10.Model
         public string BuuCucGui { get; set; }
         public string TinhGocGui { get; set; }
         public string BuuCucNhanTemp { get; set; }
+        public float KhoiLuong { get; set; }
         public MaHieuDiNgoaiInfo(string code, string buuCucGui, string tinhGocGui, string buuCucNhanTemp)
         {
             Code = code;

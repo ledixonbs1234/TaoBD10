@@ -32,7 +32,20 @@
                 ItemsSource="{Binding Printers}"
                 SelectedItem="{Binding PrintBD10}" />
         </StackPanel>
-        <Button Margin="5" Command="{Binding ApplyCommand}" Content="Apply" />
+        <Button
+            Margin="5"
+            Command="{Binding ApplyCommand}"
+            Content="Apply" />
+
+        <DataGrid
+            Height="300"
+            ItemsSource="{Binding Controls}"
+            SelectionMode="Single" />
+        <Button
+            Margin="5"
+            Command="{Binding ListControlCommand}"
+            Content="ListControl" />
+
 
     </StackPanel>
 </UserControl>

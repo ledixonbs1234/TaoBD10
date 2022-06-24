@@ -1,6 +1,7 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using System;
+using System.ComponentModel;
 using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -17,6 +18,8 @@ namespace TaoBD10.ViewModels
             timerTaoBD = new DispatcherTimer();
             timerTaoBD.Interval = new TimeSpan(0, 0, 0, 0, 200);
             timerTaoBD.Tick += TimerTaoBD_Tick;
+            taoBDWorker = new BackgroundWorker();
+            taoBDWorker.DoWork += TaoBDWorker_DoWork;
 
             XeXaHoiCommand = new RelayCommand(XeXaHoi);
             KienDaNangCommand = new RelayCommand(KienDaNang);
@@ -29,6 +32,85 @@ namespace TaoBD10.ViewModels
             AnNhonCommand = new RelayCommand(AnNhon);
             AddBDTinhCommand = new RelayCommand(AddBDTinh);
         }
+
+        private void TaoBDWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            if (!APIManager.ThoatToDefault("593230", "danh sach bd10 di"))
+            {
+                SendKeys.SendWait("3");
+                Thread.Sleep(200);
+                SendKeys.SendWait("2");
+            }
+            WindowInfo currentWindow = APIManager.WaitingFindedWindow("danh sach bd10 di");
+            if (currentWindow == null)
+                return;
+
+            SendKeys.SendWait("{F1}");
+            currentWindow = APIManager.WaitingFindedWindow("lap bd10");
+            if (currentWindow == null)
+                return;
+            System.Collections.Generic.List<Model.TestAPIModel> controls = APIManager.GetListControlText(currentWindow.hwnd);
+
+
+            
+
+
+            switch (stateTaoBd10)
+            {
+                case StateTaoBd10.DanhSachBD10:
+                    if (currentWindow.text.IndexOf("danh sach bd10 di") != -1)
+                    {
+                        SendKeys.SendWait("{F1}");
+                        stateTaoBd10 = StateTaoBd10.LapBD10;
+                    }
+                    break;
+
+                case StateTaoBd10.LapBD10:
+                    if (currentWindow.text.IndexOf("lap bd10") != -1)
+                    {
+                        isWaiting = true;
+                        for (int i = 0; i < countDuongThu; i++)
+                        {
+                            SendKeys.SendWait("{DOWN}");
+                            Thread.Sleep(50);
+                        }
+                        SendKeys.SendWait("^(c)");
+                        Thread.Sleep(100);
+                        string clip = Clipboard.GetText();
+                        if (clip.IndexOf(tenDuongThu) == -1)
+                        {
+                            isWaiting = false;
+                            timerTaoBD.Stop();
+                        }
+                        SendKeys.SendWait("{TAB}");
+                        Thread.Sleep(100);
+                        for (int i = 0; i < countChuyen; i++)
+                        {
+                            SendKeys.SendWait("{DOWN}");
+                            Thread.Sleep(50);
+                        }
+                        SendKeys.SendWait("{TAB}");
+                        Thread.Sleep(100);
+                        SendKeys.SendWait(maBuuCuc);
+                        Thread.Sleep(100);
+                        SendKeys.SendWait("{TAB}");
+                        Thread.Sleep(100);
+                        SendKeys.SendWait("{TAB}");
+                        Thread.Sleep(100);
+                        isWaiting = false;
+                        timerTaoBD.Stop();
+                    }
+
+                    break;
+
+                default:
+                    break;
+            }
+
+
+        }
+
+        BackgroundWorker taoBDWorker;
         public ICommand AddBDTinhCommand { get; }
 
 

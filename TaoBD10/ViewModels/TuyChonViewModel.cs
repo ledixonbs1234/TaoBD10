@@ -7,18 +7,33 @@ using System.Drawing.Printing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using TaoBD10.Manager;
+using TaoBD10.Model;
 
 namespace TaoBD10.ViewModels
 {
     public class TuyChonViewModel : ObservableObject
     {
+
+        private ObservableCollection<TestAPIModel> _Controls;
+
+        public ObservableCollection<TestAPIModel> Controls
+        {
+            get { return _Controls; }
+            set { SetProperty(ref _Controls, value); }
+        }
+
+
+
         public TuyChonViewModel()
         {
             _Printers = new ObservableCollection<string>();
+            _Controls = new ObservableCollection<TestAPIModel>();
             ApplyCommand = new RelayCommand(Apply);
+            ListControlCommand = new RelayCommand(ListControl);
             foreach (string printer in PrinterSettings.InstalledPrinters)
             {
                 _Printers.Add(printer);
@@ -38,6 +53,23 @@ namespace TaoBD10.ViewModels
             }
         }
         public ICommand ApplyCommand { get; }
+        public ICommand ListControlCommand { get; }
+
+
+        void ListControl()
+        {
+            Thread.Sleep(3000);
+            var currenWindow = APIManager.GetActiveWindowTitle();
+            if (currenWindow == null)
+                return;
+            var controls = APIManager.GetListControlText(currenWindow.hwnd);
+            foreach (TestAPIModel control in controls)
+            {
+                Controls.Add(control);
+            }
+
+        }
+
 
 
         void Apply()

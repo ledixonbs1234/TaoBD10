@@ -159,13 +159,29 @@ namespace TaoBD10.ViewModels
             }
             void GetListAddress(string fullPath)
             {
-                //Send list address to Data;
-                //thuc hien doc du lieu tu file nao do
-                WorkBook workBook = new WorkBook(fullPath);
-                WorkSheet sheet = workBook.WorkSheets.First();
+                try
+                {
+                    //Send list address to Data;
+                    //thuc hien doc du lieu tu file nao do
+                    WorkBook workBook = new WorkBook(fullPath);
+                    WorkSheet sheet = workBook.WorkSheets.First();
 
-                string cellValue = sheet["B5"].StringValue;
-                APIManager.ShowSnackbar(cellValue);
+                    string cellValue = sheet["B5"].StringValue;
+                    APIManager.ShowSnackbar(cellValue);
+                }
+                catch (Exception ex)
+                {
+
+                    // Get stack trace for the exception with source file information
+                    var st = new StackTrace(ex, true);
+                    // Get the top stack frame
+                    var frame = st.GetFrame(0);
+                    // Get the line number from the stack frame
+                    var line = frame.GetFileLineNumber();
+                    APIManager.OpenNotePad(ex.Message + '\n' + "loi Line WebViewModel " + line + " Number Line " + APIManager.GetLineNumber(ex), "loi ");
+                    throw;
+                }
+
             }
         }
 

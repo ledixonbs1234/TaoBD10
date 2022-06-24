@@ -63,6 +63,7 @@ namespace TaoBD10.ViewModels
             if (currenWindow == null)
                 return;
             var controls = APIManager.GetListControlText(currenWindow.hwnd);
+            Controls.Clear();
             foreach (TestAPIModel control in controls)
             {
                 Controls.Add(control);

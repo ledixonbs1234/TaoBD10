@@ -1,13 +1,14 @@
 ﻿using CefSharp;
 using CefSharp.Wpf;
+using ExcelDataReader;
 using HtmlAgilityPack;
-using IronXL;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -163,11 +164,22 @@ namespace TaoBD10.ViewModels
                 {
                     //Send list address to Data;
                     //thuc hien doc du lieu tu file nao do
-                    WorkBook workBook = new WorkBook(fullPath);
-                    WorkSheet sheet = workBook.WorkSheets.First();
+                    //WorkBook workBook = new WorkBook(fullPath);
+                    //WorkSheet sheet = workBook.WorkSheets.First();
 
-                    string cellValue = sheet["B5"].StringValue;
-                    APIManager.ShowSnackbar(cellValue);
+                    //string cellValue = sheet["B5"].StringValue;
+                    using (var stream = File.Open(fullPath, FileMode.Open, FileAccess.Read))
+                    {
+                        using (ExcelDataReader.IExcelDataReader reader = ExcelDataReader.ExcelReaderFactory.CreateReader(stream))
+                        {
+                            System.Data.DataSet tables = reader.AsDataSet();
+                            int countRows = tables.Tables[0].Rows.Count;
+                    APIManager.ShowSnackbar(countRows.ToString());
+                        }
+
+                    }
+
+
                 }
                 catch (Exception ex)
                 {

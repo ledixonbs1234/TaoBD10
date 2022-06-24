@@ -417,22 +417,15 @@ namespace TaoBD10.ViewModels
                 if (m.Value != null)
                 {
                     List<ChiTietTuiModel> chiTietTuis = m.Value;
-                    bool isFinded = false;
 
                     foreach (ChiTietTuiModel chiTietTui in chiTietTuis)
                     {
-                        if (isFinded)
-                        {
-                            isFinded = false;
-                            continue;
-                        }
                         foreach (XacNhanTuiModel item in XacNhanTuis)
                         {
 
                             MaHieuTuiModel have = item.MaHieuTuis.FirstOrDefault(s => s.MaHieu.ToUpper() == chiTietTui.MaHieu.ToUpper());
                             if (have != null)
                             {
-                                isFinded = true;
                                 have.Address = chiTietTui.Address;
                                 break;
                             }

@@ -183,8 +183,11 @@ namespace TaoBD10.ViewModels
             Model.TestAPIModel controlBCNhan = controls.Where(m => m.ClassName == "WindowsForms10.COMBOBOX.app.0.1e6fa8e").ToList()[3];
             const int CB_SETCURSEL = 0x014E;
             APIManager.SendMessage(controlDuongThu.Handle, CB_SETCURSEL, countDuongThu, 0);
+            SendKeys.SendWait("{TAB}");
             APIManager.SendMessage(controlChuyen.Handle, CB_SETCURSEL, countChuyen, 0);
+            SendKeys.SendWait("{TAB}");
             APIManager.SendMessage(controlBCNhan.Handle, CB_SETCURSEL, 10, 0);
+            SendKeys.SendWait("{ENTER}");
         }
 
         private void BwChiTiet_DoWork(object sender, DoWorkEventArgs e)

@@ -78,6 +78,8 @@ namespace TaoBD10.ViewModels
         {
             bwChiTiet = new BackgroundWorker();
             bwChiTiet.DoWork += BwChiTiet_DoWork;
+            taoBDWorker = new BackgroundWorker();
+            taoBDWorker.DoWork += TaoBDWorker_DoWork;
             WeakReferenceMessenger.Default.Register<BD10Message>(this, (r, m) =>
             {
                 //Thuc Hien Trong ngay
@@ -159,6 +161,31 @@ namespace TaoBD10.ViewModels
 
             #endregion Command Create
         }
+        private void TaoBDWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            if (!APIManager.ThoatToDefault("593230", "danh sach bd10 di"))
+            {
+                SendKeys.SendWait("3");
+                Thread.Sleep(200);
+                SendKeys.SendWait("2");
+            }
+            WindowInfo currentWindow = APIManager.WaitingFindedWindow("danh sach bd10 di");
+            if (currentWindow == null)
+                return;
+
+            SendKeys.SendWait("{F1}");
+            currentWindow = APIManager.WaitingFindedWindow("lap bd10");
+            if (currentWindow == null)
+                return;
+            System.Collections.Generic.List<Model.TestAPIModel> controls = APIManager.GetListControlText(currentWindow.hwnd);
+            Model.TestAPIModel controlDuongThu = controls.Where(m => m.ClassName == "WindowsForms10.COMBOBOX.app.0.1e6fa8e").ToList()[2];
+            Model.TestAPIModel controlChuyen = controls.Where(m => m.ClassName == "WindowsForms10.COMBOBOX.app.0.1e6fa8e").ToList()[1];
+            Model.TestAPIModel controlBCNhan = controls.Where(m => m.ClassName == "WindowsForms10.COMBOBOX.app.0.1e6fa8e").ToList()[3];
+            const int CB_SETCURSEL = 0x014E;
+            APIManager.SendMessage(controlDuongThu.Handle, CB_SETCURSEL, countDuongThu, 0);
+            APIManager.SendMessage(controlChuyen.Handle, CB_SETCURSEL, countChuyen, 0);
+            APIManager.SendMessage(controlBCNhan.Handle, CB_SETCURSEL, 10, 0);
+        }
 
         private void BwChiTiet_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -228,6 +255,8 @@ namespace TaoBD10.ViewModels
             }
         }
 
+     
+   BackgroundWorker taoBDWorker;
         private void EMSDaNang()
         {
             maBuuCuc = "550915";
@@ -240,7 +269,7 @@ namespace TaoBD10.ViewModels
                 countChuyen = 1;
 
             stateTaoBd10 = StateTaoBd10.DanhSachBD10;
-            timerTaoBD.Start();
+            taoBDWorker.RunWorkerAsync();
         }
 
         private void FillData()
@@ -299,7 +328,7 @@ namespace TaoBD10.ViewModels
                     string temp = fillNoiTinh.FirstOrDefault(m => m.IndexOf(hangHoa.TuiHangHoa.ToBC) != -1);
                     if (!string.IsNullOrEmpty(temp))
                     {
-                        if (hangHoa.TuiHangHoa.PhanLoai.IndexOf("Túi") != -1| hangHoa.TuiHangHoa.PhanLoai.IndexOf("TMĐT") != -1)
+                        if (hangHoa.TuiHangHoa.PhanLoai.IndexOf("Túi") != -1 | hangHoa.TuiHangHoa.PhanLoai.IndexOf("TMĐT") != -1)
                         {
                             currentListHangHoa[countForeach].PhanLoai = Manager.EnumAll.PhanLoaiTinh.TuiNTB;
                         }

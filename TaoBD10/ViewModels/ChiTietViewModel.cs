@@ -272,7 +272,7 @@ namespace TaoBD10.ViewModels
                 countChuyen = 1;
 
             stateTaoBd10 = StateTaoBd10.DanhSachBD10;
-            taoBDWorker.RunWorkerAsync();
+            timerTaoBD.Start();
         }
 
         private void FillData()

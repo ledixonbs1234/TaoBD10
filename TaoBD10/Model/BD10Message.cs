@@ -36,6 +36,12 @@ namespace TaoBD10.Model
         {
         }
     }
+    public class ChiTietTuiMessage : ValueChangedMessage<List<ChiTietTuiModel>>
+    {
+        public ChiTietTuiMessage(List<ChiTietTuiModel> content) : base(content)
+        {
+        }
+    }
 
     public class SHTuiMessage : ValueChangedMessage<SHTuiCodeModel>
     {

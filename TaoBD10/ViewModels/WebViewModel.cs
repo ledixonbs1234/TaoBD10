@@ -178,7 +178,11 @@ namespace TaoBD10.ViewModels
                             {
                                 chiTietTui.Add(new ChiTietTuiModel(tables.Tables[0].Rows[i][1].ToString(), tables.Tables[0].Rows[i][3].ToString()));
                             }
-                            string a = "";
+                            //thuc hien send data tra ve
+                            if(chiTietTui.Count!= 0)
+                            {
+                                WeakReferenceMessenger.Default.Send(chiTietTui);
+                            }
                         }
 
                     }

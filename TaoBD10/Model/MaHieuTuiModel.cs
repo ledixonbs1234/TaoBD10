@@ -20,6 +20,15 @@ namespace TaoBD10.Model
             set { SetProperty(ref _MaHieu, value); }
         }
 
+        private string _Address;
+
+        public string Address
+        {
+            get { return _Address; }
+            set { SetProperty(ref _Address, value); }
+        }
+
+
         public MaHieuTuiModel()
         {
         }

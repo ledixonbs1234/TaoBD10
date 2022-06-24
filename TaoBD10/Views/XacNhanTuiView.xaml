@@ -19,9 +19,9 @@
         <StackPanel Grid.Column="0">
 
             <DataGrid
-                Height="250"
                 x:Name="dataGrid1"
                 Grid.Column="0"
+                Height="250"
                 Margin="5"
                 materialDesign:DataGridAssist.CellPadding="4 7 5 7"
                 materialDesign:DataGridAssist.ColumnHeaderPadding="2 2 2 2"
@@ -43,7 +43,12 @@
                     <DataGridTextColumn Binding="{Binding MaHieuTuis.Count}" Header="All" />
                 </DataGrid.Columns>
             </DataGrid>
-            <TextBox Margin="10,10" materialDesign:HintAssist.Hint="Nhập mã vào đây"  Style="{StaticResource MaterialDesignFilledTextBox}" AcceptsReturn="True" Text="{Binding TextSHTui, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBox
+                Margin="10,10"
+                materialDesign:HintAssist.Hint="Nhập mã vào đây"
+                AcceptsReturn="True"
+                Style="{StaticResource MaterialDesignFilledTextBox}"
+                Text="{Binding TextSHTui, UpdateSourceTrigger=PropertyChanged}" />
             <StackPanel
                 Margin="10,0"
                 HorizontalAlignment="Center"
@@ -118,6 +123,7 @@
                     <DataGrid.Columns>
                         <DataGridCheckBoxColumn Binding="{Binding IsChecked}" Header="Chọn" />
                         <DataGridTextColumn Binding="{Binding MaHieu}" Header="Mã Hiệu" />
+                        <DataGridTextColumn Binding="{Binding Address}" Header="Địa chỉ" />
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>

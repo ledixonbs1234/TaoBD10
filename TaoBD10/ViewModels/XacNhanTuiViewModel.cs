@@ -45,7 +45,7 @@ namespace TaoBD10.ViewModels
 
         public ICommand GetAddressCommand { get; }
 
-        
+
 
         void GetAddress()
         {
@@ -131,7 +131,7 @@ namespace TaoBD10.ViewModels
             SendKeys.SendWait(SelectedXacNhan.SHTui);
             SendKeys.SendWait("{ENTER}");
             WindowInfo window = APIManager.WaitingFindedWindow("xac nhan chi tiet tui thu");
-            if(SelectedXacNhan.TuiHave == SelectedXacNhan.MaHieuTuis.Count)
+            if (SelectedXacNhan.TuiHave == SelectedXacNhan.MaHieuTuis.Count)
             {
                 SendKeys.SendWait("{TAB}");
                 Thread.Sleep(50);
@@ -139,7 +139,7 @@ namespace TaoBD10.ViewModels
                 Thread.Sleep(50);
                 SendKeys.SendWait("^(a)");
             }
-            
+
         }
 
         private void OnSelectedTui()
@@ -412,6 +412,37 @@ namespace TaoBD10.ViewModels
                 if (m.Content == "GetData")
                     RunGetData();
             });
+            WeakReferenceMessenger.Default.Register<ChiTietTuiMessage>(this, (r, m) =>
+            {
+                if (m.Value != null)
+                {
+                    List<ChiTietTuiModel> chiTietTuis = m.Value;
+                    bool isFinded = false;
+
+                    foreach (ChiTietTuiModel chiTietTui in chiTietTuis)
+                    {
+                        if (isFinded)
+                        {
+                            isFinded = false;
+                            continue;
+                        }
+                        foreach (XacNhanTuiModel item in XacNhanTuis)
+                        {
+
+                            MaHieuTuiModel have = item.MaHieuTuis.Where(s => s.MaHieu.ToUpper() == chiTietTui.MaHieu.ToUpper()).FirstOrDefault();
+                            if (have != null)
+                            {
+                                isFinded = true;
+                                have.Address = chiTietTui.Address;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            );
         }
+
+
     }
 }

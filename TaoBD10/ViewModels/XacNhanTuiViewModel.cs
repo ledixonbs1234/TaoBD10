@@ -345,6 +345,8 @@ namespace TaoBD10.ViewModels
             set { SetProperty(ref _TongCong, value); }
         }
 
+        readonly string[] tamquansAddress = { "tam quan", "hoai thanh", "hoai hao", "hoai phu", "hoai son", "hoai chau" };
+
         private void OnCheckEnter()
         {
             if (MaHieu.IndexOf('\n') != -1)
@@ -358,14 +360,26 @@ namespace TaoBD10.ViewModels
                 bool isFinded = false;
                 foreach (XacNhanTuiModel item in XacNhanTuis)
                 {
-                    MaHieuTuiModel have = item.MaHieuTuis.Where(m => m.MaHieu.ToUpper() == MaHieu).FirstOrDefault();
+                    MaHieuTuiModel have = item.MaHieuTuis.FirstOrDefault(m => m.MaHieu.ToUpper() == MaHieu);
                     if (have != null)
                     {
                         isFinded = true;
+
                         if (!have.IsChecked)
                         {
+                            if (!string.IsNullOrEmpty(have.Address))
+                            {
+                                string addressLower = APIManager.ConvertToUnSign3(have.Address).ToLower();
+                                string isHaveTamQuan = tamquansAddress.FirstOrDefault(m => addressLower.IndexOf(m) != -1);
+                                if (!string.IsNullOrEmpty(isHaveTamQuan))
+                                {
+                                    SoundManager.playSound2(@"Number\tamquan.wav");
+                                }
+                            }
+                            
 
                             have.IsChecked = true;
+
                             item.TuiHave++;
                         }
                         else

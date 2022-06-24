@@ -173,8 +173,12 @@ namespace TaoBD10.ViewModels
                         using (ExcelDataReader.IExcelDataReader reader = ExcelDataReader.ExcelReaderFactory.CreateReader(stream))
                         {
                             System.Data.DataSet tables = reader.AsDataSet();
-                            int countRows = tables.Tables[0].Rows.Count;
-                    APIManager.ShowSnackbar(countRows.ToString());
+                            List<ChiTietTuiModel> chiTietTui = new List<ChiTietTuiModel>();
+                            for (int i = 2; i < tables.Tables[0].Rows.Count; i++)
+                            {
+                                chiTietTui.Add(new ChiTietTuiModel(tables.Tables[0].Rows[i][1].ToString(), tables.Tables[0].Rows[i][3].ToString()));
+                            }
+                            string a = "";
                         }
 
                     }

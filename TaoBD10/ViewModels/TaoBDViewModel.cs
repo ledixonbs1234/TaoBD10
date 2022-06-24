@@ -2,6 +2,7 @@
 using Microsoft.Toolkit.Mvvm.Input;
 using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -50,64 +51,13 @@ namespace TaoBD10.ViewModels
             if (currentWindow == null)
                 return;
             System.Collections.Generic.List<Model.TestAPIModel> controls = APIManager.GetListControlText(currentWindow.hwnd);
-
-
-            
-
-
-            switch (stateTaoBd10)
-            {
-                case StateTaoBd10.DanhSachBD10:
-                    if (currentWindow.text.IndexOf("danh sach bd10 di") != -1)
-                    {
-                        SendKeys.SendWait("{F1}");
-                        stateTaoBd10 = StateTaoBd10.LapBD10;
-                    }
-                    break;
-
-                case StateTaoBd10.LapBD10:
-                    if (currentWindow.text.IndexOf("lap bd10") != -1)
-                    {
-                        isWaiting = true;
-                        for (int i = 0; i < countDuongThu; i++)
-                        {
-                            SendKeys.SendWait("{DOWN}");
-                            Thread.Sleep(50);
-                        }
-                        SendKeys.SendWait("^(c)");
-                        Thread.Sleep(100);
-                        string clip = Clipboard.GetText();
-                        if (clip.IndexOf(tenDuongThu) == -1)
-                        {
-                            isWaiting = false;
-                            timerTaoBD.Stop();
-                        }
-                        SendKeys.SendWait("{TAB}");
-                        Thread.Sleep(100);
-                        for (int i = 0; i < countChuyen; i++)
-                        {
-                            SendKeys.SendWait("{DOWN}");
-                            Thread.Sleep(50);
-                        }
-                        SendKeys.SendWait("{TAB}");
-                        Thread.Sleep(100);
-                        SendKeys.SendWait(maBuuCuc);
-                        Thread.Sleep(100);
-                        SendKeys.SendWait("{TAB}");
-                        Thread.Sleep(100);
-                        SendKeys.SendWait("{TAB}");
-                        Thread.Sleep(100);
-                        isWaiting = false;
-                        timerTaoBD.Stop();
-                    }
-
-                    break;
-
-                default:
-                    break;
-            }
-
-
+            Model.TestAPIModel controlDuongThu = controls.Where(m => m.ClassName == "WindowsForms10.COMBOBOX.app.0.1e6fa8e").ToList()[2];
+            Model.TestAPIModel controlChuyen = controls.Where(m => m.ClassName == "WindowsForms10.COMBOBOX.app.0.1e6fa8e").ToList()[1];
+            Model.TestAPIModel controlBCNhan = controls.Where(m => m.ClassName == "WindowsForms10.COMBOBOX.app.0.1e6fa8e").ToList()[3];
+            const int CB_SETCURSEL = 0x014E;
+            APIManager.SendMessage(controlDuongThu.Handle, CB_SETCURSEL, countDuongThu, 0);
+            APIManager.SendMessage(controlChuyen.Handle, CB_SETCURSEL, countChuyen, 0);
+            APIManager.SendMessage(controlBCNhan.Handle, CB_SETCURSEL, 10, 0);
         }
 
         BackgroundWorker taoBDWorker;
@@ -151,8 +101,7 @@ namespace TaoBD10.ViewModels
             tenDuongThu = "Bình Định - Đà Nẵng";
             countDuongThu = 4;
             countChuyen = 2;
-            stateTaoBd10 = StateTaoBd10.DanhSachBD10;
-            timerTaoBD.Start();
+            taoBDWorker.RunWorkerAsync();
         }
 
         private void KienDaNang()

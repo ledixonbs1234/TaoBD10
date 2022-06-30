@@ -14,10 +14,9 @@
     Closing="MainView_Closing"
     DataContext="{StaticResource MainVM}"
     Icon="payment_calculation_bill_icon_221357.ico"
-    ResizeMode="CanMinimize"
     Topmost="{Binding IsTopMost}"
     WindowStyle="None"
-    mc:Ignorable="d">
+    mc:Ignorable="d" ResizeMode="CanMinimize">
     <Behaviors:Interaction.Triggers>
         <Behaviors:EventTrigger EventName="Loaded">
             <Behaviors:InvokeCommandAction Command="{Binding LoadPageCommand}" CommandParameter="{Binding ElementName=MainView}" />
@@ -56,32 +55,32 @@
                 Name="TabTui"
                 SelectedIndex="{Binding IndexTabTui}"
                 TabStripPlacement="Left">
-                <TabItem Header="CHÍNH">
+                <TabItem Header="CHÍNH" Padding="0">
                     <view:ChinhView />
                 </TabItem>
-                <TabItem Header="WEB">
+                <TabItem Header="WEB" Padding="0">
                     <view:WebView />
                 </TabItem>
-                <TabItem Header="ĐI NGOÀI">
+                <TabItem Header="ĐI NGOÀI" Padding="0">
                     <view:DiNgoaiView />
                 </TabItem>
-                <TabItem Header="XÁC NHẬN">
+                <TabItem Header="XÁC NHẬN" Padding="0">
                     <view:XacNhanMHView />
                 </TabItem>
-                <TabItem Header="LẤY CT">
+                <TabItem Header="LẤY CT" Padding="0">
                     <view:LayChuyenThu />
                 </TabItem>
 
-                <TabItem Header="LẤY BD">
+                <TabItem Header="LẤY BD" Padding="0">
                     <view:LayBDHA />
                 </TabItem>
-                <TabItem Header="TẠO BĐ">
+                <TabItem Header="TẠO BĐ" Padding="0">
                     <view:TaoBD10View />
                 </TabItem>
-                <TabItem Header="TÚI">
+                <TabItem Header="TÚI" Padding="0">
                     <view:XacNhanTuiView />
                 </TabItem>
-                <TabItem Header="BĐ 10">
+                <TabItem Header="BĐ 10" Padding="0">
                     <TabControl
                         x:Name="TabControl"
                         Margin="5"
@@ -89,35 +88,35 @@
                         materialDesign:ColorZoneAssist.Mode="SecondaryLight"
                         SelectedIndex="{Binding IndexTabControl}"
                         TabStripPlacement="Bottom">
-                        <TabItem>
+                        <TabItem Padding="0">
                             <TabItem.Header>
                                 <TextBlock Text="Get BD 10" />
                             </TabItem.Header>
                             <view:GetBD10View />
                         </TabItem>
-                        <TabItem Header="Danh Sách">
+                        <TabItem Header="Danh Sách" Padding="0">
                             <view:DanhSachView />
                         </TabItem>
-                        <TabItem Background="Green" Header="Chi Tiết">
+                        <TabItem Background="Green" Header="Chi Tiết" Padding="0">
                             <view:ChiTietView />
                         </TabItem>
-                        <TabItem Header="Lấy Chuyến Thư">
+                        <TabItem Header="Lấy Chuyến Thư" Padding="0">
                             <view:ChuyenThu />
                         </TabItem>
 
 
-                        <TabItem Header="Get Address">
+                        <TabItem Header="Get Address" Padding="0">
                             <view:AddressView />
                         </TabItem>
-                        <TabItem Header="Tam Quan">
+                        <TabItem Header="Tam Quan" Padding="0">
                             <view:TamQuanView />
                         </TabItem>
                     </TabControl>
                 </TabItem>
-                <TabItem Header="LỌC TÚI">
+                <TabItem Header="LỌC TÚI" Padding="0">
                     <view:LocTuiView />
                 </TabItem>
-                <TabItem Header="KT">
+                <TabItem Header="KT" Padding="0" >
                     <TabControl
                         x:Name="TabControlKT"
                         Margin="5"
@@ -134,7 +133,7 @@
                         </TabItem>
                     </TabControl>
                 </TabItem>
-                <TabItem Header="TÙY CHỌN">
+                <TabItem Header="TÙY CHỌN" Padding="0">
                     <view:TuyChonView />
                 </TabItem>
             </TabControl>

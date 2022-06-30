@@ -1490,7 +1490,7 @@ namespace TaoBD10.ViewModels
             if (_window == null)
                 return;
             var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
-            _window.Width = 360;
+            _window.Width = 340;
             _window.Height = 480;
             _ = SystemParameters.PrimaryScreenHeight;
             double width = SystemParameters.PrimaryScreenWidth;
@@ -1530,7 +1530,7 @@ namespace TaoBD10.ViewModels
             if (_window == null)
                 return;
             var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
-            _window.Width = 360;
+            _window.Width = 340;
             _window.Height = 630;
             double width = SystemParameters.PrimaryScreenWidth;
             // use 'Screen.AllScreens[1].WorkingArea' for secondary screen
@@ -1542,7 +1542,7 @@ namespace TaoBD10.ViewModels
             if (_window == null)
                 return;
             var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
-            _window.Width = 100;
+            _window.Width = 85;
             _window.Height = 335;
             double width = SystemParameters.PrimaryScreenWidth;
             // use 'Screen.AllScreens[1].WorkingArea' for secondary screen

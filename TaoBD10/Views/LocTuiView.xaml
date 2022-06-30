@@ -16,10 +16,12 @@
             <RowDefinition Height="60" />
             <RowDefinition Height="80" />
             <RowDefinition />
+            <RowDefinition Height="50" />
         </Grid.RowDefinitions>
         <TextBox
             Width="400"
             MaxWidth="400"
+            Margin="200,8,200,7"
             VerticalAlignment="Center"
             materialDesign:HintAssist.Hint="Nhập SH Túi"
             AcceptsReturn="True"
@@ -27,6 +29,7 @@
             Text="{Binding TextBD, UpdateSourceTrigger=PropertyChanged}" />
         <StackPanel
             Grid.Row="1"
+            Margin="70,0"
             HorizontalAlignment="Center"
             Orientation="Horizontal">
             <TextBox
@@ -60,6 +63,7 @@
         <ListView
             x:Name="listView"
             Grid.Row="2"
+            Grid.RowSpan="2"
             ItemsSource="{Binding ListHangHoa}">
             <ListView.View>
                 <GridView>
@@ -81,5 +85,20 @@
                 </GridView>
             </ListView.View>
         </ListView>
+        <StackPanel
+            Grid.Row="3"
+            HorizontalAlignment="Center"
+            Orientation="Horizontal">
+            <Button
+                Width="100"
+                Margin="10,0"
+                Command="{Binding BD10DiCommand, Source={StaticResource ChinhVM}}"
+                Content="BĐ 10 Đi" />
+            <Button
+                Width="100"
+                Margin="10,0"
+                Command="{Binding BD10DenCommand, Source={StaticResource ChinhVM}}"
+                Content="BĐ 10 Đến" />
+        </StackPanel>
     </Grid>
 </UserControl>

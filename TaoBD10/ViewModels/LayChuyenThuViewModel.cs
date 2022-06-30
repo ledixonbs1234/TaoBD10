@@ -91,7 +91,7 @@ namespace TaoBD10.ViewModels
             if (!APIManager.ThoatToDefault("593230", "quan ly chuyen thu chieu den"))
             {
                 SendKeys.SendWait("1");
-                Thread.Sleep(200);
+                Thread.Sleep(50);
                 SendKeys.SendWait("3");
             }
             bwLayCT.RunWorkerAsync();
@@ -104,7 +104,7 @@ namespace TaoBD10.ViewModels
             if (!APIManager.ThoatToDefault("593230", "quan ly chuyen thu chieu den"))
             {
                 SendKeys.SendWait("1");
-                Thread.Sleep(200);
+                Thread.Sleep(50);
                 SendKeys.SendWait("3");
             }
             bwLayCT.RunWorkerAsync();
@@ -117,7 +117,7 @@ namespace TaoBD10.ViewModels
             if (!APIManager.ThoatToDefault("593230", "quan ly chuyen thu chieu den"))
             {
                 SendKeys.SendWait("1");
-                Thread.Sleep(200);
+                Thread.Sleep(50);
                 SendKeys.SendWait("3");
             }
             bwLayCT.RunWorkerAsync();
@@ -150,7 +150,7 @@ namespace TaoBD10.ViewModels
             if (!APIManager.ThoatToDefault("593230", "quan ly chuyen thu chieu den"))
             {
                 SendKeys.SendWait("1");
-                Thread.Sleep(200);
+                Thread.Sleep(50);
                 SendKeys.SendWait("3");
             }
             bwLayCT.RunWorkerAsync();
@@ -163,7 +163,7 @@ namespace TaoBD10.ViewModels
             if (!APIManager.ThoatToDefault("593230", "quan ly chuyen thu chieu den"))
             {
                 SendKeys.SendWait("1");
-                Thread.Sleep(200);
+                Thread.Sleep(50);
                 SendKeys.SendWait("3");
             }
             bwLayCT.RunWorkerAsync();
@@ -176,7 +176,7 @@ namespace TaoBD10.ViewModels
             if (!APIManager.ThoatToDefault("593230", "quan ly chuyen thu chieu den"))
             {
                 SendKeys.SendWait("1");
-                Thread.Sleep(200);
+                Thread.Sleep(50);
                 SendKeys.SendWait("3");
             }
             bwLayCT.RunWorkerAsync();
@@ -189,7 +189,7 @@ namespace TaoBD10.ViewModels
             if (!APIManager.ThoatToDefault("593230", "quan ly chuyen thu chieu den"))
             {
                 SendKeys.SendWait("1");
-                Thread.Sleep(200);
+                Thread.Sleep(50);
                 SendKeys.SendWait("3");
             }
             bwLayCT.RunWorkerAsync();
@@ -202,7 +202,7 @@ namespace TaoBD10.ViewModels
             if (!APIManager.ThoatToDefault("593230", "quan ly chuyen thu chieu den"))
             {
                 SendKeys.SendWait("1");
-                Thread.Sleep(200);
+                Thread.Sleep(50);
                 SendKeys.SendWait("3");
             }
             bwLayCT.RunWorkerAsync();
@@ -215,7 +215,7 @@ namespace TaoBD10.ViewModels
             if (!APIManager.ThoatToDefault("593230", "quan ly chuyen thu chieu den"))
             {
                 SendKeys.SendWait("1");
-                Thread.Sleep(200);
+                Thread.Sleep(50);
                 SendKeys.SendWait("3");
             }
             bwLayCT.RunWorkerAsync();
@@ -228,7 +228,7 @@ namespace TaoBD10.ViewModels
             if (!APIManager.ThoatToDefault("593230", "quan ly chuyen thu chieu den"))
             {
                 SendKeys.SendWait("1");
-                Thread.Sleep(200);
+                Thread.Sleep(50);
                 SendKeys.SendWait("3");
             }
             bwLayCT.RunWorkerAsync();

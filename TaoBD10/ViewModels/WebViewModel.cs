@@ -23,6 +23,7 @@ namespace TaoBD10.ViewModels
     {
 
         string currentMaHieu = "";
+        string currentBuuCuc = "";
         public WebViewModel()
         {
             LoadPageCommand = new RelayCommand<ChromiumWebBrowser>(LoadPage);
@@ -65,7 +66,12 @@ namespace TaoBD10.ViewModels
                 {
 
                     _LoadWebChoose = LoadWebChoose.DongChuyenThu;
-                    LoadAddressDiNgoai(m.Content);
+                    var splitContent = m.Content.Split('|');
+                    currentMaHieu = splitContent[0];
+                    currentBuuCuc = splitContent[1];
+
+                    WebBrowser.LoadUrl("https://bccp.vnpost.vn/BCCP.aspx?act=Trace&id=" + currentMaHieu);
+                    IsLoadedWeb = false;
                 }
                 else if (m.Key == "ListAddress")
                 {
@@ -179,7 +185,7 @@ namespace TaoBD10.ViewModels
                                 chiTietTui.Add(new ChiTietTuiModel(tables.Tables[0].Rows[i][1].ToString(), tables.Tables[0].Rows[i][3].ToString()));
                             }
                             //thuc hien send data tra ve
-                            if(chiTietTui.Count!= 0)
+                            if (chiTietTui.Count != 0)
                             {
                                 WeakReferenceMessenger.Default.Send(new ChiTietTuiMessage(chiTietTui));
                             }
@@ -377,7 +383,7 @@ document.getElementsByClassName("".footer"").remove();
                         document.LoadHtml(html);
 
                         //kiem tra thu co no khong
-                        if (_LoadWebChoose == LoadWebChoose.DiNgoaiAddress || _LoadWebChoose == LoadWebChoose.AddressTamQuan || _LoadWebChoose == LoadWebChoose.AddressChuaPhat)
+                        if (_LoadWebChoose == LoadWebChoose.DiNgoaiAddress || _LoadWebChoose == LoadWebChoose.AddressTamQuan || _LoadWebChoose == LoadWebChoose.AddressChuaPhat || _LoadWebChoose == LoadWebChoose.DongChuyenThu)
                         {
                             var check = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblBarcode']");
                             if (check == null)
@@ -422,6 +428,8 @@ document.getElementsByClassName("".footer"").remove();
 
                             if (_LoadWebChoose == LoadWebChoose.DiNgoaiAddress)
                                 webContent.Key = "DiNgoaiAddress";
+                            else if (_LoadWebChoose == LoadWebChoose.DiNgoaiAddress)
+                                webContent.Key = "DongChuyenThu";
                             else if (_LoadWebChoose == LoadWebChoose.AddressTamQuan)
                                 webContent.Key = "AddressTamQuan";
                             else if (_LoadWebChoose == LoadWebChoose.AddressChuaPhat)
@@ -447,6 +455,7 @@ document.getElementsByClassName("".footer"").remove();
                             }
                             else if (_LoadWebChoose == LoadWebChoose.DongChuyenThu)
                             {
+                                webContent.MaBuuCuc = currentBuuCuc;
                                 webContent.Key = "AddressDongChuyenThu";
                             }
                             //Thuc hien send Web content qua do

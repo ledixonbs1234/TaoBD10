@@ -155,7 +155,7 @@ namespace TaoBD10.ViewModels
                     if (fillAddress.Count < 3)
                         return;
                     string addressExactly = fillAddress[fillAddress.Count - 2];
-                    if (maSoBuuCucCurrent == "590100")
+                    if (m.MaBuuCuc == "590100")
                     {
                         if (m.BuuCucPhat == "59")
                         {
@@ -163,23 +163,23 @@ namespace TaoBD10.ViewModels
                             APIManager.ShowSnackbar("Không đúng tỉnh");
                         }
                     }
-                    else if (maSoBuuCucCurrent == "592810")
+                    else if (m.MaBuuCuc == "592810")
                     {
                         if (boDauAndToLower(addressExactly).IndexOf("phu my") == -1)
                             APIManager.ShowSnackbar("Không đúng tỉnh");
 
                     }
-                    else if (maSoBuuCucCurrent == "592460")
+                    else if (m.MaBuuCuc == "592460")
                     {
                         if (boDauAndToLower(addressExactly).IndexOf("phu cat") == -1)
                             APIManager.ShowSnackbar("Không đúng tỉnh");
                     }
-                    else if (maSoBuuCucCurrent == "592020")
+                    else if (m.MaBuuCuc == "592020")
                     {
                         if (boDauAndToLower(addressExactly).IndexOf("an nhon") == -1)
                             APIManager.ShowSnackbar("Không đúng tỉnh");
                     }
-                    else if (maSoBuuCucCurrent == "591520" || maSoBuuCucCurrent == "591218")
+                    else if (m.MaBuuCuc == "591520" || m.MaBuuCuc == "591218")
                     {
                         if (boDauAndToLower(addressExactly).IndexOf("quy nhon") == -1)
                             APIManager.ShowSnackbar("Không đúng tỉnh");
@@ -1413,7 +1413,7 @@ namespace TaoBD10.ViewModels
                             Thread.Sleep(100);
                             WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Focus", Content = "Box" });
                         }
-                        else if (KeyData.IndexOf("vn") != -1)
+                        else if (KeyData.ToLower().IndexOf("vn") != -1)
                         {
                             if (IsFindItem)
                             {
@@ -1439,17 +1439,26 @@ namespace TaoBD10.ViewModels
                                         apiMaBuuCuc = listWindowForm[3];
                                         maBuuCuc = apiMaBuuCuc.Text.Substring(0, 6);
                                     }
-                                    //get code = 
+                                    string keyData = KeyData.ToUpper();
+                                    if (keyData.Length < 13)
+                                        return;
+                                    var indexVN = keyData.IndexOf("VN");
+                                    if (indexVN - 11 < 0)
+                                        return;
+                                    if (maBuuCuc.Length != 6)
+                                        return;
+
+
                                     string code = getCodeFromString(KeyData.ToLower());
 
                                     //lay dia chi cua ma can tim
 
-                                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "LoadAddressDong", Content = code+"|"+maBuuCuc });
+                                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "LoadAddressDong", Content = code + "|" + maBuuCuc });
                                 }
                             }
                         }
                         KeyData = "";
-                            break;
+                        break;
                     case Key.LeftShift:
                         break;
                     case Key.F2:

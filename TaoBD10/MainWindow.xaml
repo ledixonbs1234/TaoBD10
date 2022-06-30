@@ -35,6 +35,14 @@
             <Button
                 Grid.Row="1"
                 Grid.Column="0"
+                Margin="55,30,5,5"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Panel.ZIndex="20"
+                Content="{materialDesign:PackIcon Kind=WindowMinimize}" Click="Button_Click" />
+            <Button
+                Grid.Row="1"
+                Grid.Column="0"
                 Margin="2,30,5,5"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"

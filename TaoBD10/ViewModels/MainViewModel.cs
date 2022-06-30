@@ -125,12 +125,10 @@ namespace TaoBD10.ViewModels
                 {
                     if (m.Content == "False")
                     {
-
                         IsTopMost = false;
                     }
                     else
                     {
-
                         IsTopMost = true;
                     }
                 }
@@ -219,7 +217,7 @@ namespace TaoBD10.ViewModels
                         && data.IndexOf("Khởi tạo") != -1)
                     {
                         WindowInfo window = APIManager.WaitingFindedWindow("danh sach bd10 di");
-                        if(window == null)
+                        if (window == null)
                         {
                             return;
                         }
@@ -552,7 +550,7 @@ namespace TaoBD10.ViewModels
                        activeWindow.text.IndexOf("sua thong tin bd10") != -1 ||
                        activeWindow.text.IndexOf("canh bao") != -1 ||
                        activeWindow.text.IndexOf("xac nhan") != -1 ||
-                       activeWindow.text.IndexOf("thong bao") != -1|| activeWindow.text.IndexOf("loi") != -1
+                       activeWindow.text.IndexOf("thong bao") != -1 || activeWindow.text.IndexOf("loi") != -1
                        )
                     {
                         listControl = APIManager.GetListControlText(activeWindow.hwnd);
@@ -693,8 +691,7 @@ namespace TaoBD10.ViewModels
                                     if (lastConLai != tongSoTuiN - numberRead)
                                     {
                                         lastConLai = tongSoTuiN - numberRead;
-                                        Thread.Sleep(2000);
-                                        SoundManager.playSound(@"Number\" + lastConLai.ToString() + ".wav");
+                                        SoundManager.playSound2(@"Number\" + lastConLai.ToString() + ".wav");
                                     }
                                 }
                             }
@@ -1194,260 +1191,276 @@ namespace TaoBD10.ViewModels
         {
             //thuc hien kiem tra cua so active hien tai
 
-            switch (e.KeyPressed)
+            try
             {
-                case Key.D0:
-                    KeyData += "0";
-                    break;
+                switch (e.KeyPressed)
+                {
+                    case Key.D0:
+                        KeyData += "0";
+                        break;
 
-                case Key.D1:
-                    KeyData += "1";
-                    break;
+                    case Key.D1:
+                        KeyData += "1";
+                        break;
 
-                case Key.D2:
-                    KeyData += "2";
-                    break;
+                    case Key.D2:
+                        KeyData += "2";
+                        break;
 
-                case Key.D3:
-                    KeyData += "3";
-                    break;
+                    case Key.D3:
+                        KeyData += "3";
+                        break;
 
-                case Key.D4:
-                    KeyData += "4";
-                    break;
+                    case Key.D4:
+                        KeyData += "4";
+                        break;
 
-                case Key.D5:
-                    KeyData += "5";
-                    break;
+                    case Key.D5:
+                        KeyData += "5";
+                        break;
 
-                case Key.D6:
-                    KeyData += "6";
-                    break;
+                    case Key.D6:
+                        KeyData += "6";
+                        break;
 
-                case Key.D7:
-                    KeyData += "7";
-                    break;
+                    case Key.D7:
+                        KeyData += "7";
+                        break;
 
-                case Key.D8:
-                    KeyData += "8";
-                    break;
+                    case Key.D8:
+                        KeyData += "8";
+                        break;
 
-                case Key.D9:
-                    KeyData += "9";
-                    break;
+                    case Key.D9:
+                        KeyData += "9";
+                        break;
 
-                case Key.F8:
-                    //Thuc hien nay
-                    WindowInfo currentWindow = APIManager.GetActiveWindowTitle();
-                    if (currentWindow == null)
-                        return;
+                    case Key.F8:
+                        //Thuc hien nay
+                        WindowInfo currentWindow = APIManager.GetActiveWindowTitle();
+                        if (currentWindow == null)
+                            return;
 
-                    if (currentWindow.text.IndexOf("xac nhan bd10 den") != -1)
-                        WeakReferenceMessenger.Default.Send(new MessageManager("getData"));
-                    break;
+                        if (currentWindow.text.IndexOf("xac nhan bd10 den") != -1)
+                            WeakReferenceMessenger.Default.Send(new MessageManager("getData"));
+                        break;
 
-                case Key.F5:
-                    currentWindow = APIManager.GetActiveWindowTitle();
-                    if (currentWindow == null)
-                    {
-                        return;
-                    }
-
-
-                    if (currentWindow.text.IndexOf("sua thong tin bd10") != -1 || currentWindow.text.IndexOf("lap bd10") != -1)
-                    {
-                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "GuiTrucTiep", Content = "PrintDiNgoai" });
-                    }
-                    else if (currentWindow.text.IndexOf("thong tin buu gui") != -1)
-                    {
-                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Navigation", Content = "PrintDiNgoai" });
-                    }
-                    else if (currentWindow.text.IndexOf("xac nhan chi tiet tui thu") != -1)
-                    {
-                        //thuc hien lenh trong nay
-                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "XacNhan", Content = "GetData" });
-                    }
-                    break;
-
-                case Key.F1:
-                    currentWindow = APIManager.GetActiveWindowTitle();
-                    if (currentWindow == null)
-                        return;
-                    if (currentWindow.text.IndexOf("khoi tao chuyen thu") != -1)
-                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "RunPrintDiNgoai", Content = "PrintDiNgoai" });
-                    else if (currentWindow.text.IndexOf("dong chuyen thu") != -1)
-                    {
-                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "Print" });
-                    }
-                    break;
-
-                case Key.F6:
-                    currentWindow = APIManager.GetActiveWindowTitle();
-                    if (currentWindow == null)
-                        return;
-                    if (currentWindow.text.IndexOf("sua thong tin bd10") != -1 || currentWindow.text.IndexOf("lap bd10") != -1)
-                        bwPrintBD10.RunWorkerAsync();
-                    break;
-
-                case Key.Enter:
-                    KeyData = KeyData.ToLower();
-                    if(KeyData.Count() == 13)
-                    {
-                        WindowInfo dongChuyenThu = APIManager.GetActiveWindowTitle();
-                        
-                    }
-
-                    else if (KeyData.IndexOf("mokntb") != -1)
-                    {
-                        Thread.Sleep(700);
-                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "Kien" });
-                    }
-                    else if (KeyData.IndexOf("moentb") != -1)
-                    {
-                        Thread.Sleep(700);
-                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "EMS" });
-                    }
-                    else
-                   if (KeyData.IndexOf("moqnmth") != -1)
-                    {
-                        Thread.Sleep(700);
-                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "QuiNhon1" });
-                    }
-                    else if (KeyData.IndexOf("moqnhth") != -1)
-                    {
-                        Thread.Sleep(700);
-                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "QuiNhon2" });
-                    }
-                    else if (KeyData.IndexOf("mopmth") != -1)
-                    {
-                        Thread.Sleep(700);
-                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "PhuMy" });
-                    }
-                    else
-                   if (KeyData.IndexOf("mopcth") != -1)
-                    {
-                        Thread.Sleep(700);
-                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "PhuCat" });
-                    }
-                    else if (KeyData.IndexOf("moanth") != -1)
-                    {
-                        Thread.Sleep(700);
-                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "AnNhon" });
-                    }
-                    else if (KeyData.IndexOf("mohath") != -1)
-                    {
-                        Thread.Sleep(700);
-                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "HoaiAn" });
-                    }
-                    else if (KeyData.IndexOf("moamth") != -1)
-                    {
-                        Thread.Sleep(700);
-                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "AnMy" });
-                    }
-                    else if (KeyData.IndexOf("moalth") != -1)
-                    {
-                        Thread.Sleep(700);
-                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "AnLao" });
-                    }
-                    else if (KeyData.IndexOf("moahth") != -1)
-                    {
-                        Thread.Sleep(700);
-                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "AnHoa" });
-                    }
-                    //else if (KeyData.IndexOf("thoattui") != -1)
-                    //{
-                    //    trangThaiThoat = TrangThaiThoat.CanhBao;
-                    //    timerThoat.Start();
-                    //}
-                    else if (KeyData.IndexOf("montbth") != -1)
-                    {
-                        Thread.Sleep(700);
-                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "TongHop" });
-                    }
-                    else if (KeyData.IndexOf("motqth") != -1)
-                    {
-                        Thread.Sleep(700);
-                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "TamQuan" });
-                    }
-                    //else if (KeyData.IndexOf("inbdd8") != -1)
-                    //{
-                    //    Thread.Sleep(500);
-                    //    SendKeys.SendWait("{F6}");
-                    //    BtnInBD8_Click(null, null);
-                    //}
-                    else if (KeyData.IndexOf("dong230") != -1)
-                    {
-                        Thread.Sleep(700);
-                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "KT" });
-                    }
-                    else if (KeyData.IndexOf("laydulieu") != -1)
-                    {
-                        Thread.Sleep(700);
-                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "LayDuLieu" });
-                    }
-                    else if (KeyData.IndexOf("dong280") != -1)
-                    {
-                        Thread.Sleep(700);
-                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "BCP" });
-                    }
-                    else if (KeyData.IndexOf("inbd8") != -1)
-                    {
-                        Thread.Sleep(100);
+                    case Key.F5:
                         currentWindow = APIManager.GetActiveWindowTitle();
-                        if (currentWindow.text.IndexOf("dong chuyen thu") != -1)
+                        if (currentWindow == null)
+                        {
+                            return;
+                        }
+
+
+                        if (currentWindow.text.IndexOf("sua thong tin bd10") != -1 || currentWindow.text.IndexOf("lap bd10") != -1)
+                        {
+                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "GuiTrucTiep", Content = "PrintDiNgoai" });
+                        }
+                        else if (currentWindow.text.IndexOf("thong tin buu gui") != -1)
+                        {
+                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Navigation", Content = "PrintDiNgoai" });
+                        }
+                        else if (currentWindow.text.IndexOf("xac nhan chi tiet tui thu") != -1)
+                        {
+                            //thuc hien lenh trong nay
+                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "XacNhan", Content = "GetData" });
+                        }
+                        break;
+
+                    case Key.F1:
+                        currentWindow = APIManager.GetActiveWindowTitle();
+                        if (currentWindow == null)
+                            return;
+                        if (currentWindow.text.IndexOf("khoi tao chuyen thu") != -1)
+                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "RunPrintDiNgoai", Content = "PrintDiNgoai" });
+                        else if (currentWindow.text.IndexOf("dong chuyen thu") != -1)
                         {
                             WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "Print" });
                         }
-                    }
-                    else if (KeyData.IndexOf("xnmh") != -1)
-                    {
-                        Thread.Sleep(100);
-                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Active", Content = "MainView" });
-                        IndexTabTui = 3;
-                        Thread.Sleep(100);
-                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Focus", Content = "Box" });
-                    }
-                    //else if (KeyData.IndexOf("vn") != -1)
-                    //{
-                    //    WindowInfo activeWindow = APIManager.GetActiveWindowTitle();
-                    //    if (activeWindow.text.IndexOf("dong chuyen thu") != -1)
-                    //    {
-                    //        //get code = 
-                    //        string code = getCodeFromString(KeyData.ToLower());
+                        break;
 
-                    //        //lay dia chi cua ma can tim
+                    case Key.F6:
+                        currentWindow = APIManager.GetActiveWindowTitle();
+                        if (currentWindow == null)
+                            return;
+                        if (currentWindow.text.IndexOf("sua thong tin bd10") != -1 || currentWindow.text.IndexOf("lap bd10") != -1)
+                            bwPrintBD10.RunWorkerAsync();
+                        break;
 
-                    //        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "LoadAddressDong", Content = code });
-                    //    }
+                    case Key.Enter:
+                        KeyData = KeyData.ToLower();
+                        if (KeyData.Count() == 13)
+                        {
+                            WindowInfo dongChuyenThu = APIManager.GetActiveWindowTitle();
+
+                        }
+
+                        else if (KeyData.IndexOf("mokntb") != -1)
+                        {
+                            Thread.Sleep(700);
+                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "Kien" });
+                        }
+                        else if (KeyData.IndexOf("moentb") != -1)
+                        {
+                            Thread.Sleep(700);
+                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "EMS" });
+                        }
+                        else
+                       if (KeyData.IndexOf("moqnmth") != -1)
+                        {
+                            Thread.Sleep(700);
+                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "QuiNhon1" });
+                        }
+                        else if (KeyData.IndexOf("moqnhth") != -1)
+                        {
+                            Thread.Sleep(700);
+                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "QuiNhon2" });
+                        }
+                        else if (KeyData.IndexOf("mopmth") != -1)
+                        {
+                            Thread.Sleep(700);
+                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "PhuMy" });
+                        }
+                        else
+                       if (KeyData.IndexOf("mopcth") != -1)
+                        {
+                            Thread.Sleep(700);
+                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "PhuCat" });
+                        }
+                        else if (KeyData.IndexOf("moanth") != -1)
+                        {
+                            Thread.Sleep(700);
+                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "AnNhon" });
+                        }
+                        else if (KeyData.IndexOf("mohath") != -1)
+                        {
+                            Thread.Sleep(700);
+                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "HoaiAn" });
+                        }
+                        else if (KeyData.IndexOf("moamth") != -1)
+                        {
+                            Thread.Sleep(700);
+                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "AnMy" });
+                        }
+                        else if (KeyData.IndexOf("moalth") != -1)
+                        {
+                            Thread.Sleep(700);
+                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "AnLao" });
+                        }
+                        else if (KeyData.IndexOf("moahth") != -1)
+                        {
+                            Thread.Sleep(700);
+                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "AnHoa" });
+                        }
+                        //else if (KeyData.IndexOf("thoattui") != -1)
+                        //{
+                        //    trangThaiThoat = TrangThaiThoat.CanhBao;
+                        //    timerThoat.Start();
+                        //}
+                        else if (KeyData.IndexOf("montbth") != -1)
+                        {
+                            Thread.Sleep(700);
+                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "TongHop" });
+                        }
+                        else if (KeyData.IndexOf("motqth") != -1)
+                        {
+                            Thread.Sleep(700);
+                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "TamQuan" });
+                        }
+                        //else if (KeyData.IndexOf("inbdd8") != -1)
+                        //{
+                        //    Thread.Sleep(500);
+                        //    SendKeys.SendWait("{F6}");
+                        //    BtnInBD8_Click(null, null);
+                        //}
+                        else if (KeyData.IndexOf("dong230") != -1)
+                        {
+                            Thread.Sleep(700);
+                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "KT" });
+                        }
+                        else if (KeyData.IndexOf("laydulieu") != -1)
+                        {
+                            Thread.Sleep(700);
+                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "LayDuLieu" });
+                        }
+                        else if (KeyData.IndexOf("dong280") != -1)
+                        {
+                            Thread.Sleep(700);
+                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "BCP" });
+                        }
+                        else if (KeyData.IndexOf("inbd8") != -1)
+                        {
+                            Thread.Sleep(100);
+                            currentWindow = APIManager.GetActiveWindowTitle();
+                            if (currentWindow.text.IndexOf("dong chuyen thu") != -1)
+                            {
+                                WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "Print" });
+                            }
+                        }
+                        else if (KeyData.IndexOf("xnmh") != -1)
+                        {
+                            Thread.Sleep(100);
+                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Active", Content = "MainView" });
+                            IndexTabTui = 3;
+                            Thread.Sleep(100);
+                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Focus", Content = "Box" });
+                        }
+                        //else if (KeyData.IndexOf("vn") != -1)
+                        //{
+                        //    WindowInfo activeWindow = APIManager.GetActiveWindowTitle();
+                        //    if (activeWindow.text.IndexOf("dong chuyen thu") != -1)
+                        //    {
+                        //        //get code = 
+                        //        string code = getCodeFromString(KeyData.ToLower());
+
+                        //        //lay dia chi cua ma can tim
+
+                        //        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "LoadAddressDong", Content = code });
+                        //    }
 
 
-                    //}
-                    KeyData = "";
-                    break;
-                case Key.LeftShift:
-                    break;
-                case Key.F2:
-                    //thuc hien copy du lieu sau do sang ben kia
-                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "TamQuanRun", Content = "" });
-                    break;
-                case Key.F12:
-                    WindowInfo activeWindows = APIManager.GetActiveWindowTitle();
-                    if (activeWindows.text.IndexOf("dong chuyen thu") != -1)
-                    {
-                        bwPrintBanKe.RunWorkerAsync();
-                    }
-                    break;
-                case Key.F4:
-                    activeWindows = APIManager.GetActiveWindowTitle();
-                    if (activeWindows.text.IndexOf("danh sach bd10 di") != -1)
-                    {
-                        bwRunPrints.RunWorkerAsync();
-                    }
-                    break;
+                        //}
+                        KeyData = "";
+                        break;
+                    case Key.LeftShift:
+                        break;
+                    case Key.F2:
+                        //thuc hien copy du lieu sau do sang ben kia
+                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "TamQuanRun", Content = "" });
+                        break;
+                    case Key.F12:
+                        WindowInfo activeWindows = APIManager.GetActiveWindowTitle();
+                        if (activeWindows.text.IndexOf("dong chuyen thu") != -1)
+                        {
+                            bwPrintBanKe.RunWorkerAsync();
+                        }
+                        break;
+                    case Key.F4:
+                        activeWindows = APIManager.GetActiveWindowTitle();
+                        if (activeWindows.text.IndexOf("danh sach bd10 di") != -1)
+                        {
+                            bwRunPrints.RunWorkerAsync();
+                        }
+                        break;
 
-                default:
-                    KeyData += e.KeyPressed.ToString();
-                    break;
+                    default:
+                        KeyData += e.KeyPressed.ToString();
+                        break;
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                // Get stack trace for the exception with source file information
+                var st = new StackTrace(ex, true);
+                // Get the top stack frame
+                var frame = st.GetFrame(0);
+                // Get the line number from the stack frame
+                var line = frame.GetFileLineNumber();
+                APIManager.OpenNotePad(ex.Message + '\n' + "loi Line MainViewModel " + line + " Number Line " + APIManager.GetLineNumber(ex), "loi ");
+                throw;
             }
         }
         BackgroundWorker bwPrintBanKe;

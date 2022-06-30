@@ -52,7 +52,7 @@ namespace TaoBD10.ViewModels
             bwCreateChuyenThu.WorkerSupportsCancellation = true;
             bwPrint = new BackgroundWorker();
             bwPrint.DoWork += BwPrint_DoWork;
-                
+
             WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>
             {
                 if (m.Key == "Chinh")
@@ -330,7 +330,7 @@ namespace TaoBD10.ViewModels
                     break;
                 }
             }
-
+            //Chinh sua trong nay
             SendKeys.SendWait("{F10}");
             if (buttonThoat != IntPtr.Zero)
             {
@@ -397,7 +397,7 @@ namespace TaoBD10.ViewModels
                 if (currentWindow.text.IndexOf("dong chuyen thu") != -1)
                 {
 
-                    Thread.Sleep(500);
+                    Thread.Sleep(300);
                     //thuc hien cho tao tui 10 lan
                     currentWindow = APIManager.GetActiveWindowTitle();
                     if (currentWindow.text.IndexOf("tao tui") != -1)
@@ -480,7 +480,7 @@ namespace TaoBD10.ViewModels
                 }
                 if (tempCheckTinh.IndexOf(currentChuyenThu.CheckTinh) != -1 && tempCheckLoai.IndexOf(currentChuyenThu.CheckLoai) != -1 && tempCheckThuyBo.IndexOf(currentChuyenThu.CheckThuyBo) != -1)
                 {
-                    SendKeys.SendWait("A{BS}{BS}");
+                    SendKeys.SendWait("T{BS}{BS}");
                     SoundManager.playSound2(@"\music\" + currentChuyenThu.NameMusic + ".wav");
                 }
                 else

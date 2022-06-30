@@ -280,6 +280,7 @@ document.getElementsByClassName("".footer"").remove();
                             SoundManager.playSound2(@"Number\tingting.wav");
                             isFirstLoginSuccess = false;
                             WebBrowser.LoadUrl("https://bccp.vnpost.vn/BCCP.aspx?act=Trace&id=" + currentMaHieu);
+                            WebBrowser.ExecuteScriptAsync(scriptLogin);
                             IsLoadedWeb = false;
                         }
                         else

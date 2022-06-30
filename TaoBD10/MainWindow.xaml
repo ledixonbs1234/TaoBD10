@@ -160,6 +160,7 @@
             Orientation="Horizontal">
             <CheckBox Content="Top Most" IsChecked="{Binding IsTopMost}" />
             <CheckBox Content="Auto F4" IsChecked="{Binding IsAutoF4}" />
+            <CheckBox Content="Is Find Item" IsChecked="{Binding IsFindItem}" />
 
         </StackPanel>
 

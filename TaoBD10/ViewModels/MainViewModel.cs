@@ -1000,6 +1000,13 @@ namespace TaoBD10.ViewModels
 
         public string CountInBD { get => _CountInBD; set => SetProperty(ref _CountInBD, value); }
         public IRelayCommand<System.Windows.Controls.TabControl> DefaultWindowCommand { get; }
+        private bool _IsFindItem;
+
+        public bool IsFindItem
+        {
+            get { return _IsFindItem; }
+            set { SetProperty(ref _IsFindItem, value); }
+        }
 
         public int IndexTabControl
         {
@@ -1406,23 +1413,43 @@ namespace TaoBD10.ViewModels
                             Thread.Sleep(100);
                             WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Focus", Content = "Box" });
                         }
-                        //else if (KeyData.IndexOf("vn") != -1)
-                        //{
-                        //    WindowInfo activeWindow = APIManager.GetActiveWindowTitle();
-                        //    if (activeWindow.text.IndexOf("dong chuyen thu") != -1)
-                        //    {
-                        //        //get code = 
-                        //        string code = getCodeFromString(KeyData.ToLower());
+                        else if (KeyData.IndexOf("vn") != -1)
+                        {
+                            if (IsFindItem)
+                            {
+                                WindowInfo activeWindow = APIManager.GetActiveWindowTitle();
+                                if (activeWindow.text.IndexOf("dong chuyen thu") != -1)
+                                {
+                                    var controls = APIManager.GetListControlText(activeWindow.hwnd);
+                                    List<TestAPIModel> listWindowForm = controls.Where(m => m.ClassName.IndexOf("WindowsForms10.EDIT") != -1).ToList();
+                                    if (listWindowForm.Count < 7)
+                                        return;
 
-                        //        //lay dia chi cua ma can tim
+                                    TestAPIModel apiMaBuuCuc = listWindowForm[2];
+                                    string maBuuCuc = "";
 
-                        //        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "LoadAddressDong", Content = code });
-                        //    }
+                                    if (!string.IsNullOrEmpty(apiMaBuuCuc.Text) && apiMaBuuCuc.Text.Length != 13)
+                                    {
+                                        if (apiMaBuuCuc.Text.Length < 6)
+                                            return;
+                                        maBuuCuc = apiMaBuuCuc.Text.Substring(0, 6);
+                                    }
+                                    else
+                                    {
+                                        apiMaBuuCuc = listWindowForm[3];
+                                        maBuuCuc = apiMaBuuCuc.Text.Substring(0, 6);
+                                    }
+                                    //get code = 
+                                    string code = getCodeFromString(KeyData.ToLower());
 
+                                    //lay dia chi cua ma can tim
 
-                        //}
+                                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "LoadAddressDong", Content = code+"|"+maBuuCuc });
+                                }
+                            }
+                        }
                         KeyData = "";
-                        break;
+                            break;
                     case Key.LeftShift:
                         break;
                     case Key.F2:

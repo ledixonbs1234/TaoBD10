@@ -147,54 +147,64 @@ namespace TaoBD10.ViewModels
 
             WeakReferenceMessenger.Default.Register<WebContentModel>(this, (r, m) =>
             {
-                if (m.Key == "AddressDongChuyenThu")
-                {
-                    List<string> fillAddress = m.AddressReiceive.Split('-').Select(s => s.Trim()).ToList();
-                    if (fillAddress == null)
-                        return;
-                    if (fillAddress.Count < 3)
-                        return;
-                    string addressExactly = fillAddress[fillAddress.Count - 2];
-                    string boDauAddress = boDauAndToLower(addressExactly);
+            if (m.Key == "AddressDongChuyenThu")
+            {
+                List<string> fillAddress = m.AddressReiceive.Split('-').Select(s => s.Trim()).ToList();
+                if (fillAddress == null)
+                    return;
+                if (fillAddress.Count < 3)
+                    return;
+                string addressExactly = fillAddress[fillAddress.Count - 2];
+                string boDauAddress = boDauAndToLower(addressExactly);
 
                     if (maSoBuuCucCurrent == "590100")
                     {
 
-                        if (m.BuuCucPhat == "59")
+                        if (loaiCurrent == "E" || loaiCurrent == "C")
                         {
-
-                            if (boDauAddress.IndexOf("van canh") != -1
-                                || boDauAddress.IndexOf("vinh thanh") != -1
-                                || boDauAddress.IndexOf("tay son") != -1
-                                || boDauAddress.IndexOf("tuy phuoc") != -1)
+                            if (m.BuuCucPhat == "59")
                             {
-
-                            }else
+                                SoundManager.playSound2(@"Number\error_sound.wav");
+                            }
+                        }
+                        else if (loaiCurrent == "R")
+                        {
+                            if (m.BuuCucPhat == "59")
                             {
-                                APIManager.ShowSnackbar("Không đúng tỉnh");
+                                if (boDauAddress.IndexOf("van canh") != -1
+                                    || boDauAddress.IndexOf("vinh thanh") != -1
+                                    || boDauAddress.IndexOf("tay son") != -1
+                                    || boDauAddress.IndexOf("tuy phuoc") != -1)
+                                {
+
+                                }
+                                else
+                                {
+                                    SoundManager.playSound2(@"Number\error_sound.wav");
+                                }
                             }
                         }
                     }
                     else if (maSoBuuCucCurrent == "592810")
                     {
                         if (boDauAddress.IndexOf("phu my") == -1)
-                            APIManager.ShowSnackbar("Không đúng tỉnh");
+                            SoundManager.playSound2(@"Number\error_sound.wav");
 
                     }
                     else if (maSoBuuCucCurrent == "592460")
                     {
                         if (boDauAddress.IndexOf("phu cat") == -1)
-                            APIManager.ShowSnackbar("Không đúng tỉnh");
+                            SoundManager.playSound2(@"Number\error_sound.wav");
                     }
                     else if (maSoBuuCucCurrent == "592020")
                     {
                         if (boDauAddress.IndexOf("an nhon") == -1)
-                            APIManager.ShowSnackbar("Không đúng tỉnh");
+                            SoundManager.playSound2(@"Number\error_sound.wav");
                     }
                     else if (maSoBuuCucCurrent == "591520" || maSoBuuCucCurrent == "591218")
                     {
                         if (boDauAddress.IndexOf("quy nhon") == -1)
-                            APIManager.ShowSnackbar("Không đúng tỉnh");
+                            SoundManager.playSound2(@"Number\error_sound.wav");
                     }
                 }
             });

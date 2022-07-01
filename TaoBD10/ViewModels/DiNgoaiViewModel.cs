@@ -20,15 +20,16 @@ namespace TaoBD10.ViewModels
 {
     public class DiNgoaiViewModel : ObservableObject
     {
-
-        BackgroundWorker bwPrintDiNgoai;
+        readonly BackgroundWorker bwPrintDiNgoai;
         public DiNgoaiViewModel()
         {
             DiNgoais = new ObservableCollection<DiNgoaiItemModel>();
             BuuCucs = new ObservableCollection<string>();
 
-            timerPrint = new DispatcherTimer();
-            timerPrint.Interval = new TimeSpan(0, 0, 0, 0, 50);
+            timerPrint = new DispatcherTimer
+            {
+                Interval = new TimeSpan(0, 0, 0, 0, 50)
+            };
             timerPrint.Tick += TimerPrint_Tick;
             SelectionCommand = new RelayCommand<DiNgoaiItemModel>(Selection);
             SelectionChiTietCommand = new RelayCommand(SelectionChiTiet);
@@ -119,7 +120,7 @@ namespace TaoBD10.ViewModels
         {
             if (DiNgoais.Count == 0)
                 return;
-            setTinhFromMaTinh();
+            SetTinhFromMaTinh();
             List<DiNgoaiItemModel> listDiNgoai = new List<DiNgoaiItemModel>();
             //Thuc hien soft Tinh
             IOrderedEnumerable<DiNgoaiItemModel> dingoaisRa = DiNgoais.Where(m => int.Parse(m.MaTinh) < 59).OrderByDescending(x => x.TenTinh);
@@ -475,7 +476,7 @@ namespace TaoBD10.ViewModels
 
         }
 
-        BackgroundWorker bwKhoiTao;
+        readonly BackgroundWorker bwKhoiTao;
 
         public IRelayCommand<DiNgoaiItemModel> SelectionCommand { get; }
 
@@ -504,7 +505,7 @@ namespace TaoBD10.ViewModels
         {
             if (DiNgoais.Count == 0)
                 return;
-            setTinhFromMaTinh();
+            SetTinhFromMaTinh();
             //Thuc hien soft Tinh
             var dingoaisTemp = DiNgoais.OrderByDescending(x => x.TenTinh).ToList();
             DiNgoais.Clear();
@@ -517,7 +518,7 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        private void setTinhFromMaTinh()
+        private void SetTinhFromMaTinh()
         {
             foreach (var diNgoai in DiNgoais)
             {
@@ -1226,7 +1227,6 @@ namespace TaoBD10.ViewModels
             set { SetProperty(ref _IsAutoF1, value); }
         }
 
-        private DispatcherTimer timerDiNgoai;
 
         private DiNgoaiItemModel _SelectedSimple;
 
@@ -1263,7 +1263,7 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        public bool isSayNumber
+        public bool IsSayNumber
         {
             get { return _isSayNumber; }
             set { SetProperty(ref _isSayNumber, value); }
@@ -1312,7 +1312,7 @@ namespace TaoBD10.ViewModels
 
         public ICommand XoaDiNgoaiCommand { get; }
 
-        private DispatcherTimer timerPrint;
+        private readonly DispatcherTimer timerPrint;
 
         private void AddAddress()
         {
@@ -1332,12 +1332,12 @@ namespace TaoBD10.ViewModels
 
         string GetTinhFromBuuCuc(string buucuc)
         {
-            string maTinhFilled = "";
             if (string.IsNullOrEmpty(buucuc))
             {
                 return "";
             }
             string maTinh = buucuc.Substring(0, 2);
+            string maTinhFilled;
             switch (maTinh)
             {
                 case "11":
@@ -1429,7 +1429,6 @@ namespace TaoBD10.ViewModels
                     continue;
                 string[] splitedData = data.Split(' ');
 
-                int length = splitedData.Length;
                 if (splitedData.Length >= 10 && data.ToUpper().IndexOf("VN") != -1)
                 {
                     list.Add(new MaHieuDiNgoaiInfo(splitedData[1].ToUpper(), splitedData[3], splitedData[2], splitedData[4]));
@@ -1467,37 +1466,37 @@ namespace TaoBD10.ViewModels
                 if (fillAddress.Count < 3)
                     return;
                 string addressExactly = fillAddress[fillAddress.Count - 2];
-                if (boDauAndToLower(addressExactly).IndexOf("phu my") != -1)
+                if (BoDauAndToLower(addressExactly).IndexOf("phu my") != -1)
                 {
                     diNgoai.TenBuuCuc = "592810 - KT Phù Mỹ";
                     diNgoai.MaBuuCuc = "592810";
                 }
-                else if (boDauAndToLower(addressExactly).IndexOf("phu cat") != -1)
+                else if (BoDauAndToLower(addressExactly).IndexOf("phu cat") != -1)
                 {
                     diNgoai.TenBuuCuc = "592460 - BCP Phù Cát";
                     diNgoai.MaBuuCuc = "592460";
                 }
-                else if (boDauAndToLower(addressExactly).IndexOf("an nhon") != -1)
+                else if (BoDauAndToLower(addressExactly).IndexOf("an nhon") != -1)
                 {
                     diNgoai.TenBuuCuc = "592020 - KT An Nhơn";
                     diNgoai.MaBuuCuc = "592020";
                 }
-                else if (boDauAndToLower(addressExactly).IndexOf("tay son") != -1)
+                else if (BoDauAndToLower(addressExactly).IndexOf("tay son") != -1)
                 {
                     diNgoai.TenBuuCuc = "594210 - KT Tây Sơn";
                     diNgoai.MaBuuCuc = "594210";
                 }
-                else if (boDauAndToLower(addressExactly).IndexOf("van canh") != -1)
+                else if (BoDauAndToLower(addressExactly).IndexOf("van canh") != -1)
                 {
                     diNgoai.TenBuuCuc = "594560 - KT Vân Canh";
                     diNgoai.MaBuuCuc = "594560";
                 }
-                else if (boDauAndToLower(addressExactly).IndexOf("vinh thanh") != -1)
+                else if (BoDauAndToLower(addressExactly).IndexOf("vinh thanh") != -1)
                 {
                     diNgoai.TenBuuCuc = "594080 - KT Vĩnh Thạnh";
                     diNgoai.MaBuuCuc = "594080";
                 }
-                else if (boDauAndToLower(addressExactly).IndexOf("tuy phuoc") != -1)
+                else if (BoDauAndToLower(addressExactly).IndexOf("tuy phuoc") != -1)
                 {
                     diNgoai.TenBuuCuc = "591720 - KT Tuy Phước";
                     diNgoai.MaBuuCuc = "591720";
@@ -1565,11 +1564,11 @@ namespace TaoBD10.ViewModels
                     return;
                 string addressExactly = fillAddress[fillAddress.Count - 2];
                 //thuc hien lay danh sach buu cuc
-                List<string> listBuuCuc = getListBuuCucFromTinh(diNgoai.MaTinh);
+                List<string> listBuuCuc = GetListBuuCucFromTinh(diNgoai.MaTinh);
                 if (listBuuCuc.Count == 0)
                     return;
 
-                string data = listBuuCuc.FirstOrDefault(m => boDauAndToLower(m).IndexOf(boDauAndToLower(addressExactly)) != -1);
+                string data = listBuuCuc.FirstOrDefault(m => BoDauAndToLower(m).IndexOf(BoDauAndToLower(addressExactly)) != -1);
                 if (!string.IsNullOrEmpty(data))
                 {
                     diNgoai.TenBuuCuc = data;
@@ -1592,7 +1591,7 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        private string boDauAndToLower(string text)
+        private string BoDauAndToLower(string text)
         {
             return APIManager.ConvertToUnSign3(text).ToLower();
         }
@@ -1624,7 +1623,7 @@ namespace TaoBD10.ViewModels
                         }
                     }
                     DiNgoais.Add(new DiNgoaiItemModel(DiNgoais.Count + 1, TextCode));
-                    if (isSayNumber)
+                    if (IsSayNumber)
                     {
                         SoundManager.playSound(@"Number\" + DiNgoais.Count.ToString() + ".wav");
                     }
@@ -1642,7 +1641,7 @@ namespace TaoBD10.ViewModels
             DiNgoais.Clear();
         }
 
-        private List<string> getListBuuCucFromTinh(string maTinh)
+        private List<string> GetListBuuCucFromTinh(string maTinh)
         {
             List<string> buucucs = new List<string>();
             for (int i = 0; i < FileManager.listBuuCuc.Count; i++)
@@ -1694,7 +1693,7 @@ namespace TaoBD10.ViewModels
                 return;
             //chuyen vo cbx
             BuuCucs.Clear();
-            List<string> listBuuCuc = getListBuuCucFromTinh(SelectedDiNgoai.MaTinh);
+            List<string> listBuuCuc = GetListBuuCucFromTinh(SelectedDiNgoai.MaTinh);
             if (listBuuCuc.Count != 0)
             {
                 foreach (string item in listBuuCuc)

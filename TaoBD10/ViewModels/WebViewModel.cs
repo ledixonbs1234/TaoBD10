@@ -23,7 +23,6 @@ namespace TaoBD10.ViewModels
     {
 
         string currentMaHieu = "";
-        string currentBuuCuc = "";
         public WebViewModel()
         {
             LoadPageCommand = new RelayCommand<ChromiumWebBrowser>(LoadPage);
@@ -440,11 +439,13 @@ document.getElementsByClassName("".footer"").remove();
                                 HtmlNode table = tables.First();
                                 HtmlNodeCollection aa = table.LastChild.PreviousSibling.SelectNodes("td");
 
-                                webContent.KiemTraWeb = new KiemTraModel();
-                                webContent.KiemTraWeb.Date = aa[2].InnerText;
-                                webContent.KiemTraWeb.BuuCucDong = aa[3].InnerText;
-                                webContent.KiemTraWeb.BuuCucNhan = aa[4].InnerText;
-                                webContent.KiemTraWeb.TTCT = aa[5].InnerText;
+                                webContent.KiemTraWeb = new KiemTraModel
+                                {
+                                    Date = aa[2].InnerText,
+                                    BuuCucDong = aa[3].InnerText,
+                                    BuuCucNhan = aa[4].InnerText,
+                                    TTCT = aa[5].InnerText
+                                };
                                 webContent.Key = "AddressChuaPhat";
                             }
                             else if (_LoadWebChoose == LoadWebChoose.DongChuyenThu)
@@ -596,7 +597,8 @@ document.getElementsByClassName("".footer"").remove();
             }
 
         }
-        string defaultWeb = "https://bccp.vnpost.vn/BCCP.aspx?act=Trace";
+
+        readonly string defaultWeb = "https://bccp.vnpost.vn/BCCP.aspx?act=Trace";
 
         public IRelayCommand<ChromiumWebBrowser> LoadPageCommand;
         private string _AddressWeb = "https://bccp.vnpost.vn/BCCP.aspx?act=Trace";

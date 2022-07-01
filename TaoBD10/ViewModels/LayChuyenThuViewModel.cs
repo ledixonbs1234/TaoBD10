@@ -17,8 +17,7 @@ namespace TaoBD10.ViewModels
 {
     public class LayChuyenThuViewModel : ObservableObject
     {
-
-        BackgroundWorker bwLayCT;
+        readonly BackgroundWorker bwLayCT;
         public LayChuyenThuViewModel()
         {
             bwLayCT = new BackgroundWorker();
@@ -234,7 +233,6 @@ namespace TaoBD10.ViewModels
             bwLayCT.RunWorkerAsync();
         }
         private bool isBaoDamChuyenThuDen = false;
-        private bool isWaitingChuyenThuChieuDen = false;
         private string maBuuCucChuyenThuDen = "";
     }
 }

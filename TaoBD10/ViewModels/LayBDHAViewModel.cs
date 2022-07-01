@@ -13,10 +13,10 @@ namespace TaoBD10.ViewModels
 {
     public class LayBDHAViewModel : ObservableObject
     {
-        private DispatcherTimer timer;
+        private readonly DispatcherTimer timer;
         private string maBuuCuc = "";
         private bool isWating = false;
-        BackgroundWorker bwLayBD;
+        readonly BackgroundWorker bwLayBD;
 
         public LayBDHAViewModel()
         {
@@ -31,8 +31,10 @@ namespace TaoBD10.ViewModels
             bwLayBD.DoWork += BwLayBD_DoWork;
             bwLayBD.RunWorkerCompleted += BwLayBD_RunWorkerCompleted;
 
-            timer = new DispatcherTimer();
-            timer.Interval = new TimeSpan(0, 0, 0, 0, 500);
+            timer = new DispatcherTimer
+            {
+                Interval = new TimeSpan(0, 0, 0, 0, 500)
+            };
             timer.Tick += Timer_Tick;
         }
         private readonly bool[] _LanLapArray = new bool[] { true, false, false, false,false };
@@ -48,7 +50,6 @@ namespace TaoBD10.ViewModels
 
         private void BwLayBD_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            isRunComplete = true;
         }
 
         public ICommand DaNangCommand { get; }
@@ -84,7 +85,6 @@ namespace TaoBD10.ViewModels
                 return;
             }
             System.Collections.Generic.List<Model.TestAPIModel> childControl = APIManager.GetListControlText(currentWindow.hwnd);
-            int countCombobox = 0;
             IntPtr combo = IntPtr.Zero;
 
             string classDefault = "WindowsForms10.COMBOBOX.app.0.1e6fa8e";
@@ -105,7 +105,6 @@ namespace TaoBD10.ViewModels
             APIManager.ClickButton(currentWindow.hwnd, buttonGetControl.Handle);
             APIManager.ClickButton(currentWindow.hwnd, buttonFindControl.Handle);
         }
-        bool isRunComplete = false;
         public ICommand LayToanBoCommand { get; }
 
 

@@ -18,8 +18,7 @@ namespace TaoBD10.ViewModels
 {
     internal class ChiTietViewModel : ObservableObject
     {
-
-        BackgroundWorker bwChiTiet;
+        readonly BackgroundWorker bwChiTiet;
 
         public RelayCommand<PhanLoaiTinh> AddBDTinhCommand { get; }
 
@@ -258,8 +257,7 @@ namespace TaoBD10.ViewModels
             }
         }
 
-     
-   BackgroundWorker taoBDWorker;
+        readonly BackgroundWorker taoBDWorker;
         private void EMSDaNang()
         {
             maBuuCuc = "550915";
@@ -863,7 +861,6 @@ namespace TaoBD10.ViewModels
                 default:
                     break;
             }
-            countDown = 60;
             bwChiTiet.RunWorkerAsync();
         }
 
@@ -1260,7 +1257,6 @@ namespace TaoBD10.ViewModels
         private HangHoaDetailModel _SelectedTui;
         private string _TextCurrentChuyenThu;
         private int countChuyen = 0;
-        private int countDown = 0;
         private int countDuongThu = 0;
         private BuuCuc currentBuuCuc = BuuCuc.None;
         private List<HangHoaDetailModel> currentListHangHoa;
@@ -1269,12 +1265,10 @@ namespace TaoBD10.ViewModels
         private readonly string[] fillDaNang = new string[] { "26", "27", "23", "22", "55", "38", "40", "10", "48", "17", "18", "16", "31", "39", "24", "33", "42", "46", "43", "51", "20", "52", "36", "41", "25", "44", "31", "53", "30", "32", "29", "28", "35", "13" };
         private readonly string[] fillNoiTinh = new string[] { "591218", "591520", "591720", "591760", "591900", "592100", "592120", "592220", "594080", "594090", "594210", "594220", "594300", "594350", "594560", "594610", "590100" };
         private readonly string[] fillNTB = new string[] { "88", "79", "96", "93", "82", "83", "80", "97", "90", "63", "64", "81", "87", "60", "91", "70", "65", "92", "58", "67", "85", "66", "62", "95", "84", "86", "94", "89", "74" };
-        private bool isBusyXacNhan = false;
         private bool isWaiting = false;
         private string maBuuCuc = "0";
         private StateTaoBd10 stateTaoBd10;
         private string tenDuongThu = "";
-        private readonly DispatcherTimer timer;
         private readonly DispatcherTimer timerTaoBD;
     }
 }

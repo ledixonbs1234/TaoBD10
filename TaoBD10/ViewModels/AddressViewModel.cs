@@ -19,10 +19,12 @@ namespace TaoBD10.ViewModels
         public AddressViewModel()
         {
             HangHoas = new ObservableCollection<HangHoaDetailModel>();
-            LoaiAddress = new ObservableCollection<string>();
-            LoaiAddress.Add("None");
-            LoaiAddress.Add("TamQuan");
-            LoaiAddress.Add("ChuaXacDinh");
+            LoaiAddress = new ObservableCollection<string>
+            {
+                "None",
+                "TamQuan",
+                "ChuaXacDinh"
+            };
 
             LayDanhSachCommand = new RelayCommand(LayDanhSach);
             LocCommand = new RelayCommand(Loc);
@@ -151,7 +153,6 @@ namespace TaoBD10.ViewModels
             //thuc hien loc danh sach tu bd8
             if (HangHoas.Count == 0)
                 return;
-            bool isLast = false;
 
             foreach (HangHoaDetailModel diNgoaiItem in HangHoas)
             {
@@ -225,7 +226,7 @@ namespace TaoBD10.ViewModels
         public ICommand LocCommand { get; }
         public ICommand SendDataCommand { get; }
         private readonly MqttClient client;
-        private string _clientId;
+        private readonly string _clientId;
         private int _CountTamQuan;
         private ObservableCollection<HangHoaDetailModel> _HangHoas;
         private ObservableCollection<string> _LoaiAddress;

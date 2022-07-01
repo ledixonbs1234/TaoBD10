@@ -278,17 +278,14 @@ namespace TaoBD10.ViewModels
         }
 
         readonly string[] date = new string[3];
-        private readonly DispatcherTimer timer;
         private string _MaHieu;
         private string _TestText;
         private KiemTraModel _XacNhanMH;
-        BackgroundWorker backgroundWorker;
-        BackgroundWorker backgroundWorkerXacNhan;
+        readonly BackgroundWorker backgroundWorker;
+        readonly BackgroundWorker backgroundWorkerXacNhan;
         string buuCucDong = "";
         bool Is280 = false;
         bool isR = false;
-        private bool isWaitingChuyenThuChieuDen = false;
         string soCT = "0";
-        private StateChuyenThuChieuDen stateChuyenThuChieuDen = StateChuyenThuChieuDen.GetData;
     }
 }

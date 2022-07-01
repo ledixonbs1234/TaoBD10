@@ -35,7 +35,7 @@ namespace TaoBD10.ViewModels
             set { SetProperty(ref _IsTopMost, value); }
         }
 
-        BackgroundWorker backgroundWorkerRead;
+        readonly BackgroundWorker backgroundWorkerRead;
 
         private bool _IsAutoF4 = false;
 
@@ -51,7 +51,7 @@ namespace TaoBD10.ViewModels
         {
             window.Close();
         }
-        private string boDauAndToLower(string text)
+        private string BoDauAndToLower(string text)
         {
             return APIManager.ConvertToUnSign3(text).ToLower();
         }
@@ -155,7 +155,7 @@ namespace TaoBD10.ViewModels
                 if (fillAddress.Count < 3)
                     return;
                 string addressExactly = fillAddress[fillAddress.Count - 2];
-                string boDauAddress = boDauAndToLower(addressExactly);
+                string boDauAddress = BoDauAndToLower(addressExactly);
 
                     if (maSoBuuCucCurrent == "590100")
                     {
@@ -1459,7 +1459,7 @@ namespace TaoBD10.ViewModels
                                     }
 
 
-                                    string code = getCodeFromString(KeyData.ToLower());
+                                    string code = GetCodeFromString(KeyData.ToLower());
 
                                     //lay dia chi cua ma can tim
 
@@ -1509,10 +1509,11 @@ namespace TaoBD10.ViewModels
                 throw;
             }
         }
-        BackgroundWorker bwPrintBanKe;
-        BackgroundWorker bwRunPrints;
 
-        string getCodeFromString(string content)
+        readonly BackgroundWorker bwPrintBanKe;
+        readonly BackgroundWorker bwRunPrints;
+
+        string GetCodeFromString(string content)
         {
             int index = content.LastIndexOf("vn");
             return content.Substring(index - 11, 13);
@@ -1529,7 +1530,8 @@ namespace TaoBD10.ViewModels
             _window.Left = (width - 1150) / 2;
             _window.Top = (height - 630) / 2;
         }
-        BackgroundWorker bwPrintBD10;
+
+        readonly BackgroundWorker bwPrintBD10;
 
         private void SetDefaultWindowTui()
         {
@@ -1600,14 +1602,12 @@ namespace TaoBD10.ViewModels
         {
             if (control == null)
                 return;
-            tabControl = control;
         }
 
         private void TabTuiChanged(System.Windows.Controls.TabControl tabControl)
         {
             if (tabControl == null)
                 return;
-            tabTuiControl = tabControl;
             if (tabControl.SelectedIndex != lastSelectedTabTui)
             {
                 lastSelectedTabTui = tabControl.SelectedIndex;
@@ -1672,9 +1672,7 @@ namespace TaoBD10.ViewModels
         private string maSoBuuCucCurrent = "";
         private int numberRead = 0;
         private string soCTCurrent = "";
-        private System.Windows.Controls.TabControl tabControl;
 
 
-        private System.Windows.Controls.TabControl tabTuiControl;
     }
 }

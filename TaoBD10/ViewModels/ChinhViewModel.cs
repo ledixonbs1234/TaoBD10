@@ -21,9 +21,7 @@ namespace TaoBD10.ViewModels
 {
     public class ChinhViewModel : ObservableObject
     {
-        private readonly DispatcherTimer timerPrint;
-
-        BackgroundWorker bwPrint;
+        readonly BackgroundWorker bwPrint;
 
         public ChinhViewModel()
         {
@@ -725,7 +723,7 @@ namespace TaoBD10.ViewModels
             bwCreateChuyenThu.RunWorkerAsync();
         }
 
-        BackgroundWorker bwCreateChuyenThu;
+        readonly BackgroundWorker bwCreateChuyenThu;
 
         private void EMS()
         {

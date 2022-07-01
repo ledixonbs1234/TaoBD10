@@ -619,8 +619,11 @@ namespace TaoBD10.ViewModels
                 Thread.Sleep(200);
                 SendKeys.SendWait("1");
             }
-            bwCreateChuyenThu.CancelAsync();
-            bwCreateChuyenThu.RunWorkerAsync();
+            if (!bwCreateChuyenThu.IsBusy)
+            {
+                bwCreateChuyenThu.CancelAsync();
+                bwCreateChuyenThu.RunWorkerAsync();
+            }
         }
 
         private void AnLao()
@@ -644,8 +647,11 @@ namespace TaoBD10.ViewModels
                 Thread.Sleep(200);
                 SendKeys.SendWait("1");
             }
-            bwCreateChuyenThu.CancelAsync();
-            bwCreateChuyenThu.RunWorkerAsync();
+            if (!bwCreateChuyenThu.IsBusy)
+            {
+                bwCreateChuyenThu.CancelAsync();
+                bwCreateChuyenThu.RunWorkerAsync();
+            }
         }
 
         private void AnMy()
@@ -669,8 +675,11 @@ namespace TaoBD10.ViewModels
                 Thread.Sleep(200);
                 SendKeys.SendWait("1");
             }
-            bwCreateChuyenThu.CancelAsync();
-            bwCreateChuyenThu.RunWorkerAsync();
+            if (!bwCreateChuyenThu.IsBusy)
+            {
+                bwCreateChuyenThu.CancelAsync();
+                bwCreateChuyenThu.RunWorkerAsync();
+            }
         }
 
         private void AnNhon()
@@ -694,8 +703,11 @@ namespace TaoBD10.ViewModels
                 Thread.Sleep(200);
                 SendKeys.SendWait("1");
             }
-            bwCreateChuyenThu.CancelAsync();
-            bwCreateChuyenThu.RunWorkerAsync();
+            if (!bwCreateChuyenThu.IsBusy)
+            {
+                bwCreateChuyenThu.CancelAsync();
+                bwCreateChuyenThu.RunWorkerAsync();
+            }
         }
 
         private void BCPHN()
@@ -719,8 +731,11 @@ namespace TaoBD10.ViewModels
                 Thread.Sleep(200);
                 SendKeys.SendWait("1");
             }
-            bwCreateChuyenThu.CancelAsync();
-            bwCreateChuyenThu.RunWorkerAsync();
+           if (!bwCreateChuyenThu.IsBusy)
+            {
+                bwCreateChuyenThu.CancelAsync();
+                bwCreateChuyenThu.RunWorkerAsync();
+            }
         }
 
         readonly BackgroundWorker bwCreateChuyenThu;
@@ -746,8 +761,11 @@ namespace TaoBD10.ViewModels
                 Thread.Sleep(200);
                 SendKeys.SendWait("1");
             }
-            bwCreateChuyenThu.CancelAsync();
-            bwCreateChuyenThu.RunWorkerAsync();
+            if (!bwCreateChuyenThu.IsBusy)
+            {
+                bwCreateChuyenThu.CancelAsync();
+                bwCreateChuyenThu.RunWorkerAsync();
+            }
         }
 
         private void HoaiAn()
@@ -771,8 +789,11 @@ namespace TaoBD10.ViewModels
                 Thread.Sleep(200);
                 SendKeys.SendWait("1");
             }
-            bwCreateChuyenThu.CancelAsync();
-            bwCreateChuyenThu.RunWorkerAsync();
+            if (!bwCreateChuyenThu.IsBusy)
+            {
+                bwCreateChuyenThu.CancelAsync();
+                bwCreateChuyenThu.RunWorkerAsync();
+            }
         }
 
         private void Kien()
@@ -796,8 +817,11 @@ namespace TaoBD10.ViewModels
                 Thread.Sleep(200);
                 SendKeys.SendWait("1");
             }
-            bwCreateChuyenThu.CancelAsync();
-            bwCreateChuyenThu.RunWorkerAsync();
+            if (!bwCreateChuyenThu.IsBusy)
+            {
+                bwCreateChuyenThu.CancelAsync();
+                bwCreateChuyenThu.RunWorkerAsync();
+            }
         }
 
         private void KTHN()
@@ -821,8 +845,11 @@ namespace TaoBD10.ViewModels
                 Thread.Sleep(200);
                 SendKeys.SendWait("1");
             }
-            bwCreateChuyenThu.CancelAsync();
-            bwCreateChuyenThu.RunWorkerAsync();
+            if (!bwCreateChuyenThu.IsBusy)
+            {
+                bwCreateChuyenThu.CancelAsync();
+                bwCreateChuyenThu.RunWorkerAsync();
+            }
         }
 
         private void PhuCat()
@@ -846,8 +873,11 @@ namespace TaoBD10.ViewModels
                 Thread.Sleep(200);
                 SendKeys.SendWait("1");
             }
-            bwCreateChuyenThu.CancelAsync();
-            bwCreateChuyenThu.RunWorkerAsync();
+            if (!bwCreateChuyenThu.IsBusy)
+            {
+                bwCreateChuyenThu.CancelAsync();
+                bwCreateChuyenThu.RunWorkerAsync();
+            }
         }
 
         private void PhuMy()
@@ -871,8 +901,11 @@ namespace TaoBD10.ViewModels
                 Thread.Sleep(200);
                 SendKeys.SendWait("1");
             }
-            bwCreateChuyenThu.CancelAsync();
-            bwCreateChuyenThu.RunWorkerAsync();
+            if (!bwCreateChuyenThu.IsBusy)
+            {
+                bwCreateChuyenThu.CancelAsync();
+                bwCreateChuyenThu.RunWorkerAsync();
+            }
         }
 
         private void QuiNhon1()
@@ -896,8 +929,11 @@ namespace TaoBD10.ViewModels
                 Thread.Sleep(200);
                 SendKeys.SendWait("1");
             }
-            bwCreateChuyenThu.CancelAsync();
-            bwCreateChuyenThu.RunWorkerAsync();
+            if (!bwCreateChuyenThu.IsBusy)
+            {
+                bwCreateChuyenThu.CancelAsync();
+                bwCreateChuyenThu.RunWorkerAsync();
+            }
         }
 
         private void QuyNhon2()
@@ -921,8 +957,11 @@ namespace TaoBD10.ViewModels
                 Thread.Sleep(200);
                 SendKeys.SendWait("1");
             }
-            bwCreateChuyenThu.CancelAsync();
-            bwCreateChuyenThu.RunWorkerAsync();
+            if (!bwCreateChuyenThu.IsBusy)
+            {
+                bwCreateChuyenThu.CancelAsync();
+                bwCreateChuyenThu.RunWorkerAsync();
+            }
         }
 
         private void TongHop()
@@ -946,8 +985,11 @@ namespace TaoBD10.ViewModels
                 Thread.Sleep(200);
                 SendKeys.SendWait("1");
             }
-            bwCreateChuyenThu.CancelAsync();
-            bwCreateChuyenThu.RunWorkerAsync();
+            if (!bwCreateChuyenThu.IsBusy)
+            {
+                bwCreateChuyenThu.CancelAsync();
+                bwCreateChuyenThu.RunWorkerAsync();
+            }
         }
 
         private ChuyenThuModel currentChuyenThu;

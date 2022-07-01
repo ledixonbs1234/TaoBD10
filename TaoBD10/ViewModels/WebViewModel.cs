@@ -256,6 +256,7 @@ document.getElementsByClassName("".footer"").remove();
                     ";
 
         bool isFirstLoginSuccess = false;
+        bool isFix = false;
 
         private async void WebBrowser_LoadingStateChanged(object sender, LoadingStateChangedEventArgs e)
         {
@@ -278,9 +279,11 @@ document.getElementsByClassName("".footer"").remove();
                         {
                             SoundManager.playSound2(@"Number\tingting.wav");
                             isFirstLoginSuccess = false;
-                            WebBrowser.LoadUrl("https://bccp.vnpost.vn/BCCP.aspx?act=Trace&id=" + currentMaHieu);
-                            WebBrowser.ExecuteScriptAsync(scriptLogin);
                             IsLoadedWeb = false;
+                            WebBrowser.LoadUrl("https://bccp.vnpost.vn/BCCP.aspx?act=Trace&id=" + currentMaHieu);
+
+
+                            isFix = true;
                         }
                         else
                         {
@@ -363,6 +366,11 @@ document.getElementsByClassName("".footer"").remove();
                     }
                     else if (diachi.IndexOf("bccp.vnpost.vn/bccp.aspx?act=trace") != -1)
                     {
+                        if (isFix)
+                        {
+                            isFix = false;
+                            IsLoadedWeb = false;
+                        }
                         if (!IsLoadedWeb)
                         {
                             IsLoadedWeb = true;
@@ -370,6 +378,11 @@ document.getElementsByClassName("".footer"").remove();
                         else
                             return;
                         isFirstLoginSuccess = true;
+                        //if (isFix)
+                        //{
+                        //    isFix = false;
+                        //    APIManager.ShowSnackbar("Da vao Fix");
+                        //}
                         //kiem tra dieu kien url
                         string html = await WebBrowser.GetSourceAsync();
                         HtmlDocument document = new HtmlDocument();

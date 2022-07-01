@@ -147,15 +147,15 @@ namespace TaoBD10.ViewModels
 
             WeakReferenceMessenger.Default.Register<WebContentModel>(this, (r, m) =>
             {
-            if (m.Key == "AddressDongChuyenThu")
-            {
-                List<string> fillAddress = m.AddressReiceive.Split('-').Select(s => s.Trim()).ToList();
-                if (fillAddress == null)
-                    return;
-                if (fillAddress.Count < 3)
-                    return;
-                string addressExactly = fillAddress[fillAddress.Count - 2];
-                string boDauAddress = BoDauAndToLower(addressExactly);
+                if (m.Key == "AddressDongChuyenThu")
+                {
+                    List<string> fillAddress = m.AddressReiceive.Split('-').Select(s => s.Trim()).ToList();
+                    if (fillAddress == null)
+                        return;
+                    if (fillAddress.Count < 3)
+                        return;
+                    string addressExactly = fillAddress[fillAddress.Count - 2];
+                    string boDauAddress = BoDauAndToLower(addressExactly);
 
                     if (maSoBuuCucCurrent == "590100")
                     {
@@ -189,7 +189,6 @@ namespace TaoBD10.ViewModels
                     {
                         if (boDauAddress.IndexOf("phu my") == -1)
                             SoundManager.playSound2(@"Number\error_sound.wav");
-
                     }
                     else if (maSoBuuCucCurrent == "592460")
                     {
@@ -204,6 +203,26 @@ namespace TaoBD10.ViewModels
                     else if (maSoBuuCucCurrent == "591520" || maSoBuuCucCurrent == "591218")
                     {
                         if (boDauAddress.IndexOf("quy nhon") == -1)
+                            SoundManager.playSound2(@"Number\error_sound.wav");
+                    }
+                    else if (maSoBuuCucCurrent == "593280")
+                    {
+                        if (boDauAddress.IndexOf("hoai nhon") == -1)
+                            SoundManager.playSound2(@"Number\error_sound.wav");
+                    }
+                    else if (maSoBuuCucCurrent == "593330")
+                    {
+                        if (boDauAddress.IndexOf("hoai nhon") == -1)
+                            SoundManager.playSound2(@"Number\error_sound.wav");
+                    }
+                    else if (maSoBuuCucCurrent == "593740"||maSoBuuCucCurrent == "593630")
+                    {
+                        if (boDauAddress.IndexOf("hoai an") == -1)
+                            SoundManager.playSound2(@"Number\error_sound.wav");
+                    }
+                    else if (maSoBuuCucCurrent == "593850" || maSoBuuCucCurrent == "593880")
+                    {
+                        if (boDauAddress.IndexOf("an lao") == -1)
                             SoundManager.playSound2(@"Number\error_sound.wav");
                     }
                 }

@@ -756,6 +756,7 @@ namespace TaoBD10.ViewModels
                         {
                             _IsXacNhanChiTieting = false;
                             SendKeys.SendWait("{F5}");
+                            APIManager.ShowSnackbar("Dang kiem tra Auto Xac Nhan");
                             //Túi số  KL(kg) Loại túi    F xác nhận
                             //False   1   3,4 Ði ngoài(EMS)   True Cleared
                             //False   1   2,2 Ði ngoài(EMS)   False Selected
@@ -765,6 +766,9 @@ namespace TaoBD10.ViewModels
                                 SendKeys.SendWait("{F10}");
                                 Thread.Sleep(200);
                                 SendKeys.SendWait(" ");
+                            }else
+                            {
+                                SendKeys.SendWait("{F6}");
                             }
 
 

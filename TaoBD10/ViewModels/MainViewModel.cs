@@ -155,6 +155,7 @@ namespace TaoBD10.ViewModels
                     if (fillAddress.Count < 3)
                         return;
                     string addressExactly = fillAddress[fillAddress.Count - 2];
+                    
                     if (m.MaBuuCuc == "590100")
                     {
                         if (m.BuuCucPhat == "59")
@@ -897,7 +898,6 @@ namespace TaoBD10.ViewModels
                                     if (textError.IndexOf("truyen thong tin chuyen thu") != -1)
                                     {
                                         Thread.Sleep(200);
-                                        isHaveError = true;
                                         SendKeys.SendWait("{ENTER}");
                                     }
                                     else if (textError.IndexOf("da truyen du lieu thanh cong") != -1)
@@ -1297,13 +1297,8 @@ namespace TaoBD10.ViewModels
 
                     case Key.Enter:
                         KeyData = KeyData.ToLower();
-                        if (KeyData.Count() == 13)
-                        {
-                            WindowInfo dongChuyenThu = APIManager.GetActiveWindowTitle();
-
-                        }
-
-                        else if (KeyData.IndexOf("mokntb") != -1)
+                        
+                         if (KeyData.IndexOf("mokntb") != -1)
                         {
                             Thread.Sleep(700);
                             WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "Kien" });
@@ -1418,12 +1413,20 @@ namespace TaoBD10.ViewModels
                             if (IsFindItem)
                             {
                                 WindowInfo activeWindow = APIManager.GetActiveWindowTitle();
+                                
+                                
                                 if (activeWindow.text.IndexOf("dong chuyen thu") != -1)
                                 {
                                     var controls = APIManager.GetListControlText(activeWindow.hwnd);
+                                    
+                                    
                                     List<TestAPIModel> listWindowForm = controls.Where(m => m.ClassName.IndexOf("WindowsForms10.EDIT") != -1).ToList();
                                     if (listWindowForm.Count < 7)
+                                    {
+                                        KeyData = "";
                                         return;
+                                    }
+                                        
 
                                     TestAPIModel apiMaBuuCuc = listWindowForm[2];
                                     string maBuuCuc = "";
@@ -1431,7 +1434,10 @@ namespace TaoBD10.ViewModels
                                     if (!string.IsNullOrEmpty(apiMaBuuCuc.Text) && apiMaBuuCuc.Text.Length != 13)
                                     {
                                         if (apiMaBuuCuc.Text.Length < 6)
+                                        {
+                                            KeyData = "";
                                             return;
+                                        }
                                         maBuuCuc = apiMaBuuCuc.Text.Substring(0, 6);
                                     }
                                     else
@@ -1441,12 +1447,21 @@ namespace TaoBD10.ViewModels
                                     }
                                     string keyData = KeyData.ToUpper();
                                     if (keyData.Length < 13)
+                                    {
+                                        KeyData = "";
                                         return;
+                                    }
                                     var indexVN = keyData.IndexOf("VN");
                                     if (indexVN - 11 < 0)
+                                    {
+                                        KeyData = "";
                                         return;
+                                    }
                                     if (maBuuCuc.Length != 6)
+                                    {
+                                        KeyData = "";
                                         return;
+                                    }
 
 
                                     string code = getCodeFromString(KeyData.ToLower());

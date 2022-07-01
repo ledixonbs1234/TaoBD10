@@ -65,11 +65,14 @@ namespace TaoBD10.ViewModels
                 else if (m.Key == "LoadAddressDong")
                 {
 
+                    
+                    
                     _LoadWebChoose = LoadWebChoose.DongChuyenThu;
                     var splitContent = m.Content.Split('|');
                     currentMaHieu = splitContent[0];
                     currentBuuCuc = splitContent[1];
 
+                    
                     WebBrowser.LoadUrl("https://bccp.vnpost.vn/BCCP.aspx?act=Trace&id=" + currentMaHieu);
                     IsLoadedWeb = false;
                 }

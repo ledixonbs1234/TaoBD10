@@ -64,17 +64,8 @@ namespace TaoBD10.ViewModels
                 }
                 else if (m.Key == "LoadAddressDong")
                 {
-
-                    
-                    
                     _LoadWebChoose = LoadWebChoose.DongChuyenThu;
-                    var splitContent = m.Content.Split('|');
-                    currentMaHieu = splitContent[0];
-                    currentBuuCuc = splitContent[1];
-
-                    
-                    WebBrowser.LoadUrl("https://bccp.vnpost.vn/BCCP.aspx?act=Trace&id=" + currentMaHieu);
-                    IsLoadedWeb = false;
+                    LoadAddressDiNgoai(m.Content);
                 }
                 else if (m.Key == "ListAddress")
                 {
@@ -458,7 +449,6 @@ document.getElementsByClassName("".footer"").remove();
                             }
                             else if (_LoadWebChoose == LoadWebChoose.DongChuyenThu)
                             {
-                                webContent.MaBuuCuc = currentBuuCuc;
                                 webContent.Key = "AddressDongChuyenThu";
                             }
                             //Thuc hien send Web content qua do

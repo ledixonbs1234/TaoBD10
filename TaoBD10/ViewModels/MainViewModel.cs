@@ -155,34 +155,45 @@ namespace TaoBD10.ViewModels
                     if (fillAddress.Count < 3)
                         return;
                     string addressExactly = fillAddress[fillAddress.Count - 2];
-                    
-                    if (m.MaBuuCuc == "590100")
+                    string boDauAddress = boDauAndToLower(addressExactly);
+
+                    if (maSoBuuCucCurrent == "590100")
                     {
+
                         if (m.BuuCucPhat == "59")
                         {
-                            //thuc hien loai thang nay ra
-                            APIManager.ShowSnackbar("Không đúng tỉnh");
+
+                            if (boDauAddress.IndexOf("van canh") != -1
+                                || boDauAddress.IndexOf("vinh thanh") != -1
+                                || boDauAddress.IndexOf("tay son") != -1
+                                || boDauAddress.IndexOf("tuy phuoc") != -1)
+                            {
+
+                            }else
+                            {
+                                APIManager.ShowSnackbar("Không đúng tỉnh");
+                            }
                         }
                     }
-                    else if (m.MaBuuCuc == "592810")
+                    else if (maSoBuuCucCurrent == "592810")
                     {
-                        if (boDauAndToLower(addressExactly).IndexOf("phu my") == -1)
+                        if (boDauAddress.IndexOf("phu my") == -1)
                             APIManager.ShowSnackbar("Không đúng tỉnh");
 
                     }
-                    else if (m.MaBuuCuc == "592460")
+                    else if (maSoBuuCucCurrent == "592460")
                     {
-                        if (boDauAndToLower(addressExactly).IndexOf("phu cat") == -1)
+                        if (boDauAddress.IndexOf("phu cat") == -1)
                             APIManager.ShowSnackbar("Không đúng tỉnh");
                     }
-                    else if (m.MaBuuCuc == "592020")
+                    else if (maSoBuuCucCurrent == "592020")
                     {
-                        if (boDauAndToLower(addressExactly).IndexOf("an nhon") == -1)
+                        if (boDauAddress.IndexOf("an nhon") == -1)
                             APIManager.ShowSnackbar("Không đúng tỉnh");
                     }
-                    else if (m.MaBuuCuc == "591520" || m.MaBuuCuc == "591218")
+                    else if (maSoBuuCucCurrent == "591520" || maSoBuuCucCurrent == "591218")
                     {
-                        if (boDauAndToLower(addressExactly).IndexOf("quy nhon") == -1)
+                        if (boDauAddress.IndexOf("quy nhon") == -1)
                             APIManager.ShowSnackbar("Không đúng tỉnh");
                     }
                 }
@@ -1297,8 +1308,8 @@ namespace TaoBD10.ViewModels
 
                     case Key.Enter:
                         KeyData = KeyData.ToLower();
-                        
-                         if (KeyData.IndexOf("mokntb") != -1)
+
+                        if (KeyData.IndexOf("mokntb") != -1)
                         {
                             Thread.Sleep(700);
                             WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "Kien" });
@@ -1413,38 +1424,12 @@ namespace TaoBD10.ViewModels
                             if (IsFindItem)
                             {
                                 WindowInfo activeWindow = APIManager.GetActiveWindowTitle();
-                                
-                                
+
+
                                 if (activeWindow.text.IndexOf("dong chuyen thu") != -1)
                                 {
                                     var controls = APIManager.GetListControlText(activeWindow.hwnd);
-                                    
-                                    
-                                    List<TestAPIModel> listWindowForm = controls.Where(m => m.ClassName.IndexOf("WindowsForms10.EDIT") != -1).ToList();
-                                    if (listWindowForm.Count < 7)
-                                    {
-                                        KeyData = "";
-                                        return;
-                                    }
-                                        
 
-                                    TestAPIModel apiMaBuuCuc = listWindowForm[2];
-                                    string maBuuCuc = "";
-
-                                    if (!string.IsNullOrEmpty(apiMaBuuCuc.Text) && apiMaBuuCuc.Text.Length != 13)
-                                    {
-                                        if (apiMaBuuCuc.Text.Length < 6)
-                                        {
-                                            KeyData = "";
-                                            return;
-                                        }
-                                        maBuuCuc = apiMaBuuCuc.Text.Substring(0, 6);
-                                    }
-                                    else
-                                    {
-                                        apiMaBuuCuc = listWindowForm[3];
-                                        maBuuCuc = apiMaBuuCuc.Text.Substring(0, 6);
-                                    }
                                     string keyData = KeyData.ToUpper();
                                     if (keyData.Length < 13)
                                     {
@@ -1457,7 +1442,7 @@ namespace TaoBD10.ViewModels
                                         KeyData = "";
                                         return;
                                     }
-                                    if (maBuuCuc.Length != 6)
+                                    if (maSoBuuCucCurrent.Length != 6)
                                     {
                                         KeyData = "";
                                         return;
@@ -1468,7 +1453,7 @@ namespace TaoBD10.ViewModels
 
                                     //lay dia chi cua ma can tim
 
-                                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "LoadAddressDong", Content = code + "|" + maBuuCuc });
+                                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "LoadAddressDong", Content = code });
                                 }
                             }
                         }

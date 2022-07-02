@@ -387,7 +387,7 @@ document.getElementsByClassName("".footer"").remove();
                      document.getElementById('userid').value='593280_phuhv';
             		document.getElementById('password').value='0914239099';
 document.querySelector('body>div.content>div>div>div>div>form>fieldset>div:nth-child(2)>div>div:nth-child(7)>button').click();                    ";
-
+                        IsLoadedWeb = false;
                         WebBrowser.ExecuteScriptAsync(script);
                     }
                     else if (diachi == "https://pns.vnpost.vn/")
@@ -400,7 +400,7 @@ document.querySelector('body>div.content>div>div>div>div>form>fieldset>div:nth-c
                             return;
                         string script = @"
 document.querySelector('#menu-3 > li:nth-child(10) > a').click();";
-                        IsLoadedWeb = false;
+                        IsLoadedWeb = true;
                         WebBrowser.ExecuteScriptAsync(script);
                     }
                     else if (diachi.IndexOf("pns.vnpost.vn/van-don") != -1)

@@ -320,7 +320,7 @@ document.getElementsByClassName("".footer"").remove();
             		document.getElementById('txt_password').value='abc.123';
             		document.getElementById('btx_login').click();
 ";
-
+                        IsLoadedWeb = false;
                         WebBrowser.ExecuteScriptAsync(script);
                     }
                     else if (diachi.IndexOf("mps.vnpost.vn/default") != -1)
@@ -392,13 +392,26 @@ document.querySelector('body>div.content>div>div>div>div>form>fieldset>div:nth-c
                     }
                     else if (diachi == "https://pns.vnpost.vn/")
                     {
+                        if (!IsLoadedWeb)
+                        {
+                            IsLoadedWeb = true;
+                        }
+                        else
+                            return;
                         string script = @"
 document.querySelector('#menu-3 > li:nth-child(10) > a').click();";
-
+                        IsLoadedWeb = false;
                         WebBrowser.ExecuteScriptAsync(script);
                     }
                     else if (diachi.IndexOf("pns.vnpost.vn/van-don") != -1)
                     {
+                        if (!IsLoadedWeb)
+                        {
+                            IsLoadedWeb = true;
+                        }
+                        else
+                            return;
+
                         if (IsWaitingSendMaHieuComplete)
                         {
                             IsWaitingSendMaHieuComplete = false;

@@ -23,6 +23,9 @@ namespace TaoBD10.ViewModels
             Run593230Command = new RelayCommand(Run593230);
             CheckCommand = new RelayCommand(Check);
             AddAddressCommand = new RelayCommand(AddAddress);
+            LoginPNSCommand = new RelayCommand(LoginPNS);
+            GetNameCommand = new RelayCommand(GetName);
+
             HangTons = new ObservableCollection<HangTonModel>();
             HangTonsDelete = new ObservableCollection<HangTonModel>();
             LocCommand = new RelayCommand(Loc);
@@ -39,24 +42,20 @@ namespace TaoBD10.ViewModels
                     }
                 }
             });
-
-
-
-
-        WeakReferenceMessenger.Default.Register<HangTonMessage>(this, (r, m) =>
-            {
-                if (m.Value != null)
+            WeakReferenceMessenger.Default.Register<HangTonMessage>(this, (r, m) =>
                 {
-                    App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
+                    if (m.Value != null)
                     {
-                        foreach (HangTonModel item in m.Value)
+                        App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
                         {
-                            HangTons.Add(item);
-                        }
-                        Count = HangTons.Count;
-                    });
-                }
-            });
+                            foreach (HangTonModel item in m.Value)
+                            {
+                                HangTons.Add(item);
+                            }
+                            Count = HangTons.Count;
+                        });
+                    }
+                });
 
             WeakReferenceMessenger.Default.Register<WebContentModel>(this, (r, m) =>
             {
@@ -69,12 +68,38 @@ namespace TaoBD10.ViewModels
                     hangTon.NguoiGui = m.NguoiGui;
                     hangTon.BuuCucDong = m.KiemTraWeb.BuuCucDong;
                     hangTon.BuuCucNhan = m.KiemTraWeb.BuuCucNhan;
-                    
+
                 }
                 AddAddress();
             });
         }
         private string _TextsRange;
+        public ICommand LoginPNSCommand { get; }
+
+        public ICommand GetNameCommand { get; }
+
+
+        void GetName()
+        {
+            string listMaHieu = "";
+            //thuc hien send list ma hieu to name
+            if (HangTons.Count == 0)
+            {
+                return;
+            }
+            foreach (HangTonModel hangTon in HangTons)
+            {
+                listMaHieu += hangTon.MaHieu + ",";
+            }
+            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "SendMaHieuPNS", Content = listMaHieu });
+        }
+
+        void LoginPNS()
+        {
+
+            WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "KTChuaPhat", Content = "LoadUrlPNS" });
+        }
+
 
         public string TextsRange
         {
@@ -301,7 +326,7 @@ namespace TaoBD10.ViewModels
 
         private void ChiTiet()
         {
-            if(Selected == null)
+            if (Selected == null)
             {
                 return;
             }

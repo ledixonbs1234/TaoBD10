@@ -16,7 +16,7 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <StackPanel
-            Width="648"
+            Width="760"
             Height="45"
             Margin="76,10"
             HorizontalAlignment="Center"
@@ -29,11 +29,6 @@
                 BadgeColorZoneMode="Dark">
                 <Button Command="{Binding CheckCommand}" Content="CHECK" />
             </materialDesign:Badged>
-            <DatePicker
-                Width="180"
-                Margin="10,0"
-                SelectedDateFormat="Short"
-                Style="{StaticResource MaterialDesignFilledDatePicker}" />
             <Button
                 Width="100"
                 Margin="0,0,10,0"
@@ -45,6 +40,14 @@
                 Command="{Binding Run593280Command}"
                 Content="593280" />
             <Button Command="{Binding AddAddressCommand}" Content="Add Address" />
+            <Button
+                Margin="5,0"
+                Command="{Binding LoginPNSCommand}"
+                Content="Login PNS" />
+            <Button
+                Margin="5,0"
+                Command="{Binding GetNameCommand}"
+                Content="Get Name" />
         </StackPanel>
         <DataGrid
             Grid.Row="1"
@@ -60,20 +63,29 @@
             SelectionMode="Extended">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Index}" Header="Index" />
-                <DataGridTextColumn Binding="{Binding MaHieu}" IsReadOnly="True" Header="Mã Hiệu" />
+                <DataGridTextColumn
+                    Binding="{Binding MaHieu}"
+                    Header="Mã Hiệu"
+                    IsReadOnly="True" />
                 <DataGridTextColumn
                     Width="200"
-                    IsReadOnly="True"
                     Binding="{Binding Address}"
-                    Header="Địa chỉ">
+                    Header="Địa chỉ"
+                    IsReadOnly="True">
                     <DataGridTextColumn.CellStyle>
                         <Style TargetType="{x:Type DataGridCell}">
                             <Setter Property="ToolTip" Value="{Binding Address}" />
                         </Style>
                     </DataGridTextColumn.CellStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn IsReadOnly="True" Binding="{Binding KhoiLuong}" Header="Khối Lượng" />
-                <DataGridTextColumn IsReadOnly="True" Binding="{Binding TienThuHo}" Header="Tiền Thu Hộ" />
+                <DataGridTextColumn
+                    Binding="{Binding KhoiLuong}"
+                    Header="Khối Lượng"
+                    IsReadOnly="True" />
+                <DataGridTextColumn
+                    Binding="{Binding TienThuHo}"
+                    Header="Tiền Thu Hộ"
+                    IsReadOnly="True" />
                 <DataGridTextColumn
                     Width="80"
                     Binding="{Binding BuuCucPhatHanh}"

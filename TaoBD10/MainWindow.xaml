@@ -16,7 +16,7 @@
     Icon="payment_calculation_bill_icon_221357.ico"
     Topmost="{Binding IsTopMost}"
     WindowStyle="None"
-    mc:Ignorable="d" ResizeMode="CanMinimize">
+    mc:Ignorable="d" ResizeMode="CanResize">
     <Behaviors:Interaction.Triggers>
         <Behaviors:EventTrigger EventName="Loaded">
             <Behaviors:InvokeCommandAction Command="{Binding LoadPageCommand}" CommandParameter="{Binding ElementName=MainView}" />

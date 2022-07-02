@@ -11,7 +11,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Windows.Input;
 using TaoBD10.Manager;
 using TaoBD10.Model;
@@ -105,9 +104,27 @@ namespace TaoBD10.ViewModels
                         IsRunningChuaPhat = true;
                         WebBrowser.ExecuteScriptAsync(script);
                     }
+                    else if (m.Content == "LoadUrlPNS")
+                    {
+
+                        IsLoadedWeb = false;
+                        WebBrowser.LoadUrl("https://pns.vnpost.vn/");
+                    }
+                }
+                else if (m.Key == "SendMaHieuPNS")
+                {
+                    string script = @"
+                                document.getElementById('LadingCode').value='" + m.Content + @"';
+                                document.getElementById('search_key').click();
+                ";
+                    IsLoadedWeb = false;
+                    IsWaitingSendMaHieuComplete = true;
+                    WebBrowser.ExecuteScriptAsync(script);
                 }
             });
         }
+
+        bool IsWaitingSendMaHieuComplete = false;
         public ICommand DefaultCommand { get; }
 
 
@@ -364,6 +381,40 @@ document.getElementsByClassName("".footer"").remove();
                             CheckPageMPS(document);
                         }
                     }
+                    else if (diachi.IndexOf("pns.vnpost.vn/dang-nhap") != -1)
+                    {
+                        string script = @"
+                     document.getElementById('userid').value='593280_phuhv';
+            		document.getElementById('password').value='0914239099';
+document.querySelector('body>div.content>div>div>div>div>form>fieldset>div:nth-child(2)>div>div:nth-child(7)>button').click();                    ";
+
+                        WebBrowser.ExecuteScriptAsync(script);
+                    }
+                    else if (diachi == "https://pns.vnpost.vn/")
+                    {
+                        string script = @"
+document.querySelector('#menu-3 > li:nth-child(10) > a').click();";
+
+                        WebBrowser.ExecuteScriptAsync(script);
+                    }
+                    else if (diachi.IndexOf("pns.vnpost.vn/van-don") != -1)
+                    {
+                        if (IsWaitingSendMaHieuComplete)
+                        {
+                            IsWaitingSendMaHieuComplete = false;
+                            string script = @"document.getElementById('export_excel').click();";
+                            WebBrowser.ExecuteScriptAsync(script);
+                        }
+                    }
+                    else if (diachi == "https://pns.vnpost.vn/")
+                    {
+                        string script = @"
+document.querySelector('#menu-3 > li:nth-child(10) > a').click();";
+
+                        WebBrowser.ExecuteScriptAsync(script);
+                    }
+
+                    //
                     else if (diachi.IndexOf("bccp.vnpost.vn/bccp.aspx?act=trace") != -1)
                     {
                         if (isFix)

@@ -42,6 +42,12 @@ namespace TaoBD10.Model
         {
         }
     }
+    public class PNSNameMessage : ValueChangedMessage<List<PNSNameModel>>
+    {
+        public PNSNameMessage(List<PNSNameModel> content) : base(content)
+        {
+        }
+    }
 
     public class SHTuiMessage : ValueChangedMessage<SHTuiCodeModel>
     {

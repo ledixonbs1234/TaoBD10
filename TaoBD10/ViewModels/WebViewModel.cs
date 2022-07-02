@@ -20,7 +20,6 @@ namespace TaoBD10.ViewModels
 {
     public class WebViewModel : ObservableObject
     {
-
         string currentMaHieu = "";
         public WebViewModel()
         {
@@ -147,6 +146,7 @@ namespace TaoBD10.ViewModels
 
         public class MyDownloadHandler : IDownloadHandler
         {
+
             public bool CanDownload(IWebBrowser chromiumWebBrowser, IBrowser browser, string url, string requestMethod)
             {
                 return true;
@@ -169,11 +169,69 @@ namespace TaoBD10.ViewModels
                 {
                     if (downloadItem.IsComplete)
                     {
-                        GetListAddress(downloadItem.FullPath);
+                        switch (APIManager.downLoadRoad)
+                        {
+                            case DownLoadRoad.None:
+                                break;
+                            case DownLoadRoad.XacNhanTui:
+                                GetListAddress(downloadItem.FullPath);
+                                break;
+                            case DownLoadRoad.GetName:
+                                GetNames(downloadItem.FullPath);
+                                break;
+                            default:
+                                break;
+                        }
                     }
                 }
 
             }
+
+            private void GetNames(string fullPath)
+            {
+                try
+                {
+                    //Send list address to Data;
+                    //thuc hien doc du lieu tu file nao do
+                    //WorkBook workBook = new WorkBook(fullPath);
+                    //WorkSheet sheet = workBook.WorkSheets.First();
+
+                    //string cellValue = sheet["B5"].StringValue;
+                    using (var stream = File.Open(fullPath, FileMode.Open, FileAccess.Read))
+                    {
+                        using (IExcelDataReader reader = ExcelReaderFactory.CreateReader(stream))
+                        {
+                            System.Data.DataSet tables = reader.AsDataSet();
+                            List<PNSNameModel> chiTietTui = new List<PNSNameModel>();
+                            for (int i = 2; i < tables.Tables[0].Rows.Count; i++)
+                            {
+                                chiTietTui.Add(new PNSNameModel { MaHieu = tables.Tables[0].Rows[i][1].ToString(), NameReceive = tables.Tables[0].Rows[i][10].ToString() });
+                            }
+                            //thuc hien send data tra ve
+                            if (chiTietTui.Count != 0)
+                            {
+                                WeakReferenceMessenger.Default.Send(new PNSNameMessage(chiTietTui));
+                            }
+                        }
+
+                    }
+
+
+                }
+                catch (Exception ex)
+                {
+
+                    // Get stack trace for the exception with source file information
+                    var st = new StackTrace(ex, true);
+                    // Get the top stack frame
+                    var frame = st.GetFrame(0);
+                    // Get the line number from the stack frame
+                    var line = frame.GetFileLineNumber();
+                    APIManager.OpenNotePad(ex.Message + '\n' + "loi Line WebViewModel " + line + " Number Line " + APIManager.GetLineNumber(ex), "loi ");
+                    throw;
+                }
+            }
+
             void GetListAddress(string fullPath)
             {
                 try
@@ -415,6 +473,7 @@ document.querySelector('#menu-3 > li:nth-child(10) > a').click();";
                         if (IsWaitingSendMaHieuComplete)
                         {
                             IsWaitingSendMaHieuComplete = false;
+                            APIManager.downLoadRoad = DownLoadRoad.GetName;
                             string script = @"document.getElementById('export_excel').click();";
                             WebBrowser.ExecuteScriptAsync(script);
                         }
@@ -617,6 +676,7 @@ document.querySelector('#menu-3 > li:nth-child(10) > a').click();";
                         string html = await WebBrowser.GetSourceAsync();
                         HtmlDocument document = new HtmlDocument();
                         document.LoadHtml(html);
+                        APIManager.downLoadRoad = DownLoadRoad.XacNhanTui;
                         string script = @"
                      document.getElementById('MainContent_ctl00_btnExportV2').click();
 ";

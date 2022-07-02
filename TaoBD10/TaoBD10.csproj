@@ -167,6 +167,7 @@
     <Compile Include="Model\MaBD8Model.cs" />
     <Compile Include="Model\MaHieuDiNgoaiInfo.cs" />
     <Compile Include="Model\MaHieuTuiModel.cs" />
+    <Compile Include="Model\PNSNameModel.cs" />
     <Compile Include="Model\SHTuiCodeModel.cs" />
     <Compile Include="Model\SnackbarModel.cs" />
     <Compile Include="Model\TamQuanModel.cs" />

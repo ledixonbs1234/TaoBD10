@@ -22,6 +22,13 @@
             ChuaXacDinh
         }
 
+        public enum DownLoadRoad
+        {
+            None,
+            XacNhanTui,
+            GetName
+        }
+
         public enum BuuCuc
         {
             None,

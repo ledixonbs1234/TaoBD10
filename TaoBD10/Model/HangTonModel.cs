@@ -20,6 +20,15 @@ namespace TaoBD10.Model
             set { SetProperty(ref _ChuyenHoan, value); }
         }
 
+        private string _NameReceive;
+
+        public string NameReceive
+        {
+            get { return _NameReceive; }
+            set { SetProperty(ref _NameReceive, value); }
+        }
+
+
         public string BuuCucLuuGiu
         {
             get { return _BuuCucLuuGiu; }

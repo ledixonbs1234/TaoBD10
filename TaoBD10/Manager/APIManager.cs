@@ -10,6 +10,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using TaoBD10.Model;
+using static TaoBD10.Manager.EnumAll;
 
 namespace TaoBD10.Manager
 {
@@ -69,6 +70,8 @@ namespace TaoBD10.Manager
 
             return true;
         }
+
+        public static DownLoadRoad downLoadRoad = DownLoadRoad.None;
 
         public static WindowInfo GetActiveWindowTitle(bool isExactly = false)
         {

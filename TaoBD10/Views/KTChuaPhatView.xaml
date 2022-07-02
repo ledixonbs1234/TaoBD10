@@ -79,6 +79,10 @@
                     </DataGridTextColumn.CellStyle>
                 </DataGridTextColumn>
                 <DataGridTextColumn
+                    Binding="{Binding NameReceive}"
+                    Header="Người Nhận"
+                    IsReadOnly="True" />
+                <DataGridTextColumn
                     Binding="{Binding KhoiLuong}"
                     Header="Khối Lượng"
                     IsReadOnly="True" />

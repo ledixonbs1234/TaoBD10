@@ -196,7 +196,7 @@ namespace TaoBD10.ViewModels
                     //string cellValue = sheet["B5"].StringValue;
                     using (var stream = File.Open(fullPath, FileMode.Open, FileAccess.Read))
                     {
-                        using (IExcelDataReader reader = ExcelReaderFactory.CreateReader(stream))
+                        using (IExcelDataReader reader = ExcelReaderFactory.CreateBinaryReader(stream))
                         {
                             System.Data.DataSet tables = reader.AsDataSet();
                             List<PNSNameModel> chiTietTui = new List<PNSNameModel>();

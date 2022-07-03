@@ -23,6 +23,42 @@ namespace TaoBD10.ViewModels
     {
         readonly BackgroundWorker bwPrint;
 
+        public ICommand AutoXacNhanCommand { get; }
+
+
+        void AutoXacNhan()
+        {
+            IntPtr handleWindow = APIManager.SetToLastWindow("593200");
+            if (handleWindow == IntPtr.Zero)
+                return;
+            WindowInfo currentWindow = APIManager.GetActiveWindowTitle();
+            if (APIManager.BoDauAndToLower(currentWindow.text).IndexOf("dong chuyen thu") == -1)
+                return;
+            //thuc hien cong viec trong nay khong co gi la khong the neu chung ta khong lam duoc
+            SendKeys.SendWait("{F10}");
+            Thread.Sleep(200);
+            SendKeys.SendWait("{F10}");
+            Thread.Sleep(200);
+            SendKeys.SendWait("{ENTER}");
+            currentWindow = APIManager.WaitingFindedWindow("khoi tao chuyen thu");
+            if (currentWindow == null)
+            {
+                APIManager.ShowSnackbar("Không tìm thấy window khởi tạo chuyến thư");
+                return;
+            }
+            SendKeys.SendWait("{ESC}");
+
+            //thuc hien nhan button get chuyen thu 593200;
+            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Button593200" });
+
+
+            //khi con trong chuyen thu thuc hien tu dong dong chuyen thu va lay du lieu chuyen thu
+            //tu dong thoat chuyen thu va truyen
+            // qua 280 tu dong lay chuyen thu
+            //tu dong xac nhan chi tiet tui thu
+
+        }
+
         public ChinhViewModel()
         {
             KTHNCommand = new RelayCommand(KTHN);
@@ -40,6 +76,8 @@ namespace TaoBD10.ViewModels
             AnLaoCommand = new RelayCommand(AnLao);
             AnHoaCommand = new RelayCommand(AnHoa);
             TamQuanCommand = new RelayCommand(TamQuan);
+            AutoXacNhanCommand = new RelayCommand(AutoXacNhan);
+
             LayDuLieuCommand = new RelayCommand(LayDuLieu);
             BD10DiCommand = new RelayCommand(BD10Di);
             BD10DenCommand = new RelayCommand(BD10Den);
@@ -124,7 +162,65 @@ namespace TaoBD10.ViewModels
                         bwPrint.RunWorkerAsync();
                     }
                 }
+                else if (m.Key == "XN593200")
+                {
+                    XacNhanChiTiet200();
+
+                }
             });
+        }
+        string soCTCurrent = "";
+
+        private void XacNhanChiTiet200()
+        {
+            SendKeys.SendWait("{F6}");
+            string copyedData = APIManager.GetCopyData();
+            if (string.IsNullOrEmpty(copyedData))
+                return;
+            //1	593200	C	2350	03/07/2022	THỦY BỘ	1	8	29,7	03/07/2022 18:04:49
+            string[] splitString = copyedData.Split('\t');
+            if (splitString.Length < 11)
+                return;
+            if (splitString[1] == "593200" && splitString[3] == soCTCurrent)
+            {
+                WindowInfo currentWindow = APIManager.GetActiveWindowTitle();
+                var controls = APIManager.GetListControlText(currentWindow.hwnd);
+                APIManager.ClickButton(currentWindow.hwnd, "Xem và xác nhận CT (F10)");
+
+                currentWindow = APIManager.WaitingFindedWindow("xem chuyen thu chieu den");
+                APIManager.ClickButton(currentWindow.hwnd, "Xác nhận chi tiết túi thư");
+                currentWindow = APIManager.WaitingFindedWindow("xac nhan chi tiet tui thu");
+                if (currentWindow == null)
+                    return;
+                SendKeys.SendWait("{TAB}");
+                Thread.Sleep(50);
+                SendKeys.SendWait("{TAB}");
+                Thread.Sleep(50);
+                SendKeys.SendWait("^(a)");
+                Thread.Sleep(600);
+
+                APIManager.ClickButton(currentWindow.hwnd, "Đối kiểm");
+                Thread.Sleep(50);
+                SendKeys.SendWait("{ESC}");
+                currentWindow = APIManager.WaitingFindedWindow("xem chuyen thu chieu den");
+                //	Túi số	KL (kg)	Loại túi	F	xác nhận
+                //False   1   11,8    Ði ngoài(BK)    True Cleared
+                SendKeys.SendWait("{F5}");
+                Thread.Sleep(50);
+                SendKeys.SendWait("^(a)");
+
+                copyedData = APIManager.GetCopyData();
+                if (string.IsNullOrEmpty(copyedData))
+                    return;
+                if (copyedData.IndexOf("Selected") == -1)
+                    return;
+                APIManager.ClickButton(currentWindow.hwnd, "xac nhan chuyen thu", isExactly: false);
+                currentWindow = APIManager.WaitingFindedWindow("xac nhan");
+                APIManager.ClickButton(currentWindow.hwnd, "yes", isExactly: false);
+                //Xong
+
+            }
+
         }
 
         private void BwPrint_DoWork(object sender, DoWorkEventArgs e)
@@ -731,7 +827,7 @@ namespace TaoBD10.ViewModels
                 Thread.Sleep(200);
                 SendKeys.SendWait("1");
             }
-           if (!bwCreateChuyenThu.IsBusy)
+            if (!bwCreateChuyenThu.IsBusy)
             {
                 bwCreateChuyenThu.CancelAsync();
                 bwCreateChuyenThu.RunWorkerAsync();

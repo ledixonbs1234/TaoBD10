@@ -28,15 +28,27 @@ namespace TaoBD10.Manager
 
         //private static int WM_LBUTTONDOWN = 0x0201;
         //private static int WM_LBUTTONUP = 0x0202;
-        public static void ClickButton(IntPtr window, string name)
+        public static void ClickButton(IntPtr window, string name, bool isExactly = true)
         {
             List<TestAPIModel> controls = APIManager.GetListControlText(window);
             foreach (TestAPIModel control in controls)
             {
-                if (control.Text == name)
+                if (isExactly)
                 {
-                    ClickButton(control.Handle);
-                    break;
+                    if (control.Text == name)
+                    {
+                        ClickButton(control.Handle);
+                        break;
+                    }
+                }
+                else
+                {
+                    if (BoDauAndToLower(control.Text).IndexOf(name) != -1)
+                    {
+                        ClickButton(control.Handle);
+                        break;
+                    }
+
                 }
             }
 
@@ -276,6 +288,50 @@ namespace TaoBD10.Manager
         public static void ShowTest(string content)
         {
             WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Test", Content = content });
+        }
+        public static string BoDauAndToLower(string text)
+        {
+            return APIManager.ConvertToUnSign3(text).ToLower();
+        }
+
+        //Tu Dong vao ung dung 230 280
+        public static IntPtr SetToLastWindow(string maBuuCuc)
+        {
+            Process[] processes = Process.GetProcesses();
+            IntPtr windowHandle = IntPtr.Zero;
+            bool isHaveProgram = false;
+
+            foreach (Process p in processes)
+            {
+                if (p.ProcessName.IndexOf("Ctin") != -1)
+                {
+                    windowHandle = p.MainWindowHandle;
+                    List<IntPtr> handles = GetAllChildHandles(windowHandle);
+                    foreach (IntPtr item1 in handles)
+                    {
+                        string title = GetControlText(item1);
+                        if (title.ToString().IndexOf(maBuuCuc) != -1)
+                        {
+                            isHaveProgram = true;
+                            break;
+                        }
+                    }
+                    if (isHaveProgram)
+                        break;
+                }
+            }
+            if (isHaveProgram)
+            {
+                //APIManager.SetForegroundWindow(p.MainWindowHandle);
+                IntPtr last = GetLastActivePopup(windowHandle);
+                if (last != windowHandle)
+                {
+                    SetForegroundWindow(last);
+                    return last;
+
+                }
+            }
+            return IntPtr.Zero;
         }
 
         /// <summary>

@@ -18,6 +18,7 @@ namespace TaoBD10.ViewModels
     public class LayChuyenThuViewModel : ObservableObject
     {
         readonly BackgroundWorker bwLayCT;
+        bool isWaitingRun593200Complete = false;
         public LayChuyenThuViewModel()
         {
             bwLayCT = new BackgroundWorker();
@@ -31,6 +32,15 @@ namespace TaoBD10.ViewModels
             HoaiHaiCommand = new RelayCommand(HoaiHai);
             BCPCommand = new RelayCommand(BCP);
             HoaiMyCommand = new RelayCommand(HoaiMy);
+            WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>
+            {
+                if(m.Key == "Button593200")
+                {
+                    Btn593200();
+                    isWaitingRun593200Complete = true;
+                }
+
+            });
         }
 
         private void BwLayCT_DoWork(object sender, DoWorkEventArgs e)
@@ -69,6 +79,10 @@ namespace TaoBD10.ViewModels
             SendKeys.SendWait("{ENTER}");
             Thread.Sleep(500);
             SendKeys.SendWait("{F5}");
+            if (isWaitingRun593200Complete)
+            {
+                WeakReferenceMessenger.Default.Send(new ContentModel{Key = "XN593200"});
+            }
 
         }
 

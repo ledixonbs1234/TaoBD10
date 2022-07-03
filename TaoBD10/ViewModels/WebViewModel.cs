@@ -226,9 +226,9 @@ namespace TaoBD10.ViewModels
                     Microsoft.Office.Interop.Excel._Worksheet xlWorksheet = xlWorkbook.Sheets[1];
                     Microsoft.Office.Interop.Excel.Range xlRange = xlWorksheet.UsedRange;
                     List<PNSNameModel> chiTietTui = new List<PNSNameModel>();
-                    for (int i = 2; i < xlRange.Rows.Count; i++)
+                    for (int i = 2; i <= xlRange.Rows.Count; i++)
                     {
-                        chiTietTui.Add(new PNSNameModel { MaHieu = xlRange[2][i].Value2.ToString(), NameReceive = xlRange[11][i].Value2.ToString() });
+                        chiTietTui.Add(new PNSNameModel { MaHieu = xlRange[2][i].Value2.ToString(), NameReceive = xlRange[11][i].Value2.ToString() , Address= xlRange[13][i].Value2.ToString() });
                     }
                     if (chiTietTui.Count != 0)
                     {

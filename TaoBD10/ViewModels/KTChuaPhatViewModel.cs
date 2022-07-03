@@ -70,6 +70,7 @@ namespace TaoBD10.ViewModels
                         if (have != null)
                         {
                             have.NameReceive = pnsName.NameReceive;
+                            have.Address = pnsName.Address;
                         }
                     }
                 }

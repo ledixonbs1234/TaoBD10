@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Windows.Input;
 using TaoBD10.Manager;
 using TaoBD10.Model;
@@ -117,6 +118,11 @@ namespace TaoBD10.ViewModels
                 ";
                      IsWaitingSendMaHieuComplete = true;
                      WebBrowser.ExecuteScriptAsync(script);
+                     Thread.Sleep(2000);
+                     APIManager.downLoadRoad = DownLoadRoad.GetName;
+                     script = @"document.getElementById('export_excel').click();";
+                     WebBrowser.ExecuteScriptAsync(script);
+
                  }
              });
         }

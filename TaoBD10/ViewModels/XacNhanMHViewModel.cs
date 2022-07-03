@@ -27,6 +27,7 @@ namespace TaoBD10.ViewModels
             backgroundWorkerXacNhan = new BackgroundWorker();
             backgroundWorkerXacNhan.DoWork += BackgroundWorkerXacNhan_DoWork;
 
+            CopyMHCommand = new RelayCommand(CopyMH);
 
             GoToCTCommand = new RelayCommand(GoToCT);
 
@@ -218,6 +219,20 @@ namespace TaoBD10.ViewModels
                 MaHieu = "";
             }
         }
+
+        public ICommand CopyMHCommand { get; }
+
+
+        void CopyMH()
+        {
+            if (!string.IsNullOrEmpty(MaHieu))
+            {
+                Clipboard.SetText(MaHieu);
+                APIManager.ShowSnackbar("Đã copy");
+            }
+
+        }
+
 
         void Test()
         {

@@ -296,11 +296,13 @@
                 Command="{Binding BD10DenCommand, Source={StaticResource ChinhVM}}"
                 Content="BĐ 10 Đến" />
         </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Button Content="Auto" Margin="20,0" Command="{Binding AutoGetBD10Command}"/>
 
 
-        <Button
-            Margin="5,5"
-            Command="{Binding XeXaHoiCommand}"
-            Content="Xe Xã Hội" />
+            <Button
+                Command="{Binding XeXaHoiCommand}"
+                Content="Xe Xã Hội" />
+        </StackPanel>
     </StackPanel>
 </UserControl>

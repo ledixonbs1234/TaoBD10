@@ -10,10 +10,16 @@
     mc:Ignorable="d">
     <materialDesign:Card Margin="5">
         <StackPanel>
-            <TextBlock
-                HorizontalAlignment="Center"
-                Style="{StaticResource MaterialDesignHeadline5TextBlock}"
-                Text="{Binding XacNhanMH.MaHieu}" />
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    Style="{StaticResource MaterialDesignHeadline5TextBlock}"
+                    Text="{Binding XacNhanMH.MaHieu}" />
+                <Button
+                    Margin="10,0"
+                    Command="{Binding CopyMHCommand}"
+                    Content="Copy" />
+            </StackPanel>
             <TextBlock Style="{StaticResource MaterialDesignSubtitle2TextBlock}" Text="Ngày đóng CT" />
             <TextBlock
                 Margin="30,0,0,0"
@@ -33,7 +39,7 @@
             <TextBlock Style="{StaticResource MaterialDesignSubtitle2TextBlock}" Text="Chuyến Thư" />
             <TextBlock
                 Margin="30,0,0,0"
-                Style="{StaticResource MaterialDesignBody1TextBlock}"
+                Style="{StaticResource MaterialDesignBody2TextBlock}"
                 Text="{Binding XacNhanMH.TTCT}" />
 
             <materialDesign:Card
@@ -53,7 +59,7 @@
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
 
                 <TextBox
-                    Name="Box"
+                    x:Name="Box"
                     Width="150"
                     Margin="5"
                     AcceptsReturn="True"

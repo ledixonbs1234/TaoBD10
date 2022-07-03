@@ -26,101 +26,105 @@ namespace TaoBD10.ViewModels
             LoadPageCommand = new RelayCommand<ChromiumWebBrowser>(LoadPage);
             LoginCommand = new RelayCommand(Login);
             DefaultCommand = new RelayCommand(Default);
-
-            WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>
+            while (WebBrowser != null)
             {
-                if (m.Key == "LoadAddressWeb")
-                {
-                    _LoadWebChoose = LoadWebChoose.DiNgoaiAddress;
-                    LoadAddressDiNgoai(m.Content);
-                }
-                else if (m.Key == "LoadAddressTQWeb")
-                {
-                    _LoadWebChoose = LoadWebChoose.AddressTamQuan;
-                    LoadAddressDiNgoai(m.Content);
-                }
-                else if (m.Key == "LoadAddressChuaPhat")
-                {
-                    _LoadWebChoose = LoadWebChoose.AddressChuaPhat;
-                    LoadAddressDiNgoai(m.Content);
-                }
-                else if (m.Key == "GetCodeFromBD")
-                {
-                    _LoadWebChoose = LoadWebChoose.CodeFromBD;
-                    LoadAddressDiNgoai(m.Content);
-                }
-                else if (m.Key == "KiemTraWeb")
-                {
-                    _LoadWebChoose = LoadWebChoose.KiemTraWeb;
-                    LoadAddressDiNgoai(m.Content);
-                }
-                else if (m.Key == "XacNhanMH")
-                {
-                    _LoadWebChoose = LoadWebChoose.XacNhanMH;
-                    LoadAddressDiNgoai(m.Content);
-                }
-                else if (m.Key == "LoadAddressDong")
-                {
-                    _LoadWebChoose = LoadWebChoose.DongChuyenThu;
-                    LoadAddressDiNgoai(m.Content);
-                }
-                else if (m.Key == "ListAddress")
-                {
-                    WebBrowser.LoadUrl(m.Content);
-                    IsLoadedWeb = false;
-                }
-                else if (m.Key == "KTChuaPhat")
-                {
-                    if (m.Content == "LoadUrl")
-                    {
-                        isCheckingChuaPhat = true;
-                        IsLoadedWeb = false;
-                        WebBrowser.LoadUrl("https://mps.vnpost.vn/default.aspx");
-                    }
-                    else if (m.Content == "Run230")
-                    {
+                WebBrowser.LoadingStateChanged += WebBrowser_LoadingStateChanged;
+                WebBrowser.DownloadHandler = new MyDownloadHandler();
+            }
+            WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>
+             {
+                 if (m.Key == "LoadAddressWeb")
+                 {
+                     _LoadWebChoose = LoadWebChoose.DiNgoaiAddress;
+                     LoadAddressDiNgoai(m.Content);
+                 }
+                 else if (m.Key == "LoadAddressTQWeb")
+                 {
+                     _LoadWebChoose = LoadWebChoose.AddressTamQuan;
+                     LoadAddressDiNgoai(m.Content);
+                 }
+                 else if (m.Key == "LoadAddressChuaPhat")
+                 {
+                     _LoadWebChoose = LoadWebChoose.AddressChuaPhat;
+                     LoadAddressDiNgoai(m.Content);
+                 }
+                 else if (m.Key == "GetCodeFromBD")
+                 {
+                     _LoadWebChoose = LoadWebChoose.CodeFromBD;
+                     LoadAddressDiNgoai(m.Content);
+                 }
+                 else if (m.Key == "KiemTraWeb")
+                 {
+                     _LoadWebChoose = LoadWebChoose.KiemTraWeb;
+                     LoadAddressDiNgoai(m.Content);
+                 }
+                 else if (m.Key == "XacNhanMH")
+                 {
+                     _LoadWebChoose = LoadWebChoose.XacNhanMH;
+                     LoadAddressDiNgoai(m.Content);
+                 }
+                 else if (m.Key == "LoadAddressDong")
+                 {
+                     _LoadWebChoose = LoadWebChoose.DongChuyenThu;
+                     LoadAddressDiNgoai(m.Content);
+                 }
+                 else if (m.Key == "ListAddress")
+                 {
+                     WebBrowser.LoadUrl(m.Content);
+                     IsLoadedWeb = false;
+                 }
+                 else if (m.Key == "KTChuaPhat")
+                 {
+                     if (m.Content == "LoadUrl")
+                     {
+                         isCheckingChuaPhat = true;
+                         IsLoadedWeb = false;
+                         WebBrowser.LoadUrl("https://mps.vnpost.vn/default.aspx");
+                     }
+                     else if (m.Content == "Run230")
+                     {
                         //thuc hien trong nay
-                        string script = @"
+                         string script = @"
                                 document.getElementById('ctl00_ctl12_rcb_Donvi_ClientState').value='{""logEntries"":[],""value"":""593230"",""text"":""----593230 - KT Hoài Nhơn -KT2"",""enabled"":true,""checkedIndices"":[],""checkedItemsTextOverflows"":false}';
                                 document.getElementById('ctl00_ctl12_rcbTrangThai_ClientState').value='{""logEntries"":[],""value"":""3"",""text"":""Xác nhận đến"",""enabled"":true,""checkedIndices"":[],""checkedItemsTextOverflows"":false}';
 
                                 document.getElementById('ctl00_ctl12_btn_submit').click();
                 ";
-                        IsLoadedWeb = false;
-                        IsRunningChuaPhat = true;
-                        WebBrowser.ExecuteScriptAsync(script);
-                    }
-                    else if (m.Content == "Run280")
-                    {
+                         IsLoadedWeb = false;
+                         IsRunningChuaPhat = true;
+                         WebBrowser.ExecuteScriptAsync(script);
+                     }
+                     else if (m.Content == "Run280")
+                     {
                         //thuc hien trong nay
-                        string script = @"
+                         string script = @"
                                 document.getElementById('ctl00_ctl12_rcb_Donvi_ClientState').value='{""logEntries"":[],""value"":""593280"",""text"":""----593280 - BCP Hoài Nhơn -PH2"",""enabled"":true,""checkedIndices"":[],""checkedItemsTextOverflows"":false}';
                                 document.getElementById('ctl00_ctl12_rcbTrangThai_ClientState').value='{""logEntries"":[],""value"":""3"",""text"":""Xác nhận đến"",""enabled"":true,""checkedIndices"":[],""checkedItemsTextOverflows"":false}';
 
                                 document.getElementById('ctl00_ctl12_btn_submit').click();
                 ";
-                        IsLoadedWeb = false;
-                        IsRunningChuaPhat = true;
-                        WebBrowser.ExecuteScriptAsync(script);
-                    }
-                    else if (m.Content == "LoadUrlPNS")
-                    {
+                         IsLoadedWeb = false;
+                         IsRunningChuaPhat = true;
+                         WebBrowser.ExecuteScriptAsync(script);
+                     }
+                     else if (m.Content == "LoadUrlPNS")
+                     {
 
-                        IsLoadedWeb = false;
-                        WebBrowser.LoadUrl("https://pns.vnpost.vn/");
-                    }
-                }
-                else if (m.Key == "SendMaHieuPNS")
-                {
-                    string script = @"
+                         IsLoadedWeb = false;
+                         WebBrowser.LoadUrl("https://pns.vnpost.vn/");
+                     }
+                 }
+                 else if (m.Key == "SendMaHieuPNS")
+                 {
+                     string script = @"
                                 document.getElementById('LadingCode').value='" + m.Content + @"';
                                 document.getElementById('search_key').click();
                 ";
-                    IsLoadedWeb = false;
-                    IsWaitingSendMaHieuComplete = true;
-                    WebBrowser.ExecuteScriptAsync(script);
-                }
-            });
+                     IsLoadedWeb = false;
+                     IsWaitingSendMaHieuComplete = true;
+                     WebBrowser.ExecuteScriptAsync(script);
+                 }
+             });
         }
 
         bool IsWaitingSendMaHieuComplete = false;
@@ -138,8 +142,7 @@ namespace TaoBD10.ViewModels
             set
             {
                 SetProperty(ref _AddressWeb, value);
-                WebBrowser.LoadingStateChanged += WebBrowser_LoadingStateChanged;
-                WebBrowser.DownloadHandler = new MyDownloadHandler();
+
             }
         }
 

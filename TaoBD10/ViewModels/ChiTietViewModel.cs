@@ -22,6 +22,73 @@ namespace TaoBD10.ViewModels
 
         public RelayCommand<PhanLoaiTinh> AddBDTinhCommand { get; }
 
+        public ICommand AutoGetBD10Command { get; }
+
+
+        void AutoGetBD10()
+        {
+            if (!APIManager.ThoatToDefault("593230", "danh sach bd10 di"))
+            {
+                SendKeys.SendWait("3");
+                Thread.Sleep(200);
+                SendKeys.SendWait("2");
+            }
+            WindowInfo activeWindows = APIManager.GetActiveWindowTitle();
+            if (activeWindows.text.IndexOf("danh sach bd10 di") == -1)
+                return;
+
+            string lastcopy = "";
+            string data = "null";
+            APIManager.ClearClipboard();
+
+            data = APIManager.GetCopyData();
+            while (lastcopy != data)
+            {
+                if (string.IsNullOrEmpty(data))
+                {
+                    return;
+                }
+                lastcopy = data;
+                SendKeys.SendWait("{DOWN}");
+                Thread.Sleep(50);
+                data = APIManager.GetCopyData();
+                //550910-VCKV - Đà Nẵng LT	08/06/2022	1	Ô tô	21	206,4	Đã đi
+                //590100-VCKV Nam Trung Bộ	08/06/2022	2	Ô tô	50	456,1	Khởi tạo
+                //if ((data.IndexOf("550910") != -1
+                //    || data.IndexOf("550915") != -1
+                //    || data.IndexOf("590100") != -1
+                //    || data.IndexOf("592020") != -1
+                //    || data.IndexOf("592440") != -1
+                //    || data.IndexOf("592810") != -1
+                //    || data.IndexOf("560100") != -1
+                //    || data.IndexOf("570100") != -1)
+                //    && data.IndexOf("Khởi tạo") != -1)
+                //{
+                //    WindowInfo window = APIManager.WaitingFindedWindow("danh sach bd10 di");
+                //    if (window == null)
+                //    {
+                //        return;
+                //    }
+                //    APIManager.ClickButton(window.hwnd, "Sửa");
+                //    window = APIManager.WaitingFindedWindow("sua thong tin bd10");
+                //    if (window == null)
+                //    {
+                //        return;
+                //    }
+                //    Thread.Sleep(500);
+                //    SendKeys.SendWait("{F6}");
+                //}
+                //else
+                //{
+                //    SendKeys.SendWait("{DOWN}");
+                //    Thread.Sleep(100);
+                //    data = APIManager.GetCopyData();
+                //}
+            }
+            APIManager.ShowSnackbar("Run print list bd 10 complete");
+
+        }
+
 
         void AddBDTinh(PhanLoaiTinh phanLoaiTinh)
         {
@@ -79,6 +146,7 @@ namespace TaoBD10.ViewModels
             bwChiTiet.DoWork += BwChiTiet_DoWork;
             taoBDWorker = new BackgroundWorker();
             taoBDWorker.DoWork += TaoBDWorker_DoWork;
+            AutoGetBD10Command = new RelayCommand(AutoGetBD10);
             WeakReferenceMessenger.Default.Register<BD10Message>(this, (r, m) =>
             {
                 //Thuc Hien Trong ngay

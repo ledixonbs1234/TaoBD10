@@ -1,4 +1,6 @@
-﻿using System.Windows.Controls;
+﻿using Microsoft.Toolkit.Mvvm.Messaging;
+using System.Windows.Controls;
+using TaoBD10.Model;
 
 namespace TaoBD10.Views
 {
@@ -10,6 +12,12 @@ namespace TaoBD10.Views
         public WebView()
         {
             InitializeComponent();
+        }
+
+        private void Browser_IsBrowserInitializedChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
+        {
+            WeakReferenceMessenger.Default.Send(new ContentModel {Key = "WebInitializer" });
+
         }
     }
 }

@@ -26,18 +26,18 @@ namespace TaoBD10.ViewModels
             LoadPageCommand = new RelayCommand<ChromiumWebBrowser>(LoadPage);
             LoginCommand = new RelayCommand(Login);
             DefaultCommand = new RelayCommand(Default);
-            while (WebBrowser == null)
-            {
-                
-            }
-            WebBrowser.LoadingStateChanged += WebBrowser_LoadingStateChanged;
-            WebBrowser.DownloadHandler = new MyDownloadHandler();
+            
             WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>
              {
                  if (m.Key == "LoadAddressWeb")
                  {
                      _LoadWebChoose = LoadWebChoose.DiNgoaiAddress;
                      LoadAddressDiNgoai(m.Content);
+                 }
+                 else if (m.Key == "WebInitializer")
+                 {
+                     WebBrowser.LoadingStateChanged += WebBrowser_LoadingStateChanged;
+                     WebBrowser.DownloadHandler = new MyDownloadHandler();
                  }
                  else if (m.Key == "LoadAddressTQWeb")
                  {

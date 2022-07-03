@@ -19,7 +19,7 @@
             x:Name="Browser"
             Grid.Row="0"
             Address="{Binding AddressWeb, Mode=TwoWay}"
-            WebBrowser="{Binding WebBrowser, Mode=OneWayToSource}" />
+            WebBrowser="{Binding WebBrowser, Mode=OneWayToSource}" IsBrowserInitializedChanged="Browser_IsBrowserInitializedChanged" />
         <StackPanel
             Grid.Row="1"
             HorizontalAlignment="Center"

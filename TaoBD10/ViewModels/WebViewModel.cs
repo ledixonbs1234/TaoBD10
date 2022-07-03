@@ -186,12 +186,12 @@ namespace TaoBD10.ViewModels
                     Microsoft.Office.Interop.Excel.Application xlApp = new Microsoft.Office.Interop.Excel.Application();
                     xlApp.Visible = false;
                     Microsoft.Office.Interop.Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(fullPath);
-                    Microsoft.Office.Interop.Excel._Worksheet xlWorksheet = xlWorkbook.Worksheets[1] as Microsoft.Office.Interop.Excel._Worksheet;
+                    Microsoft.Office.Interop.Excel._Worksheet xlWorksheet = xlWorkbook.Worksheets[1] ;
                     Microsoft.Office.Interop.Excel.Range xlRange = xlWorksheet.UsedRange;
                     List<PNSNameModel> chiTietTui = new List<PNSNameModel>();
                     for (int i = 2; i <= xlRange.Rows.Count; i++)
                     {
-                        chiTietTui.Add(new PNSNameModel { MaHieu = xlRange.Cells[2,i] .ToString(), NameReceive = xlRange.Cells[11,i].ToString(), Address = xlRange[13,i].ToString() });
+                        chiTietTui.Add(new PNSNameModel { MaHieu = xlRange[2][i].Value2 .ToString(), NameReceive = xlRange[11][i].Value2.ToString(), Address = xlRange[13][i].Value2.ToString() });
                     }
                     if (chiTietTui.Count != 0)
                     {

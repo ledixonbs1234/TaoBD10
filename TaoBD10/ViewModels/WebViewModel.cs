@@ -183,40 +183,15 @@ namespace TaoBD10.ViewModels
             {
                 try
                 {
-                    //Send list address to Data;
-                    //thuc hien doc du lieu tu file nao do
-                    //WorkBook workBook = new WorkBook(fullPath);
-                    //WorkSheet sheet = workBook.WorkSheets.First();
-
-                    //string cellValue = sheet["B5"].StringValue;
-                    //using (var stream = File.Open(fullPath, FileMode.Open, FileAccess.Read))
-                    //{
-                    //    using (var reader = ExcelReaderFactory.CreateOpenXmlReader(stream))
-                    //    {
-                    //        System.Data.DataSet tables = reader.AsDataSet();
-                    //        List<PNSNameModel> chiTietTui = new List<PNSNameModel>();
-                    //        for (int i = 2; i < tables.Tables[0].Rows.Count; i++)
-                    //        {
-                    //            chiTietTui.Add(new PNSNameModel { MaHieu = tables.Tables[0].Rows[i][1].ToString(), NameReceive = tables.Tables[0].Rows[i][10].ToString() });
-                    //        }
-                    //        //thuc hien send data tra ve
-                    //        if (chiTietTui.Count != 0)
-                    //        {
-                    //            WeakReferenceMessenger.Default.Send(new PNSNameMessage(chiTietTui));
-                    //        }
-                    //    }
-
-                    //}
-
-
                     Microsoft.Office.Interop.Excel.Application xlApp = new Microsoft.Office.Interop.Excel.Application();
+                    xlApp.Visible = false;
                     Microsoft.Office.Interop.Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(fullPath);
-                    Microsoft.Office.Interop.Excel._Worksheet xlWorksheet = xlWorkbook.Sheets[1];
+                    Microsoft.Office.Interop.Excel._Worksheet xlWorksheet = xlWorkbook.Worksheets[1] as Microsoft.Office.Interop.Excel._Worksheet;
                     Microsoft.Office.Interop.Excel.Range xlRange = xlWorksheet.UsedRange;
                     List<PNSNameModel> chiTietTui = new List<PNSNameModel>();
                     for (int i = 2; i <= xlRange.Rows.Count; i++)
                     {
-                        chiTietTui.Add(new PNSNameModel { MaHieu = xlRange[2][i].Value2.ToString(), NameReceive = xlRange[11][i].Value2.ToString(), Address = xlRange[13][i].Value2.ToString() });
+                        chiTietTui.Add(new PNSNameModel { MaHieu = xlRange.Cells[2,i] .ToString(), NameReceive = xlRange.Cells[11,i].ToString(), Address = xlRange[13,i].ToString() });
                     }
                     if (chiTietTui.Count != 0)
                     {

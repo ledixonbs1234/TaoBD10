@@ -23,7 +23,7 @@ namespace TaoBD10.ViewModels
             Run593230Command = new RelayCommand(Run593230);
             CheckCommand = new RelayCommand(Check);
             AddAddressCommand = new RelayCommand(AddAddress);
-            LoginPNSCommand = new RelayCommand(LoginPNS);
+            
             GetNameCommand = new RelayCommand(GetName);
 
             HangTons = new ObservableCollection<HangTonModel>();
@@ -94,8 +94,7 @@ namespace TaoBD10.ViewModels
             });
         }
         private string _TextsRange;
-        public ICommand LoginPNSCommand { get; }
-
+    
         public ICommand GetNameCommand { get; }
 
 
@@ -115,12 +114,7 @@ namespace TaoBD10.ViewModels
             WeakReferenceMessenger.Default.Send(new ContentModel { Key = "SendMaHieuPNS", Content = listMaHieu });
         }
 
-        void LoginPNS()
-        {
-            WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "KTChuaPhat", Content = "LoadUrlPNS" });
-        }
-
-
+    
         public string TextsRange
         {
             get { return _TextsRange; }

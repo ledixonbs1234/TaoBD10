@@ -42,10 +42,6 @@
             <Button Command="{Binding AddAddressCommand}" Content="Add Address" />
             <Button
                 Margin="5,0"
-                Command="{Binding LoginPNSCommand}"
-                Content="Login PNS" />
-            <Button
-                Margin="5,0"
                 Command="{Binding GetNameCommand}"
                 Content="Get Name" />
         </StackPanel>

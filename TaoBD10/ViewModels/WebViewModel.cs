@@ -20,8 +20,10 @@ using static TaoBD10.Manager.EnumAll;
 
 namespace TaoBD10.ViewModels
 {
+
     public class WebViewModel : ObservableObject
     {
+        string PNSName = "";
         string currentMaHieu = "";
         public WebViewModel()
         {
@@ -106,29 +108,15 @@ namespace TaoBD10.ViewModels
                          IsRunningChuaPhat = true;
                          WebBrowser.ExecuteScriptAsync(script);
                      }
-                     else if (m.Content == "LoadUrlPNS")
-                     {
-                         WebBrowser.LoadUrl("https://pns.vnpost.vn/");
-                     }
                  }
                  else if (m.Key == "SendMaHieuPNS")
                  {
-                     string script = @"
-                                document.getElementById('LadingCode').value='" + m.Content + @"';
-                                document.getElementById('search_key').click();
-                ";
-                     IsWaitingSendMaHieuComplete = true;
-                     WebBrowser.ExecuteScriptAsync(script);
-                     Thread.Sleep(2000);
-                     APIManager.downLoadRoad = DownLoadRoad.GetName;
-                     script = @"document.getElementById('export_excel').click();";
-                     WebBrowser.ExecuteScriptAsync(script);
-
+                     PNSName = m.Content;
+                     WebBrowser.LoadUrl("https://pns.vnpost.vn/");
                  }
              });
         }
 
-        bool IsWaitingSendMaHieuComplete = false;
         public ICommand DefaultCommand { get; }
 
 
@@ -228,7 +216,7 @@ namespace TaoBD10.ViewModels
                     List<PNSNameModel> chiTietTui = new List<PNSNameModel>();
                     for (int i = 2; i <= xlRange.Rows.Count; i++)
                     {
-                        chiTietTui.Add(new PNSNameModel { MaHieu = xlRange[2][i].Value2.ToString(), NameReceive = xlRange[11][i].Value2.ToString() , Address= xlRange[13][i].Value2.ToString() });
+                        chiTietTui.Add(new PNSNameModel { MaHieu = xlRange[2][i].Value2.ToString(), NameReceive = xlRange[11][i].Value2.ToString(), Address = xlRange[13][i].Value2.ToString() });
                     }
                     if (chiTietTui.Count != 0)
                     {
@@ -470,13 +458,22 @@ document.querySelector('#menu-3 > li:nth-child(10) > a').click();";
                     }
                     else if (diachi.IndexOf("pns.vnpost.vn/van-don") != -1)
                     {
-                        if (IsWaitingSendMaHieuComplete)
+                        if (!string.IsNullOrEmpty(PNSName))
                         {
-                            IsWaitingSendMaHieuComplete = false;
-                            APIManager.downLoadRoad = DownLoadRoad.GetName;
-                            string script = @"document.getElementById('export_excel').click();";
+
+                            string script = @"
+                                document.getElementById('LadingCode').value='" + PNSName + @"';
+                                document.getElementById('search_key').click();
+                ";
+                            PNSName = "";
                             WebBrowser.ExecuteScriptAsync(script);
+                            APIManager.downLoadRoad = DownLoadRoad.GetName;
+                            script = @"
+setTimeout(function (){  document.getElementById('export_excel').click();}, 1000); ";
+                            WebBrowser.ExecuteScriptAsync(script);
+
                         }
+
                     }
                     else if (diachi == "https://pns.vnpost.vn/")
                     {

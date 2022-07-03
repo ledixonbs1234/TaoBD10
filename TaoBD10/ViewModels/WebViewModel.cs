@@ -26,7 +26,7 @@ namespace TaoBD10.ViewModels
             LoadPageCommand = new RelayCommand<ChromiumWebBrowser>(LoadPage);
             LoginCommand = new RelayCommand(Login);
             DefaultCommand = new RelayCommand(Default);
-            
+
             WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>
              {
                  if (m.Key == "LoadAddressWeb")
@@ -72,46 +72,40 @@ namespace TaoBD10.ViewModels
                  else if (m.Key == "ListAddress")
                  {
                      WebBrowser.LoadUrl(m.Content);
-                     IsLoadedWeb = false;
                  }
                  else if (m.Key == "KTChuaPhat")
                  {
                      if (m.Content == "LoadUrl")
                      {
                          isCheckingChuaPhat = true;
-                         IsLoadedWeb = false;
                          WebBrowser.LoadUrl("https://mps.vnpost.vn/default.aspx");
                      }
                      else if (m.Content == "Run230")
                      {
-                        //thuc hien trong nay
+                         //thuc hien trong nay
                          string script = @"
                                 document.getElementById('ctl00_ctl12_rcb_Donvi_ClientState').value='{""logEntries"":[],""value"":""593230"",""text"":""----593230 - KT Hoài Nhơn -KT2"",""enabled"":true,""checkedIndices"":[],""checkedItemsTextOverflows"":false}';
                                 document.getElementById('ctl00_ctl12_rcbTrangThai_ClientState').value='{""logEntries"":[],""value"":""3"",""text"":""Xác nhận đến"",""enabled"":true,""checkedIndices"":[],""checkedItemsTextOverflows"":false}';
 
                                 document.getElementById('ctl00_ctl12_btn_submit').click();
                 ";
-                         IsLoadedWeb = false;
                          IsRunningChuaPhat = true;
                          WebBrowser.ExecuteScriptAsync(script);
                      }
                      else if (m.Content == "Run280")
                      {
-                        //thuc hien trong nay
+                         //thuc hien trong nay
                          string script = @"
                                 document.getElementById('ctl00_ctl12_rcb_Donvi_ClientState').value='{""logEntries"":[],""value"":""593280"",""text"":""----593280 - BCP Hoài Nhơn -PH2"",""enabled"":true,""checkedIndices"":[],""checkedItemsTextOverflows"":false}';
                                 document.getElementById('ctl00_ctl12_rcbTrangThai_ClientState').value='{""logEntries"":[],""value"":""3"",""text"":""Xác nhận đến"",""enabled"":true,""checkedIndices"":[],""checkedItemsTextOverflows"":false}';
 
                                 document.getElementById('ctl00_ctl12_btn_submit').click();
                 ";
-                         IsLoadedWeb = false;
                          IsRunningChuaPhat = true;
                          WebBrowser.ExecuteScriptAsync(script);
                      }
                      else if (m.Content == "LoadUrlPNS")
                      {
-
-                         IsLoadedWeb = false;
                          WebBrowser.LoadUrl("https://pns.vnpost.vn/");
                      }
                  }
@@ -121,7 +115,6 @@ namespace TaoBD10.ViewModels
                                 document.getElementById('LadingCode').value='" + m.Content + @"';
                                 document.getElementById('search_key').click();
                 ";
-                     IsLoadedWeb = false;
                      IsWaitingSendMaHieuComplete = true;
                      WebBrowser.ExecuteScriptAsync(script);
                  }
@@ -295,7 +288,6 @@ namespace TaoBD10.ViewModels
         {
             currentMaHieu = code;
             WebBrowser.LoadUrl("https://bccp.vnpost.vn/BCCP.aspx?act=Trace&id=" + code);
-            IsLoadedWeb = false;
         }
 
         private void LoadPage(ChromiumWebBrowser web)
@@ -348,19 +340,11 @@ document.getElementsByClassName("".footer"").remove();
 
                     if (diachi.IndexOf("bccp.vnpost.vn/login") != -1)
                     {
-                        if (!IsLoadedWeb)
-                        {
-                            IsLoadedWeb = true;
-                        }
-                        else
-                            return;
                         if (isFirstLoginSuccess)
                         {
                             SoundManager.playSound2(@"Number\tingting.wav");
                             isFirstLoginSuccess = false;
-                            IsLoadedWeb = false;
                             WebBrowser.LoadUrl("https://bccp.vnpost.vn/BCCP.aspx?act=Trace&id=" + currentMaHieu);
-
 
                             isFix = true;
                         }
@@ -382,7 +366,6 @@ document.getElementsByClassName("".footer"").remove();
             		document.getElementById('txt_password').value='abc.123';
             		document.getElementById('btx_login').click();
 ";
-                        IsLoadedWeb = false;
                         WebBrowser.ExecuteScriptAsync(script);
                     }
                     else if (diachi.IndexOf("mps.vnpost.vn/default") != -1)
@@ -394,14 +377,6 @@ document.getElementsByClassName("".footer"").remove();
                         }
                         else
                         {
-                            //thuc hien get content trong nay
-                            if (!IsLoadedWeb)
-                            {
-                                IsLoadedWeb = true;
-                            }
-                            else
-                                return;
-
                             if (!IsRunningChuaPhat)
                             {
                                 return;
@@ -449,31 +424,16 @@ document.getElementsByClassName("".footer"").remove();
                      document.getElementById('userid').value='593280_phuhv';
             		document.getElementById('password').value='0914239099';
 document.querySelector('body>div.content>div>div>div>div>form>fieldset>div:nth-child(2)>div>div:nth-child(7)>button').click();                    ";
-                        IsLoadedWeb = false;
                         WebBrowser.ExecuteScriptAsync(script);
                     }
                     else if (diachi == "https://pns.vnpost.vn/")
                     {
-                        if (!IsLoadedWeb)
-                        {
-                            IsLoadedWeb = true;
-                        }
-                        else
-                            return;
                         string script = @"
 document.querySelector('#menu-3 > li:nth-child(10) > a').click();";
-                        IsLoadedWeb = true;
                         WebBrowser.ExecuteScriptAsync(script);
                     }
                     else if (diachi.IndexOf("pns.vnpost.vn/van-don") != -1)
                     {
-                        if (!IsLoadedWeb)
-                        {
-                            IsLoadedWeb = true;
-                        }
-                        else
-                            return;
-
                         if (IsWaitingSendMaHieuComplete)
                         {
                             IsWaitingSendMaHieuComplete = false;
@@ -496,14 +456,7 @@ document.querySelector('#menu-3 > li:nth-child(10) > a').click();";
                         if (isFix)
                         {
                             isFix = false;
-                            IsLoadedWeb = false;
                         }
-                        if (!IsLoadedWeb)
-                        {
-                            IsLoadedWeb = true;
-                        }
-                        else
-                            return;
                         isFirstLoginSuccess = true;
                         //if (isFix)
                         //{
@@ -669,12 +622,6 @@ document.querySelector('#menu-3 > li:nth-child(10) > a').click();";
                     }
                     else if (diachi.IndexOf("bccp.vnpost.vn/bccp.aspx?act=multitrace") != -1)
                     {
-                        if (!IsLoadedWeb)
-                        {
-                            IsLoadedWeb = true;
-                        }
-                        else
-                            return;
                         isFirstLoginSuccess = true;
                         //kiem tra dieu kien url
                         string html = await WebBrowser.GetSourceAsync();
@@ -724,7 +671,6 @@ document.querySelector('#menu-3 > li:nth-child(10) > a').click();";
                         var child1 = childPage[i + 1];
                         string id = child1.SelectSingleNode("./input").Id;
                         string script = @"document.getElementById('" + id + "').click();";
-                        IsLoadedWeb = false;
                         IsRunningChuaPhat = true;
                         WebBrowser.ExecuteScriptAsync(script);
                         break;
@@ -746,11 +692,6 @@ document.querySelector('#menu-3 > li:nth-child(10) > a').click();";
         private LoadWebChoose _LoadWebChoose = LoadWebChoose.None;
         private ChromiumWebBrowser _WebBrowser;
         private bool isCheckingChuaPhat = false;
-        /// <summary>
-        /// Chi load web 1 lan
-        /// </summary>
-        private bool IsLoadedWeb = false;
-
         private bool IsRunningChuaPhat = false;
     }
 }

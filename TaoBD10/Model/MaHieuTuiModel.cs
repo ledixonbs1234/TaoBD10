@@ -28,7 +28,6 @@ namespace TaoBD10.Model
             set { SetProperty(ref _Address, value); }
         }
 
-
         public MaHieuTuiModel()
         {
         }

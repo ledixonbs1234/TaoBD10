@@ -16,7 +16,7 @@ namespace TaoBD10.ViewModels
         private readonly DispatcherTimer timer;
         private string maBuuCuc = "";
         private bool isWating = false;
-        readonly BackgroundWorker bwLayBD;
+        private readonly BackgroundWorker bwLayBD;
 
         public LayBDHAViewModel()
         {
@@ -37,7 +37,9 @@ namespace TaoBD10.ViewModels
             };
             timer.Tick += Timer_Tick;
         }
-        private readonly bool[] _LanLapArray = new bool[] { true, false, false, false,false };
+
+        private readonly bool[] _LanLapArray = new bool[] { true, false, false, false, false };
+
         public bool[] LanLapArray
         {
             get { return _LanLapArray; }
@@ -54,12 +56,9 @@ namespace TaoBD10.ViewModels
 
         public ICommand DaNangCommand { get; }
 
-        
         public ICommand NamTrungBoCommand { get; }
 
-        
-
-        void NamTrungBo()
+        private void NamTrungBo()
         {
             maBuuCuc = "590100";
             indexBuuCuc = 515;
@@ -67,7 +66,7 @@ namespace TaoBD10.ViewModels
             bwLayBD.RunWorkerAsync();
         }
 
-        void DaNang()
+        private void DaNang()
         {
             maBuuCuc = "550910";
             indexBuuCuc = 446;
@@ -75,8 +74,8 @@ namespace TaoBD10.ViewModels
             bwLayBD.RunWorkerAsync();
         }
 
+        private const uint WM_SETTEXT = 0x000C;
 
-        const uint WM_SETTEXT = 0x000C;
         private void BwLayBD_DoWork(object sender, DoWorkEventArgs e)
         {
             WindowInfo currentWindow = APIManager.WaitingFindedWindow("danh sach bd10 den");
@@ -101,22 +100,20 @@ namespace TaoBD10.ViewModels
             Model.TestAPIModel buttonGetControl = childControl.FindAll(m => m.ClassName == classButtonDefault)[4];
             const int CB_SETCURSEL = 0x014E;
             APIManager.SendMessage(combobox.Handle, CB_SETCURSEL, indexBuuCuc, 0);
-            APIManager.SendMessage(editControl.Handle, WM_SETTEXT, IntPtr.Zero, new StringBuilder((SelectedLanLap+1).ToString()));
+            APIManager.SendMessage(editControl.Handle, WM_SETTEXT, IntPtr.Zero, new StringBuilder((SelectedLanLap + 1).ToString()));
             APIManager.ClickButton(currentWindow.hwnd, buttonGetControl.Handle);
             APIManager.ClickButton(currentWindow.hwnd, buttonFindControl.Handle);
         }
+
         public ICommand LayToanBoCommand { get; }
 
-
-        void LayToanBo()
+        private void LayToanBo()
         {
             AnMy();
             HoaiAn();
             AnLao();
             AnHoa();
-
         }
-
 
         private void Timer_Tick(object sender, EventArgs e)
         {
@@ -187,7 +184,9 @@ namespace TaoBD10.ViewModels
             //timer.Start();
             bwLayBD.RunWorkerAsync();
         }
-        int indexBuuCuc = 0;
+
+        private int indexBuuCuc = 0;
+
         private void AnLao()
         {
             maBuuCuc = "593850";

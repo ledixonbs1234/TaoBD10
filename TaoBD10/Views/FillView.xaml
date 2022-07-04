@@ -9,7 +9,7 @@
     d:DesignWidth="800"
     DataContext="{StaticResource ChiTietVM}"
     mc:Ignorable="d">
-    <Grid >
-        <TextBox Text="{Binding TestText}" AcceptsReturn="True" Height="400"/>
+    <Grid>
+        <TextBox Text="{Binding TestText}" AcceptsReturn="True" Height="400" />
     </Grid>
 </UserControl>

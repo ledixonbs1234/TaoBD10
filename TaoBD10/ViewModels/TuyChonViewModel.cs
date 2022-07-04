@@ -1,14 +1,9 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing.Printing;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using TaoBD10.Manager;
 using TaoBD10.Model;
@@ -17,7 +12,6 @@ namespace TaoBD10.ViewModels
 {
     public class TuyChonViewModel : ObservableObject
     {
-
         private ObservableCollection<TestAPIModel> _Controls;
 
         public ObservableCollection<TestAPIModel> Controls
@@ -25,8 +19,6 @@ namespace TaoBD10.ViewModels
             get { return _Controls; }
             set { SetProperty(ref _Controls, value); }
         }
-
-
 
         public TuyChonViewModel()
         {
@@ -39,9 +31,9 @@ namespace TaoBD10.ViewModels
                 _Printers.Add(printer);
             }
             ReadPrinter();
-
         }
-        void ReadPrinter()
+
+        private void ReadPrinter()
         {
             if (File.Exists("printerSave.txt"))
             {
@@ -52,11 +44,11 @@ namespace TaoBD10.ViewModels
                 APIManager.namePrinterBD10 = PrintBD10;
             }
         }
+
         public ICommand ApplyCommand { get; }
         public ICommand ListControlCommand { get; }
 
-
-        void ListControl()
+        private void ListControl()
         {
             Thread.Sleep(3000);
             var currenWindow = APIManager.GetActiveWindowTitle();
@@ -68,12 +60,9 @@ namespace TaoBD10.ViewModels
             {
                 Controls.Add(control);
             }
-
         }
 
-
-
-        void Apply()
+        private void Apply()
         {
             if (!string.IsNullOrEmpty(PrintBD8) && !string.IsNullOrEmpty(PrintBD10))
             {
@@ -82,11 +71,7 @@ namespace TaoBD10.ViewModels
                 APIManager.namePrinterBD10 = PrintBD10;
                 File.WriteAllLines("printerSave.txt", lines);
             }
-
-
-
         }
-
 
         private ObservableCollection<string> _Printers;
 
@@ -103,6 +88,7 @@ namespace TaoBD10.ViewModels
             get { return _PrintBD8; }
             set { SetProperty(ref _PrintBD8, value); }
         }
+
         private string _PrintBD10;
 
         public string PrintBD10
@@ -110,7 +96,5 @@ namespace TaoBD10.ViewModels
             get { return _PrintBD10; }
             set { SetProperty(ref _PrintBD10, value); }
         }
-
-
     }
 }

@@ -77,7 +77,7 @@
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
                 <DataGridTextColumn
-                    
+
                     MaxWidth="400"
                     Binding="{Binding AddressSend}"
                     Header="Địa Chỉ Gửi"
@@ -88,7 +88,6 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-
             </DataGrid.Columns>
         </DataGrid>
 

@@ -16,6 +16,7 @@ namespace TaoBD10.Model
         {
         }
     }
+
     public class TamQuansMessage : ValueChangedMessage<List<TamQuanModel>>
     {
         public TamQuansMessage(List<TamQuanModel> list) : base(list)
@@ -36,12 +37,14 @@ namespace TaoBD10.Model
         {
         }
     }
+
     public class ChiTietTuiMessage : ValueChangedMessage<List<ChiTietTuiModel>>
     {
         public ChiTietTuiMessage(List<ChiTietTuiModel> content) : base(content)
         {
         }
     }
+
     public class PNSNameMessage : ValueChangedMessage<List<PNSNameModel>>
     {
         public PNSNameMessage(List<PNSNameModel> content) : base(content)

@@ -18,6 +18,7 @@ namespace TaoBD10.Model
             get { return _Address; }
             set { SetProperty(ref _Address, value); }
         }
+
         private string _AddressSend;
 
         public string AddressSend
@@ -26,15 +27,15 @@ namespace TaoBD10.Model
             set { SetProperty(ref _AddressSend, value); }
         }
 
-
-        private string _IsTamQuan ="None";
+        private string _IsTamQuan = "None";
 
         public string IsTamQuan
         {
             get { return _IsTamQuan; }
-            set { SetProperty(ref _IsTamQuan, value);
+            set
+            {
+                SetProperty(ref _IsTamQuan, value);
                 WeakReferenceMessenger.Default.Send(new ContentModel { Key = "IsTamQuan", Content = "Update" });
-            
             }
         }
 

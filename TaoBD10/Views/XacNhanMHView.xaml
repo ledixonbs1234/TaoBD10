@@ -53,9 +53,6 @@
                     Value="50" />
             </materialDesign:Card>
 
-
-
-
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
 
                 <TextBox
@@ -71,8 +68,6 @@
                     Command="{Binding GoToCTCommand}"
                     Content="Go CT" />
             </StackPanel>
-
         </StackPanel>
     </materialDesign:Card>
-
 </UserControl>

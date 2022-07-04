@@ -29,8 +29,7 @@
                     Width="90"
                     Padding="0"
                     Command="{Binding KTHNCommand}"
-                Content="593230"
-                     />
+                Content="593230" />
         </StackPanel>
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                 <Button

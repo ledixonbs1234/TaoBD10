@@ -37,8 +37,7 @@ namespace TaoBD10.ViewModels
 
         public ICommand AutoGetBD10Command { get; }
 
-
-        void AutoGetBD10()
+        private void AutoGetBD10()
         {
             if (!APIManager.ThoatToDefault("593230", "danh sach bd10 di"))
             {
@@ -99,8 +98,6 @@ namespace TaoBD10.ViewModels
                 //}
             }
             APIManager.ShowSnackbar("Run print list bd 10 complete");
-
-
         }
 
         private void TaoBDWorker_DoWork(object sender, DoWorkEventArgs e)
@@ -129,15 +126,12 @@ namespace TaoBD10.ViewModels
             APIManager.SendMessage(controlBCNhan.Handle, CB_SETCURSEL, 10, 0);
         }
 
-        BackgroundWorker taoBDWorker;
+        private BackgroundWorker taoBDWorker;
         public ICommand AddBDTinhCommand { get; }
 
-
-        void AddBDTinh()
+        private void AddBDTinh()
         {
-
         }
-
 
         public ICommand AnNhonCommand { get; }
         public ICommand EMSDaNangCommand { get; }

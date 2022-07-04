@@ -8,17 +8,16 @@ using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Input;
-using System.Windows.Threading;
 using TaoBD10.Manager;
 using TaoBD10.Model;
-using static TaoBD10.Manager.EnumAll;
 
 namespace TaoBD10.ViewModels
 {
     public class LayChuyenThuViewModel : ObservableObject
     {
-        readonly BackgroundWorker bwLayCT;
-        bool isWaitingRun593200Complete = false;
+        private readonly BackgroundWorker bwLayCT;
+        private bool isWaitingRun593200Complete = false;
+
         public LayChuyenThuViewModel()
         {
             bwLayCT = new BackgroundWorker();
@@ -34,18 +33,16 @@ namespace TaoBD10.ViewModels
             HoaiMyCommand = new RelayCommand(HoaiMy);
             WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>
             {
-                if(m.Key == "Button593200")
+                if (m.Key == "Button593200")
                 {
                     Btn593200();
                     isWaitingRun593200Complete = true;
                 }
-
             });
         }
 
         private void BwLayCT_DoWork(object sender, DoWorkEventArgs e)
         {
-
             WindowInfo window = APIManager.WaitingFindedWindow("quan ly chuyen thu");
             if (window == null)
             {
@@ -81,9 +78,8 @@ namespace TaoBD10.ViewModels
             SendKeys.SendWait("{F5}");
             if (isWaitingRun593200Complete)
             {
-                WeakReferenceMessenger.Default.Send(new ContentModel{Key = "XN593200"});
+                WeakReferenceMessenger.Default.Send(new ContentModel { Key = "XN593200" });
             }
-
         }
 
         public ICommand BCPCommand { get; }
@@ -246,6 +242,7 @@ namespace TaoBD10.ViewModels
             }
             bwLayCT.RunWorkerAsync();
         }
+
         private bool isBaoDamChuyenThuDen = false;
         private string maBuuCucChuyenThuDen = "";
     }

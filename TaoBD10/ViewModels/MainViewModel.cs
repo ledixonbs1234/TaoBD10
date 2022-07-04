@@ -7,16 +7,13 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Media;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
-using System.Windows.Threading;
 using TaoBD10.Manager;
 using TaoBD10.Model;
-using static TaoBD10.Manager.EnumAll;
 
 namespace TaoBD10.ViewModels
 {
@@ -35,7 +32,7 @@ namespace TaoBD10.ViewModels
             set { SetProperty(ref _IsTopMost, value); }
         }
 
-        readonly BackgroundWorker backgroundWorkerRead;
+        private readonly BackgroundWorker backgroundWorkerRead;
 
         private bool _IsAutoF4 = false;
 
@@ -45,12 +42,11 @@ namespace TaoBD10.ViewModels
             set { SetProperty(ref _IsAutoF4, value); }
         }
 
-
-
-        void CloseWindow(Window window)
+        private void CloseWindow(Window window)
         {
             window.Close();
         }
+
         private string BoDauAndToLower(string text)
         {
             return APIManager.ConvertToUnSign3(text).ToLower();
@@ -75,7 +71,6 @@ namespace TaoBD10.ViewModels
             bwPrintBanKe.DoWork += BwPrintBanKe_DoWork;
             bwRunPrints = new BackgroundWorker();
             bwRunPrints.DoWork += BwRunPrints_DoWork;
-
 
             _keyboardHook = new Y2KeyboardHook();
             _keyboardHook.OnKeyPressed += OnKeyPress;
@@ -159,7 +154,6 @@ namespace TaoBD10.ViewModels
 
                     if (maSoBuuCucCurrent == "590100")
                     {
-
                         if (loaiCurrent == "E" || loaiCurrent == "C")
                         {
                             if (m.BuuCucPhat == "59")
@@ -176,7 +170,6 @@ namespace TaoBD10.ViewModels
                                     || boDauAddress.IndexOf("tay son") != -1
                                     || boDauAddress.IndexOf("tuy phuoc") != -1)
                                 {
-
                                 }
                                 else
                                 {
@@ -215,7 +208,7 @@ namespace TaoBD10.ViewModels
                         if (boDauAddress.IndexOf("hoai nhon") == -1)
                             SoundManager.playSound2(@"Number\error_sound.wav");
                     }
-                    else if (maSoBuuCucCurrent == "593740"||maSoBuuCucCurrent == "593630")
+                    else if (maSoBuuCucCurrent == "593740" || maSoBuuCucCurrent == "593630")
                     {
                         if (boDauAddress.IndexOf("hoai an") == -1)
                             SoundManager.playSound2(@"Number\error_sound.wav");
@@ -290,7 +283,6 @@ namespace TaoBD10.ViewModels
                 APIManager.OpenNotePad(ex.Message + '\n' + "MainViewModel " + line + " Number Line " + APIManager.GetLineNumber(ex), "loi ");
                 throw;
             }
-
         }
 
         private void BwPrintBD10_DoWork(object sender, DoWorkEventArgs e)
@@ -569,11 +561,11 @@ namespace TaoBD10.ViewModels
             //SendKeys.SendWait(" ");
         }
 
-        bool isReadDuRoi = false;
-        int lastConLai = 0;
+        private bool isReadDuRoi = false;
+        private int lastConLai = 0;
+
         private void BackgroundWorkerRead_DoWork(object sender, DoWorkEventArgs e)
         {
-
             try
             {
                 while (true)
@@ -613,7 +605,6 @@ namespace TaoBD10.ViewModels
                         TestAPIModel apiLoai;
                         TestAPIModel apiSoCT;
 
-
                         if (!string.IsNullOrEmpty(apiMaBuuCuc.Text) && apiMaBuuCuc.Text.Length != 13)
                         {
                             if (apiMaBuuCuc.Text.Length < 6)
@@ -632,7 +623,6 @@ namespace TaoBD10.ViewModels
                             soCTCurrent = apiSoCT.Text;
                         }
 
-
                         string textLoai = APIManager.ConvertToUnSign3(apiLoai.Text).ToLower();
                         if (textLoai.IndexOf("buu kien") != -1)
                         {
@@ -650,8 +640,6 @@ namespace TaoBD10.ViewModels
                         {
                             loaiCurrent = "P";
                         }
-
-
 
                         //kiem tra gr
                         TestAPIModel apiGr = listControl.FirstOrDefault(m => m.Text.IndexOf("gr") != -1);
@@ -682,9 +670,6 @@ namespace TaoBD10.ViewModels
                         }
                         //TestText += apiCai.Text + "\n";
                         int.TryParse(Regex.Match(apiCai.Text, @"\d+").Value, out numberRead);
-
-
-
                     }
                     else if (activeWindow.text.IndexOf("xac nhan chi tiet tui thu") != -1)
                     {
@@ -766,12 +751,11 @@ namespace TaoBD10.ViewModels
                                 SendKeys.SendWait("{F10}");
                                 Thread.Sleep(200);
                                 SendKeys.SendWait(" ");
-                            }else
+                            }
+                            else
                             {
                                 SendKeys.SendWait("{F6}");
                             }
-
-
                         }
                     }
                     else if (activeWindow.text.IndexOf("sua thong tin bd10") != -1)
@@ -788,12 +772,10 @@ namespace TaoBD10.ViewModels
                         int.TryParse(Regex.Match(apiNumber.Text, @"\d+").Value, out numberRead);
                     }
 
-
                     if (numberRead <= 300)
                     {
                         if (lastNumber != numberRead)
                         {
-
                             SoundManager.playSound(@"Number\" + numberRead.ToString() + ".wav");
                             lastNumber = numberRead;
                         }
@@ -983,7 +965,6 @@ namespace TaoBD10.ViewModels
                             }
                         }
                     }
-
                     else if (string.IsNullOrEmpty(activeWindow.text))
                     {
                         if (listControl.Count > 50)
@@ -1035,12 +1016,7 @@ namespace TaoBD10.ViewModels
                 APIManager.OpenNotePad(ex.Message + '\n' + "MainViewModel " + line + " Number Line " + APIManager.GetLineNumber(ex), "loi ");
                 throw;
             }
-
-
-
         }
-
-
 
         public string CountInBD { get => _CountInBD; set => SetProperty(ref _CountInBD, value); }
         public IRelayCommand<System.Windows.Controls.TabControl> DefaultWindowCommand { get; }
@@ -1123,6 +1099,7 @@ namespace TaoBD10.ViewModels
                 case 5:
                     SetDefaultWindowTui();
                     break;
+
                 case 6:
                     SetDefaultWindowTui();
                     break;
@@ -1138,15 +1115,16 @@ namespace TaoBD10.ViewModels
                 case 9:
                     SetChiTietWindow();
                     break;
+
                 case 10:
                     SetChiTietWindow();
                     break;
-
 
                 default:
                     break;
             }
         }
+
         private void OnSelectedTabBD()
         {
             switch (IndexTabControl)
@@ -1165,7 +1143,6 @@ namespace TaoBD10.ViewModels
                     SetChiTietWindow();
                     break;
 
-
                 case 3:
                     SetLayChuyenThuWindow();
                     break;
@@ -1173,6 +1150,7 @@ namespace TaoBD10.ViewModels
                 case 4:
                     SetChiTietWindow();
                     break;
+
                 case 5:
                     SetLayChuyenThuWindow();
                     break;
@@ -1228,7 +1206,6 @@ namespace TaoBD10.ViewModels
                 MessageQueue.Enqueue(content, null, null, null, false, false, TimeSpan.FromSeconds(2));
                 SoundManager.playSound2(@"Number\tingting.wav");
             });
-
         }
 
         private void OnCloseWindow()
@@ -1302,7 +1279,6 @@ namespace TaoBD10.ViewModels
                         {
                             return;
                         }
-
 
                         if (currentWindow.text.IndexOf("sua thong tin bd10") != -1 || currentWindow.text.IndexOf("lap bd10") != -1)
                         {
@@ -1458,7 +1434,6 @@ namespace TaoBD10.ViewModels
                             {
                                 WindowInfo activeWindow = APIManager.GetActiveWindowTitle();
 
-
                                 if (activeWindow.text.IndexOf("dong chuyen thu") != -1)
                                 {
                                     var controls = APIManager.GetListControlText(activeWindow.hwnd);
@@ -1481,7 +1456,6 @@ namespace TaoBD10.ViewModels
                                         return;
                                     }
 
-
                                     string code = GetCodeFromString(KeyData.ToLower());
 
                                     //lay dia chi cua ma can tim
@@ -1492,12 +1466,15 @@ namespace TaoBD10.ViewModels
                         }
                         KeyData = "";
                         break;
+
                     case Key.LeftShift:
                         break;
+
                     case Key.F2:
                         //thuc hien copy du lieu sau do sang ben kia
                         WeakReferenceMessenger.Default.Send(new ContentModel { Key = "TamQuanRun", Content = "" });
                         break;
+
                     case Key.F12:
                         WindowInfo activeWindows = APIManager.GetActiveWindowTitle();
                         if (activeWindows.text.IndexOf("dong chuyen thu") != -1)
@@ -1505,6 +1482,7 @@ namespace TaoBD10.ViewModels
                             bwPrintBanKe.RunWorkerAsync();
                         }
                         break;
+
                     case Key.F4:
                         activeWindows = APIManager.GetActiveWindowTitle();
                         if (activeWindows.text.IndexOf("danh sach bd10 di") != -1)
@@ -1517,11 +1495,9 @@ namespace TaoBD10.ViewModels
                         KeyData += e.KeyPressed.ToString();
                         break;
                 }
-
             }
             catch (Exception ex)
             {
-
                 // Get stack trace for the exception with source file information
                 var st = new StackTrace(ex, true);
                 // Get the top stack frame
@@ -1533,10 +1509,10 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        readonly BackgroundWorker bwPrintBanKe;
-        readonly BackgroundWorker bwRunPrints;
+        private readonly BackgroundWorker bwPrintBanKe;
+        private readonly BackgroundWorker bwRunPrints;
 
-        string GetCodeFromString(string content)
+        private string GetCodeFromString(string content)
         {
             int index = content.LastIndexOf("vn");
             return content.Substring(index - 11, 13);
@@ -1554,7 +1530,7 @@ namespace TaoBD10.ViewModels
             _window.Top = (height - 630) / 2;
         }
 
-        readonly BackgroundWorker bwPrintBD10;
+        private readonly BackgroundWorker bwPrintBD10;
 
         private void SetDefaultWindowTui()
         {
@@ -1608,6 +1584,7 @@ namespace TaoBD10.ViewModels
             _window.Left = desktopWorkingArea.Left + width - _window.Width;
             _window.Top = desktopWorkingArea.Top + 0;
         }
+
         private void SmallerWindow()
         {
             if (_window == null)
@@ -1640,8 +1617,10 @@ namespace TaoBD10.ViewModels
                 return;
             }
         }
-        double lastWidth = 0;
-        double lastHeight = 0;
+
+        private double lastWidth = 0;
+        private double lastHeight = 0;
+
         private void ToggleWindow()
         {
             if (isSmallWindow)
@@ -1671,7 +1650,6 @@ namespace TaoBD10.ViewModels
                     _window.Left = desktopWorkingArea.Left + width - _window.Width;
                     _window.Top = desktopWorkingArea.Top + 0;
                 }
-
             }
             else
             {
@@ -1695,7 +1673,5 @@ namespace TaoBD10.ViewModels
         private string maSoBuuCucCurrent = "";
         private int numberRead = 0;
         private string soCTCurrent = "";
-
-
     }
 }

@@ -79,7 +79,6 @@ namespace TaoBD10.ViewModels
                         SetCountTamQuan();
                     }
                 }
-
             });
             string[] fillTamQuan = { "tam quan", "hoai son", "hoai chau", "hoai hao", "hoai phu", "hoai thanh" };
             WeakReferenceMessenger.Default.Register<WebContentModel>(this, (r, m) =>
@@ -89,7 +88,6 @@ namespace TaoBD10.ViewModels
                 HangHoaDetailModel hangHoa = HangHoas.FirstOrDefault(c => m.Code.ToUpper().IndexOf(c.Code.ToUpper()) != -1);
                 if (hangHoa != null)
                 {
-                    
                     hangHoa.Address = m.AddressReiceive.Trim();
                     hangHoa.AddressSend = m.AddressSend.Trim();
                     //thuc hien kiem tra tam quan
@@ -217,6 +215,7 @@ namespace TaoBD10.ViewModels
 
         public ICommand LayDanhSachCommand { get; }
         public ICommand LayDiaChiCommand { get; }
+
         public ObservableCollection<string> LoaiAddress
         {
             get { return _LoaiAddress; }

@@ -114,7 +114,6 @@
                             <view:ChuyenThu />
                         </TabItem>
 
-
                         <TabItem Header="Get Address" Padding="0">
                             <view:AddressView />
                         </TabItem>
@@ -126,7 +125,7 @@
                 <TabItem Header="LỌC TÚI" Padding="0">
                     <view:LocTuiView />
                 </TabItem>
-                <TabItem Header="KT" Padding="0" >
+                <TabItem Header="KT" Padding="0">
                     <TabControl
                         x:Name="TabControlKT"
                         Margin="5"
@@ -161,9 +160,6 @@
             <CheckBox Content="Top Most" IsChecked="{Binding IsTopMost}" />
             <CheckBox Content="Auto F4" IsChecked="{Binding IsAutoF4}" />
             <CheckBox Content="Is Find Item" IsChecked="{Binding IsFindItem}" />
-
         </StackPanel>
-
-
     </Grid>
 </Window>

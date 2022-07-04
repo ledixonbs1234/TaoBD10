@@ -1,8 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Media;
-using System.Windows;
-using System.Windows.Forms;
 
 namespace TaoBD10.Manager
 {
@@ -27,14 +25,12 @@ namespace TaoBD10.Manager
             //player.Play();
             try
             {
-               
                 System.Windows.Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                 {
                     player.Stop();
                     player.SoundLocation = dir + @"\" + path;
                     player.Play();
                 }));
-
             }
             catch (System.Exception e)
             {

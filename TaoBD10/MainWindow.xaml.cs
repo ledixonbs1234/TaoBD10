@@ -22,9 +22,7 @@ namespace TaoBD10
                         MainView.Activate();
                     }
                 }
-
             });
-
         }
 
         private void MainView_Closing(object sender, System.ComponentModel.CancelEventArgs e)

@@ -1,9 +1,7 @@
 ﻿using Microsoft.Toolkit.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.Drawing.Printing;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -48,15 +46,12 @@ namespace TaoBD10.Manager
                         ClickButton(control.Handle);
                         break;
                     }
-
                 }
             }
-
         }
 
         public static void ClickButton(IntPtr mainHandle, IntPtr buttonHandle)
         {
-
             int wparam = (0 << 16) | (0x79 & 0xffff);
             APIManager.SendMessage(mainHandle, WM_COMMAND, wparam, (int)buttonHandle);
         }
@@ -192,7 +187,6 @@ namespace TaoBD10.Manager
             int count = 0;
             foreach (var item in allChild)
             {
-
                 TestAPIModel test = new TestAPIModel
                 {
                     Index = count,
@@ -277,7 +271,6 @@ namespace TaoBD10.Manager
             {
                 SetDefaultPrinter(namePrinterBD8);
             }
-
         }
 
         public static void ShowSnackbar(string content)
@@ -289,6 +282,7 @@ namespace TaoBD10.Manager
         {
             WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Test", Content = content });
         }
+
         public static string BoDauAndToLower(string text)
         {
             return APIManager.ConvertToUnSign3(text).ToLower();
@@ -328,7 +322,6 @@ namespace TaoBD10.Manager
                 {
                     SetForegroundWindow(last);
                     return last;
-
                 }
             }
             return IntPtr.Zero;
@@ -423,7 +416,6 @@ namespace TaoBD10.Manager
                 APIManager.OpenNotePad(ex.Message + '\n' + "loi Line APIManager " + line + " Number Line " + APIManager.GetLineNumber(ex), "loi ");
                 throw;
             }
-
         }
 
         /// <summary>
@@ -468,7 +460,6 @@ namespace TaoBD10.Manager
                         {
                             titleWindow = ConvertToUnSign3(currentWindow.text).ToLower();
                         }
-
                     }
                 }
                 Thread.Sleep(100);
@@ -485,7 +476,6 @@ namespace TaoBD10.Manager
                 APIManager.OpenNotePad(ex.Message + '\n' + "loi Line WebViewModel " + line + " Number Line " + APIManager.GetLineNumber(ex), "loi ");
                 throw;
             }
-
         }
 
         [DllImport("user32")]
@@ -496,7 +486,7 @@ namespace TaoBD10.Manager
         private static extern IntPtr FindWindowEx(IntPtr hwndParent, IntPtr hwndChildAfter, string lpszClass, string lpszWindow);
 
         [DllImport("user32.dll")]
-        static extern bool PostMessage(IntPtr hWnd, uint Msg, int wParam, int lParam);
+        private static extern bool PostMessage(IntPtr hWnd, uint Msg, int wParam, int lParam);
 
         [DllImport("User32.dll", EntryPoint = "SendMessage")]
         private static extern int SendMessage(IntPtr hWnd, int uMsg, int wParam, string lParam);
@@ -508,10 +498,11 @@ namespace TaoBD10.Manager
         private static extern int SetWindowText(IntPtr hWnd, string text);
 
         public delegate bool EnumWindowProc(IntPtr hwnd, IntPtr lParam);
+
         public static string namePrinterBD10 = "";
         public static string namePrinterBD8 = "";
         private const int WM_CLOSE = 0x0010;
-        const int WM_COMMAND = 0x0111;
+        private const int WM_COMMAND = 0x0111;
         private const int WM_GETTEXT = 0x000D;
         private const int WM_GETTEXTLENGTH = 0x000E;
     }
@@ -523,6 +514,7 @@ namespace TaoBD10.Manager
             this.text = text;
             this.hwnd = hwnd;
         }
+
         public WindowInfo()
         {
             this.text = "";

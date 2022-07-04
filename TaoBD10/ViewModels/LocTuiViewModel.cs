@@ -20,7 +20,6 @@ namespace TaoBD10.ViewModels
             set
             {
                 SetProperty(ref _ListHangHoa, value);
-
             }
         }
 

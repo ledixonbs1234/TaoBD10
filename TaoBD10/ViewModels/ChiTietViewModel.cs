@@ -18,158 +18,16 @@ namespace TaoBD10.ViewModels
 {
     internal class ChiTietViewModel : ObservableObject
     {
-        readonly BackgroundWorker bwChiTiet;
-
-        public RelayCommand<PhanLoaiTinh> AddBDTinhCommand { get; }
-
-        public ICommand AutoGetBD10Command { get; }
-
-        BD10DiInfoModel ConvertBD10Di(string content)
-        {
-
-            if (string.IsNullOrEmpty(content))
-                return null;
-            string[] splitString = content.Split('\t');
-
-
-            //550910-VCKV - Đà Nẵng LT	08/06/2022	1	Ô tô	21	206,4	Đã đi
-            BD10DiInfoModel bD10DiInfoModel = new BD10DiInfoModel(splitString[0], splitString[1], int.Parse(splitString[2]), int.Parse(splitString[4]), splitString[6]);
-
-            return bD10DiInfoModel;
-        }
-        List<BD10DiInfoModel> bD10DiInfoModels;
-
-
-        void AutoGetBD10()
-        {
-            if (!APIManager.ThoatToDefault("593230", "danh sach bd10 di"))
-            {
-                SendKeys.SendWait("3");
-                Thread.Sleep(200);
-                SendKeys.SendWait("2");
-            }
-            bD10DiInfoModels = new List<BD10DiInfoModel>();
-            WindowInfo activeWindows = APIManager.GetActiveWindowTitle();
-            if (activeWindows.text.IndexOf("danh sach bd10 di") == -1)
-                return;
-
-            string lastcopy = "";
-            string data = "null";
-            APIManager.ClearClipboard();
-
-            data = APIManager.GetCopyData();
-            while (lastcopy != data)
-            {
-                if (string.IsNullOrEmpty(data))
-                {
-                    return;
-                }
-                lastcopy = data;
-                SendKeys.SendWait("{DOWN}");
-                Thread.Sleep(50);
-                data = APIManager.GetCopyData();
-                BD10DiInfoModel bd10Info = ConvertBD10Di(data);
-                if (bd10Info == null)
-                    return;
-                bD10DiInfoModels.Add(bd10Info); 
-                
-                //550910-VCKV - Đà Nẵng LT	08/06/2022	1	Ô tô	21	206,4	Đã đi
-                //590100-VCKV Nam Trung Bộ	08/06/2022	2	Ô tô	50	456,1	Khởi tạo
-                //if ((data.IndexOf("550910") != -1
-                //    || data.IndexOf("550915") != -1
-                //    || data.IndexOf("590100") != -1
-                //    || data.IndexOf("592020") != -1
-                //    || data.IndexOf("592440") != -1
-                //    || data.IndexOf("592810") != -1
-                //    || data.IndexOf("560100") != -1
-                //    || data.IndexOf("570100") != -1)
-                //    && data.IndexOf("Khởi tạo") != -1)
-                //{
-                //    WindowInfo window = APIManager.WaitingFindedWindow("danh sach bd10 di");
-                //    if (window == null)
-                //    {
-                //        return;
-                //    }
-                //    APIManager.ClickButton(window.hwnd, "Sửa");
-                //    window = APIManager.WaitingFindedWindow("sua thong tin bd10");
-                //    if (window == null)
-                //    {
-                //        return;
-                //    }
-                //    Thread.Sleep(500);
-                //    SendKeys.SendWait("{F6}");
-                //}
-                //else
-                //{
-                //    SendKeys.SendWait("{DOWN}");
-                //    Thread.Sleep(100);
-                //    data = APIManager.GetCopyData();
-                //}
-            }
-            APIManager.ShowSnackbar("Run print list bd 10 complete");
-
-            //thuc hien cong viec tiep theo
-
-        }
-
-
-        void AddBDTinh(PhanLoaiTinh phanLoaiTinh)
-        {
-            switch (phanLoaiTinh)
-            {
-                case PhanLoaiTinh.None:
-                    break;
-                case PhanLoaiTinh.HA_AL:
-                    break;
-                case PhanLoaiTinh.TamQuan:
-                    break;
-                case PhanLoaiTinh.KienDaNang:
-                    KienDaNang();
-                    break;
-                case PhanLoaiTinh.EMSDaNang:
-                    EMSDaNang();
-                    break;
-                case PhanLoaiTinh.QuangNam:
-                    QuangNam();
-                    break;
-                case PhanLoaiTinh.QuangNgai:
-                    QuangNgai();
-                    break;
-                case PhanLoaiTinh.DiNgoaiNamTrungBo:
-                    NamTrungBo();
-                    break;
-                case PhanLoaiTinh.TuiNTB:
-                    NamTrungBo();
-                    break;
-                case PhanLoaiTinh.PhuMy:
-                    PhuMy();
-                    break;
-                case PhanLoaiTinh.PhuCat:
-                    PhuCat();
-                    break;
-                case PhanLoaiTinh.AnNhon:
-                    AnNhon();
-                    break;
-                case PhanLoaiTinh.KT1:
-                    NamTrungBo();
-                    break;
-                case PhanLoaiTinh.KTHN:
-                    break;
-                case PhanLoaiTinh.BCPHN:
-                    break;
-                default:
-                    break;
-            }
-
-        }
-
         public ChiTietViewModel()
         {
             bwChiTiet = new BackgroundWorker();
             bwChiTiet.DoWork += BwChiTiet_DoWork;
             taoBDWorker = new BackgroundWorker();
             taoBDWorker.DoWork += TaoBDWorker_DoWork;
+            RunAutoCommand = new RelayCommand(RunAuto);
             AutoGetBD10Command = new RelayCommand(AutoGetBD10);
+            HAALs = new ObservableCollection<string>();
+            BDTamQuans = new ObservableCollection<string>();
             WeakReferenceMessenger.Default.Register<BD10Message>(this, (r, m) =>
             {
                 //Thuc Hien Trong ngay
@@ -187,6 +45,7 @@ namespace TaoBD10.ViewModels
                     FillData();
                 }
             });
+            CreateDanhSachBD();
 
             WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>
             {
@@ -231,8 +90,6 @@ namespace TaoBD10.ViewModels
             };
             timerTaoBD.Tick += TimerTaoBD_Tick;
 
-            #region Command Create
-
             SelectedTinhCommand = new RelayCommand<PhanLoaiTinh>(SelectedTinh);
 
             SelectionCommand = new RelayCommand<HangHoaDetailModel>(Selection);
@@ -248,10 +105,88 @@ namespace TaoBD10.ViewModels
                     return false;
                 }
             });
-
-            #endregion Command Create
         }
-        private void TaoBDWorker_DoWork(object sender, DoWorkEventArgs e)
+
+        private void AddBDTinh(PhanLoaiTinh phanLoaiTinh)
+        {
+            switch (phanLoaiTinh)
+            {
+                case PhanLoaiTinh.None:
+                    break;
+
+                case PhanLoaiTinh.HA_AL:
+                    break;
+
+                case PhanLoaiTinh.TamQuan:
+                    break;
+
+                case PhanLoaiTinh.KienDaNang:
+                    KienDaNang();
+                    break;
+
+                case PhanLoaiTinh.EMSDaNang:
+                    EMSDaNang();
+                    break;
+
+                case PhanLoaiTinh.QuangNam:
+                    QuangNam();
+                    break;
+
+                case PhanLoaiTinh.QuangNgai:
+                    QuangNgai();
+                    break;
+
+                case PhanLoaiTinh.DiNgoaiNamTrungBo:
+                    NamTrungBo();
+                    break;
+
+                case PhanLoaiTinh.TuiNTB:
+                    NamTrungBo();
+                    break;
+
+                case PhanLoaiTinh.PhuMy:
+                    PhuMy();
+                    break;
+
+                case PhanLoaiTinh.PhuCat:
+                    PhuCat();
+                    break;
+
+                case PhanLoaiTinh.AnNhon:
+                    AnNhon();
+                    break;
+
+                case PhanLoaiTinh.KT1:
+                    NamTrungBo();
+                    break;
+
+                case PhanLoaiTinh.KTHN:
+                    break;
+
+                case PhanLoaiTinh.BCPHN:
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        private void AnNhon()
+        {
+            var time = DateTime.Now;
+            if (time.Hour > 12)
+                countChuyen = 2;
+            else
+                countChuyen = 1;
+
+            maBuuCuc = "592020";
+            tenDuongThu = "Đà Nẵng - Bình Định";
+            countDuongThu = 2;
+            stateTaoBd10 = StateTaoBd10.DanhSachBD10;
+            timerTaoBD.Start();
+        }
+
+        private void AutoGetBD10()
         {
             if (!APIManager.ThoatToDefault("593230", "danh sach bd10 di"))
             {
@@ -259,25 +194,68 @@ namespace TaoBD10.ViewModels
                 Thread.Sleep(200);
                 SendKeys.SendWait("2");
             }
-            WindowInfo currentWindow = APIManager.WaitingFindedWindow("danh sach bd10 di");
-            if (currentWindow == null)
+            bD10DiInfoModels = new List<BD10DiInfoModel>();
+            WindowInfo activeWindows = APIManager.GetActiveWindowTitle();
+            if (activeWindows.text.IndexOf("danh sach bd10 di") == -1)
                 return;
 
-            SendKeys.SendWait("{F1}");
-            currentWindow = APIManager.WaitingFindedWindow("lap bd10");
-            if (currentWindow == null)
-                return;
-            System.Collections.Generic.List<Model.TestAPIModel> controls = APIManager.GetListControlText(currentWindow.hwnd);
-            Model.TestAPIModel controlDuongThu = controls.Where(m => m.ClassName == "WindowsForms10.COMBOBOX.app.0.1e6fa8e").ToList()[2];
-            Model.TestAPIModel controlChuyen = controls.Where(m => m.ClassName == "WindowsForms10.COMBOBOX.app.0.1e6fa8e").ToList()[1];
-            Model.TestAPIModel controlBCNhan = controls.Where(m => m.ClassName == "WindowsForms10.COMBOBOX.app.0.1e6fa8e").ToList()[3];
-            const int CB_SETCURSEL = 0x014E;
-            APIManager.SendMessage(controlDuongThu.Handle, CB_SETCURSEL, countDuongThu, 0);
-            SendKeys.SendWait("{ENTER}");
-            APIManager.SendMessage(controlChuyen.Handle, CB_SETCURSEL, countChuyen, 0);
-            SendKeys.SendWait("{ENTER}");
-            APIManager.SendMessage(controlBCNhan.Handle, CB_SETCURSEL, 10, 0);
-            SendKeys.SendWait("{ENTER}");
+            string lastcopy = "";
+            string data = "null";
+            APIManager.ClearClipboard();
+
+            data = APIManager.GetCopyData();
+            while (lastcopy != data)
+            {
+                if (string.IsNullOrEmpty(data))
+                {
+                    return;
+                }
+                lastcopy = data;
+                SendKeys.SendWait("{DOWN}");
+                Thread.Sleep(50);
+                data = APIManager.GetCopyData();
+                BD10DiInfoModel bd10Info = ConvertBD10Di(data);
+                if (bd10Info == null)
+                    return;
+                bD10DiInfoModels.Add(bd10Info);
+
+                //550910-VCKV - Đà Nẵng LT	08/06/2022	1	Ô tô	21	206,4	Đã đi
+                //590100-VCKV Nam Trung Bộ	08/06/2022	2	Ô tô	50	456,1	Khởi tạo
+                //if ((data.IndexOf("550910") != -1
+                //    || data.IndexOf("550915") != -1
+                //    || data.IndexOf("590100") != -1
+                //    || data.IndexOf("592020") != -1
+                //    || data.IndexOf("592440") != -1
+                //    || data.IndexOf("592810") != -1
+                //    || data.IndexOf("560100") != -1
+                //    || data.IndexOf("570100") != -1)
+                //    && data.IndexOf("Khởi tạo") != -1)
+                //{
+                //    WindowInfo window = APIManager.WaitingFindedWindow("danh sach bd10 di");
+                //    if (window == null)
+                //    {
+                //        return;
+                //    }
+                //    APIManager.ClickButton(window.hwnd, "Sửa");
+                //    window = APIManager.WaitingFindedWindow("sua thong tin bd10");
+                //    if (window == null)
+                //    {
+                //        return;
+                //    }
+                //    Thread.Sleep(500);
+                //    SendKeys.SendWait("{F6}");
+                //}
+                //else
+                //{
+                //    SendKeys.SendWait("{DOWN}");
+                //    Thread.Sleep(100);
+                //    data = APIManager.GetCopyData();
+                //}
+            }
+            APIManager.ShowSnackbar("Run print list bd 10 complete");
+            CreateDanhSachBD();
+
+            //thuc hien cong viec tiep theo
         }
 
         private void BwChiTiet_DoWork(object sender, DoWorkEventArgs e)
@@ -317,24 +295,19 @@ namespace TaoBD10.ViewModels
             }
             else if (window.text.IndexOf("xem chuyen thu chieu den") != -1)
             {
-
             }
-
         }
 
-        private void AnNhon()
+        private BD10DiInfoModel ConvertBD10Di(string content)
         {
-            var time = DateTime.Now;
-            if (time.Hour > 12)
-                countChuyen = 2;
-            else
-                countChuyen = 1;
+            if (string.IsNullOrEmpty(content))
+                return null;
+            string[] splitString = content.Split('\t');
 
-            maBuuCuc = "592020";
-            tenDuongThu = "Đà Nẵng - Bình Định";
-            countDuongThu = 2;
-            stateTaoBd10 = StateTaoBd10.DanhSachBD10;
-            timerTaoBD.Start();
+            //550910-VCKV - Đà Nẵng LT	08/06/2022	1	Ô tô	21	206,4	Đã đi
+            BD10DiInfoModel bD10DiInfoModel = new BD10DiInfoModel(splitString[0], splitString[1], int.Parse(splitString[2]), int.Parse(splitString[4]), splitString[6]);
+
+            return bD10DiInfoModel;
         }
 
         private void CopySHTui()
@@ -348,7 +321,26 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        readonly BackgroundWorker taoBDWorker;
+        private void CreateDanhSachBD()
+        {
+            HAALs = new ObservableCollection<string>();
+            DateTime time = DateTime.Now.AddDays(1);
+            HAALs.Add("Hoài Ân An Lão|" + DateTime.Now.Day);
+            HAALs.Add("Hoài Ân An Lão|" + time.Day);
+            _ISelectedBDHAAL = 1;
+
+            BDTamQuans = new ObservableCollection<string>();
+            BDTamQuans.Add("Tam Quan|" + DateTime.Now.Day);
+            BDTamQuans.Add("Tam Quan|" + time.Day);
+            _ISelectedBDTamQuan = 1;
+
+            //tao da nang
+            BD10DiInfoModel kDaNang = bD10DiInfoModels.FirstOrDefault(m => m.MaBuuCuc == "550910" && m.TrangThai == StateBD10Di.KhoiTao);
+            if (kDaNang == null)
+            {
+            }
+        }
+
         private void EMSDaNang()
         {
             maBuuCuc = "550915";
@@ -653,6 +645,11 @@ namespace TaoBD10.ViewModels
             timerTaoBD.Start();
         }
 
+        private void MoRong()
+        {
+            WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Navigation", Content = "Center" });
+        }
+
         private void NamTrungBo()
         {
             var time = DateTime.Now;
@@ -697,14 +694,6 @@ namespace TaoBD10.ViewModels
             stateTaoBd10 = StateTaoBd10.DanhSachBD10;
             timerTaoBD.Start();
         }
-        private string _TestText;
-
-        public string TestText
-        {
-            get { return _TestText; }
-            set { SetProperty(ref _TestText, value); }
-        }
-
 
         private void PrintDiNgoai()
         {
@@ -883,6 +872,30 @@ namespace TaoBD10.ViewModels
             if (NConLai != "0") IsEnConLai = true; else IsEnConLai = false;
         }
 
+        private void RunAuto()
+        {
+        }
+
+        private void RunAutoHAAL()
+        {
+            if (!IsEnHAAL)
+            {
+                //THuc hien cong viec tiep theo
+                RunAutoTamQuan();
+            }
+            else
+            {
+            }
+        }
+
+        private void RunAutoKDN()
+        {
+        }
+
+        private void RunAutoTamQuan()
+        {
+        }
+
         private void SelectedTinh(PhanLoaiTinh phanLoaiTinh)
         {
             if (currentListHangHoa == null)
@@ -912,7 +925,6 @@ namespace TaoBD10.ViewModels
                 //thuc hien show Ten Tinh
                 ShowNameTinh(phanLoaiTinh);
             }
-
         }
 
         private void Selection(HangHoaDetailModel selected)
@@ -1029,6 +1041,41 @@ namespace TaoBD10.ViewModels
             }
             NameTinhCurrent = textTemp;
         }
+
+        private void TaoBDWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            if (!APIManager.ThoatToDefault("593230", "danh sach bd10 di"))
+            {
+                SendKeys.SendWait("3");
+                Thread.Sleep(200);
+                SendKeys.SendWait("2");
+            }
+            WindowInfo currentWindow = APIManager.WaitingFindedWindow("danh sach bd10 di");
+            if (currentWindow == null)
+                return;
+
+            SendKeys.SendWait("{F1}");
+            currentWindow = APIManager.WaitingFindedWindow("lap bd10");
+            if (currentWindow == null)
+                return;
+            System.Collections.Generic.List<Model.TestAPIModel> controls = APIManager.GetListControlText(currentWindow.hwnd);
+            Model.TestAPIModel controlDuongThu = controls.Where(m => m.ClassName == "WindowsForms10.COMBOBOX.app.0.1e6fa8e").ToList()[2];
+            Model.TestAPIModel controlChuyen = controls.Where(m => m.ClassName == "WindowsForms10.COMBOBOX.app.0.1e6fa8e").ToList()[1];
+            Model.TestAPIModel controlBCNhan = controls.Where(m => m.ClassName == "WindowsForms10.COMBOBOX.app.0.1e6fa8e").ToList()[3];
+            const int CB_SETCURSEL = 0x014E;
+            APIManager.SendMessage(controlDuongThu.Handle, CB_SETCURSEL, countDuongThu, 0);
+            SendKeys.SendWait("{ENTER}");
+            APIManager.SendMessage(controlChuyen.Handle, CB_SETCURSEL, countChuyen, 0);
+            SendKeys.SendWait("{ENTER}");
+            APIManager.SendMessage(controlBCNhan.Handle, CB_SETCURSEL, 10, 0);
+            SendKeys.SendWait("{ENTER}");
+        }
+
+        private void ThuHep()
+        {
+            WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Navigation", Content = "SmallRight" });
+        }
+
         private void TimerTaoBD_Tick(object sender, EventArgs e)
         {
             if (isWaiting)
@@ -1090,7 +1137,6 @@ namespace TaoBD10.ViewModels
             }
         }
 
-
         private void XeXaHoi()
         {
             maBuuCuc = "590100";
@@ -1101,7 +1147,35 @@ namespace TaoBD10.ViewModels
             timerTaoBD.Start();
         }
 
+        public RelayCommand<PhanLoaiTinh> AddBDTinhCommand { get; }
+        public ICommand AutoGetBD10Command { get; }
+
+        public ObservableCollection<string> BDTamQuans
+        {
+            get { return _BDTamQuans; }
+            set { SetProperty(ref _BDTamQuans, value); }
+        }
+
         public IRelayCommand CopySHTuiCommand { get; }
+
+        public ObservableCollection<string> HAALs
+        {
+            get { return _HAALs; }
+            set { SetProperty(ref _HAALs, value); }
+        }
+
+        public int ISelectedBDHAAL
+        {
+            get { return _ISelectedBDHAAL; }
+            set { SetProperty(ref _ISelectedBDHAAL, value); }
+        }
+
+        public int ISelectedBDTamQuan
+        {
+            get { return _ISelectedBDTamQuan; }
+            set { SetProperty(ref _ISelectedBDTamQuan, value); }
+        }
+
         public bool IsEnAN
         {
             get { return _IsEnAN; }
@@ -1178,6 +1252,24 @@ namespace TaoBD10.ViewModels
         {
             get { return _IsEnTNTB; }
             set { SetProperty(ref _IsEnTNTB, value); }
+        }
+
+        public bool IsExpandTaoBD
+        {
+            get { return _IsExpandTaoBD; }
+            set
+            {
+                SetProperty(ref _IsExpandTaoBD, value);
+
+                if (_IsExpandTaoBD == false)
+                {
+                    ThuHep();
+                }
+                else
+                {
+                    MoRong();
+                }
+            }
         }
 
         public bool IsTaoBD
@@ -1288,6 +1380,8 @@ namespace TaoBD10.ViewModels
             set { SetProperty(ref _NTNTB, value); }
         }
 
+        public ICommand RunAutoCommand { get; }
+
         public string SelectedTime
         {
             get { return _SelectedTime; }
@@ -1295,6 +1389,7 @@ namespace TaoBD10.ViewModels
         }
 
         public ICommand SelectedTinhCommand { get; }
+
         public HangHoaDetailModel SelectedTui
         {
             get { return _SelectedTui; }
@@ -1306,6 +1401,13 @@ namespace TaoBD10.ViewModels
         }
 
         public IRelayCommand<HangHoaDetailModel> SelectionCommand { get; }
+
+        public string TestText
+        {
+            get { return _TestText; }
+            set { SetProperty(ref _TestText, value); }
+        }
+
         public string TextCurrentChuyenThu
         {
             get { return _TextCurrentChuyenThu; }
@@ -1313,6 +1415,16 @@ namespace TaoBD10.ViewModels
         }
 
         public ICommand XeXaHoiCommand { get; }
+        private readonly BackgroundWorker bwChiTiet;
+        private readonly string[] fillDaNang = new string[] { "26", "27", "23", "22", "55", "38", "40", "10", "48", "17", "18", "16", "31", "39", "24", "33", "42", "46", "43", "51", "20", "52", "36", "41", "25", "44", "31", "53", "30", "32", "29", "28", "35", "13" };
+        private readonly string[] fillNoiTinh = new string[] { "591218", "591520", "591720", "591760", "591900", "592100", "592120", "592220", "594080", "594090", "594210", "594220", "594300", "594350", "594560", "594610", "590100" };
+        private readonly string[] fillNTB = new string[] { "88", "79", "96", "93", "82", "83", "80", "97", "90", "63", "64", "81", "87", "60", "91", "70", "65", "92", "58", "67", "85", "66", "62", "95", "84", "86", "94", "89", "74" };
+        private readonly BackgroundWorker taoBDWorker;
+        private readonly DispatcherTimer timerTaoBD;
+        private ObservableCollection<string> _BDTamQuans;
+        private ObservableCollection<string> _HAALs;
+        private int _ISelectedBDHAAL;
+        private int _ISelectedBDTamQuan;
         private bool _IsEnAN = true;
         private bool _IsEnConLai = true;
         private bool _IsEnEDN = true;
@@ -1326,6 +1438,7 @@ namespace TaoBD10.ViewModels
         private bool _IsEnQNgai = true;
         private bool _IsEnTamQuan = true;
         private bool _IsEnTNTB = true;
+        private bool _IsExpandTaoBD;
         private bool _IsTaoBD = false;
         private ObservableCollection<HangHoaDetailModel> _ListShowHangHoa;
         private string _NameTinhCurrent;
@@ -1346,20 +1459,18 @@ namespace TaoBD10.ViewModels
         private string _NTNTB = "0";
         private string _SelectedTime = "0.5";
         private HangHoaDetailModel _SelectedTui;
+        private string _TestText;
         private string _TextCurrentChuyenThu;
+        private List<BD10DiInfoModel> bD10DiInfoModels;
         private int countChuyen = 0;
         private int countDuongThu = 0;
         private BuuCuc currentBuuCuc = BuuCuc.None;
         private List<HangHoaDetailModel> currentListHangHoa;
         private HangHoaDetailModel CurrentSelectedHangHoaDetail = null;
         private PhanLoaiTinh currentTinh = PhanLoaiTinh.None;
-        private readonly string[] fillDaNang = new string[] { "26", "27", "23", "22", "55", "38", "40", "10", "48", "17", "18", "16", "31", "39", "24", "33", "42", "46", "43", "51", "20", "52", "36", "41", "25", "44", "31", "53", "30", "32", "29", "28", "35", "13" };
-        private readonly string[] fillNoiTinh = new string[] { "591218", "591520", "591720", "591760", "591900", "592100", "592120", "592220", "594080", "594090", "594210", "594220", "594300", "594350", "594560", "594610", "590100" };
-        private readonly string[] fillNTB = new string[] { "88", "79", "96", "93", "82", "83", "80", "97", "90", "63", "64", "81", "87", "60", "91", "70", "65", "92", "58", "67", "85", "66", "62", "95", "84", "86", "94", "89", "74" };
         private bool isWaiting = false;
         private string maBuuCuc = "0";
         private StateTaoBd10 stateTaoBd10;
         private string tenDuongThu = "";
-        private readonly DispatcherTimer timerTaoBD;
     }
 }

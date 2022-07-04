@@ -16,8 +16,7 @@ namespace TaoBD10.Views
 
         private void Browser_IsBrowserInitializedChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
         {
-            WeakReferenceMessenger.Default.Send(new ContentModel {Key = "WebInitializer" });
-
+            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "WebInitializer" });
         }
     }
 }

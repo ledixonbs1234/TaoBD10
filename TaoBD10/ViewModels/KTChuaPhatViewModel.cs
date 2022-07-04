@@ -9,7 +9,6 @@ using System.Linq;
 using System.Windows.Input;
 using TaoBD10.Manager;
 using TaoBD10.Model;
-using static TaoBD10.Manager.EnumAll;
 
 namespace TaoBD10.ViewModels
 {
@@ -23,7 +22,7 @@ namespace TaoBD10.ViewModels
             Run593230Command = new RelayCommand(Run593230);
             CheckCommand = new RelayCommand(Check);
             AddAddressCommand = new RelayCommand(AddAddress);
-            
+
             GetNameCommand = new RelayCommand(GetName);
 
             HangTons = new ObservableCollection<HangTonModel>();
@@ -65,7 +64,6 @@ namespace TaoBD10.ViewModels
 
                     foreach (PNSNameModel pnsName in pnsNames)
                     {
-
                         HangTonModel have = HangTons.FirstOrDefault(s => s.MaHieu.ToUpper() == pnsName.MaHieu.ToUpper());
                         if (have != null)
                         {
@@ -75,7 +73,6 @@ namespace TaoBD10.ViewModels
                     }
                 }
             });
-
 
             WeakReferenceMessenger.Default.Register<WebContentModel>(this, (r, m) =>
             {
@@ -88,18 +85,16 @@ namespace TaoBD10.ViewModels
                     hangTon.NguoiGui = m.NguoiGui;
                     hangTon.BuuCucDong = m.KiemTraWeb.BuuCucDong;
                     hangTon.BuuCucNhan = m.KiemTraWeb.BuuCucNhan;
-
                 }
                 AddAddress();
             });
         }
+
         private string _TextsRange;
-    
+
         public ICommand GetNameCommand { get; }
 
-
-
-        void GetName()
+        private void GetName()
         {
             string listMaHieu = "";
             //thuc hien send list ma hieu to name
@@ -114,7 +109,6 @@ namespace TaoBD10.ViewModels
             WeakReferenceMessenger.Default.Send(new ContentModel { Key = "SendMaHieuPNS", Content = listMaHieu });
         }
 
-    
         public string TextsRange
         {
             get { return _TextsRange; }
@@ -156,7 +150,7 @@ namespace TaoBD10.ViewModels
             return list;
         }
 
-        void LocRange()
+        private void LocRange()
         {
             foreach (MaHieuDiNgoaiInfo item in LocTextTho(TextsRange))
             {
@@ -177,7 +171,8 @@ namespace TaoBD10.ViewModels
         }
 
         public ICommand CopyCommand { get; }
-        void Copy()
+
+        private void Copy()
         {
             List<TamQuanModel> listTQ = new List<TamQuanModel>();
             for (int i = 0; i < HangTons.Count; i++)
@@ -187,14 +182,11 @@ namespace TaoBD10.ViewModels
             }
             if (listTQ.Count != 0)
                 WeakReferenceMessenger.Default.Send(new TamQuansMessage(listTQ));
-
         }
-
 
         public ICommand LocCommand { get; }
 
-
-        void Loc()
+        private void Loc()
         {
             if (HangTonsDelete.Count != 0)
             {
@@ -264,9 +256,7 @@ namespace TaoBD10.ViewModels
                         {
                             HangTons.Remove(hangTon);
                         }
-
                     }
-
                 }
             }
 
@@ -275,7 +265,6 @@ namespace TaoBD10.ViewModels
                 LocRange();
             }
             Count = HangTons.Count;
-
         }
 
         public ICommand AddAddressCommand { get; }
@@ -301,7 +290,6 @@ namespace TaoBD10.ViewModels
             get { return _HangTonsDelete; }
             set { SetProperty(ref _HangTonsDelete, value); }
         }
-
 
         public string IsOk
         {

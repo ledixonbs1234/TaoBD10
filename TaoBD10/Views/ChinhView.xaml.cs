@@ -10,7 +10,6 @@ namespace TaoBD10.Views
         public ChinhView()
         {
             InitializeComponent();
-
         }
     }
 }

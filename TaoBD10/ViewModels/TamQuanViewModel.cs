@@ -40,8 +40,9 @@ namespace TaoBD10.ViewModels
                 }
             });
 
-            WeakReferenceMessenger.Default.Register<TamQuansMessage>(this, (r, m) => { 
-                if(m.Value!= null)
+            WeakReferenceMessenger.Default.Register<TamQuansMessage>(this, (r, m) =>
+            {
+                if (m.Value != null)
                 {
                     TamQuans.Clear();
                     foreach (TamQuanModel item in m.Value)
@@ -49,9 +50,7 @@ namespace TaoBD10.ViewModels
                         TamQuans.Add(item);
                     }
                     WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Navigation", Content = "TamQuan" });
-
                 }
-            
             });
         }
 
@@ -71,10 +70,8 @@ namespace TaoBD10.ViewModels
             set { SetProperty(ref _Numbers, value); }
         }
 
-
-        void FillMaHieu()
+        private void FillMaHieu()
         {
-
             TamQuans.Clear();
             foreach (string item in LocTextTho(TextFill))
             {
@@ -87,7 +84,6 @@ namespace TaoBD10.ViewModels
                 }
                 TamQuans.Add(new TamQuanModel(TamQuans.Count + 1, item));
             }
-
         }
 
         private List<string> LocTextTho(string textsRange)
@@ -172,6 +168,7 @@ namespace TaoBD10.ViewModels
 
         public ICommand FillMaHieuCommand { get; }
         public ICommand SendCommand { get; }
+
         public ObservableCollection<TamQuanModel> TamQuans
         {
             get { return _TamQuans; }

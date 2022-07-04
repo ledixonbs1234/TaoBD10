@@ -60,10 +60,9 @@ namespace TaoBD10.ViewModels
                         m.Value.Index = KiemTras.Count + 1;
                         KiemTras.Add(m.Value);
 
-                    //thuc hien loc trong nay ten cua buu ta
-                    ReadNameBuuTa(m.Value.BuuCucNhan);
+                        //thuc hien loc trong nay ten cua buu ta
+                        ReadNameBuuTa(m.Value.BuuCucNhan);
                     });
-
                 }
                 //KiemTraModel a = new KiemTraModel();
                 //a.Address = m.Value.Address;

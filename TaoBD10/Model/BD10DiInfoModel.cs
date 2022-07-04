@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TaoBD10.Manager;
+﻿using TaoBD10.Manager;
 using static TaoBD10.Manager.EnumAll;
 
 namespace TaoBD10.Model
@@ -12,22 +7,23 @@ namespace TaoBD10.Model
     {
         public string Name { get; set; }
 
-        public BD10DiInfoModel(string name, string date, int lanLap, int soLuong,string sTrangThai)
+        public BD10DiInfoModel(string name, string date, int lanLap, int soLuong, string sTrangThai)
         {
             Name = name;
-            MaBuuCuc = name.Substring(0,6);
+            MaBuuCuc = name.Substring(0, 6);
             Date = date;
             LanLap = lanLap;
             SoLuong = soLuong;
             string text = APIManager.BoDauAndToLower(sTrangThai);
-            if(sTrangThai.IndexOf("da di")!= -1)
+            if (sTrangThai.IndexOf("da di") != -1)
             {
                 TrangThai = StateBD10Di.DaDi;
-                
-            }else if(sTrangThai.IndexOf("khoi tao")!= -1)
+            }
+            else if (sTrangThai.IndexOf("khoi tao") != -1)
             {
                 TrangThai = StateBD10Di.KhoiTao;
-            }else
+            }
+            else
             {
                 TrangThai = StateBD10Di.None;
             }
@@ -38,7 +34,5 @@ namespace TaoBD10.Model
         public int LanLap { get; set; }
         public int SoLuong { get; set; }
         public StateBD10Di TrangThai { get; set; }
-        
-
     }
 }

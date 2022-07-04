@@ -5,28 +5,23 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading;
-using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
-using System.Windows.Threading;
 using TaoBD10.Manager;
 using TaoBD10.Model;
 using WindowsInput;
 using WindowsInput.Native;
-using static TaoBD10.Manager.EnumAll;
 
 namespace TaoBD10.ViewModels
 {
     public class ChinhViewModel : ObservableObject
     {
-        readonly BackgroundWorker bwPrint;
+        private readonly BackgroundWorker bwPrint;
 
         public ICommand AutoXacNhanCommand { get; }
 
-
-        void AutoXacNhan()
+        private void AutoXacNhan()
         {
             IntPtr handleWindow = APIManager.SetToLastWindow("593200");
             if (handleWindow == IntPtr.Zero)
@@ -51,12 +46,10 @@ namespace TaoBD10.ViewModels
             //thuc hien nhan button get chuyen thu 593200;
             WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Button593200" });
 
-
             //khi con trong chuyen thu thuc hien tu dong dong chuyen thu va lay du lieu chuyen thu
             //tu dong thoat chuyen thu va truyen
             // qua 280 tu dong lay chuyen thu
             //tu dong xac nhan chi tiet tui thu
-
         }
 
         public ChinhViewModel()
@@ -165,11 +158,11 @@ namespace TaoBD10.ViewModels
                 else if (m.Key == "XN593200")
                 {
                     XacNhanChiTiet200();
-
                 }
             });
         }
-        string soCTCurrent = "";
+
+        private string soCTCurrent = "";
 
         private void XacNhanChiTiet200()
         {
@@ -218,9 +211,7 @@ namespace TaoBD10.ViewModels
                 currentWindow = APIManager.WaitingFindedWindow("xac nhan");
                 APIManager.ClickButton(currentWindow.hwnd, "yes", isExactly: false);
                 //Xong
-
             }
-
         }
 
         private void BwPrint_DoWork(object sender, DoWorkEventArgs e)
@@ -302,7 +293,6 @@ namespace TaoBD10.ViewModels
 
             if (currentWindow.text.IndexOf("dong chuyen thu") != -1)
             {
-
                 bool isClosedTui = false;
                 int countReturn = 50;
                 while (!isClosedTui)
@@ -325,7 +315,6 @@ namespace TaoBD10.ViewModels
                     return;
                 }
                 Thread.Sleep(100);
-
 
                 SendKeys.SendWait("{F6}");
                 SendKeys.SendWait("{F5}");
@@ -379,7 +368,6 @@ namespace TaoBD10.ViewModels
                 }
                 SendKeys.SendWait("^(c)");
                 Thread.Sleep(50);
-
             }
             if (string.IsNullOrEmpty(clipboard))
                 return;
@@ -448,7 +436,6 @@ namespace TaoBD10.ViewModels
 
             APIManager.SendMessage(childControls[14].Handle, 0x0007, 0, 0);
             APIManager.SendMessage(childControls[14].Handle, 0x0007, 0, 0);
-
         }
 
         private void BackgroundCreateChuyenThu_DoWork(object sender, DoWorkEventArgs e)
@@ -480,7 +467,6 @@ namespace TaoBD10.ViewModels
                 inputImulator.Keyboard.KeyPress(VirtualKeyCode.TAB);
                 inputImulator.Keyboard.KeyPress(VirtualKeyCode.F10);
 
-
                 currentWindow = APIManager.WaitingFindedWindow("dong chuyen thu", "tao tui");
                 if (currentWindow == null)
                 {
@@ -490,14 +476,12 @@ namespace TaoBD10.ViewModels
 
                 if (currentWindow.text.IndexOf("dong chuyen thu") != -1)
                 {
-
                     Thread.Sleep(300);
                     //thuc hien cho tao tui 10 lan
                     currentWindow = APIManager.GetActiveWindowTitle();
                     if (currentWindow.text.IndexOf("tao tui") != -1)
                     {
                         IntPtr handleTaoTui = APIManager.GetListControlText(currentWindow.hwnd)[8].Handle;
-
 
                         APIManager.SendMessage(handleTaoTui, 0x0007, 0, 0);
                         APIManager.SendMessage(handleTaoTui, 0x0007, 0, 0);
@@ -508,11 +492,9 @@ namespace TaoBD10.ViewModels
                     }
                     else
                     {
-
                     }
 
                     //thuc hien co tui trong nay
-
                 }
                 else if (currentWindow.text.IndexOf("tao tui") != -1)
                 {
@@ -558,7 +540,6 @@ namespace TaoBD10.ViewModels
                             {
                                 countEdit = 1;
                             }
-
                         }
                         else if (countEdit == 3)
                         {
@@ -582,11 +563,9 @@ namespace TaoBD10.ViewModels
                     //Kiem tra lai
                     SoundManager.playSound2(@"\Number\khongkhopsolieu.wav");
                 }
-
             }
             catch (Exception ex)
             {
-
                 // Get stack trace for the exception with source file information
                 var st = new StackTrace(ex, true);
                 // Get the top stack frame
@@ -834,7 +813,7 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        readonly BackgroundWorker bwCreateChuyenThu;
+        private readonly BackgroundWorker bwCreateChuyenThu;
 
         private void EMS()
         {

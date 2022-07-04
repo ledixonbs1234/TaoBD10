@@ -1,26 +1,30 @@
 ﻿<UserControl
     x:Class="TaoBD10.Views.TaoBD10View"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:TaoBD10.Views"
-    xmlns:manager="clr-namespace:TaoBD10.Manager"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:manager="clr-namespace:TaoBD10.Manager"
     DataContext="{StaticResource ChiTietVM}"
     mc:Ignorable="d">
-    <StackPanel>
-        <TextBlock
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="255" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0">
+            <TextBlock
             Margin="5"
             HorizontalAlignment="Center"
             Foreground="#FF6998FF"
             Style="{StaticResource MaterialDesignHeadline5TextBlock}"
             Text="{Binding NameTinhCurrent}" />
-        <StackPanel
+            <StackPanel
             Margin="5,20,5,0"
             HorizontalAlignment="Center"
             Orientation="Horizontal">
-            <Button
+                <Button
                 Width="20"
                 Padding="0"
                 Command="{Binding AddBDTinhCommand}"
@@ -28,18 +32,18 @@
                 Content="{materialDesign:PackIcon Kind=Add}"
                 Style="{StaticResource MaterialDesignPaperSecondaryDarkButton}"
                 ToolTip="Icon" />
-            <materialDesign:Badged
+                <materialDesign:Badged
                 Margin="0,5,10,5"
                 Badge="{Binding NHA_AL}"
                 BadgeColorZoneMode="PrimaryDark"
                 IsEnabled="{Binding IsEnHAAL}">
-                <Button
+                    <Button
                     Width="85"
                     Command="{Binding SelectedTinhCommand}"
                     CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.HA_AL}"
                     Content="HA - AL" />
-            </materialDesign:Badged>
-            <Button
+                </materialDesign:Badged>
+                <Button
                 Width="20"
                 Padding="0"
                 Command="{Binding AddBDTinhCommand}"
@@ -47,24 +51,24 @@
                 Content="{materialDesign:PackIcon Kind=Add}"
                 Style="{StaticResource MaterialDesignPaperSecondaryDarkButton}"
                 ToolTip="Icon" />
-            <materialDesign:Badged
+                <materialDesign:Badged
                 Margin="0,5,10,5"
                 Badge="{Binding NTamQuan}"
                 BadgeColorZoneMode="PrimaryDark">
-                <Button
+                    <Button
                     Width="85"
                     Padding="0"
                     Command="{Binding SelectedTinhCommand}"
                     CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.TamQuan}"
                     Content="Tam Quan"
                     IsEnabled="{Binding IsEnTamQuan}" />
-            </materialDesign:Badged>
-        </StackPanel>
-        <StackPanel
+                </materialDesign:Badged>
+            </StackPanel>
+            <StackPanel
             Margin="5,0"
             HorizontalAlignment="Center"
             Orientation="Horizontal">
-            <Button
+                <Button
                 Width="20"
                 Padding="0"
                 Command="{Binding AddBDTinhCommand}"
@@ -72,19 +76,19 @@
                 Content="{materialDesign:PackIcon Kind=Add}"
                 Style="{StaticResource MaterialDesignPaperSecondaryDarkButton}"
                 ToolTip="Icon" />
-            <materialDesign:Badged
+                <materialDesign:Badged
                 Margin="0,5,10,5"
                 Badge="{Binding NKienDaNang}"
                 BadgeColorZoneMode="PrimaryDark"
                 IsEnabled="{Binding IsEnKDN}">
-                <Button
+                    <Button
                     Width="85"
                     Command="{Binding SelectedTinhCommand}"
                     CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.KienDaNang}"
                     Content="Kiện ĐN" />
-            </materialDesign:Badged>
+                </materialDesign:Badged>
 
-            <Button
+                <Button
                 Width="20"
                 Padding="0"
                 Command="{Binding AddBDTinhCommand}"
@@ -92,21 +96,21 @@
                 Content="{materialDesign:PackIcon Kind=Add}"
                 Style="{StaticResource MaterialDesignPaperSecondaryDarkButton}"
                 ToolTip="Icon" />
-            <materialDesign:Badged
+                <materialDesign:Badged
                 Margin="0,5,10,5"
                 Badge="{Binding NEMSDaNang}"
                 BadgeColorZoneMode="PrimaryDark"
                 IsEnabled="{Binding IsEnEDN}">
-                <Button
+                    <Button
                     Width="85"
                     Command="{Binding SelectedTinhCommand}"
                     CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.EMSDaNang}"
                     Content="EMS ĐN" />
-            </materialDesign:Badged>
-        </StackPanel>
-        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                </materialDesign:Badged>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
 
-            <Button
+                <Button
                 Width="20"
                 Padding="0"
                 Command="{Binding AddBDTinhCommand}"
@@ -114,18 +118,18 @@
                 Content="{materialDesign:PackIcon Kind=Add}"
                 Style="{StaticResource MaterialDesignPaperSecondaryDarkButton}"
                 ToolTip="Icon" />
-            <materialDesign:Badged
+                <materialDesign:Badged
                 Margin="0,5,10,5"
                 Badge="{Binding NQuangNam}"
                 BadgeColorZoneMode="PrimaryDark"
                 IsEnabled="{Binding IsEnQNam}">
-                <Button
+                    <Button
                     Width="85"
                     Command="{Binding SelectedTinhCommand}"
                     CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.QuangNam}"
                     Content="Q.Nam" />
-            </materialDesign:Badged>
-            <Button
+                </materialDesign:Badged>
+                <Button
                 Width="20"
                 Padding="0"
                 Command="{Binding AddBDTinhCommand}"
@@ -133,22 +137,21 @@
                 Content="{materialDesign:PackIcon Kind=Add}"
                 Style="{StaticResource MaterialDesignPaperSecondaryDarkButton}"
                 ToolTip="Icon" />
-            <materialDesign:Badged
+                <materialDesign:Badged
                 Margin="0,5,10,5"
                 Badge="{Binding NQuangNgai}"
                 BadgeColorZoneMode="PrimaryDark"
                 IsEnabled="{Binding IsEnQNgai}">
-                <Button
+                    <Button
                     Width="85"
                     Command="{Binding SelectedTinhCommand}"
                     CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.QuangNgai}"
                     Content="Q.Ngãi" />
-            </materialDesign:Badged>
+                </materialDesign:Badged>
+            </StackPanel>
 
-        </StackPanel>
-
-        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-            <Button
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                <Button
                 Width="20"
                 Padding="0"
                 Command="{Binding AddBDTinhCommand}"
@@ -156,18 +159,18 @@
                 Content="{materialDesign:PackIcon Kind=Add}"
                 Style="{StaticResource MaterialDesignPaperSecondaryDarkButton}"
                 ToolTip="Icon" />
-            <materialDesign:Badged
+                <materialDesign:Badged
                 Margin="0,5,10,5"
                 Badge="{Binding NKNTB}"
                 BadgeColorZoneMode="PrimaryDark"
                 IsEnabled="{Binding IsEnKNTB}">
-                <Button
+                    <Button
                     Width="85"
                     Command="{Binding SelectedTinhCommand}"
                     CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.DiNgoaiNamTrungBo}"
                     Content="Kiện NTB" />
-            </materialDesign:Badged>
-            <Button
+                </materialDesign:Badged>
+                <Button
                 Width="20"
                 Padding="0"
                 Command="{Binding AddBDTinhCommand}"
@@ -175,20 +178,20 @@
                 Content="{materialDesign:PackIcon Kind=Add}"
                 Style="{StaticResource MaterialDesignPaperSecondaryDarkButton}"
                 ToolTip="Icon" />
-            <materialDesign:Badged
+                <materialDesign:Badged
                 Margin="0,5,10,5"
                 Badge="{Binding NTNTB}"
                 BadgeColorZoneMode="PrimaryDark"
                 IsEnabled="{Binding IsEnTNTB}">
-                <Button
+                    <Button
                     Width="85"
                     Command="{Binding SelectedTinhCommand}"
                     CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.TuiNTB}"
                     Content="Túi NTB" />
-            </materialDesign:Badged>
-        </StackPanel>
-        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-            <Button
+                </materialDesign:Badged>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                <Button
                 Width="20"
                 Padding="0"
                 Command="{Binding AddBDTinhCommand}"
@@ -196,19 +199,18 @@
                 Content="{materialDesign:PackIcon Kind=Add}"
                 Style="{StaticResource MaterialDesignPaperSecondaryDarkButton}"
                 ToolTip="Icon" />
-            <materialDesign:Badged
+                <materialDesign:Badged
                 Margin="0,5,10,5"
                 Badge="{Binding NPhuMy}"
                 BadgeColorZoneMode="PrimaryDark"
                 IsEnabled="{Binding IsEnPM}">
-                <Button
+                    <Button
                     Width="85"
                     Command="{Binding SelectedTinhCommand}"
                     CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.PhuMy}"
                     Content="Phù Mỹ" />
-
-            </materialDesign:Badged>
-            <Button
+                </materialDesign:Badged>
+                <Button
                 Width="20"
                 Padding="0"
                 Command="{Binding AddBDTinhCommand}"
@@ -216,21 +218,21 @@
                 Content="{materialDesign:PackIcon Kind=Add}"
                 Style="{StaticResource MaterialDesignPaperSecondaryDarkButton}"
                 ToolTip="Icon" />
-            <materialDesign:Badged
+                <materialDesign:Badged
                 Margin="0,5,10,5"
                 Badge="{Binding NPhuCat}"
                 BadgeColorZoneMode="PrimaryDark"
                 IsEnabled="{Binding IsEnPC}">
-                <Button
+                    <Button
                     Width="85"
                     Command="{Binding SelectedTinhCommand}"
                     CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.PhuCat}"
                     Content="Phù Cát" />
-            </materialDesign:Badged>
-        </StackPanel>
+                </materialDesign:Badged>
+            </StackPanel>
 
-        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-            <Button
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                <Button
                 Width="20"
                 Padding="0"
                 Command="{Binding AddBDTinhCommand}"
@@ -238,20 +240,20 @@
                 Content="{materialDesign:PackIcon Kind=Add}"
                 Style="{StaticResource MaterialDesignPaperSecondaryDarkButton}"
                 ToolTip="Icon" />
-            <materialDesign:Badged
+                <materialDesign:Badged
                 Margin="0,5,10,5"
                 HorizontalAlignment="Center"
                 Badge="{Binding NAnNhon}"
                 BadgeColorZoneMode="PrimaryDark"
                 IsEnabled="{Binding IsEnAN}">
-                <Button
+                    <Button
                     Command="{Binding SelectedTinhCommand}"
                     CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.AnNhon}"
                     Content="An Nhơn" />
-            </materialDesign:Badged>
-        </StackPanel>
-        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-            <Button
+                </materialDesign:Badged>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                <Button
                 Width="20"
                 Padding="0"
                 Command="{Binding AddBDTinhCommand}"
@@ -259,48 +261,340 @@
                 Content="{materialDesign:PackIcon Kind=Add}"
                 Style="{StaticResource MaterialDesignPaperSecondaryDarkButton}"
                 ToolTip="Icon" />
-            <materialDesign:Badged
+                <materialDesign:Badged
                 Margin="0,5,10,5"
                 Badge="{Binding NKT1}"
                 BadgeColorZoneMode="PrimaryDark"
                 IsEnabled="{Binding IsEnKT1}">
-                <Button
+                    <Button
                     Width="85"
                     Command="{Binding SelectedTinhCommand}"
                     CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.KT1}"
                     Content="KT1" />
-            </materialDesign:Badged>
-            <materialDesign:Badged
+                </materialDesign:Badged>
+                <materialDesign:Badged
                 Margin="10,5"
                 Badge="{Binding NConLai}"
                 BadgeColorZoneMode="PrimaryDark"
                 IsEnabled="{Binding IsEnConLai}">
-                <Button
+                    <Button
                     Width="85"
                     Command="{Binding SelectedTinhCommand}"
                     CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.None}"
                     Content="Còn Lại" />
-            </materialDesign:Badged>
-        </StackPanel>
-        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-            <Button
+                </materialDesign:Badged>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                <Button
                 Width="100"
-                Margin="0,20,10,5"
+                Margin="0,10,10,5"
                 Background="#FFFFBA89"
                 Command="{Binding BD10DiCommand, Source={StaticResource ChinhVM}}"
                 Content="BĐ 10 Đi" />
-            <Button
+                <Button
                 Width="100"
-                Margin="0,20,10,5"
+                Margin="0,10,10,5"
                 Background="#FFFFBA89"
                 Command="{Binding BD10DenCommand, Source={StaticResource ChinhVM}}"
                 Content="BĐ 10 Đến" />
-        </StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <Button Content="Auto" Margin="20,0" Command="{Binding AutoGetBD10Command}"/>
-            <Button
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Button Content="Auto" Margin="20,0" Command="{Binding AutoGetBD10Command}" />
+                <Button
                 Command="{Binding XeXaHoiCommand}"
                 Content="Xe Xã Hội" />
+                <ToggleButton
+                    Width="40"
+                    Height="40"
+                    Margin="5"
+                    materialDesign:ToggleButtonAssist.OnContent="{materialDesign:PackIcon Kind=ArrowCollapse,
+                                                                                          Size=25}"
+                    Content="{materialDesign:PackIcon Kind=ArrowExpand,
+                                                      Size=25}"
+                    IsChecked="{Binding IsExpandTaoBD}"
+                    Style="{StaticResource MaterialDesignActionToggleButton}" />
+            </StackPanel>
         </StackPanel>
-    </StackPanel>
+        <StackPanel Grid.Column="1" Orientation="Vertical">
+            <StackPanel Orientation="Horizontal">
+                <materialDesign:Card
+                Margin="5"
+  Foreground="{DynamicResource PrimaryHueLightForegroundBrush}"
+  Padding="8">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                    VerticalAlignment="Center"
+                        FontSize="16"
+                        Text="Hoài Ân" Width="120" />
+                        <ComboBox
+    Style="{StaticResource MaterialDesignFilledComboBox}"
+    IsEnabled="{Binding Path=IsChecked, ElementName=FilledComboBoxEnabledCheckBox}"
+    materialDesign:HintAssist.Hint="Some item"
+                            ItemsSource="{Binding HAALs}"
+                            SelectedIndex="{Binding ISelectedBDHAAL}"
+    Width="256" />
+                    </StackPanel>
+                </materialDesign:Card>
+                <materialDesign:Card
+                Margin="5"
+  Foreground="{DynamicResource PrimaryHueLightForegroundBrush}"
+  Padding="8">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                    VerticalAlignment="Center"
+                        FontSize="16"
+                        Text="Tam Quan" Width="120" />
+                        <ComboBox
+    Style="{StaticResource MaterialDesignFilledComboBox}"
+    IsEnabled="{Binding Path=IsChecked, ElementName=FilledComboBoxEnabledCheckBox}"
+    materialDesign:HintAssist.Hint="Some item"
+    ItemsSource="{Binding BDTamQuans}"
+                            SelectedIndex="{Binding ISelectedBDTamQuan}"
+    Width="256" />
+                    </StackPanel>
+                </materialDesign:Card>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <materialDesign:Card
+                Margin="5"
+  Foreground="{DynamicResource PrimaryHueLightForegroundBrush}"
+  Padding="8">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                    VerticalAlignment="Center"
+                        FontSize="16"
+                        Text="Kiện Đà Nẵng" Width="120" />
+                        <ComboBox
+    Style="{StaticResource MaterialDesignFilledComboBox}"
+    IsEnabled="{Binding Path=IsChecked, ElementName=FilledComboBoxEnabledCheckBox}"
+    materialDesign:HintAssist.Hint="Some item"
+    Width="256">
+                            <ComboBoxItem
+      Content="Item 1" />
+                            <ComboBoxItem
+      Content="Item 2" />
+                            <ComboBoxItem
+      Content="Item 3" />
+                        </ComboBox>
+                    </StackPanel>
+                </materialDesign:Card>
+                <materialDesign:Card
+                Margin="5"
+  Foreground="{DynamicResource PrimaryHueLightForegroundBrush}"
+  Padding="8">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                    VerticalAlignment="Center"
+                        FontSize="16"
+                        Text="EMS Đà Nẵng" Width="120" />
+                        <ComboBox
+    Style="{StaticResource MaterialDesignFilledComboBox}"
+    IsEnabled="{Binding Path=IsChecked, ElementName=FilledComboBoxEnabledCheckBox}"
+    materialDesign:HintAssist.Hint="Some item"
+    Width="256">
+                            <ComboBoxItem
+      Content="Item 1" />
+                            <ComboBoxItem
+      Content="Item 2" />
+                            <ComboBoxItem
+      Content="Item 3" />
+                        </ComboBox>
+                    </StackPanel>
+                </materialDesign:Card>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <materialDesign:Card
+                Margin="5"
+  Foreground="{DynamicResource PrimaryHueLightForegroundBrush}"
+  Padding="8">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                    VerticalAlignment="Center"
+                        FontSize="16"
+                        Text="Quảng Nam" Width="120" />
+                        <ComboBox
+    Style="{StaticResource MaterialDesignFilledComboBox}"
+    IsEnabled="{Binding Path=IsChecked, ElementName=FilledComboBoxEnabledCheckBox}"
+    materialDesign:HintAssist.Hint="Some item"
+    Width="256">
+                            <ComboBoxItem
+      Content="Item 1" />
+                            <ComboBoxItem
+      Content="Item 2" />
+                            <ComboBoxItem
+      Content="Item 3" />
+                        </ComboBox>
+                    </StackPanel>
+                </materialDesign:Card>
+                <materialDesign:Card
+                Margin="5"
+  Foreground="{DynamicResource PrimaryHueLightForegroundBrush}"
+  Padding="8">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                    VerticalAlignment="Center"
+                        FontSize="16"
+                        Text="Quảng Ngãi" Width="120" />
+                        <ComboBox
+    Style="{StaticResource MaterialDesignFilledComboBox}"
+    IsEnabled="{Binding Path=IsChecked, ElementName=FilledComboBoxEnabledCheckBox}"
+    materialDesign:HintAssist.Hint="Some item"
+    Width="256">
+                            <ComboBoxItem
+      Content="Item 1" />
+                            <ComboBoxItem
+      Content="Item 2" />
+                            <ComboBoxItem
+      Content="Item 3" />
+                        </ComboBox>
+                    </StackPanel>
+                </materialDesign:Card>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <materialDesign:Card
+                Margin="5"
+  Foreground="{DynamicResource PrimaryHueLightForegroundBrush}"
+  Padding="8">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                    VerticalAlignment="Center"
+                        FontSize="16"
+                        Text="Kiện NTB" Width="120" />
+                        <ComboBox
+    Style="{StaticResource MaterialDesignFilledComboBox}"
+    IsEnabled="{Binding Path=IsChecked, ElementName=FilledComboBoxEnabledCheckBox}"
+    materialDesign:HintAssist.Hint="Some item"
+    Width="256">
+                            <ComboBoxItem
+      Content="Item 1" />
+                            <ComboBoxItem
+      Content="Item 2" />
+                            <ComboBoxItem
+      Content="Item 3" />
+                        </ComboBox>
+                    </StackPanel>
+                </materialDesign:Card>
+                <materialDesign:Card
+                Margin="5"
+  Foreground="{DynamicResource PrimaryHueLightForegroundBrush}"
+  Padding="8">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                    VerticalAlignment="Center"
+                        FontSize="16"
+                        Text="Túi NTB" Width="120" />
+                        <ComboBox
+    Style="{StaticResource MaterialDesignFilledComboBox}"
+    IsEnabled="{Binding Path=IsChecked, ElementName=FilledComboBoxEnabledCheckBox}"
+    materialDesign:HintAssist.Hint="Some item"
+    Width="256">
+                            <ComboBoxItem
+      Content="Item 1" />
+                            <ComboBoxItem
+      Content="Item 2" />
+                            <ComboBoxItem
+      Content="Item 3" />
+                        </ComboBox>
+                    </StackPanel>
+                </materialDesign:Card>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <materialDesign:Card
+                Margin="5"
+  Foreground="{DynamicResource PrimaryHueLightForegroundBrush}"
+  Padding="8">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                    VerticalAlignment="Center"
+                        FontSize="16"
+                        Text="Phù Mỹ" Width="120" />
+                        <ComboBox
+    Style="{StaticResource MaterialDesignFilledComboBox}"
+    IsEnabled="{Binding Path=IsChecked, ElementName=FilledComboBoxEnabledCheckBox}"
+    materialDesign:HintAssist.Hint="Some item"
+    Width="256">
+                            <ComboBoxItem
+      Content="Item 1" />
+                            <ComboBoxItem
+      Content="Item 2" />
+                            <ComboBoxItem
+      Content="Item 3" />
+                        </ComboBox>
+                    </StackPanel>
+                </materialDesign:Card>
+                <materialDesign:Card
+                Margin="5"
+  Foreground="{DynamicResource PrimaryHueLightForegroundBrush}"
+  Padding="8">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                    VerticalAlignment="Center"
+                        FontSize="16"
+                        Text="Phù Cát" Width="120" />
+                        <ComboBox
+    Style="{StaticResource MaterialDesignFilledComboBox}"
+    IsEnabled="{Binding Path=IsChecked, ElementName=FilledComboBoxEnabledCheckBox}"
+    materialDesign:HintAssist.Hint="Some item"
+    Width="256">
+                            <ComboBoxItem
+      Content="Item 1" />
+                            <ComboBoxItem
+      Content="Item 2" />
+                            <ComboBoxItem
+      Content="Item 3" />
+                        </ComboBox>
+                    </StackPanel>
+                </materialDesign:Card>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <materialDesign:Card
+                Margin="5"
+  Foreground="{DynamicResource PrimaryHueLightForegroundBrush}"
+  Padding="8">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                    VerticalAlignment="Center"
+                        FontSize="16"
+                        Text="An Nhơn" Width="120" />
+                        <ComboBox
+    Style="{StaticResource MaterialDesignFilledComboBox}"
+    IsEnabled="{Binding Path=IsChecked, ElementName=FilledComboBoxEnabledCheckBox}"
+    materialDesign:HintAssist.Hint="Some item"
+    Width="256">
+                            <ComboBoxItem
+      Content="Item 1" />
+                            <ComboBoxItem
+      Content="Item 2" />
+                            <ComboBoxItem
+      Content="Item 3" />
+                        </ComboBox>
+                    </StackPanel>
+                </materialDesign:Card>
+                <materialDesign:Card
+                Margin="5"
+  Foreground="{DynamicResource PrimaryHueLightForegroundBrush}"
+  Padding="8">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                    VerticalAlignment="Center"
+                        FontSize="16"
+                        Text="KT 1" Width="120" />
+                        <ComboBox
+    Style="{StaticResource MaterialDesignFilledComboBox}"
+    IsEnabled="{Binding Path=IsChecked, ElementName=FilledComboBoxEnabledCheckBox}"
+    materialDesign:HintAssist.Hint="Some item"
+    Width="256">
+                            <ComboBoxItem
+      Content="Item 1" />
+                            <ComboBoxItem
+      Content="Item 2" />
+                            <ComboBoxItem
+      Content="Item 3" />
+                        </ComboBox>
+                    </StackPanel>
+                </materialDesign:Card>
+            </StackPanel>
+            <Button Content="Run Auto" Command="{Binding RunAutoCommand}"></Button>
+        </StackPanel>
+    </Grid>
 </UserControl>

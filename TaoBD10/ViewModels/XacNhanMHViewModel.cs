@@ -5,15 +5,11 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
-using System.Windows.Threading;
 using TaoBD10.Manager;
 using TaoBD10.Model;
-using static TaoBD10.Manager.EnumAll;
 
 namespace TaoBD10.ViewModels
 {
@@ -41,10 +37,10 @@ namespace TaoBD10.ViewModels
                     IsWaitingComplete = false;
                     GoToCTCommand.Execute(null);
                 });
-
             }
         });
         }
+
         private bool _IsWaitingComplete = false;
 
         public bool IsWaitingComplete
@@ -52,8 +48,6 @@ namespace TaoBD10.ViewModels
             get { return _IsWaitingComplete; }
             set { SetProperty(ref _IsWaitingComplete, value); }
         }
-
-
 
         private void BackgroundWorkerXacNhan_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -115,7 +109,6 @@ namespace TaoBD10.ViewModels
                 SendKeys.SendWait("{F4}");
                 WeakReferenceMessenger.Default.Send(new ContentModel { Key = "XacNhanChiTiet", Content = "True" });
             }
-
         }
 
         private void ChuyenThuDen()
@@ -155,11 +148,11 @@ namespace TaoBD10.ViewModels
             SendKeys.SendWait("{F8}");
         }
 
-        void GoToCT()
+        private void GoToCT()
         {
-            //quy trinh thuc hien 
+            //quy trinh thuc hien
             //kiem tra thu buu cuc nhan co 280 hay 230 ko
-            // neu co thi chay vao 1 trong n2 cai do 
+            // neu co thi chay vao 1 trong n2 cai do
             //sau do vao chuyen thu
             //sau do chay vao do dua vao thong tin cua no va dien len
             if (XacNhanMH.BuuCucNhan.IndexOf("593280") != -1)
@@ -198,13 +191,10 @@ namespace TaoBD10.ViewModels
 
                 backgroundWorkerXacNhan.RunWorkerAsync();
             }
-
-
         }
 
         private void OnEnterKey()
         {
-
             if (MaHieu.IndexOf('\n') != -1)
             {
                 MaHieu = MaHieu.Trim();
@@ -222,22 +212,18 @@ namespace TaoBD10.ViewModels
 
         public ICommand CopyMHCommand { get; }
 
-
-        void CopyMH()
+        private void CopyMH()
         {
             if (!string.IsNullOrEmpty(MaHieu))
             {
                 Clipboard.SetText(MaHieu);
                 APIManager.ShowSnackbar("Đã copy");
             }
-
         }
 
-
-        void Test()
+        private void Test()
         {
             //backgroundWorker.RunWorkerAsync();
-
         }
 
         private void Woker_DoWork(object sender, DoWorkEventArgs e)
@@ -273,6 +259,7 @@ namespace TaoBD10.ViewModels
         }
 
         public ICommand GoToCTCommand { get; }
+
         public string MaHieu
         {
             get { return _MaHieu; }
@@ -280,6 +267,7 @@ namespace TaoBD10.ViewModels
         }
 
         public ICommand TestCommand { get; }
+
         public string TestText
         {
             get { return _TestText; }
@@ -292,15 +280,15 @@ namespace TaoBD10.ViewModels
             set { SetProperty(ref _XacNhanMH, value); }
         }
 
-        readonly string[] date = new string[3];
+        private readonly string[] date = new string[3];
         private string _MaHieu;
         private string _TestText;
         private KiemTraModel _XacNhanMH;
-        readonly BackgroundWorker backgroundWorker;
-        readonly BackgroundWorker backgroundWorkerXacNhan;
-        string buuCucDong = "";
-        bool Is280 = false;
-        bool isR = false;
-        string soCT = "0";
+        private readonly BackgroundWorker backgroundWorker;
+        private readonly BackgroundWorker backgroundWorkerXacNhan;
+        private string buuCucDong = "";
+        private bool Is280 = false;
+        private bool isR = false;
+        private string soCT = "0";
     }
 }

@@ -24,7 +24,7 @@
 
         public enum StateBD10Di
         {
-            None,DaDi,KhoiTao
+            None, DaDi, KhoiTao
         }
 
         public enum DownLoadRoad

@@ -32,7 +32,8 @@ namespace TaoBD10.ViewModels
             get { return _IsStopInChiTiet; }
             set { SetProperty(ref _IsStopInChiTiet, value); }
         }
-        BackgroundWorker bwGetData;
+
+        private BackgroundWorker bwGetData;
 
         public int AnimatedProgressInCard
         {
@@ -132,14 +133,11 @@ namespace TaoBD10.ViewModels
             {
                 string textClip = APIManager.GetCopyData();
 
-
                 if (string.IsNullOrEmpty(textClip))
                 {
                     NameBD = "Chạy Lại";
                     return;
                 }
-
-
 
                 if (textClip.IndexOf("STT") != -1)
                 {
@@ -188,7 +186,7 @@ namespace TaoBD10.ViewModels
             //thuc hien vao xac nhan chi tiet trong nay
             SendKeys.SendWait("{F4}");
             WindowInfo window = APIManager.WaitingFindedWindow("xac nhan tui thu den");
-            if(window == null)
+            if (window == null)
             {
                 APIManager.ShowSnackbar("Không tìm thấy window xác nhận");
             }
@@ -219,7 +217,6 @@ namespace TaoBD10.ViewModels
                 SendKeys.SendWait("{ESC}");
             SoundManager.playSound2(@"Number\tingting.wav");
             WeakReferenceMessenger.Default.Send<string>("LoadBD10");
-
         }
 
         public bool[] BuoiArray
@@ -445,8 +442,6 @@ namespace TaoBD10.ViewModels
                         timer.Stop();
                         return;
                     }
-
-
 
                     if (textClip.IndexOf("STT") != -1)
                     {

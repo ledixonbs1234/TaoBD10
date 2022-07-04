@@ -16,7 +16,6 @@ namespace TaoBD10.Model
             set { SetProperty(ref _Key, value); }
         }
 
-
         public string MaHieu
         {
             get { return _MaHieu; }

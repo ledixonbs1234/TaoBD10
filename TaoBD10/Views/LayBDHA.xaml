@@ -20,7 +20,7 @@
             Margin="5"
             Command="{Binding HoaiAnCommand}"
             Content="Hoài Ân" />
-        
+
         <Button
             Margin="5"
             Command="{Binding AnMyCommand}"
@@ -43,7 +43,7 @@
   Margin="4">
             <RadioButton
                 Style="{StaticResource MaterialDesignRadioButton}"
-    
+
     Margin="4"
     IsChecked="{Binding Path=LanLapArray[0], Mode=TwoWay}"
     Content="1" />
@@ -69,5 +69,4 @@
     Content="5" />
         </StackPanel>
     </StackPanel>
-
 </UserControl>

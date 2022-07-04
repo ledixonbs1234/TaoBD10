@@ -45,7 +45,5 @@
             Margin="5"
             Command="{Binding ListControlCommand}"
             Content="ListControl" />
-
-
     </StackPanel>
 </UserControl>

@@ -12,6 +12,7 @@ namespace TaoBD10.Model
             get { return _Index; }
             set { SetProperty(ref _Index, value); }
         }
+
         private string _Text;
 
         public string Text
@@ -28,7 +29,6 @@ namespace TaoBD10.Model
             set { SetProperty(ref _ClassName, value); }
         }
 
-
         private IntPtr _Handle;
 
         public IntPtr Handle
@@ -36,7 +36,6 @@ namespace TaoBD10.Model
             get { return _Handle; }
             set { SetProperty(ref _Handle, value); }
         }
-
 
         public TestAPIModel()
         {

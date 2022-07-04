@@ -12,7 +12,6 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Windows.Input;
 using TaoBD10.Manager;
 using TaoBD10.Model;
@@ -20,11 +19,11 @@ using static TaoBD10.Manager.EnumAll;
 
 namespace TaoBD10.ViewModels
 {
-
     public class WebViewModel : ObservableObject
     {
-        string PNSName = "";
-        string currentMaHieu = "";
+        private string PNSName = "";
+        private string currentMaHieu = "";
+
         public WebViewModel()
         {
             LoadPageCommand = new RelayCommand<ChromiumWebBrowser>(LoadPage);
@@ -119,8 +118,7 @@ namespace TaoBD10.ViewModels
 
         public ICommand DefaultCommand { get; }
 
-
-        void Default()
+        private void Default()
         {
             WebBrowser.LoadUrl(defaultWeb);
         }
@@ -131,14 +129,11 @@ namespace TaoBD10.ViewModels
             set
             {
                 SetProperty(ref _AddressWeb, value);
-
             }
         }
 
-
         public class MyDownloadHandler : IDownloadHandler
         {
-
             public bool CanDownload(IWebBrowser chromiumWebBrowser, IBrowser browser, string url, string requestMethod)
             {
                 return true;
@@ -165,18 +160,20 @@ namespace TaoBD10.ViewModels
                         {
                             case DownLoadRoad.None:
                                 break;
+
                             case DownLoadRoad.XacNhanTui:
                                 GetListAddress(downloadItem.FullPath);
                                 break;
+
                             case DownLoadRoad.GetName:
                                 GetNames(downloadItem.FullPath);
                                 break;
+
                             default:
                                 break;
                         }
                     }
                 }
-
             }
 
             private void GetNames(string fullPath)
@@ -213,12 +210,9 @@ namespace TaoBD10.ViewModels
                         Marshal.ReleaseComObject(xlApp);
                         WeakReferenceMessenger.Default.Send(new PNSNameMessage(chiTietTui));
                     }
-
-
                 }
                 catch (Exception ex)
                 {
-
                     // Get stack trace for the exception with source file information
                     var st = new StackTrace(ex, true);
                     // Get the top stack frame
@@ -230,7 +224,7 @@ namespace TaoBD10.ViewModels
                 }
             }
 
-            void GetListAddress(string fullPath)
+            private void GetListAddress(string fullPath)
             {
                 try
                 {
@@ -256,14 +250,10 @@ namespace TaoBD10.ViewModels
                                 WeakReferenceMessenger.Default.Send(new ChiTietTuiMessage(chiTietTui));
                             }
                         }
-
                     }
-
-
                 }
                 catch (Exception ex)
                 {
-
                     // Get stack trace for the exception with source file information
                     var st = new StackTrace(ex, true);
                     // Get the top stack frame
@@ -273,12 +263,12 @@ namespace TaoBD10.ViewModels
                     APIManager.OpenNotePad(ex.Message + '\n' + "loi Line WebViewModel " + line + " Number Line " + APIManager.GetLineNumber(ex), "loi ");
                     throw;
                 }
-
             }
         }
 
         //thuc hien lay du lieu tu danh sach da co
         public ICommand LoginCommand { get; }
+
         public ChromiumWebBrowser WebBrowser
         {
             get { return _WebBrowser; }
@@ -306,7 +296,7 @@ namespace TaoBD10.ViewModels
             WebBrowser.ExecuteScriptAsync(script);
         }
 
-        readonly string scriptLogin = @"
+        private readonly string scriptLogin = @"
 Element.prototype.remove = function() {
     this.parentElement.removeChild(this);
 }
@@ -327,8 +317,8 @@ document.getElementsByClassName("".footer"").remove();
                     textbox.scrollIntoView();
                     ";
 
-        bool isFirstLoginSuccess = false;
-        bool isFix = false;
+        private bool isFirstLoginSuccess = false;
+        private bool isFix = false;
 
         private async void WebBrowser_LoadingStateChanged(object sender, LoadingStateChangedEventArgs e)
         {
@@ -356,7 +346,6 @@ document.getElementsByClassName("".footer"").remove();
                             //{
                             //    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Navigation", Content = "Web" });
                             //});
-
                         }
                     }
                     else if (diachi.IndexOf("mps.vnpost.vn/login") != -1)
@@ -437,7 +426,6 @@ document.querySelector('#menu-3 > li:nth-child(10) > a').click();";
                     {
                         if (!string.IsNullOrEmpty(PNSName))
                         {
-
                             string script = @"
                                 document.getElementById('LadingCode').value='" + PNSName + @"';
                                 document.getElementById('search_key').click();
@@ -448,9 +436,7 @@ document.querySelector('#menu-3 > li:nth-child(10) > a').click();";
                             script = @"
 setTimeout(function (){  document.getElementById('export_excel').click();}, 1000); ";
                             WebBrowser.ExecuteScriptAsync(script);
-
                         }
-
                     }
                     else if (diachi == "https://pns.vnpost.vn/")
                     {
@@ -521,7 +507,6 @@ document.querySelector('#menu-3 > li:nth-child(10) > a').click();";
                             webContent.BuuCucGui = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblFrPOS']").InnerText;
                             webContent.NguoiGui = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblSenderName']").InnerText;
 
-
                             if (_LoadWebChoose == LoadWebChoose.DiNgoaiAddress)
                                 webContent.Key = "DiNgoaiAddress";
                             else if (_LoadWebChoose == LoadWebChoose.DiNgoaiAddress)
@@ -530,8 +515,6 @@ document.querySelector('#menu-3 > li:nth-child(10) > a').click();";
                                 webContent.Key = "AddressTamQuan";
                             else if (_LoadWebChoose == LoadWebChoose.AddressChuaPhat)
                             {
-
-
                                 HtmlNodeCollection tables = document.DocumentNode.SelectNodes("//table[@id='MainContent_ctl00_grvItemMailTrip']/tbody");
 
                                 if (tables == null)
@@ -601,7 +584,6 @@ document.querySelector('#menu-3 > li:nth-child(10) > a').click();";
                             {
                                 APIManager.ShowSnackbar("Error");
                                 return;
-
                             }
                             kiemTra.Address = addresss.First().InnerText;
 
@@ -642,15 +624,11 @@ document.querySelector('#menu-3 > li:nth-child(10) > a').click();";
                      document.getElementById('MainContent_ctl00_btnExportV2').click();
 ";
                         WebBrowser.ExecuteScriptAsync(script);
-
-
-
                     }
                 }
             }
             catch (System.Exception ex)
             {
-
                 // Get stack trace for the exception with source file information
                 var st = new StackTrace(ex, true);
                 // Get the top stack frame
@@ -660,7 +638,6 @@ document.querySelector('#menu-3 > li:nth-child(10) > a').click();";
                 APIManager.OpenNotePad(ex.Message + '\n' + "loi Line WebViewModel " + line + " Number Line " + APIManager.GetLineNumber(ex), "loi ");
                 throw;
             }
-
         }
 
         private void CheckPageMPS(HtmlDocument document)
@@ -685,17 +662,11 @@ document.querySelector('#menu-3 > li:nth-child(10) > a').click();";
                         WebBrowser.ExecuteScriptAsync(script);
                         break;
                     }
-
-
-
-
-
                 }
             }
-
         }
 
-        readonly string defaultWeb = "https://bccp.vnpost.vn/BCCP.aspx?act=Trace";
+        private readonly string defaultWeb = "https://bccp.vnpost.vn/BCCP.aspx?act=Trace";
 
         public IRelayCommand<ChromiumWebBrowser> LoadPageCommand;
         private string _AddressWeb = "https://bccp.vnpost.vn/BCCP.aspx?act=Trace";

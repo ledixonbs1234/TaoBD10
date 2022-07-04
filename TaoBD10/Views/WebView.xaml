@@ -39,6 +39,5 @@
                 Command="{Binding DefaultCommand}"
                 Content="Mặc định" />
         </StackPanel>
-
     </Grid>
 </UserControl>

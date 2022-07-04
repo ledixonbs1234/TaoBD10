@@ -1,7 +1,6 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -45,9 +44,7 @@ namespace TaoBD10.ViewModels
 
         public ICommand GetAddressCommand { get; }
 
-
-
-        void GetAddress()
+        private void GetAddress()
         {
             string listMaHieu = "";
             string addressDefault = "https://bccp.vnpost.vn/BCCP.aspx?act=MultiTrace&id=";
@@ -62,7 +59,6 @@ namespace TaoBD10.ViewModels
             WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "ListAddress", Content = addressDefault });
         }
 
-
         private string _TextSHTui = "";
 
         public string TextSHTui
@@ -76,11 +72,8 @@ namespace TaoBD10.ViewModels
             }
         }
 
-
-
         private void OnEnterKey()
         {
-
             if (TextSHTui.IndexOf('\n') != -1)
             {
                 if (XacNhanTuis.Count != 0)
@@ -97,13 +90,11 @@ namespace TaoBD10.ViewModels
                 }
                 TextSHTui = "";
             }
-
         }
 
         public ICommand LayTuiCommand { get; }
 
-
-        void LayTui()
+        private void LayTui()
         {
             MoTui();
 
@@ -114,7 +105,6 @@ namespace TaoBD10.ViewModels
 
             //Thuc hien kiem tra thu Cai nay co phai xac nhan tui chi tiet khong
         }
-
 
         public ICommand MoTuiCommand { get; }
 
@@ -139,7 +129,6 @@ namespace TaoBD10.ViewModels
                 Thread.Sleep(50);
                 SendKeys.SendWait("^(a)");
             }
-
         }
 
         private void OnSelectedTui()
@@ -304,7 +293,6 @@ namespace TaoBD10.ViewModels
 
             bool isAddedSHTuiHaved = false;
 
-
             if (XacNhanTuis.Count != 0)
             {
                 foreach (XacNhanTuiModel sHTuiTemp in XacNhanTuis)
@@ -321,7 +309,6 @@ namespace TaoBD10.ViewModels
                         {
                             APIManager.ShowSnackbar("Đã có túi này rồi");
                             return;
-
                         }
                     }
                 }
@@ -345,7 +332,7 @@ namespace TaoBD10.ViewModels
             set { SetProperty(ref _TongCong, value); }
         }
 
-        readonly string[] tamquansAddress = { "tam quan", "hoai thanh", "hoai hao", "hoai phu", "hoai son", "hoai chau" };
+        private readonly string[] tamquansAddress = { "tam quan", "hoai thanh", "hoai hao", "hoai phu", "hoai son", "hoai chau" };
 
         private void OnCheckEnter()
         {
@@ -376,7 +363,6 @@ namespace TaoBD10.ViewModels
                                     SoundManager.playSound2(@"Number\tamquan.wav");
                                 }
                             }
-                            
 
                             have.IsChecked = true;
 
@@ -436,7 +422,6 @@ namespace TaoBD10.ViewModels
                     {
                         foreach (XacNhanTuiModel item in XacNhanTuis)
                         {
-
                             MaHieuTuiModel have = item.MaHieuTuis.FirstOrDefault(s => s.MaHieu.ToUpper() == chiTietTui.MaHieu.ToUpper());
                             if (have != null)
                             {
@@ -449,7 +434,5 @@ namespace TaoBD10.ViewModels
             }
             );
         }
-
-
     }
 }

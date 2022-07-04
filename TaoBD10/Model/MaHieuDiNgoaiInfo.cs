@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TaoBD10.Model
+﻿namespace TaoBD10.Model
 {
     public class MaHieuDiNgoaiInfo
     {
@@ -13,6 +7,7 @@ namespace TaoBD10.Model
         public string TinhGocGui { get; set; }
         public string BuuCucNhanTemp { get; set; }
         public float KhoiLuong { get; set; }
+
         public MaHieuDiNgoaiInfo(string code, string buuCucGui, string tinhGocGui, string buuCucNhanTemp)
         {
             Code = code;
@@ -20,6 +15,7 @@ namespace TaoBD10.Model
             TinhGocGui = tinhGocGui;
             BuuCucNhanTemp = buuCucNhanTemp;
         }
+
         public MaHieuDiNgoaiInfo(string code)
         {
             Code = code;

@@ -7,7 +7,6 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Media;
 using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -20,7 +19,8 @@ namespace TaoBD10.ViewModels
 {
     public class DiNgoaiViewModel : ObservableObject
     {
-        readonly BackgroundWorker bwPrintDiNgoai;
+        private readonly BackgroundWorker bwPrintDiNgoai;
+
         public DiNgoaiViewModel()
         {
             DiNgoais = new ObservableCollection<DiNgoaiItemModel>();
@@ -51,9 +51,7 @@ namespace TaoBD10.ViewModels
             SortCommand = new RelayCommand(Sort);
             SetTinhCommand = new RelayCommand(SetTinhs);
 
-
             StopDiNgoaiCommand = new RelayCommand(StopDiNgoai);
-
 
             AddAddressCommand = new RelayCommand(AddAddress);
             WeakReferenceMessenger.Default.Register<WebContentModel>(this, (r, m) =>
@@ -85,24 +83,22 @@ namespace TaoBD10.ViewModels
                 if (m.Key == "RunPrintDiNgoai")
                 {
                     bwPrintDiNgoai.RunWorkerAsync();
-
                 }
             });
 
             FileManager.GetCode();
         }
+
         public ICommand StopDiNgoaiCommand { get; }
 
-
-        void StopDiNgoai()
+        private void StopDiNgoai()
         {
             bwPrintDiNgoai.CancelAsync();
         }
 
         public ICommand SetMaTinhGuiCommand { get; }
 
-
-        void SetMaTinhGui()
+        private void SetMaTinhGui()
         {
             if (SelectedDiNgoai == null)
                 return;
@@ -115,8 +111,7 @@ namespace TaoBD10.ViewModels
 
         public ICommand SortTinhCommand { get; }
 
-
-        void SortTinh()
+        private void SortTinh()
         {
             if (DiNgoais.Count == 0)
                 return;
@@ -137,16 +132,13 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        private bool _IsChooseLan =false;
+        private bool _IsChooseLan = false;
 
         public bool IsChooseLan
         {
             get { return _IsChooseLan; }
             set { SetProperty(ref _IsChooseLan, value); }
         }
-
-
-
 
         private void BwPrintDiNgoai_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -221,10 +213,8 @@ namespace TaoBD10.ViewModels
                         APIManager.ShowSnackbar("Không đúng tỉnh rồi");
                         return;
                     }
-
                 }
                 SendKeys.SendWait("{F5}");
-
 
                 SendKeys.SendWait("{DOWN}");
                 SendKeys.SendWait("{LEFT}");
@@ -361,7 +351,6 @@ namespace TaoBD10.ViewModels
                     return;
                 }
 
-
                 SendKeys.SendWait("{F10}");
                 Thread.Sleep(200);
                 SendKeys.SendWait("{F10}");
@@ -375,7 +364,6 @@ namespace TaoBD10.ViewModels
                     APIManager.ShowSnackbar("Không tìm thấy window khởi tạo chuyến thư");
                     return;
                 }
-
 
                 if (DiNgoais.Count == 0)
                 {
@@ -393,7 +381,6 @@ namespace TaoBD10.ViewModels
                 index++;
                 if (index > DiNgoais.Count - 1)
                 {
-
                     APIManager.ShowSnackbar("Đã tới vị trí cuối cùng");
                     //txtInfo.Text = "Đã tới vị trí cuối cùng";
                     return;
@@ -415,7 +402,6 @@ namespace TaoBD10.ViewModels
                 APIManager.OpenNotePad(ex.Message + '\n' + "loi Line DiNgoaiViewModel" + line + " Number Line " + APIManager.GetLineNumber(ex), "loi ");
                 throw;
             }
-
         }
 
         private void BwKhoiTao_DoWork(object sender, DoWorkEventArgs e)
@@ -473,10 +459,9 @@ namespace TaoBD10.ViewModels
                 throw;
                 throw;
             }
-
         }
 
-        readonly BackgroundWorker bwKhoiTao;
+        private readonly BackgroundWorker bwKhoiTao;
 
         public IRelayCommand<DiNgoaiItemModel> SelectionCommand { get; }
 
@@ -492,12 +477,10 @@ namespace TaoBD10.ViewModels
 
         public ICommand SelectionChiTietCommand { get; }
 
-
-        void SelectionChiTiet()
+        private void SelectionChiTiet()
         {
             OnSelectedDiNgoai();
         }
-
 
         public ICommand SortCommand { get; }
 
@@ -969,14 +952,11 @@ namespace TaoBD10.ViewModels
 
                                             timerPrint.Stop();
                                             isWaitingPrint = false;
-
                                         }
-
                                     }
                                 }
                             }
                         }
-
 
                         isWaitingPrint = true;
                         for (int i = 0; i < 20; i++)
@@ -1227,7 +1207,6 @@ namespace TaoBD10.ViewModels
             set { SetProperty(ref _IsAutoF1, value); }
         }
 
-
         private DiNgoaiItemModel _SelectedSimple;
 
         public DiNgoaiItemModel SelectedSimple
@@ -1328,9 +1307,10 @@ namespace TaoBD10.ViewModels
                 }
             }
         }
+
         public ICommand SetTinhCommand { get; }
 
-        string GetTinhFromBuuCuc(string buucuc)
+        private string GetTinhFromBuuCuc(string buucuc)
         {
             if (string.IsNullOrEmpty(buucuc))
             {
@@ -1346,9 +1326,11 @@ namespace TaoBD10.ViewModels
                 case "15":
                     maTinhFilled = "10";
                     break;
+
                 case "45":
                     maTinhFilled = "44";
                     break;
+
                 case "73":
                 case "75":
                 case "76":
@@ -1357,20 +1339,21 @@ namespace TaoBD10.ViewModels
                 case "72":
                     maTinhFilled = "70";
                     break;
+
                 default:
                     maTinhFilled = maTinh;
                     break;
             }
             return maTinhFilled;
         }
-        void SetTinhs()
+
+        private void SetTinhs()
         {
             foreach (var item in DiNgoais)
             {
                 item.MaTinh = GetTinhFromBuuCuc(item.BuuCucNhanTemp);
             }
         }
-
 
         private void AddRange()
         {

@@ -31,6 +31,7 @@ namespace TaoBD10.Model
 
         public string AddressSend { get; set; }
         public string BuuCucGui { get; set; }
+
         public string BuuCucNhanTemp
         {
             get { return _BuuCucNhanTemp; }
@@ -39,6 +40,7 @@ namespace TaoBD10.Model
 
         public string Code { get; set; }
         public int Index { get; set; }
+
         public string MaBuuCuc
         {
             get { return _MaBuuCuc; }
@@ -64,7 +66,7 @@ namespace TaoBD10.Model
         }
 
         public string TinhGocGui { get; set; }
-    
+
         private string _Address;
         private string _BuuCucNhanTemp;
         private string _MaBuuCuc;

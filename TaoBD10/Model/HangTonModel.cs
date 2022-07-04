@@ -28,7 +28,6 @@ namespace TaoBD10.Model
             set { SetProperty(ref _NameReceive, value); }
         }
 
-
         public string BuuCucLuuGiu
         {
             get { return _BuuCucLuuGiu; }
@@ -93,6 +92,7 @@ namespace TaoBD10.Model
             get { return _Index; }
             set { SetProperty(ref _Index, value); }
         }
+
         private string _BuuCucDong;
 
         public string BuuCucDong
@@ -100,6 +100,7 @@ namespace TaoBD10.Model
             get { return _BuuCucDong; }
             set { SetProperty(ref _BuuCucDong, value); }
         }
+
         private string _BuuCucNhan;
 
         public string BuuCucNhan
@@ -107,7 +108,6 @@ namespace TaoBD10.Model
             get { return _BuuCucNhan; }
             set { SetProperty(ref _BuuCucNhan, value); }
         }
-
 
         public HangTonModel()
         {

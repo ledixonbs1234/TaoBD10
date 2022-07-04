@@ -24,6 +24,21 @@ namespace TaoBD10.ViewModels
 
         public ICommand AutoGetBD10Command { get; }
 
+        BD10DiInfoModel ConvertBD10Di(string content)
+        {
+
+            if (string.IsNullOrEmpty(content))
+                return null;
+            string[] splitString = content.Split('\t');
+
+
+            //550910-VCKV - Đà Nẵng LT	08/06/2022	1	Ô tô	21	206,4	Đã đi
+            BD10DiInfoModel bD10DiInfoModel = new BD10DiInfoModel(splitString[0], splitString[1], int.Parse(splitString[2]), int.Parse(splitString[4]), splitString[6]);
+
+            return bD10DiInfoModel;
+        }
+        List<BD10DiInfoModel> bD10DiInfoModels;
+
 
         void AutoGetBD10()
         {
@@ -33,6 +48,7 @@ namespace TaoBD10.ViewModels
                 Thread.Sleep(200);
                 SendKeys.SendWait("2");
             }
+            bD10DiInfoModels = new List<BD10DiInfoModel>();
             WindowInfo activeWindows = APIManager.GetActiveWindowTitle();
             if (activeWindows.text.IndexOf("danh sach bd10 di") == -1)
                 return;
@@ -52,6 +68,11 @@ namespace TaoBD10.ViewModels
                 SendKeys.SendWait("{DOWN}");
                 Thread.Sleep(50);
                 data = APIManager.GetCopyData();
+                BD10DiInfoModel bd10Info = ConvertBD10Di(data);
+                if (bd10Info == null)
+                    return;
+                bD10DiInfoModels.Add(bd10Info); 
+                
                 //550910-VCKV - Đà Nẵng LT	08/06/2022	1	Ô tô	21	206,4	Đã đi
                 //590100-VCKV Nam Trung Bộ	08/06/2022	2	Ô tô	50	456,1	Khởi tạo
                 //if ((data.IndexOf("550910") != -1
@@ -86,6 +107,8 @@ namespace TaoBD10.ViewModels
                 //}
             }
             APIManager.ShowSnackbar("Run print list bd 10 complete");
+
+            //thuc hien cong viec tiep theo
 
         }
 

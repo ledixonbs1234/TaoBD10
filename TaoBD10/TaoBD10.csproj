@@ -165,6 +165,7 @@
     <Compile Include="Manager\MessageManager.cs" />
     <Compile Include="Manager\SoundManager.cs" />
     <Compile Include="Manager\Y2KeyboardHook.cs" />
+    <Compile Include="Model\BD10DiInfoModel.cs" />
     <Compile Include="Model\BD10InfoModel.cs" />
     <Compile Include="Model\BD10Message.cs" />
     <Compile Include="Model\ChiTietTuiModel.cs" />

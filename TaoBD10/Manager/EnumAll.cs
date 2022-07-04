@@ -22,6 +22,11 @@
             ChuaXacDinh
         }
 
+        public enum StateBD10Di
+        {
+            None,DaDi,KhoiTao
+        }
+
         public enum DownLoadRoad
         {
             None,

@@ -298,8 +298,6 @@
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <Button Content="Auto" Margin="20,0" Command="{Binding AutoGetBD10Command}"/>
-
-
             <Button
                 Command="{Binding XeXaHoiCommand}"
                 Content="Xe Xã Hội" />

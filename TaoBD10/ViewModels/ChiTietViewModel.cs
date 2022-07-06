@@ -45,7 +45,6 @@ namespace TaoBD10.ViewModels
                     FillData();
                 }
             });
-            CreateDanhSachBD();
 
             WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>
             {
@@ -202,6 +201,7 @@ namespace TaoBD10.ViewModels
             string lastcopy = "";
             string data = "null";
             APIManager.ClearClipboard();
+            string test = "";
 
             data = APIManager.GetCopyData();
             while (lastcopy != data)
@@ -217,6 +217,7 @@ namespace TaoBD10.ViewModels
                 BD10DiInfoModel bd10Info = ConvertBD10Di(data);
                 if (bd10Info == null)
                     return;
+                test += bd10Info.Name + "\n";
                 bD10DiInfoModels.Add(bd10Info);
 
                 //550910-VCKV - Đà Nẵng LT	08/06/2022	1	Ô tô	21	206,4	Đã đi
@@ -252,6 +253,7 @@ namespace TaoBD10.ViewModels
                 //    data = APIManager.GetCopyData();
                 //}
             }
+            APIManager.OpenNotePad(test, "Test COntent");
             APIManager.ShowSnackbar("Run print list bd 10 complete");
             CreateDanhSachBD();
 

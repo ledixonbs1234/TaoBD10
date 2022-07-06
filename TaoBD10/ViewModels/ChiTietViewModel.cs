@@ -335,10 +335,94 @@ namespace TaoBD10.ViewModels
             _ISelectedBDTamQuan = 1;
 
             //tao da nang
+            BDKDaNangs = new ObservableCollection<string>();
             BD10DiInfoModel kDaNang = bD10DiInfoModels.FirstOrDefault(m => m.MaBuuCuc == "550910" && m.TrangThai == StateBD10Di.KhoiTao);
-            if (kDaNang == null)
+
+            if (kDaNang != null)
             {
+                BDKDaNangs.Add("Kiện Đà Nẵng|" + kDaNang.LanLap);
             }
+            BDKDaNangs.Add("Kiện Đà Nẵng|NEW");
+            SelectedKDN = BDKDaNangs[0];
+
+            BDEDNs = new ObservableCollection<string>();
+            BD10DiInfoModel emsDN = bD10DiInfoModels.FirstOrDefault(m => m.MaBuuCuc == "550915" && m.TrangThai == StateBD10Di.KhoiTao);
+
+            if (emsDN != null)
+            {
+                BDEDNs.Add("EMS Đà Nẵng|" + emsDN.LanLap);
+            }
+            BDEDNs.Add("EMS Đà Nẵng|NEW");
+            _SelectedEDN = BDEDNs[0];
+
+            BDKNTBs = new ObservableCollection<string>();
+            List<BD10DiInfoModel> kiens = bD10DiInfoModels.Where(m => m.MaBuuCuc == "590100" && m.TrangThai == StateBD10Di.KhoiTao).ToList();
+            if (kiens.Count > 0)
+            {
+                foreach (var item in kiens)
+                {
+                    BDKNTBs.Add("Kiện NTB|" + item.LanLap);
+                }
+            }
+            BDKNTBs.Add("Kiện NTB|NEW");
+            SelectedKNTB = BDKNTBs[0];
+
+            BDTuiNTBs = new ObservableCollection<string>();
+            List<BD10DiInfoModel> tuis = bD10DiInfoModels.Where(m => m.MaBuuCuc == "590100" && m.TrangThai == StateBD10Di.KhoiTao).ToList();
+            if (tuis.Count > 0)
+            {
+                foreach (var item in tuis)
+                {
+                    BDTuiNTBs.Add("Túi NTB|" + item.LanLap);
+                }
+            }
+            BDTuiNTBs.Add("Túi NTB|NEW");
+            SelectedTuiNTB = BDTuiNTBs[0];
+
+
+            BDPMs = new ObservableCollection<string>();
+            BD10DiInfoModel phumys = bD10DiInfoModels.FirstOrDefault(m => m.MaBuuCuc == "592810" && m.TrangThai == StateBD10Di.KhoiTao);
+
+            if (phumys != null)
+            {
+                BDPMs.Add("Phù Mỹ|" + phumys.LanLap);
+            }
+            BDPMs.Add("Phù Mỹ|NEW");
+            SelectedPM = BDPMs[0];
+
+            BDANs = new ObservableCollection<string>();
+            BD10DiInfoModel anNhon = bD10DiInfoModels.FirstOrDefault(m => m.MaBuuCuc == "592020" && m.TrangThai == StateBD10Di.KhoiTao);
+
+
+            if (anNhon != null)
+            {
+                BDANs.Add("An Nhơn|" + anNhon.LanLap);
+            }
+            BDKDaNangs.Add("An Nhơn|NEW");
+            SelectedAN = BDANs[0];
+
+            BDPCs = new ObservableCollection<string>();
+            BD10DiInfoModel phuCat = bD10DiInfoModels.FirstOrDefault(m => m.MaBuuCuc == "550910" && m.TrangThai == StateBD10Di.KhoiTao);
+
+            if (phuCat != null)
+            {
+                BDPCs.Add("Phù Cát|" + phuCat.LanLap);
+            }
+            BDPCs.Add("Phù Cát|NEW");
+            SelectedPC = BDPCs[0];
+
+
+            BDKT1 = new ObservableCollection<string>();
+            List<BD10DiInfoModel> kt1 = bD10DiInfoModels.Where(m => m.MaBuuCuc == "590100" && m.TrangThai == StateBD10Di.KhoiTao).ToList();
+            if (kt1.Count > 0)
+            {
+                foreach (var item in kt1)
+                {
+                    BDKT1.Add("KT1|" + item.LanLap);
+                }
+            }
+            BDKT1.Add("Túi NTB|NEW");
+            SelectedKT1 = BDKT1[0];
         }
 
         private void EMSDaNang()
@@ -1146,6 +1230,126 @@ namespace TaoBD10.ViewModels
             stateTaoBd10 = StateTaoBd10.DanhSachBD10;
             timerTaoBD.Start();
         }
+
+        private ObservableCollection<string> _BDKDaNangs;
+
+        public ObservableCollection<string> BDKDaNangs
+        {
+            get { return _BDKDaNangs; }
+            set { SetProperty(ref _BDKDaNangs, value); }
+        }
+        private string _SelectedKDN;
+
+        public string SelectedKDN
+        {
+            get { return _SelectedKDN; }
+            set { SetProperty(ref _SelectedKDN, value); }
+        }
+
+
+
+        private ObservableCollection<string> _BDTuiNTBs;
+
+        public ObservableCollection<string> BDTuiNTBs
+        {
+            get { return _BDTuiNTBs; }
+            set { SetProperty(ref _BDTuiNTBs, value); }
+        }
+        private string _SelectedTuiNTB;
+
+        public string SelectedTuiNTB
+        {
+            get { return _SelectedTuiNTB; }
+            set { SetProperty(ref _SelectedTuiNTB, value); }
+        }
+        private ObservableCollection<string> _BDKNTBs;
+
+        public ObservableCollection<string> BDKNTBs
+        {
+            get { return _BDKNTBs; }
+            set { SetProperty(ref _BDKNTBs, value); }
+        }
+        private string _SelectedKNTB;
+
+        public string SelectedKNTB
+        {
+            get { return _SelectedKNTB; }
+            set { SetProperty(ref _SelectedKNTB, value); }
+        }
+        private ObservableCollection<string> _BDANs;
+
+        public ObservableCollection<string> BDANs
+        {
+            get { return _BDANs; }
+            set { SetProperty(ref _BDANs, value); }
+        }
+        private string _SelectedAN;
+
+        public string SelectedAN
+        {
+            get { return _SelectedAN; }
+            set { SetProperty(ref _SelectedAN, value); }
+        }
+        private ObservableCollection<string> _BDPMs;
+
+        public ObservableCollection<string> BDPMs
+        {
+            get { return _BDPMs; }
+            set { SetProperty(ref _BDPMs, value); }
+        }
+        private string _SelectedPM;
+
+        public string SelectedPM
+        {
+            get { return _SelectedPM; }
+            set { SetProperty(ref _SelectedPM, value); }
+        }
+        private ObservableCollection<string> _BDPCs;
+
+        public ObservableCollection<string> BDPCs
+        {
+            get { return _BDPCs; }
+            set { SetProperty(ref _BDPCs, value); }
+        }
+        private string _SelectedPC;
+
+        public string SelectedPC
+        {
+            get { return _SelectedPC; }
+            set { SetProperty(ref _SelectedPC, value); }
+        }
+        private ObservableCollection<string> _BDKT1;
+
+        public ObservableCollection<string> BDKT1
+        {
+            get { return _BDKT1; }
+            set { SetProperty(ref _BDKT1, value); }
+        }
+        private string _SelectedKT1;
+
+        public string SelectedKT1
+        {
+            get { return _SelectedKT1; }
+            set { SetProperty(ref _SelectedKT1, value); }
+        }
+
+        private ObservableCollection<string> _BDEDNs;
+
+        public ObservableCollection<string> BDEDNs
+        {
+            get { return _BDEDNs; }
+            set { SetProperty(ref _BDEDNs, value); }
+        }
+        private string _SelectedEDN;
+
+        public string SeletecEDN
+        {
+            get { return _SelectedEDN; }
+            set { SetProperty(ref _SelectedEDN, value); }
+        }
+
+
+
 
         public RelayCommand<PhanLoaiTinh> AddBDTinhCommand { get; }
         public ICommand AutoGetBD10Command { get; }

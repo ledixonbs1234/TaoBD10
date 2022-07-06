@@ -228,6 +228,7 @@ namespace TaoBD10.ViewModels
             {
                 string lastcopy = "";
                 string data = "null";
+                SendKeys.SendWait("{F4}");
                 APIManager.ClearClipboard();
 
                 data = APIManager.GetCopyData();
@@ -1272,6 +1273,14 @@ namespace TaoBD10.ViewModels
                         if (currentWindow.text.IndexOf("xac nhan bd10 den") != -1)
                             WeakReferenceMessenger.Default.Send(new MessageManager("getData"));
                         break;
+                    case Key.F3:
+                        WindowInfo activeWindow1 = APIManager.GetActiveWindowTitle();
+                        if (activeWindow1.text.IndexOf("danh sach bd10 di") != -1)
+                        {
+                            
+                            bwRunPrints.RunWorkerAsync();
+                        }
+                        break;
 
                     case Key.F5:
                         currentWindow = APIManager.GetActiveWindowTitle();
@@ -1484,11 +1493,7 @@ namespace TaoBD10.ViewModels
                         break;
 
                     case Key.F4:
-                        activeWindows = APIManager.GetActiveWindowTitle();
-                        if (activeWindows.text.IndexOf("danh sach bd10 di") != -1)
-                        {
-                            bwRunPrints.RunWorkerAsync();
-                        }
+
                         break;
 
                     default:

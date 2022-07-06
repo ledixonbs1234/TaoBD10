@@ -197,6 +197,7 @@ namespace TaoBD10.ViewModels
             WindowInfo activeWindows = APIManager.GetActiveWindowTitle();
             if (activeWindows.text.IndexOf("danh sach bd10 di") == -1)
                 return;
+            SendKeys.SendWait("{F4}");
 
             string lastcopy = "";
             string data = "null";

@@ -368,13 +368,9 @@
     Style="{StaticResource MaterialDesignFilledComboBox}"
     IsEnabled="{Binding Path=IsChecked, ElementName=FilledComboBoxEnabledCheckBox}"
     materialDesign:HintAssist.Hint="Some item"
+                             ItemsSource="{Binding BDKDaNangs}"
+                            SelectedItem="{Binding SelectedKDN}"
     Width="256">
-                            <ComboBoxItem
-      Content="Item 1" />
-                            <ComboBoxItem
-      Content="Item 2" />
-                            <ComboBoxItem
-      Content="Item 3" />
                         </ComboBox>
                     </StackPanel>
                 </materialDesign:Card>
@@ -389,15 +385,11 @@
                         Text="EMS Đà Nẵng" Width="120" />
                         <ComboBox
     Style="{StaticResource MaterialDesignFilledComboBox}"
+                            ItemsSource="{Binding BDEDNs}"
+                            SelectedItem="{Binding SeletecEDN}"
     IsEnabled="{Binding Path=IsChecked, ElementName=FilledComboBoxEnabledCheckBox}"
     materialDesign:HintAssist.Hint="Some item"
     Width="256">
-                            <ComboBoxItem
-      Content="Item 1" />
-                            <ComboBoxItem
-      Content="Item 2" />
-                            <ComboBoxItem
-      Content="Item 3" />
                         </ComboBox>
                     </StackPanel>
                 </materialDesign:Card>
@@ -415,14 +407,10 @@
                         <ComboBox
     Style="{StaticResource MaterialDesignFilledComboBox}"
     IsEnabled="{Binding Path=IsChecked, ElementName=FilledComboBoxEnabledCheckBox}"
+                            ItemsSource="{Binding BDQNams}"
+                            SelectedItem="{Binding SelectedQNam}"
     materialDesign:HintAssist.Hint="Some item"
     Width="256">
-                            <ComboBoxItem
-      Content="Item 1" />
-                            <ComboBoxItem
-      Content="Item 2" />
-                            <ComboBoxItem
-      Content="Item 3" />
                         </ComboBox>
                     </StackPanel>
                 </materialDesign:Card>
@@ -438,14 +426,10 @@
                         <ComboBox
     Style="{StaticResource MaterialDesignFilledComboBox}"
     IsEnabled="{Binding Path=IsChecked, ElementName=FilledComboBoxEnabledCheckBox}"
+                            ItemsSource="{Binding BDQNgais}"
+                            SelectedItem="{Binding SelectedQNgai}"
     materialDesign:HintAssist.Hint="Some item"
     Width="256">
-                            <ComboBoxItem
-      Content="Item 1" />
-                            <ComboBoxItem
-      Content="Item 2" />
-                            <ComboBoxItem
-      Content="Item 3" />
                         </ComboBox>
                     </StackPanel>
                 </materialDesign:Card>
@@ -464,13 +448,9 @@
     Style="{StaticResource MaterialDesignFilledComboBox}"
     IsEnabled="{Binding Path=IsChecked, ElementName=FilledComboBoxEnabledCheckBox}"
     materialDesign:HintAssist.Hint="Some item"
+                            ItemsSource="{Binding BDKNTBs}"
+                            SelectedItem="{Binding SelectedKNTB}"
     Width="256">
-                            <ComboBoxItem
-      Content="Item 1" />
-                            <ComboBoxItem
-      Content="Item 2" />
-                            <ComboBoxItem
-      Content="Item 3" />
                         </ComboBox>
                     </StackPanel>
                 </materialDesign:Card>
@@ -487,13 +467,9 @@
     Style="{StaticResource MaterialDesignFilledComboBox}"
     IsEnabled="{Binding Path=IsChecked, ElementName=FilledComboBoxEnabledCheckBox}"
     materialDesign:HintAssist.Hint="Some item"
+                            ItemsSource="{Binding BDTuiNTBs}"
+                            SelectedItem="{Binding SelectedTuiNTB}"
     Width="256">
-                            <ComboBoxItem
-      Content="Item 1" />
-                            <ComboBoxItem
-      Content="Item 2" />
-                            <ComboBoxItem
-      Content="Item 3" />
                         </ComboBox>
                     </StackPanel>
                 </materialDesign:Card>
@@ -512,13 +488,9 @@
     Style="{StaticResource MaterialDesignFilledComboBox}"
     IsEnabled="{Binding Path=IsChecked, ElementName=FilledComboBoxEnabledCheckBox}"
     materialDesign:HintAssist.Hint="Some item"
+                            ItemsSource="{Binding BDPMs}"
+                            SelectedItem="{Binding SelectedPM}"
     Width="256">
-                            <ComboBoxItem
-      Content="Item 1" />
-                            <ComboBoxItem
-      Content="Item 2" />
-                            <ComboBoxItem
-      Content="Item 3" />
                         </ComboBox>
                     </StackPanel>
                 </materialDesign:Card>
@@ -535,13 +507,9 @@
     Style="{StaticResource MaterialDesignFilledComboBox}"
     IsEnabled="{Binding Path=IsChecked, ElementName=FilledComboBoxEnabledCheckBox}"
     materialDesign:HintAssist.Hint="Some item"
+                            ItemsSource="{Binding BDPCs}"
+                            SelectedItem="{Binding SelectedPC}"
     Width="256">
-                            <ComboBoxItem
-      Content="Item 1" />
-                            <ComboBoxItem
-      Content="Item 2" />
-                            <ComboBoxItem
-      Content="Item 3" />
                         </ComboBox>
                     </StackPanel>
                 </materialDesign:Card>
@@ -560,13 +528,9 @@
     Style="{StaticResource MaterialDesignFilledComboBox}"
     IsEnabled="{Binding Path=IsChecked, ElementName=FilledComboBoxEnabledCheckBox}"
     materialDesign:HintAssist.Hint="Some item"
+                            ItemsSource="{Binding BDANs}"
+                            SelectedItem="{Binding SelectedAN}"
     Width="256">
-                            <ComboBoxItem
-      Content="Item 1" />
-                            <ComboBoxItem
-      Content="Item 2" />
-                            <ComboBoxItem
-      Content="Item 3" />
                         </ComboBox>
                     </StackPanel>
                 </materialDesign:Card>
@@ -583,13 +547,9 @@
     Style="{StaticResource MaterialDesignFilledComboBox}"
     IsEnabled="{Binding Path=IsChecked, ElementName=FilledComboBoxEnabledCheckBox}"
     materialDesign:HintAssist.Hint="Some item"
+                            ItemsSource="{Binding BDKT1}"
+                            SelectedItem="{Binding SelectedKT1}"
     Width="256">
-                            <ComboBoxItem
-      Content="Item 1" />
-                            <ComboBoxItem
-      Content="Item 2" />
-                            <ComboBoxItem
-      Content="Item 3" />
                         </ComboBox>
                     </StackPanel>
                 </materialDesign:Card>

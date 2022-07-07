@@ -194,18 +194,17 @@ namespace TaoBD10.ViewModels
                 SendKeys.SendWait("2");
             }
             bD10DiInfoModels = new List<BD10DiInfoModel>();
-            WindowInfo activeWindows = APIManager.GetActiveWindowTitle();
-            if (activeWindows.text.IndexOf("danh sach bd10 di") == -1)
+            WindowInfo activeWindows = APIManager.WaitingFindedWindow("danh sach bd10 di");
+            if (activeWindows== null)
                 return;
-            Thread.Sleep(1000);
             SendKeys.SendWait("{F4}");
-            
-
+            Thread.Sleep(500);
             string lastcopy = "";
             string data = "null";
             APIManager.ClearClipboard();
             string test = "";
 
+            data = APIManager.GetCopyData();
             while (lastcopy != data)
             {
                 if (string.IsNullOrEmpty(data))
@@ -213,7 +212,7 @@ namespace TaoBD10.ViewModels
                     return;
                 }
                 lastcopy = data;
-                
+                SendKeys.SendWait("{DOWN}");
                 Thread.Sleep(50);
                 data = APIManager.GetCopyData();
                 BD10DiInfoModel bd10Info = ConvertBD10Di(data);
@@ -221,7 +220,6 @@ namespace TaoBD10.ViewModels
                     return;
                 test += bd10Info.Name + "\n";
                 bD10DiInfoModels.Add(bd10Info);
-                SendKeys.SendWait("{DOWN}");
 
                 //550910-VCKV - Đà Nẵng LT	08/06/2022	1	Ô tô	21	206,4	Đã đi
                 //590100-VCKV Nam Trung Bộ	08/06/2022	2	Ô tô	50	456,1	Khởi tạo
@@ -1351,6 +1349,35 @@ namespace TaoBD10.ViewModels
         {
             get { return _SelectedEDN; }
             set { SetProperty(ref _SelectedEDN, value); }
+        }
+
+        private ObservableCollection<string> _BDQNgais;
+
+        public ObservableCollection<string> BDQNgais
+        {
+            get { return _BDQNgais; }
+            set { SetProperty(ref _BDQNgais, value); }
+        }
+        private ObservableCollection<string> _BDQNams;
+
+        public ObservableCollection<string> BDQNams
+        {
+            get { return _BDQNams; }
+            set { SetProperty(ref _BDQNams, value); }
+        }
+        private string _SelectedQNgai;
+
+        public string SelectedQNgai
+        {
+            get { return _SelectedQNgai; }
+            set { SetProperty(ref _SelectedQNgai, value); }
+        }
+        private string _SelectedQNam;
+
+        public string SelectedQNam
+        {
+            get { return _SelectedQNam; }
+            set { SetProperty(ref _SelectedQNam, value); }
         }
 
 

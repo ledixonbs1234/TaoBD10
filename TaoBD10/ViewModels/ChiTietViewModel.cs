@@ -28,6 +28,11 @@ namespace TaoBD10.ViewModels
             AutoGetBD10Command = new RelayCommand(AutoGetBD10);
             HAALs = new ObservableCollection<string>();
             BDTamQuans = new ObservableCollection<string>();
+
+
+            SetDefaultBDRunned();
+
+
             WeakReferenceMessenger.Default.Register<BD10Message>(this, (r, m) =>
             {
                 //Thuc Hien Trong ngay
@@ -104,6 +109,23 @@ namespace TaoBD10.ViewModels
                     return false;
                 }
             });
+        }
+
+        private void SetDefaultBDRunned()
+        {
+            BDRunned = new List<bool>();
+            BDRunned.Add(!IsEnHAAL);
+            BDRunned.Add(!IsEnTamQuan);
+            BDRunned.Add(!IsEnKDN);
+            BDRunned.Add(!IsEnEDN);
+            BDRunned.Add(!IsEnQNam);
+            BDRunned.Add(!IsEnQNgai);
+            BDRunned.Add(!IsEnKNTB);
+            BDRunned.Add(!IsEnTNTB);
+            BDRunned.Add(!IsEnPM);
+            BDRunned.Add(!IsEnPC);
+            BDRunned.Add(!IsEnAN);
+            BDRunned.Add(!IsEnKT1);
         }
 
         private void AddBDTinh(PhanLoaiTinh phanLoaiTinh)
@@ -348,7 +370,7 @@ namespace TaoBD10.ViewModels
             }
             BDKDaNangs.Add("Kiện Đà Nẵng|NEW");
             SelectedKDN = BDKDaNangs[0];
-            
+
 
             BDEDNs = new ObservableCollection<string>();
             BD10DiInfoModel emsDN = bD10DiInfoModels.FirstOrDefault(m => m.MaBuuCuc == "550915" && m.TrangThai == StateBD10Di.KhoiTao);
@@ -398,7 +420,7 @@ namespace TaoBD10.ViewModels
             BDTuiNTBs = new ObservableCollection<string>();
             List<BD10DiInfoModel> tuis = bD10DiInfoModels.Where(m => m.MaBuuCuc == "590100" && m.TrangThai == StateBD10Di.KhoiTao).ToList();
 
-            
+
             if (tuis.Count > 0)
             {
                 foreach (var item in tuis)
@@ -406,16 +428,16 @@ namespace TaoBD10.ViewModels
                     BDTuiNTBs.Add("Túi NTB|" + item.LanLap);
                 }
             }
-            if (tuis.Count >= 2)
-            {
-                SelectedTuiNTB = BDTuiNTBs[1];
-            }else
+            if (tuis.Count == 1)
             {
                 BDTuiNTBs.Add("Túi NTB|NEW");
+                SelectedTuiNTB = BDTuiNTBs[1];
             }
-            
-            SelectedTuiNTB = BDTuiNTBs[0];
-
+            if (tuis.Count >= 2)
+            {
+                BDTuiNTBs.Add("Túi NTB|NEW");
+                SelectedTuiNTB = BDTuiNTBs[1];
+            }
 
             BDPMs = new ObservableCollection<string>();
             BD10DiInfoModel phumys = bD10DiInfoModels.FirstOrDefault(m => m.MaBuuCuc == "592810" && m.TrangThai == StateBD10Di.KhoiTao);
@@ -460,6 +482,335 @@ namespace TaoBD10.ViewModels
             }
             BDKT1.Add("Túi NTB|NEW");
             SelectedKT1 = BDKT1[0];
+
+            SetDefaultBDRunned();
+        }
+
+        void RunBD()
+        {
+            int countBDRead = 0;
+            for (int i = 0; i < BDRunned.Count; i++)
+            {
+                if (!BDRunned[i])
+                {
+                    countBDRead = i + 1;
+                    BDRunned[i] = true;
+                    break;
+                }
+            }
+            if (countBDRead == 0)
+            {
+                //Da chay xong
+            }
+            switch (countBDRead)
+            {
+                case 1:
+                    //Run HA
+                    break;
+                case 2:
+                    //Run TQ
+                    break;
+                case 3:
+                    string text = SelectedKDN.Split('|')[1];
+                    if (text == "NEW")
+                    {
+
+                    }
+                    else
+                    {
+                        var bdInfo = bD10DiInfoModels.FirstOrDefault(m => m.MaBuuCuc == "550910" && m.LanLap ==int.Parse(text));
+                        RunBDBinhThuong(bdInfo,PhanLoaiTinh.KienDaNang);
+                    }
+
+                    //Run Kien DN
+
+                    break;
+                case 4:
+                    //Run E DN
+                    break;
+                case 5:
+                    //Run Quang Nam
+                    break;
+                case 6:
+                    //Run Quang Ngai
+                    break;
+                case 7:
+                    //Run Kien Nam trung Bo
+                    break;
+                case 8:
+                    //Run E NTB
+                    break;
+                case 9:
+                    //Run Phu My
+                    break;
+                case 10:
+                    //Run Phu Cat
+                    break;
+                case 11:
+                    //Run An Nhon
+                    break;
+                case 12:
+                    //Run KT 1
+                    break;
+                default:
+                    break;
+            }
+            RunBD();
+
+        }
+
+        private void RunBDBinhThuong(BD10DiInfoModel bd10Di,PhanLoaiTinh tinh)
+        {
+            if (!APIManager.ThoatToDefault("593230", "danh sach bd10 di"))
+            {
+                SendKeys.SendWait("3");
+                Thread.Sleep(200);
+                SendKeys.SendWait("2");
+            }
+            WindowInfo activeWindows = APIManager.WaitingFindedWindow("danh sach bd10 di");
+            if (activeWindows == null)
+                return;
+            SendKeys.SendWait("{F4}");
+            Thread.Sleep(500);
+            string lastcopy = "";
+            string data = "null";
+            APIManager.ClearClipboard();
+
+            data = APIManager.GetCopyData();
+            bool isFinded = false;
+            while (lastcopy != data)
+            {
+                if (string.IsNullOrEmpty(data))
+                {
+                    return;
+                }
+                lastcopy = data;
+                BD10DiInfoModel bd10Info = ConvertBD10Di(data);
+                if (bd10Info == null)
+                    return;
+                if(bd10Info.MaBuuCuc == bd10Di.MaBuuCuc && bd10Di.LanLap == bd10Info.LanLap)
+                {
+                    isFinded = true;
+                    break;
+                }
+
+                SendKeys.SendWait("{DOWN}");
+                Thread.Sleep(50);
+                data = APIManager.GetCopyData();
+            }
+
+            if (isFinded)
+            {
+                SendKeys.SendWait("{F2}");
+            }
+        }
+
+        /// <summary>
+        /// Dua thong tin vao sua thong tin bd
+        /// Kiem tra va luu du lieu da dang ky
+        /// 
+        /// </summary>
+        void RunLietKeDataToSuaThongTin(PhanLoaiTinh tinh)
+        {
+            var currentWindow = APIManager.WaitingFindedWindow("sua thong tin bd 10");
+            if (currentWindow == null)
+                return;
+            
+
+            ////////////////////////////////////////////////////
+            if (_ListShowHangHoa.Count == 0)
+            {
+                APIManager.ShowSnackbar("Chưa có dữ liệu");
+                return;
+            }
+
+            //thuc hien kiem tra thu hien tai dang dung cai nao
+            var handles = APIManager.GetAllChildHandles(currentWindow.hwnd);
+            string textHandleName = "WindowsForms10.COMBOBOX.app.0.1e6fa8e";
+            string textSoLuongTui = "WindowsForms10.STATIC.app.0.1e6fa8e";
+            int countTemp = 0;
+            string classNameComBoBox = "";
+
+            ///Kiem tra so tui hien tai
+            int countCurrentTui = 0;
+
+            bool isGone = false;
+            if (currentTinh != PhanLoaiTinh.HA_AL)
+            {
+                var controls = APIManager.GetListControlText(currentWindow.hwnd);
+                foreach (var item in controls)
+                {
+                    if (item.ClassName.IndexOf(textHandleName) != -1)
+                    {
+                        classNameComBoBox = item.Text;
+                    }
+                    else if (item.ClassName.IndexOf(textSoLuongTui) != -1)
+                    {
+                        if (countTemp == 10)
+                        {
+                            countCurrentTui = int.Parse(item.Text);
+                        }
+                        countTemp++;
+                    }
+
+                    //tim cai o cua sh tui
+                    //focus no
+                    //xong roi dien vao va nhan enter thoi
+                }
+            }
+            else
+            {
+                isGone = true;
+            }
+
+            bool isRightBD10 = true;
+            switch (currentTinh)
+            {
+                case PhanLoaiTinh.None:
+                    break;
+
+                case PhanLoaiTinh.HA_AL:
+                    isGone = true;
+                    break;
+
+                case PhanLoaiTinh.TamQuan:
+                    if (classNameComBoBox.IndexOf("593330") == -1)
+                    {
+                        isRightBD10 = false;
+                    }
+                    break;
+
+                case PhanLoaiTinh.KienDaNang:
+                    if (classNameComBoBox.IndexOf("550910") == -1)
+                    {
+                        isRightBD10 = false;
+                    }
+                    break;
+
+                case PhanLoaiTinh.EMSDaNang:
+                    if (classNameComBoBox.IndexOf("550915") == -1)
+                    {
+                        isRightBD10 = false;
+                    }
+                    break;
+
+                case PhanLoaiTinh.QuangNam:
+                    if (classNameComBoBox.IndexOf("560100") == -1)
+                    {
+                        isRightBD10 = false;
+                    }
+                    break;
+
+                case PhanLoaiTinh.QuangNgai:
+                    if (classNameComBoBox.IndexOf("570100") == -1)
+                    {
+                        isRightBD10 = false;
+                    }
+                    break;
+
+                case PhanLoaiTinh.DiNgoaiNamTrungBo:
+                case PhanLoaiTinh.TuiNTB:
+                case PhanLoaiTinh.KT1:
+                    if (classNameComBoBox.IndexOf("590100") == -1)
+                    {
+                        isRightBD10 = false;
+                    }
+                    break;
+
+                case PhanLoaiTinh.PhuMy:
+                    if (classNameComBoBox.IndexOf("592810") == -1)
+                    {
+                        isRightBD10 = false;
+                    }
+                    break;
+
+                case PhanLoaiTinh.PhuCat:
+                    if (classNameComBoBox.IndexOf("592440") == -1)
+                    {
+                        isRightBD10 = false;
+                    }
+                    break;
+
+                case PhanLoaiTinh.AnNhon:
+                    if (classNameComBoBox.IndexOf("592020") == -1)
+                    {
+                        isRightBD10 = false;
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+
+            if (!isRightBD10)
+            {
+                //thuc hien doc roi thoat
+                SoundManager.playSound(@"Number\nhapkhongdung.wav");
+                return;
+            }
+            //thuc hien kiem tra ngay trong nay
+
+            Thread.Sleep(200);
+
+
+
+            //Xu Ly trong nay
+            double delayTime = Convert.ToDouble(SelectedTime);
+            foreach (var hangHoa in ListShowHangHoa)
+            {
+                SendKeys.SendWait(hangHoa.TuiHangHoa.SHTui);
+                SendKeys.SendWait("{ENTER}");
+
+                Thread.Sleep(Convert.ToInt32(Math.Round(delayTime * 1000, 0)));
+            }
+
+
+
+
+            if (!isGone)
+            {
+                //kiem tra so luong tui hien tai co bang
+                int lastCountTuiHienTai = 0;
+                countTemp = 0;
+                foreach (var item in handles)
+                {
+                    string classText = APIManager.GetWindowClass(item);
+
+                    if (classText.IndexOf(textSoLuongTui) != -1)
+                    {
+                        if (countTemp == 10)
+                        {
+                            lastCountTuiHienTai = int.Parse(APIManager.GetControlText(item));
+                        }
+                        countTemp++;
+                    }
+                    //tim cai o cua sh tui
+                    //focus no
+                    //xong roi dien vao va nhan enter thoi
+                }
+
+                if (lastCountTuiHienTai - countCurrentTui != ListShowHangHoa.Count)
+                {
+                    SoundManager.playSound(@"Number\khongkhopsolieu.wav");
+                    return;
+                }
+                else
+                {
+                    SoundManager.playSound2(@"Number\tingting.wav");
+                    return;
+                }
+            }
+
+
+
+
+
+
+
+
+            
+            ////////////////////////////////////////////////////
+
         }
 
         private void EMSDaNang()
@@ -1282,6 +1633,8 @@ namespace TaoBD10.ViewModels
             get { return _SelectedKDN; }
             set { SetProperty(ref _SelectedKDN, value); }
         }
+
+        List<bool> BDRunned;
 
 
 

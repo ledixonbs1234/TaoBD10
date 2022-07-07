@@ -195,7 +195,7 @@ namespace TaoBD10.ViewModels
             }
             bD10DiInfoModels = new List<BD10DiInfoModel>();
             WindowInfo activeWindows = APIManager.WaitingFindedWindow("danh sach bd10 di");
-            if (activeWindows== null)
+            if (activeWindows == null)
                 return;
             SendKeys.SendWait("{F4}");
             Thread.Sleep(500);
@@ -212,15 +212,16 @@ namespace TaoBD10.ViewModels
                     return;
                 }
                 lastcopy = data;
-                SendKeys.SendWait("{DOWN}");
-                Thread.Sleep(50);
-                data = APIManager.GetCopyData();
                 BD10DiInfoModel bd10Info = ConvertBD10Di(data);
                 if (bd10Info == null)
                     return;
                 test += bd10Info.Name + "\n";
+
                 bD10DiInfoModels.Add(bd10Info);
 
+                SendKeys.SendWait("{DOWN}");
+                Thread.Sleep(50);
+                data = APIManager.GetCopyData();
                 //550910-VCKV - Đà Nẵng LT	08/06/2022	1	Ô tô	21	206,4	Đã đi
                 //590100-VCKV Nam Trung Bộ	08/06/2022	2	Ô tô	50	456,1	Khởi tạo
                 //if ((data.IndexOf("550910") != -1

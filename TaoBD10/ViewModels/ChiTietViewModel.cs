@@ -255,7 +255,7 @@ namespace TaoBD10.ViewModels
                 //    data = APIManager.GetCopyData();
                 //}
             }
-            APIManager.OpenNotePad(test, "Test COntent");
+            //APIManager.OpenNotePad(test, "Test COntent");
             APIManager.ShowSnackbar("Run print list bd 10 complete");
             CreateDanhSachBD();
 
@@ -397,6 +397,8 @@ namespace TaoBD10.ViewModels
 
             BDTuiNTBs = new ObservableCollection<string>();
             List<BD10DiInfoModel> tuis = bD10DiInfoModels.Where(m => m.MaBuuCuc == "590100" && m.TrangThai == StateBD10Di.KhoiTao).ToList();
+
+            
             if (tuis.Count > 0)
             {
                 foreach (var item in tuis)
@@ -404,7 +406,14 @@ namespace TaoBD10.ViewModels
                     BDTuiNTBs.Add("Túi NTB|" + item.LanLap);
                 }
             }
-            BDTuiNTBs.Add("Túi NTB|NEW");
+            if (tuis.Count >= 2)
+            {
+                SelectedTuiNTB = BDTuiNTBs[1];
+            }else
+            {
+                BDTuiNTBs.Add("Túi NTB|NEW");
+            }
+            
             SelectedTuiNTB = BDTuiNTBs[0];
 
 

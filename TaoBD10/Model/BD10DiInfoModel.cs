@@ -15,11 +15,11 @@ namespace TaoBD10.Model
             LanLap = lanLap;
             SoLuong = soLuong;
             string text = APIManager.BoDauAndToLower(sTrangThai);
-            if (sTrangThai.IndexOf("da di") != -1)
+            if (text.IndexOf("da di") != -1)
             {
                 TrangThai = StateBD10Di.DaDi;
             }
-            else if (sTrangThai.IndexOf("khoi tao") != -1)
+            else if (text.IndexOf("khoi tao") != -1)
             {
                 TrangThai = StateBD10Di.KhoiTao;
             }

@@ -331,12 +331,12 @@ namespace TaoBD10.ViewModels
             DateTime time = DateTime.Now.AddDays(1);
             HAALs.Add("Hoài Ân An Lão|" + DateTime.Now.Day);
             HAALs.Add("Hoài Ân An Lão|" + time.Day);
-            _ISelectedBDHAAL = 1;
+            ISelectedBDHAAL = 1;
 
             BDTamQuans = new ObservableCollection<string>();
             BDTamQuans.Add("Tam Quan|" + DateTime.Now.Day);
             BDTamQuans.Add("Tam Quan|" + time.Day);
-            _ISelectedBDTamQuan = 1;
+            ISelectedBDTamQuan = 1;
 
             //tao da nang
             BDKDaNangs = new ObservableCollection<string>();

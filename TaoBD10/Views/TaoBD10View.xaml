@@ -386,7 +386,7 @@
                         <ComboBox
     Style="{StaticResource MaterialDesignFilledComboBox}"
                             ItemsSource="{Binding BDEDNs}"
-                            SelectedItem="{Binding SeletecEDN}"
+                            SelectedItem="{Binding SelectedEDN}"
     IsEnabled="{Binding Path=IsChecked, ElementName=FilledComboBoxEnabledCheckBox}"
     materialDesign:HintAssist.Hint="Some item"
     Width="256">

@@ -348,6 +348,7 @@ namespace TaoBD10.ViewModels
             }
             BDKDaNangs.Add("Kiện Đà Nẵng|NEW");
             SelectedKDN = BDKDaNangs[0];
+            
 
             BDEDNs = new ObservableCollection<string>();
             BD10DiInfoModel emsDN = bD10DiInfoModels.FirstOrDefault(m => m.MaBuuCuc == "550915" && m.TrangThai == StateBD10Di.KhoiTao);

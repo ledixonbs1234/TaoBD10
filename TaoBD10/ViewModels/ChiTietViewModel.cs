@@ -367,7 +367,7 @@ namespace TaoBD10.ViewModels
             {
                 BDEDNs.Add("Quảng Nam|" + qNam.LanLap);
             }
-            BDEDNs.Add("Quảng Nam|NEW");
+            BDQNams.Add("Quảng Nam|NEW");
             SelectedQNam = BDQNams[0];
 
             BDQNgais = new ObservableCollection<string>();

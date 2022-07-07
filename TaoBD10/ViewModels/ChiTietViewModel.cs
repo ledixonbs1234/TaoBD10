@@ -357,7 +357,30 @@ namespace TaoBD10.ViewModels
                 BDEDNs.Add("EMS Đà Nẵng|" + emsDN.LanLap);
             }
             BDEDNs.Add("EMS Đà Nẵng|NEW");
-            _SelectedEDN = BDEDNs[0];
+            SelectedEDN = BDEDNs[0];
+
+
+            BDQNams = new ObservableCollection<string>();
+            BD10DiInfoModel qNam = bD10DiInfoModels.FirstOrDefault(m => m.MaBuuCuc == "560100" && m.TrangThai == StateBD10Di.KhoiTao);
+
+            if (qNam != null)
+            {
+                BDEDNs.Add("Quảng Nam|" + qNam.LanLap);
+            }
+            BDEDNs.Add("Quảng Nam|NEW");
+            SelectedQNam = BDQNams[0];
+
+            BDQNgais = new ObservableCollection<string>();
+            BD10DiInfoModel qNgai = bD10DiInfoModels.FirstOrDefault(m => m.MaBuuCuc == "570100" && m.TrangThai == StateBD10Di.KhoiTao);
+
+            if (qNgai != null)
+            {
+                BDQNgais.Add("Quảng Ngãi|" + qNgai.LanLap);
+            }
+            BDQNgais.Add("Quảng Ngãi|NEW");
+            SelectedQNgai = BDQNgais[0];
+
+
 
             BDKNTBs = new ObservableCollection<string>();
             List<BD10DiInfoModel> kiens = bD10DiInfoModels.Where(m => m.MaBuuCuc == "590100" && m.TrangThai == StateBD10Di.KhoiTao).ToList();
@@ -1346,7 +1369,7 @@ namespace TaoBD10.ViewModels
         }
         private string _SelectedEDN;
 
-        public string SeletecEDN
+        public string SelectedEDN
         {
             get { return _SelectedEDN; }
             set { SetProperty(ref _SelectedEDN, value); }

@@ -402,7 +402,7 @@ namespace TaoBD10.ViewModels
             {
                 BDANs.Add("An Nhơn|" + anNhon.LanLap);
             }
-            BDKDaNangs.Add("An Nhơn|NEW");
+            BDANs.Add("An Nhơn|NEW");
             SelectedAN = BDANs[0];
 
             BDPCs = new ObservableCollection<string>();

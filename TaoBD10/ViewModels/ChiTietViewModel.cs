@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -518,8 +519,8 @@ namespace TaoBD10.ViewModels
                     }
                     else
                     {
-                        var bdInfo = bD10DiInfoModels.FirstOrDefault(m => m.MaBuuCuc == "550910" && m.LanLap ==int.Parse(text));
-                        RunBDBinhThuong(bdInfo,PhanLoaiTinh.KienDaNang);
+                        var bdInfo = bD10DiInfoModels.FirstOrDefault(m => m.MaBuuCuc == "550910" && m.LanLap == int.Parse(text));
+                        RunBDBinhThuong(bdInfo, PhanLoaiTinh.KienDaNang);
                     }
 
                     //Run Kien DN
@@ -559,7 +560,7 @@ namespace TaoBD10.ViewModels
 
         }
 
-        private void RunBDBinhThuong(BD10DiInfoModel bd10Di,PhanLoaiTinh tinh)
+        private void RunBDBinhThuong(BD10DiInfoModel bd10Di, PhanLoaiTinh tinh)
         {
             if (!APIManager.ThoatToDefault("593230", "danh sach bd10 di"))
             {
@@ -588,7 +589,7 @@ namespace TaoBD10.ViewModels
                 BD10DiInfoModel bd10Info = ConvertBD10Di(data);
                 if (bd10Info == null)
                     return;
-                if(bd10Info.MaBuuCuc == bd10Di.MaBuuCuc && bd10Di.LanLap == bd10Info.LanLap)
+                if (bd10Info.MaBuuCuc == bd10Di.MaBuuCuc && bd10Di.LanLap == bd10Info.LanLap)
                 {
                     isFinded = true;
                     break;
@@ -602,6 +603,7 @@ namespace TaoBD10.ViewModels
             if (isFinded)
             {
                 SendKeys.SendWait("{F2}");
+                RunLietKeDataToSuaThongTin(tinh);
             }
         }
 
@@ -615,7 +617,7 @@ namespace TaoBD10.ViewModels
             var currentWindow = APIManager.WaitingFindedWindow("sua thong tin bd 10");
             if (currentWindow == null)
                 return;
-            
+
 
             ////////////////////////////////////////////////////
             if (_ListShowHangHoa.Count == 0)
@@ -755,20 +757,51 @@ namespace TaoBD10.ViewModels
 
 
             //Xu Ly trong nay
-            double delayTime = Convert.ToDouble(SelectedTime);
-            //foreach (var hangHoa in ListShowHangHoa)
-            //{
-            //    SendKeys.SendWait(hangHoa.TuiHangHoa.SHTui);
-            //    SendKeys.SendWait("{ENTER}");
-            //    //cho number tang len neu khong tang len thi se hien thong bao
-            //    var controls = APIManager.GetListControlText()
-            //    while ()
-            //    {
+            List<HangHoaDetailModel> listFall = new List<HangHoaDetailModel>();
 
-            //    }
 
-            //    Thread.Sleep(Convert.ToInt32(Math.Round(delayTime * 1000, 0)));
-            //}
+            int currentCount = 0;
+            int numberRead = 0;
+            foreach (HangHoaDetailModel hangHoa in ListShowHangHoa)
+            {
+                SendKeys.SendWait(hangHoa.TuiHangHoa.SHTui);
+                SendKeys.SendWait("{ENTER}");
+                //cho number tang len neu khong tang len thi se hien thong bao
+                bool isWaiting = true;
+                while (isWaiting)
+                {
+                    Thread.Sleep(50);
+                    var window = APIManager.GetActiveWindowTitle();
+                    if (window.text.IndexOf("sua thong tin bd10") != -1)
+                    {
+                        List<TestAPIModel> listWindowStatic = APIManager.GetListControlText(currentWindow.hwnd).Where(m => m.ClassName.IndexOf("WindowsForms10.STATIC.app") != -1).ToList();
+                        if (listWindowStatic.Count <= 10)
+                        {
+                            continue;
+                        }
+                        TestAPIModel apiNumber = listWindowStatic[10];
+                        //TestText += apiNumber.Text + "\n";
+                        int.TryParse(Regex.Match(apiNumber.Text, @"\d+").Value, out numberRead);
+                        if (currentCount != numberRead)
+                        {
+                            currentCount = numberRead;
+                            isWaiting = false;
+                        }
+                    }
+                    else
+                    {
+                        //thuc hien luu du lieu sai vao
+                        listFall.Add(hangHoa);
+                        Thread.Sleep(200);
+                        SendKeys.SendWait("{Enter}");
+                        Thread.Sleep(200);
+
+                        isWaiting = false;
+                    }
+
+                }
+
+            }
 
 
 
@@ -806,15 +839,6 @@ namespace TaoBD10.ViewModels
                     return;
                 }
             }
-
-
-
-
-
-
-
-
-            
             ////////////////////////////////////////////////////
 
         }

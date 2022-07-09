@@ -654,8 +654,11 @@ namespace TaoBD10.ViewModels
                 Thread.Sleep(200);
                 SendKeys.SendWait("1");
             }
-            bwCreateChuyenThu.CancelAsync();
-            bwCreateChuyenThu.RunWorkerAsync();
+            if (!bwCreateChuyenThu.IsBusy)
+            {
+                bwCreateChuyenThu.CancelAsync();
+                bwCreateChuyenThu.RunWorkerAsync();
+            }
         }
 
         public ICommand AnHoaCommand { get; }

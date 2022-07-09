@@ -485,6 +485,7 @@ namespace TaoBD10.ViewModels
             SelectedKT1 = BDKT1[0];
 
             SetDefaultBDRunned();
+            RunBD();
         }
 
         void RunBD()
@@ -556,7 +557,7 @@ namespace TaoBD10.ViewModels
                 default:
                     break;
             }
-            RunBD();
+            //RunBD();
 
         }
 

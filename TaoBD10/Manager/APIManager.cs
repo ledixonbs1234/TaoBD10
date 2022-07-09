@@ -326,6 +326,7 @@ namespace TaoBD10.Manager
             }
             return IntPtr.Zero;
         }
+        static bool isWaitingThoat = false;
 
         /// <summary>
         /// Thoat toi view
@@ -335,8 +336,11 @@ namespace TaoBD10.Manager
         /// <returns></returns>
         public static bool ThoatToDefault(string maBuuCuc, string nameHandleChildToHangOn)
         {
+            if (isWaitingThoat)
+                return false;
             try
             {
+                isWaitingThoat = true;
                 Process[] processes = Process.GetProcesses();
                 IntPtr windowHandle = IntPtr.Zero;
                 bool isHaveProgram = false;
@@ -378,6 +382,7 @@ namespace TaoBD10.Manager
                             string textKoDau = ConvertToUnSign3(currentWindow.text);
                             if (textKoDau.IndexOf(nameHandleChildToHangOn) != -1)
                             {
+                                isWaitingThoat = false;
                                 return true;
                             }
                             last = GetLastActivePopup(windowHandle);
@@ -397,11 +402,12 @@ namespace TaoBD10.Manager
                     Thread.Sleep(300);
                     SendKeys.SendWait("{F7}");
                     Thread.Sleep(300);
-
+                    isWaitingThoat = false;
                     return false;
                 }
                 else
                 {
+                    isWaitingThoat = false;
                     return false;
                 }
             }

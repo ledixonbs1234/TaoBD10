@@ -386,7 +386,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="uncharted-2022-1080p.torrent" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

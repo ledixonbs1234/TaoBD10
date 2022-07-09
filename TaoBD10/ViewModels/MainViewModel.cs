@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Management;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
@@ -51,9 +52,15 @@ namespace TaoBD10.ViewModels
         {
             return APIManager.ConvertToUnSign3(text).ToLower();
         }
-
+        
         public MainViewModel()
         {
+
+            //Thuc hien Qua trinh su dung may
+
+
+
+
             LoadPageCommand = new RelayCommand<Window>(LoadPage);
             TabChangedCommand = new RelayCommand<System.Windows.Controls.TabControl>(TabChanged);
             OnCloseWindowCommand = new RelayCommand(OnCloseWindow);
@@ -1277,7 +1284,7 @@ namespace TaoBD10.ViewModels
                         WindowInfo activeWindow1 = APIManager.GetActiveWindowTitle();
                         if (activeWindow1.text.IndexOf("danh sach bd10 di") != -1)
                         {
-                            
+
                             bwRunPrints.RunWorkerAsync();
                         }
                         break;

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Toolkit.Mvvm.Messaging;
 using System;
+using System.Management;
 using System.Windows;
 using TaoBD10.Model;
 
@@ -23,6 +24,29 @@ namespace TaoBD10
                     }
                 }
             });
+            bool a =ValidHD();
+            if (!a)
+                this.Close();
+
+        }
+        private static bool ValidHD()
+        {
+            string hdSN = String.Empty;
+            ManagementObjectSearcher moSearcher = new ManagementObjectSearcher("select * from Win32_DiskDrive");
+            foreach (ManagementObject wmi_HDD in moSearcher.Get())
+            {
+                hdSN = wmi_HDD["SerialNumber"].ToString();
+            }
+
+
+            if (hdSN == "Your_SN_Here")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         private void MainView_Closing(object sender, System.ComponentModel.CancelEventArgs e)

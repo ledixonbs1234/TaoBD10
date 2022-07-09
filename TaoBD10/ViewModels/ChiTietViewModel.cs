@@ -756,13 +756,19 @@ namespace TaoBD10.ViewModels
 
             //Xu Ly trong nay
             double delayTime = Convert.ToDouble(SelectedTime);
-            foreach (var hangHoa in ListShowHangHoa)
-            {
-                SendKeys.SendWait(hangHoa.TuiHangHoa.SHTui);
-                SendKeys.SendWait("{ENTER}");
+            //foreach (var hangHoa in ListShowHangHoa)
+            //{
+            //    SendKeys.SendWait(hangHoa.TuiHangHoa.SHTui);
+            //    SendKeys.SendWait("{ENTER}");
+            //    //cho number tang len neu khong tang len thi se hien thong bao
+            //    var controls = APIManager.GetListControlText()
+            //    while ()
+            //    {
 
-                Thread.Sleep(Convert.ToInt32(Math.Round(delayTime * 1000, 0)));
-            }
+            //    }
+
+            //    Thread.Sleep(Convert.ToInt32(Math.Round(delayTime * 1000, 0)));
+            //}
 
 
 

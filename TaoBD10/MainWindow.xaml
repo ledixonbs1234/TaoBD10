@@ -30,6 +30,7 @@
             <RowDefinition />
             <RowDefinition Height="30" />
         </Grid.RowDefinitions>
+        <Te
         <Grid Grid.Row="0">
             <Button
                 Grid.Row="1"
@@ -117,9 +118,7 @@
                         <TabItem Header="Get Address" Padding="0">
                             <view:AddressView />
                         </TabItem>
-                        <TabItem Header="Tam Quan" Padding="0">
-                            <view:TamQuanView />
-                        </TabItem>
+                        
                     </TabControl>
                 </TabItem>
                 <TabItem Header="LỌC TÚI" Padding="0">
@@ -141,6 +140,9 @@
                             <view:KiemTraView />
                         </TabItem>
                     </TabControl>
+                </TabItem>
+                <TabItem Header="Tam Quan" Padding="0">
+                    <view:TamQuanView />
                 </TabItem>
                 <TabItem Header="TÙY CHỌN" Padding="0">
                     <view:TuyChonView />

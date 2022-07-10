@@ -52,7 +52,7 @@ namespace TaoBD10.ViewModels
         {
             return APIManager.ConvertToUnSign3(text).ToLower();
         }
-        
+
         public MainViewModel()
         {
 
@@ -1123,8 +1123,14 @@ namespace TaoBD10.ViewModels
                 case 9:
                     SetChiTietWindow();
                     break;
-
                 case 10:
+                    SetChiTietWindow();
+                    break;
+                case 11:
+                    SetLayChuyenThuWindow();
+                    break;
+
+                case 12:
                     SetChiTietWindow();
                     break;
 
@@ -1160,7 +1166,6 @@ namespace TaoBD10.ViewModels
                     break;
 
                 case 5:
-                    SetLayChuyenThuWindow();
                     break;
 
                 default:

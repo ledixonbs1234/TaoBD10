@@ -94,32 +94,33 @@
             </DataGrid.RowStyle>
             <DataGrid.Columns>
                 <DataGridTextColumn
-                    Width="40"
+                    Width="30"
                     Binding="{Binding TuiHangHoa.STT}"
                     EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
                     ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
                     Header="STT" />
                 <DataGridTextColumn
-                    Width="40"
+                    Width="30"
                     Binding="{Binding TuiHangHoa.SCT}"
                     EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
                     ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
                     Header="SCT" />
                 <DataGridTextColumn
-                    Width="20"
+                    Width="21"
                     Binding="{Binding TuiHangHoa.TuiSo}"
                     EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
                     ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
                     FontWeight="Bold"
                     Header="Túi Số" />
                 <DataGridTextColumn
-                    Width="80"
+                    Width="50"
                     Binding="{Binding TuiHangHoa.Date}"
                     EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
                     ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
                     Header="Date" />
                 <DataGridTextColumn
                     Width="40"
+                    FontWeight="Bold"
                     Binding="{Binding TuiHangHoa.KhoiLuong}"
                     EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
                     ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"

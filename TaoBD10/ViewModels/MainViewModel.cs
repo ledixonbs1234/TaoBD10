@@ -320,8 +320,14 @@ namespace TaoBD10.ViewModels
 
             APIManager.SetPrintBD10();
             SendKeys.SendWait("{F3}");
-            Thread.Sleep(500);
-            SendKeys.SendWait("{Enter}");
+            Thread.Sleep(50);
+            WindowInfo cuaSo = APIManager.WaitingFindedWindow("sua thong tin bd10", "lap bd10");
+            while (currentWindow.hwnd == cuaSo.hwnd)
+            {
+                Thread.Sleep(50);
+                cuaSo = APIManager.WaitingFindedWindow("sua thong tin bd10", "lap bd10");
+            }
+            APIManager.ClickButton(cuaSo.hwnd, "yes", isExactly: false);
 
             currentWindow = APIManager.WaitingFindedWindow("print document");
             if (currentWindow == null)
@@ -330,10 +336,9 @@ namespace TaoBD10.ViewModels
                 return;
             }
             Thread.Sleep(500);
+            APIManager.ClickButton(currentWindow.hwnd, "in an pham", isExactly: false);
+            WindowInfo printWindow = APIManager.WaitingFindedWindow("Print",isExactly:true);
 
-            SendKeys.SendWait("{TAB}");
-            SendKeys.SendWait(" ");
-            Thread.Sleep(1000);
             SendKeys.SendWait("%{c}");
             Thread.Sleep(50);
             SendKeys.SendWait("{Up}");
@@ -344,31 +349,13 @@ namespace TaoBD10.ViewModels
             Thread.Sleep(50);
             SendKeys.SendWait("%{p}");
             Thread.Sleep(500);
-            WindowInfo printD1 = currentWindow;
-            while (printD1.text.IndexOf("printing") == -1)
-            {
-                printD1 = APIManager.GetActiveWindowTitle();
-                Thread.Sleep(100);
-            }
-            while (printD1.text.IndexOf("printing") != -1)
-            {
-                printD1 = APIManager.GetActiveWindowTitle();
-                Thread.Sleep(100);
-            }
-            Thread.Sleep(100);
-            SendKeys.SendWait("{Right}");
-            SendKeys.SendWait(" ");
-            Thread.Sleep(500);
-            while (printD1.text.IndexOf("sua thong tin bd10") != -1)
-            {
-                printD1 = APIManager.GetActiveWindowTitle();
-                Thread.Sleep(100);
-            }
-            Thread.Sleep(500);
-            SendKeys.SendWait("{Enter}");
-            SendKeys.SendWait("{Esc}");
-            Thread.Sleep(100);
-            SendKeys.SendWait("{Enter}");
+
+            currentWindow = APIManager.WaitingFindedWindow("print document");
+            if (currentWindow == null)
+                return;
+            APIManager.ClickButton(currentWindow.hwnd, "thoat", isExactly: false);
+            APIManager.WaitingFindedWindow("sua thong tin bd10", "lap bd10");
+
             if (IsAutoF4)
             {
                 WindowInfo window = APIManager.WaitingFindedWindow("danh sach bd10 di");
@@ -377,23 +364,35 @@ namespace TaoBD10.ViewModels
                     return;
                 }
                 Thread.Sleep(500);
-                SendKeys.SendWait("{F4}");
+                SendKeys.SendWait("{F3}");
             }
         }
 
         private void BwPrintBanKe_DoWork(object sender, DoWorkEventArgs e)
         {
-            SendKeys.SendWait("{F7}");
-            Thread.Sleep(500);
+            WindowInfo currentWindow = APIManager.GetActiveWindowTitle();
+            if (currentWindow.text.IndexOf("dong chuyen thu") == -1)
+            {
+                return;
+            }
+            APIManager.ClickButton(currentWindow.hwnd, "in an pham", isExactly: false);
+            currentWindow = APIManager.WaitingFindedWindow("in an pham");
+            if (currentWindow == null)
+                return;
+
             SendKeys.SendWait("{UP}");
             SendKeys.SendWait(" ");
             SendKeys.SendWait("{DOWN}");
             SendKeys.SendWait(" ");
-            SendKeys.SendWait("{F10}");
-            Thread.Sleep(500);
-            SendKeys.SendWait("{F10}");
 
-            WindowInfo currentWindow = APIManager.WaitingFindedWindow("print document");
+            APIManager.ClickButton(currentWindow.hwnd, "in an pham", isExactly: false);
+            //Hình thức
+            currentWindow = APIManager.WaitingFindedWindow("hinh thuc");
+            if (currentWindow == null)
+                return;
+            APIManager.ClickButton(currentWindow.hwnd, "chap nhan", isExactly: false);
+
+            currentWindow = APIManager.WaitingFindedWindow("print document");
             if (currentWindow == null)
             {
                 MessageShow("Không tìm thấy window print document");
@@ -401,9 +400,7 @@ namespace TaoBD10.ViewModels
             }
 
             Thread.Sleep(200);
-            var controls = APIManager.GetListControlText(currentWindow.hwnd);
-            var inAnPham = controls.Where(m => m.ClassName == "WindowsForms10.BUTTON.app.0.1e6fa8e").ToList()[1];
-            APIManager.ClickButton(inAnPham.Handle);
+            APIManager.ClickButton(currentWindow.hwnd, "in an pham", isExactly: false);
 
             currentWindow = APIManager.WaitingFindedWindow("Print", isExactly: true);
             if (currentWindow == null)
@@ -419,14 +416,10 @@ namespace TaoBD10.ViewModels
                 MessageShow("Không tìm thấy window print pre");
                 return;
             }
-            controls = APIManager.GetListControlText(currentWindow.hwnd);
-
+           
             Thread.Sleep(50);
             SendKeys.SendWait("%{u}");
-            if (controls[35].Text != "OK")
-                return;
-            IntPtr okHandle = controls[35].Handle;
-            APIManager.ClickButton(okHandle);
+            APIManager.ClickButton(currentWindow.hwnd, "ok", isExactly: false);
 
             currentWindow = APIManager.WaitingFindedWindow("Print", isExactly: true);
             if (currentWindow == null)
@@ -436,17 +429,6 @@ namespace TaoBD10.ViewModels
             }
             SendKeys.SendWait("%{p}");
 
-            //WindowInfo printD1 = currentWindow;
-            //while (printD1.text.IndexOf("printing") == -1)
-            //{
-            //    printD1 = APIManager.GetActiveWindowTitle();
-            //    Thread.Sleep(50);
-            //}
-            //while (printD1.text.IndexOf("printing") != -1)
-            //{
-            //    printD1 = APIManager.GetActiveWindowTitle();
-            //    Thread.Sleep(50);
-            //}
             Thread.Sleep(300);
             currentWindow = APIManager.WaitingFindedWindow("print document");
             if (currentWindow == null)
@@ -454,17 +436,15 @@ namespace TaoBD10.ViewModels
                 MessageShow("Không tìm thấy window print document");
                 return;
             }
-            //controls = APIManager.GetListControlText(currentWindow.hwnd);
-            //TestAPIModel control = controls.Find(m => m.Text == "Thoát");
-            //APIManager.ClickButton(control.Handle);
+           
+            APIManager.ClickButton(currentWindow.hwnd, "thoat",isExactly:false);
 
-            //SendKeys.SendWait("{Right}");
-            //SendKeys.SendWait("{Right}");
-            //SendKeys.SendWait(" ");
-            APIManager.ClickButton(currentWindow.hwnd, "Thoát");
-            Thread.Sleep(1000);
 
-            SendKeys.SendWait("{F10}");
+
+            currentWindow = APIManager.WaitingFindedWindow("hinh thuc");
+            if (currentWindow == null)
+                return;
+            APIManager.ClickButton(currentWindow.hwnd, "chap nhan", isExactly: false);
 
             currentWindow = APIManager.WaitingFindedWindow("print document");
             if (currentWindow == null)
@@ -474,9 +454,7 @@ namespace TaoBD10.ViewModels
             }
 
             Thread.Sleep(200);
-            controls = APIManager.GetListControlText(currentWindow.hwnd);
-            inAnPham = controls.Where(m => m.ClassName == "WindowsForms10.BUTTON.app.0.1e6fa8e").ToList()[1];
-            APIManager.ClickButton(inAnPham.Handle);
+            APIManager.ClickButton(currentWindow.hwnd, "in an pham", isExactly: false);
 
             currentWindow = APIManager.WaitingFindedWindow("Print", isExactly: true);
             if (currentWindow == null)
@@ -492,14 +470,10 @@ namespace TaoBD10.ViewModels
                 MessageShow("Không tìm thấy window print pre");
                 return;
             }
-            controls = APIManager.GetListControlText(currentWindow.hwnd);
 
             Thread.Sleep(50);
             SendKeys.SendWait("%{u}");
-            if (controls[35].Text != "OK")
-                return;
-            okHandle = controls[35].Handle;
-            APIManager.ClickButton(okHandle);
+            APIManager.ClickButton(currentWindow.hwnd, "ok", isExactly: false);
 
             currentWindow = APIManager.WaitingFindedWindow("Print", isExactly: true);
             if (currentWindow == null)
@@ -509,17 +483,6 @@ namespace TaoBD10.ViewModels
             }
             SendKeys.SendWait("%{p}");
 
-            //var printD1 = currentWindow;
-            //while (printD1.text.IndexOf("printing") == -1)
-            //{
-            //    printD1 = APIManager.GetActiveWindowTitle();
-            //    Thread.Sleep(100);
-            //}
-            //while (printD1.text.IndexOf("printing") != -1)
-            //{
-            //    printD1 = APIManager.GetActiveWindowTitle();
-            //    Thread.Sleep(100);
-            //}
             Thread.Sleep(300);
             currentWindow = APIManager.WaitingFindedWindow("print document");
             if (currentWindow == null)
@@ -527,62 +490,8 @@ namespace TaoBD10.ViewModels
                 MessageShow("Không tìm thấy window print document");
                 return;
             }
-            //controls = APIManager.GetListControlText(currentWindow.hwnd);
-            //control = controls.Find(m => m.Text == "Thoát");
-            //APIManager.ClickButton(control.Handle);
 
-            //SendKeys.SendWait("{Right}");
-            //SendKeys.SendWait("{Right}");
-            //SendKeys.SendWait(" ");
-            APIManager.ClickButton(currentWindow.hwnd, "Thoát");
-            //Thread.Sleep(50);
-            //SendKeys.SendWait("{ENTER}");
-            //Thread.Sleep(50);
-            //SendKeys.SendWait("%{p}");
-            //Thread.Sleep(500);
-            //WindowInfo printD1 = currentWindow;
-            //APIManager.WaitingFindedWindow("printing");
-            //while (printD1.text.IndexOf("printing") != -1)
-            //{
-            //    printD1 = APIManager.GetActiveWindowTitle();
-            //    Thread.Sleep(100);
-            //}
-            //Thread.Sleep(100);
-            //SendKeys.SendWait("{Right}");
-            //SendKeys.SendWait(" ");
-            //Thread.Sleep(2000);
-
-            //SendKeys.SendWait("{F10}");
-
-            //currentWindow = APIManager.WaitingFindedWindow("print document");
-            //if (currentWindow == null)
-            //{
-            //    MessageShow("Không tìm thấy window print document");
-            //    return;
-            //}
-
-            //Thread.Sleep(200);
-            //SendKeys.SendWait("{TAB}");
-            //SendKeys.SendWait(" ");
-            //Thread.Sleep(1000);
-            //SendKeys.SendWait("%{r}");
-            //Thread.Sleep(50);
-            //SendKeys.SendWait("%{u}");
-            //Thread.Sleep(50);
-            //SendKeys.SendWait("{ENTER}");
-            //Thread.Sleep(50);
-            //SendKeys.SendWait("%{p}");
-            //Thread.Sleep(500);
-            //printD1 = currentWindow;
-            //APIManager.WaitingFindedWindow("printing");
-            //while (printD1.text.IndexOf("printing") != -1)
-            //{
-            //    printD1 = APIManager.GetActiveWindowTitle();
-            //    Thread.Sleep(100);
-            //}
-            //Thread.Sleep(100);
-            //SendKeys.SendWait("{Right}");
-            //SendKeys.SendWait(" ");
+            APIManager.ClickButton(currentWindow.hwnd, "thoat", isExactly: false);
         }
 
         private bool isReadDuRoi = false;
@@ -1574,7 +1483,7 @@ namespace TaoBD10.ViewModels
             else
             {
                 APIManager.ClickButton(xacNhanWindow.hwnd, "yes", isExactly: false);
-                Thread.Sleep(1000);
+                Thread.Sleep(1500);
                 SoundManager.playSound2(@"\music\xoabg.wav");
             }
         }

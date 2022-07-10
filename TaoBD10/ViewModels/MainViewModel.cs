@@ -165,7 +165,7 @@ namespace TaoBD10.ViewModels
                         {
                             if (m.BuuCucPhat == "59")
                             {
-                                SoundManager.playSound2(@"Number\error_sound.wav");
+                                SoundManager.playSound3(@"Number\error_sound.wav");
                             }
                         }
                         else if (loaiCurrent == "R")
@@ -180,7 +180,7 @@ namespace TaoBD10.ViewModels
                                 }
                                 else
                                 {
-                                    SoundManager.playSound2(@"Number\error_sound.wav");
+                                    SoundManager.playSound3(@"Number\error_sound.wav");
                                 }
                             }
                         }
@@ -188,42 +188,42 @@ namespace TaoBD10.ViewModels
                     else if (maSoBuuCucCurrent == "592810")
                     {
                         if (boDauAddress.IndexOf("phu my") == -1)
-                            SoundManager.playSound2(@"Number\error_sound.wav");
+                            SoundManager.playSound3(@"Number\error_sound.wav");
                     }
                     else if (maSoBuuCucCurrent == "592460")
                     {
                         if (boDauAddress.IndexOf("phu cat") == -1)
-                            SoundManager.playSound2(@"Number\error_sound.wav");
+                            SoundManager.playSound3(@"Number\error_sound.wav");
                     }
                     else if (maSoBuuCucCurrent == "592020")
                     {
                         if (boDauAddress.IndexOf("an nhon") == -1)
-                            SoundManager.playSound2(@"Number\error_sound.wav");
+                            SoundManager.playSound3(@"Number\error_sound.wav");
                     }
                     else if (maSoBuuCucCurrent == "591520" || maSoBuuCucCurrent == "591218")
                     {
                         if (boDauAddress.IndexOf("quy nhon") == -1)
-                            SoundManager.playSound2(@"Number\error_sound.wav");
+                            SoundManager.playSound3(@"Number\error_sound.wav");
                     }
                     else if (maSoBuuCucCurrent == "593280")
                     {
                         if (boDauAddress.IndexOf("hoai nhon") == -1)
-                            SoundManager.playSound2(@"Number\error_sound.wav");
+                            SoundManager.playSound3(@"Number\error_sound.wav");
                     }
                     else if (maSoBuuCucCurrent == "593330")
                     {
                         if (boDauAddress.IndexOf("hoai nhon") == -1)
-                            SoundManager.playSound2(@"Number\error_sound.wav");
+                            SoundManager.playSound3(@"Number\error_sound.wav");
                     }
                     else if (maSoBuuCucCurrent == "593740" || maSoBuuCucCurrent == "593630")
                     {
                         if (boDauAddress.IndexOf("hoai an") == -1)
-                            SoundManager.playSound2(@"Number\error_sound.wav");
+                            SoundManager.playSound3(@"Number\error_sound.wav");
                     }
                     else if (maSoBuuCucCurrent == "593850" || maSoBuuCucCurrent == "593880")
                     {
                         if (boDauAddress.IndexOf("an lao") == -1)
-                            SoundManager.playSound2(@"Number\error_sound.wav");
+                            SoundManager.playSound3(@"Number\error_sound.wav");
                     }
                 }
             });
@@ -1449,6 +1449,10 @@ namespace TaoBD10.ViewModels
                             Thread.Sleep(100);
                             WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Focus", Content = "Box" });
                         }
+                        else if (KeyData.IndexOf("xoabg") != -1)
+                        {
+                            XoaBG();
+                        }
                         else if (KeyData.ToLower().IndexOf("vn") != -1)
                         {
                             if (IsFindItem)
@@ -1533,6 +1537,30 @@ namespace TaoBD10.ViewModels
         {
             int index = content.LastIndexOf("vn");
             return content.Substring(index - 11, 13);
+        }
+
+        void XoaBG()
+        {
+            Thread.Sleep(2000);
+            WindowInfo currentWindow = APIManager.GetActiveWindowTitle();
+            if (currentWindow == null)
+                return;
+            if(currentWindow.text.IndexOf("dong chuyen thu") == -1)
+            {
+                return;
+            }
+            APIManager.ClickButton(currentWindow.hwnd, "xoa buu gui", isExactly: false);
+            WindowInfo xacNhanWindow =  APIManager.WaitingFindedWindow("xac nhan");
+            if (xacNhanWindow == null)
+            {
+                return;
+            }
+            else
+            {
+                APIManager.ClickButton(xacNhanWindow.hwnd, "yes", isExactly: false);
+                Thread.Sleep(1000);
+                SoundManager.playSound2(@"\music\xoabg.wav");
+            }
         }
 
         private void SetChiTietWindow()

@@ -10,6 +10,7 @@ namespace TaoBD10.Manager
         private static SoundPlayer playerSync;
         private static string dir = "";
         private static System.Windows.Media.MediaPlayer p2;
+        private static System.Windows.Media.MediaPlayer p3;
 
         public static void SetUpDirectory()
         {
@@ -17,6 +18,7 @@ namespace TaoBD10.Manager
             player = new SoundPlayer();
             playerSync = new SoundPlayer();
             p2 = new System.Windows.Media.MediaPlayer();
+            p3 = new System.Windows.Media.MediaPlayer();
         }
 
         public static void playSound(string path)
@@ -49,6 +51,24 @@ namespace TaoBD10.Manager
                     p2.Stop();
                     p2.Open(new Uri(dir + @"\" + path));
                     p2.Play();
+                }));
+            }
+            catch (System.Exception e)
+            {
+                APIManager.ShowSnackbar(e.Message + " " + path);
+            }
+        }
+        public static void playSound3(string path)
+        {
+            //player.SoundLocation = dir + @"\" + path;
+            //player.Play();
+            try
+            {
+                System.Windows.Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    p3.Stop();
+                    p3.Open(new Uri(dir + @"\" + path));
+                    p3.Play();
                 }));
             }
             catch (System.Exception e)

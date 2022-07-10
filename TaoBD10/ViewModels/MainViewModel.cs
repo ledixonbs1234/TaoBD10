@@ -78,6 +78,7 @@ namespace TaoBD10.ViewModels
             bwPrintBanKe.DoWork += BwPrintBanKe_DoWork;
             bwRunPrints = new BackgroundWorker();
             bwRunPrints.DoWork += BwRunPrints_DoWork;
+            bwRunPrints.RunWorkerCompleted += BwRunPrints_RunWorkerCompleted;
 
             _keyboardHook = new Y2KeyboardHook();
             _keyboardHook.OnKeyPressed += OnKeyPress;
@@ -229,10 +230,24 @@ namespace TaoBD10.ViewModels
             });
         }
 
+        private void BwRunPrints_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (IsAutoF4)
+            {
+                if (isRunnedPrintBD)
+                {
+                    bwRunPrints.RunWorkerAsync();
+                }
+            }
+        }
+
+        bool isRunnedPrintBD = false;
+
         private void BwRunPrints_DoWork(object sender, DoWorkEventArgs e)
         {
             try
             {
+                isRunnedPrintBD = false;
                 string lastcopy = "";
                 string data = "null";
                 SendKeys.SendWait("{F4}");
@@ -258,6 +273,7 @@ namespace TaoBD10.ViewModels
                         || data.IndexOf("570100") != -1)
                         && data.IndexOf("Khởi tạo") != -1)
                     {
+                        isRunnedPrintBD=true;
                         WindowInfo window = APIManager.WaitingFindedWindow("danh sach bd10 di");
                         if (window == null)
                         {

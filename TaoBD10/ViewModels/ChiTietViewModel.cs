@@ -1203,6 +1203,8 @@ namespace TaoBD10.ViewModels
             WindowInfo info = APIManager.WaitingFindedWindow("thong tin buu gui");
             if (info == null)
                 return;
+
+            APIManager.SetPrintBD10();
             List<TestAPIModel> listControl = APIManager.GetListControlText(info.hwnd);
             List<TestAPIModel> listWindowForm = listControl.Where(m => m.ClassName.IndexOf("10.Window.8.ap") != -1).ToList();
 
@@ -1249,62 +1251,37 @@ namespace TaoBD10.ViewModels
                 SendKeys.SendWait("{DOWN}");
             }
 
-            SendKeys.SendWait("^{TAB}");
-            Thread.Sleep(50);
-            SendKeys.SendWait(" ");
-
-            WindowInfo printD = new WindowInfo();
-            while (printD.text.IndexOf("print document") == -1)
+            APIManager.ClickButton(info.hwnd, "in an pham", isExactly: false);
+            WindowInfo currentWindow = APIManager.WaitingFindedWindow("print document");
+            if (currentWindow == null)
             {
-                printD = APIManager.GetActiveWindowTitle();
-                if (printD == null)
-                {
-                    APIManager.ShowSnackbar("Null Title");
-                    return;
-                }
-                TestText += printD.text + "\n";
-                Thread.Sleep(100);
+                return;
             }
-            Thread.Sleep(200);
-            SendKeys.SendWait("{TAB}");
-            SendKeys.SendWait(" ");
+            Thread.Sleep(500);
+            APIManager.ClickButton(currentWindow.hwnd, "in an pham", isExactly: false);
+
 
             WindowInfo infoPrint = APIManager.WaitingFindedWindow("Print", isExactly: true);
             if (infoPrint == null)
                 return;
 
             SendKeys.SendWait("%(p)");
+            Thread.Sleep(500);
 
             WindowInfo infoPrintDocument = APIManager.WaitingFindedWindow("Print Document", isExactly: true);
             if (infoPrintDocument == null)
                 return;
-            WindowInfo printD1 = new WindowInfo();
-            while (printD1.text.IndexOf("printing") == -1)
-            {
-                printD1 = APIManager.GetActiveWindowTitle();
-                Thread.Sleep(100);
-            }
-            while (printD1.text.IndexOf("printing") != -1)
-            {
-                printD1 = APIManager.GetActiveWindowTitle();
-                Thread.Sleep(100);
-            }
+
             if (CurrentSelectedHangHoaDetail != null)
             {
                 CurrentSelectedHangHoaDetail.TrangThaiBD = TrangThaiBD.DaIn;
             }
-
-            Thread.Sleep(200);
-            SendKeys.SendWait("{RIGHT}");
-            Thread.Sleep(50);
-            SendKeys.SendWait(" ");
+            APIManager.ClickButton(currentWindow.hwnd, "thoat", isExactly: false);
 
             WindowInfo infoThongTin = APIManager.WaitingFindedWindow("thong tin buu gui");
             if (infoThongTin == null)
                 return;
-            SendKeys.SendWait("{RIGHT}");
-            Thread.Sleep(100);
-            SendKeys.SendWait(" ");
+            APIManager.ClickButton(infoThongTin.hwnd, "thoat", isExactly: false);
         }
 
         private void QuangNam()

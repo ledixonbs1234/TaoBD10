@@ -144,7 +144,23 @@
                     <view:TamQuanView />
                 </TabItem>
                 <TabItem Header="TÙY CHỌN" Padding="0">
-                    <view:TuyChonView />
+                    <TabControl
+                        Margin="5"
+                        HorizontalContentAlignment="Left"
+                        materialDesign:ColorZoneAssist.Mode="SecondaryLight"
+                        SelectedIndex="{Binding IndexTabControl}"
+                        TabStripPlacement="Bottom">
+                        <TabItem Header="Default" Padding="0">
+                            <view:TuyChonView/>
+                        </TabItem>
+                        <TabItem Header="Option Chuyến Thư" Padding="0">
+                            <view:OptionChinhView/>
+                        </TabItem>
+                        <TabItem Background="Green" Header="Chi Tiết" Padding="0">
+                        </TabItem>
+                        <TabItem Header="Lấy Chuyến Thư" Padding="0">
+                        </TabItem>
+                    </TabControl>
                 </TabItem>
             </TabControl>
 

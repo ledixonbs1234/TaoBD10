@@ -582,7 +582,7 @@ namespace TaoBD10.ViewModels
                         TestAPIModel apiLoai;
                         TestAPIModel apiSoCT;
 
-                        if (!string.IsNullOrEmpty(apiMaBuuCuc.Text) && apiMaBuuCuc.Text.Length != 13)
+                        if (!string.IsNullOrEmpty(apiMaBuuCuc.Text) && int.TryParse(apiMaBuuCuc.Text.Substring(0,6),out int a))
                         {
                             if (apiMaBuuCuc.Text.Length < 6)
                                 continue;

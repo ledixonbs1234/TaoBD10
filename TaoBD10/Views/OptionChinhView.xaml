@@ -5,11 +5,47 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              DataContext="{StaticResource ChinhVM}"
              mc:Ignorable="d"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <DataGrid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="300"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <DataGrid ItemsSource="{Binding ChuyenThus}" Grid.RowSpan="4">
+
         </DataGrid>
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <Button Content="New" Margin="5" ToolTip="Mở phần khởi tạo chuyến thư để lấy thông tin túi" Command="{Binding NewCTCommand}"/>
+            <Button Content="Thông tin Túi" Margin="5"/>
+            <Button Content="Thông tin CT" Margin="5"/>
+            <Button Content="Lưu" Margin="5"/>
+            <Button Content="Xóa" Margin="5"/>
+        </StackPanel>
+        <!--<StackPanel Orientation="Horizontal" Grid.Row="2">
+            <materialDesign:Card Margin="5">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock VerticalAlignment="Center" Text="Handle BC Nhận"/>
+                    <TextBox Margin="15,0,0,0" Width="40"/>
+                </StackPanel>
+            </materialDesign:Card>
+
+            <materialDesign:Card Margin="5">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock VerticalAlignment="Center" Text="Handle BC Nhận"/>
+                    <TextBox Margin="15,0,0,0" Width="40"/>
+                </StackPanel>
+            </materialDesign:Card>
+            <materialDesign:Card Margin="5">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock VerticalAlignment="Center" Text="Handle BC Nhận"/>
+                    <TextBox Margin="15,0,0,0" Width="40"/>
+                </StackPanel>
+            </materialDesign:Card>
+        </StackPanel>-->
+
 
     </Grid>
 </UserControl>

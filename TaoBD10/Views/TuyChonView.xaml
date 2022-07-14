@@ -7,63 +7,45 @@
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     DataContext="{StaticResource TuyChonVM}"
+    xmlns:views="clr-namespace:TaoBD10.Views"
     mc:Ignorable="d">
     <StackPanel>
-
-        <TabControl
-                        x:Name="TabControl"
-                        Margin="5"
-                        HorizontalContentAlignment="Left"
-                        materialDesign:ColorZoneAssist.Mode="SecondaryLight"
-                        SelectedIndex="{Binding IndexTabControl}"
-                        TabStripPlacement="Bottom">
-            <TabItem Header="Default" Padding="0">
-                <StackPanel>
-                    <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
-                        <TextBlock
+        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+            <TextBlock
                 Margin="5"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
                 Text="Tên máy in BĐ8" />
-                        <ComboBox
+            <ComboBox
                 Width="150"
                 Margin="5"
                 HorizontalAlignment="Right"
                 ItemsSource="{Binding Printers}"
                 SelectedItem="{Binding PrintBD8}" />
-                    </StackPanel>
-                    <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
-                        <TextBlock
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+            <TextBlock
                 Margin="5"
                 VerticalAlignment="Center"
                 Text="Tên máy in BĐ 10" />
-                        <ComboBox
+            <ComboBox
                 Width="150"
                 Margin="5"
                 ItemsSource="{Binding Printers}"
                 SelectedItem="{Binding PrintBD10}" />
-                    </StackPanel>
-                    <Button
+        </StackPanel>
+        <Button
             Margin="5"
             Command="{Binding ApplyCommand}"
             Content="Apply" />
 
-                    <DataGrid
+        <DataGrid
             Height="300"
             ItemsSource="{Binding Controls}"
             SelectionMode="Single" />
-                    <Button
+        <Button
             Margin="5"
             Command="{Binding ListControlCommand}"
             Content="ListControl" />
-                </StackPanel>
-            </TabItem>
-            <TabItem Header="Danh Sách" Padding="0">
-            </TabItem>
-            <TabItem Background="Green" Header="Chi Tiết" Padding="0">
-            </TabItem>
-            <TabItem Header="Lấy Chuyến Thư" Padding="0">
-            </TabItem>
-        </TabControl>
     </StackPanel>
 </UserControl>

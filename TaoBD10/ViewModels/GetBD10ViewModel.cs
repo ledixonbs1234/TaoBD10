@@ -216,6 +216,8 @@ namespace TaoBD10.ViewModels
             if (!IsStopInChiTiet)
                 SendKeys.SendWait("{ESC}");
             SoundManager.playSound2(@"Number\tingting.wav");
+            APIManager.ShowSnackbar("OK");
+
             WeakReferenceMessenger.Default.Send<string>("LoadBD10");
         }
 

@@ -1136,6 +1136,7 @@ namespace TaoBD10.ViewModels
                 else
                 {
                     SoundManager.playSound2(@"Number\tingting.wav");
+                    APIManager.ShowSnackbar("OK");
                     return;
                 }
             }

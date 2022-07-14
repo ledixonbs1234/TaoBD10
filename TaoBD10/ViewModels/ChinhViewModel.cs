@@ -23,6 +23,11 @@ namespace TaoBD10.ViewModels
             ChuyenThus = new ObservableCollection<ChuyenThuModel>();
             //thuc hien lay du lieu tu web
 
+            ChuyenThu1Command = new RelayCommand(ChuyenThu1);
+            ChuyenThu2Command = new RelayCommand(ChuyenThu2);
+
+            NewCTCommand = new RelayCommand(NewCT);
+
 
             KTHNCommand = new RelayCommand(KTHN);
             TongHopCommand = new RelayCommand(TongHop);
@@ -131,8 +136,6 @@ namespace TaoBD10.ViewModels
                 }
             });
         }
-
-        
 
         private void AnHoa()
         {
@@ -698,6 +701,16 @@ namespace TaoBD10.ViewModels
             APIManager.SendMessage(childControls[14].Handle, 0x0007, 0, 0);
         }
 
+        void ChuyenThu1()
+        {
+
+        }
+
+        void ChuyenThu2()
+        {
+
+        }
+
         private void D420()
         {
             APIManager.SetPrintBD8();
@@ -1049,17 +1062,15 @@ namespace TaoBD10.ViewModels
                 //Xong
             }
         }
-        private ObservableCollection<ChuyenThuModel> _ChuyenThus;
 
-        public ObservableCollection<ChuyenThuModel> ChuyenThus
+        public ICommand NewCTCommand { get; }
+
+
+        void NewCT()
         {
-            get { return _ChuyenThus; }
-            set { SetProperty(ref _ChuyenThus, value); }
+            
+
         }
-
-
-
-
 
         public ICommand AnHoaCommand { get; }
         public ICommand AnLaoCommand { get; }
@@ -1069,6 +1080,14 @@ namespace TaoBD10.ViewModels
         public ICommand BCPHNCommand { get; }
         public ICommand BD10DenCommand { get; }
         public ICommand BD10DiCommand { get; }
+        public ICommand ChuyenThu1Command { get; }
+        public ICommand ChuyenThu2Command { get; }
+        public ObservableCollection<ChuyenThuModel> ChuyenThus
+        {
+            get { return _ChuyenThus; }
+            set { SetProperty(ref _ChuyenThus, value); }
+        }
+
         public ICommand D420Command { get; }
         public ICommand EMSCommand { get; }
         public ICommand HoaiAnCommand { get; }
@@ -1084,6 +1103,8 @@ namespace TaoBD10.ViewModels
         public ICommand TongHopCommand { get; }
         private readonly BackgroundWorker bwCreateChuyenThu;
         private readonly BackgroundWorker bwPrint;
+        private ObservableCollection<ChuyenThuModel> _ChuyenThus;
+
         private ChuyenThuModel currentChuyenThu;
         private string soCTCurrent = "";
     }

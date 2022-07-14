@@ -21,7 +21,7 @@ namespace TaoBD10.ViewModels
         public ChinhViewModel()
         {
             ChuyenThus = new ObservableCollection<ChuyenThuModel>();
-            System.Collections.Generic.List<ChuyenThuModel> cts = FileManager.LoadCT()
+            System.Collections.Generic.List<ChuyenThuModel> cts = FileManager.LoadCT();
             if (cts != null)
                 if (cts.Count != 0)
                 {

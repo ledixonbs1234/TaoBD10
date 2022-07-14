@@ -1,0 +1,77 @@
+﻿<UserControl
+    x:Class="TaoBD10.Views.OptionAllView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:TaoBD10.Views"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    DataContext="{StaticResource OptionAllVM}"
+    mc:Ignorable="d">
+    <StackPanel>
+        <StackPanel Margin="5,5,5,0" Orientation="Horizontal">
+            <TextBlock Margin="5" Text="Mã BCCP tạo chuyến thư" />
+            <TextBox Width="100" Text="{Binding dd}" />
+        </StackPanel>
+        <StackPanel Margin="5,0,5,0" Orientation="Horizontal">
+            <TextBlock Margin="5" Text="Vào nhanh khởi tạo chuyến thư" />
+            <TextBox
+                Width="100"
+                materialDesign:HintAssist.Hint="Ví dụ: 1,3"
+                Text="{Binding dd}" />
+        </StackPanel>
+        <Expander HorizontalAlignment="Stretch" Header="Tài Khoản">
+            <StackPanel>
+                <StackPanel Margin="5,0,5,0" Orientation="Horizontal">
+                    <TextBlock Margin="5" Text="Tài khoản, mật khẩu Web Định vị" />
+                    <TextBox
+                        Width="100"
+                        materialDesign:HintAssist.Hint="Tài khoản"
+                        Text="{Binding dd}" />
+                    <TextBox
+                        Width="100"
+                        materialDesign:HintAssist.Hint="Mật khẩu"
+                        Text="{Binding dd}" />
+                </StackPanel>
+                <StackPanel Margin="5,0,5,0" Orientation="Horizontal">
+                    <TextBlock Margin="5" Text="Tài khoản, mật khẩu Web MPS" />
+                    <TextBox
+                        Width="100"
+                        materialDesign:HintAssist.Hint="Tài khoản"
+                        Text="{Binding dd}" />
+                    <TextBox
+                        Width="100"
+                        materialDesign:HintAssist.Hint="Mật khẩu"
+                        Text="{Binding dd}" />
+                </StackPanel>
+                <StackPanel Margin="5,0,5,0" Orientation="Horizontal">
+                    <TextBlock Margin="5" Text="Tài khoản, mật khẩu Web PNS" />
+                    <TextBox
+                        Width="100"
+                        materialDesign:HintAssist.Hint="Tài khoản"
+                        Text="{Binding dd}" />
+                    <TextBox
+                        Width="100"
+                        materialDesign:HintAssist.Hint="Mật khẩu"
+                        Text="{Binding dd}" />
+                </StackPanel>
+            </StackPanel>
+        </Expander>
+        <StackPanel Margin="5,0,5,0" Orientation="Horizontal">
+            <TextBlock Margin="5" Text="Mã BC MPS" />
+            <TextBox
+                Width="500"
+                materialDesign:HintAssist.Hint="---593230 - KT Hoài Nhơn -KT2"
+                Text="{Binding dd}" />
+        </StackPanel>
+        <StackPanel Margin="5,0,5,0" Orientation="Horizontal">
+            <TextBlock Margin="5" Text="Mã Trạng Thái BC MPS" />
+            <TextBox
+                Width="500"
+                materialDesign:HintAssist.Hint="Xác nhận đến"
+                Text="{Binding dd}" />
+        </StackPanel>
+    </StackPanel>
+</UserControl>

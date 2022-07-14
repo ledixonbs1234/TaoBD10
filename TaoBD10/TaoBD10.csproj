@@ -246,6 +246,9 @@
     <Compile Include="Views\LocTuiView.xaml.cs">
       <DependentUpon>LocTuiView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\OptionAllView.xaml.cs">
+      <DependentUpon>OptionAllView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\OptionChinhView.xaml.cs">
       <DependentUpon>OptionChinhView.xaml</DependentUpon>
     </Compile>
@@ -335,6 +338,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\LocTuiView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\OptionAllView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

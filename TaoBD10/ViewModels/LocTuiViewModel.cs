@@ -13,6 +13,13 @@ namespace TaoBD10.ViewModels
     public class LocTuiViewModel : ObservableObject
     {
         private ObservableCollection<TuiHangHoa> _ListHangHoa;
+        private bool _IsGopVeNTB;
+
+        public bool IsGopVeNTB
+        {
+            get { return _IsGopVeNTB; }
+            set { SetProperty(ref _IsGopVeNTB, value); }
+        }
 
         public ObservableCollection<TuiHangHoa> ListHangHoa
         {
@@ -53,6 +60,7 @@ namespace TaoBD10.ViewModels
                 {
                     bd10
                 };
+            
             WeakReferenceMessenger.Default.Send<BD10Message>(new BD10Message(listBD10));
             if (string.IsNullOrEmpty(NameBD))
             {

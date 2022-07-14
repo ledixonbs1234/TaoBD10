@@ -299,10 +299,11 @@
                     Content="BĐ 10 Đến" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
+                
                 <Button
                     Margin="20,0"
-                    Command="{Binding AutoGetBD10Command}"
-                    Content="Auto" />
+                    Command="{Binding GopBDCommand}"
+                    Content="Gộp BD" />
                 <Button Command="{Binding XeXaHoiCommand}" Content="Xe Xã Hội" />
                 <ToggleButton
                     Width="40"

@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Management;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
@@ -60,7 +61,8 @@ namespace TaoBD10.ViewModels
 
 
 
-
+            printTrangCuoi = new BackgroundWorker();
+            printTrangCuoi.DoWork += PrintTrangCuoi_DoWork;
             LoadPageCommand = new RelayCommand<Window>(LoadPage);
             TabChangedCommand = new RelayCommand<System.Windows.Controls.TabControl>(TabChanged);
             OnCloseWindowCommand = new RelayCommand(OnCloseWindow);
@@ -173,16 +175,38 @@ namespace TaoBD10.ViewModels
                         {
                             if (m.BuuCucPhat == "59")
                             {
-                                if (boDauAddress.IndexOf("van canh") != -1
+                                if (IsBoQuaHuyen)
+                                {
+                                    if (boDauAddress.IndexOf("van canh") != -1
                                     || boDauAddress.IndexOf("vinh thanh") != -1
                                     || boDauAddress.IndexOf("tay son") != -1
-                                    || boDauAddress.IndexOf("tuy phuoc") != -1)
-                                {
+                                    || boDauAddress.IndexOf("phu my") != -1
+                                    || boDauAddress.IndexOf("phu cat") != -1
+                                    || boDauAddress.IndexOf("an nhon") != -1
+                                    || boDauAddress.IndexOf("tuy phuoc") != -1
+                                    || boDauAddress.IndexOf("quy nhon") != -1)
+                                    {
+                                    }
+                                    else
+                                    {
+                                        SoundManager.playSound3(@"Number\error_sound.wav");
+                                    }
                                 }
                                 else
                                 {
-                                    SoundManager.playSound3(@"Number\error_sound.wav");
+                                    if (boDauAddress.IndexOf("van canh") != -1
+                                    || boDauAddress.IndexOf("vinh thanh") != -1
+                                    || boDauAddress.IndexOf("tay son") != -1
+                                    || boDauAddress.IndexOf("tuy phuoc") != -1
+                                    || boDauAddress.IndexOf("quy nhon") != -1)
+                                    {
+                                    }
+                                    else
+                                    {
+                                        SoundManager.playSound3(@"Number\error_sound.wav");
+                                    }
                                 }
+
                             }
                         }
                     }
@@ -230,6 +254,34 @@ namespace TaoBD10.ViewModels
             });
         }
 
+        private void PrintTrangCuoi_DoWork(object sender, DoWorkEventArgs e)
+        {
+            WindowInfo currentWindow = APIManager.WaitingFindedWindow("print document");
+            if (currentWindow == null)
+            {
+                MessageShow("Không tìm thấy window print document");
+                return;
+            }
+
+            APIManager.ClickButton(currentWindow.hwnd, "in an pham", isExactly: false);
+
+            currentWindow = APIManager.WaitingFindedWindow("Print", isExactly: true);
+            if (currentWindow == null)
+            {
+                MessageShow("Không tìm thấy window print document");
+                return;
+            }
+            List<TestAPIModel> controls = APIManager.GetListControlText(currentWindow.hwnd);
+            TestAPIModel editControl = controls.Where(m => m.ClassName == "Edit").ToList()[3];
+            string control = editControl.Text.Split('-')[1];
+
+            string newText = control + "-" + control;
+            APIManager.SendMessage(editControl.Handle, (int)0x000C, IntPtr.Zero, new StringBuilder(newText));
+
+            SendKeys.SendWait("%{p}");
+
+        }
+
         private void BwRunPrints_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             if (IsAutoF4)
@@ -273,7 +325,7 @@ namespace TaoBD10.ViewModels
                         || data.IndexOf("570100") != -1)
                         && data.IndexOf("Khởi tạo") != -1)
                     {
-                        isRunnedPrintBD=true;
+                        isRunnedPrintBD = true;
                         WindowInfo window = APIManager.WaitingFindedWindow("danh sach bd10 di");
                         if (window == null)
                         {
@@ -337,7 +389,7 @@ namespace TaoBD10.ViewModels
             }
             Thread.Sleep(500);
             APIManager.ClickButton(currentWindow.hwnd, "in an pham", isExactly: false);
-            WindowInfo printWindow = APIManager.WaitingFindedWindow("Print",isExactly:true);
+            WindowInfo printWindow = APIManager.WaitingFindedWindow("Print", isExactly: true);
 
             SendKeys.SendWait("%{c}");
             Thread.Sleep(50);
@@ -416,7 +468,7 @@ namespace TaoBD10.ViewModels
                 MessageShow("Không tìm thấy window print pre");
                 return;
             }
-           
+
             Thread.Sleep(50);
             SendKeys.SendWait("%{u}");
             APIManager.ClickButton(currentWindow.hwnd, "ok", isExactly: false);
@@ -436,8 +488,8 @@ namespace TaoBD10.ViewModels
                 MessageShow("Không tìm thấy window print document");
                 return;
             }
-           
-            APIManager.ClickButton(currentWindow.hwnd, "thoat",isExactly:false);
+
+            APIManager.ClickButton(currentWindow.hwnd, "thoat", isExactly: false);
 
 
 
@@ -953,7 +1005,15 @@ namespace TaoBD10.ViewModels
 
         public string CountInBD { get => _CountInBD; set => SetProperty(ref _CountInBD, value); }
         public IRelayCommand<System.Windows.Controls.TabControl> DefaultWindowCommand { get; }
-        private bool _IsFindItem;
+        private bool _IsFindItem = true;
+        private bool _IsBoQuaHuyen;
+
+        public bool IsBoQuaHuyen
+        {
+            get { return _IsBoQuaHuyen; }
+            set { SetProperty(ref _IsBoQuaHuyen, value); }
+        }
+
 
         public bool IsFindItem
         {
@@ -1120,6 +1180,8 @@ namespace TaoBD10.ViewModels
             //_con.ConnectionString = _strConnect;
             //_con.Open();
         }
+
+        BackgroundWorker printTrangCuoi;
 
         private void DefaultWindow(System.Windows.Controls.TabControl tabControl)
         {
@@ -1431,6 +1493,10 @@ namespace TaoBD10.ViewModels
                         {
                             bwPrintBanKe.RunWorkerAsync();
                         }
+                        else if (activeWindows.text.IndexOf("print document") != -1)
+                        {
+                            printTrangCuoi.RunWorkerAsync();
+                        }
                         break;
 
                     case Key.F4:
@@ -1470,12 +1536,12 @@ namespace TaoBD10.ViewModels
             WindowInfo currentWindow = APIManager.GetActiveWindowTitle();
             if (currentWindow == null)
                 return;
-            if(currentWindow.text.IndexOf("dong chuyen thu") == -1)
+            if (currentWindow.text.IndexOf("dong chuyen thu") == -1)
             {
                 return;
             }
             APIManager.ClickButton(currentWindow.hwnd, "xoa buu gui", isExactly: false);
-            WindowInfo xacNhanWindow =  APIManager.WaitingFindedWindow("xac nhan");
+            WindowInfo xacNhanWindow = APIManager.WaitingFindedWindow("xac nhan");
             if (xacNhanWindow == null)
             {
                 return;

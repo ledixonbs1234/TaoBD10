@@ -17,10 +17,24 @@ using static TaoBD10.Manager.EnumAll;
 
 namespace TaoBD10.ViewModels
 {
-    internal class ChiTietViewModel : ObservableObject
+    public  class ChiTietViewModel : ObservableObject
     {
+        public ICommand GopBDCommand { get; }
+
+        
+
+        void GopBD()
+        {
+            //thuc hien gop bd dua vao danh sach hien co
+            //bo bd phu my phu cat an nhon
+            int countPhuMy = currentListHangHoa.Where(m => m.PhanLoai == PhanLoaiTinh.PhuMy).Count();
+            int countPhuCat = currentListHangHoa.Where(m => m.PhanLoai == PhanLoaiTinh.PhuCat).Count();
+            int countAnNhon = currentListHangHoa.Where(m => m.PhanLoai == PhanLoaiTinh.AnNhon).Count();
+        }
+
         public ChiTietViewModel()
         {
+            GopBDCommand = new RelayCommand(GopBD);
             bwChiTiet = new BackgroundWorker();
             bwChiTiet.DoWork += BwChiTiet_DoWork;
             taoBDWorker = new BackgroundWorker();
@@ -560,6 +574,8 @@ namespace TaoBD10.ViewModels
             //RunBD();
 
         }
+
+        
 
         private void RunBDBinhThuong(BD10DiInfoModel bd10Di, PhanLoaiTinh tinh)
         {

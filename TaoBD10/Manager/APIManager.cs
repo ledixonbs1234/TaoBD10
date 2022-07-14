@@ -117,8 +117,10 @@ namespace TaoBD10.Manager
 
             return childHandles;
         }
+
         [DllImport("User32.dll", EntryPoint = "SendMessage")]
         private static extern int SendMessage(IntPtr hWnd, int uMsg, int wParam, string lParam);
+
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
         public static extern int GetClassNameW(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
 
@@ -327,7 +329,8 @@ namespace TaoBD10.Manager
             }
             return IntPtr.Zero;
         }
-        static bool isWaitingThoat = false;
+
+        private static bool isWaitingThoat = false;
 
         /// <summary>
         /// Thoat toi view
@@ -494,8 +497,6 @@ namespace TaoBD10.Manager
 
         [DllImport("user32.dll")]
         private static extern bool PostMessage(IntPtr hWnd, uint Msg, int wParam, int lParam);
-
-        
 
         [DllImport("winspool.drv", CharSet = CharSet.Auto, SetLastError = true)]
         private static extern bool SetDefaultPrinter(string Name);

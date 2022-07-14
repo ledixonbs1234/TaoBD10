@@ -27,12 +27,13 @@ namespace TaoBD10
                     }
                 }
             });
-            bool a =ValidHD();
+            bool a = ValidHD();
             if (!a)
                 Close();
-
         }
-        string key = "ledixonbs";
+
+        private string key = "ledixonbs";
+
         public string Decrypt(string toDecrypt)
         {
             bool useHashing = true;
@@ -57,7 +58,8 @@ namespace TaoBD10
 
             return UTF8Encoding.UTF8.GetString(resultArray);
         }
-        private  bool ValidHD()
+
+        private bool ValidHD()
         {
             string hdSN = String.Empty;
             ManagementObjectSearcher moSearcher = new ManagementObjectSearcher("select * from Win32_DiskDrive");
@@ -66,13 +68,13 @@ namespace TaoBD10
                 hdSN = wmi_HDD["SerialNumber"].ToString();
                 break;
             }
-             string text = File.ReadAllText("key.txt");
+            string text = File.ReadAllText("key.txt");
             string decryText = Decrypt(text);
-            if(decryText == hdSN)
+            if (decryText == hdSN)
             {
                 return true;
-            }else return false; 
-
+            }
+            else return false;
 
             if (hdSN == "Your_SN_Here")
             {

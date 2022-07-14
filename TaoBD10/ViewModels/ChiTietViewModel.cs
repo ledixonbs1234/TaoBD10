@@ -17,13 +17,11 @@ using static TaoBD10.Manager.EnumAll;
 
 namespace TaoBD10.ViewModels
 {
-    public  class ChiTietViewModel : ObservableObject
+    public class ChiTietViewModel : ObservableObject
     {
         public ICommand GopBDCommand { get; }
 
-        
-
-        void GopBD()
+        private void GopBD()
         {
             //thuc hien gop bd dua vao danh sach hien co
             //bo bd phu my phu cat an nhon
@@ -44,9 +42,7 @@ namespace TaoBD10.ViewModels
             HAALs = new ObservableCollection<string>();
             BDTamQuans = new ObservableCollection<string>();
 
-
             SetDefaultBDRunned();
-
 
             WeakReferenceMessenger.Default.Register<BD10Message>(this, (r, m) =>
             {
@@ -386,7 +382,6 @@ namespace TaoBD10.ViewModels
             BDKDaNangs.Add("Kiện Đà Nẵng|NEW");
             SelectedKDN = BDKDaNangs[0];
 
-
             BDEDNs = new ObservableCollection<string>();
             BD10DiInfoModel emsDN = bD10DiInfoModels.FirstOrDefault(m => m.MaBuuCuc == "550915" && m.TrangThai == StateBD10Di.KhoiTao);
 
@@ -396,7 +391,6 @@ namespace TaoBD10.ViewModels
             }
             BDEDNs.Add("EMS Đà Nẵng|NEW");
             SelectedEDN = BDEDNs[0];
-
 
             BDQNams = new ObservableCollection<string>();
             BD10DiInfoModel qNam = bD10DiInfoModels.FirstOrDefault(m => m.MaBuuCuc == "560100" && m.TrangThai == StateBD10Di.KhoiTao);
@@ -418,8 +412,6 @@ namespace TaoBD10.ViewModels
             BDQNgais.Add("Quảng Ngãi|NEW");
             SelectedQNgai = BDQNgais[0];
 
-
-
             BDKNTBs = new ObservableCollection<string>();
             List<BD10DiInfoModel> kiens = bD10DiInfoModels.Where(m => m.MaBuuCuc == "590100" && m.TrangThai == StateBD10Di.KhoiTao).ToList();
             if (kiens.Count > 0)
@@ -434,7 +426,6 @@ namespace TaoBD10.ViewModels
 
             BDTuiNTBs = new ObservableCollection<string>();
             List<BD10DiInfoModel> tuis = bD10DiInfoModels.Where(m => m.MaBuuCuc == "590100" && m.TrangThai == StateBD10Di.KhoiTao).ToList();
-
 
             if (tuis.Count > 0)
             {
@@ -467,7 +458,6 @@ namespace TaoBD10.ViewModels
             BDANs = new ObservableCollection<string>();
             BD10DiInfoModel anNhon = bD10DiInfoModels.FirstOrDefault(m => m.MaBuuCuc == "592020" && m.TrangThai == StateBD10Di.KhoiTao);
 
-
             if (anNhon != null)
             {
                 BDANs.Add("An Nhơn|" + anNhon.LanLap);
@@ -485,7 +475,6 @@ namespace TaoBD10.ViewModels
             BDPCs.Add("Phù Cát|NEW");
             SelectedPC = BDPCs[0];
 
-
             BDKT1 = new ObservableCollection<string>();
             List<BD10DiInfoModel> kt1 = bD10DiInfoModels.Where(m => m.MaBuuCuc == "590100" && m.TrangThai == StateBD10Di.KhoiTao).ToList();
             if (kt1.Count > 0)
@@ -502,7 +491,7 @@ namespace TaoBD10.ViewModels
             RunBD();
         }
 
-        void RunBD()
+        private void RunBD()
         {
             int countBDRead = 0;
             for (int i = 0; i < BDRunned.Count; i++)
@@ -523,14 +512,15 @@ namespace TaoBD10.ViewModels
                 case 1:
                     //Run HA
                     break;
+
                 case 2:
                     //Run TQ
                     break;
+
                 case 3:
                     string text = SelectedKDN.Split('|')[1];
                     if (text == "NEW")
                     {
-
                     }
                     else
                     {
@@ -541,41 +531,48 @@ namespace TaoBD10.ViewModels
                     //Run Kien DN
 
                     break;
+
                 case 4:
                     //Run E DN
                     break;
+
                 case 5:
                     //Run Quang Nam
                     break;
+
                 case 6:
                     //Run Quang Ngai
                     break;
+
                 case 7:
                     //Run Kien Nam trung Bo
                     break;
+
                 case 8:
                     //Run E NTB
                     break;
+
                 case 9:
                     //Run Phu My
                     break;
+
                 case 10:
                     //Run Phu Cat
                     break;
+
                 case 11:
                     //Run An Nhon
                     break;
+
                 case 12:
                     //Run KT 1
                     break;
+
                 default:
                     break;
             }
             //RunBD();
-
         }
-
-        
 
         private void RunBDBinhThuong(BD10DiInfoModel bd10Di, PhanLoaiTinh tinh)
         {
@@ -627,14 +624,13 @@ namespace TaoBD10.ViewModels
         /// <summary>
         /// Dua thong tin vao sua thong tin bd
         /// Kiem tra va luu du lieu da dang ky
-        /// 
+        ///
         /// </summary>
-        void RunLietKeDataToSuaThongTin(PhanLoaiTinh tinh)
+        private void RunLietKeDataToSuaThongTin(PhanLoaiTinh tinh)
         {
             var currentWindow = APIManager.WaitingFindedWindow("sua thong tin bd 10");
             if (currentWindow == null)
                 return;
-
 
             ////////////////////////////////////////////////////
             if (_ListShowHangHoa.Count == 0)
@@ -771,11 +767,8 @@ namespace TaoBD10.ViewModels
 
             Thread.Sleep(200);
 
-
-
             //Xu Ly trong nay
             List<HangHoaDetailModel> listFall = new List<HangHoaDetailModel>();
-
 
             int currentCount = 0;
             int numberRead = 0;
@@ -815,13 +808,8 @@ namespace TaoBD10.ViewModels
 
                         isWaiting = false;
                     }
-
                 }
-
             }
-
-
-
 
             if (!isGone)
             {
@@ -857,7 +845,6 @@ namespace TaoBD10.ViewModels
                 }
             }
             ////////////////////////////////////////////////////
-
         }
 
         private void EMSDaNang()
@@ -1276,7 +1263,6 @@ namespace TaoBD10.ViewModels
             Thread.Sleep(500);
             APIManager.ClickButton(currentWindow.hwnd, "in an pham", isExactly: false);
 
-
             WindowInfo infoPrint = APIManager.WaitingFindedWindow("Print", isExactly: true);
             if (infoPrint == null)
                 return;
@@ -1650,6 +1636,7 @@ namespace TaoBD10.ViewModels
             get { return _BDKDaNangs; }
             set { SetProperty(ref _BDKDaNangs, value); }
         }
+
         private string _SelectedKDN;
 
         public string SelectedKDN
@@ -1658,9 +1645,7 @@ namespace TaoBD10.ViewModels
             set { SetProperty(ref _SelectedKDN, value); }
         }
 
-        List<bool> BDRunned;
-
-
+        private List<bool> BDRunned;
 
         private ObservableCollection<string> _BDTuiNTBs;
 
@@ -1669,6 +1654,7 @@ namespace TaoBD10.ViewModels
             get { return _BDTuiNTBs; }
             set { SetProperty(ref _BDTuiNTBs, value); }
         }
+
         private string _SelectedTuiNTB;
 
         public string SelectedTuiNTB
@@ -1676,6 +1662,7 @@ namespace TaoBD10.ViewModels
             get { return _SelectedTuiNTB; }
             set { SetProperty(ref _SelectedTuiNTB, value); }
         }
+
         private ObservableCollection<string> _BDKNTBs;
 
         public ObservableCollection<string> BDKNTBs
@@ -1683,6 +1670,7 @@ namespace TaoBD10.ViewModels
             get { return _BDKNTBs; }
             set { SetProperty(ref _BDKNTBs, value); }
         }
+
         private string _SelectedKNTB;
 
         public string SelectedKNTB
@@ -1690,6 +1678,7 @@ namespace TaoBD10.ViewModels
             get { return _SelectedKNTB; }
             set { SetProperty(ref _SelectedKNTB, value); }
         }
+
         private ObservableCollection<string> _BDANs;
 
         public ObservableCollection<string> BDANs
@@ -1697,6 +1686,7 @@ namespace TaoBD10.ViewModels
             get { return _BDANs; }
             set { SetProperty(ref _BDANs, value); }
         }
+
         private string _SelectedAN;
 
         public string SelectedAN
@@ -1704,6 +1694,7 @@ namespace TaoBD10.ViewModels
             get { return _SelectedAN; }
             set { SetProperty(ref _SelectedAN, value); }
         }
+
         private ObservableCollection<string> _BDPMs;
 
         public ObservableCollection<string> BDPMs
@@ -1711,6 +1702,7 @@ namespace TaoBD10.ViewModels
             get { return _BDPMs; }
             set { SetProperty(ref _BDPMs, value); }
         }
+
         private string _SelectedPM;
 
         public string SelectedPM
@@ -1718,6 +1710,7 @@ namespace TaoBD10.ViewModels
             get { return _SelectedPM; }
             set { SetProperty(ref _SelectedPM, value); }
         }
+
         private ObservableCollection<string> _BDPCs;
 
         public ObservableCollection<string> BDPCs
@@ -1725,6 +1718,7 @@ namespace TaoBD10.ViewModels
             get { return _BDPCs; }
             set { SetProperty(ref _BDPCs, value); }
         }
+
         private string _SelectedPC;
 
         public string SelectedPC
@@ -1732,6 +1726,7 @@ namespace TaoBD10.ViewModels
             get { return _SelectedPC; }
             set { SetProperty(ref _SelectedPC, value); }
         }
+
         private ObservableCollection<string> _BDKT1;
 
         public ObservableCollection<string> BDKT1
@@ -1739,6 +1734,7 @@ namespace TaoBD10.ViewModels
             get { return _BDKT1; }
             set { SetProperty(ref _BDKT1, value); }
         }
+
         private string _SelectedKT1;
 
         public string SelectedKT1
@@ -1754,6 +1750,7 @@ namespace TaoBD10.ViewModels
             get { return _BDEDNs; }
             set { SetProperty(ref _BDEDNs, value); }
         }
+
         private string _SelectedEDN;
 
         public string SelectedEDN
@@ -1769,6 +1766,7 @@ namespace TaoBD10.ViewModels
             get { return _BDQNgais; }
             set { SetProperty(ref _BDQNgais, value); }
         }
+
         private ObservableCollection<string> _BDQNams;
 
         public ObservableCollection<string> BDQNams
@@ -1776,6 +1774,7 @@ namespace TaoBD10.ViewModels
             get { return _BDQNams; }
             set { SetProperty(ref _BDQNams, value); }
         }
+
         private string _SelectedQNgai;
 
         public string SelectedQNgai
@@ -1783,6 +1782,7 @@ namespace TaoBD10.ViewModels
             get { return _SelectedQNgai; }
             set { SetProperty(ref _SelectedQNgai, value); }
         }
+
         private string _SelectedQNam;
 
         public string SelectedQNam
@@ -1790,9 +1790,6 @@ namespace TaoBD10.ViewModels
             get { return _SelectedQNam; }
             set { SetProperty(ref _SelectedQNam, value); }
         }
-
-
-
 
         public RelayCommand<PhanLoaiTinh> AddBDTinhCommand { get; }
         public ICommand AutoGetBD10Command { get; }

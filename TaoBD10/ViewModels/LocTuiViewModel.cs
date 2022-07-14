@@ -60,7 +60,7 @@ namespace TaoBD10.ViewModels
                 {
                     bd10
                 };
-            
+
             WeakReferenceMessenger.Default.Send<BD10Message>(new BD10Message(listBD10));
             if (string.IsNullOrEmpty(NameBD))
             {

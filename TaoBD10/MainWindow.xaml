@@ -30,7 +30,7 @@
             <RowDefinition />
             <RowDefinition Height="30" />
         </Grid.RowDefinitions>
-        
+
         <Grid Grid.Row="0">
             <Button
                 Grid.Row="1"
@@ -118,7 +118,6 @@
                         <TabItem Header="Get Address" Padding="0">
                             <view:AddressView />
                         </TabItem>
-                        
                     </TabControl>
                 </TabItem>
                 <TabItem Header="LỌC TÚI" Padding="0">

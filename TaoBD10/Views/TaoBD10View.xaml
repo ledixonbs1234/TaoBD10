@@ -299,22 +299,12 @@
                     Content="BĐ 10 Đến" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                
+
                 <Button
                     Margin="20,0"
                     Command="{Binding GopBDCommand}"
                     Content="Gộp BD" />
                 <Button Command="{Binding XeXaHoiCommand}" Content="Xe Xã Hội" />
-                <ToggleButton
-                    Width="40"
-                    Height="40"
-                    Margin="5"
-                    materialDesign:ToggleButtonAssist.OnContent="{materialDesign:PackIcon Kind=ArrowCollapse,
-                                                                                          Size=25}"
-                    Content="{materialDesign:PackIcon Kind=ArrowExpand,
-                                                      Size=25}"
-                    IsChecked="{Binding IsExpandTaoBD}"
-                    Style="{StaticResource MaterialDesignActionToggleButton}" />
             </StackPanel>
         </StackPanel>
         <StackPanel Grid.Column="1" Orientation="Vertical">

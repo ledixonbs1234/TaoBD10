@@ -418,13 +418,21 @@ namespace TaoBD10.ViewModels
             {
                 APIManager.SendMessage(buttonThoat, 0x00F5, 0, 0);
             }
-            APIManager.WaitingFindedWindow("dong chuyen thu");
+
+            currentWindow = APIManager.WaitingFindedWindow("dong chuyen thu");
+
+            if (currentWindow == null)
+            {
+                APIManager.ShowSnackbar("Không tìm thấy window đóng chuyến thư");
+                return;
+            }
 
             SendKeys.SendWait("{F10}");
             Thread.Sleep(200);
-            SendKeys.SendWait("{F10}");
-            Thread.Sleep(200);
-            SendKeys.SendWait("{ENTER}");
+            currentWindow = APIManager.WaitingFindedWindow("xac nhan");
+            if (currentWindow == null)
+                return;
+            APIManager.ClickButton(currentWindow.hwnd, "yes", isExactly: false);
             currentWindow = APIManager.WaitingFindedWindow("khoi tao chuyen thu");
             if (currentWindow == null)
             {

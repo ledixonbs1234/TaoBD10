@@ -58,6 +58,7 @@ namespace TaoBD10.Manager
                 APIManager.ShowSnackbar(e.Message + " " + path);
             }
         }
+
         public static void playSound3(string path)
         {
             //player.SoundLocation = dir + @"\" + path;

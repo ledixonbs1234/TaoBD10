@@ -246,6 +246,7 @@ namespace TaoBD10.ViewModels
                 bool isCheckTui = false;
                 for (int i = 0; i < 3; i++)
                 {
+                    currentWindow = APIManager.WaitingFindedWindow("dong chuyen thu");
                     SendKeys.SendWait("{F5}");
                     SendKeys.SendWait("{F5}");
                     SendKeys.SendWait("{LEFT}");
@@ -353,9 +354,10 @@ namespace TaoBD10.ViewModels
 
                 SendKeys.SendWait("{F10}");
                 Thread.Sleep(200);
-                SendKeys.SendWait("{F10}");
-                Thread.Sleep(200);
-                SendKeys.SendWait("{ENTER}");
+                currentWindow = APIManager.WaitingFindedWindow("xac nhan");
+                if (currentWindow == null)
+                    return;
+                APIManager.ClickButton(currentWindow.hwnd, "yes", isExactly: false);
 
                 // coi chung loi cho nay
                 currentWindow = APIManager.WaitingFindedWindow("khoi tao chuyen thu");
@@ -434,7 +436,7 @@ namespace TaoBD10.ViewModels
                     //Nhan F1 ngang cho nay
                     if (IsAutoF1)
                     {
-                        SendKeys.SendWait("{F1}");
+                        bwPrintDiNgoai.RunWorkerAsync();
                     }
                 }
                 else

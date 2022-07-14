@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Management;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -56,10 +55,7 @@ namespace TaoBD10.ViewModels
 
         public MainViewModel()
         {
-
             //Thuc hien Qua trinh su dung may
-
-
 
             printTrangCuoi = new BackgroundWorker();
             printTrangCuoi.DoWork += PrintTrangCuoi_DoWork;
@@ -206,7 +202,6 @@ namespace TaoBD10.ViewModels
                                         SoundManager.playSound3(@"Number\error_sound.wav");
                                     }
                                 }
-
                             }
                         }
                     }
@@ -279,7 +274,6 @@ namespace TaoBD10.ViewModels
             APIManager.SendMessage(editControl.Handle, (int)0x000C, IntPtr.Zero, new StringBuilder(newText));
 
             SendKeys.SendWait("%{p}");
-
         }
 
         private void BwRunPrints_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -293,7 +287,7 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        bool isRunnedPrintBD = false;
+        private bool isRunnedPrintBD = false;
 
         private void BwRunPrints_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -490,8 +484,6 @@ namespace TaoBD10.ViewModels
             }
 
             APIManager.ClickButton(currentWindow.hwnd, "thoat", isExactly: false);
-
-
 
             currentWindow = APIManager.WaitingFindedWindow("hinh thuc");
             if (currentWindow == null)
@@ -1014,7 +1006,6 @@ namespace TaoBD10.ViewModels
             set { SetProperty(ref _IsBoQuaHuyen, value); }
         }
 
-
         public bool IsFindItem
         {
             get { return _IsFindItem; }
@@ -1108,9 +1099,11 @@ namespace TaoBD10.ViewModels
                 case 9:
                     SetChiTietWindow();
                     break;
+
                 case 10:
                     SetChiTietWindow();
                     break;
+
                 case 11:
                     SetLayChuyenThuWindow();
                     break;
@@ -1181,7 +1174,7 @@ namespace TaoBD10.ViewModels
             //_con.Open();
         }
 
-        BackgroundWorker printTrangCuoi;
+        private BackgroundWorker printTrangCuoi;
 
         private void DefaultWindow(System.Windows.Controls.TabControl tabControl)
         {
@@ -1272,11 +1265,11 @@ namespace TaoBD10.ViewModels
                         if (currentWindow.text.IndexOf("xac nhan bd10 den") != -1)
                             WeakReferenceMessenger.Default.Send(new MessageManager("getData"));
                         break;
+
                     case Key.F3:
                         WindowInfo activeWindow1 = APIManager.GetActiveWindowTitle();
                         if (activeWindow1.text.IndexOf("danh sach bd10 di") != -1)
                         {
-
                             bwRunPrints.RunWorkerAsync();
                         }
                         break;
@@ -1530,7 +1523,7 @@ namespace TaoBD10.ViewModels
             return content.Substring(index - 11, 13);
         }
 
-        void XoaBG()
+        private void XoaBG()
         {
             Thread.Sleep(2000);
             WindowInfo currentWindow = APIManager.GetActiveWindowTitle();

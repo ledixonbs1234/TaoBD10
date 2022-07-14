@@ -4,8 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:TaoBD10.Views"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Name="ChinhViewWindow"
     DataContext="{StaticResource ChinhVM}"
     mc:Ignorable="d">
@@ -19,147 +19,147 @@
                 Style="{StaticResource MaterialDesignPaperButton}" />
             <Button
                 Width="20"
-                Padding="0"
                 Margin="5,0,0,0"
+                Padding="0"
                 Command="{Binding AutoXacNhanCommand}"
                 Content="{materialDesign:PackIcon Kind=HandPeace}"
                 Style="{StaticResource MaterialDesignPaperSecondaryDarkButton}"
                 ToolTip="Icon" />
             <Button
-                    Width="90"
-                    Padding="0"
-                    Command="{Binding KTHNCommand}"
+                Width="90"
+                Padding="0"
+                Command="{Binding KTHNCommand}"
                 Content="593230" />
         </StackPanel>
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                <Button
+            <Button
                 Width="115"
                 Margin="5"
-                Command="{Binding KienCommand, Mode=OneWay}"
-                Content="Kiện"
+                Command="{Binding ChuyenThu0Command, Mode=OneWay}"
+                Content="{Binding ChuyenThus[0].TenButton}"
                 Style="{StaticResource MaterialDesignPaperButton}" />
-                <Button
+            <Button
                 Width="115"
                 Margin="5"
-                Command="{Binding EMSCommand, Mode=OneWay}"
-                Content="EMS"
+                Command="{Binding ChuyenThu1Command, Mode=OneWay}"
+                Content="{Binding ChuyenThus[1].TenButton}"
                 Style="{StaticResource MaterialDesignPaperButton}" />
-            </StackPanel>
-            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                <Button
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+            <Button
                 Width="115"
                 Margin="5"
                 Command="{Binding TamQuanCommand}"
                 Content="Tam Quan"
                 Style="{StaticResource MaterialDesignPaperButton}" />
-                <Button
+            <Button
                 Width="115"
                 Margin="5"
                 Command="{Binding QuiNhon1Command, Mode=OneWay}"
                 Content="Qui Nhơn 1"
                 Style="{StaticResource MaterialDesignPaperButton}" />
-            </StackPanel>
-            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                <Button
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+            <Button
                 Width="115"
                 Margin="5"
                 Command="{Binding QuyNhon2Command, Mode=OneWay}"
                 Content="Qui Nhơn 2"
                 Style="{StaticResource MaterialDesignPaperButton}" />
-                <Button
+            <Button
                 Width="115"
                 Margin="5"
                 Command="{Binding PhuMyCommand, Mode=OneWay}"
                 Content="Phù Mỹ"
                 Style="{StaticResource MaterialDesignPaperButton}" />
-            </StackPanel>
-            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                <Button
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+            <Button
                 Width="115"
                 Margin="5"
                 Command="{Binding PhuCatCommand}"
                 Content="Phù Cát"
                 Style="{StaticResource MaterialDesignPaperButton}" />
-                <Button
+            <Button
                 Width="115"
                 Margin="5"
                 Command="{Binding AnNhonCommand, Mode=OneWay}"
                 Content="An Nhơn"
                 Style="{StaticResource MaterialDesignPaperButton}" />
-            </StackPanel>
-            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                <Button
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+            <Button
                 Width="115"
                 Margin="5"
                 Background="#FFDFFFFC"
                 Command="{Binding BCPHNCommand, Mode=OneWay}"
                 Content="593280"
                 Style="{StaticResource MaterialDesignPaperButton}" />
-                <Button
+            <Button
                 Width="115"
                 Margin="5"
                 Command="{Binding TongHopCommand, Mode=OneWay}"
                 Content="Tổng Hợp"
                 Style="{StaticResource MaterialDesignPaperButton}" />
-            </StackPanel>
-            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" />
-            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                <Button
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" />
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+            <Button
                 Width="115"
                 Margin="5"
                 Command="{Binding HoaiAnCommand}"
                 Content="Hoài Ân"
                 Style="{StaticResource MaterialDesignPaperButton}" />
-                <Button
+            <Button
                 Width="115"
                 Margin="5"
                 Command="{Binding AnMyCommand}"
                 Content="Ân Mỹ"
                 Style="{StaticResource MaterialDesignPaperButton}" />
-            </StackPanel>
-            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                <Button
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+            <Button
                 Width="115"
                 Margin="5"
                 Command="{Binding AnLaoCommand}"
                 Content="An Lão"
                 Style="{StaticResource MaterialDesignPaperButton}" />
-                <Button
+            <Button
                 Width="115"
                 Margin="5"
                 Command="{Binding AnHoaCommand}"
                 Content="An Hòa"
                 Style="{StaticResource MaterialDesignPaperButton}" />
-            </StackPanel>
-            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                <Button
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+            <Button
                 Width="115"
                 Margin="5"
                 Background="#FFE2E5FF"
                 Command="{Binding BD10DiCommand}"
                 Content="BĐ 10 Di"
                 Style="{StaticResource MaterialDesignPaperButton}" />
-                <Button
+            <Button
                 Width="115"
                 Margin="5"
                 Background="#FFF7FFF4"
                 Command="{Binding BD10DenCommand}"
                 Content="BĐ 10 Đến"
                 Style="{StaticResource MaterialDesignPaperButton}" />
-            </StackPanel>
-            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                <Button
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+            <Button
                 Width="115"
                 Margin="5"
                 Command="{Binding D420Command}"
                 Content="Print BĐ 8"
                 Style="{StaticResource MaterialDesignPaperButton}" />
-                <Button
+            <Button
                 Width="115"
                 Margin="5"
                 Command="{Binding PrintDefaultCommand}"
                 Content="Print BĐ 10"
                 Style="{StaticResource MaterialDesignPaperButton}" />
-            </StackPanel>
         </StackPanel>
+    </StackPanel>
 </UserControl>

@@ -27,6 +27,7 @@ namespace TaoBD10.Manager
 
         private static string _file = Environment.CurrentDirectory + "\\data.json";
         private static string _fileBD8 = Environment.CurrentDirectory + "\\matuithu.txt";
+        private static string _fileCT = Environment.CurrentDirectory + "\\dataCT.json";
 
         public static void SaveData(BD10InfoModel bD10Info)
         {
@@ -37,6 +38,33 @@ namespace TaoBD10.Manager
             using (JsonWriter jWriter = new JsonTextWriter(sWriter))
             {
                 serializer.Serialize(jWriter, list);
+            }
+        }
+
+        public static List<ChuyenThuModel> LoadCT()
+        {
+            if (!File.Exists(_fileCT))
+            {
+                SaveCT(new List<ChuyenThuModel>());
+                return null;
+            }
+            JsonSerializer serializer = new JsonSerializer();
+            using (StreamReader sReader = new StreamReader(_fileCT))
+            using (JsonReader jReader = new JsonTextReader(sReader))
+            {
+                List<ChuyenThuModel> listCT = serializer.Deserialize<List<ChuyenThuModel>>(jReader);
+                return listCT;
+            }
+        }
+        public static void SaveCT(List<ChuyenThuModel> chuyenThus)
+        {
+            if (chuyenThus.Count == 0)
+                return;
+            JsonSerializer serializer = new JsonSerializer();
+            using (StreamWriter sWriter = new StreamWriter(_fileCT))
+            using (JsonWriter jWriter = new JsonTextWriter(sWriter))
+            {
+                serializer.Serialize(jWriter, chuyenThus);
             }
         }
 

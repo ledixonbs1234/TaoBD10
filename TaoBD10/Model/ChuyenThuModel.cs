@@ -1,8 +1,12 @@
-﻿namespace TaoBD10.Model
+﻿using System;
+
+namespace TaoBD10.Model
 {
+    [Serializable]
     public class ChuyenThuModel
     {
         public string Ten { get; set; }
+        public string TenButton { get; set; }
         public string NumberTinh { get; set; }
         public string TextLoai { get; set; }
         public string TextTui { get; set; }

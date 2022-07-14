@@ -21,14 +21,15 @@ namespace TaoBD10.ViewModels
         public ChinhViewModel()
         {
             ChuyenThus = new ObservableCollection<ChuyenThuModel>();
-            System.Collections.Generic.List<ChuyenThuModel> cts = FileManager.LoadCT();
-            if (cts.Count != 0)
-            {
-                foreach (ChuyenThuModel item in cts)
+            System.Collections.Generic.List<ChuyenThuModel> cts = FileManager.LoadCT()
+            if (cts != null)
+                if (cts.Count != 0)
                 {
-                    ChuyenThus.Add(item);
+                    foreach (ChuyenThuModel item in cts)
+                    {
+                        ChuyenThus.Add(item);
+                    }
                 }
-            }
             //thuc hien lay du lieu tu web
 
             ChuyenThu0Command = new RelayCommand(ChuyenThu0);

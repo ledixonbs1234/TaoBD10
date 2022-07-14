@@ -19,7 +19,10 @@
                 <DataGridTextColumn Binding="{Binding MaHieu}" Header="Mã Hiệu" />
             </DataGrid.Columns>
         </DataGrid>
-        <ComboBox Margin="5" SelectedItem="{Binding CurrentNumber}" ItemsSource="{Binding Numbers}" />
+        <ComboBox
+            Margin="5"
+            ItemsSource="{Binding Numbers}"
+            SelectedItem="{Binding CurrentNumber}" />
         <Button
             Margin="10"
             Command="{Binding SendCommand}"

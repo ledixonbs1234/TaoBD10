@@ -39,34 +39,34 @@
             Command="{Binding LayToanBoCommand}"
             Content="Lấy Toàn Bộ" />
         <StackPanel
-  Orientation="Horizontal" HorizontalAlignment="Center"
-  Margin="4">
+            Margin="4"
+            HorizontalAlignment="Center"
+            Orientation="Horizontal">
             <RadioButton
-                Style="{StaticResource MaterialDesignRadioButton}"
-
-    Margin="4"
-    IsChecked="{Binding Path=LanLapArray[0], Mode=TwoWay}"
-    Content="1" />
+                Margin="4"
+                Content="1"
+                IsChecked="{Binding Path=LanLapArray[0], Mode=TwoWay}"
+                Style="{StaticResource MaterialDesignRadioButton}" />
             <RadioButton
-   Style="{StaticResource MaterialDesignRadioButton}"
-    Margin="4"
-    IsChecked="{Binding Path=LanLapArray[1], Mode=TwoWay}"
-    Content="2" />
+                Margin="4"
+                Content="2"
+                IsChecked="{Binding Path=LanLapArray[1], Mode=TwoWay}"
+                Style="{StaticResource MaterialDesignRadioButton}" />
             <RadioButton
-   Style="{StaticResource MaterialDesignRadioButton}"
-    Margin="4"
-    IsChecked="{Binding Path=LanLapArray[2], Mode=TwoWay}"
-    Content="3" />
+                Margin="4"
+                Content="3"
+                IsChecked="{Binding Path=LanLapArray[2], Mode=TwoWay}"
+                Style="{StaticResource MaterialDesignRadioButton}" />
             <RadioButton
-   Style="{StaticResource MaterialDesignRadioButton}"
-    Margin="4"
-    IsChecked="{Binding Path=LanLapArray[3], Mode=TwoWay}"
-    Content="4" />
+                Margin="4"
+                Content="4"
+                IsChecked="{Binding Path=LanLapArray[3], Mode=TwoWay}"
+                Style="{StaticResource MaterialDesignRadioButton}" />
             <RadioButton
-   Style="{StaticResource MaterialDesignRadioButton}"
-    Margin="4"
-    IsChecked="{Binding Path=LanLapArray[4], Mode=TwoWay}"
-    Content="5" />
+                Margin="4"
+                Content="5"
+                IsChecked="{Binding Path=LanLapArray[4], Mode=TwoWay}"
+                Style="{StaticResource MaterialDesignRadioButton}" />
         </StackPanel>
     </StackPanel>
 </UserControl>

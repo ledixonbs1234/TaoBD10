@@ -31,11 +31,19 @@ namespace TaoBD10.ViewModels
                     }
                 }
             //thuc hien lay du lieu tu web
-
+            ChuyenThu4Command = new RelayCommand(ChuyenThu4);
+            ChuyenThu3Command = new RelayCommand(ChuyenThu3);
             ChuyenThu0Command = new RelayCommand(ChuyenThu0);
             ChuyenThu1Command = new RelayCommand(ChuyenThu1);
             ChuyenThu2Command = new RelayCommand(ChuyenThu2);
-
+            ChuyenThu8Command = new RelayCommand(ChuyenThu8);
+            ChuyenThu9Command = new RelayCommand(ChuyenThu9);
+            ChuyenThu12Command = new RelayCommand(ChuyenThu12);
+            ChuyenThu11Command = new RelayCommand(ChuyenThu11);
+            ChuyenThu10Command = new RelayCommand(ChuyenThu10);
+            ChuyenThu7Command = new RelayCommand(ChuyenThu7);
+            ChuyenThu6Command = new RelayCommand(ChuyenThu6);
+            ChuyenThu5Command = new RelayCommand(ChuyenThu5);
             NewCTCommand = new RelayCommand(NewCT);
             SaveCTCommand = new RelayCommand(SaveCT);
 
@@ -145,28 +153,6 @@ namespace TaoBD10.ViewModels
                     XacNhanChiTiet200();
                 }
             });
-        }
-
-        public ICommand ChuyenThu0Command { get; }
-
-
-        void ChuyenThu0()
-        {
-            if (ChuyenThus.Count >= 1)
-            {
-                currentChuyenThu = ChuyenThus[0];
-            }
-            if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
-            {
-                SendKeys.SendWait("1");
-                Thread.Sleep(200);
-                SendKeys.SendWait("1");
-            }
-            if (!bwCreateChuyenThu.IsBusy)
-            {
-                bwCreateChuyenThu.CancelAsync();
-                bwCreateChuyenThu.RunWorkerAsync();
-            }
         }
 
         private void AnHoa()
@@ -733,6 +719,25 @@ namespace TaoBD10.ViewModels
             APIManager.SendMessage(childControls[14].Handle, 0x0007, 0, 0);
         }
 
+        void ChuyenThu0()
+        {
+            if (ChuyenThus.Count >= 1)
+            {
+                currentChuyenThu = ChuyenThus[0];
+            }
+            if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
+            {
+                SendKeys.SendWait("1");
+                Thread.Sleep(200);
+                SendKeys.SendWait("1");
+            }
+            if (!bwCreateChuyenThu.IsBusy)
+            {
+                bwCreateChuyenThu.CancelAsync();
+                bwCreateChuyenThu.RunWorkerAsync();
+            }
+        }
+
         void ChuyenThu1()
         {
             if (ChuyenThus.Count >= 2)
@@ -752,7 +757,71 @@ namespace TaoBD10.ViewModels
             }
         }
 
+        void ChuyenThu10()
+        {
+
+        }
+
+        void ChuyenThu11()
+        {
+
+        }
+
+        void ChuyenThu12()
+        {
+
+        }
+
         void ChuyenThu2()
+        {
+            if (ChuyenThus.Count >= 3)
+            {
+                currentChuyenThu = ChuyenThus[2];
+            }
+            if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
+            {
+                SendKeys.SendWait("1");
+                Thread.Sleep(200);
+                SendKeys.SendWait("1");
+            }
+            if (!bwCreateChuyenThu.IsBusy)
+            {
+                bwCreateChuyenThu.CancelAsync();
+                bwCreateChuyenThu.RunWorkerAsync();
+            }
+        }
+
+        void ChuyenThu3()
+        {
+
+        }
+
+        void ChuyenThu4()
+        {
+
+        }
+
+        void ChuyenThu5()
+        {
+
+        }
+
+        void ChuyenThu6()
+        {
+
+        }
+
+        void ChuyenThu7()
+        {
+
+        }
+
+        void ChuyenThu8()
+        {
+
+        }
+
+        void ChuyenThu9()
         {
 
         }
@@ -789,19 +858,6 @@ namespace TaoBD10.ViewModels
                 bwCreateChuyenThu.RunWorkerAsync();
             }
         }
-
-        public ICommand SaveCTCommand { get; }
-
-
-        void SaveCT()
-        {
-            if (ChuyenThus.Count != 0)
-            {
-                FileManager.SaveCT(ChuyenThus.ToList());
-            }
-
-        }
-
 
         private void HoaiAn()
         {
@@ -897,6 +953,12 @@ namespace TaoBD10.ViewModels
             SendKeys.SendWait("{F4}");
             Thread.Sleep(1000);
             SendKeys.SendWait("{F10}");
+        }
+
+        void NewCT()
+        {
+
+
         }
 
         private void PhuCat()
@@ -1016,6 +1078,15 @@ namespace TaoBD10.ViewModels
             }
         }
 
+        void SaveCT()
+        {
+            if (ChuyenThus.Count != 0)
+            {
+                FileManager.SaveCT(ChuyenThus.ToList());
+            }
+
+        }
+
         private void TamQuan()
         {
             ChuyenThuModel chuyenThu = new ChuyenThuModel
@@ -1122,15 +1193,6 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        public ICommand NewCTCommand { get; }
-
-
-        void NewCT()
-        {
-
-
-        }
-
         public ICommand AnHoaCommand { get; }
         public ICommand AnLaoCommand { get; }
         public ICommand AnMyCommand { get; }
@@ -1139,8 +1201,19 @@ namespace TaoBD10.ViewModels
         public ICommand BCPHNCommand { get; }
         public ICommand BD10DenCommand { get; }
         public ICommand BD10DiCommand { get; }
+        public ICommand ChuyenThu0Command { get; }
+        public ICommand ChuyenThu10Command { get; }
+        public ICommand ChuyenThu11Command { get; }
+        public ICommand ChuyenThu12Command { get; }
         public ICommand ChuyenThu1Command { get; }
         public ICommand ChuyenThu2Command { get; }
+        public ICommand ChuyenThu3Command { get; }
+        public ICommand ChuyenThu4Command { get; }
+        public ICommand ChuyenThu5Command { get; }
+        public ICommand ChuyenThu6Command { get; }
+        public ICommand ChuyenThu7Command { get; }
+        public ICommand ChuyenThu8Command { get; }
+        public ICommand ChuyenThu9Command { get; }
         public ObservableCollection<ChuyenThuModel> ChuyenThus
         {
             get { return _ChuyenThus; }
@@ -1153,11 +1226,13 @@ namespace TaoBD10.ViewModels
         public ICommand KienCommand { get; }
         public ICommand KTHNCommand { get; }
         public ICommand LayDuLieuCommand { get; }
+        public ICommand NewCTCommand { get; }
         public ICommand PhuCatCommand { get; }
         public ICommand PhuMyCommand { get; }
         public ICommand PrintDefaultCommand { get; }
         public ICommand QuiNhon1Command { get; }
         public ICommand QuyNhon2Command { get; }
+        public ICommand SaveCTCommand { get; }
         public ICommand TamQuanCommand { get; }
         public ICommand TongHopCommand { get; }
         private readonly BackgroundWorker bwCreateChuyenThu;

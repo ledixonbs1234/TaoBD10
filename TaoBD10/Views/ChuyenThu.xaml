@@ -120,10 +120,10 @@
                     Header="Date" />
                 <DataGridTextColumn
                     Width="40"
-                    FontWeight="Bold"
                     Binding="{Binding TuiHangHoa.KhoiLuong}"
                     EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
                     ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                    FontWeight="Bold"
                     Header="Khối Lượng" />
                 <DataGridTextColumn
                     Width="auto"

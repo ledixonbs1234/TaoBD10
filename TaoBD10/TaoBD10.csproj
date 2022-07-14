@@ -200,6 +200,7 @@
     <Compile Include="ViewModels\LayChuyenThuViewModel.cs" />
     <Compile Include="ViewModels\LocTuiViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\OptionAllViewModel.cs" />
     <Compile Include="ViewModels\TamQuanViewModel.cs" />
     <Compile Include="ViewModels\TaoBDViewModel.cs" />
     <Compile Include="ViewModels\TuyChonViewModel.cs" />

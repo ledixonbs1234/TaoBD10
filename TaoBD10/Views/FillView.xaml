@@ -10,6 +10,9 @@
     DataContext="{StaticResource ChiTietVM}"
     mc:Ignorable="d">
     <Grid>
-        <TextBox Text="{Binding TestText}" AcceptsReturn="True" Height="400" />
+        <TextBox
+            Height="400"
+            AcceptsReturn="True"
+            Text="{Binding TestText}" />
     </Grid>
 </UserControl>

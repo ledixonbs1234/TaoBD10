@@ -43,10 +43,10 @@ namespace TaoBD10
             if (useHashing)
             {
                 MD5CryptoServiceProvider hashmd5 = new MD5CryptoServiceProvider();
-                keyArray = hashmd5.ComputeHash(UTF8Encoding.UTF8.GetBytes(key));
+                keyArray = hashmd5.ComputeHash(Encoding.UTF8.GetBytes(key));
             }
             else
-                keyArray = UTF8Encoding.UTF8.GetBytes(key);
+                keyArray = Encoding.UTF8.GetBytes(key);
 
             TripleDESCryptoServiceProvider tdes = new TripleDESCryptoServiceProvider();
             tdes.Key = keyArray;
@@ -56,12 +56,12 @@ namespace TaoBD10
             ICryptoTransform cTransform = tdes.CreateDecryptor();
             byte[] resultArray = cTransform.TransformFinalBlock(toEncryptArray, 0, toEncryptArray.Length);
 
-            return UTF8Encoding.UTF8.GetString(resultArray);
+            return Encoding.UTF8.GetString(resultArray);
         }
 
         private bool ValidHD()
         {
-            string hdSN = String.Empty;
+            string hdSN = string.Empty;
             ManagementObjectSearcher moSearcher = new ManagementObjectSearcher("select * from Win32_DiskDrive");
             foreach (ManagementObject wmi_HDD in moSearcher.Get())
             {
@@ -70,20 +70,8 @@ namespace TaoBD10
             }
             string text = File.ReadAllText("key.txt");
             string decryText = Decrypt(text);
-            if (decryText == hdSN)
-            {
-                return true;
-            }
-            else return false;
+            return decryText == hdSN;
 
-            if (hdSN == "Your_SN_Here")
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
         }
 
         private void MainView_Closing(object sender, System.ComponentModel.CancelEventArgs e)

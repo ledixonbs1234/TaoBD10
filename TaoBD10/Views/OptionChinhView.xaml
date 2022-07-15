@@ -16,7 +16,7 @@
             <RowDefinition Height="35" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <DataGrid Grid.RowSpan="4" ItemsSource="{Binding ChuyenThus}" />
+        <DataGrid ItemsSource="{Binding ChuyenThus}" />
         <StackPanel Grid.Row="1" Orientation="Horizontal">
             <Button
                 Margin="5"

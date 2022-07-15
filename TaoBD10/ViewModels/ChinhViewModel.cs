@@ -18,6 +18,28 @@ namespace TaoBD10.ViewModels
 {
     public class ChinhViewModel : ObservableObject
     {
+        public ICommand ChuyenThu13Command { get; }
+
+       
+        void ChuyenThu13()
+        {
+            if (ChuyenThus.Count >= 14)
+            {
+                currentChuyenThu = ChuyenThus[13];
+            }
+            if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
+            {
+                SendKeys.SendWait("1");
+                Thread.Sleep(200);
+                SendKeys.SendWait("1");
+            }
+            if (!bwCreateChuyenThu.IsBusy)
+            {
+                bwCreateChuyenThu.CancelAsync();
+                bwCreateChuyenThu.RunWorkerAsync();
+            }
+        }
+
         public ChinhViewModel()
         {
             ChuyenThus = new ObservableCollection<ChuyenThuModel>();
@@ -44,24 +66,13 @@ namespace TaoBD10.ViewModels
             ChuyenThu7Command = new RelayCommand(ChuyenThu7);
             ChuyenThu6Command = new RelayCommand(ChuyenThu6);
             ChuyenThu5Command = new RelayCommand(ChuyenThu5);
+            ChuyenThu13Command = new RelayCommand(ChuyenThu13);
+
             NewCTCommand = new RelayCommand(NewCT);
             SaveCTCommand = new RelayCommand(SaveCT);
 
             KTHNCommand = new RelayCommand(KTHN);
-            TongHopCommand = new RelayCommand(TongHop);
-            AnNhonCommand = new RelayCommand(AnNhon);
-            PhuCatCommand = new RelayCommand(PhuCat);
-            PhuMyCommand = new RelayCommand(PhuMy);
-            QuyNhon2Command = new RelayCommand(QuyNhon2);
-            QuiNhon1Command = new RelayCommand(QuiNhon1);
-            EMSCommand = new RelayCommand(EMS);
-            KienCommand = new RelayCommand(Kien);
-            BCPHNCommand = new RelayCommand(BCPHN);
-            HoaiAnCommand = new RelayCommand(HoaiAn);
-            AnMyCommand = new RelayCommand(AnMy);
-            AnLaoCommand = new RelayCommand(AnLao);
-            AnHoaCommand = new RelayCommand(AnHoa);
-            TamQuanCommand = new RelayCommand(TamQuan);
+           
             AutoXacNhanCommand = new RelayCommand(AutoXacNhan);
 
             LayDuLieuCommand = new RelayCommand(LayDuLieu);
@@ -79,57 +90,61 @@ namespace TaoBD10.ViewModels
             {
                 if (m.Key == "Chinh")
                 {
-                    if (m.Content == "Kien")
+                    if (m.Content == "ChuyenThu0")
                     {
-                        Kien();
+                        ChuyenThu0();
                     }
-                    else if (m.Content == "EMS")
+                    else if (m.Content == "ChuyenThu1")
                     {
-                        EMS();
+                        ChuyenThu1();
                     }
-                    else if (m.Content == "TamQuan")
+                    else if (m.Content == "ChuyenThu2")
                     {
-                        TamQuan();
+                        ChuyenThu2();
                     }
-                    else if (m.Content == "QuiNhon1")
+                    else if (m.Content == "ChuyenThu3")
                     {
-                        QuiNhon1();
+                        ChuyenThu3();
                     }
-                    else if (m.Content == "QuiNhon2")
+                    else if (m.Content == "ChuyenThu4")
                     {
-                        QuyNhon2();
+                        ChuyenThu4();
                     }
-                    else if (m.Content == "PhuMy")
+                    else if (m.Content == "ChuyenThu5")
                     {
-                        PhuMy();
+                        ChuyenThu5();
                     }
-                    else if (m.Content == "PhuCat")
+                    else if (m.Content == "ChuyenThu6")
                     {
-                        PhuCat();
+                        ChuyenThu6();
                     }
-                    else if (m.Content == "AnNhon")
+                    else if (m.Content == "ChuyenThu7")
                     {
-                        AnNhon();
+                        ChuyenThu7();
                     }
-                    else if (m.Content == "TongHop")
+                    else if (m.Content == "ChuyenThu8")
                     {
-                        TongHop();
+                        ChuyenThu8();
                     }
-                    else if (m.Content == "HoaiAn")
+                    else if (m.Content == "ChuyenThu9")
                     {
-                        HoaiAn();
+                        ChuyenThu9();
                     }
-                    else if (m.Content == "AnLao")
+                    else if (m.Content == "ChuyenThu10")
                     {
-                        AnLao();
+                        ChuyenThu10();
                     }
-                    else if (m.Content == "AnMy")
+                    else if (m.Content == "ChuyenThu11")
                     {
-                        AnMy();
+                        ChuyenThu11();
                     }
-                    else if (m.Content == "AnHoa")
+                    else if (m.Content == "ChuyenThu12")
                     {
-                        AnHoa();
+                        ChuyenThu12();
+                    }
+                    else if (m.Content == "ChuyenThu13")
+                    {
+                        ChuyenThu13();
                     }
                     else if (m.Content == "LayDuLieu")
                     {
@@ -155,117 +170,7 @@ namespace TaoBD10.ViewModels
             });
         }
 
-        private void AnHoa()
-        {
-            ChuyenThuModel chuyenThu = new ChuyenThuModel
-            {
-                Ten = "An Hòa Tổng Hợp",
-                NumberTinh = "593880",
-                TextLoai = "Bưu phẩm bảo đảm - Registed Mail",
-                TextTui = "Tổng hợp (Túi)",
-                CheckTinh = "593880",
-                CheckLoai = "buu pham bao dam",
-                CheckThuyBo = "thuy bo",
-                NameMusic = "anhoath"
-            };
-            currentChuyenThu = chuyenThu;
-
-            if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
-            {
-                SendKeys.SendWait("1");
-                Thread.Sleep(200);
-                SendKeys.SendWait("1");
-            }
-            if (!bwCreateChuyenThu.IsBusy)
-            {
-                bwCreateChuyenThu.CancelAsync();
-                bwCreateChuyenThu.RunWorkerAsync();
-            }
-        }
-
-        private void AnLao()
-        {
-            ChuyenThuModel chuyenThu = new ChuyenThuModel
-            {
-                Ten = "An Lão Tổng Hợp",
-                NumberTinh = "593850",
-                TextLoai = "Bưu phẩm bảo đảm - Registed Mail",
-                TextTui = "Tổng hợp (Túi)",
-                CheckTinh = "593850",
-                CheckLoai = "buu pham bao dam",
-                CheckThuyBo = "thuy bo",
-                NameMusic = "anlaoth"
-            };
-            currentChuyenThu = chuyenThu;
-
-            if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
-            {
-                SendKeys.SendWait("1");
-                Thread.Sleep(200);
-                SendKeys.SendWait("1");
-            }
-            if (!bwCreateChuyenThu.IsBusy)
-            {
-                bwCreateChuyenThu.CancelAsync();
-                bwCreateChuyenThu.RunWorkerAsync();
-            }
-        }
-
-        private void AnMy()
-        {
-            ChuyenThuModel chuyenThu = new ChuyenThuModel
-            {
-                Ten = "Ân Mỹ Tổng Hợp",
-                NumberTinh = "593630",
-                TextLoai = "Bưu phẩm bảo đảm - Registed Mail",
-                TextTui = "Tổng hợp (Túi)",
-                CheckTinh = "593630",
-                CheckLoai = "buu pham bao dam",
-                CheckThuyBo = "thuy bo",
-                NameMusic = "anmyth"
-            };
-            currentChuyenThu = chuyenThu;
-
-            if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
-            {
-                SendKeys.SendWait("1");
-                Thread.Sleep(200);
-                SendKeys.SendWait("1");
-            }
-            if (!bwCreateChuyenThu.IsBusy)
-            {
-                bwCreateChuyenThu.CancelAsync();
-                bwCreateChuyenThu.RunWorkerAsync();
-            }
-        }
-
-        private void AnNhon()
-        {
-            ChuyenThuModel chuyenThu = new ChuyenThuModel
-            {
-                Ten = "An Nhơn Tổng Hợp",
-                NumberTinh = "592020",
-                TextLoai = "Bưu phẩm bảo đảm - Registed Mail",
-                TextTui = "Tổng hợp (Túi)",
-                CheckTinh = "592020",
-                CheckLoai = "buu pham bao dam",
-                CheckThuyBo = "thuy bo",
-                NameMusic = "annhonth"
-            };
-            currentChuyenThu = chuyenThu;
-
-            if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
-            {
-                SendKeys.SendWait("1");
-                Thread.Sleep(200);
-                SendKeys.SendWait("1");
-            }
-            if (!bwCreateChuyenThu.IsBusy)
-            {
-                bwCreateChuyenThu.CancelAsync();
-                bwCreateChuyenThu.RunWorkerAsync();
-            }
-        }
+      
 
         private void AutoXacNhan()
         {
@@ -971,89 +876,11 @@ namespace TaoBD10.ViewModels
             APIManager.SetPrintBD8();
         }
 
-        private void EMS()
-        {
-            ChuyenThuModel chuyenThu = new ChuyenThuModel
-            {
-                Ten = "EMS Nam Trung Bộ",
-                NumberTinh = "590100",
-                TextLoai = "EMS - Chuyển phát nhanh - Express Mail Service",
-                TextTui = "EMS Hàng hóa (Túi)",
-                CheckTinh = "590100",
-                CheckLoai = "chuyen phat nhanh",
-                CheckThuyBo = "ems thuong",
-                NameMusic = "emsntbth"
-            };
-            currentChuyenThu = chuyenThu;
+       
 
-            if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
-            {
-                SendKeys.SendWait("1");
-                Thread.Sleep(200);
-                SendKeys.SendWait("1");
-            }
-            if (!bwCreateChuyenThu.IsBusy)
-            {
-                bwCreateChuyenThu.CancelAsync();
-                bwCreateChuyenThu.RunWorkerAsync();
-            }
-        }
+    
 
-        private void HoaiAn()
-        {
-            ChuyenThuModel chuyenThu = new ChuyenThuModel
-            {
-                Ten = "Hoài Ân Tổng Hợp",
-                NumberTinh = "593740",
-                TextLoai = "Bưu phẩm bảo đảm - Registed Mail",
-                TextTui = "Tổng hợp (Túi)",
-                CheckTinh = "593740",
-                CheckLoai = "buu pham bao dam",
-                CheckThuyBo = "thuy bo",
-                NameMusic = "hoaianth"
-            };
-            currentChuyenThu = chuyenThu;
-
-            if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
-            {
-                SendKeys.SendWait("1");
-                Thread.Sleep(200);
-                SendKeys.SendWait("1");
-            }
-            if (!bwCreateChuyenThu.IsBusy)
-            {
-                bwCreateChuyenThu.CancelAsync();
-                bwCreateChuyenThu.RunWorkerAsync();
-            }
-        }
-
-        private void Kien()
-        {
-            ChuyenThuModel chuyenThu = new ChuyenThuModel
-            {
-                Ten = "Kiện Nam Trung Bộ",
-                NumberTinh = "590100",
-                TextLoai = "Bưu kiện - Parcel",
-                TextTui = "BK (Túi)",
-                CheckTinh = "590100",
-                CheckLoai = "buu kien",
-                CheckThuyBo = "thuy bo",
-                NameMusic = "kiennamtrungboth"
-            };
-            currentChuyenThu = chuyenThu;
-
-            if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
-            {
-                SendKeys.SendWait("1");
-                Thread.Sleep(200);
-                SendKeys.SendWait("1");
-            }
-            if (!bwCreateChuyenThu.IsBusy)
-            {
-                bwCreateChuyenThu.CancelAsync();
-                bwCreateChuyenThu.RunWorkerAsync();
-            }
-        }
+      
 
         private void KTHN()
         {
@@ -1101,123 +928,13 @@ namespace TaoBD10.ViewModels
 
         }
 
-        private void PhuCat()
-        {
-            ChuyenThuModel chuyenThu = new ChuyenThuModel
-            {
-                Ten = "Phù Cát Tổng Hợp",
-                NumberTinh = "592460",
-                TextLoai = "Bưu phẩm bảo đảm - Registed Mail",
-                TextTui = "Tổng hợp (Túi)",
-                CheckTinh = "592460",
-                CheckLoai = "buu pham bao dam",
-                CheckThuyBo = "thuy bo",
-                NameMusic = "phucatth"
-            };
-            currentChuyenThu = chuyenThu;
-
-            if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
-            {
-                SendKeys.SendWait("1");
-                Thread.Sleep(200);
-                SendKeys.SendWait("1");
-            }
-            if (!bwCreateChuyenThu.IsBusy)
-            {
-                bwCreateChuyenThu.CancelAsync();
-                bwCreateChuyenThu.RunWorkerAsync();
-            }
-        }
-
-        private void PhuMy()
-        {
-            ChuyenThuModel chuyenThu = new ChuyenThuModel
-            {
-                Ten = "Phù Mỹ Tổng Hợp",
-                NumberTinh = "592810",
-                TextLoai = "Bưu phẩm bảo đảm - Registed Mail",
-                TextTui = "Tổng hợp (Túi)",
-                CheckTinh = "592810",
-                CheckLoai = "buu pham bao dam",
-                CheckThuyBo = "thuy bo",
-                NameMusic = "phumyth"
-            };
-            currentChuyenThu = chuyenThu;
-
-            if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
-            {
-                SendKeys.SendWait("1");
-                Thread.Sleep(200);
-                SendKeys.SendWait("1");
-            }
-            if (!bwCreateChuyenThu.IsBusy)
-            {
-                bwCreateChuyenThu.CancelAsync();
-                bwCreateChuyenThu.RunWorkerAsync();
-            }
-        }
-
+    
         private void PrintDefault()
         {
             APIManager.SetPrintBD10();
         }
 
-        private void QuiNhon1()
-        {
-            ChuyenThuModel chuyenThu = new ChuyenThuModel
-            {
-                Ten = "Quy Nhơn 1 Tổng Hợp",
-                NumberTinh = "591520",
-                TextLoai = "Bưu phẩm bảo đảm - Registed Mail",
-                TextTui = "Tổng hợp (Túi)",
-                CheckTinh = "591520",
-                CheckLoai = "buu pham bao dam",
-                CheckThuyBo = "thuy bo",
-                NameMusic = "qn1th"
-            };
-            currentChuyenThu = chuyenThu;
-
-            if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
-            {
-                SendKeys.SendWait("1");
-                Thread.Sleep(200);
-                SendKeys.SendWait("1");
-            }
-            if (!bwCreateChuyenThu.IsBusy)
-            {
-                bwCreateChuyenThu.CancelAsync();
-                bwCreateChuyenThu.RunWorkerAsync();
-            }
-        }
-
-        private void QuyNhon2()
-        {
-            ChuyenThuModel chuyenThu = new ChuyenThuModel
-            {
-                Ten = "Quy Nhơn 2 Tổng Hợp",
-                NumberTinh = "591218",
-                TextLoai = "Bưu phẩm bảo đảm - Registed Mail",
-                TextTui = "Tổng hợp (Túi)",
-                CheckTinh = "591218",
-                CheckLoai = "buu pham bao dam",
-                CheckThuyBo = "thuy bo",
-                NameMusic = "tuiqn2th"
-            };
-            currentChuyenThu = chuyenThu;
-
-            if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
-            {
-                SendKeys.SendWait("1");
-                Thread.Sleep(200);
-                SendKeys.SendWait("1");
-            }
-            if (!bwCreateChuyenThu.IsBusy)
-            {
-                bwCreateChuyenThu.CancelAsync();
-                bwCreateChuyenThu.RunWorkerAsync();
-            }
-        }
-
+   
         void SaveCT()
         {
             if (ChuyenThus.Count != 0)
@@ -1225,62 +942,6 @@ namespace TaoBD10.ViewModels
                 FileManager.SaveCT(ChuyenThus.ToList());
             }
 
-        }
-
-        private void TamQuan()
-        {
-            ChuyenThuModel chuyenThu = new ChuyenThuModel
-            {
-                Ten = "Tam Quan Tổng Hợp",
-                NumberTinh = "593330",
-                TextLoai = "Bưu phẩm bảo đảm - Registed Mail",
-                TextTui = "Tổng hợp (Túi)",
-                CheckTinh = "593330",
-                CheckLoai = "buu pham bao dam",
-                CheckThuyBo = "thuy bo",
-                NameMusic = "tuitamquanth"
-            };
-            currentChuyenThu = chuyenThu;
-
-            if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
-            {
-                SendKeys.SendWait("1");
-                Thread.Sleep(200);
-                SendKeys.SendWait("1");
-            }
-            if (!bwCreateChuyenThu.IsBusy)
-            {
-                bwCreateChuyenThu.CancelAsync();
-                bwCreateChuyenThu.RunWorkerAsync();
-            }
-        }
-
-        private void TongHop()
-        {
-            ChuyenThuModel chuyenThu = new ChuyenThuModel
-            {
-                Ten = "Nam Trung Bộ TH",
-                NumberTinh = "590100",
-                TextLoai = "Bưu phẩm bảo đảm - Registed Mail",
-                TextTui = "Tổng hợp (Túi)",
-                CheckTinh = "590100",
-                CheckLoai = "buu pham bao dam",
-                CheckThuyBo = "thuy bo",
-                NameMusic = "ntbth"
-            };
-            currentChuyenThu = chuyenThu;
-
-            if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
-            {
-                SendKeys.SendWait("1");
-                Thread.Sleep(200);
-                SendKeys.SendWait("1");
-            }
-            if (!bwCreateChuyenThu.IsBusy)
-            {
-                bwCreateChuyenThu.CancelAsync();
-                bwCreateChuyenThu.RunWorkerAsync();
-            }
         }
 
         private void XacNhanChiTiet200()
@@ -1333,10 +994,7 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        public ICommand AnHoaCommand { get; }
-        public ICommand AnLaoCommand { get; }
-        public ICommand AnMyCommand { get; }
-        public ICommand AnNhonCommand { get; }
+     
         public ICommand AutoXacNhanCommand { get; }
         public ICommand BCPHNCommand { get; }
         public ICommand BD10DenCommand { get; }
@@ -1361,20 +1019,15 @@ namespace TaoBD10.ViewModels
         }
 
         public ICommand D420Command { get; }
-        public ICommand EMSCommand { get; }
-        public ICommand HoaiAnCommand { get; }
-        public ICommand KienCommand { get; }
+     
         public ICommand KTHNCommand { get; }
         public ICommand LayDuLieuCommand { get; }
         public ICommand NewCTCommand { get; }
-        public ICommand PhuCatCommand { get; }
-        public ICommand PhuMyCommand { get; }
+   
         public ICommand PrintDefaultCommand { get; }
-        public ICommand QuiNhon1Command { get; }
-        public ICommand QuyNhon2Command { get; }
+   
         public ICommand SaveCTCommand { get; }
-        public ICommand TamQuanCommand { get; }
-        public ICommand TongHopCommand { get; }
+     
         private readonly BackgroundWorker bwCreateChuyenThu;
         private readonly BackgroundWorker bwPrint;
         private ObservableCollection<ChuyenThuModel> _ChuyenThus;

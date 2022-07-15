@@ -102,33 +102,32 @@
                 Content="{Binding ChuyenThus[9].TenButton}"
                 Style="{StaticResource MaterialDesignPaperButton}" />
         </StackPanel>
-        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" />
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
             <Button
                 Width="115"
                 Margin="5"
-                Command="{Binding HoaiAnCommand}"
-                Content="Hoài Ân"
+               Command="{Binding ChuyenThu10Command, Mode=OneWay}"
+                Content="{Binding ChuyenThus[10].TenButton}"
                 Style="{StaticResource MaterialDesignPaperButton}" />
             <Button
                 Width="115"
                 Margin="5"
-                Command="{Binding AnMyCommand}"
-                Content="Ân Mỹ"
+               Command="{Binding ChuyenThu11Command, Mode=OneWay}"
+                Content="{Binding ChuyenThus[11].TenButton}"
                 Style="{StaticResource MaterialDesignPaperButton}" />
         </StackPanel>
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
             <Button
                 Width="115"
                 Margin="5"
-                Command="{Binding AnLaoCommand}"
-                Content="An Lão"
+                Command="{Binding ChuyenThu12Command, Mode=OneWay}"
+                Content="{Binding ChuyenThus[12].TenButton}"
                 Style="{StaticResource MaterialDesignPaperButton}" />
             <Button
                 Width="115"
                 Margin="5"
-                Command="{Binding AnHoaCommand}"
-                Content="An Hòa"
+               Command="{Binding ChuyenThu13Command, Mode=OneWay}"
+                Content="{Binding ChuyenThus[13].TenButton}"
                 Style="{StaticResource MaterialDesignPaperButton}" />
         </StackPanel>
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">

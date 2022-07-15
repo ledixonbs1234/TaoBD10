@@ -20,7 +20,7 @@ namespace TaoBD10.ViewModels
     {
         public ICommand ChuyenThu13Command { get; }
 
-       
+
         void ChuyenThu13()
         {
             if (ChuyenThus.Count >= 14)
@@ -52,6 +52,9 @@ namespace TaoBD10.ViewModels
                         ChuyenThus.Add(item);
                     }
                 }
+
+            XuongCommand = new RelayCommand(Xuong);
+            LenCommand = new RelayCommand(Len);
             //thuc hien lay du lieu tu web
             ChuyenThu4Command = new RelayCommand(ChuyenThu4);
             ChuyenThu3Command = new RelayCommand(ChuyenThu3);
@@ -72,7 +75,7 @@ namespace TaoBD10.ViewModels
             SaveCTCommand = new RelayCommand(SaveCT);
 
             KTHNCommand = new RelayCommand(KTHN);
-           
+
             AutoXacNhanCommand = new RelayCommand(AutoXacNhan);
 
             LayDuLieuCommand = new RelayCommand(LayDuLieu);
@@ -169,8 +172,49 @@ namespace TaoBD10.ViewModels
                 }
             });
         }
+        private int _SelectedIndexCT;
 
-      
+        public int SelectedIndexCT
+        {
+            get { return _SelectedIndexCT; }
+            set { SetProperty(ref _SelectedIndexCT, value); }
+        }
+
+
+        void Len()
+        {
+            if (SelectedIndexCT == -1)
+                return;
+            if (SelectedIndexCT == 0)
+                return;
+            int tempSelected = SelectedIndexCT;
+            ChuyenThuModel currentCT = ChuyenThus[SelectedIndexCT];
+            ChuyenThuModel tempCT = ChuyenThus[SelectedIndexCT - 1];
+            ChuyenThus[SelectedIndexCT - 1] = currentCT;
+            ChuyenThus[SelectedIndexCT] = tempCT;
+            SelectedIndexCT = tempSelected - 1;
+        }
+        public ICommand XuongCommand { get; }
+        public ICommand LenCommand { get; }
+
+
+        void Xuong()
+        {
+            if (SelectedIndexCT == -1)
+                return;
+            if (SelectedIndexCT == ChuyenThus.Count -1)
+                return;
+            int tempSelected = SelectedIndexCT;
+            ChuyenThuModel currentCT = ChuyenThus[SelectedIndexCT];
+            ChuyenThuModel tempCT = ChuyenThus[SelectedIndexCT + 1];
+            ChuyenThus[SelectedIndexCT + 1] = currentCT;
+            ChuyenThus[SelectedIndexCT] = tempCT;
+            SelectedIndexCT = tempSelected + 1;
+        }
+
+
+
+
 
         private void AutoXacNhan()
         {
@@ -876,11 +920,11 @@ namespace TaoBD10.ViewModels
             APIManager.SetPrintBD8();
         }
 
-       
 
-    
 
-      
+
+
+
 
         private void KTHN()
         {
@@ -928,13 +972,13 @@ namespace TaoBD10.ViewModels
 
         }
 
-    
+
         private void PrintDefault()
         {
             APIManager.SetPrintBD10();
         }
 
-   
+
         void SaveCT()
         {
             if (ChuyenThus.Count != 0)
@@ -994,7 +1038,7 @@ namespace TaoBD10.ViewModels
             }
         }
 
-     
+
         public ICommand AutoXacNhanCommand { get; }
         public ICommand BCPHNCommand { get; }
         public ICommand BD10DenCommand { get; }
@@ -1019,15 +1063,15 @@ namespace TaoBD10.ViewModels
         }
 
         public ICommand D420Command { get; }
-     
+
         public ICommand KTHNCommand { get; }
         public ICommand LayDuLieuCommand { get; }
         public ICommand NewCTCommand { get; }
-   
+
         public ICommand PrintDefaultCommand { get; }
-   
+
         public ICommand SaveCTCommand { get; }
-     
+
         private readonly BackgroundWorker bwCreateChuyenThu;
         private readonly BackgroundWorker bwPrint;
         private ObservableCollection<ChuyenThuModel> _ChuyenThus;

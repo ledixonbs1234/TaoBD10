@@ -759,17 +759,59 @@ namespace TaoBD10.ViewModels
 
         void ChuyenThu10()
         {
-
+            if (ChuyenThus.Count >= 11)
+            {
+                currentChuyenThu = ChuyenThus[10];
+            }
+            if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
+            {
+                SendKeys.SendWait("1");
+                Thread.Sleep(200);
+                SendKeys.SendWait("1");
+            }
+            if (!bwCreateChuyenThu.IsBusy)
+            {
+                bwCreateChuyenThu.CancelAsync();
+                bwCreateChuyenThu.RunWorkerAsync();
+            }
         }
 
         void ChuyenThu11()
         {
-
+            if (ChuyenThus.Count >= 12)
+            {
+                currentChuyenThu = ChuyenThus[11];
+            }
+            if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
+            {
+                SendKeys.SendWait("1");
+                Thread.Sleep(200);
+                SendKeys.SendWait("1");
+            }
+            if (!bwCreateChuyenThu.IsBusy)
+            {
+                bwCreateChuyenThu.CancelAsync();
+                bwCreateChuyenThu.RunWorkerAsync();
+            }
         }
 
         void ChuyenThu12()
         {
-
+            if (ChuyenThus.Count >= 13)
+            {
+                currentChuyenThu = ChuyenThus[12];
+            }
+            if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
+            {
+                SendKeys.SendWait("1");
+                Thread.Sleep(200);
+                SendKeys.SendWait("1");
+            }
+            if (!bwCreateChuyenThu.IsBusy)
+            {
+                bwCreateChuyenThu.CancelAsync();
+                bwCreateChuyenThu.RunWorkerAsync();
+            }
         }
 
         void ChuyenThu2()
@@ -793,37 +835,135 @@ namespace TaoBD10.ViewModels
 
         void ChuyenThu3()
         {
-
+            if (ChuyenThus.Count >= 4)
+            {
+                currentChuyenThu = ChuyenThus[3];
+            }
+            if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
+            {
+                SendKeys.SendWait("1");
+                Thread.Sleep(200);
+                SendKeys.SendWait("1");
+            }
+            if (!bwCreateChuyenThu.IsBusy)
+            {
+                bwCreateChuyenThu.CancelAsync();
+                bwCreateChuyenThu.RunWorkerAsync();
+            }
         }
 
         void ChuyenThu4()
         {
-
+            if (ChuyenThus.Count >= 5)
+            {
+                currentChuyenThu = ChuyenThus[4];
+            }
+            if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
+            {
+                SendKeys.SendWait("1");
+                Thread.Sleep(200);
+                SendKeys.SendWait("1");
+            }
+            if (!bwCreateChuyenThu.IsBusy)
+            {
+                bwCreateChuyenThu.CancelAsync();
+                bwCreateChuyenThu.RunWorkerAsync();
+            }
         }
 
         void ChuyenThu5()
         {
-
+            if (ChuyenThus.Count >= 6)
+            {
+                currentChuyenThu = ChuyenThus[5];
+            }
+            if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
+            {
+                SendKeys.SendWait("1");
+                Thread.Sleep(200);
+                SendKeys.SendWait("1");
+            }
+            if (!bwCreateChuyenThu.IsBusy)
+            {
+                bwCreateChuyenThu.CancelAsync();
+                bwCreateChuyenThu.RunWorkerAsync();
+            }
         }
 
         void ChuyenThu6()
         {
-
+            if (ChuyenThus.Count >= 7)
+            {
+                currentChuyenThu = ChuyenThus[6];
+            }
+            if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
+            {
+                SendKeys.SendWait("1");
+                Thread.Sleep(200);
+                SendKeys.SendWait("1");
+            }
+            if (!bwCreateChuyenThu.IsBusy)
+            {
+                bwCreateChuyenThu.CancelAsync();
+                bwCreateChuyenThu.RunWorkerAsync();
+            }
         }
 
         void ChuyenThu7()
         {
-
+            if (ChuyenThus.Count >= 8)
+            {
+                currentChuyenThu = ChuyenThus[7];
+            }
+            if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
+            {
+                SendKeys.SendWait("1");
+                Thread.Sleep(200);
+                SendKeys.SendWait("1");
+            }
+            if (!bwCreateChuyenThu.IsBusy)
+            {
+                bwCreateChuyenThu.CancelAsync();
+                bwCreateChuyenThu.RunWorkerAsync();
+            }
         }
 
         void ChuyenThu8()
         {
-
+            if (ChuyenThus.Count >= 9)
+            {
+                currentChuyenThu = ChuyenThus[8];
+            }
+            if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
+            {
+                SendKeys.SendWait("1");
+                Thread.Sleep(200);
+                SendKeys.SendWait("1");
+            }
+            if (!bwCreateChuyenThu.IsBusy)
+            {
+                bwCreateChuyenThu.CancelAsync();
+                bwCreateChuyenThu.RunWorkerAsync();
+            }
         }
 
         void ChuyenThu9()
         {
-
+            if (ChuyenThus.Count >= 10)
+            {
+                currentChuyenThu = ChuyenThus[9];
+            }
+            if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
+            {
+                SendKeys.SendWait("1");
+                Thread.Sleep(200);
+                SendKeys.SendWait("1");
+            }
+            if (!bwCreateChuyenThu.IsBusy)
+            {
+                bwCreateChuyenThu.CancelAsync();
+                bwCreateChuyenThu.RunWorkerAsync();
+            }
         }
 
         private void D420()

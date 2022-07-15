@@ -49,42 +49,42 @@
             <Button
                 Width="115"
                 Margin="5"
-                Command="{Binding TamQuanCommand}"
-                Content="Tam Quan"
+                Command="{Binding ChuyenThu2Command, Mode=OneWay}"
+                Content="{Binding ChuyenThus[2].TenButton}"
                 Style="{StaticResource MaterialDesignPaperButton}" />
             <Button
                 Width="115"
                 Margin="5"
-                Command="{Binding QuiNhon1Command, Mode=OneWay}"
-                Content="Qui Nhơn 1"
-                Style="{StaticResource MaterialDesignPaperButton}" />
-        </StackPanel>
-        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-            <Button
-                Width="115"
-                Margin="5"
-                Command="{Binding QuyNhon2Command, Mode=OneWay}"
-                Content="Qui Nhơn 2"
-                Style="{StaticResource MaterialDesignPaperButton}" />
-            <Button
-                Width="115"
-                Margin="5"
-                Command="{Binding PhuMyCommand, Mode=OneWay}"
-                Content="Phù Mỹ"
+                Command="{Binding ChuyenThu3Command, Mode=OneWay}"
+                Content="{Binding ChuyenThus[3].TenButton}"
                 Style="{StaticResource MaterialDesignPaperButton}" />
         </StackPanel>
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
             <Button
                 Width="115"
                 Margin="5"
-                Command="{Binding PhuCatCommand}"
-                Content="Phù Cát"
+                Command="{Binding ChuyenThu4Command, Mode=OneWay}"
+                Content="{Binding ChuyenThus[4].TenButton}"
                 Style="{StaticResource MaterialDesignPaperButton}" />
             <Button
                 Width="115"
                 Margin="5"
-                Command="{Binding AnNhonCommand, Mode=OneWay}"
-                Content="An Nhơn"
+                Command="{Binding ChuyenThu5Command, Mode=OneWay}"
+                Content="{Binding ChuyenThus[5].TenButton}"
+                Style="{StaticResource MaterialDesignPaperButton}" />
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+            <Button
+                Width="115"
+                Margin="5"
+                Command="{Binding ChuyenThu6Command, Mode=OneWay}"
+                Content="{Binding ChuyenThus[6].TenButton}"
+                Style="{StaticResource MaterialDesignPaperButton}" />
+            <Button
+                Width="115"
+                Margin="5"
+                Command="{Binding ChuyenThu7Command, Mode=OneWay}"
+                Content="{Binding ChuyenThus[7].TenButton}"
                 Style="{StaticResource MaterialDesignPaperButton}" />
         </StackPanel>
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
@@ -92,14 +92,14 @@
                 Width="115"
                 Margin="5"
                 Background="#FFDFFFFC"
-                Command="{Binding BCPHNCommand, Mode=OneWay}"
-                Content="593280"
+                Command="{Binding ChuyenThu8Command, Mode=OneWay}"
+                Content="{Binding ChuyenThus[8].TenButton}"
                 Style="{StaticResource MaterialDesignPaperButton}" />
             <Button
                 Width="115"
                 Margin="5"
-                Command="{Binding TongHopCommand, Mode=OneWay}"
-                Content="Tổng Hợp"
+                Command="{Binding ChuyenThu9Command, Mode=OneWay}"
+                Content="{Binding ChuyenThus[9].TenButton}"
                 Style="{StaticResource MaterialDesignPaperButton}" />
         </StackPanel>
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" />

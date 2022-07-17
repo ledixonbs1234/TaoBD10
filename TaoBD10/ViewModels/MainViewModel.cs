@@ -1082,6 +1082,15 @@ namespace TaoBD10.ViewModels
             }
         }
 
+        private int _IndexTabOption;
+
+        public int IndexTabOption
+        {
+            get { return _IndexTabOption; }
+            set { SetProperty(ref _IndexTabOption, value); }
+        }
+
+
         private int _IndexTabTui = 1;
 
         public int IndexTabTui

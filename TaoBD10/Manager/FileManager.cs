@@ -62,6 +62,13 @@ namespace TaoBD10.Manager
             //client.SetTaskAsync("QuanLyXe/DanhSachBD/"+bD10Info.DateCreateBD10.Year+"|"+bD10Info.DateCreateBD10.DayOfYear+"|"+new Random().Next(), bD10Info);
         }
 
+        internal static async void getContent()
+        {
+            FirebaseResponse data =  client.Get("QuanLyXe/DanhSachBD");
+            List<BD10InfoModel> datas = data.ResultAs<List<BD10InfoModel>>();
+
+        }
+
         public static List<ChuyenThuModel> LoadCT()
         {
             if (!File.Exists(_fileCT))

@@ -153,7 +153,7 @@
                         Margin="5"
                         HorizontalContentAlignment="Left"
                         materialDesign:ColorZoneAssist.Mode="SecondaryLight"
-                        SelectedIndex="{Binding IndexTabControl}"
+                        SelectedIndex="{Binding IndexTabOption}"
                         TabStripPlacement="Bottom">
                         <TabItem Padding="0" Header="Default">
                             <view:TuyChonView />
@@ -167,7 +167,9 @@
                             Header="Option Info">
                             <view:OptionAllView />
                         </TabItem>
-                        <TabItem Padding="0" Header="Lấy Chuyến Thư" />
+                        <TabItem Padding="0" Header="Option Lấy CT" >
+                            <view:OptionLayCT/>
+                        </TabItem>
                     </TabControl>
                 </TabItem>
             </TabControl>

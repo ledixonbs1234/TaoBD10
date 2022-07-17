@@ -29,6 +29,8 @@ namespace TaoBD10.ViewModels
 
         public LayChuyenThuViewModel()
         {
+
+            TestCommand = new RelayCommand(Test);
             bwLayCT = new BackgroundWorker();
             bwLayCT.DoWork += BwLayCT_DoWork;
             BongSonCommand = new RelayCommand(BongSon);
@@ -53,7 +55,7 @@ namespace TaoBD10.ViewModels
         }
         public ICommand BuuCuc1Command { get; }
 
-       
+
 
         void BuuCuc1()
         {
@@ -62,12 +64,21 @@ namespace TaoBD10.ViewModels
 
         public ICommand BuuCuc2Command { get; }
 
-       
+
 
         void BuuCuc2()
         {
 
         }
+        public ICommand TestCommand { get; }
+
+
+        void Test()
+        {
+            //thuc hien viec get in fo
+            FileManager.getContent();
+        }
+
 
 
 

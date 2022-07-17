@@ -34,6 +34,11 @@
                 Margin="5"
                 Command="{Binding XuongCommand}"
                 Content="Xuống" />
+             <Button
+                Margin="5"
+                Command="{Binding TestCommand}"
+                Content="Test" />
+            
         </StackPanel>
       
 

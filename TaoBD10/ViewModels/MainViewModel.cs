@@ -56,7 +56,7 @@ namespace TaoBD10.ViewModels
         public MainViewModel()
         {
             //Thuc hien Qua trinh su dung may
-
+            FileManager.onSetupFileManager();
             printTrangCuoi = new BackgroundWorker();
             printTrangCuoi.DoWork += PrintTrangCuoi_DoWork;
             LoadPageCommand = new RelayCommand<Window>(LoadPage);

@@ -3,6 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using TaoBD10.Model;
+using FireSharp.Config;
+using FireSharp.Interfaces;
+using FireSharp.Response;
 
 namespace TaoBD10.Manager
 {
@@ -10,6 +13,23 @@ namespace TaoBD10.Manager
     {
         public static List<BD10InfoModel> list = new List<BD10InfoModel>();
         public static List<string> listBuuCuc = new List<string>();
+
+        public static  IFirebaseClient client;
+        public static void onSetupFileManager()
+        {
+            IFirebaseConfig config = new FirebaseConfig
+            {
+                AuthSecret = "Hw5ESVqVaYfqde21DIHqs4EGhYcqGIiEF4GROViU",
+                BasePath = "https://taoappbd10-default-rtdb.asia-southeast1.firebasedatabase.app/"
+            };
+            client = new FireSharp.FirebaseClient(config);
+            if (client!= null)
+            {
+                APIManager.ShowSnackbar("Connected Firebase");
+            }
+            
+        }
+
 
         public static void GetCode()
         {
@@ -39,6 +59,7 @@ namespace TaoBD10.Manager
             {
                 serializer.Serialize(jWriter, list);
             }
+            //client.SetTaskAsync("QuanLyXe/DanhSachBD/"+bD10Info.DateCreateBD10.Year+"|"+bD10Info.DateCreateBD10.DayOfYear+"|"+new Random().Next(), bD10Info);
         }
 
         public static List<ChuyenThuModel> LoadCT()
@@ -66,6 +87,7 @@ namespace TaoBD10.Manager
             {
                 serializer.Serialize(jWriter, chuyenThus);
             }
+            client.SetTaskAsync("QuanLy/593230",chuyenThus);
         }
 
         public static List<MaBD8Model> GetMaBD8s()

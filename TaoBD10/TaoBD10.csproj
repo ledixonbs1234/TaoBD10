@@ -169,6 +169,7 @@
     <Compile Include="Model\BD10DiInfoModel.cs" />
     <Compile Include="Model\BD10InfoModel.cs" />
     <Compile Include="Model\BD10Message.cs" />
+    <Compile Include="Model\BuuCucModel.cs" />
     <Compile Include="Model\ChiTietTuiModel.cs" />
     <Compile Include="Model\ChuyenThuModel.cs" />
     <Compile Include="Model\DiNgoaiItemModel.cs" />
@@ -251,6 +252,9 @@
     </Compile>
     <Compile Include="Views\OptionChinhView.xaml.cs">
       <DependentUpon>OptionChinhView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\OptionLayCT.xaml.cs">
+      <DependentUpon>OptionLayCT.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TamQuanView.xaml.cs">
       <DependentUpon>TamQuanView.xaml</DependentUpon>
@@ -346,6 +350,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\OptionChinhView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\OptionLayCT.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

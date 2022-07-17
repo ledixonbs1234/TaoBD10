@@ -3,6 +3,7 @@ using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading;
@@ -17,6 +18,14 @@ namespace TaoBD10.ViewModels
     {
         private readonly BackgroundWorker bwLayCT;
         private bool isWaitingRun593200Complete = false;
+        private ObservableCollection<BuuCucModel> _BuuCucs;
+
+        public ObservableCollection<BuuCucModel> BuuCucs
+        {
+            get { return _BuuCucs; }
+            set { SetProperty(ref _BuuCucs, value); }
+        }
+
 
         public LayChuyenThuViewModel()
         {
@@ -31,6 +40,8 @@ namespace TaoBD10.ViewModels
             HoaiHaiCommand = new RelayCommand(HoaiHai);
             BCPCommand = new RelayCommand(BCP);
             HoaiMyCommand = new RelayCommand(HoaiMy);
+            BuuCuc1Command = new RelayCommand(BuuCuc1);
+            BuuCuc2Command = new RelayCommand(BuuCuc2);
             WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>
             {
                 if (m.Key == "Button593200")
@@ -40,6 +51,25 @@ namespace TaoBD10.ViewModels
                 }
             });
         }
+        public ICommand BuuCuc1Command { get; }
+
+       
+
+        void BuuCuc1()
+        {
+
+        }
+
+        public ICommand BuuCuc2Command { get; }
+
+       
+
+        void BuuCuc2()
+        {
+
+        }
+
+
 
         private void BwLayCT_DoWork(object sender, DoWorkEventArgs e)
         {

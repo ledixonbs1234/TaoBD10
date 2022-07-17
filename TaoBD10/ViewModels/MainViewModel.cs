@@ -245,6 +245,48 @@ namespace TaoBD10.ViewModels
                         if (boDauAddress.IndexOf("an lao") == -1)
                             SoundManager.playSound3(@"Number\error_sound.wav");
                     }
+                    else if (maSoBuuCucCurrent == "59G012")
+                    {
+                        string address = APIManager.BoDauAndToLower(m.AddressReiceive);
+                        if(address.IndexOf("hoai my")!= -1 || 
+                        address.IndexOf("hoai huong")!= -1||
+                         address.IndexOf("hoai duc") != -1||
+                          address.IndexOf("hoai xuan") != -1 ||
+                           address.IndexOf("bong son") != -1 ||
+                            address.IndexOf("hoai tan") != -1 
+                        )
+                        {
+                            SoundManager.playSound3(@"Number\error_sound.wav");
+                        }
+                    }
+                    else if (maSoBuuCucCurrent == "59G003" || maSoBuuCucCurrent == "59G010")
+                    {
+                        string address = APIManager.BoDauAndToLower(m.AddressReiceive);
+                        if (address.IndexOf("hoai my") != -1 ||
+                        address.IndexOf("hoai hai") != -1 ||
+                         address.IndexOf("hoai duc") != -1 ||
+                          address.IndexOf("hoai xuan") != -1 ||
+                           address.IndexOf("bong son") != -1 ||
+                            address.IndexOf("hoai tan") != -1
+                        )
+                        {
+                            SoundManager.playSound3(@"Number\error_sound.wav");
+                        }
+                    }
+                    else if (maSoBuuCucCurrent == "59G011")
+                    {
+                        string address = APIManager.BoDauAndToLower(m.AddressReiceive);
+                        if (address.IndexOf("hoai hai") != -1 ||
+                        address.IndexOf("hoai huong") != -1 ||
+                         address.IndexOf("hoai duc") != -1 ||
+                          address.IndexOf("hoai xuan") != -1 ||
+                           address.IndexOf("bong son") != -1 ||
+                            address.IndexOf("hoai tan") != -1
+                        )
+                        {
+                            SoundManager.playSound3(@"Number\error_sound.wav");
+                        }
+                    }
                 }
             });
         }

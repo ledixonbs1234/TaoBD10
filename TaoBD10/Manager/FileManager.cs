@@ -15,6 +15,7 @@ namespace TaoBD10.Manager
         public static List<string> listBuuCuc = new List<string>();
         static string auth = "Hw5ESVqVaYfqde21DIHqs4EGhYcqGIiEF4GROViU";
         static string maBuuCuc = "";
+
         
 
         public static OptionModel GetOptionAll()
@@ -28,6 +29,11 @@ namespace TaoBD10.Manager
         public static void SaveOptionAll(OptionModel option)
         {
             client.Child(@"QuanLy/DanhSach/" + maBuuCuc + "/Option").PutAsync(option).Wait();
+        }
+
+        public static void SaveBuuCuc(List<BuuCucModel> buuCucModels)
+        {
+            client.Child(@"QuanLy/DanhSach/" + maBuuCuc + "/LayBuuCuc").PutAsync(buuCucModels).Wait();
         }
 
         public static OptionModel optionModel = new OptionModel();

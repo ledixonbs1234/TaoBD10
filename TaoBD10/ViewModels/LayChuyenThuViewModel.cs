@@ -27,9 +27,27 @@ namespace TaoBD10.ViewModels
         }
 
 
+        public ICommand SaveBuuCucCommand { get; }
+
+        void SaveBuuCuc()
+        {
+            FileManager.SaveBuuCuc(BuuCucs.ToList());
+
+        }
+        private int _SelectedIndexBC;
+
+        public int SelectedIndexBC
+        {
+            get { return _SelectedIndexBC; }
+            set { SetProperty(ref _SelectedIndexBC, value); }
+        }
+
+
+
+
         public LayChuyenThuViewModel()
         {
-
+        SaveBuuCucCommand = new RelayCommand(SaveBuuCuc);
             TestCommand = new RelayCommand(Test);
             bwLayCT = new BackgroundWorker();
             bwLayCT.DoWork += BwLayCT_DoWork;
@@ -44,6 +62,7 @@ namespace TaoBD10.ViewModels
             HoaiMyCommand = new RelayCommand(HoaiMy);
             BuuCuc1Command = new RelayCommand(BuuCuc1);
             BuuCuc2Command = new RelayCommand(BuuCuc2);
+            BuuCucs = new ObservableCollection<BuuCucModel>();
             WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>
             {
                 if (m.Key == "Button593200")

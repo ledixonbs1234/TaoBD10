@@ -14,7 +14,7 @@
             <RowDefinition Height="35" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <DataGrid ItemsSource="{Binding ChuyenThus}" SelectedIndex="{Binding SelectedIndexCT}" />
+        <DataGrid ItemsSource="{Binding BuuCucs}" SelectedIndex="{Binding SelectedIndexBC}" AutoGenerateColumns="True"  CanUserAddRows="True" CanUserDeleteRows="True" />
         <StackPanel Grid.Row="1" Orientation="Horizontal">
             <Button
                 Margin="5"
@@ -23,7 +23,7 @@
                 ToolTip="Mở phần khởi tạo chuyến thư để lấy thông tin túi" />
             <Button
                 Margin="5"
-                Command="{Binding SaveCTCommand}"
+                Command="{Binding SaveBuuCucCommand}"
                 Content="Lưu" />
             <Button Margin="5" Content="Xóa" />
             <Button

@@ -1,14 +1,11 @@
-﻿using Newtonsoft.Json;
+﻿using Firebase.Database;
+using Firebase.Database.Query;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using TaoBD10.Model;
-using FireSharp.Config;
-using FireSharp.Interfaces;
-using FireSharp.Response;
-using Firebase.Database;
 using System.Threading.Tasks;
-using Firebase.Database.Query;
+using TaoBD10.Model;
 
 namespace TaoBD10.Manager
 {
@@ -17,6 +14,7 @@ namespace TaoBD10.Manager
         public static List<BD10InfoModel> list = new List<BD10InfoModel>();
         public static List<string> listBuuCuc = new List<string>();
         static string auth = "Hw5ESVqVaYfqde21DIHqs4EGhYcqGIiEF4GROViU";
+        static string maBuuCuc = "";
 
         public static FirebaseClient client;
         public static void onSetupFileManager()
@@ -33,9 +31,17 @@ namespace TaoBD10.Manager
             //
 
             //}
+            if (File.Exists("bccp.txt"))
+            {
+                IEnumerable<string> lines = File.ReadLines("bccp.txt");
+                foreach (var item in lines)
+                {
+                    maBuuCuc = item.Trim();
+                }
+            }
+
 
             client = new FirebaseClient("https://taoappbd10-default-rtdb.asia-southeast1.firebasedatabase.app/", new FirebaseOptions { AuthTokenAsyncFactory = () => Task.FromResult(auth) });
-            client.
 
         }
 
@@ -82,26 +88,35 @@ namespace TaoBD10.Manager
 
         public static List<ChuyenThuModel> LoadCT()
         {
-            if (!File.Exists(_fileCT))
-            {
-                SaveCT(new List<ChuyenThuModel>());
-                return null;
-            }
+            Task<List<ChuyenThuModel>> cts = client.Child(@"QuanLy/DanhSach/" + maBuuCuc + "/OptionCT").OrderByKey().OnceSingleAsync<List<ChuyenThuModel>>();
+            cts.Wait();
+            List<ChuyenThuModel> result = cts.Result;
+            return result;
 
-            test();
-            JsonSerializer serializer = new JsonSerializer();
-            using (StreamReader sReader = new StreamReader(_fileCT))
-            using (JsonReader jReader = new JsonTextReader(sReader))
-            {
-                List<ChuyenThuModel> listCT = serializer.Deserialize<List<ChuyenThuModel>>(jReader);
-                return listCT;
-            }
+
+
+            //if (!File.Exists(_fileCT))
+            //{
+            //    SaveCT(new List<ChuyenThuModel>());
+            //    return null;
+            //}
+
+            //JsonSerializer serializer = new JsonSerializer();
+            //using (StreamReader sReader = new StreamReader(_fileCT))
+            //using (JsonReader jReader = new JsonTextReader(sReader))
+            //{
+            //    List<ChuyenThuModel> listCT = serializer.Deserialize<List<ChuyenThuModel>>(jReader);
+            //    return listCT;
+            //}
 
         }
         static async void test()
         {
-            var ss = await client.Child(@"QuanLyXe").OnceAsync<ChuyenThuModel>();
-            string a = "dfd";
+            IReadOnlyCollection<FirebaseObject<ChuyenThuModel>> ss = await client.Child(@"QuanLy").OrderByKey().LimitToFirst(2).OnceAsync<ChuyenThuModel>();
+            foreach (var item in ss)
+            {
+                var sss = item.Key;
+            }
         }
         public static void SaveCT(List<ChuyenThuModel> chuyenThus)
         {
@@ -114,8 +129,7 @@ namespace TaoBD10.Manager
                 serializer.Serialize(jWriter, chuyenThus);
             }
             //client.SetTaskAsync("QuanLy/593230",chuyenThus);
-            client.Child("QuanLyXe").PostAsync(chuyenThus[0]);
-
+            client.Child(@"QuanLy/DanhSach/593230/OptionCT").PutAsync(chuyenThus);
         }
 
         public static List<MaBD8Model> GetMaBD8s()

@@ -11,85 +11,116 @@
     DataContext="{StaticResource OptionAllVM}"
     mc:Ignorable="d">
     <StackPanel>
-        <StackPanel Margin="5,5,5,0" Orientation="Horizontal">
-            <TextBlock Margin="5" Text="Mã BCCP tạo chuyến thư" />
-            <TextBox Width="100" Text="{Binding dd}" />
-        </StackPanel>
-        <StackPanel Margin="5,0,5,0" Orientation="Horizontal">
-            <TextBlock Margin="5" Text="Vào nhanh khởi tạo chuyến thư" />
-            <TextBox
-                Width="100"
-                materialDesign:HintAssist.Hint="Ví dụ: 1,3"
-                Text="{Binding dd}" />
-        </StackPanel>
-        <Expander HorizontalAlignment="Stretch" Header="Tài Khoản">
+       
+        <Expander HorizontalAlignment="Stretch"  Header="Tài Khoản">
             <StackPanel>
                 <StackPanel Margin="5,0,5,0" Orientation="Horizontal">
                     <TextBlock Margin="5" Text="Tài khoản, mật khẩu Web Định vị" />
                     <TextBox
                         Width="100"
                         materialDesign:HintAssist.Hint="Tài khoản"
-                        Text="{Binding dd}" />
+                        Margin="10,0"
+                        Text="{Binding Option.AcountDinhVi}" />
                     <TextBox
                         Width="100"
                         materialDesign:HintAssist.Hint="Mật khẩu"
-                        Text="{Binding dd}" />
+                        Text="{Binding Option.PasswordDinhVi}" />
                 </StackPanel>
                 <StackPanel Margin="5,0,5,0" Orientation="Horizontal">
                     <TextBlock Margin="5" Text="Tài khoản, mật khẩu Web MPS" />
                     <TextBox
                         Width="100"
-                        materialDesign:HintAssist.Hint="Tài khoản"
-                        Text="{Binding dd}" />
+                        materialDesign:HintAssist.Hint="Tài khoản" Margin="10,0"
+                        Text="{Binding Option.AcountMPS}" />
                     <TextBox
                         Width="100"
                         materialDesign:HintAssist.Hint="Mật khẩu"
-                        Text="{Binding dd}" />
+                        Text="{Binding Option.PasswordMPS}" />
                 </StackPanel>
                 <StackPanel Margin="5,0,5,0" Orientation="Horizontal">
                     <TextBlock Margin="5" Text="Tài khoản, mật khẩu Web PNS" />
                     <TextBox
                         Width="100"
-                        materialDesign:HintAssist.Hint="Tài khoản"
-                        Text="{Binding dd}" />
+                        materialDesign:HintAssist.Hint="Tài khoản" Margin="10,0"
+                        Text="{Binding Option.AcountPNS}" />
                     <TextBox
                         Width="100"
                         materialDesign:HintAssist.Hint="Mật khẩu"
-                        Text="{Binding dd}" />
+                        Text="{Binding Option.PasswordPNS}" />
                 </StackPanel>
             </StackPanel>
         </Expander>
+        <StackPanel Margin="5,5,5,0" Orientation="Horizontal">
+            <TextBlock Margin="5" Text="Mã BCCP tạo chuyến thư" />
+            <TextBox Width="100" Text="{Binding Option.MaBuuCuc}" />
+        </StackPanel>
         <StackPanel Margin="5,0,5,0" Orientation="Horizontal">
-            <TextBlock Margin="5" Text="Mã BC MPS" />
+            <TextBlock Margin="5" Text="Vào nhanh khởi tạo chuyến thư" />
+            <TextBox
+                Width="100"
+                materialDesign:HintAssist.Hint="Ví dụ: 1,3"
+                Text="{Binding Option.GoFastKhoiTaoCT}" />
+        </StackPanel>
+        <StackPanel Margin="5,20,5,0" Orientation="Horizontal">
+            <TextBlock Margin="5" Text="Bưu Cục MPS 1" />
+            <TextBox
+                Width="100"
+                materialDesign:HintAssist.Hint="593230"
+                Text="{Binding Option.NameBCMPS1}" />
+        </StackPanel>
+        <StackPanel Margin="5,0,5,0" Orientation="Horizontal">
+            <TextBlock Margin="5" Text="Mã BC MPS1" />
             <TextBox
                 Width="500"
                 materialDesign:HintAssist.Hint="---593230 - KT Hoài Nhơn -KT2"
-                Text="{Binding dd}" />
+                Text="{Binding Option.CodeBCMPS1}" />
         </StackPanel>
         <StackPanel Margin="5,0,5,0" Orientation="Horizontal">
-            <TextBlock Margin="5" Text="Mã Trạng Thái BC MPS" />
+            <TextBlock Margin="5" Text="Mã Trạng Thái BC MPS1" />
             <TextBox
                 Width="500"
                 materialDesign:HintAssist.Hint="Xác nhận đến"
-                Text="{Binding dd}" />
+                Text="{Binding Option.StateBCMPS1}" />
+        </StackPanel>
+        <StackPanel Margin="5,10,5,0" Orientation="Horizontal">
+            <TextBlock Margin="5" Text="Bưu Cục MPS 2" />
+            <TextBox
+                Width="100"
+                materialDesign:HintAssist.Hint="593280"
+                Text="{Binding Option.NameBCMPS2}" />
         </StackPanel>
         <StackPanel Margin="5,0,5,0" Orientation="Horizontal">
+            <TextBlock Margin="5" Text="Mã BC MPS2" />
+            <TextBox
+                Width="500"
+                materialDesign:HintAssist.Hint="---593230 - KT Hoài Nhơn -KT2"
+                Text="{Binding Option.CodeBCMPS2}" />
+        </StackPanel>
+        <StackPanel Margin="5,0,5,0" Orientation="Horizontal">
+            <TextBlock Margin="5" Text="Mã Trạng Thái BC MPS2" />
+            <TextBox
+                Width="500"
+                materialDesign:HintAssist.Hint="Xác nhận đến"
+                Text="{Binding Option.StateBCMPS2}" />
+        </StackPanel>
+        <StackPanel Margin="5,15,5,0" Orientation="Horizontal">
             <TextBlock Margin="5" Text="BD 10 Đi" />
             <TextBox
                 Width="100"
                 materialDesign:HintAssist.Hint="Ví dụ: 1,3"
-                Text="{Binding dd}" />
+                Text="{Binding Option.GoFastBD10Di}" />
         </StackPanel>
         <StackPanel Margin="5,0,5,0" Orientation="Horizontal">
             <TextBlock Margin="5" Text="BD 10 Đến" />
             <TextBox
                 Width="100"
                 materialDesign:HintAssist.Hint="Ví dụ: 1,3"
-                Text="{Binding dd}" />
+                Text="{Binding Option.GoFastBD10Den}" />
         </StackPanel>
         <StackPanel Margin="5,5,5,0" Orientation="Horizontal">
             <TextBlock Margin="5" Text="Mã BCCP Xác Nhận" />
-            <TextBox Width="100" materialDesign:HintAssist.Hint="Ví dụ: 593280" Text="{Binding dd}" />
+            <TextBox Width="100" materialDesign:HintAssist.Hint="Ví dụ: 593280" Text="{Binding Option.MaBuuCucXN}" />
         </StackPanel>
+        <Button Content="Save" Width="100" Margin="5" Command="{Binding SaveCommand}"/>
     </StackPanel>
 </UserControl>

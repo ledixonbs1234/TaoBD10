@@ -19,7 +19,7 @@ namespace TaoBD10.Manager
             Thread thread = new Thread(() => System.Windows.Clipboard.Clear());
         }
 
-        public static void ClickButton(IntPtr handle)
+              public static void ClickButton(IntPtr handle)
         {
             PostMessage(handle, 0x00F5, 0, 0);
         }

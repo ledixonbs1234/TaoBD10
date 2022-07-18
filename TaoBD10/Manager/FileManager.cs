@@ -16,6 +16,21 @@ namespace TaoBD10.Manager
         static string auth = "Hw5ESVqVaYfqde21DIHqs4EGhYcqGIiEF4GROViU";
         static string maBuuCuc = "";
 
+        public static OptionModel GetOptionAll()
+        {
+            Task<OptionModel> optionTemp = client.Child(@"QuanLy/DanhSach/" + maBuuCuc + "/Option").OnceSingleAsync<OptionModel>();
+            optionTemp.Wait();
+            optionModel = optionTemp.Result;
+            return optionTemp.Result;
+        }
+
+        public static void SaveOptionAll(OptionModel option)
+        {
+              client.Child(@"QuanLy/DanhSach/" + maBuuCuc + "/Option").PutAsync(option).Wait();
+        }
+
+        public static OptionModel optionModel = new OptionModel();
+
         public static FirebaseClient client;
         public static void onSetupFileManager()
         {
@@ -31,18 +46,19 @@ namespace TaoBD10.Manager
             //
 
             //}
-            if (File.Exists("bccp.txt"))
+            if (!File.Exists("bccp.txt"))
             {
-                IEnumerable<string> lines = File.ReadLines("bccp.txt");
-                foreach (var item in lines)
-                {
-                    maBuuCuc = item.Trim();
-                }
+                return;
+            }
+            IEnumerable<string> lines = File.ReadLines("bccp.txt");
+            foreach (var item in lines)
+            {
+                maBuuCuc = item.Trim();
+                break;
             }
 
 
             client = new FirebaseClient("https://taoappbd10-default-rtdb.asia-southeast1.firebasedatabase.app/", new FirebaseOptions { AuthTokenAsyncFactory = () => Task.FromResult(auth) });
-
         }
 
 
@@ -69,12 +85,13 @@ namespace TaoBD10.Manager
 
             if (bD10Info != null)
                 list.Add(bD10Info);
-            JsonSerializer serializer = new JsonSerializer();
-            using (StreamWriter sWriter = new StreamWriter(_file))
-            using (JsonWriter jWriter = new JsonTextWriter(sWriter))
-            {
-                serializer.Serialize(jWriter, list);
-            }
+            //JsonSerializer serializer = new JsonSerializer();
+            //using (StreamWriter sWriter = new StreamWriter(_file))
+            //using (JsonWriter jWriter = new JsonTextWriter(sWriter))
+            //{
+            //    serializer.Serialize(jWriter, list);
+            //}
+            client.Child(@"QuanLy/DanhSach/" + maBuuCuc + "/BD10").PutAsync(list);
             //client.SetTaskAsync("QuanLyXe/DanhSachBD/"+bD10Info.DateCreateBD10.Year+"|"+bD10Info.DateCreateBD10.DayOfYear+"|"+new Random().Next(), bD10Info);
         }
 
@@ -130,7 +147,7 @@ namespace TaoBD10.Manager
                 serializer.Serialize(jWriter, chuyenThus);
             }
             //client.SetTaskAsync("QuanLy/593230",chuyenThus);
-            client.Child(@"QuanLy/DanhSach/593230/OptionCT").PutAsync(chuyenThus);
+            client.Child(@"QuanLy/DanhSach/" + maBuuCuc + "/OptionCT").PutAsync(chuyenThus);
         }
 
         public static List<MaBD8Model> GetMaBD8s()
@@ -155,18 +172,29 @@ namespace TaoBD10.Manager
 
         public static List<BD10InfoModel> LoadData()
         {
-            if (!File.Exists(_file))
+
+            if (list.Count == 0)
             {
-                SaveData(new BD10InfoModel());
-                return null;
+                Task<List<BD10InfoModel>> a = client.Child(@"QuanLy/DanhSach/" + maBuuCuc + "/BD10").OnceSingleAsync<List<BD10InfoModel>>();
+                a.Wait();
+                list = a.Result;
             }
-            JsonSerializer serializer = new JsonSerializer();
-            using (StreamReader sReader = new StreamReader(_file))
-            using (JsonReader jReader = new JsonTextReader(sReader))
-            {
-                list = serializer.Deserialize<List<BD10InfoModel>>(jReader);
-                return list;
-            }
+            return list;
+
+            //if (!File.Exists(_file))
+            //{
+            //    SaveData(new BD10InfoModel());
+            //    return null;
+            //}
+            //JsonSerializer serializer = new JsonSerializer();
+            //using (StreamReader sReader = new StreamReader(_file))
+            //using (JsonReader jReader = new JsonTextReader(sReader))
+            //{
+            //    list = serializer.Deserialize<List<BD10InfoModel>>(jReader);
+
+            //    client.Child(@"QuanLy/DanhSach/" + maBuuCuc + "/BD10").PutAsync(list);
+            //    return list;
+            //}
             //dgvDanhSachBD10.DataSource = null;
             //dgvDanhSachBD10.DataSource = listShowBD10Info;
             //dgvDanhSachBD10.Refresh();

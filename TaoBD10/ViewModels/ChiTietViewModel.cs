@@ -30,6 +30,8 @@ namespace TaoBD10.ViewModels
             int countAnNhon = currentListHangHoa.Where(m => m.PhanLoai == PhanLoaiTinh.AnNhon).Count();
         }
 
+
+      
         public ChiTietViewModel()
         {
             GopBDCommand = new RelayCommand(GopBD);
@@ -1637,6 +1639,8 @@ namespace TaoBD10.ViewModels
             get { return _BDKDaNangs; }
             set { SetProperty(ref _BDKDaNangs, value); }
         }
+
+
 
         private string _SelectedKDN;
 

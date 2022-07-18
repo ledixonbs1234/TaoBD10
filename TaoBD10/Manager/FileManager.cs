@@ -6,6 +6,9 @@ using TaoBD10.Model;
 using FireSharp.Config;
 using FireSharp.Interfaces;
 using FireSharp.Response;
+using Firebase.Database;
+using System.Threading.Tasks;
+using Firebase.Database.Query;
 
 namespace TaoBD10.Manager
 {
@@ -13,21 +16,27 @@ namespace TaoBD10.Manager
     {
         public static List<BD10InfoModel> list = new List<BD10InfoModel>();
         public static List<string> listBuuCuc = new List<string>();
+        static string auth = "Hw5ESVqVaYfqde21DIHqs4EGhYcqGIiEF4GROViU";
 
-        public static  IFirebaseClient client;
+        public static FirebaseClient client;
         public static void onSetupFileManager()
         {
-            IFirebaseConfig config = new FirebaseConfig
-            {
-                AuthSecret = "Hw5ESVqVaYfqde21DIHqs4EGhYcqGIiEF4GROViU",
-                BasePath = "https://taoappbd10-default-rtdb.asia-southeast1.firebasedatabase.app/"
-            };
-            client = new FireSharp.FirebaseClient(config);
-            if (client!= null)
-            {
-                APIManager.ShowSnackbar("Connected Firebase");
-            }
-            
+            //IFirebaseConfig config = new FirebaseConfig
+            //{
+            //    AuthSecret = "Hw5ESVqVaYfqde21DIHqs4EGhYcqGIiEF4GROViU",
+            //    BasePath = "https://taoappbd10-default-rtdb.asia-southeast1.firebasedatabase.app/"
+            //};
+            //client = new FireSharp.FirebaseClient(config);
+            //if (client!= null)
+            //{
+            //    APIManager.ShowSnackbar("Connected Firebase");
+            //
+
+            //}
+
+            client = new FirebaseClient("https://taoappbd10-default-rtdb.asia-southeast1.firebasedatabase.app/", new FirebaseOptions { AuthTokenAsyncFactory = () => Task.FromResult(auth) });
+            client.
+
         }
 
 
@@ -64,8 +73,10 @@ namespace TaoBD10.Manager
 
         internal static async void getContent()
         {
-            FirebaseResponse data =  client.Get("QuanLyXe/DanhSachBD");
-            List<BD10InfoModel> datas = data.ResultAs<List<BD10InfoModel>>();
+            ////FirebaseResponse data =  client.Get("QuanLyXe/DanhSachBD");
+            //List<BD10InfoModel> datas = data.ResultAs<List<BD10InfoModel>>();
+
+
 
         }
 
@@ -76,6 +87,8 @@ namespace TaoBD10.Manager
                 SaveCT(new List<ChuyenThuModel>());
                 return null;
             }
+
+            test();
             JsonSerializer serializer = new JsonSerializer();
             using (StreamReader sReader = new StreamReader(_fileCT))
             using (JsonReader jReader = new JsonTextReader(sReader))
@@ -83,6 +96,12 @@ namespace TaoBD10.Manager
                 List<ChuyenThuModel> listCT = serializer.Deserialize<List<ChuyenThuModel>>(jReader);
                 return listCT;
             }
+
+        }
+        static async void test()
+        {
+            var ss = await client.Child(@"QuanLyXe").OnceAsync<ChuyenThuModel>();
+            string a = "dfd";
         }
         public static void SaveCT(List<ChuyenThuModel> chuyenThus)
         {
@@ -94,7 +113,9 @@ namespace TaoBD10.Manager
             {
                 serializer.Serialize(jWriter, chuyenThus);
             }
-            client.SetTaskAsync("QuanLy/593230",chuyenThus);
+            //client.SetTaskAsync("QuanLy/593230",chuyenThus);
+            client.Child("QuanLyXe").PostAsync(chuyenThus[0]);
+
         }
 
         public static List<MaBD8Model> GetMaBD8s()

@@ -66,6 +66,7 @@ namespace TaoBD10.Manager
 
         public static void SaveData(BD10InfoModel bD10Info)
         {
+
             if (bD10Info != null)
                 list.Add(bD10Info);
             JsonSerializer serializer = new JsonSerializer();

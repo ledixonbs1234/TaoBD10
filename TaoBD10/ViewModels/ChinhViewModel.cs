@@ -202,7 +202,7 @@ namespace TaoBD10.ViewModels
         {
             if (SelectedIndexCT == -1)
                 return;
-            if (SelectedIndexCT == ChuyenThus.Count -1)
+            if (SelectedIndexCT == ChuyenThus.Count - 1)
                 return;
             int tempSelected = SelectedIndexCT;
             ChuyenThuModel currentCT = ChuyenThus[SelectedIndexCT];
@@ -416,23 +416,51 @@ namespace TaoBD10.ViewModels
 
         private void BD10Den()
         {
-            if (!APIManager.ThoatToDefault("593230", "danh sach bd10 den"))
+            if (string.IsNullOrEmpty(FileManager.optionModel.GoFastBD10Den)){
+                if (!APIManager.ThoatToDefault(FileManager.optionModel.MaBuuCuc, "danh sach bd10 den"))
+                {
+                    SendKeys.SendWait("3");
+                    Thread.Sleep(200);
+                    SendKeys.SendWait("3");
+                    PrintDefault();
+                }
+            }
+            else
             {
-                SendKeys.SendWait("3");
-                Thread.Sleep(200);
-                SendKeys.SendWait("3");
-                PrintDefault();
+                var temp = FileManager.optionModel.GoFastBD10Den.Split(',');
+                if (!APIManager.ThoatToDefault(FileManager.optionModel.MaBuuCuc, "danh sach bd10 den"))
+                {
+                    SendKeys.SendWait(temp[0]);
+                    Thread.Sleep(200);
+                    SendKeys.SendWait(temp[1]);
+                    PrintDefault();
+                }
+
             }
         }
 
         private void BD10Di()
         {
-            if (!APIManager.ThoatToDefault("593230", "danh sach bd10 di"))
+            if (string.IsNullOrEmpty(FileManager.optionModel.GoFastBD10Di)){
+                if (!APIManager.ThoatToDefault(FileManager.optionModel.MaBuuCuc, "danh sach bd10 den"))
+                {
+                    SendKeys.SendWait("3");
+                    Thread.Sleep(200);
+                    SendKeys.SendWait("2");
+                    PrintDefault();
+                }
+            }
+            else
             {
-                SendKeys.SendWait("3");
-                Thread.Sleep(200);
-                SendKeys.SendWait("2");
-                PrintDefault();
+                var temp = FileManager.optionModel.GoFastBD10Di.Split(',');
+                if (!APIManager.ThoatToDefault(FileManager.optionModel.MaBuuCuc, "danh sach bd10 den"))
+                {
+                    SendKeys.SendWait(temp[0]);
+                    Thread.Sleep(200);
+                    SendKeys.SendWait(temp[1]);
+                    PrintDefault();
+                }
+
             }
         }
 
@@ -674,11 +702,13 @@ namespace TaoBD10.ViewModels
             {
                 currentChuyenThu = ChuyenThus[0];
             }
-            if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
+
+            var temp = FileManager.optionModel.GoFastKhoiTaoCT.Split(',');
+            if (!APIManager.ThoatToDefault(FileManager.optionModel.MaBuuCuc, "khoi tao chuyen thu"))
             {
-                SendKeys.SendWait("1");
+                SendKeys.SendWait(temp[0]);
                 Thread.Sleep(200);
-                SendKeys.SendWait("1");
+                SendKeys.SendWait(temp[1]);
             }
             if (!bwCreateChuyenThu.IsBusy)
             {
@@ -693,11 +723,12 @@ namespace TaoBD10.ViewModels
             {
                 currentChuyenThu = ChuyenThus[1];
             }
-            if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
+            var temp = FileManager.optionModel.GoFastKhoiTaoCT.Split(',');
+            if (!APIManager.ThoatToDefault(FileManager.optionModel.MaBuuCuc, "khoi tao chuyen thu"))
             {
-                SendKeys.SendWait("1");
+                SendKeys.SendWait(temp[0]);
                 Thread.Sleep(200);
-                SendKeys.SendWait("1");
+                SendKeys.SendWait(temp[1]);
             }
             if (!bwCreateChuyenThu.IsBusy)
             {
@@ -712,11 +743,12 @@ namespace TaoBD10.ViewModels
             {
                 currentChuyenThu = ChuyenThus[10];
             }
-            if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
+            var temp = FileManager.optionModel.GoFastKhoiTaoCT.Split(',');
+            if (!APIManager.ThoatToDefault(FileManager.optionModel.MaBuuCuc, "khoi tao chuyen thu"))
             {
-                SendKeys.SendWait("1");
+                SendKeys.SendWait(temp[0]);
                 Thread.Sleep(200);
-                SendKeys.SendWait("1");
+                SendKeys.SendWait(temp[1]);
             }
             if (!bwCreateChuyenThu.IsBusy)
             {
@@ -731,11 +763,12 @@ namespace TaoBD10.ViewModels
             {
                 currentChuyenThu = ChuyenThus[11];
             }
-            if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
+            var temp = FileManager.optionModel.GoFastKhoiTaoCT.Split(',');
+            if (!APIManager.ThoatToDefault(FileManager.optionModel.MaBuuCuc, "khoi tao chuyen thu"))
             {
-                SendKeys.SendWait("1");
+                SendKeys.SendWait(temp[0]);
                 Thread.Sleep(200);
-                SendKeys.SendWait("1");
+                SendKeys.SendWait(temp[1]);
             }
             if (!bwCreateChuyenThu.IsBusy)
             {
@@ -750,11 +783,12 @@ namespace TaoBD10.ViewModels
             {
                 currentChuyenThu = ChuyenThus[12];
             }
-            if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
+            var temp = FileManager.optionModel.GoFastKhoiTaoCT.Split(',');
+            if (!APIManager.ThoatToDefault(FileManager.optionModel.MaBuuCuc, "khoi tao chuyen thu"))
             {
-                SendKeys.SendWait("1");
+                SendKeys.SendWait(temp[0]);
                 Thread.Sleep(200);
-                SendKeys.SendWait("1");
+                SendKeys.SendWait(temp[1]);
             }
             if (!bwCreateChuyenThu.IsBusy)
             {
@@ -769,11 +803,12 @@ namespace TaoBD10.ViewModels
             {
                 currentChuyenThu = ChuyenThus[2];
             }
-            if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
+            var temp = FileManager.optionModel.GoFastKhoiTaoCT.Split(',');
+            if (!APIManager.ThoatToDefault(FileManager.optionModel.MaBuuCuc, "khoi tao chuyen thu"))
             {
-                SendKeys.SendWait("1");
+                SendKeys.SendWait(temp[0]);
                 Thread.Sleep(200);
-                SendKeys.SendWait("1");
+                SendKeys.SendWait(temp[1]);
             }
             if (!bwCreateChuyenThu.IsBusy)
             {
@@ -788,11 +823,12 @@ namespace TaoBD10.ViewModels
             {
                 currentChuyenThu = ChuyenThus[3];
             }
-            if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
+            var temp = FileManager.optionModel.GoFastKhoiTaoCT.Split(',');
+            if (!APIManager.ThoatToDefault(FileManager.optionModel.MaBuuCuc, "khoi tao chuyen thu"))
             {
-                SendKeys.SendWait("1");
+                SendKeys.SendWait(temp[0]);
                 Thread.Sleep(200);
-                SendKeys.SendWait("1");
+                SendKeys.SendWait(temp[1]);
             }
             if (!bwCreateChuyenThu.IsBusy)
             {
@@ -807,11 +843,12 @@ namespace TaoBD10.ViewModels
             {
                 currentChuyenThu = ChuyenThus[4];
             }
-            if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
+            var temp = FileManager.optionModel.GoFastKhoiTaoCT.Split(',');
+            if (!APIManager.ThoatToDefault(FileManager.optionModel.MaBuuCuc, "khoi tao chuyen thu"))
             {
-                SendKeys.SendWait("1");
+                SendKeys.SendWait(temp[0]);
                 Thread.Sleep(200);
-                SendKeys.SendWait("1");
+                SendKeys.SendWait(temp[1]);
             }
             if (!bwCreateChuyenThu.IsBusy)
             {
@@ -826,11 +863,12 @@ namespace TaoBD10.ViewModels
             {
                 currentChuyenThu = ChuyenThus[5];
             }
-            if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
+            var temp = FileManager.optionModel.GoFastKhoiTaoCT.Split(',');
+            if (!APIManager.ThoatToDefault(FileManager.optionModel.MaBuuCuc, "khoi tao chuyen thu"))
             {
-                SendKeys.SendWait("1");
+                SendKeys.SendWait(temp[0]);
                 Thread.Sleep(200);
-                SendKeys.SendWait("1");
+                SendKeys.SendWait(temp[1]);
             }
             if (!bwCreateChuyenThu.IsBusy)
             {
@@ -845,11 +883,12 @@ namespace TaoBD10.ViewModels
             {
                 currentChuyenThu = ChuyenThus[6];
             }
-            if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
+            var temp = FileManager.optionModel.GoFastKhoiTaoCT.Split(',');
+            if (!APIManager.ThoatToDefault(FileManager.optionModel.MaBuuCuc, "khoi tao chuyen thu"))
             {
-                SendKeys.SendWait("1");
+                SendKeys.SendWait(temp[0]);
                 Thread.Sleep(200);
-                SendKeys.SendWait("1");
+                SendKeys.SendWait(temp[1]);
             }
             if (!bwCreateChuyenThu.IsBusy)
             {
@@ -864,11 +903,12 @@ namespace TaoBD10.ViewModels
             {
                 currentChuyenThu = ChuyenThus[7];
             }
-            if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
+            var temp = FileManager.optionModel.GoFastKhoiTaoCT.Split(',');
+            if (!APIManager.ThoatToDefault(FileManager.optionModel.MaBuuCuc, "khoi tao chuyen thu"))
             {
-                SendKeys.SendWait("1");
+                SendKeys.SendWait(temp[0]);
                 Thread.Sleep(200);
-                SendKeys.SendWait("1");
+                SendKeys.SendWait(temp[1]);
             }
             if (!bwCreateChuyenThu.IsBusy)
             {
@@ -883,11 +923,12 @@ namespace TaoBD10.ViewModels
             {
                 currentChuyenThu = ChuyenThus[8];
             }
-            if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
+            var temp = FileManager.optionModel.GoFastKhoiTaoCT.Split(',');
+            if (!APIManager.ThoatToDefault(FileManager.optionModel.MaBuuCuc, "khoi tao chuyen thu"))
             {
-                SendKeys.SendWait("1");
+                SendKeys.SendWait(temp[0]);
                 Thread.Sleep(200);
-                SendKeys.SendWait("1");
+                SendKeys.SendWait(temp[1]);
             }
             if (!bwCreateChuyenThu.IsBusy)
             {
@@ -902,11 +943,12 @@ namespace TaoBD10.ViewModels
             {
                 currentChuyenThu = ChuyenThus[9];
             }
-            if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
+            var temp = FileManager.optionModel.GoFastKhoiTaoCT.Split(',');
+            if (!APIManager.ThoatToDefault(FileManager.optionModel.MaBuuCuc, "khoi tao chuyen thu"))
             {
-                SendKeys.SendWait("1");
+                SendKeys.SendWait(temp[0]);
                 Thread.Sleep(200);
-                SendKeys.SendWait("1");
+                SendKeys.SendWait(temp[1]);
             }
             if (!bwCreateChuyenThu.IsBusy)
             {

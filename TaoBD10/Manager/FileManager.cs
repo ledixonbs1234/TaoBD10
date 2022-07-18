@@ -15,6 +15,7 @@ namespace TaoBD10.Manager
         public static List<string> listBuuCuc = new List<string>();
         static string auth = "Hw5ESVqVaYfqde21DIHqs4EGhYcqGIiEF4GROViU";
         static string maBuuCuc = "";
+        
 
         public static OptionModel GetOptionAll()
         {
@@ -26,7 +27,7 @@ namespace TaoBD10.Manager
 
         public static void SaveOptionAll(OptionModel option)
         {
-              client.Child(@"QuanLy/DanhSach/" + maBuuCuc + "/Option").PutAsync(option).Wait();
+            client.Child(@"QuanLy/DanhSach/" + maBuuCuc + "/Option").PutAsync(option).Wait();
         }
 
         public static OptionModel optionModel = new OptionModel();
@@ -34,18 +35,6 @@ namespace TaoBD10.Manager
         public static FirebaseClient client;
         public static void onSetupFileManager()
         {
-            //IFirebaseConfig config = new FirebaseConfig
-            //{
-            //    AuthSecret = "Hw5ESVqVaYfqde21DIHqs4EGhYcqGIiEF4GROViU",
-            //    BasePath = "https://taoappbd10-default-rtdb.asia-southeast1.firebasedatabase.app/"
-            //};
-            //client = new FireSharp.FirebaseClient(config);
-            //if (client!= null)
-            //{
-            //    APIManager.ShowSnackbar("Connected Firebase");
-            //
-
-            //}
             if (!File.Exists("bccp.txt"))
             {
                 return;

@@ -29,15 +29,7 @@ namespace TaoBD10.ViewModels
             TestCommand = new RelayCommand(Test);
             bwLayCT = new BackgroundWorker();
             bwLayCT.DoWork += BwLayCT_DoWork;
-            BongSonCommand = new RelayCommand(BongSon);
-            HoaiXuanCommand = new RelayCommand(HoaiXuan);
-            HoaiTanCommand = new RelayCommand(HoaiTan);
-            HoaiDucCommand = new RelayCommand(HoaiDuc);
-            GiaoDichCommand = new RelayCommand(GiaoDich);
-            HoaiHuongCommand = new RelayCommand(HoaiHuong);
-            HoaiHaiCommand = new RelayCommand(HoaiHai);
             BCPCommand = new RelayCommand(BCP);
-            HoaiMyCommand = new RelayCommand(HoaiMy);
             BuuCuc1Command = new RelayCommand(BuuCuc1);
             BuuCuc2Command = new RelayCommand(BuuCuc2);
             BuuCucs = new ObservableCollection<BuuCucModel>();
@@ -49,6 +41,10 @@ namespace TaoBD10.ViewModels
                     isWaitingRun593200Complete = true;
                 }
             });
+            foreach (BuuCucModel buucuc in FileManager.LoadBuuCuc())
+            {
+                BuuCucs.Add(buucuc);
+            }
         }
 
         public void Btn593200()
@@ -78,18 +74,6 @@ namespace TaoBD10.ViewModels
             bwLayCT.RunWorkerAsync();
         }
 
-        private void BongSon()
-        {
-            maBuuCucChuyenThuDen = "593522";
-            isBaoDamChuyenThuDen = true;
-            if (!APIManager.ThoatToDefault("593230", "quan ly chuyen thu chieu den"))
-            {
-                SendKeys.SendWait("1");
-                Thread.Sleep(50);
-                SendKeys.SendWait("3");
-            }
-            bwLayCT.RunWorkerAsync();
-        }
 
         void BuuCuc0()
         {
@@ -358,97 +342,6 @@ namespace TaoBD10.ViewModels
             SendKeys.SendWait(maBuuCucChuyenThuDen);
             SendKeys.SendWait("{TAB}");
             SendKeys.SendWait("{F8}");
-        }
-
-        private void GiaoDich()
-        {
-            maBuuCucChuyenThuDen = "593200";
-            isBaoDamChuyenThuDen = false;
-            if (!APIManager.ThoatToDefault("593230", "quan ly chuyen thu chieu den"))
-            {
-                SendKeys.SendWait("1");
-                Thread.Sleep(50);
-                SendKeys.SendWait("3");
-            }
-            bwLayCT.RunWorkerAsync();
-        }
-
-        private void HoaiDuc()
-        {
-            maBuuCucChuyenThuDen = "593550";
-            isBaoDamChuyenThuDen = true;
-            if (!APIManager.ThoatToDefault("593230", "quan ly chuyen thu chieu den"))
-            {
-                SendKeys.SendWait("1");
-                Thread.Sleep(50);
-                SendKeys.SendWait("3");
-            }
-            bwLayCT.RunWorkerAsync();
-        }
-
-        private void HoaiHai()
-        {
-            maBuuCucChuyenThuDen = "593260";
-            isBaoDamChuyenThuDen = true;
-            if (!APIManager.ThoatToDefault("593230", "quan ly chuyen thu chieu den"))
-            {
-                SendKeys.SendWait("1");
-                Thread.Sleep(50);
-                SendKeys.SendWait("3");
-            }
-            bwLayCT.RunWorkerAsync();
-        }
-
-        private void HoaiHuong()
-        {
-            maBuuCucChuyenThuDen = "593270";
-            isBaoDamChuyenThuDen = true;
-            if (!APIManager.ThoatToDefault("593230", "quan ly chuyen thu chieu den"))
-            {
-                SendKeys.SendWait("1");
-                Thread.Sleep(50);
-                SendKeys.SendWait("3");
-            }
-            bwLayCT.RunWorkerAsync();
-        }
-
-        private void HoaiMy()
-        {
-            maBuuCucChuyenThuDen = "593240";
-            isBaoDamChuyenThuDen = true;
-            if (!APIManager.ThoatToDefault("593230", "quan ly chuyen thu chieu den"))
-            {
-                SendKeys.SendWait("1");
-                Thread.Sleep(50);
-                SendKeys.SendWait("3");
-            }
-            bwLayCT.RunWorkerAsync();
-        }
-
-        private void HoaiTan()
-        {
-            maBuuCucChuyenThuDen = "593370";
-            isBaoDamChuyenThuDen = true;
-            if (!APIManager.ThoatToDefault("593230", "quan ly chuyen thu chieu den"))
-            {
-                SendKeys.SendWait("1");
-                Thread.Sleep(50);
-                SendKeys.SendWait("3");
-            }
-            bwLayCT.RunWorkerAsync();
-        }
-
-        private void HoaiXuan()
-        {
-            maBuuCucChuyenThuDen = "593220";
-            isBaoDamChuyenThuDen = true;
-            if (!APIManager.ThoatToDefault("593230", "quan ly chuyen thu chieu den"))
-            {
-                SendKeys.SendWait("1");
-                Thread.Sleep(50);
-                SendKeys.SendWait("3");
-            }
-            bwLayCT.RunWorkerAsync();
         }
 
         void SaveBuuCuc()

@@ -35,6 +35,35 @@ namespace TaoBD10.Manager
         {
             client.Child(@"QuanLy/DanhSach/" + maBuuCuc + "/LayBuuCuc").PutAsync(buuCucModels).Wait();
         }
+        public static void SaveLayBD(List<LayBD10Info> layBDs)
+        {
+            client.Child(@"QuanLy/DanhSach/" + maBuuCuc + "/LayBD10").PutAsync(layBDs).Wait();
+        }
+
+        public static List<BuuCucModel> LoadBuuCuc()
+        {
+            Task<List<BuuCucModel>> cts = client.Child(@"QuanLy/DanhSach/" + maBuuCuc + "/LayBuuCuc").OrderByKey().OnceSingleAsync<List<BuuCucModel>>();
+            cts.Wait();
+            List<BuuCucModel> result = cts.Result;
+            return result;
+
+
+
+            //if (!File.Exists(_fileCT))
+            //{
+            //    SaveCT(new List<ChuyenThuModel>());
+            //    return null;
+            //}
+
+            //JsonSerializer serializer = new JsonSerializer();
+            //using (StreamReader sReader = new StreamReader(_fileCT))
+            //using (JsonReader jReader = new JsonTextReader(sReader))
+            //{
+            //    List<ChuyenThuModel> listCT = serializer.Deserialize<List<ChuyenThuModel>>(jReader);
+            //    return listCT;
+            //}
+
+        }
 
         public static OptionModel optionModel = new OptionModel();
 

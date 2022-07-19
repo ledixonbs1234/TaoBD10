@@ -3,6 +3,7 @@ using Microsoft.Toolkit.Mvvm.Input;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
@@ -19,12 +20,14 @@ namespace TaoBD10.ViewModels
         {
             Button1Command = new RelayCommand(Button1);
             Button6Command = new RelayCommand(Button6);
+            SaveLayBDCommand = new RelayCommand(SaveLayBD);
             Button5Command = new RelayCommand(Button5);
             Button0Command = new RelayCommand(Button0);
             Button4Command = new RelayCommand(Button4);
             Button3Command = new RelayCommand(Button3);
             Button2Command = new RelayCommand(Button2);
             LayToanBoCommand = new RelayCommand(LayToanBo);
+            BD10Infos = new ObservableCollection<LayBD10Info>();
             bwLayBD = new BackgroundWorker();
             bwLayBD.DoWork += BwLayBD_DoWork;
             bwLayBD.RunWorkerCompleted += BwLayBD_RunWorkerCompleted;
@@ -144,6 +147,7 @@ namespace TaoBD10.ViewModels
             bwLayBD.RunWorkerAsync();
         }
 
+
         private void BwLayBD_DoWork(object sender, DoWorkEventArgs e)
         {
             WindowInfo currentWindow = APIManager.WaitingFindedWindow("danh sach bd10 den");
@@ -177,16 +181,6 @@ namespace TaoBD10.ViewModels
         {
         }
 
-        private int _IndexBD10Infos;
-
-        public int IndexBD10Infos
-        {
-            get { return _IndexBD10Infos; }
-            set { SetProperty(ref _IndexBD10Infos, value); }
-        }
-
-
-
         private void DaNang()
         {
             maBuuCuc = "550910";
@@ -217,6 +211,11 @@ namespace TaoBD10.ViewModels
             indexBuuCuc = 515;
             //timer.Start();
             bwLayBD.RunWorkerAsync();
+        }
+
+        void SaveLayBD()
+        {
+            FileManager.SaveLayBD(BD10Infos.ToList());
         }
 
         private void Timer_Tick(object sender, EventArgs e)
@@ -281,21 +280,18 @@ namespace TaoBD10.ViewModels
         private readonly BackgroundWorker bwLayBD;
         private readonly DispatcherTimer timer;
         private ObservableCollection<LayBD10Info> _BD10Infos;
+        private int _IndexBD10Infos;
         private int indexBuuCuc = 0;
         private bool isWating = false;
         private string maBuuCuc = "";
         public ICommand AnHoaCommand { get; }
-
         public ICommand AnLaoCommand { get; }
-
         public ICommand AnMyCommand { get; }
-
         public ObservableCollection<LayBD10Info> BD10Infos
         {
             get { return _BD10Infos; }
             set { SetProperty(ref _BD10Infos, value); }
         }
-
 
         public ICommand Button0Command { get; }
         public ICommand Button1Command { get; }
@@ -305,8 +301,12 @@ namespace TaoBD10.ViewModels
         public ICommand Button5Command { get; }
         public ICommand Button6Command { get; }
         public ICommand DaNangCommand { get; }
-
         public ICommand HoaiAnCommand { get; }
+        public int IndexBD10Infos
+        {
+            get { return _IndexBD10Infos; }
+            set { SetProperty(ref _IndexBD10Infos, value); }
+        }
 
         public bool[] LanLapArray
         {
@@ -314,9 +314,8 @@ namespace TaoBD10.ViewModels
         }
 
         public ICommand LayToanBoCommand { get; }
-
         public ICommand NamTrungBoCommand { get; }
-
+        public ICommand SaveLayBDCommand { get; }
         public int SelectedLanLap
         {
             get { return Array.IndexOf(_LanLapArray, true); }

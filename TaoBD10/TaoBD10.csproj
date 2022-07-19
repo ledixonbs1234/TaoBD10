@@ -195,6 +195,7 @@
     <Compile Include="Model\HangHoaDetailModel.cs" />
     <Compile Include="Model\HangTonModel.cs" />
     <Compile Include="Model\KiemTraModel.cs" />
+    <Compile Include="Model\LayBD10Info.cs" />
     <Compile Include="Model\MaBD8Model.cs" />
     <Compile Include="Model\MaHieuDiNgoaiInfo.cs" />
     <Compile Include="Model\MaHieuTuiModel.cs" />
@@ -272,6 +273,9 @@
     </Compile>
     <Compile Include="Views\OptionChinhView.xaml.cs">
       <DependentUpon>OptionChinhView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\OptionLayBD10View.xaml.cs">
+      <DependentUpon>OptionLayBD10View.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\OptionLayCT.xaml.cs">
       <DependentUpon>OptionLayCT.xaml</DependentUpon>
@@ -370,6 +374,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\OptionChinhView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\OptionLayBD10View.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

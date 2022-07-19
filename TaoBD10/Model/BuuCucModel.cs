@@ -12,7 +12,8 @@ namespace TaoBD10.Model
         public string MaBuuCuc { get; set; }
         public string TenBuuCuc { get; set; }
         public bool IsBaoDam { get; set; }
-
+        public string MaBCCP { get; set; }
+        public string GoFastBCCP { get; set; }
         public BuuCucModel()
         {
 

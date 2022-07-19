@@ -1,6 +1,7 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Text;
 using System.Threading;
@@ -8,26 +9,23 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Threading;
 using TaoBD10.Manager;
+using TaoBD10.Model;
 
 namespace TaoBD10.ViewModels
 {
     public class LayBDHAViewModel : ObservableObject
     {
-        private readonly DispatcherTimer timer;
-        private string maBuuCuc = "";
-        private bool isWating = false;
-        private readonly BackgroundWorker bwLayBD;
-
         public LayBDHAViewModel()
         {
-            AnLaoCommand = new RelayCommand(AnLao);
-            HoaiAnCommand = new RelayCommand(HoaiAn);
-            AnMyCommand = new RelayCommand(AnMy);
-            AnHoaCommand = new RelayCommand(AnHoa);
+            Button1Command = new RelayCommand(Button1);
+            Button6Command = new RelayCommand(Button6);
+            Button5Command = new RelayCommand(Button5);
+            Button0Command = new RelayCommand(Button0);
+            Button4Command = new RelayCommand(Button4);
+            Button3Command = new RelayCommand(Button3);
+            Button2Command = new RelayCommand(Button2);
             LayToanBoCommand = new RelayCommand(LayToanBo);
             bwLayBD = new BackgroundWorker();
-            NamTrungBoCommand = new RelayCommand(NamTrungBo);
-            DaNangCommand = new RelayCommand(DaNang);
             bwLayBD.DoWork += BwLayBD_DoWork;
             bwLayBD.RunWorkerCompleted += BwLayBD_RunWorkerCompleted;
 
@@ -38,43 +36,113 @@ namespace TaoBD10.ViewModels
             timer.Tick += Timer_Tick;
         }
 
-        private readonly bool[] _LanLapArray = new bool[] { true, false, false, false, false };
-
-        public bool[] LanLapArray
+        private void AnHoa()
         {
-            get { return _LanLapArray; }
-        }
-
-        public int SelectedLanLap
-        {
-            get { return Array.IndexOf(_LanLapArray, true); }
-        }
-
-        private void BwLayBD_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-        }
-
-        public ICommand DaNangCommand { get; }
-
-        public ICommand NamTrungBoCommand { get; }
-
-        private void NamTrungBo()
-        {
-            maBuuCuc = "590100";
-            indexBuuCuc = 515;
+            maBuuCuc = "593880";
+            indexBuuCuc = 552;
             //timer.Start();
             bwLayBD.RunWorkerAsync();
         }
 
-        private void DaNang()
+        private void AnLao()
         {
-            maBuuCuc = "550910";
-            indexBuuCuc = 446;
+            maBuuCuc = "593850";
+            indexBuuCuc = 550;
             //timer.Start();
             bwLayBD.RunWorkerAsync();
         }
 
-        private const uint WM_SETTEXT = 0x000C;
+        private void AnMy()
+        {
+            maBuuCuc = "593630";
+            indexBuuCuc = 545;
+            //timer.Start();
+            bwLayBD.RunWorkerAsync();
+        }
+
+        void Button0()
+        {
+            int i = 0;
+            if (BD10Infos.Count < (i + 1))
+            {
+                return;
+            }
+            maBuuCuc = BD10Infos[i].MaBuuCuc;
+            indexBuuCuc = BD10Infos[i].IndexBuuCuc;
+            bwLayBD.RunWorkerAsync();
+        }
+
+        void Button1()
+        {
+            int i = 1;
+            if (BD10Infos.Count < (i + 1))
+            {
+                return;
+            }
+            maBuuCuc = BD10Infos[i].MaBuuCuc;
+            indexBuuCuc = BD10Infos[i].IndexBuuCuc;
+            bwLayBD.RunWorkerAsync();
+        }
+
+        void Button2()
+        {
+            int i = 2;
+            if (BD10Infos.Count < (i + 1))
+            {
+                return;
+            }
+            maBuuCuc = BD10Infos[i].MaBuuCuc;
+            indexBuuCuc = BD10Infos[i].IndexBuuCuc;
+            bwLayBD.RunWorkerAsync();
+        }
+
+        void Button3()
+        {
+            int i = 3;
+            if (BD10Infos.Count < (i + 1))
+            {
+                return;
+            }
+            maBuuCuc = BD10Infos[i].MaBuuCuc;
+            indexBuuCuc = BD10Infos[i].IndexBuuCuc;
+            bwLayBD.RunWorkerAsync();
+        }
+
+        void Button4()
+        {
+            int i = 4;
+            if (BD10Infos.Count < (i + 1))
+            {
+                return;
+            }
+            maBuuCuc = BD10Infos[i].MaBuuCuc;
+            indexBuuCuc = BD10Infos[i].IndexBuuCuc;
+            bwLayBD.RunWorkerAsync();
+        }
+
+        void Button5()
+        {
+            int i = 5;
+            if (BD10Infos.Count < (i + 1))
+            {
+                return;
+            }
+            maBuuCuc = BD10Infos[i].MaBuuCuc;
+            indexBuuCuc = BD10Infos[i].IndexBuuCuc;
+            bwLayBD.RunWorkerAsync();
+        }
+
+        void Button6()
+        {
+            int i = 6;
+            if (BD10Infos.Count < (i + 1))
+            {
+                return;
+            }
+            maBuuCuc = BD10Infos[i].MaBuuCuc;
+            indexBuuCuc = BD10Infos[i].IndexBuuCuc;
+            bwLayBD.RunWorkerAsync();
+        }
 
         private void BwLayBD_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -105,7 +173,35 @@ namespace TaoBD10.ViewModels
             APIManager.ClickButton(currentWindow.hwnd, buttonFindControl.Handle);
         }
 
-        public ICommand LayToanBoCommand { get; }
+        private void BwLayBD_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+        }
+
+        private int _IndexBD10Infos;
+
+        public int IndexBD10Infos
+        {
+            get { return _IndexBD10Infos; }
+            set { SetProperty(ref _IndexBD10Infos, value); }
+        }
+
+
+
+        private void DaNang()
+        {
+            maBuuCuc = "550910";
+            indexBuuCuc = 446;
+            //timer.Start();
+            bwLayBD.RunWorkerAsync();
+        }
+
+        private void HoaiAn()
+        {
+            maBuuCuc = "593740";
+            indexBuuCuc = 547;
+            //timer.Start();
+            bwLayBD.RunWorkerAsync();
+        }
 
         private void LayToanBo()
         {
@@ -113,6 +209,14 @@ namespace TaoBD10.ViewModels
             HoaiAn();
             AnLao();
             AnHoa();
+        }
+
+        private void NamTrungBo()
+        {
+            maBuuCuc = "590100";
+            indexBuuCuc = 515;
+            //timer.Start();
+            bwLayBD.RunWorkerAsync();
         }
 
         private void Timer_Tick(object sender, EventArgs e)
@@ -172,43 +276,50 @@ namespace TaoBD10.ViewModels
             }
         }
 
+        private const uint WM_SETTEXT = 0x000C;
+        private readonly bool[] _LanLapArray = new bool[] { true, false, false, false, false };
+        private readonly BackgroundWorker bwLayBD;
+        private readonly DispatcherTimer timer;
+        private ObservableCollection<LayBD10Info> _BD10Infos;
+        private int indexBuuCuc = 0;
+        private bool isWating = false;
+        private string maBuuCuc = "";
         public ICommand AnHoaCommand { get; }
+
         public ICommand AnLaoCommand { get; }
+
         public ICommand AnMyCommand { get; }
+
+        public ObservableCollection<LayBD10Info> BD10Infos
+        {
+            get { return _BD10Infos; }
+            set { SetProperty(ref _BD10Infos, value); }
+        }
+
+
+        public ICommand Button0Command { get; }
+        public ICommand Button1Command { get; }
+        public ICommand Button2Command { get; }
+        public ICommand Button3Command { get; }
+        public ICommand Button4Command { get; }
+        public ICommand Button5Command { get; }
+        public ICommand Button6Command { get; }
+        public ICommand DaNangCommand { get; }
+
         public ICommand HoaiAnCommand { get; }
 
-        private void AnHoa()
+        public bool[] LanLapArray
         {
-            maBuuCuc = "593880";
-            indexBuuCuc = 552;
-            //timer.Start();
-            bwLayBD.RunWorkerAsync();
+            get { return _LanLapArray; }
         }
 
-        private int indexBuuCuc = 0;
+        public ICommand LayToanBoCommand { get; }
 
-        private void AnLao()
-        {
-            maBuuCuc = "593850";
-            indexBuuCuc = 550;
-            //timer.Start();
-            bwLayBD.RunWorkerAsync();
-        }
+        public ICommand NamTrungBoCommand { get; }
 
-        private void AnMy()
+        public int SelectedLanLap
         {
-            maBuuCuc = "593630";
-            indexBuuCuc = 545;
-            //timer.Start();
-            bwLayBD.RunWorkerAsync();
-        }
-
-        private void HoaiAn()
-        {
-            maBuuCuc = "593740";
-            indexBuuCuc = 547;
-            //timer.Start();
-            bwLayBD.RunWorkerAsync();
+            get { return Array.IndexOf(_LanLapArray, true); }
         }
     }
 }

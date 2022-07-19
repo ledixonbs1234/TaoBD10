@@ -170,6 +170,9 @@
                         <TabItem Padding="0" Header="Option Lấy CT" >
                             <view:OptionLayCT/>
                         </TabItem>
+                        <TabItem Padding="0" Header="Option Lấy BD 10" >
+                            <view:OptionLayBD10View/>
+                        </TabItem>
                     </TabControl>
                 </TabItem>
             </TabControl>

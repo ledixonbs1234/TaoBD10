@@ -18,28 +18,6 @@ namespace TaoBD10.ViewModels
 {
     public class ChinhViewModel : ObservableObject
     {
-        public ICommand ChuyenThu13Command { get; }
-
-
-        void ChuyenThu13()
-        {
-            if (ChuyenThus.Count >= 14)
-            {
-                currentChuyenThu = ChuyenThus[13];
-            }
-            if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
-            {
-                SendKeys.SendWait("1");
-                Thread.Sleep(200);
-                SendKeys.SendWait("1");
-            }
-            if (!bwCreateChuyenThu.IsBusy)
-            {
-                bwCreateChuyenThu.CancelAsync();
-                bwCreateChuyenThu.RunWorkerAsync();
-            }
-        }
-
         public ChinhViewModel()
         {
             ChuyenThus = new ObservableCollection<ChuyenThuModel>();
@@ -172,49 +150,6 @@ namespace TaoBD10.ViewModels
                 }
             });
         }
-        private int _SelectedIndexCT;
-
-        public int SelectedIndexCT
-        {
-            get { return _SelectedIndexCT; }
-            set { SetProperty(ref _SelectedIndexCT, value); }
-        }
-
-
-        void Len()
-        {
-            if (SelectedIndexCT == -1)
-                return;
-            if (SelectedIndexCT == 0)
-                return;
-            int tempSelected = SelectedIndexCT;
-            ChuyenThuModel currentCT = ChuyenThus[SelectedIndexCT];
-            ChuyenThuModel tempCT = ChuyenThus[SelectedIndexCT - 1];
-            ChuyenThus[SelectedIndexCT - 1] = currentCT;
-            ChuyenThus[SelectedIndexCT] = tempCT;
-            SelectedIndexCT = tempSelected - 1;
-        }
-        public ICommand XuongCommand { get; }
-        public ICommand LenCommand { get; }
-
-
-        void Xuong()
-        {
-            if (SelectedIndexCT == -1)
-                return;
-            if (SelectedIndexCT == ChuyenThus.Count - 1)
-                return;
-            int tempSelected = SelectedIndexCT;
-            ChuyenThuModel currentCT = ChuyenThus[SelectedIndexCT];
-            ChuyenThuModel tempCT = ChuyenThus[SelectedIndexCT + 1];
-            ChuyenThus[SelectedIndexCT + 1] = currentCT;
-            ChuyenThus[SelectedIndexCT] = tempCT;
-            SelectedIndexCT = tempSelected + 1;
-        }
-
-
-
-
 
         private void AutoXacNhan()
         {
@@ -416,7 +351,8 @@ namespace TaoBD10.ViewModels
 
         private void BD10Den()
         {
-            if (string.IsNullOrEmpty(FileManager.optionModel.GoFastBD10Den)){
+            if (string.IsNullOrEmpty(FileManager.optionModel.GoFastBD10Den))
+            {
                 if (!APIManager.ThoatToDefault(FileManager.optionModel.MaBuuCuc, "danh sach bd10 den"))
                 {
                     SendKeys.SendWait("3");
@@ -441,7 +377,8 @@ namespace TaoBD10.ViewModels
 
         private void BD10Di()
         {
-            if (string.IsNullOrEmpty(FileManager.optionModel.GoFastBD10Di)){
+            if (string.IsNullOrEmpty(FileManager.optionModel.GoFastBD10Di))
+            {
                 if (!APIManager.ThoatToDefault(FileManager.optionModel.MaBuuCuc, "danh sach bd10 den"))
                 {
                     SendKeys.SendWait("3");
@@ -703,8 +640,9 @@ namespace TaoBD10.ViewModels
                 currentChuyenThu = ChuyenThus[0];
             }
 
-            var temp = FileManager.optionModel.GoFastKhoiTaoCT.Split(',');
-            if (!APIManager.ThoatToDefault(FileManager.optionModel.MaBuuCuc, "khoi tao chuyen thu"))
+            int i = 0;
+            var temp = ChuyenThus[i].GoFastBCCP.Split(',');
+            if (!APIManager.ThoatToDefault(ChuyenThus[i].MaBCCP, "khoi tao chuyen thu"))
             {
                 SendKeys.SendWait(temp[0]);
                 Thread.Sleep(200);
@@ -723,8 +661,9 @@ namespace TaoBD10.ViewModels
             {
                 currentChuyenThu = ChuyenThus[1];
             }
-            var temp = FileManager.optionModel.GoFastKhoiTaoCT.Split(',');
-            if (!APIManager.ThoatToDefault(FileManager.optionModel.MaBuuCuc, "khoi tao chuyen thu"))
+            int i = 1;
+            var temp = ChuyenThus[i].GoFastBCCP.Split(',');
+            if (!APIManager.ThoatToDefault(ChuyenThus[i].MaBCCP, "khoi tao chuyen thu"))
             {
                 SendKeys.SendWait(temp[0]);
                 Thread.Sleep(200);
@@ -743,8 +682,9 @@ namespace TaoBD10.ViewModels
             {
                 currentChuyenThu = ChuyenThus[10];
             }
-            var temp = FileManager.optionModel.GoFastKhoiTaoCT.Split(',');
-            if (!APIManager.ThoatToDefault(FileManager.optionModel.MaBuuCuc, "khoi tao chuyen thu"))
+            int i = 10;
+            var temp = ChuyenThus[i].GoFastBCCP.Split(',');
+            if (!APIManager.ThoatToDefault(ChuyenThus[i].MaBCCP, "khoi tao chuyen thu"))
             {
                 SendKeys.SendWait(temp[0]);
                 Thread.Sleep(200);
@@ -763,8 +703,9 @@ namespace TaoBD10.ViewModels
             {
                 currentChuyenThu = ChuyenThus[11];
             }
-            var temp = FileManager.optionModel.GoFastKhoiTaoCT.Split(',');
-            if (!APIManager.ThoatToDefault(FileManager.optionModel.MaBuuCuc, "khoi tao chuyen thu"))
+            int i = 11;
+            var temp = ChuyenThus[i].GoFastBCCP.Split(',');
+            if (!APIManager.ThoatToDefault(ChuyenThus[i].MaBCCP, "khoi tao chuyen thu"))
             {
                 SendKeys.SendWait(temp[0]);
                 Thread.Sleep(200);
@@ -783,12 +724,32 @@ namespace TaoBD10.ViewModels
             {
                 currentChuyenThu = ChuyenThus[12];
             }
-            var temp = FileManager.optionModel.GoFastKhoiTaoCT.Split(',');
-            if (!APIManager.ThoatToDefault(FileManager.optionModel.MaBuuCuc, "khoi tao chuyen thu"))
+            int i = 12;
+            var temp = ChuyenThus[i].GoFastBCCP.Split(',');
+            if (!APIManager.ThoatToDefault(ChuyenThus[i].MaBCCP, "khoi tao chuyen thu"))
             {
                 SendKeys.SendWait(temp[0]);
                 Thread.Sleep(200);
                 SendKeys.SendWait(temp[1]);
+            }
+            if (!bwCreateChuyenThu.IsBusy)
+            {
+                bwCreateChuyenThu.CancelAsync();
+                bwCreateChuyenThu.RunWorkerAsync();
+            }
+        }
+
+        void ChuyenThu13()
+        {
+            if (ChuyenThus.Count >= 14)
+            {
+                currentChuyenThu = ChuyenThus[13];
+            }
+            if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
+            {
+                SendKeys.SendWait("1");
+                Thread.Sleep(200);
+                SendKeys.SendWait("1");
             }
             if (!bwCreateChuyenThu.IsBusy)
             {
@@ -803,8 +764,9 @@ namespace TaoBD10.ViewModels
             {
                 currentChuyenThu = ChuyenThus[2];
             }
-            var temp = FileManager.optionModel.GoFastKhoiTaoCT.Split(',');
-            if (!APIManager.ThoatToDefault(FileManager.optionModel.MaBuuCuc, "khoi tao chuyen thu"))
+            int i = 2;
+            var temp = ChuyenThus[i].GoFastBCCP.Split(',');
+            if (!APIManager.ThoatToDefault(ChuyenThus[i].MaBCCP, "khoi tao chuyen thu"))
             {
                 SendKeys.SendWait(temp[0]);
                 Thread.Sleep(200);
@@ -823,8 +785,9 @@ namespace TaoBD10.ViewModels
             {
                 currentChuyenThu = ChuyenThus[3];
             }
-            var temp = FileManager.optionModel.GoFastKhoiTaoCT.Split(',');
-            if (!APIManager.ThoatToDefault(FileManager.optionModel.MaBuuCuc, "khoi tao chuyen thu"))
+            int i = 3;
+            var temp = ChuyenThus[i].GoFastBCCP.Split(',');
+            if (!APIManager.ThoatToDefault(ChuyenThus[i].MaBCCP, "khoi tao chuyen thu"))
             {
                 SendKeys.SendWait(temp[0]);
                 Thread.Sleep(200);
@@ -843,8 +806,9 @@ namespace TaoBD10.ViewModels
             {
                 currentChuyenThu = ChuyenThus[4];
             }
-            var temp = FileManager.optionModel.GoFastKhoiTaoCT.Split(',');
-            if (!APIManager.ThoatToDefault(FileManager.optionModel.MaBuuCuc, "khoi tao chuyen thu"))
+            int i = 4;
+            var temp = ChuyenThus[i].GoFastBCCP.Split(',');
+            if (!APIManager.ThoatToDefault(ChuyenThus[i].MaBCCP, "khoi tao chuyen thu"))
             {
                 SendKeys.SendWait(temp[0]);
                 Thread.Sleep(200);
@@ -863,8 +827,9 @@ namespace TaoBD10.ViewModels
             {
                 currentChuyenThu = ChuyenThus[5];
             }
-            var temp = FileManager.optionModel.GoFastKhoiTaoCT.Split(',');
-            if (!APIManager.ThoatToDefault(FileManager.optionModel.MaBuuCuc, "khoi tao chuyen thu"))
+            int i = 5;
+            var temp = ChuyenThus[i].GoFastBCCP.Split(',');
+            if (!APIManager.ThoatToDefault(ChuyenThus[i].MaBCCP, "khoi tao chuyen thu"))
             {
                 SendKeys.SendWait(temp[0]);
                 Thread.Sleep(200);
@@ -883,8 +848,9 @@ namespace TaoBD10.ViewModels
             {
                 currentChuyenThu = ChuyenThus[6];
             }
-            var temp = FileManager.optionModel.GoFastKhoiTaoCT.Split(',');
-            if (!APIManager.ThoatToDefault(FileManager.optionModel.MaBuuCuc, "khoi tao chuyen thu"))
+            int i = 6;
+            var temp = ChuyenThus[i].GoFastBCCP.Split(',');
+            if (!APIManager.ThoatToDefault(ChuyenThus[i].MaBCCP, "khoi tao chuyen thu"))
             {
                 SendKeys.SendWait(temp[0]);
                 Thread.Sleep(200);
@@ -903,8 +869,9 @@ namespace TaoBD10.ViewModels
             {
                 currentChuyenThu = ChuyenThus[7];
             }
-            var temp = FileManager.optionModel.GoFastKhoiTaoCT.Split(',');
-            if (!APIManager.ThoatToDefault(FileManager.optionModel.MaBuuCuc, "khoi tao chuyen thu"))
+            int i = 7;
+            var temp = ChuyenThus[i].GoFastBCCP.Split(',');
+            if (!APIManager.ThoatToDefault(ChuyenThus[i].MaBCCP, "khoi tao chuyen thu"))
             {
                 SendKeys.SendWait(temp[0]);
                 Thread.Sleep(200);
@@ -923,8 +890,9 @@ namespace TaoBD10.ViewModels
             {
                 currentChuyenThu = ChuyenThus[8];
             }
-            var temp = FileManager.optionModel.GoFastKhoiTaoCT.Split(',');
-            if (!APIManager.ThoatToDefault(FileManager.optionModel.MaBuuCuc, "khoi tao chuyen thu"))
+            int i = 8;
+            var temp = ChuyenThus[i].GoFastBCCP.Split(',');
+            if (!APIManager.ThoatToDefault(ChuyenThus[i].MaBCCP, "khoi tao chuyen thu"))
             {
                 SendKeys.SendWait(temp[0]);
                 Thread.Sleep(200);
@@ -943,8 +911,9 @@ namespace TaoBD10.ViewModels
             {
                 currentChuyenThu = ChuyenThus[9];
             }
-            var temp = FileManager.optionModel.GoFastKhoiTaoCT.Split(',');
-            if (!APIManager.ThoatToDefault(FileManager.optionModel.MaBuuCuc, "khoi tao chuyen thu"))
+            int i = 9;
+            var temp = ChuyenThus[i].GoFastBCCP.Split(',');
+            if (!APIManager.ThoatToDefault(ChuyenThus[i].MaBCCP, "khoi tao chuyen thu"))
             {
                 SendKeys.SendWait(temp[0]);
                 Thread.Sleep(200);
@@ -961,12 +930,6 @@ namespace TaoBD10.ViewModels
         {
             APIManager.SetPrintBD8();
         }
-
-
-
-
-
-
 
         private void KTHN()
         {
@@ -1008,18 +971,30 @@ namespace TaoBD10.ViewModels
             SendKeys.SendWait("{F10}");
         }
 
+        void Len()
+        {
+            if (SelectedIndexCT == -1)
+                return;
+            if (SelectedIndexCT == 0)
+                return;
+            int tempSelected = SelectedIndexCT;
+            ChuyenThuModel currentCT = ChuyenThus[SelectedIndexCT];
+            ChuyenThuModel tempCT = ChuyenThus[SelectedIndexCT - 1];
+            ChuyenThus[SelectedIndexCT - 1] = currentCT;
+            ChuyenThus[SelectedIndexCT] = tempCT;
+            SelectedIndexCT = tempSelected - 1;
+        }
+
         void NewCT()
         {
 
 
         }
 
-
         private void PrintDefault()
         {
             APIManager.SetPrintBD10();
         }
-
 
         void SaveCT()
         {
@@ -1080,7 +1055,28 @@ namespace TaoBD10.ViewModels
             }
         }
 
+        void Xuong()
+        {
+            if (SelectedIndexCT == -1)
+                return;
+            if (SelectedIndexCT == ChuyenThus.Count - 1)
+                return;
+            int tempSelected = SelectedIndexCT;
+            ChuyenThuModel currentCT = ChuyenThus[SelectedIndexCT];
+            ChuyenThuModel tempCT = ChuyenThus[SelectedIndexCT + 1];
+            ChuyenThus[SelectedIndexCT + 1] = currentCT;
+            ChuyenThus[SelectedIndexCT] = tempCT;
+            SelectedIndexCT = tempSelected + 1;
+        }
 
+        
+
+        private readonly BackgroundWorker bwCreateChuyenThu;
+        private readonly BackgroundWorker bwPrint;
+        private ObservableCollection<ChuyenThuModel> _ChuyenThus;
+        private int _SelectedIndexCT;
+        private ChuyenThuModel currentChuyenThu;
+        private string soCTCurrent = "";
         public ICommand AutoXacNhanCommand { get; }
         public ICommand BCPHNCommand { get; }
         public ICommand BD10DenCommand { get; }
@@ -1089,15 +1085,25 @@ namespace TaoBD10.ViewModels
         public ICommand ChuyenThu10Command { get; }
         public ICommand ChuyenThu11Command { get; }
         public ICommand ChuyenThu12Command { get; }
+        public ICommand ChuyenThu13Command { get; }
         public ICommand ChuyenThu1Command { get; }
+
         public ICommand ChuyenThu2Command { get; }
+
         public ICommand ChuyenThu3Command { get; }
+
         public ICommand ChuyenThu4Command { get; }
+
         public ICommand ChuyenThu5Command { get; }
+
         public ICommand ChuyenThu6Command { get; }
+
         public ICommand ChuyenThu7Command { get; }
+
         public ICommand ChuyenThu8Command { get; }
+
         public ICommand ChuyenThu9Command { get; }
+
         public ObservableCollection<ChuyenThuModel> ChuyenThus
         {
             get { return _ChuyenThus; }
@@ -1107,18 +1113,22 @@ namespace TaoBD10.ViewModels
         public ICommand D420Command { get; }
 
         public ICommand KTHNCommand { get; }
+
         public ICommand LayDuLieuCommand { get; }
+
+        public ICommand LenCommand { get; }
+
         public ICommand NewCTCommand { get; }
 
         public ICommand PrintDefaultCommand { get; }
 
         public ICommand SaveCTCommand { get; }
 
-        private readonly BackgroundWorker bwCreateChuyenThu;
-        private readonly BackgroundWorker bwPrint;
-        private ObservableCollection<ChuyenThuModel> _ChuyenThus;
-
-        private ChuyenThuModel currentChuyenThu;
-        private string soCTCurrent = "";
+        public int SelectedIndexCT
+        {
+            get { return _SelectedIndexCT; }
+            set { SetProperty(ref _SelectedIndexCT, value); }
+        }
+        public ICommand XuongCommand { get; }
     }
 }

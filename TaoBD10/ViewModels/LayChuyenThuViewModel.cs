@@ -16,38 +16,16 @@ namespace TaoBD10.ViewModels
 {
     public class LayChuyenThuViewModel : ObservableObject
     {
-        private readonly BackgroundWorker bwLayCT;
-        private bool isWaitingRun593200Complete = false;
-        private ObservableCollection<BuuCucModel> _BuuCucs;
-
-        public ObservableCollection<BuuCucModel> BuuCucs
-        {
-            get { return _BuuCucs; }
-            set { SetProperty(ref _BuuCucs, value); }
-        }
-
-
-        public ICommand SaveBuuCucCommand { get; }
-
-        void SaveBuuCuc()
-        {
-            FileManager.SaveBuuCuc(BuuCucs.ToList());
-
-        }
-        private int _SelectedIndexBC;
-
-        public int SelectedIndexBC
-        {
-            get { return _SelectedIndexBC; }
-            set { SetProperty(ref _SelectedIndexBC, value); }
-        }
-
-
-
-
         public LayChuyenThuViewModel()
         {
-        SaveBuuCucCommand = new RelayCommand(SaveBuuCuc);
+            SaveBuuCucCommand = new RelayCommand(SaveBuuCuc);
+            BuuCuc0Command = new RelayCommand(BuuCuc0);
+            BuuCuc3Command = new RelayCommand(BuuCuc3);
+            BuuCuc4Command = new RelayCommand(BuuCuc4);
+            BuuCuc5Command = new RelayCommand(BuuCuc5);
+            BuuCuc6Command = new RelayCommand(BuuCuc6);
+            BuuCuc7Command = new RelayCommand(BuuCuc7);
+            BuuCuc8Command = new RelayCommand(BuuCuc8);
             TestCommand = new RelayCommand(Test);
             bwLayCT = new BackgroundWorker();
             bwLayCT.DoWork += BwLayCT_DoWork;
@@ -72,34 +50,254 @@ namespace TaoBD10.ViewModels
                 }
             });
         }
-        public ICommand BuuCuc1Command { get; }
 
+        public void Btn593200()
+        {
+            maBuuCucChuyenThuDen = "593200";
+            isBaoDamChuyenThuDen = false;
 
+            if (!APIManager.ThoatToDefault("593230", "quan ly chuyen thu chieu den"))
+            {
+                SendKeys.SendWait("1");
+                Thread.Sleep(50);
+                SendKeys.SendWait("3");
+            }
+            bwLayCT.RunWorkerAsync();
+        }
+
+        private void BCP()
+        {
+            maBuuCucChuyenThuDen = "593280";
+            isBaoDamChuyenThuDen = false;
+            if (!APIManager.ThoatToDefault("593230", "quan ly chuyen thu chieu den"))
+            {
+                SendKeys.SendWait("1");
+                Thread.Sleep(50);
+                SendKeys.SendWait("3");
+            }
+            bwLayCT.RunWorkerAsync();
+        }
+
+        private void BongSon()
+        {
+            maBuuCucChuyenThuDen = "593522";
+            isBaoDamChuyenThuDen = true;
+            if (!APIManager.ThoatToDefault("593230", "quan ly chuyen thu chieu den"))
+            {
+                SendKeys.SendWait("1");
+                Thread.Sleep(50);
+                SendKeys.SendWait("3");
+            }
+            bwLayCT.RunWorkerAsync();
+        }
+
+        void BuuCuc0()
+        {
+            if (BuuCucs.Count < 1)
+            {
+                return;
+            }
+            int i = 0;
+            maBuuCucChuyenThuDen = BuuCucs[i].MaBuuCuc;
+            isBaoDamChuyenThuDen = BuuCucs[i].IsBaoDam;
+            var temp = BuuCucs[i].GoFastBCCP.Split(',');
+            if (!APIManager.ThoatToDefault(BuuCucs[i].MaBCCP, "quan ly chuyen thu chieu den"))
+            {
+                SendKeys.SendWait(temp[0]);
+                Thread.Sleep(50);
+                SendKeys.SendWait(temp[1]);
+            }
+            if (!bwLayCT.IsBusy)
+            {
+                bwLayCT.CancelAsync();
+                bwLayCT.RunWorkerAsync();
+            }
+        }
 
         void BuuCuc1()
         {
+            if (BuuCucs.Count < 2)
+            {
+                return;
+            }
 
+            int i = 1;
+            maBuuCucChuyenThuDen = BuuCucs[i].MaBuuCuc;
+            isBaoDamChuyenThuDen = BuuCucs[i].IsBaoDam;
+            var temp = BuuCucs[i].GoFastBCCP.Split(',');
+            if (!APIManager.ThoatToDefault(BuuCucs[i].MaBCCP, "quan ly chuyen thu chieu den"))
+            {
+                SendKeys.SendWait(temp[0]);
+                Thread.Sleep(50);
+                SendKeys.SendWait(temp[1]);
+            }
+            if (!bwLayCT.IsBusy)
+            {
+                bwLayCT.CancelAsync();
+                bwLayCT.RunWorkerAsync();
+            }
         }
-
-        public ICommand BuuCuc2Command { get; }
-
-
 
         void BuuCuc2()
         {
-
+            if (BuuCucs.Count < 3)
+            {
+                return;
+            }
+            int i = 2;
+            maBuuCucChuyenThuDen = BuuCucs[i].MaBuuCuc;
+            isBaoDamChuyenThuDen = BuuCucs[i].IsBaoDam;
+            var temp = BuuCucs[i].GoFastBCCP.Split(',');
+            if (!APIManager.ThoatToDefault(BuuCucs[i].MaBCCP, "quan ly chuyen thu chieu den"))
+            {
+                SendKeys.SendWait(temp[0]);
+                Thread.Sleep(50);
+                SendKeys.SendWait(temp[1]);
+            }
+            if (!bwLayCT.IsBusy)
+            {
+                bwLayCT.CancelAsync();
+                bwLayCT.RunWorkerAsync();
+            }
         }
-        public ICommand TestCommand { get; }
 
-
-        void Test()
+        void BuuCuc3()
         {
-            //thuc hien viec get in fo
-            FileManager.getContent();
+            if (BuuCucs.Count < 4)
+            {
+                return;
+            }
+            int i = 3;
+            maBuuCucChuyenThuDen = BuuCucs[i].MaBuuCuc;
+            isBaoDamChuyenThuDen = BuuCucs[i].IsBaoDam;
+            var temp = BuuCucs[i].GoFastBCCP.Split(',');
+            if (!APIManager.ThoatToDefault(BuuCucs[i].MaBCCP, "quan ly chuyen thu chieu den"))
+            {
+                SendKeys.SendWait(temp[0]);
+                Thread.Sleep(50);
+                SendKeys.SendWait(temp[1]);
+            }
+            if (!bwLayCT.IsBusy)
+            {
+                bwLayCT.CancelAsync();
+                bwLayCT.RunWorkerAsync();
+            }
         }
 
+        void BuuCuc4()
+        {
+            if (BuuCucs.Count < 5)
+            {
+                return;
+            }
+            int i = 4;
+            maBuuCucChuyenThuDen = BuuCucs[i].MaBuuCuc;
+            isBaoDamChuyenThuDen = BuuCucs[i].IsBaoDam;
+            var temp = BuuCucs[i].GoFastBCCP.Split(',');
+            if (!APIManager.ThoatToDefault(BuuCucs[i].MaBCCP, "quan ly chuyen thu chieu den"))
+            {
+                SendKeys.SendWait(temp[0]);
+                Thread.Sleep(50);
+                SendKeys.SendWait(temp[1]);
+            }
+            if (!bwLayCT.IsBusy)
+            {
+                bwLayCT.CancelAsync();
+                bwLayCT.RunWorkerAsync();
+            }
+        }
 
+        void BuuCuc5()
+        {
+            if (BuuCucs.Count < 6)
+            {
+                return;
+            }
+            int i = 5;
+            maBuuCucChuyenThuDen = BuuCucs[i].MaBuuCuc;
+            isBaoDamChuyenThuDen = BuuCucs[i].IsBaoDam;
+            var temp = BuuCucs[i].GoFastBCCP.Split(',');
+            if (!APIManager.ThoatToDefault(BuuCucs[i].MaBCCP, "quan ly chuyen thu chieu den"))
+            {
+                SendKeys.SendWait(temp[0]);
+                Thread.Sleep(50);
+                SendKeys.SendWait(temp[1]);
+            }
+            if (!bwLayCT.IsBusy)
+            {
+                bwLayCT.CancelAsync();
+                bwLayCT.RunWorkerAsync();
+            }
+        }
 
+        void BuuCuc6()
+        {
+            if (BuuCucs.Count < 7)
+            {
+                return;
+            }
+            int i = 6;
+            maBuuCucChuyenThuDen = BuuCucs[i].MaBuuCuc;
+            isBaoDamChuyenThuDen = BuuCucs[i].IsBaoDam;
+            var temp = BuuCucs[i].GoFastBCCP.Split(',');
+            if (!APIManager.ThoatToDefault(BuuCucs[i].MaBCCP, "quan ly chuyen thu chieu den"))
+            {
+                SendKeys.SendWait(temp[0]);
+                Thread.Sleep(50);
+                SendKeys.SendWait(temp[1]);
+            }
+            if (!bwLayCT.IsBusy)
+            {
+                bwLayCT.CancelAsync();
+                bwLayCT.RunWorkerAsync();
+            }
+        }
+
+        void BuuCuc7()
+        {
+            if (BuuCucs.Count < 8)
+            {
+                return;
+            }
+            int i = 7;
+            maBuuCucChuyenThuDen = BuuCucs[i].MaBuuCuc;
+            isBaoDamChuyenThuDen = BuuCucs[i].IsBaoDam;
+            var temp = BuuCucs[i].GoFastBCCP.Split(',');
+            if (!APIManager.ThoatToDefault(BuuCucs[i].MaBCCP, "quan ly chuyen thu chieu den"))
+            {
+                SendKeys.SendWait(temp[0]);
+                Thread.Sleep(50);
+                SendKeys.SendWait(temp[1]);
+            }
+            if (!bwLayCT.IsBusy)
+            {
+                bwLayCT.CancelAsync();
+                bwLayCT.RunWorkerAsync();
+            }
+        }
+
+        void BuuCuc8()
+        {
+            if (BuuCucs.Count < 9)
+            {
+                return;
+            }
+            int i = 8;
+            maBuuCucChuyenThuDen = BuuCucs[i].MaBuuCuc;
+            isBaoDamChuyenThuDen = BuuCucs[i].IsBaoDam;
+            var temp = BuuCucs[i].GoFastBCCP.Split(',');
+            if (!APIManager.ThoatToDefault(BuuCucs[i].MaBCCP, "quan ly chuyen thu chieu den"))
+            {
+                SendKeys.SendWait(temp[0]);
+                Thread.Sleep(50);
+                SendKeys.SendWait(temp[1]);
+            }
+            if (!bwLayCT.IsBusy)
+            {
+                bwLayCT.CancelAsync();
+                bwLayCT.RunWorkerAsync();
+            }
+        }
 
         private void BwLayCT_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -140,56 +338,6 @@ namespace TaoBD10.ViewModels
             {
                 WeakReferenceMessenger.Default.Send(new ContentModel { Key = "XN593200" });
             }
-        }
-
-        public ICommand BCPCommand { get; }
-        public ICommand BongSonCommand { get; }
-        public ICommand GiaoDichCommand { get; }
-        public ICommand HoaiDucCommand { get; }
-        public ICommand HoaiHaiCommand { get; }
-        public ICommand HoaiHuongCommand { get; }
-        public ICommand HoaiMyCommand { get; }
-        public ICommand HoaiTanCommand { get; }
-        public ICommand HoaiXuanCommand { get; }
-
-        public void Btn593200()
-        {
-            maBuuCucChuyenThuDen = "593200";
-            isBaoDamChuyenThuDen = false;
-
-            if (!APIManager.ThoatToDefault("593230", "quan ly chuyen thu chieu den"))
-            {
-                SendKeys.SendWait("1");
-                Thread.Sleep(50);
-                SendKeys.SendWait("3");
-            }
-            bwLayCT.RunWorkerAsync();
-        }
-
-        private void BCP()
-        {
-            maBuuCucChuyenThuDen = "593280";
-            isBaoDamChuyenThuDen = false;
-            if (!APIManager.ThoatToDefault("593230", "quan ly chuyen thu chieu den"))
-            {
-                SendKeys.SendWait("1");
-                Thread.Sleep(50);
-                SendKeys.SendWait("3");
-            }
-            bwLayCT.RunWorkerAsync();
-        }
-
-        private void BongSon()
-        {
-            maBuuCucChuyenThuDen = "593522";
-            isBaoDamChuyenThuDen = true;
-            if (!APIManager.ThoatToDefault("593230", "quan ly chuyen thu chieu den"))
-            {
-                SendKeys.SendWait("1");
-                Thread.Sleep(50);
-                SendKeys.SendWait("3");
-            }
-            bwLayCT.RunWorkerAsync();
         }
 
         private void ChuyenThuDen()
@@ -303,7 +451,67 @@ namespace TaoBD10.ViewModels
             bwLayCT.RunWorkerAsync();
         }
 
+        void SaveBuuCuc()
+        {
+            FileManager.SaveBuuCuc(BuuCucs.ToList());
+
+        }
+
+        void Test()
+        {
+            //thuc hien viec get in fo
+            FileManager.getContent();
+        }
+
+        private readonly BackgroundWorker bwLayCT;
+        private ObservableCollection<BuuCucModel> _BuuCucs;
+        private int _SelectedIndexBC;
         private bool isBaoDamChuyenThuDen = false;
+        private bool isWaitingRun593200Complete = false;
         private string maBuuCucChuyenThuDen = "";
+
+        public ICommand BCPCommand { get; }
+
+        public ICommand BongSonCommand { get; }
+
+        public ICommand BuuCuc0Command { get; }
+
+        public ICommand BuuCuc1Command { get; }
+
+        public ICommand BuuCuc2Command { get; }
+
+        public ICommand BuuCuc3Command { get; }
+
+        public ICommand BuuCuc4Command { get; }
+
+        public ICommand BuuCuc5Command { get; }
+
+        public ICommand BuuCuc6Command { get; }
+
+        public ICommand BuuCuc7Command { get; }
+
+        public ICommand BuuCuc8Command { get; }
+
+        public ObservableCollection<BuuCucModel> BuuCucs
+        {
+            get { return _BuuCucs; }
+            set { SetProperty(ref _BuuCucs, value); }
+        }
+
+
+        public ICommand GiaoDichCommand { get; }
+        public ICommand HoaiDucCommand { get; }
+        public ICommand HoaiHaiCommand { get; }
+        public ICommand HoaiHuongCommand { get; }
+        public ICommand HoaiMyCommand { get; }
+        public ICommand HoaiTanCommand { get; }
+        public ICommand HoaiXuanCommand { get; }
+        public ICommand SaveBuuCucCommand { get; }
+        public int SelectedIndexBC
+        {
+            get { return _SelectedIndexBC; }
+            set { SetProperty(ref _SelectedIndexBC, value); }
+        }
+        public ICommand TestCommand { get; }
     }
 }

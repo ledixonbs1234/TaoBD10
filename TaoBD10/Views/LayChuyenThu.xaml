@@ -14,64 +14,65 @@
             <Button
                 Width="115"
                 Margin="5"
-                Command="{Binding GiaoDichCommand}"
-                Content="593200"
+                Command="{Binding BuuCuc0Command}"
+                Content="{Binding BuuCucs[0].TenBuuCuc}"
                 Style="{StaticResource MaterialDesignPaperButton}" />
             <Button
                 Width="115"
                 Margin="5"
-                Content="593230"
+                Command="{Binding BuuCuc1Command}"
+                Content="{Binding BuuCucs[1].TenBuuCuc}"
                 Style="{StaticResource MaterialDesignPaperButton}" />
         </StackPanel>
 
         <Button
             Width="115"
             Margin="5"
-            Command="{Binding BCPCommand}"
-            Content="593280"
+           Command="{Binding BuuCuc2Command}"
+                Content="{Binding BuuCucs[2].TenBuuCuc}"
             Style="{StaticResource MaterialDesignPaperButton}" />
 
         <Button
             Width="170"
             Margin="5"
-            Command="{Binding BongSonCommand}"
-            Content="593522 - Bồng Sơn"
+           Command="{Binding BuuCuc3Command}"
+                Content="{Binding BuuCucs[3].TenBuuCuc}"
             Style="{StaticResource MaterialDesignPaperButton}" />
         <Button
             Width="170"
             Margin="5"
-            Command="{Binding HoaiHuongCommand}"
-            Content="593270 - Hoài Hương"
+           Command="{Binding BuuCuc4Command}"
+                Content="{Binding BuuCucs[4].TenBuuCuc}"
             Style="{StaticResource MaterialDesignPaperButton}" />
         <Button
             Width="170"
             Margin="5"
-            Command="{Binding HoaiHaiCommand}"
-            Content="593260 - Hoài Hải"
+            Command="{Binding BuuCuc5Command}"
+                Content="{Binding BuuCucs[5].TenBuuCuc}"
             Style="{StaticResource MaterialDesignPaperButton}" />
         <Button
             Width="170"
             Margin="5"
-            Command="{Binding HoaiMyCommand}"
-            Content="593240 - Hoài Mỹ"
+            Command="{Binding BuuCuc6Command}"
+                Content="{Binding BuuCucs[6].TenBuuCuc}"
             Style="{StaticResource MaterialDesignPaperButton}" />
         <Button
             Width="170"
             Margin="5"
-            Command="{Binding HoaiDucCommand}"
-            Content="593500 - Hoài Đức"
+           Command="{Binding BuuCuc7Command}"
+                Content="{Binding BuuCucs[7].TenBuuCuc}"
             Style="{StaticResource MaterialDesignPaperButton}" />
         <Button
             Width="170"
             Margin="5"
-            Command="{Binding HoaiXuanCommand}"
-            Content="593220 - Hoài Xuân"
+            Command="{Binding BuuCuc8Command}"
+                Content="{Binding BuuCucs[8].TenBuuCuc}"
             Style="{StaticResource MaterialDesignPaperButton}" />
         <Button
             Width="170"
             Margin="5"
-            Command="{Binding HoaiTanCommand}"
-            Content="593370 - Hoài Tân"
+           Command="{Binding BuuCuc9Command}"
+                Content="{Binding BuuCucs[9].TenBuuCuc}"
             Style="{StaticResource MaterialDesignPaperButton}" />
     </StackPanel>
 </UserControl>

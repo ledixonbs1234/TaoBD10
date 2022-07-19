@@ -15,6 +15,8 @@ namespace TaoBD10.Model
         public string CheckThuyBo { get; set; }
         public string NameMusic { get; set; }
         public string Barcode { get; set; }
+        public string MaBCCP { get; set; }
+        public string GoFastBCCP { get; set; }
 
         public ChuyenThuModel()
         {

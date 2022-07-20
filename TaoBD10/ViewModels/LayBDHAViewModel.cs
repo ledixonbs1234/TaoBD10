@@ -181,7 +181,7 @@ namespace TaoBD10.ViewModels
             APIManager.SendMessage(combobox.Handle, 0x0007, 0, 0);
             APIManager.SendMessage(combobox.Handle, 0x0007, 0, 0);
 
-            APIManager.SendMessage(childControl[20].Handle, WM_SETTEXT, IntPtr.Zero, new StringBuilder(("550910").ToString()));
+            APIManager.SendMessage(childControl[20].Handle, WM_SETTEXT, IntPtr.Zero, new StringBuilder(maBuuCuc));
             SendKeys.SendWait("{TAB}");
             Thread.Sleep(200);
 

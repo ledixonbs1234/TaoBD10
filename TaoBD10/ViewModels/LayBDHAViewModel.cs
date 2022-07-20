@@ -170,8 +170,15 @@ namespace TaoBD10.ViewModels
             Model.TestAPIModel editControl = childControl.FindAll(m => m.ClassName == classEditDefault)[1];
             Model.TestAPIModel buttonFindControl = childControl.FindAll(m => m.ClassName == classButtonDefault)[5];
             Model.TestAPIModel buttonGetControl = childControl.FindAll(m => m.ClassName == classButtonDefault)[4];
-            const int CB_SETCURSEL = 0x014E;
-            APIManager.SendMessage(combobox.Handle, CB_SETCURSEL, indexBuuCuc, 0);
+            //const int CB_SETCURSEL = 0x014E;
+            //APIManager.SendMessage(combobox.Handle, CB_SETCURSEL, indexBuuCuc, 0);
+            APIManager.SendMessage(combobox.Handle, 0x0007, 0, 0);
+            APIManager.SendMessage(combobox.Handle, 0x0007, 0, 0);
+
+            //SendKeys.SendWait(maBuuCuc+"{TAB}");
+            APIManager.SendMessage(childControl[20].Handle, WM_SETTEXT, IntPtr.Zero, new StringBuilder(("550910").ToString()));
+            Thread.Sleep(200);
+
             APIManager.SendMessage(editControl.Handle, WM_SETTEXT, IntPtr.Zero, new StringBuilder((SelectedLanLap + 1).ToString()));
             APIManager.ClickButton(currentWindow.hwnd, buttonGetControl.Handle);
             APIManager.ClickButton(currentWindow.hwnd, buttonFindControl.Handle);

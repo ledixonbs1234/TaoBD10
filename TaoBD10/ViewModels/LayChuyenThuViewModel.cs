@@ -26,8 +26,10 @@ namespace TaoBD10.ViewModels
             BuuCuc6Command = new RelayCommand(BuuCuc6);
             BuuCuc7Command = new RelayCommand(BuuCuc7);
             BuuCuc8Command = new RelayCommand(BuuCuc8);
+            BuuCuc9Command = new RelayCommand(BuuCuc9);
             TestCommand = new RelayCommand(Test);
             bwLayCT = new BackgroundWorker();
+            bwLayCT.WorkerSupportsCancellation = true;
             bwLayCT.DoWork += BwLayCT_DoWork;
             BCPCommand = new RelayCommand(BCP);
             BuuCuc1Command = new RelayCommand(BuuCuc1);
@@ -283,6 +285,35 @@ namespace TaoBD10.ViewModels
             }
         }
 
+        public ICommand BuuCuc9Command { get; }
+
+      
+
+        void BuuCuc9()
+        {
+            int i = 9;
+            if (BuuCucs.Count < (i+1))
+            {
+                return;
+            }
+            
+            maBuuCucChuyenThuDen = BuuCucs[i].MaBuuCuc;
+            isBaoDamChuyenThuDen = BuuCucs[i].IsBaoDam;
+            var temp = BuuCucs[i].GoFastBCCP.Split(',');
+            if (!APIManager.ThoatToDefault(BuuCucs[i].MaBCCP, "quan ly chuyen thu chieu den"))
+            {
+                SendKeys.SendWait(temp[0]);
+                Thread.Sleep(50);
+                SendKeys.SendWait(temp[1]);
+            }
+            if (!bwLayCT.IsBusy)
+            {
+                bwLayCT.CancelAsync();
+                bwLayCT.RunWorkerAsync();
+            }
+        }
+
+
         private void BwLayCT_DoWork(object sender, DoWorkEventArgs e)
         {
             WindowInfo window = APIManager.WaitingFindedWindow("quan ly chuyen thu");
@@ -352,7 +383,7 @@ namespace TaoBD10.ViewModels
 
         void Test()
         {
-            //thuc hien viec get in fo
+            //thuc hien viec get info
             FileManager.getContent();
         }
 

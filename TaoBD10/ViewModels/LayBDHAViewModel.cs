@@ -37,6 +37,12 @@ namespace TaoBD10.ViewModels
                 Interval = new TimeSpan(0, 0, 0, 0, 500)
             };
             timer.Tick += Timer_Tick;
+
+            foreach (LayBD10Info bd10 in FileManager.LoadLayBD())
+            {
+                BD10Infos.Add(bd10);
+
+            }
         }
 
         private void AnHoa()
@@ -175,8 +181,8 @@ namespace TaoBD10.ViewModels
             APIManager.SendMessage(combobox.Handle, 0x0007, 0, 0);
             APIManager.SendMessage(combobox.Handle, 0x0007, 0, 0);
 
-            //SendKeys.SendWait(maBuuCuc+"{TAB}");
             APIManager.SendMessage(childControl[20].Handle, WM_SETTEXT, IntPtr.Zero, new StringBuilder(("550910").ToString()));
+            SendKeys.SendWait("{TAB}");
             Thread.Sleep(200);
 
             APIManager.SendMessage(editControl.Handle, WM_SETTEXT, IntPtr.Zero, new StringBuilder((SelectedLanLap + 1).ToString()));

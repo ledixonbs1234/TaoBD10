@@ -39,6 +39,30 @@ namespace TaoBD10.Manager
         {
             client.Child(@"QuanLy/DanhSach/" + maBuuCuc + "/LayBD10").PutAsync(layBDs).Wait();
         }
+        public static List<LayBD10Info> LoadLayBD()
+        {
+            Task<List<LayBD10Info>> cts = client.Child(@"QuanLy/DanhSach/" + maBuuCuc + "/LayBD10").OrderByKey().OnceSingleAsync<List<LayBD10Info>>();
+            cts.Wait();
+            List<LayBD10Info> result = cts.Result;
+            return result;
+
+
+
+            //if (!File.Exists(_fileCT))
+            //{
+            //    SaveCT(new List<ChuyenThuModel>());
+            //    return null;
+            //}
+
+            //JsonSerializer serializer = new JsonSerializer();
+            //using (StreamReader sReader = new StreamReader(_fileCT))
+            //using (JsonReader jReader = new JsonTextReader(sReader))
+            //{
+            //    List<ChuyenThuModel> listCT = serializer.Deserialize<List<ChuyenThuModel>>(jReader);
+            //    return listCT;
+            //}
+
+        }
 
         public static List<BuuCucModel> LoadBuuCuc()
         {

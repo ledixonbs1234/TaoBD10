@@ -34,8 +34,10 @@ namespace TaoBD10.ViewModels
             SelectionCommand = new RelayCommand<DiNgoaiItemModel>(Selection);
             SelectionChiTietCommand = new RelayCommand(SelectionChiTiet);
             bwKhoiTao = new BackgroundWorker();
+            bwKhoiTao.WorkerSupportsCancellation = true;
             bwKhoiTao.DoWork += BwKhoiTao_DoWork;
             bwPrintDiNgoai = new BackgroundWorker();
+
             bwPrintDiNgoai.DoWork += BwPrintDiNgoai_DoWork;
             bwPrintDiNgoai.WorkerSupportsCancellation = true;
             SortTinhCommand = new RelayCommand(SortTinh);
@@ -186,13 +188,31 @@ namespace TaoBD10.ViewModels
                     return;
                 }
 
-                Thread.Sleep(100);
-                SendKeys.SendWait("{UP}{UP}{UP}{UP}{UP}");
-                for (int i = 0; i < downTaoTui; i++)
+                IntPtr handleTaoTui = APIManager.GetListControlText(currentWindow.hwnd)[8].Handle;
+
+                APIManager.SendMessage(handleTaoTui, 0x0007, 0, 0);
+                APIManager.SendMessage(handleTaoTui, 0x0007, 0, 0);
+                if (charCodeFirst == "c")
                 {
-                    SendKeys.SendWait("{DOWN}");
+                    SendKeys.SendWait("Ði ngoài(BK)");
                 }
-                SendKeys.SendWait("{F10}");
+                else if (charCodeFirst == "e")
+                {
+                    SendKeys.SendWait("Ði ngoài(EMS)");
+                }
+                else if (charCodeFirst == "p")
+                {
+                    SendKeys.SendWait("Ði ngoài(UT)");
+                }
+                SendKeys.SendWait("{TAB}{F10}");
+
+
+                //Thread.Sleep(100);
+                //SendKeys.SendWait("{UP}{UP}{UP}{UP}{UP}");
+                //for (int i = 0; i < downTaoTui; i++)
+                //{
+                //    SendKeys.SendWait("{DOWN}");
+                //}
                 SendKeys.SendWait("A{BS}{BS}");
 
                 currentWindow = APIManager.WaitingFindedWindow("dong chuyen thu");
@@ -1222,7 +1242,12 @@ namespace TaoBD10.ViewModels
 
         private void OnSelectedSimple()
         {
-            bwKhoiTao.RunWorkerAsync();
+            if (!bwKhoiTao.IsBusy)
+            {
+
+                bwKhoiTao.CancelAsync();
+                bwKhoiTao.RunWorkerAsync();
+            }
             //thuc hien
         }
 

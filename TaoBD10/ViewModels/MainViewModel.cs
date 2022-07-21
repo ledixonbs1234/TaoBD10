@@ -202,6 +202,13 @@ namespace TaoBD10.ViewModels
                                         SoundManager.playSound3(@"Number\error_sound.wav");
                                     }
                                 }
+                            }else
+                            {
+                                string fisrtchar = m.Code.Substring(0, 1).ToLower();
+                                if(fisrtchar== "c"|| fisrtchar == "e")
+                                {
+                                    SoundManager.playSound3(@"Number\error_sound.wav");
+                                }
                             }
                         }
                     }

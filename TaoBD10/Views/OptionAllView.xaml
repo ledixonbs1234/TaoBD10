@@ -110,6 +110,10 @@
             <TextBlock Margin="5" Text="Mã BCCP Xác Nhận" />
             <TextBox Width="100" materialDesign:HintAssist.Hint="Ví dụ: 593280" Text="{Binding Option.MaBuuCucXN}" />
         </StackPanel>
+        <StackPanel Margin="5,5,5,0" Orientation="Horizontal">
+            <TextBlock Margin="5" Text="Password" />
+            <PasswordBox Width="100" materialDesign:HintAssist.Hint="Ví dụ: 593280" PasswordChar="{Binding PasswordTest}" />
+        </StackPanel>
         <Button Content="Save" Width="100" Margin="5" Command="{Binding SaveCommand}"/>
     </StackPanel>
 </UserControl>

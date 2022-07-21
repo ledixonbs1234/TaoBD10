@@ -335,7 +335,7 @@ namespace TaoBD10.ViewModels
             APIManager.SendMessage(comboHandle, 0x0007, 0, 0);
             APIManager.SendMessage(comboHandle, 0x0007, 0, 0);
 
-            ChuyenThuDen();
+            ChuyenThuDen(controls);
             Thread.Sleep(200);
             SendKeys.SendWait("{ENTER}");
 
@@ -355,19 +355,24 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        private void ChuyenThuDen()
+        private void ChuyenThuDen(List<TestAPIModel> controls)
         {
+            var textLast = controls.Where(m => m.Text == "Edit").Last();
             if (isBaoDamChuyenThuDen)
             {
-                SendKeys.SendWait("{UP}{UP}{UP}{UP}{UP}{UP}{UP}{UP}{UP}");
+                //SendKeys.SendWait("{UP}{UP}{UP}{UP}{UP}{UP}{UP}{UP}{UP}");
                 //buu pham bao dam
-                SendKeys.SendWait("{DOWN}{DOWN}{DOWN}{DOWN}{DOWN}{DOWN}");
+                //SendKeys.SendWait("{DOWN}{DOWN}{DOWN}{DOWN}{DOWN}{DOWN}");
+                APIManager.setTextControl(textLast.Handle, "Bưu phẩm bảo đảm - Registed Mail");
+                
+
             }
             else
             {
-                SendKeys.SendWait("{UP}{UP}{UP}{UP}{UP}{UP}{UP}{UP}{UP}");
+                //SendKeys.SendWait("{UP}{UP}{UP}{UP}{UP}{UP}{UP}{UP}{UP}");
                 //buu pham bao dam
-                SendKeys.SendWait("{DOWN}{DOWN}{DOWN}{DOWN}{DOWN}{DOWN}{DOWN}");
+                //SendKeys.SendWait("{DOWN}{DOWN}{DOWN}{DOWN}{DOWN}{DOWN}{DOWN}");
+                APIManager.setTextControl(textLast.Handle, "Bưu kiện -Parcel");
             }
             SendKeys.SendWait("{TAB}");
             SendKeys.SendWait(maBuuCucChuyenThuDen);

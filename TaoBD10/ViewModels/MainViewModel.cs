@@ -202,10 +202,11 @@ namespace TaoBD10.ViewModels
                                         SoundManager.playSound3(@"Number\error_sound.wav");
                                     }
                                 }
-                            }else
+                            }
+                            else
                             {
                                 string fisrtchar = m.Code.Substring(0, 1).ToLower();
-                                if(fisrtchar== "c"|| fisrtchar == "e")
+                                if (fisrtchar == "c" || fisrtchar == "e")
                                 {
                                     SoundManager.playSound3(@"Number\error_sound.wav");
                                 }
@@ -255,12 +256,12 @@ namespace TaoBD10.ViewModels
                     else if (maSoBuuCucCurrent == "59G012")
                     {
                         string address = APIManager.BoDauAndToLower(m.AddressReiceive);
-                        if(address.IndexOf("hoai my")!= -1 || 
-                        address.IndexOf("hoai huong")!= -1||
-                         address.IndexOf("hoai duc") != -1||
+                        if (address.IndexOf("hoai my") != -1 ||
+                        address.IndexOf("hoai huong") != -1 ||
+                         address.IndexOf("hoai duc") != -1 ||
                           address.IndexOf("hoai xuan") != -1 ||
                            address.IndexOf("bong son") != -1 ||
-                            address.IndexOf("hoai tan") != -1 
+                            address.IndexOf("hoai tan") != -1
                         )
                         {
                             SoundManager.playSound3(@"Number\error_sound.wav");
@@ -433,7 +434,31 @@ namespace TaoBD10.ViewModels
             Thread.Sleep(500);
             APIManager.ClickButton(currentWindow.hwnd, "in an pham", isExactly: false);
             WindowInfo printWindow = APIManager.WaitingFindedWindow("Print", isExactly: true);
+            if (printWindow == null)
+            {
+                MessageShow("Không tìm thấy window print document");
+                return;
+            }
+            SendKeys.SendWait("%{r}");
+            currentWindow = APIManager.WaitingFindedWindow("printing preferences");
 
+            if (currentWindow == null)
+            {
+                MessageShow("Không tìm thấy window print pre");
+                return;
+            }
+
+            Thread.Sleep(50);
+            SendKeys.SendWait("{DOWN}");
+            Thread.Sleep(100);
+            APIManager.ClickButton(currentWindow.hwnd, "ok", isExactly: false);
+
+            currentWindow = APIManager.WaitingFindedWindow("Print", isExactly: true);
+            if (currentWindow == null)
+            {
+                MessageShow("Không tìm thấy window print document");
+                return;
+            }
             SendKeys.SendWait("%{c}");
             Thread.Sleep(50);
             SendKeys.SendWait("{Up}");
@@ -513,7 +538,8 @@ namespace TaoBD10.ViewModels
             }
 
             Thread.Sleep(50);
-            SendKeys.SendWait("%{u}");
+            SendKeys.SendWait("{DOWN}");
+            Thread.Sleep(100);
             APIManager.ClickButton(currentWindow.hwnd, "ok", isExactly: false);
 
             currentWindow = APIManager.WaitingFindedWindow("Print", isExactly: true);
@@ -565,7 +591,8 @@ namespace TaoBD10.ViewModels
             }
 
             Thread.Sleep(50);
-            SendKeys.SendWait("%{u}");
+            SendKeys.SendWait("{DOWN}");
+            Thread.Sleep(100);
             APIManager.ClickButton(currentWindow.hwnd, "ok", isExactly: false);
 
             currentWindow = APIManager.WaitingFindedWindow("Print", isExactly: true);

@@ -19,9 +19,14 @@ namespace TaoBD10.Manager
             Thread thread = new Thread(() => System.Windows.Clipboard.Clear());
         }
 
-              public static void ClickButton(IntPtr handle)
+        public static void ClickButton(IntPtr handle)
         {
             PostMessage(handle, 0x00F5, 0, 0);
+        }
+        private const uint WM_SETTEXT = 0x000C;
+        public static void setTextControl(IntPtr handle, string content)
+        {
+            SendMessage(handle, WM_SETTEXT, IntPtr.Zero, new StringBuilder(content));
         }
 
         //private static int WM_LBUTTONDOWN = 0x0201;

@@ -162,9 +162,10 @@ namespace TaoBD10.ViewModels
             //thuc hien cong viec trong nay khong co gi la khong the neu chung ta khong lam duoc
             SendKeys.SendWait("{F10}");
             Thread.Sleep(200);
-            SendKeys.SendWait("{F10}");
-            Thread.Sleep(200);
-            SendKeys.SendWait("{ENTER}");
+            currentWindow = APIManager.WaitingFindedWindow("xac nhan");
+            if (currentWindow == null)
+                return;
+            APIManager.ClickButton(currentWindow.hwnd, "yes", isExactly: false);
             currentWindow = APIManager.WaitingFindedWindow("khoi tao chuyen thu");
             if (currentWindow == null)
             {

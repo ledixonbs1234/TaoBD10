@@ -630,7 +630,8 @@ namespace TaoBD10.ViewModels
                         TestAPIModel apiMaBuuCuc = listWindowForm[2];
                         TestAPIModel apiLoai;
                         TestAPIModel apiSoCT;
-
+                        if (apiMaBuuCuc.Text.Length < 7)
+                            continue;
                         if (!string.IsNullOrEmpty(apiMaBuuCuc.Text) && int.TryParse(apiMaBuuCuc.Text.Substring(0, 6), out int a))
                         {
                             if (apiMaBuuCuc.Text.Length < 6)
@@ -1380,64 +1381,69 @@ namespace TaoBD10.ViewModels
                         if (KeyData.IndexOf(FileManager.listChuyenThu[0].Barcode) != -1)
                         {
                             Thread.Sleep(700);
-                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "ChuyenThu1" });
+                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "ChuyenThu0" });
                         }
                         else if (KeyData.IndexOf(FileManager.listChuyenThu[1].Barcode) != -1)
                         {
                             Thread.Sleep(700);
-                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "ChuyenThu2" });
+                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "ChuyenThu1" });
                         }
                         else if (KeyData.IndexOf(FileManager.listChuyenThu[2].Barcode) != -1)
                         {
                             Thread.Sleep(700);
-                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "ChuyenThu3" });
+                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "ChuyenThu2" });
                         }
                         else if (KeyData.IndexOf(FileManager.listChuyenThu[3].Barcode) != -1)
                         {
                             Thread.Sleep(700);
-                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "ChuyenThu4" });
+                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "ChuyenThu3" });
                         }
                         else if (KeyData.IndexOf(FileManager.listChuyenThu[4].Barcode) != -1)
                         {
                             Thread.Sleep(700);
-                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "ChuyenThu5" });
+                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "ChuyenThu4" });
                         }
                         else if (KeyData.IndexOf(FileManager.listChuyenThu[5].Barcode) != -1)
                         {
                             Thread.Sleep(700);
-                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "ChuyenThu6" });
+                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "ChuyenThu5" });
                         }
                         else if (KeyData.IndexOf(FileManager.listChuyenThu[6].Barcode) != -1)
                         {
                             Thread.Sleep(700);
-                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "ChuyenThu7" });
+                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "ChuyenThu6" });
                         }
                         else if (KeyData.IndexOf(FileManager.listChuyenThu[7].Barcode) != -1)
                         {
                             Thread.Sleep(700);
-                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "ChuyenThu8" });
+                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "ChuyenThu7" });
                         }
                         else if (KeyData.IndexOf(FileManager.listChuyenThu[8].Barcode) != -1)
                         {
                             Thread.Sleep(700);
-                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "ChuyenThu9" });
+                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "ChuyenThu8" });
                         }
                         else if (KeyData.IndexOf(FileManager.listChuyenThu[9].Barcode) != -1)
                         {
                             Thread.Sleep(700);
-                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "ChuyenThu10" });
+                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "ChuyenThu9" });
                         }
                         else if (KeyData.IndexOf(FileManager.listChuyenThu[10].Barcode) != -1)
                         {
                             Thread.Sleep(700);
-                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "ChuyenThu11" });
+                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "ChuyenThu10" });
                         }
                         else if (KeyData.IndexOf(FileManager.listChuyenThu[11].Barcode) != -1)
                         {
                             Thread.Sleep(700);
-                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "ChuyenThu12" });
+                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "ChuyenThu11" });
                         }
                         else if (KeyData.IndexOf(FileManager.listChuyenThu[12].Barcode) != -1)
+                        {
+                            Thread.Sleep(700);
+                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "ChuyenThu12" });
+                        }
+                        else if (KeyData.IndexOf(FileManager.listChuyenThu[13].Barcode) != -1)
                         {
                             Thread.Sleep(700);
                             WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "ChuyenThu13" });

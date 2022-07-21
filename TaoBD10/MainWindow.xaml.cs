@@ -27,9 +27,9 @@ namespace TaoBD10
                     }
                 }
             });
-            bool a = ValidHD();
-            if (!a)
-                Close();
+            //bool a = ValidHD();
+            //if (!a)
+            //    Close();
         }
 
         private string key = "ledixonbs";

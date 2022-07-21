@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -84,7 +85,11 @@ namespace TaoBD10.ViewModels
             {
                 if (m.Key == "RunPrintDiNgoai")
                 {
-                    bwPrintDiNgoai.RunWorkerAsync();
+                    if (!bwPrintDiNgoai.IsBusy)
+                    {
+                        bwPrintDiNgoai.CancelAsync();
+                        bwPrintDiNgoai.RunWorkerAsync();
+                    }
                 }
             });
 
@@ -141,7 +146,7 @@ namespace TaoBD10.ViewModels
             get { return _IsChooseLan; }
             set { SetProperty(ref _IsChooseLan, value); }
         }
-
+        private const uint WM_SETTEXT = 0x000C;
         private void BwPrintDiNgoai_DoWork(object sender, DoWorkEventArgs e)
         {
             try
@@ -188,23 +193,29 @@ namespace TaoBD10.ViewModels
                     return;
                 }
 
-                IntPtr handleTaoTui = APIManager.GetListControlText(currentWindow.hwnd)[8].Handle;
+                var controls = APIManager.GetListControlText(currentWindow.hwnd);
+                var handleTaoTui = controls[8].Handle;
+
 
                 APIManager.SendMessage(handleTaoTui, 0x0007, 0, 0);
                 APIManager.SendMessage(handleTaoTui, 0x0007, 0, 0);
+                string tuiText = "";
                 if (charCodeFirst == "c")
                 {
-                    SendKeys.SendWait("Ði ngoài(BK)");
+                    tuiText = "Ði ngoài(BK)";
                 }
                 else if (charCodeFirst == "e")
                 {
-                    SendKeys.SendWait("Ði ngoài(EMS)");
+                    tuiText = "Ði ngoài(EMS)";
                 }
                 else if (charCodeFirst == "p")
                 {
-                    SendKeys.SendWait("Ði ngoài(UT)");
+                    tuiText = "Ði ngoài(UT)";
                 }
-                SendKeys.SendWait("{TAB}{F10}");
+                APIManager.SendMessage(controls[9].Handle, WM_SETTEXT, IntPtr.Zero, new StringBuilder(tuiText));
+                SendKeys.SendWait("{TAB}");
+                Thread.Sleep(100);
+                SendKeys.SendWait("{F10}");
 
 
                 //Thread.Sleep(100);

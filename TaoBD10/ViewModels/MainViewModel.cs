@@ -1370,67 +1370,67 @@ namespace TaoBD10.ViewModels
                     case Key.Enter:
                         KeyData = KeyData.ToLower();
 
-                        if (KeyData.IndexOf("chuyenthu1") != -1)
+                        if (KeyData.IndexOf(FileManager.listChuyenThu[0].Barcode) != -1)
                         {
                             Thread.Sleep(700);
                             WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "ChuyenThu1" });
                         }
-                        else if (KeyData.IndexOf("chuyenthu2") != -1)
+                        else if (KeyData.IndexOf(FileManager.listChuyenThu[1].Barcode) != -1)
                         {
                             Thread.Sleep(700);
                             WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "ChuyenThu2" });
                         }
-                        else if (KeyData.IndexOf("chuyenthu3") != -1)
+                        else if (KeyData.IndexOf(FileManager.listChuyenThu[2].Barcode) != -1)
                         {
                             Thread.Sleep(700);
                             WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "ChuyenThu3" });
                         }
-                        else if (KeyData.IndexOf("chuyenthu4") != -1)
+                        else if (KeyData.IndexOf(FileManager.listChuyenThu[3].Barcode) != -1)
                         {
                             Thread.Sleep(700);
                             WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "ChuyenThu4" });
                         }
-                        else if (KeyData.IndexOf("chuyenthu5") != -1)
+                        else if (KeyData.IndexOf(FileManager.listChuyenThu[4].Barcode) != -1)
                         {
                             Thread.Sleep(700);
                             WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "ChuyenThu5" });
                         }
-                        else if (KeyData.IndexOf("chuyenthu6") != -1)
+                        else if (KeyData.IndexOf(FileManager.listChuyenThu[5].Barcode) != -1)
                         {
                             Thread.Sleep(700);
                             WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "ChuyenThu6" });
                         }
-                        else if (KeyData.IndexOf("chuyenthu7") != -1)
+                        else if (KeyData.IndexOf(FileManager.listChuyenThu[6].Barcode) != -1)
                         {
                             Thread.Sleep(700);
                             WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "ChuyenThu7" });
                         }
-                        else if (KeyData.IndexOf("chuyenthu8") != -1)
+                        else if (KeyData.IndexOf(FileManager.listChuyenThu[7].Barcode) != -1)
                         {
                             Thread.Sleep(700);
                             WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "ChuyenThu8" });
                         }
-                        else if (KeyData.IndexOf("chuyenthu9") != -1)
+                        else if (KeyData.IndexOf(FileManager.listChuyenThu[8].Barcode) != -1)
                         {
                             Thread.Sleep(700);
                             WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "ChuyenThu9" });
                         }
-                        else if (KeyData.IndexOf("chuyenthu10") != -1)
+                        else if (KeyData.IndexOf(FileManager.listChuyenThu[9].Barcode) != -1)
                         {
                             Thread.Sleep(700);
                             WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "ChuyenThu10" });
                         }
-                        else if (KeyData.IndexOf("chuyenthu11") != -1)
+                        else if (KeyData.IndexOf(FileManager.listChuyenThu[10].Barcode) != -1)
                         {
                             Thread.Sleep(700);
                             WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "ChuyenThu11" });
                         }
-                        else if (KeyData.IndexOf("chuyenthu12") != -1)
+                        else if (KeyData.IndexOf(FileManager.listChuyenThu[11].Barcode) != -1)
                         {
                             Thread.Sleep(700);
                             WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "ChuyenThu12" });
                         }
-                        else if (KeyData.IndexOf("chuyenthu13") != -1)
+                        else if (KeyData.IndexOf(FileManager.listChuyenThu[12].Barcode) != -1)
                         {
                             Thread.Sleep(700);
                             WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "ChuyenThu13" });

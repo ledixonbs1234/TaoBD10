@@ -172,6 +172,7 @@ namespace TaoBD10.ViewModels
                 return;
             }
             SendKeys.SendWait("{ESC}");
+            Thread.Sleep(500);
 
             //thuc hien nhan button get chuyen thu 593200;
             WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Button593200" });

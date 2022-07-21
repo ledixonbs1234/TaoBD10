@@ -102,7 +102,7 @@ namespace TaoBD10.ViewModels
 
             //thuc hien xu ly ngay thang bd
             DateTime ngayThang = DateTime.Now;
-            DateTime.TryParseExact(ngayThangBD, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out ngayThang);
+            //DateTime.TryParseExact(ngayThangBD, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out ngayThang);
 
             var info = FileManager.list.Find(m => m.Name == noiGuiBD && m.LanLap == lanLapBD && m.DateCreateBD10.DayOfYear == ngayThang.DayOfYear);
             if (info != null)

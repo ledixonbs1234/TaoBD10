@@ -15,8 +15,8 @@ namespace TaoBD10.Manager
         public static List<string> listBuuCuc = new List<string>();
         static string auth = "Hw5ESVqVaYfqde21DIHqs4EGhYcqGIiEF4GROViU";
         static string maBuuCuc = "";
+        public static List<ChuyenThuModel> listChuyenThu = new List<ChuyenThuModel>();
 
-        
 
         public static OptionModel GetOptionAll()
         {
@@ -157,6 +157,7 @@ namespace TaoBD10.Manager
             Task<List<ChuyenThuModel>> cts = client.Child(@"QuanLy/DanhSach/" + maBuuCuc + "/OptionCT").OrderByKey().OnceSingleAsync<List<ChuyenThuModel>>();
             cts.Wait();
             List<ChuyenThuModel> result = cts.Result;
+            listChuyenThu = result;
             return result;
 
 

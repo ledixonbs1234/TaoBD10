@@ -135,7 +135,6 @@ namespace TaoBD10.ViewModels
                             if (HaveHangHoa != null)
                             {
                                 HaveHangHoa.Address = chiTietTui.Address;
-                                break;
                             }
                             
                         }

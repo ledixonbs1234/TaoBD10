@@ -984,8 +984,8 @@ namespace TaoBD10.ViewModels
             bool isGone = false;
             if (currentTinh != PhanLoaiTinh.HA_AL)
             {
-                var controls = APIManager.GetListControlText(currentWindow.hwnd);
-                foreach (var item in controls)
+                List<TestAPIModel> controlsHandle = APIManager.GetListControlText(currentWindow.hwnd);
+                foreach (var item in controlsHandle)
                 {
                     if (item.ClassName.IndexOf(textHandleName) != -1)
                     {
@@ -1098,12 +1098,29 @@ namespace TaoBD10.ViewModels
             //thuc hien kiem tra ngay trong nay
 
             Thread.Sleep(200);
+            WindowInfo suaBDInfo =  APIManager.GetActiveWindowTitle();
+          ///////////////////////  
+            if(suaBDInfo.text.IndexOf("sua thong tin bd10")== -1 && suaBDInfo.text.IndexOf("lap bd10")== -1)
+            {
+                return;
+            }
+            var controls = APIManager.GetListControlText(suaBDInfo.hwnd);
+            int iShTuiHandle = controls.FindIndex(m => m.Text == "SH túi");
+            var textBDHandle = controls[iShTuiHandle + 1];
+
+            ///////////////////////////////////////////
             //txtStateSend.Text = "Đang Gửi Trực Tiếp";
             double delayTime = Convert.ToDouble(SelectedTime);
             foreach (var hangHoa in ListShowHangHoa)
             {
-                SendKeys.SendWait(hangHoa.TuiHangHoa.SHTui);
-                SendKeys.SendWait("{ENTER}");
+                //SendKeys.SendWait(hangHoa.TuiHangHoa.SHTui);
+                //SendKeys.SendWait("{ENTER}");
+
+                ////////////////////////////////
+
+                APIManager.setTextControl(textBDHandle.Handle, hangHoa.TuiHangHoa.SHTui + "\n");
+                
+                /////////////////////////////////
 
                 Thread.Sleep(Convert.ToInt32(Math.Round(delayTime * 1000, 0)));
             }
@@ -1440,7 +1457,7 @@ namespace TaoBD10.ViewModels
                 case BuuCuc.BCP:
                     if (!APIManager.ThoatToDefault("593280", "quan ly chuyen thu chieu den"))
                     {
-                        SendKeys.SendWait("1");
+                        SendKeys.SendWait("3");
                         Thread.Sleep(200);
                         SendKeys.SendWait("3");
                     }

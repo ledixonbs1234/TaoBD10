@@ -434,31 +434,31 @@ namespace TaoBD10.ViewModels
             Thread.Sleep(500);
             APIManager.ClickButton(currentWindow.hwnd, "in an pham", isExactly: false);
             WindowInfo printWindow = APIManager.WaitingFindedWindow("Print", isExactly: true);
-            if (printWindow == null)
-            {
-                MessageShow("Không tìm thấy window print document");
-                return;
-            }
-            SendKeys.SendWait("%{r}");
-            currentWindow = APIManager.WaitingFindedWindow("printing preferences");
+            //if (printWindow == null)
+            //{
+            //    MessageShow("Không tìm thấy window print document");
+            //    return;
+            //}
+            //SendKeys.SendWait("%{r}");
+            //currentWindow = APIManager.WaitingFindedWindow("printing preferences");
 
-            if (currentWindow == null)
-            {
-                MessageShow("Không tìm thấy window print pre");
-                return;
-            }
+            //if (currentWindow == null)
+            //{
+            //    MessageShow("Không tìm thấy window print pre");
+            //    return;
+            //}
 
-            Thread.Sleep(50);
-            SendKeys.SendWait("{DOWN}");
-            Thread.Sleep(100);
-            APIManager.ClickButton(currentWindow.hwnd, "ok", isExactly: false);
+            //Thread.Sleep(50);
+            //SendKeys.SendWait("{DOWN}");
+            //Thread.Sleep(100);
+            //APIManager.ClickButton(currentWindow.hwnd, "ok", isExactly: false);
 
-            currentWindow = APIManager.WaitingFindedWindow("Print", isExactly: true);
-            if (currentWindow == null)
-            {
-                MessageShow("Không tìm thấy window print document");
-                return;
-            }
+            //currentWindow = APIManager.WaitingFindedWindow("Print", isExactly: true);
+            //if (currentWindow == null)
+            //{
+            //    MessageShow("Không tìm thấy window print document");
+            //    return;
+            //}
             SendKeys.SendWait("%{c}");
             Thread.Sleep(50);
             SendKeys.SendWait("{Up}");
@@ -536,10 +536,11 @@ namespace TaoBD10.ViewModels
                 MessageShow("Không tìm thấy window print pre");
                 return;
             }
-
+            
             Thread.Sleep(50);
-            SendKeys.SendWait("{DOWN}");
-            Thread.Sleep(100);
+            SendKeys.SendWait("%{u}");
+            //SendKeys.SendWait("{DOWN}");
+            //Thread.Sleep(100);
             APIManager.ClickButton(currentWindow.hwnd, "ok", isExactly: false);
 
             currentWindow = APIManager.WaitingFindedWindow("Print", isExactly: true);
@@ -657,9 +658,9 @@ namespace TaoBD10.ViewModels
                         TestAPIModel apiMaBuuCuc = listWindowForm[2];
                         TestAPIModel apiLoai;
                         TestAPIModel apiSoCT;
-                        if (apiMaBuuCuc.Text.Length < 7)
+                        if (apiMaBuuCuc.Text.Length < 6)
                             continue;
-                        if (!string.IsNullOrEmpty(apiMaBuuCuc.Text) && int.TryParse(apiMaBuuCuc.Text.Substring(0, 6), out int a))
+                        if (!string.IsNullOrEmpty(apiMaBuuCuc.Text) && int.TryParse(apiMaBuuCuc.Text.Substring(0, 2), out int a))
                         {
                             if (apiMaBuuCuc.Text.Length < 6)
                                 continue;

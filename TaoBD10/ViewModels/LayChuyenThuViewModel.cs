@@ -357,13 +357,13 @@ namespace TaoBD10.ViewModels
 
         private void ChuyenThuDen(List<TestAPIModel> controls)
         {
-            var textLast = controls.Where(m => m.Text == "Edit").Last();
+            List<TestAPIModel> EditControls = controls.Where(m => m.ClassName == "Edit").ToList();
             if (isBaoDamChuyenThuDen)
             {
                 //SendKeys.SendWait("{UP}{UP}{UP}{UP}{UP}{UP}{UP}{UP}{UP}");
                 //buu pham bao dam
                 //SendKeys.SendWait("{DOWN}{DOWN}{DOWN}{DOWN}{DOWN}{DOWN}");
-                APIManager.setTextControl(textLast.Handle, "Bưu phẩm bảo đảm - Registed Mail");
+                APIManager.setTextControl(EditControls.LastOrDefault().Handle, "Bưu phẩm bảo đảm - Registed Mail");
                 
 
             }
@@ -372,10 +372,11 @@ namespace TaoBD10.ViewModels
                 //SendKeys.SendWait("{UP}{UP}{UP}{UP}{UP}{UP}{UP}{UP}{UP}");
                 //buu pham bao dam
                 //SendKeys.SendWait("{DOWN}{DOWN}{DOWN}{DOWN}{DOWN}{DOWN}{DOWN}");
-                APIManager.setTextControl(textLast.Handle, "Bưu kiện -Parcel");
+                APIManager.setTextControl(EditControls.LastOrDefault().Handle, "Bưu kiện - Parcel");
             }
             SendKeys.SendWait("{TAB}");
-            SendKeys.SendWait(maBuuCucChuyenThuDen);
+            APIManager.setTextControl(EditControls[EditControls.Count - 2].Handle,maBuuCucChuyenThuDen);
+            //SendKeys.SendWait(maBuuCucChuyenThuDen);
             SendKeys.SendWait("{TAB}");
             SendKeys.SendWait("{F8}");
         }

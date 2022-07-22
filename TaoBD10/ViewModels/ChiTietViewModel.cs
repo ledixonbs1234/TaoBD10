@@ -1118,7 +1118,8 @@ namespace TaoBD10.ViewModels
 
                 ////////////////////////////////
 
-                APIManager.setTextControl(textBDHandle.Handle, hangHoa.TuiHangHoa.SHTui + "\n");
+                APIManager.setTextControl(textBDHandle.Handle, hangHoa.TuiHangHoa.SHTui );
+                SendKeys.SendWait("{ENTER}");
                 
                 /////////////////////////////////
 

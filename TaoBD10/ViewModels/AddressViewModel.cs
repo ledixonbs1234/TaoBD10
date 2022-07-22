@@ -134,7 +134,31 @@ namespace TaoBD10.ViewModels
                             var HaveHangHoa = HangHoas.FirstOrDefault(s => s.Code.ToUpper() == chiTietTui.MaHieu.ToUpper());
                             if (HaveHangHoa != null)
                             {
-                                HaveHangHoa.Address = chiTietTui.Address;
+                                HaveHangHoa.Address = chiTietTui.Address.Trim();
+                                if (!string.IsNullOrEmpty(HaveHangHoa.Address))
+                                {
+                                    foreach (var fill in fillTamQuan)
+                                    {
+                                        if (APIManager.ConvertToUnSign3(HaveHangHoa.Address).ToLower().IndexOf(fill) != -1)
+                                        {
+                                            HaveHangHoa.IsTamQuan = "TamQuan";
+                                            SetCountTamQuan();
+                                            break;
+                                        }
+                                    }
+                                }
+                                //if (!string.IsNullOrEmpty(hangHoa.AddressSend))
+                                //{
+                                //    foreach (var fill in fillTamQuan)
+                                //    {
+                                //        if (APIManager.ConvertToUnSign3(hangHoa.AddressSend).ToLower().IndexOf(fill) != -1)
+                                //        {
+                                //            hangHoa.IsTamQuan = "TamQuan";
+                                //            SetCountTamQuan();
+                                //            break;
+                                //        }
+                                //    }
+                                //}
                             }
                             
                         }

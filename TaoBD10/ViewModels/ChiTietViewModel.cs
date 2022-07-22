@@ -31,7 +31,7 @@ namespace TaoBD10.ViewModels
         }
 
 
-      
+
         public ChiTietViewModel()
         {
             GopBDCommand = new RelayCommand(GopBD);
@@ -1098,15 +1098,26 @@ namespace TaoBD10.ViewModels
             //thuc hien kiem tra ngay trong nay
 
             Thread.Sleep(200);
-            WindowInfo suaBDInfo =  APIManager.GetActiveWindowTitle();
-          ///////////////////////  
-            if(suaBDInfo.text.IndexOf("sua thong tin bd10")== -1 && suaBDInfo.text.IndexOf("lap bd10")== -1)
+            WindowInfo suaBDInfo = APIManager.GetActiveWindowTitle();
+            ///////////////////////  
+            TestAPIModel textBDHandle = null;
+
+            var controls = APIManager.GetListControlText(suaBDInfo.hwnd);
+            if (suaBDInfo.text.IndexOf("sua thong tin bd10") != -1 || suaBDInfo.text == "lap bd10")
+            {
+                int iShTuiHandle = controls.FindIndex(m => m.Text == "SH túi");
+                textBDHandle = controls[iShTuiHandle + 1];
+            }
+            else if (suaBDInfo.text.IndexOf("lap bd10 theo") != -1)
+            {
+                int iShTuiHandle = controls.FindIndex(m => m.Text == "SH túi");
+                textBDHandle = controls[iShTuiHandle -1];
+            }
+            if(textBDHandle == null)
             {
                 return;
             }
-            var controls = APIManager.GetListControlText(suaBDInfo.hwnd);
-            int iShTuiHandle = controls.FindIndex(m => m.Text == "SH túi");
-            var textBDHandle = controls[iShTuiHandle + 1];
+
 
             ///////////////////////////////////////////
             //txtStateSend.Text = "Đang Gửi Trực Tiếp";
@@ -1118,9 +1129,9 @@ namespace TaoBD10.ViewModels
 
                 ////////////////////////////////
 
-                APIManager.setTextControl(textBDHandle.Handle, hangHoa.TuiHangHoa.SHTui );
+                APIManager.setTextControl(textBDHandle.Handle, hangHoa.TuiHangHoa.SHTui);
                 SendKeys.SendWait("{ENTER}");
-                
+
                 /////////////////////////////////
 
                 Thread.Sleep(Convert.ToInt32(Math.Round(delayTime * 1000, 0)));

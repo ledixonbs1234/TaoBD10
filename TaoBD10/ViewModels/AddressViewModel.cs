@@ -160,7 +160,7 @@ namespace TaoBD10.ViewModels
                                 //    }
                                 //}
                             }
-                            
+
                         }
                     }
 
@@ -183,7 +183,10 @@ namespace TaoBD10.ViewModels
             string addressDefault = "https://bccp.vnpost.vn/BCCP.aspx?act=MultiTrace&id=";
             foreach (HangHoaDetailModel hangHoa in HangHoas)
             {
+                if (!string.IsNullOrEmpty(hangHoa.Code))
+                {
                     listMaHieu += hangHoa.Code + ",";
+                }
             }
             addressDefault += listMaHieu;
             WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "ListAddressFull", Content = addressDefault });

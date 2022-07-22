@@ -2,6 +2,7 @@
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
@@ -118,6 +119,31 @@ namespace TaoBD10.ViewModels
                     LayDiaChi();
                 }
             });
+
+
+            WeakReferenceMessenger.Default.Register<ChiTietTuiMessage>(this, (r, m) =>
+            {
+                if (m.Value != null)
+                {
+                    if (m.Value.Key == "TamQuanAddress")
+                    {
+                        List<ChiTietTuiModel> chiTietTuis = m.Value.ChiTietTuis;
+
+                        foreach (ChiTietTuiModel chiTietTui in chiTietTuis)
+                        {
+                            var HaveHangHoa = HangHoas.FirstOrDefault(s => s.Code.ToUpper() == chiTietTui.MaHieu.ToUpper());
+                            if (HaveHangHoa != null)
+                            {
+                                HaveHangHoa.Address = chiTietTui.Address;
+                                break;
+                            }
+                            
+                        }
+                    }
+
+                }
+            }
+           );
         }
 
         private void LayDanhSach()
@@ -130,20 +156,28 @@ namespace TaoBD10.ViewModels
         {
             if (HangHoas.Count == 0)
                 return;
-
-            foreach (HangHoaDetailModel diNgoaiItem in HangHoas)
+            string listMaHieu = "";
+            string addressDefault = "https://bccp.vnpost.vn/BCCP.aspx?act=MultiTrace&id=";
+            foreach (HangHoaDetailModel hangHoa in HangHoas)
             {
-                if (!string.IsNullOrEmpty(diNgoaiItem.Code))
-                {
-                    if (diNgoaiItem.Code.Length != 13)
-                        continue;
-                    if (!string.IsNullOrEmpty(diNgoaiItem.Address))
-                        continue;
-
-                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "LoadAddressTQWeb", Content = diNgoaiItem.Code });
-                    break;
-                }
+                    listMaHieu += hangHoa.Code + ",";
             }
+            addressDefault += listMaHieu;
+            WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "ListAddressFull", Content = addressDefault });
+
+            //foreach (HangHoaDetailModel diNgoaiItem in HangHoas)
+            //{
+            //    if (!string.IsNullOrEmpty(diNgoaiItem.Code))
+            //    {
+            //        if (diNgoaiItem.Code.Length != 13)
+            //            continue;
+            //        if (!string.IsNullOrEmpty(diNgoaiItem.Address))
+            //            continue;
+
+            //        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "LoadAddressTQWeb", Content = diNgoaiItem.Code });
+            //        break;
+            //    }
+            //}
         }
 
         private void Loc()

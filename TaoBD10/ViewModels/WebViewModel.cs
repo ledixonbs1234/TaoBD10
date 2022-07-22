@@ -74,6 +74,12 @@ namespace TaoBD10.ViewModels
                  }
                  else if (m.Key == "ListAddress")
                  {
+                     APIManager.downLoadRoad = DownLoadRoad.XacNhanTui;
+                     WebBrowser.LoadUrl(m.Content);
+                 }
+                 else if (m.Key == "ListAddressFull")
+                 {
+                     APIManager.downLoadRoad = DownLoadRoad.TamQuanAddress;
                      WebBrowser.LoadUrl(m.Content);
                  }
                  else if (m.Key == "KTChuaPhat")
@@ -162,12 +168,16 @@ namespace TaoBD10.ViewModels
                                 break;
 
                             case DownLoadRoad.XacNhanTui:
-                                GetListAddress(downloadItem.FullPath);
+                                GetListAddress(downloadItem.FullPath,"XacNhanTui");
                                 break;
 
                             case DownLoadRoad.GetName:
                                 GetNames(downloadItem.FullPath);
                                 break;
+                            case DownLoadRoad.TamQuanAddress:
+                                GetListAddress(downloadItem.FullPath,"TamQuanAddress");
+                                break;
+
 
                             default:
                                 break;
@@ -224,7 +234,7 @@ namespace TaoBD10.ViewModels
                 }
             }
 
-            private void GetListAddress(string fullPath)
+            private void GetListAddress(string fullPath,string key)
             {
                 try
                 {
@@ -247,7 +257,7 @@ namespace TaoBD10.ViewModels
                             //thuc hien send data tra ve
                             if (chiTietTui.Count != 0)
                             {
-                                WeakReferenceMessenger.Default.Send(new ChiTietTuiMessage(chiTietTui));
+                                WeakReferenceMessenger.Default.Send(new ChiTietTuiMessage(new ChiTietTuiInfo() { ChiTietTuis = chiTietTui,Key=key }));
                             }
                         }
                     }
@@ -619,7 +629,7 @@ document.querySelector('#menu-3 > li:nth-child(10) > a').click();";
                         string html = await WebBrowser.GetSourceAsync();
                         HtmlDocument document = new HtmlDocument();
                         document.LoadHtml(html);
-                        APIManager.downLoadRoad = DownLoadRoad.XacNhanTui;
+                        //APIManager.downLoadRoad = DownLoadRoad.XacNhanTui;
                         string script = @"
                      document.getElementById('MainContent_ctl00_btnExportV2').click();
 ";

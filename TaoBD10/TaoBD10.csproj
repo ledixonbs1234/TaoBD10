@@ -189,6 +189,7 @@
     <Compile Include="Model\BD10InfoModel.cs" />
     <Compile Include="Model\BD10Message.cs" />
     <Compile Include="Model\BuuCucModel.cs" />
+    <Compile Include="Model\ChiTietTuiInfo.cs" />
     <Compile Include="Model\ChiTietTuiModel.cs" />
     <Compile Include="Model\ChuyenThuModel.cs" />
     <Compile Include="Model\DiNgoaiItemModel.cs" />

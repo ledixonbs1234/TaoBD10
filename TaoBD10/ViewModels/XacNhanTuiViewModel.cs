@@ -416,20 +416,24 @@ namespace TaoBD10.ViewModels
             {
                 if (m.Value != null)
                 {
-                    List<ChiTietTuiModel> chiTietTuis = m.Value;
-
-                    foreach (ChiTietTuiModel chiTietTui in chiTietTuis)
+                    if(m.Value.Key == "XacNhanTui")
                     {
-                        foreach (XacNhanTuiModel item in XacNhanTuis)
+                        List<ChiTietTuiModel> chiTietTuis = m.Value.ChiTietTuis;
+
+                        foreach (ChiTietTuiModel chiTietTui in chiTietTuis)
                         {
-                            MaHieuTuiModel have = item.MaHieuTuis.FirstOrDefault(s => s.MaHieu.ToUpper() == chiTietTui.MaHieu.ToUpper());
-                            if (have != null)
+                            foreach (XacNhanTuiModel item in XacNhanTuis)
                             {
-                                have.Address = chiTietTui.Address;
-                                break;
+                                MaHieuTuiModel have = item.MaHieuTuis.FirstOrDefault(s => s.MaHieu.ToUpper() == chiTietTui.MaHieu.ToUpper());
+                                if (have != null)
+                                {
+                                    have.Address = chiTietTui.Address;
+                                    break;
+                                }
                             }
                         }
                     }
+                   
                 }
             }
             );

@@ -38,9 +38,9 @@ namespace TaoBD10.Model
         }
     }
 
-    public class ChiTietTuiMessage : ValueChangedMessage<List<ChiTietTuiModel>>
+    public class ChiTietTuiMessage : ValueChangedMessage<ChiTietTuiInfo>
     {
-        public ChiTietTuiMessage(List<ChiTietTuiModel> content) : base(content)
+        public ChiTietTuiMessage(ChiTietTuiInfo content) : base(content)
         {
         }
     }

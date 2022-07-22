@@ -31,7 +31,8 @@
         {
             None,
             XacNhanTui,
-            GetName
+            GetName,
+            TamQuanAddress
         }
 
         public enum BuuCuc

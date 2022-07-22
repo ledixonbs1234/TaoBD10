@@ -1131,6 +1131,7 @@ namespace TaoBD10.ViewModels
 
                 APIManager.setTextControl(textBDHandle.Handle, hangHoa.TuiHangHoa.SHTui);
                 SendKeys.SendWait("{ENTER}");
+                //lenh la cho khi so thay doi hoac hien thong bao toi da la 1 s
 
                 /////////////////////////////////
 

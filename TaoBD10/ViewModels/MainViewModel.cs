@@ -624,7 +624,7 @@ namespace TaoBD10.ViewModels
             {
                 while (true)
                 {
-                    Thread.Sleep(100);
+                    Thread.Sleep(200);
                     WindowInfo activeWindow = APIManager.GetActiveWindowTitle();
                     List<TestAPIModel> listControl = null;
                     //thuc hien loc du lieu con
@@ -694,6 +694,9 @@ namespace TaoBD10.ViewModels
                         else if (textLoai.IndexOf("logi") != -1)
                         {
                             loaiCurrent = "P";
+                        }else if (textLoai.IndexOf("phat hanh bao chi")!= -1)
+                        {
+                            loaiCurrent = "B";
                         }
 
                         //kiem tra gr

@@ -50,6 +50,7 @@ namespace TaoBD10.ViewModels
             AddRangeCommand = new RelayCommand(AddRange);
             XoaDiNgoaiCommand = new RelayCommand(XoaDiNgoai);
             SetMaTinhGuiCommand = new RelayCommand(SetMaTinhGui);
+            AddFastCommand = new RelayCommand(AddFast);
 
             SortCommand = new RelayCommand(Sort);
             SetTinhCommand = new RelayCommand(SetTinhs);
@@ -101,6 +102,13 @@ namespace TaoBD10.ViewModels
         private void StopDiNgoai()
         {
             bwPrintDiNgoai.CancelAsync();
+        }
+        public ICommand AddFastCommand { get; }
+
+        
+        void AddFast()
+        {
+
         }
 
         public ICommand SetMaTinhGuiCommand { get; }

@@ -240,7 +240,11 @@
                 <Button
                     Margin="5"
                     Command="{Binding AddAddressCommand}"
-                    Content="Thêm Địa Chỉ" />
+                    Content="Add" />
+                <Button
+                    Margin="5"
+                    Command="{Binding AddAddressCommand}"
+                    Content="Add Fast" />
                 <Button
                     Margin="5"
                     Command="{Binding SortTinhCommand}"

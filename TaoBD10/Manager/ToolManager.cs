@@ -20,28 +20,28 @@ namespace TaoBD10.Manager
                 if (!string.IsNullOrEmpty(item))
                 {
                     string[] split = item.Split('\t');
-                    listTinh.Add(new TinhThanh(split[1], split[2]));
+                    listTinh.Add(new TinhThanh(split[1].Trim(), split[2].Trim()));
                 }
             }
         }
-        public static int AutoSetTinh(string address)
+        public static string AutoSetTinh(string address)
         {
             if (listTinh.Count == 0)
-                return 0;
+                return "";
             List<string> fillAddress = address.Split('-').Select(s => s.Trim()).ToList();
             if (fillAddress == null)
-                return 0;
+                return "";
             if (fillAddress.Count < 3)
-                return 0;
+                return "";
             string addressBoDau = APIManager.BoDauAndToLower(fillAddress[fillAddress.Count - 1].Trim());
             foreach (var item in ToolManager.listTinh)
             {
                 if (item.TinhKhongDau == addressBoDau)
                 {
-                    return int.Parse(item.MaTinh);
+                    return item.MaTinh;
                 }
             }
-            return 0;
+            return "";
 
         }
     }

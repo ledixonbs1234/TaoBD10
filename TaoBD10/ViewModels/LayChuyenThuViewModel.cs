@@ -27,7 +27,7 @@ namespace TaoBD10.ViewModels
             BuuCuc7Command = new RelayCommand(BuuCuc7);
             BuuCuc8Command = new RelayCommand(BuuCuc8);
             BuuCuc9Command = new RelayCommand(BuuCuc9);
-            TestCommand = new RelayCommand(Test);
+            
             bwLayCT = new BackgroundWorker();
             bwLayCT.WorkerSupportsCancellation = true;
             bwLayCT.DoWork += BwLayCT_DoWork;
@@ -387,11 +387,6 @@ namespace TaoBD10.ViewModels
 
         }
 
-        void Test()
-        {
-            //thuc hien viec get info
-            FileManager.getContent();
-        }
 
         private readonly BackgroundWorker bwLayCT;
         private ObservableCollection<BuuCucModel> _BuuCucs;

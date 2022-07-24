@@ -96,7 +96,7 @@ namespace TaoBD10.ViewModels
                             if (have != null)
                             {
                                 have.Address = chiTietTui.Address.Trim();
-                                 have .MaTinh =  AutoSetTinh(have.Address);
+                                have.MaTinh = ToolManager.AutoSetTinh(have.Address);
                                 break;
                             }
                         }
@@ -136,9 +136,6 @@ namespace TaoBD10.ViewModels
             //thuc hien them dia chi 1 cach nhanh hon
             if (DiNgoais.Count == 0)
                 return;
-
-
-
             string listMaHieu = "";
             string addressDefault = "https://bccp.vnpost.vn/BCCP.aspx?act=MultiTrace&id=";
             foreach (DiNgoaiItemModel diNgoaiItem in DiNgoais)
@@ -146,7 +143,7 @@ namespace TaoBD10.ViewModels
                 listMaHieu += diNgoaiItem.Code + ",";
             }
             addressDefault += listMaHieu;
-            WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "ListAddressDiNgoai", Content = addressDefault });
+            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ListAddressDiNgoai", Content = addressDefault });
         }
 
         public ICommand SetMaTinhGuiCommand { get; }

@@ -173,17 +173,17 @@ namespace TaoBD10.ViewModels
                                 break;
 
                             case DownLoadRoad.XacNhanTui:
-                                GetListAddress(downloadItem.FullPath,"XacNhanTui");
+                                GetListAddress(downloadItem.FullPath, "XacNhanTui");
                                 break;
 
                             case DownLoadRoad.GetName:
                                 GetNames(downloadItem.FullPath);
                                 break;
                             case DownLoadRoad.TamQuanAddress:
-                                GetListAddress(downloadItem.FullPath,"TamQuanAddress");
+                                GetListAddress(downloadItem.FullPath, "TamQuanAddress");
                                 break;
                             case DownLoadRoad.DiNgoai:
-                                GetListAddress(downloadItem.FullPath,"DiNgoai");
+                                GetListAddress(downloadItem.FullPath, "DiNgoai");
                                 break;
 
 
@@ -242,7 +242,7 @@ namespace TaoBD10.ViewModels
                 }
             }
 
-            private void GetListAddress(string fullPath,string key)
+            private void GetListAddress(string fullPath, string key)
             {
                 try
                 {
@@ -265,7 +265,7 @@ namespace TaoBD10.ViewModels
                             //thuc hien send data tra ve
                             if (chiTietTui.Count != 0)
                             {
-                                WeakReferenceMessenger.Default.Send(new ChiTietTuiMessage(new ChiTietTuiInfo() { ChiTietTuis = chiTietTui,Key=key }));
+                                WeakReferenceMessenger.Default.Send(new ChiTietTuiMessage(new ChiTietTuiInfo() { ChiTietTuis = chiTietTui, Key = key }));
                             }
                         }
                     }

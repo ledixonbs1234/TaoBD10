@@ -82,6 +82,11 @@ namespace TaoBD10.ViewModels
                      APIManager.downLoadRoad = DownLoadRoad.TamQuanAddress;
                      WebBrowser.LoadUrl(m.Content);
                  }
+                 else if (m.Key == "ListAddressDiNgoai")
+                 {
+                     WebBrowser.LoadUrl(m.Content);
+                     APIManager.downLoadRoad = DownLoadRoad.DiNgoai;
+                 }
                  else if (m.Key == "KTChuaPhat")
                  {
                      if (m.Content == "LoadUrl")
@@ -176,6 +181,9 @@ namespace TaoBD10.ViewModels
                                 break;
                             case DownLoadRoad.TamQuanAddress:
                                 GetListAddress(downloadItem.FullPath,"TamQuanAddress");
+                                break;
+                            case DownLoadRoad.DiNgoai:
+                                GetListAddress(downloadItem.FullPath,"DiNgoai");
                                 break;
 
 

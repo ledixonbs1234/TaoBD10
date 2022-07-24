@@ -243,7 +243,7 @@
                     Content="Add" />
                 <Button
                     Margin="5"
-                    Command="{Binding AddAddressCommand}"
+                    Command="{Binding AddFastCommand}"
                     Content="Add Fast" />
                 <Button
                     Margin="5"

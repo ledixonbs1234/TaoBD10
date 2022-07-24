@@ -82,6 +82,29 @@ namespace TaoBD10.ViewModels
                 }
             });
 
+            WeakReferenceMessenger.Default.Register<ChiTietTuiMessage>(this, (r, m) =>
+            {
+                if (m.Value != null)
+                {
+                    if (m.Value.Key == "DiNgoai")
+                    {
+                        List<ChiTietTuiModel> chiTietTuis = m.Value.ChiTietTuis;
+
+                        foreach (ChiTietTuiModel chiTietTui in chiTietTuis)
+                        {
+                            DiNgoaiItemModel have = DiNgoais.FirstOrDefault(s => s.Code.ToUpper() == chiTietTui.MaHieu.ToUpper());
+                            if (have != null)
+                            {
+                                have.Address = chiTietTui.Address.Trim();
+                                break;
+                            }
+                        }
+                    }
+
+                }
+            }
+           );
+
             WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>
             {
                 if (m.Key == "RunPrintDiNgoai")
@@ -105,10 +128,23 @@ namespace TaoBD10.ViewModels
         }
         public ICommand AddFastCommand { get; }
 
-        
+
         void AddFast()
         {
+            //thuc hien them dia chi 1 cach nhanh hon
+            if (DiNgoais.Count == 0)
+                return;
 
+
+
+            string listMaHieu = "";
+            string addressDefault = "https://bccp.vnpost.vn/BCCP.aspx?act=MultiTrace&id=";
+            foreach (DiNgoaiItemModel diNgoaiItem in DiNgoais)
+            {
+                listMaHieu += diNgoaiItem.Code + ",";
+            }
+            addressDefault += listMaHieu;
+            WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "ListAddressDiNgoai", Content = addressDefault });
         }
 
         public ICommand SetMaTinhGuiCommand { get; }

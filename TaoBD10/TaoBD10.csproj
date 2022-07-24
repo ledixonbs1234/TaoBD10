@@ -184,6 +184,7 @@
     <Compile Include="Manager\FileManager.cs" />
     <Compile Include="Manager\MessageManager.cs" />
     <Compile Include="Manager\SoundManager.cs" />
+    <Compile Include="Manager\ToolManager.cs" />
     <Compile Include="Manager\Y2KeyboardHook.cs" />
     <Compile Include="Model\BD10DiInfoModel.cs" />
     <Compile Include="Model\BD10InfoModel.cs" />
@@ -206,6 +207,7 @@
     <Compile Include="Model\SnackbarModel.cs" />
     <Compile Include="Model\TamQuanModel.cs" />
     <Compile Include="Model\TestAPIModel.cs" />
+    <Compile Include="Model\TinhThanh.cs" />
     <Compile Include="Model\TuiHangHoa.cs" />
     <Compile Include="Model\TuiXacNhanModel.cs" />
     <Compile Include="Model\WebContentModel.cs" />

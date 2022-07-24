@@ -96,6 +96,7 @@ namespace TaoBD10.ViewModels
                             if (have != null)
                             {
                                 have.Address = chiTietTui.Address.Trim();
+                                 have .MaTinh =  AutoSetTinh(have.Address);
                                 break;
                             }
                         }
@@ -118,6 +119,7 @@ namespace TaoBD10.ViewModels
             });
 
             FileManager.GetCode();
+            ToolManager.SetUpTinh();
         }
 
         public ICommand StopDiNgoaiCommand { get; }

@@ -189,7 +189,6 @@ namespace TaoBD10.ViewModels
             get { return _IsChooseLan; }
             set { SetProperty(ref _IsChooseLan, value); }
         }
-        private const uint WM_SETTEXT = 0x000C;
         private void BwPrintDiNgoai_DoWork(object sender, DoWorkEventArgs e)
         {
             try
@@ -212,22 +211,21 @@ namespace TaoBD10.ViewModels
                 if (charCodeFirst == "c")
                 {
                     temp = "Bưu kiện - Parcel";
-                    downTaoTui = 2;
                 }
                 else if (charCodeFirst == "e")
                 {
                     temp = "EMS - Chuyển phát nhanh - Express Mail Service";
-                    downTaoTui = 6;
                 }
                 else if (charCodeFirst == "p")
                 {
                     temp = "Logistic";
-                    downTaoTui = 4;
                 }
+                APIManager.setTextControl(childControls[12].Handle, temp);
+                SendKeys.SendWait("{TAB}");
 
-                SendKeys.SendWait("{BS}" + temp + "{TAB}");
+                //SendKeys.SendWait("{BS}" + temp + "{TAB}");
                 Thread.Sleep(100);
-                SendKeys.SendWait("{F10}");
+                APIManager.ClickButton(currentWindow.hwnd,"chap nhan",isExactly:false);
 
                 currentWindow = APIManager.WaitingFindedWindow("tao tui");
                 if (currentWindow == null)
@@ -255,11 +253,12 @@ namespace TaoBD10.ViewModels
                 {
                     tuiText = "Ði ngoài(UT)";
                 }
-                APIManager.SendMessage(controls[9].Handle, WM_SETTEXT, IntPtr.Zero, new StringBuilder(tuiText));
+                APIManager.setTextControl(controls[9].Handle, tuiText);
                 SendKeys.SendWait("{TAB}");
                 Thread.Sleep(100);
-                SendKeys.SendWait("{F10}");
+                //SendKeys.SendWait("{F10}");
 
+                APIManager.ClickButton(currentWindow.hwnd,"f10",isExactly:false);
 
                 //Thread.Sleep(100);
                 //SendKeys.SendWait("{UP}{UP}{UP}{UP}{UP}");
@@ -267,7 +266,7 @@ namespace TaoBD10.ViewModels
                 //{
                 //    SendKeys.SendWait("{DOWN}");
                 //}
-                SendKeys.SendWait("A{BS}{BS}");
+                //SendKeys.SendWait("A{BS}{BS}");
 
                 currentWindow = APIManager.WaitingFindedWindow("dong chuyen thu");
 
@@ -495,12 +494,11 @@ namespace TaoBD10.ViewModels
 
                 APIManager.SendMessage(childControls[14].Handle, 0x0007, 0, 0);
                 APIManager.SendMessage(childControls[14].Handle, 0x0007, 0, 0);
-                SendKeys.SendWait("{BS}{BS}{BS}{BS}");
 
                 //Thuc hien trong nay
                 if (!string.IsNullOrEmpty(SelectedSimple.MaBuuCuc))
                 {
-                    SendKeys.SendWait(SelectedSimple.MaBuuCuc);
+                    APIManager.setTextControl(childControls[15].Handle, SelectedSimple.MaBuuCuc);
                     Thread.Sleep(300);
                     SendKeys.SendWait("{DOWN}");
                     Thread.Sleep(100);

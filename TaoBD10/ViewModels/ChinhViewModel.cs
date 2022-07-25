@@ -1011,6 +1011,7 @@ namespace TaoBD10.ViewModels
         private void XacNhanChiTiet200()
         {
             SendKeys.SendWait("{F6}");
+            Thread.Sleep(100);
             string copyedData = APIManager.GetCopyData();
             if (string.IsNullOrEmpty(copyedData))
                 return;

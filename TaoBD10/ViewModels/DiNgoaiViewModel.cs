@@ -498,7 +498,7 @@ namespace TaoBD10.ViewModels
                 //Thuc hien trong nay
                 if (!string.IsNullOrEmpty(SelectedSimple.MaBuuCuc))
                 {
-                    APIManager.setTextControl(childControls[15].Handle, SelectedSimple.MaBuuCuc);
+                    APIManager.setTextControl(childControls[15].Handle, SelectedSimple.TenBuuCuc);
                     Thread.Sleep(300);
                     SendKeys.SendWait("{DOWN}");
                     Thread.Sleep(100);

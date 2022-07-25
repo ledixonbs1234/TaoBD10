@@ -225,7 +225,7 @@ namespace TaoBD10.ViewModels
 
                 //SendKeys.SendWait("{BS}" + temp + "{TAB}");
                 Thread.Sleep(100);
-                APIManager.ClickButton(currentWindow.hwnd,"chap nhan",isExactly:false);
+                APIManager.ClickButton(currentWindow.hwnd, "chap nhan", isExactly: false);
 
                 currentWindow = APIManager.WaitingFindedWindow("tao tui");
                 if (currentWindow == null)
@@ -258,7 +258,7 @@ namespace TaoBD10.ViewModels
                 Thread.Sleep(100);
                 //SendKeys.SendWait("{F10}");
 
-                APIManager.ClickButton(currentWindow.hwnd,"f10",isExactly:false);
+                APIManager.ClickButton(currentWindow.hwnd, "f10", isExactly: false);
 
                 //Thread.Sleep(100);
                 //SendKeys.SendWait("{UP}{UP}{UP}{UP}{UP}");
@@ -289,16 +289,8 @@ namespace TaoBD10.ViewModels
                 }
                 SendKeys.SendWait("{F5}");
 
-                SendKeys.SendWait("{DOWN}");
+                SendKeys.SendWait("^{RIGHT}");
                 SendKeys.SendWait("{LEFT}");
-                SendKeys.SendWait("{LEFT}");
-                SendKeys.SendWait("{LEFT}");
-                SendKeys.SendWait("{LEFT}");
-                SendKeys.SendWait("{LEFT}");
-                SendKeys.SendWait("{RIGHT}");
-                SendKeys.SendWait("{RIGHT}");
-                SendKeys.SendWait("{RIGHT}");
-                SendKeys.SendWait("{RIGHT}");
                 SendKeys.SendWait(" ");
                 Thread.Sleep(50);
                 SendKeys.SendWait("{F6}");
@@ -307,23 +299,13 @@ namespace TaoBD10.ViewModels
                 SendKeys.SendWait(SelectedSimple.Code);
                 SendKeys.SendWait("{ENTER}");
                 Thread.Sleep(200);
-                SendKeys.SendWait("{F5}");
-                SendKeys.SendWait("{LEFT}");
-                SendKeys.SendWait("{LEFT}");
-                SendKeys.SendWait("{LEFT}");
-                SendKeys.SendWait("{LEFT}");
-                SendKeys.SendWait("{LEFT}");
-                SendKeys.SendWait("{LEFT}");
-                SendKeys.SendWait("{LEFT}");
                 string clipboard = "";
                 bool isCheckTui = false;
                 for (int i = 0; i < 3; i++)
                 {
-                    currentWindow = APIManager.WaitingFindedWindow("dong chuyen thu");
                     SendKeys.SendWait("{F5}");
                     SendKeys.SendWait("{F5}");
-                    SendKeys.SendWait("{LEFT}");
-                    SendKeys.SendWait("{LEFT}");
+                    SendKeys.SendWait("^{LEFT}");
                     Thread.Sleep(100);
                     SendKeys.SendWait(" ");
                     Thread.Sleep(500);

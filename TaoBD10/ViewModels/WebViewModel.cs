@@ -84,8 +84,8 @@ namespace TaoBD10.ViewModels
                  }
                  else if (m.Key == "ListAddressDiNgoai")
                  {
-                     WebBrowser.LoadUrl(m.Content);
                      APIManager.downLoadRoad = DownLoadRoad.DiNgoai;
+                     WebBrowser.LoadUrl(m.Content);
                  }
                  else if (m.Key == "KTChuaPhat")
                  {
@@ -260,7 +260,7 @@ namespace TaoBD10.ViewModels
                             List<ChiTietTuiModel> chiTietTui = new List<ChiTietTuiModel>();
                             for (int i = 2; i < tables.Tables[0].Rows.Count; i++)
                             {
-                                chiTietTui.Add(new ChiTietTuiModel(tables.Tables[0].Rows[i][1].ToString(), tables.Tables[0].Rows[i][3].ToString()));
+                                chiTietTui.Add(new ChiTietTuiModel(tables.Tables[0].Rows[i][1].ToString(), tables.Tables[0].Rows[i][3].ToString(), tables.Tables[0].Rows[i][4].ToString()));
                             }
                             //thuc hien send data tra ve
                             if (chiTietTui.Count != 0)
@@ -634,9 +634,9 @@ document.querySelector('#menu-3 > li:nth-child(10) > a').click();";
                     {
                         isFirstLoginSuccess = true;
                         //kiem tra dieu kien url
-                        string html = await WebBrowser.GetSourceAsync();
-                        HtmlDocument document = new HtmlDocument();
-                        document.LoadHtml(html);
+                        //string html = await WebBrowser.GetSourceAsync();
+                        //HtmlDocument document = new HtmlDocument();
+                        //document.LoadHtml(html);
                         //APIManager.downLoadRoad = DownLoadRoad.XacNhanTui;
                         string script = @"
                      document.getElementById('MainContent_ctl00_btnExportV2').click();

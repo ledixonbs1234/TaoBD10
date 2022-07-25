@@ -371,7 +371,7 @@ namespace TaoBD10.ViewModels
                     SendKeys.SendWait(SelectedSimple.Code);
                     SendKeys.SendWait("{ENTER}");
                     Thread.Sleep(200);
-                    string clipboard = "";
+                    string clipboard1 = "";
                     bool isCheckTui = false;
                     for (int i = 0; i < 3; i++)
                     {
@@ -383,15 +383,15 @@ namespace TaoBD10.ViewModels
                         Thread.Sleep(500);
                         //Kiem tra Da dong tui chua
 
-                        clipboard = APIManager.GetCopyData();
+                        clipboard1 = APIManager.GetCopyData();
 
-                        if (string.IsNullOrEmpty(clipboard))
+                        if (string.IsNullOrEmpty(clipboard1))
                         {
                             APIManager.ShowSnackbar("Khong copy duoc");
                             return;
                         }
 
-                        if (clipboard.IndexOf("Selected") != -1)
+                        if (clipboard1.IndexOf("Selected") != -1)
                         {
                             isCheckTui = true;
                             break;
@@ -445,7 +445,7 @@ namespace TaoBD10.ViewModels
                 Thread.Sleep(100);
 
                 SendKeys.SendWait("^(a)");
-                clipboard = APIManager.GetCopyData();
+                string clipboard = APIManager.GetCopyData();
 
                 if (string.IsNullOrEmpty(clipboard))
                 {

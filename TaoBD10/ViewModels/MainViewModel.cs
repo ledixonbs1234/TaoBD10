@@ -75,6 +75,7 @@ namespace TaoBD10.ViewModels
             bwPrintBanKe = new BackgroundWorker();
             bwPrintBanKe.DoWork += BwPrintBanKe_DoWork;
             bwRunPrints = new BackgroundWorker();
+            bwRunPrints.WorkerSupportsCancellation = true;
             bwRunPrints.DoWork += BwRunPrints_DoWork;
             bwRunPrints.RunWorkerCompleted += BwRunPrints_RunWorkerCompleted;
 
@@ -332,6 +333,13 @@ namespace TaoBD10.ViewModels
             {
                 if (isRunnedPrintBD)
                 {
+                    WindowInfo window = APIManager.WaitingFindedWindow("danh sach bd10 di");
+                    if (window == null)
+                    {
+                        return;
+                    }
+                    Thread.Sleep(1000);
+
                     bwRunPrints.RunWorkerAsync();
                 }
             }
@@ -653,7 +661,8 @@ namespace TaoBD10.ViewModels
                         else if (textLoai.IndexOf("logi") != -1)
                         {
                             loaiCurrent = "P";
-                        }else if (textLoai.IndexOf("phat hanh bao chi")!= -1)
+                        }
+                        else if (textLoai.IndexOf("phat hanh bao chi") != -1)
                         {
                             loaiCurrent = "B";
                         }
@@ -1319,7 +1328,11 @@ namespace TaoBD10.ViewModels
                         WindowInfo activeWindow1 = APIManager.GetActiveWindowTitle();
                         if (activeWindow1.text.IndexOf("danh sach bd10 di") != -1)
                         {
-                            bwRunPrints.RunWorkerAsync();
+                            if (!bwRunPrints.IsBusy)
+                            {
+                                bwRunPrints.CancelAsync();
+                                bwRunPrints.RunWorkerAsync();
+                            }
                         }
                         break;
 

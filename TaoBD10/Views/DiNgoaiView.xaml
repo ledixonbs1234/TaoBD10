@@ -307,8 +307,8 @@
                     Content="Add Range" />
                 <CheckBox
                     Margin="10,0"
-                    Content="Chọn lọc Lan"
-                    IsChecked="{Binding IsChooseLan}" />
+                    Content="Gộp mã hiệu vào cùng chuyến thư"
+                    IsChecked="{Binding IsGroupCT}" />
             </StackPanel>
         </StackPanel>
     </Grid>

@@ -182,13 +182,15 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        private bool _IsChooseLan = false;
+        private bool _IsGroupCT = false;
 
-        public bool IsChooseLan
+        public bool IsGroupCT
         {
-            get { return _IsChooseLan; }
-            set { SetProperty(ref _IsChooseLan, value); }
+            get { return _IsGroupCT; }
+            set { SetProperty(ref _IsGroupCT, value); }
         }
+
+
         private void BwPrintDiNgoai_DoWork(object sender, DoWorkEventArgs e)
         {
             try
@@ -287,52 +289,144 @@ namespace TaoBD10.ViewModels
                         return;
                     }
                 }
-                SendKeys.SendWait("{F5}");
+                List<DiNgoaiItemModel> listDiNgoaiCungMaBC = new List<DiNgoaiItemModel>();
 
-                SendKeys.SendWait("^{RIGHT}");
-                SendKeys.SendWait("{LEFT}");
-                SendKeys.SendWait(" ");
-                Thread.Sleep(50);
-                SendKeys.SendWait("{F6}");
-                SendKeys.SendWait("{F6}");
-                Thread.Sleep(200);
-                SendKeys.SendWait(SelectedSimple.Code);
-                SendKeys.SendWait("{ENTER}");
-                Thread.Sleep(200);
-                string clipboard = "";
-                bool isCheckTui = false;
-                for (int i = 0; i < 3; i++)
+                //chia lam 2 phan he trong nay
+                if (IsGroupCT)
                 {
+                    //thuc hien trong nay
+                    int iSelected = DiNgoais.IndexOf(SelectedSimple);
+
+                    if (iSelected != -1 && DiNgoais.Count - 1 != iSelected)
+                    {
+                        for (int i = iSelected; i < DiNgoais.Count; i++)
+                        {
+                            if (DiNgoais[i].MaBuuCuc == SelectedSimple.MaBuuCuc && charCodeFirst == DiNgoais[i].Code[0].ToString().ToLower())
+                            {
+                                listDiNgoaiCungMaBC.Add(DiNgoais[i]);
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                    }
+                }
+                bool IsRunGroup;
+                if (listDiNgoaiCungMaBC.Count > 1)
+                    IsRunGroup = true;
+                else
+                    IsRunGroup = false;
+
+
+                if (IsRunGroup)
+                {
+                    for (int i = 0; i < listDiNgoaiCungMaBC.Count - 1; i++)
+                    {
+                        SendKeys.SendWait(listDiNgoaiCungMaBC[i].Code);
+                        SendKeys.SendWait("{ENTER}");
+                        Thread.Sleep(500);
+                    }
+
+                    //vao check f cai cuoi cung
+
                     SendKeys.SendWait("{F5}");
                     SendKeys.SendWait("{F5}");
-                    SendKeys.SendWait("^{LEFT}");
+                    SendKeys.SendWait("^{DOWN}");
+                    SendKeys.SendWait("^{RIGHT}");
+                    SendKeys.SendWait("{LEFT}");
                     Thread.Sleep(100);
                     SendKeys.SendWait(" ");
                     Thread.Sleep(500);
-                    //Kiem tra Da dong tui chua
+                    SendKeys.SendWait("{F6}");
+                    SendKeys.SendWait(listDiNgoaiCungMaBC.Last().Code);
+                    SendKeys.SendWait("{ENTER}");
+                    Thread.Sleep(500);
 
-                    clipboard = APIManager.GetCopyData();
+                    //sau do chon tat ca
 
-                    if (string.IsNullOrEmpty(clipboard))
+                    SendKeys.SendWait("{F5}");
+                    SendKeys.SendWait("{F5}");
+                    SendKeys.SendWait("^{TAB}");
+                    Thread.Sleep(100);
+                    SendKeys.SendWait(" ");
+                    Thread.Sleep(500);
+
+                    //
+
+                    SendKeys.SendWait("{F6}");
+                    Thread.Sleep(200);
+                }
+                else
+                {
+                    SendKeys.SendWait("{F5}");
+
+                    SendKeys.SendWait("^{RIGHT}");
+                    SendKeys.SendWait("{LEFT}");
+                    SendKeys.SendWait(" ");
+                    Thread.Sleep(50);
+                    SendKeys.SendWait("{F6}");
+                    SendKeys.SendWait("{F6}");
+                    Thread.Sleep(200);
+                    SendKeys.SendWait(SelectedSimple.Code);
+                    SendKeys.SendWait("{ENTER}");
+                    Thread.Sleep(200);
+                    string clipboard = "";
+                    bool isCheckTui = false;
+                    for (int i = 0; i < 3; i++)
                     {
-                        APIManager.ShowSnackbar("Khong copy duoc");
+                        SendKeys.SendWait("{F5}");
+                        SendKeys.SendWait("{F5}");
+                        SendKeys.SendWait("^{LEFT}");
+                        Thread.Sleep(100);
+                        SendKeys.SendWait(" ");
+                        Thread.Sleep(500);
+                        //Kiem tra Da dong tui chua
+
+                        clipboard = APIManager.GetCopyData();
+
+                        if (string.IsNullOrEmpty(clipboard))
+                        {
+                            APIManager.ShowSnackbar("Khong copy duoc");
+                            return;
+                        }
+
+                        if (clipboard.IndexOf("Selected") != -1)
+                        {
+                            isCheckTui = true;
+                            break;
+                        }
+                    }
+                    if (!isCheckTui)
+                    {
+                        APIManager.ShowSnackbar("Chưa đóng túi được");
                         return;
                     }
 
-                    if (clipboard.IndexOf("Selected") != -1)
-                    {
-                        isCheckTui = true;
-                        break;
-                    }
-                }
-                if (!isCheckTui)
-                {
-                    APIManager.ShowSnackbar("Chưa đóng túi được");
-                    return;
+                    SendKeys.SendWait("{F6}");
+                    Thread.Sleep(200);
                 }
 
-                SendKeys.SendWait("{F6}");
-                Thread.Sleep(200);
+
+
+
+                ///////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 SendKeys.SendWait("{F7}");
 
                 currentWindow = APIManager.WaitingFindedWindow("in an pham");

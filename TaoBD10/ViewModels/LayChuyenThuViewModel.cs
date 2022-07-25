@@ -27,7 +27,7 @@ namespace TaoBD10.ViewModels
             BuuCuc7Command = new RelayCommand(BuuCuc7);
             BuuCuc8Command = new RelayCommand(BuuCuc8);
             BuuCuc9Command = new RelayCommand(BuuCuc9);
-            
+
             bwLayCT = new BackgroundWorker();
             bwLayCT.WorkerSupportsCancellation = true;
             bwLayCT.DoWork += BwLayCT_DoWork;
@@ -40,7 +40,6 @@ namespace TaoBD10.ViewModels
                 if (m.Key == "Button593200")
                 {
                     Btn593200();
-                    isWaitingRun593200Complete = true;
                 }
             });
             foreach (BuuCucModel buucuc in FileManager.LoadBuuCuc())
@@ -287,16 +286,16 @@ namespace TaoBD10.ViewModels
 
         public ICommand BuuCuc9Command { get; }
 
-      
+
 
         void BuuCuc9()
         {
             int i = 9;
-            if (BuuCucs.Count < (i+1))
+            if (BuuCucs.Count < (i + 1))
             {
                 return;
             }
-            
+
             maBuuCucChuyenThuDen = BuuCucs[i].MaBuuCuc;
             isBaoDamChuyenThuDen = BuuCucs[i].IsBaoDam;
             var temp = BuuCucs[i].GoFastBCCP.Split(',');
@@ -349,8 +348,9 @@ namespace TaoBD10.ViewModels
             SendKeys.SendWait("{ENTER}");
             Thread.Sleep(500);
             SendKeys.SendWait("{F5}");
-            if (isWaitingRun593200Complete)
+            if (DataManager.IsWaitingCompleteLayComplete)
             {
+                DataManager.IsWaitingCompleteLayComplete = false;
                 WeakReferenceMessenger.Default.Send(new ContentModel { Key = "XN593200" });
             }
         }
@@ -364,7 +364,7 @@ namespace TaoBD10.ViewModels
                 //buu pham bao dam
                 //SendKeys.SendWait("{DOWN}{DOWN}{DOWN}{DOWN}{DOWN}{DOWN}");
                 APIManager.setTextControl(EditControls.LastOrDefault().Handle, "Bưu phẩm bảo đảm - Registed Mail");
-                
+
 
             }
             else
@@ -375,7 +375,7 @@ namespace TaoBD10.ViewModels
                 APIManager.setTextControl(EditControls.LastOrDefault().Handle, "Bưu kiện - Parcel");
             }
             SendKeys.SendWait("{TAB}");
-            APIManager.setTextControl(EditControls[EditControls.Count - 2].Handle,maBuuCucChuyenThuDen);
+            APIManager.setTextControl(EditControls[EditControls.Count - 2].Handle, maBuuCucChuyenThuDen);
             //SendKeys.SendWait(maBuuCucChuyenThuDen);
             SendKeys.SendWait("{TAB}");
             SendKeys.SendWait("{F8}");
@@ -392,7 +392,6 @@ namespace TaoBD10.ViewModels
         private ObservableCollection<BuuCucModel> _BuuCucs;
         private int _SelectedIndexBC;
         private bool isBaoDamChuyenThuDen = false;
-        private bool isWaitingRun593200Complete = false;
         private string maBuuCucChuyenThuDen = "";
 
         public ICommand BCPCommand { get; }

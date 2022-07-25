@@ -97,7 +97,7 @@ namespace TaoBD10.ViewModels
                             {
                                 have.Address = chiTietTui.Address.Trim();
                                 have.MaTinh = ToolManager.AutoSetTinh(have.Address);
-                                break;
+                                AutoSetBuuCuc(have);
                             }
                         }
                     }

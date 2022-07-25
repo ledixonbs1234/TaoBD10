@@ -177,6 +177,7 @@ namespace TaoBD10.ViewModels
 
             //thuc hien nhan button get chuyen thu 593200;
             WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Button593200" });
+            DataManager.IsWaitingCompleteLayComplete = true;
 
             //khi con trong chuyen thu thuc hien tu dong dong chuyen thu va lay du lieu chuyen thu
             //tu dong thoat chuyen thu va truyen

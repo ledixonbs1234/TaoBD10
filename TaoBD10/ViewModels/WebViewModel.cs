@@ -23,6 +23,7 @@ namespace TaoBD10.ViewModels
     {
         private string PNSName = "";
         private string currentMaHieu = "";
+        bool isClickWebBCCP = false;
 
         public WebViewModel()
         {
@@ -85,6 +86,7 @@ namespace TaoBD10.ViewModels
                  else if (m.Key == "ListAddressDiNgoai")
                  {
                      APIManager.downLoadRoad = DownLoadRoad.DiNgoai;
+                     isClickWebBCCP = false;
                      WebBrowser.LoadUrl(m.Content);
                  }
                  else if (m.Key == "KTChuaPhat")
@@ -641,7 +643,11 @@ document.querySelector('#menu-3 > li:nth-child(10) > a').click();";
                         string script = @"
                      document.getElementById('MainContent_ctl00_btnExportV2').click();
 ";
-                        WebBrowser.ExecuteScriptAsync(script);
+                        if (!isClickWebBCCP)
+                        {
+                            isClickWebBCCP = true;
+                            WebBrowser.ExecuteScriptAsync(script);
+                        }
                     }
                 }
             }

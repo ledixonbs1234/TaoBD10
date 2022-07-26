@@ -159,6 +159,9 @@ namespace TaoBD10.ViewModels
             WindowInfo currentWindow = APIManager.GetActiveWindowTitle();
             if (APIManager.BoDauAndToLower(currentWindow.text).IndexOf("dong chuyen thu") == -1)
                 return;
+            var controls = APIManager.GetListControlText(currentWindow.hwnd);
+            TestAPIModel ct = controls.Last(m => m.ClassName.ToLower().IndexOf("edit") != -1);
+            soCTCurrent = ct.Text;
             //thuc hien cong viec trong nay khong co gi la khong the neu chung ta khong lam duoc
             SendKeys.SendWait("{F10}");
             Thread.Sleep(200);
@@ -1012,18 +1015,31 @@ namespace TaoBD10.ViewModels
         {
             SendKeys.SendWait("{F6}");
             Thread.Sleep(100);
+
             string copyedData = APIManager.GetCopyData();
             if (string.IsNullOrEmpty(copyedData))
                 return;
             //1	593200	C	2350	03/07/2022	THỦY BỘ	1	8	29,7	03/07/2022 18:04:49
+            if (copyedData.ToLower().IndexOf("stt") != -1)
+            {
+                string[] splitEnter = copyedData.Split('\n');
+                if (splitEnter.Length >= 2)
+                {
+                    copyedData = splitEnter[1];
+                }
+                else{
+                    return;
+                }
+            }
+
             string[] splitString = copyedData.Split('\t');
-            if (splitString.Length < 11)
-                return;
+           
             if (splitString[1] == "593200" && splitString[3] == soCTCurrent)
             {
+                APIManager.ShowSnackbar("vao xong");
                 WindowInfo currentWindow = APIManager.GetActiveWindowTitle();
                 var controls = APIManager.GetListControlText(currentWindow.hwnd);
-                APIManager.ClickButton(currentWindow.hwnd, "Xem và xác nhận CT (F10)");
+                APIManager.ClickButton(currentWindow.hwnd, "f10",isExactly:false);
 
                 currentWindow = APIManager.WaitingFindedWindow("xem chuyen thu chieu den");
                 APIManager.ClickButton(currentWindow.hwnd, "Xác nhận chi tiết túi thư");

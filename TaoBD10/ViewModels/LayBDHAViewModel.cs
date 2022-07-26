@@ -1,6 +1,7 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -31,19 +32,37 @@ namespace TaoBD10.ViewModels
             bwLayBD = new BackgroundWorker();
             bwLayBD.DoWork += BwLayBD_DoWork;
             bwLayBD.RunWorkerCompleted += BwLayBD_RunWorkerCompleted;
-
+            GetDataFromCloudCommand = new RelayCommand(GetDataFromCloud);
             timer = new DispatcherTimer
             {
                 Interval = new TimeSpan(0, 0, 0, 0, 500)
             };
             timer.Tick += Timer_Tick;
+            ShowData(FileManager.LoadLayBDOffline());
+                   }
 
-            foreach (LayBD10Info bd10 in FileManager.LoadLayBDOffline())
-            {
-                BD10Infos.Add(bd10);
 
-            }
+        void ShowData(List<LayBD10Info> data)
+        {
+            if (data != null)
+                if (data.Count != 0)
+                {
+                    BD10Infos.Clear();
+                    foreach (LayBD10Info item in data)
+                    {
+                        BD10Infos.Add(item);
+                    }
+                }
         }
+        public ICommand GetDataFromCloudCommand { get; }
+
+        void GetDataFromCloud()
+        {
+
+            ShowData(FileManager.LoadLayBDOnFirebase());
+        }
+
+
 
         private void AnHoa()
         {

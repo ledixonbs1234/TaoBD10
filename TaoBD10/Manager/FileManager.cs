@@ -247,11 +247,13 @@ namespace TaoBD10.Manager
 
 
 
-        public static List<LayBD10Info> LoadLayBD()
+        public static List<LayBD10Info> LoadLayBDOnFirebase()
         {
+            onSetupFileManager();
             Task<List<LayBD10Info>> cts = client.Child(@"QuanLy/DanhSach/" + maBuuCuc + "/LayBD10").OrderByKey().OnceSingleAsync<List<LayBD10Info>>();
             cts.Wait();
             List<LayBD10Info> result = cts.Result;
+            SaveLayBDOffline(result);
             return result;
 
 

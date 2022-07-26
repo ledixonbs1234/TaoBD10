@@ -1071,7 +1071,7 @@ namespace TaoBD10.ViewModels
                 SendKeys.SendWait("^(a)");
                 Thread.Sleep(600);
 
-                APIManager.ClickButton(currentWindow.hwnd, "doi kiem", isExactly: false);
+                APIManager.ClickButton(currentWindow.hwnd, "Đối kiểm");
                 Thread.Sleep(50);
                 SendKeys.SendWait("{ESC}");
                 currentWindow = APIManager.WaitingFindedWindow("xem chuyen thu chieu den");

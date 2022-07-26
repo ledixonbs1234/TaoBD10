@@ -75,7 +75,7 @@ namespace TaoBD10.ViewModels
 
         public DanhSachViewModel()
         {
-            LoadBD10();
+            //LoadBD10();
             DeleteCommand = new RelayCommand(Delete);
             LayDuLieuCommand = new RelayCommand(LayDuLieu);
             SelectedBuoiCommand = new RelayCommand(SelectedBuoiVoid);
@@ -83,7 +83,7 @@ namespace TaoBD10.ViewModels
             {
                 if (m == "LoadBD10")
                 {
-                    LoadBD10();
+                    //LoadBD10();
                 }
             });
         }

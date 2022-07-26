@@ -312,7 +312,7 @@ namespace TaoBD10.ViewModels
                         }
                     }
                 }
-                bool IsRunGroup;
+                bool IsRunGroup= false;
                 if (listDiNgoaiCungMaBC.Count > 1)
                     IsRunGroup = true;
                 else
@@ -344,10 +344,7 @@ namespace TaoBD10.ViewModels
                     Thread.Sleep(500);
 
                     //sau do chon tat ca
-
-                    SendKeys.SendWait("{F5}");
-                    SendKeys.SendWait("{F5}");
-                    SendKeys.SendWait("^{TAB}");
+                    SendKeys.SendWait("+{TAB}");
                     Thread.Sleep(100);
                     SendKeys.SendWait(" ");
                     Thread.Sleep(500);
@@ -481,7 +478,11 @@ namespace TaoBD10.ViewModels
                     }
                     SendKeys.SendWait("{DOWN}");
                 }
-
+                if (IsGroupCT)
+                {
+                    APIManager.ShowSnackbar("Stop is Printer");
+                    return;
+                }
                 childControls = APIManager.GetListControlText(currentWindow.hwnd);
                 TestAPIModel thoatControl = childControls.FirstOrDefault(m => m.ClassName.IndexOf("WindowsForms10.BUTTON.app") != -1);
                 if (thoatControl == null)

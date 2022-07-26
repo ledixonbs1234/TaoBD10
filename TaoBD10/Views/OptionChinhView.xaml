@@ -20,8 +20,8 @@
         <StackPanel Grid.Row="1" Orientation="Horizontal">
             <Button
                 Margin="5"
-                Command="{Binding NewCTCommand}"
-                Content="New"
+                Command="{Binding GetDataFromCloudCommand}"
+                Content="Get Data From Cloud"
                 ToolTip="Mở phần khởi tạo chuyến thư để lấy thông tin túi" />
             <Button
                 Margin="5"
@@ -36,6 +36,10 @@
                 Margin="5"
                 Command="{Binding XuongCommand}"
                 Content="Xuống" />
+            <Button
+                Margin="5"
+                Command="{Binding PublishCommand}"
+                Content="Publish To Cloud" />
         </StackPanel>
         <!--<StackPanel Orientation="Horizontal" Grid.Row="2">
             <materialDesign:Card Margin="5">

@@ -28,6 +28,7 @@ namespace TaoBD10.ViewModels
             BuuCuc8Command = new RelayCommand(BuuCuc8);
             BuuCuc9Command = new RelayCommand(BuuCuc9);
 
+            GetDataFromCloudCommand = new RelayCommand(GetDataFromCloud);
             bwLayCT = new BackgroundWorker();
             bwLayCT.WorkerSupportsCancellation = true;
             bwLayCT.DoWork += BwLayCT_DoWork;
@@ -42,10 +43,28 @@ namespace TaoBD10.ViewModels
                     Btn593200();
                 }
             });
-            foreach (BuuCucModel buucuc in FileManager.LoadBuuCuc())
-            {
-                BuuCucs.Add(buucuc);
-            }
+            ShowData(FileManager.LoadBuuCucOffline());
+        }
+
+        void ShowData(List<BuuCucModel> data)
+        {
+            if (data != null)
+                if (data.Count != 0)
+                {
+                    BuuCucs.Clear();
+                    foreach (BuuCucModel item in data)
+                    {
+                        BuuCucs.Add(item);
+                    }
+                }
+        }
+
+
+        public ICommand GetDataFromCloudCommand { get; }
+
+        void GetDataFromCloud()
+        {
+            ShowData(FileManager.LoadBuuCucOnFirebase());
         }
 
         public void Btn593200()

@@ -2,6 +2,7 @@
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -21,7 +22,7 @@ namespace TaoBD10.ViewModels
         public ChinhViewModel()
         {
             ChuyenThus = new ObservableCollection<ChuyenThuModel>();
-            System.Collections.Generic.List<ChuyenThuModel> cts = FileManager.LoadCT();
+            System.Collections.Generic.List<ChuyenThuModel> cts = FileManager.LoadCTOffline();
             if (cts != null)
                 if (cts.Count != 0)
                 {
@@ -31,6 +32,7 @@ namespace TaoBD10.ViewModels
                     }
                 }
 
+            GetDataFromCloudCommand = new RelayCommand(GetDataFromCloud);
             XuongCommand = new RelayCommand(Xuong);
             LenCommand = new RelayCommand(Len);
             //thuc hien lay du lieu tu web
@@ -49,7 +51,6 @@ namespace TaoBD10.ViewModels
             ChuyenThu5Command = new RelayCommand(ChuyenThu5);
             ChuyenThu13Command = new RelayCommand(ChuyenThu13);
 
-            NewCTCommand = new RelayCommand(NewCT);
             SaveCTCommand = new RelayCommand(SaveCT);
 
             KTHNCommand = new RelayCommand(KTHN);
@@ -150,6 +151,28 @@ namespace TaoBD10.ViewModels
                 }
             });
         }
+
+        void ShowData(List<ChuyenThuModel> data)
+        {
+            if (data != null)
+                if (data.Count != 0)
+                {
+                    ChuyenThus.Clear();
+                    foreach (ChuyenThuModel item in data)
+                    {
+                        ChuyenThus.Add(item);
+                    }
+                }
+        }
+
+
+        public ICommand GetDataFromCloudCommand { get; }
+
+        void GetDataFromCloud()
+        {
+            ShowData(FileManager.LoadCTOnFirebase());
+                }
+
 
         private void AutoXacNhan()
         {
@@ -991,12 +1014,6 @@ namespace TaoBD10.ViewModels
             SelectedIndexCT = tempSelected - 1;
         }
 
-        void NewCT()
-        {
-
-
-        }
-
         private void PrintDefault()
         {
             APIManager.SetPrintBD10();
@@ -1006,7 +1023,7 @@ namespace TaoBD10.ViewModels
         {
             if (ChuyenThus.Count != 0)
             {
-                FileManager.SaveCT(ChuyenThus.ToList());
+                FileManager.SaveCTOnFirebase(ChuyenThus.ToList());
             }
 
         }
@@ -1027,22 +1044,23 @@ namespace TaoBD10.ViewModels
                 {
                     copyedData = splitEnter[1];
                 }
-                else{
+                else
+                {
                     return;
                 }
             }
 
             string[] splitString = copyedData.Split('\t');
-           
+
             if (splitString[1] == "593200" && splitString[3] == soCTCurrent)
             {
                 APIManager.ShowSnackbar("vao xong");
                 WindowInfo currentWindow = APIManager.GetActiveWindowTitle();
                 var controls = APIManager.GetListControlText(currentWindow.hwnd);
-                APIManager.ClickButton(currentWindow.hwnd, "f10",isExactly:false);
+                APIManager.ClickButton(currentWindow.hwnd, "f10", isExactly: false);
 
                 currentWindow = APIManager.WaitingFindedWindow("xem chuyen thu chieu den");
-                APIManager.ClickButton(currentWindow.hwnd, "xac nhan chi tiet",isExactly:false);
+                APIManager.ClickButton(currentWindow.hwnd, "xac nhan chi tiet", isExactly: false);
                 currentWindow = APIManager.WaitingFindedWindow("xac nhan chi tiet tui thu");
                 if (currentWindow == null)
                     return;
@@ -1053,7 +1071,7 @@ namespace TaoBD10.ViewModels
                 SendKeys.SendWait("^(a)");
                 Thread.Sleep(600);
 
-                APIManager.ClickButton(currentWindow.hwnd, "doi kiem",isExactly:false);
+                APIManager.ClickButton(currentWindow.hwnd, "doi kiem", isExactly: false);
                 Thread.Sleep(50);
                 SendKeys.SendWait("{ESC}");
                 currentWindow = APIManager.WaitingFindedWindow("xem chuyen thu chieu den");
@@ -1090,7 +1108,7 @@ namespace TaoBD10.ViewModels
             SelectedIndexCT = tempSelected + 1;
         }
 
-        
+
 
         private readonly BackgroundWorker bwCreateChuyenThu;
         private readonly BackgroundWorker bwPrint;

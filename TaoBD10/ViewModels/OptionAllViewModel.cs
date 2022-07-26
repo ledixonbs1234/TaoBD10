@@ -42,7 +42,7 @@ namespace TaoBD10.ViewModels
 
         private void GetOptionData()
         {
-            Option = FileManager.GetOptionAll();
+            Option = FileManager.GetOptionOffline();
 
         }
     }

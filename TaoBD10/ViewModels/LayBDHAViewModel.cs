@@ -38,7 +38,7 @@ namespace TaoBD10.ViewModels
             };
             timer.Tick += Timer_Tick;
 
-            foreach (LayBD10Info bd10 in FileManager.LoadLayBD())
+            foreach (LayBD10Info bd10 in FileManager.LoadLayBDOffline())
             {
                 BD10Infos.Add(bd10);
 

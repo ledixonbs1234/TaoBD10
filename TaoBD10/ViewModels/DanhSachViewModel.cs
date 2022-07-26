@@ -104,7 +104,7 @@ namespace TaoBD10.ViewModels
 
         private void LoadForDate(DateTime time, TimeSet buoi)
         {
-            foreach (var item in FileManager.LoadData())
+            foreach (var item in FileManager.LoadBD10Offline())
             {
                 //thuc hien load theo ngay
                 if (item.DateCreateBD10.DayOfYear == time.DayOfYear)

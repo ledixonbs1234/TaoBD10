@@ -56,7 +56,7 @@ namespace TaoBD10.ViewModels
         public MainViewModel()
         {
             //Thuc hien Qua trinh su dung may
-            FileManager.onSetupFileManager();
+            //FileManager.onSetupFileManager();
             printTrangCuoi = new BackgroundWorker();
             printTrangCuoi.DoWork += PrintTrangCuoi_DoWork;
             LoadPageCommand = new RelayCommand<Window>(LoadPage);
@@ -82,7 +82,6 @@ namespace TaoBD10.ViewModels
             _keyboardHook = new Y2KeyboardHook();
             _keyboardHook.OnKeyPressed += OnKeyPress;
             _keyboardHook.HookKeyboard();
-            CreateConnection();
             SoundManager.SetUpDirectory();
 
             WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>

@@ -1042,7 +1042,7 @@ namespace TaoBD10.ViewModels
                 APIManager.ClickButton(currentWindow.hwnd, "f10",isExactly:false);
 
                 currentWindow = APIManager.WaitingFindedWindow("xem chuyen thu chieu den");
-                APIManager.ClickButton(currentWindow.hwnd, "Xác nhận chi tiết túi thư");
+                APIManager.ClickButton(currentWindow.hwnd, "xac nhan chi tiet",isExactly:false);
                 currentWindow = APIManager.WaitingFindedWindow("xac nhan chi tiet tui thu");
                 if (currentWindow == null)
                     return;
@@ -1053,12 +1053,13 @@ namespace TaoBD10.ViewModels
                 SendKeys.SendWait("^(a)");
                 Thread.Sleep(600);
 
-                APIManager.ClickButton(currentWindow.hwnd, "Đối kiểm");
+                APIManager.ClickButton(currentWindow.hwnd, "doi kiem",isExactly:false);
                 Thread.Sleep(50);
                 SendKeys.SendWait("{ESC}");
                 currentWindow = APIManager.WaitingFindedWindow("xem chuyen thu chieu den");
                 //	Túi số	KL (kg)	Loại túi	F	xác nhận
                 //False   1   11,8    Ði ngoài(BK)    True Cleared
+                SendKeys.SendWait("{F5}");
                 SendKeys.SendWait("{F5}");
                 Thread.Sleep(50);
                 SendKeys.SendWait("^(a)");

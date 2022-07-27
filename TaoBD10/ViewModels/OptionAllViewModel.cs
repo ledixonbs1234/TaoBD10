@@ -26,7 +26,7 @@ namespace TaoBD10.ViewModels
 
         void Save()
         {
-            FileManager.SaveOptionAll(Option);
+            FileManager.SaveOptionOffline(Option);
         }
 
 

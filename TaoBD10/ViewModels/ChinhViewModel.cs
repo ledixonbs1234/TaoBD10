@@ -1079,7 +1079,7 @@ namespace TaoBD10.ViewModels
                 //False   1   11,8    Ði ngoài(BK)    True Cleared
                 SendKeys.SendWait("{F5}");
                 SendKeys.SendWait("{F5}");
-                Thread.Sleep(50);
+                Thread.Sleep(200);
                 SendKeys.SendWait("^(a)");
 
                 copyedData = APIManager.GetCopyData();

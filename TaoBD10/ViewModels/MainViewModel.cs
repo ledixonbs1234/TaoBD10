@@ -57,6 +57,7 @@ namespace TaoBD10.ViewModels
         {
             //Thuc hien Qua trinh su dung may
             //FileManager.onSetupFileManager();
+            //FileManager.onSetupFileManager();
             printTrangCuoi = new BackgroundWorker();
             printTrangCuoi.DoWork += PrintTrangCuoi_DoWork;
             LoadPageCommand = new RelayCommand<Window>(LoadPage);
@@ -1379,7 +1380,6 @@ namespace TaoBD10.ViewModels
 
                     case Key.Enter:
                         KeyData = KeyData.ToLower();
-
                         if (KeyData.IndexOf(FileManager.listChuyenThu[0].Barcode) != -1)
                         {
                             Thread.Sleep(700);

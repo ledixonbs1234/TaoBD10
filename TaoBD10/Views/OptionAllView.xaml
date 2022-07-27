@@ -51,6 +51,13 @@
             </StackPanel>
         </Expander>
         <StackPanel Margin="5,20,5,0" Orientation="Horizontal">
+            <TextBlock Margin="5" Text="Buu Cuc Chinh Thuc" />
+            <TextBox
+                Width="100"
+                materialDesign:HintAssist.Hint="593230"
+                Text="{Binding Option.MaBuuCuc}" />
+        </StackPanel>
+        <StackPanel Margin="5,20,5,0" Orientation="Horizontal">
             <TextBlock Margin="5" Text="Bưu Cục MPS 1" />
             <TextBox
                 Width="100"

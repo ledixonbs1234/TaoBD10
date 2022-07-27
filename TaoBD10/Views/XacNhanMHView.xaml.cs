@@ -23,5 +23,10 @@ namespace TaoBD10.Views
                 }
             });
         }
+
+        private void UserControl_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        {
+            Box.Focus();
+        }
     }
 }

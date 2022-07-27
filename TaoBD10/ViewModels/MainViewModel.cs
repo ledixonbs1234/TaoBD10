@@ -1132,6 +1132,8 @@ namespace TaoBD10.ViewModels
                 case 3:
 
                     DefaultWindowCommand.Execute(null);
+
+                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Focus", Content = "Box" });
                     break;
 
                 case 4:
@@ -1379,9 +1381,9 @@ namespace TaoBD10.ViewModels
                         break;
 
                     case Key.Enter:
-                        
+
                         KeyData = KeyData.ToLower();
-                        if(FileManager.listChuyenThu != null)
+                        if (FileManager.listChuyenThu != null)
                         {
                             if (KeyData.IndexOf(FileManager.listChuyenThu[0].Barcode) != -1)
                             {
@@ -1454,8 +1456,8 @@ namespace TaoBD10.ViewModels
                                 WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "ChuyenThu13" });
                             }
                         }
-                       
-                         if (KeyData.IndexOf("dong230") != -1)
+
+                        if (KeyData.IndexOf("dong230") != -1)
                         {
                             Thread.Sleep(700);
                             WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "KT" });

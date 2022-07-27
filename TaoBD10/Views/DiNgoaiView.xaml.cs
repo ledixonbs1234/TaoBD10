@@ -11,5 +11,10 @@ namespace TaoBD10.Views
         {
             InitializeComponent();
         }
+
+        private void UserControl_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        {
+            DiNgoaiMHTxt.Focus();
+        }
     }
 }

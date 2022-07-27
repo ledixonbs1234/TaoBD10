@@ -8,7 +8,7 @@
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     DataContext="{StaticResource DiNgoaiVM}"
-    mc:Ignorable="d">
+    mc:Ignorable="d" Loaded="UserControl_Loaded">
     <UserControl.Resources>
         <Style x:Key="CellRightAlign">
             <Setter Property="Control.HorizontalAlignment" Value="Right" />
@@ -28,7 +28,7 @@
                     HorizontalAlignment="Center"
                     FontSize="15"
                     Foreground="DarkMagenta"
-                    Text="{Binding SelectedSimple.Code}" />
+                    Text="{Binding SelectedSimple.Code}"  />
             </StackPanel>
             <Expander
                 Margin="5"
@@ -80,6 +80,7 @@
             <TextBox
                 Margin="5"
                 Padding="auto,0"
+                Name="DiNgoaiMHTxt"
                 VerticalAlignment="Top"
                 materialDesign:HintAssist.Hint="Nhập mã vào đây"
                 AcceptsReturn="True"

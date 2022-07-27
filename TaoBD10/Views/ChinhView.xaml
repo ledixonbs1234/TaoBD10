@@ -13,7 +13,7 @@
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
             <Button
                 Width="115"
-                Margin="5"
+                Margin="4"
                 Command="{Binding LayDuLieuCommand}"
                 Content="Lấy Dữ Liệu"
                 Style="{StaticResource MaterialDesignPaperButton}" />
@@ -34,13 +34,13 @@
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
             <Button
                 Width="115"
-                Margin="5"
+                Margin="4"
                 Command="{Binding ChuyenThu0Command, Mode=OneWay}"
                 Content="{Binding ChuyenThus[0].TenButton}"
                 Style="{StaticResource MaterialDesignPaperButton}" />
             <Button
                 Width="115"
-                Margin="5"
+                Margin="4"
                 Command="{Binding ChuyenThu1Command, Mode=OneWay}"
                 Content="{Binding ChuyenThus[1].TenButton}"
                 Style="{StaticResource MaterialDesignPaperButton}" />
@@ -48,13 +48,13 @@
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
             <Button
                 Width="115"
-                Margin="5"
+                Margin="4"
                 Command="{Binding ChuyenThu2Command, Mode=OneWay}"
                 Content="{Binding ChuyenThus[2].TenButton}"
                 Style="{StaticResource MaterialDesignPaperButton}" />
             <Button
                 Width="115"
-                Margin="5"
+                Margin="4"
                 Command="{Binding ChuyenThu3Command, Mode=OneWay}"
                 Content="{Binding ChuyenThus[3].TenButton}"
                 Style="{StaticResource MaterialDesignPaperButton}" />
@@ -62,13 +62,13 @@
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
             <Button
                 Width="115"
-                Margin="5"
+                Margin="4"
                 Command="{Binding ChuyenThu4Command, Mode=OneWay}"
                 Content="{Binding ChuyenThus[4].TenButton}"
                 Style="{StaticResource MaterialDesignPaperButton}" />
             <Button
                 Width="115"
-                Margin="5"
+                Margin="4"
                 Command="{Binding ChuyenThu5Command, Mode=OneWay}"
                 Content="{Binding ChuyenThus[5].TenButton}"
                 Style="{StaticResource MaterialDesignPaperButton}" />
@@ -76,13 +76,13 @@
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
             <Button
                 Width="115"
-                Margin="5"
+                Margin="4"
                 Command="{Binding ChuyenThu6Command, Mode=OneWay}"
                 Content="{Binding ChuyenThus[6].TenButton}"
                 Style="{StaticResource MaterialDesignPaperButton}" />
             <Button
                 Width="115"
-                Margin="5"
+                Margin="4"
                 Command="{Binding ChuyenThu7Command, Mode=OneWay}"
                 Content="{Binding ChuyenThus[7].TenButton}"
                 Style="{StaticResource MaterialDesignPaperButton}" />
@@ -90,14 +90,14 @@
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
             <Button
                 Width="115"
-                Margin="5"
+                Margin="4"
                 Background="#FFDFFFFC"
                 Command="{Binding ChuyenThu8Command, Mode=OneWay}"
                 Content="{Binding ChuyenThus[8].TenButton}"
                 Style="{StaticResource MaterialDesignPaperButton}" />
             <Button
                 Width="115"
-                Margin="5"
+                Margin="4"
                 Command="{Binding ChuyenThu9Command, Mode=OneWay}"
                 Content="{Binding ChuyenThus[9].TenButton}"
                 Style="{StaticResource MaterialDesignPaperButton}" />
@@ -105,13 +105,13 @@
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
             <Button
                 Width="115"
-                Margin="5"
+                Margin="4"
                Command="{Binding ChuyenThu10Command, Mode=OneWay}"
                 Content="{Binding ChuyenThus[10].TenButton}"
                 Style="{StaticResource MaterialDesignPaperButton}" />
             <Button
                 Width="115"
-                Margin="5"
+                Margin="4"
                Command="{Binding ChuyenThu11Command, Mode=OneWay}"
                 Content="{Binding ChuyenThus[11].TenButton}"
                 Style="{StaticResource MaterialDesignPaperButton}" />
@@ -119,13 +119,13 @@
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
             <Button
                 Width="115"
-                Margin="5"
+                Margin="4"
                 Command="{Binding ChuyenThu12Command, Mode=OneWay}"
                 Content="{Binding ChuyenThus[12].TenButton}"
                 Style="{StaticResource MaterialDesignPaperButton}" />
             <Button
                 Width="115"
-                Margin="5"
+                Margin="4"
                Command="{Binding ChuyenThu13Command, Mode=OneWay}"
                 Content="{Binding ChuyenThus[13].TenButton}"
                 Style="{StaticResource MaterialDesignPaperButton}" />
@@ -133,14 +133,28 @@
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
             <Button
                 Width="115"
-                Margin="5"
+                Margin="4"
+                Command="{Binding ChuyenThu12Command, Mode=OneWay}"
+                Content="{Binding ChuyenThus[12].TenButton}"
+                Style="{StaticResource MaterialDesignPaperButton}" />
+            <Button
+                Width="115"
+                Margin="4"
+               Command="{Binding ChuyenThu13Command, Mode=OneWay}"
+                Content="{Binding ChuyenThus[13].TenButton}"
+                Style="{StaticResource MaterialDesignPaperButton}" />
+        </StackPanel>
+        <StackPanel Margin="0,5,0,0" HorizontalAlignment="Center" Orientation="Horizontal">
+            <Button
+                Width="115"
+                Margin="4"
                 Background="#FFE2E5FF"
                 Command="{Binding BD10DiCommand}"
                 Content="BĐ 10 Di"
                 Style="{StaticResource MaterialDesignPaperButton}" />
             <Button
                 Width="115"
-                Margin="5"
+                Margin="4"
                 Background="#FFF7FFF4"
                 Command="{Binding BD10DenCommand}"
                 Content="BĐ 10 Đến"
@@ -149,13 +163,13 @@
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
             <Button
                 Width="115"
-                Margin="5"
+                Margin="4"
                 Command="{Binding D420Command}"
                 Content="Print BĐ 8"
                 Style="{StaticResource MaterialDesignPaperButton}" />
             <Button
                 Width="115"
-                Margin="5"
+                Margin="4"
                 Command="{Binding PrintDefaultCommand}"
                 Content="Print BĐ 10"
                 Style="{StaticResource MaterialDesignPaperButton}" />

@@ -19,6 +19,7 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <DataGrid ItemsSource="{Binding ChuyenThus}" SelectedIndex="{Binding SelectedIndexCT}" />
+        <DataGrid Grid.Column="1" ItemsSource="{Binding ShowTinhs}"/>
         <StackPanel Grid.Row="1" Orientation="Horizontal" Grid.ColumnSpan="2">
             <Button
                 Margin="5"

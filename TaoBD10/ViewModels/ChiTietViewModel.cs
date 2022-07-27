@@ -37,6 +37,7 @@ namespace TaoBD10.ViewModels
             get { return _ShowTinhs; }
             set { SetProperty(ref _ShowTinhs, value); }
         }
+        
 
 
 

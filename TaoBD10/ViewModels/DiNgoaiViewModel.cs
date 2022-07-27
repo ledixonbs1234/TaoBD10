@@ -51,10 +51,8 @@ namespace TaoBD10.ViewModels
             XoaDiNgoaiCommand = new RelayCommand(XoaDiNgoai);
             SetMaTinhGuiCommand = new RelayCommand(SetMaTinhGui);
             AddFastCommand = new RelayCommand(AddFast);
-
             SortCommand = new RelayCommand(Sort);
             SetTinhCommand = new RelayCommand(SetTinhs);
-
             StopDiNgoaiCommand = new RelayCommand(StopDiNgoai);
 
             AddAddressCommand = new RelayCommand(AddAddress);
@@ -312,7 +310,7 @@ namespace TaoBD10.ViewModels
                         }
                     }
                 }
-                bool IsRunGroup= false;
+                bool IsRunGroup = false;
                 if (listDiNgoaiCungMaBC.Count > 1)
                     IsRunGroup = true;
                 else
@@ -338,6 +336,38 @@ namespace TaoBD10.ViewModels
                     Thread.Sleep(100);
                     SendKeys.SendWait(" ");
                     Thread.Sleep(500);
+                    //CheckF Ngang cho nay
+                    ///////////////////////////////////////
+                    string clipboard1 = "";
+                    bool isCheckTui = false;
+                    for (int i = 0; i < 3; i++)
+                    {
+                        //Kiem tra Da dong tui chua
+
+                        clipboard1 = APIManager.GetCopyData();
+
+                        if (string.IsNullOrEmpty(clipboard1))
+                        {
+                            APIManager.ShowSnackbar("Khong copy duoc");
+                            return;
+                        }
+
+                        if (clipboard1.IndexOf("True") != -1)
+                        {
+                            isCheckTui = true;
+                            break;
+                        }
+                        SendKeys.SendWait(" ");
+                        Thread.Sleep(500);
+                    }
+                    if (!isCheckTui)
+                    {
+                        APIManager.ShowSnackbar("Chưa đóng túi được");
+                        return;
+                    }
+                    /////////////////////////////////////////////
+
+
                     SendKeys.SendWait("{F6}");
                     SendKeys.SendWait(listDiNgoaiCungMaBC.Last().Code);
                     SendKeys.SendWait("{ENTER}");
@@ -478,7 +508,7 @@ namespace TaoBD10.ViewModels
                     }
                     SendKeys.SendWait("{DOWN}");
                 }
-                if (IsGroupCT)
+                if (IsRunGroup)
                 {
                     APIManager.ShowSnackbar("Stop is Printer");
                     return;

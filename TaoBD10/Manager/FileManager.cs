@@ -76,7 +76,7 @@ namespace TaoBD10.Manager
         {
             if (!File.Exists(_fileBD10))
             {
-                SaveBD10Offline(new List<BD10InfoModel>());
+                SaveBD10Offline(new BD10InfoModel());
             }
 
             JsonSerializer serializer = new JsonSerializer();
@@ -84,6 +84,7 @@ namespace TaoBD10.Manager
             using (JsonReader jReader = new JsonTextReader(sReader))
             {
                 List<BD10InfoModel> listBD10 = serializer.Deserialize<List<BD10InfoModel>>(jReader);
+                list = listBD10;
                 return listBD10;
             }
         }
@@ -231,13 +232,13 @@ namespace TaoBD10.Manager
                     maBuuCuc = item.Trim();
                     break;
                 }
-            
+
                 client = new FirebaseClient("https://taoappbd10-default-rtdb.asia-southeast1.firebasedatabase.app/", new FirebaseOptions { AuthTokenAsyncFactory = () => Task.FromResult(auth) });
             }
 
         }
 
-        public static void SaveBD10Offline(List<BD10InfoModel> bd10s)
+        public static void SaveBD10Offline(BD10InfoModel bd10)
         {
             if (!File.Exists(_fileBD10))
             {
@@ -250,7 +251,9 @@ namespace TaoBD10.Manager
             using (StreamWriter sWriter = new StreamWriter(_fileBD10))
             using (JsonWriter jWriter = new JsonTextWriter(sWriter))
             {
-                serializer.Serialize(jWriter, bd10s);
+                if (bd10 != null)
+                    list.Add(bd10);
+                serializer.Serialize(jWriter, list);
             }
         }
 

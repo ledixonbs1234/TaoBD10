@@ -228,6 +228,7 @@
     <Compile Include="Model\TuiHangHoa.cs" />
     <Compile Include="Model\TuiXacNhanModel.cs" />
     <Compile Include="Model\WebContentModel.cs" />
+    <Compile Include="Model\XacNhanInfoModel.cs" />
     <Compile Include="Model\XacNhanTuiModel.cs" />
     <Compile Include="ViewModels\AddressViewModel.cs" />
     <Compile Include="ViewModels\ChinhViewModel.cs" />

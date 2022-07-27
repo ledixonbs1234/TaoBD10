@@ -64,12 +64,12 @@ namespace TaoBD10.ViewModels
             WeakReferenceMessenger.Default.Send<BD10Message>(new BD10Message(listBD10));
             if (string.IsNullOrEmpty(NameBD))
             {
-                FileManager.SaveData(new BD10InfoModel("Tam Thoi " + DateTime.Now.ToShortTimeString(), ListHangHoa.ToList(), DateTime.Now, EnumAll.TimeSet.Sang, "1"));
+                FileManager.SaveBD10Offline(new BD10InfoModel("Tam Thoi " + DateTime.Now.ToShortTimeString(), ListHangHoa.ToList(), DateTime.Now, EnumAll.TimeSet.Sang, "1"));
                 WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Snackbar", Content = "Đã Tạo BĐ 10 với tên : Tam Thoi" });
             }
             else
             {
-                FileManager.SaveData(new BD10InfoModel(NameBD + " " + DateTime.Now.ToShortTimeString(), ListHangHoa.ToList(), DateTime.Now, EnumAll.TimeSet.Sang, "1"));
+                FileManager.SaveBD10Offline(new BD10InfoModel(NameBD + " " + DateTime.Now.ToShortTimeString(), ListHangHoa.ToList(), DateTime.Now, EnumAll.TimeSet.Sang, "1"));
                 WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Snackbar", Content = "Đã Tạo BĐ 10 với tên : " + NameBD });
             }
             WeakReferenceMessenger.Default.Send<string>("LoadBD10");

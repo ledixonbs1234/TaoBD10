@@ -211,7 +211,7 @@ namespace TaoBD10.ViewModels
             IsLoading = false;
             ValueLoading = 100;
 
-            FileManager.SaveData(new BD10InfoModel(noiGuiBD, tuiTempHangHoa, ngayThang, (EnumAll.TimeSet)SelectedBuoi, lanLapBD));
+            FileManager.SaveBD10Offline(new BD10InfoModel(noiGuiBD, tuiTempHangHoa, ngayThang, (EnumAll.TimeSet)SelectedBuoi, lanLapBD));
             CountTui = tuiTempHangHoa.Count().ToString();
             if (!IsStopInChiTiet)
                 SendKeys.SendWait("{ESC}");
@@ -516,7 +516,7 @@ namespace TaoBD10.ViewModels
                 IsLoading = false;
                 ValueLoading = 100;
 
-                FileManager.SaveData(new BD10InfoModel(noiGuiBD, tuiTempHangHoa, ngayThang, (EnumAll.TimeSet)SelectedBuoi, lanLapBD));
+                FileManager.SaveBD10Offline(new BD10InfoModel(noiGuiBD, tuiTempHangHoa, ngayThang, (EnumAll.TimeSet)SelectedBuoi, lanLapBD));
                 CountTui = tuiTempHangHoa.Count().ToString();
                 if (!IsStopInChiTiet)
                     SendKeys.SendWait("{ESC}");

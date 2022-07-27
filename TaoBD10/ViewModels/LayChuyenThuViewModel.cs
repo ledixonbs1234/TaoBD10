@@ -397,12 +397,16 @@ namespace TaoBD10.ViewModels
             APIManager.setTextControl(EditControls[EditControls.Count - 2].Handle, maBuuCucChuyenThuDen);
             //SendKeys.SendWait(maBuuCucChuyenThuDen);
             SendKeys.SendWait("{TAB}");
+
+            TestAPIModel editSoCT = controls.Last(m => m.ClassName.ToLower().IndexOf(".edit.") != -1);
+            APIManager.setTextControl(editSoCT.Handle, "");
+
             SendKeys.SendWait("{F8}");
         }
 
         void SaveBuuCuc()
         {
-            FileManager.SaveBuuCuc(BuuCucs.ToList());
+            FileManager.SaveBuuCucOffline(BuuCucs.ToList());
 
         }
 

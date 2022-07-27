@@ -17,6 +17,7 @@ namespace TaoBD10.ViewModels
     {
         public XacNhanMHViewModel()
         {
+            _XacNhanInfo = new XacNhanInfoModel();
             TestCommand = new RelayCommand(Test);
             backgroundWorker = new BackgroundWorker();
             backgroundWorker.DoWork += Woker_DoWork;
@@ -40,6 +41,8 @@ namespace TaoBD10.ViewModels
             }
         });
         }
+
+        private XacNhanInfoModel _XacNhanInfo;
 
         private bool _IsWaitingComplete = false;
 
@@ -69,7 +72,7 @@ namespace TaoBD10.ViewModels
 
             APIManager.SendMessage(comboHandle, 0x0007, 0, 0);
             APIManager.SendMessage(comboHandle, 0x0007, 0, 0);
-            ChuyenThuDen();
+            ChuyenThuDen(controls);
             Thread.Sleep(200);
             SendKeys.SendWait("{ENTER}");
 
@@ -111,38 +114,42 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        private void ChuyenThuDen()
+        private void ChuyenThuDen(List<TestAPIModel> controls)
         {
-            if (isR)
+            List<TestAPIModel> EditControls = controls.Where(m => m.ClassName == "Edit").ToList();
+
+            string loaiString = "";
+            switch (_XacNhanInfo.LoaiCT.ToUpper())
             {
-                SendKeys.SendWait("{UP}{UP}{UP}{UP}{UP}{UP}{UP}{UP}{UP}");
-                //buu pham bao dam
-                SendKeys.SendWait("{DOWN}{DOWN}{DOWN}{DOWN}{DOWN}{DOWN}");
+                case "C":
+                    loaiString = "Bưu kiện - Parcel";
+                    break;
+                case "E":
+                    loaiString = "EMS - Chuyển phát nhanh - Express Mail Service";
+                    break;
+                case "R":
+                    loaiString = "Bưu phẩm bảo đảm - Registed Mail";
+                    break;
+                case "P":
+                    loaiString = "Logistic";
+                    break;
+                default:
+                    break;
             }
-            else
-            {
-                if (!Is280)
-                {
-                    SendKeys.SendWait("{UP}{UP}{UP}{UP}{UP}{UP}{UP}{UP}{UP}");
-                    //buu pham bao dam
-                    SendKeys.SendWait("{DOWN}{DOWN}{DOWN}{DOWN}{DOWN}{DOWN}{DOWN}");
-                }
-                else
-                {
-                    SendKeys.SendWait("{UP}{UP}{UP}{UP}{UP}{UP}{UP}{UP}{UP}");
-                    //buu pham bao dam
-                    SendKeys.SendWait("{DOWN}");
-                }
-            }
+            APIManager.setTextControl(EditControls.LastOrDefault().Handle,loaiString);
             SendKeys.SendWait("{TAB}");
-            SendKeys.SendWait(buuCucDong);
+
+            APIManager.setTextControl(EditControls[EditControls.Count - 2].Handle, _XacNhanInfo.MaBCDong);
+            //SendKeys.SendWait(maBuuCucChuyenThuDen);
             SendKeys.SendWait("{TAB}");
             SendKeys.SendWait("{TAB}");
-            SendKeys.SendWait(soCT);
+
+            TestAPIModel editSoCT = controls.Last(m => m.ClassName.ToLower().IndexOf(".edit.") != -1);
+            APIManager.setTextControl(editSoCT.Handle, _XacNhanInfo.SoCT);
             SendKeys.SendWait("{TAB}");
-            SendKeys.SendWait(date[0]);
+            SendKeys.SendWait(_XacNhanInfo.Date[0]);
             SendKeys.SendWait("{RIGHT}");
-            SendKeys.SendWait(date[1]);
+            SendKeys.SendWait(_XacNhanInfo.Date[1]);
             SendKeys.SendWait("{TAB}");
 
             SendKeys.SendWait("{F8}");
@@ -150,6 +157,7 @@ namespace TaoBD10.ViewModels
 
         private void GoToCT()
         {
+            _XacNhanInfo = new XacNhanInfoModel();
             //quy trinh thuc hien
             //kiem tra thu buu cuc nhan co 280 hay 230 ko
             // neu co thi chay vao 1 trong n2 cai do
@@ -157,7 +165,7 @@ namespace TaoBD10.ViewModels
             //sau do chay vao do dua vao thong tin cua no va dien len
             if (XacNhanMH.BuuCucNhan.IndexOf("593280") != -1)
             {
-                Is280 = true;
+                _XacNhanInfo.Is280 = true;
                 //thuc hien go to chuyen  thu
                 XuLyThongTin();
                 if (!APIManager.ThoatToDefault("593280", "quan ly chuyen thu chieu deen"))
@@ -166,15 +174,11 @@ namespace TaoBD10.ViewModels
                     Thread.Sleep(200);
                     SendKeys.SendWait("3");
                 }
-                //timer.Stop();
-                //isWaitingChuyenThuChieuDen = false;
-                //stateChuyenThuChieuDen = StateChuyenThuChieuDen.GetData;
-                //timer.Start();
                 backgroundWorkerXacNhan.RunWorkerAsync();
             }
             else if (XacNhanMH.BuuCucNhan.IndexOf("593230") != -1)
             {
-                Is280 = false;
+                _XacNhanInfo.Is280 = false;
                 //thuc hien xu ly thong tin can thiet
                 XuLyThongTin();
                 if (!APIManager.ThoatToDefault("593230", "quan ly chuyen thu chieu deen"))
@@ -183,12 +187,6 @@ namespace TaoBD10.ViewModels
                     Thread.Sleep(200);
                     SendKeys.SendWait("3");
                 }
-
-                //timer.Stop();
-                //isWaitingChuyenThuChieuDen = false;
-                //stateChuyenThuChieuDen = StateChuyenThuChieuDen.GetData;
-                //timer.Start();
-
                 backgroundWorkerXacNhan.RunWorkerAsync();
             }
         }
@@ -243,19 +241,15 @@ namespace TaoBD10.ViewModels
         {
             //xu ly date
             var dates = XacNhanMH.Date.Split('/');
-            date[0] = dates[0];
-            date[1] = dates[1];
-            date[2] = dates[2].Substring(0, 4);
+            _XacNhanInfo.Date[0] = dates[0];
+            _XacNhanInfo.Date[1] = dates[1];
+            _XacNhanInfo.Date[2] = dates[2].Substring(0, 4);
             //xu ly ct
             string[] temps = XacNhanMH.TTCT.ToLower().Split('/');
-            string loaiCT = temps[0].Replace("chuyến thư ", "");
-            if (loaiCT.ToLower() == "r")
-            {
-                isR = true;
-            }
+            _XacNhanInfo.LoaiCT = temps[0].Replace("chuyến thư ", "");
 
-            soCT = temps[1].Replace("số ct ", "");
-            buuCucDong = XacNhanMH.BuuCucDong.Substring(0, 6);
+            _XacNhanInfo.SoCT = temps[1].Replace("số ct ", "");
+            _XacNhanInfo.MaBCDong = XacNhanMH.BuuCucDong.Substring(0, 6);
         }
 
         public ICommand GoToCTCommand { get; }

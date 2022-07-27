@@ -62,7 +62,7 @@ namespace TaoBD10.ViewModels
                 }
             }
             //thuc hien save
-            FileManager.SaveData(null);
+            FileManager.SaveBD10Offline(null);
         }
 
         public ObservableCollection<BD10InfoModel> BD10List

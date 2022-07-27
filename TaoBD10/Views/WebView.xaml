@@ -26,6 +26,7 @@
             <Button
                 Width="75"
                 Margin="5"
+                Style="{StaticResource MaterialDesignOutlinedButton}"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
                 Command="{Binding LoginCommand}"
@@ -33,6 +34,8 @@
             <Button
                 Width="90"
                 Margin="5"
+                Foreground="Gray"
+                Style="{StaticResource MaterialDesignOutlinedButton}"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
                 Command="{Binding DefaultCommand}"

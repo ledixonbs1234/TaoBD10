@@ -636,12 +636,12 @@ document.querySelector('#menu-3 > li:nth-child(10) > a').click();";
                             if (_LoadWebChoose == LoadWebChoose.KiemTraWeb)
                             {
                                 kiemTra.Key = "KiemTraWeb";
-                                WeakReferenceMessenger.Default.Send<KiemTraMessage>(new KiemTraMessage(kiemTra));
+                                WeakReferenceMessenger.Default.Send(new KiemTraMessage(kiemTra));
                             }
                             else if (_LoadWebChoose == LoadWebChoose.XacNhanMH)
                             {
                                 kiemTra.Key = "XacNhanMH";
-                                WeakReferenceMessenger.Default.Send<KiemTraMessage>(new KiemTraMessage(kiemTra));
+                                WeakReferenceMessenger.Default.Send(new KiemTraMessage(kiemTra));
                             }
                         }
                     }

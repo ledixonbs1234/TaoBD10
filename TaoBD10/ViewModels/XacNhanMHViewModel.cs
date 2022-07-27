@@ -193,9 +193,9 @@ namespace TaoBD10.ViewModels
 
         private void OnEnterKey()
         {
+            
             if (MaHieu.IndexOf('\n') != -1)
             {
-                MaHieu = MaHieu.Trim();
                 if (MaHieu.Length != 13)
                 {
                     MaHieu = "";

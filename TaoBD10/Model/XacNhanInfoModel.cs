@@ -11,7 +11,7 @@ namespace TaoBD10.Model
         public string MaHieu { get; set; }
         public string LoaiCT { get; set; }
         public string SoCT { get; set; }
-        public string[] Date { get; set; } = new string[0];
+        public string[] Date { get; set; } = new string[3];
         public string MaBCDong { get; set; }
         public bool Is280 { get; set; } = false;
         public XacNhanInfoModel()

@@ -13,6 +13,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
+using System.Windows.Threading;
 using TaoBD10.Manager;
 using TaoBD10.Model;
 using static TaoBD10.Manager.EnumAll;
@@ -24,12 +25,14 @@ namespace TaoBD10.ViewModels
         private string PNSName = "";
         private string currentMaHieu = "";
         bool isClickWebBCCP = false;
+        DispatcherTimer timer;
 
         public WebViewModel()
         {
             LoadPageCommand = new RelayCommand<ChromiumWebBrowser>(LoadPage);
             LoginCommand = new RelayCommand(Login);
             DefaultCommand = new RelayCommand(Default);
+
 
             WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>
              {
@@ -126,7 +129,17 @@ namespace TaoBD10.ViewModels
                      PNSName = m.Content;
                      WebBrowser.LoadUrl("https://pns.vnpost.vn/");
                  }
+
              });
+            timer = new DispatcherTimer();
+            timer.Tick += Timer_Tick;
+            timer.Interval = new TimeSpan(0, 20, 0);
+            timer.Start();
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            Default();
         }
 
         public ICommand DefaultCommand { get; }

@@ -1486,7 +1486,7 @@ namespace TaoBD10.ViewModels
                     case Key.Enter:
 
                         KeyData = KeyData.ToLower();
-                        if (FileManager.listChuyenThu != null)
+                        if (FileManager.listChuyenThu != null&& FileManager.listChuyenThu.Count !=0)
                         {
                             if (KeyData.IndexOf(FileManager.listChuyenThu[0].Barcode) != -1)
                             {

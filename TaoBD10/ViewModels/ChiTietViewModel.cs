@@ -30,6 +30,16 @@ namespace TaoBD10.ViewModels
             int countAnNhon = currentListHangHoa.Where(m => m.PhanLoai == PhanLoaiTinh.AnNhon).Count();
         }
 
+        private ObservableCollection<TinhHuyenModel> _ShowTinhs;
+
+        public ObservableCollection<TinhHuyenModel> ShowTinhs
+        {
+            get { return _ShowTinhs; }
+            set { SetProperty(ref _ShowTinhs, value); }
+        }
+
+
+
 
 
         public ChiTietViewModel()
@@ -43,6 +53,7 @@ namespace TaoBD10.ViewModels
             AutoGetBD10Command = new RelayCommand(AutoGetBD10);
             HAALs = new ObservableCollection<string>();
             BDTamQuans = new ObservableCollection<string>();
+            LocBDs = new ObservableCollection<LocBDInfoModel>();
 
             SetDefaultBDRunned();
 
@@ -204,6 +215,16 @@ namespace TaoBD10.ViewModels
                     break;
             }
         }
+
+        private ObservableCollection<LocBDInfoModel> _LocBDs;
+
+        public ObservableCollection<LocBDInfoModel> LocBDs
+        {
+            get { return _LocBDs; }
+            set { SetProperty(ref _LocBDs, value); }
+        }
+
+
 
         private void AnNhon()
         {

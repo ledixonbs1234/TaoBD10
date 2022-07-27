@@ -180,6 +180,9 @@
                         <TabItem Padding="0" Header="Option Lấy BD 10" >
                             <view:OptionLayBD10View/>
                         </TabItem>
+                        <TabItem Padding="0" Header="Option BD 10">
+                            <view:OptionChiTietView/>
+                        </TabItem>
                     </TabControl>
                 </TabItem>
             </TabControl>

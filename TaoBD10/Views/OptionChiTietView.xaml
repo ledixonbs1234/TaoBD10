@@ -1,0 +1,48 @@
+﻿<UserControl x:Class="TaoBD10.Views.OptionChiTietView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TaoBD10.Views"
+             mc:Ignorable="d" 
+             DataContext="{StaticResource ChiTietVM}"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="103*"/>
+            <ColumnDefinition Width="57*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="200" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="35" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <DataGrid ItemsSource="{Binding ChuyenThus}" SelectedIndex="{Binding SelectedIndexCT}" />
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Grid.ColumnSpan="2">
+            <Button
+                Margin="5"
+                Command="{Binding GetDataFromCloudCommand}"
+                Content="Get Data From Cloud"
+                ToolTip="Mở phần khởi tạo chuyến thư để lấy thông tin túi" />
+            <Button
+                Margin="5"
+                Command="{Binding SaveCTCommand}"
+                Content="Lưu" />
+            <Button Margin="5" Content="Xóa" />
+            <Button
+                Margin="5"
+                Command="{Binding LenCommand}"
+                Content="Lên" />
+            <Button
+                Margin="5"
+                Command="{Binding XuongCommand}"
+                Content="Xuống" />
+            <Button
+                Margin="5"
+                Command="{Binding PublishCommand}"
+                Content="Publish To Cloud" />
+        </StackPanel>
+       
+    </Grid>
+</UserControl>

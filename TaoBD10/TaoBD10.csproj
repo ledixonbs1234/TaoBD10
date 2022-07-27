@@ -215,6 +215,7 @@
     <Compile Include="Model\HangTonModel.cs" />
     <Compile Include="Model\KiemTraModel.cs" />
     <Compile Include="Model\LayBD10Info.cs" />
+    <Compile Include="Model\LocBDInfoModel.cs" />
     <Compile Include="Model\MaBD8Model.cs" />
     <Compile Include="Model\MaHieuDiNgoaiInfo.cs" />
     <Compile Include="Model\MaHieuTuiModel.cs" />
@@ -225,6 +226,7 @@
     <Compile Include="Model\TamQuanModel.cs" />
     <Compile Include="Model\TaoBdInfoModel.cs" />
     <Compile Include="Model\TestAPIModel.cs" />
+    <Compile Include="Model\TinhHuyenModel.cs" />
     <Compile Include="Model\TinhThanh.cs" />
     <Compile Include="Model\TuiHangHoa.cs" />
     <Compile Include="Model\TuiXacNhanModel.cs" />
@@ -294,6 +296,9 @@
     </Compile>
     <Compile Include="Views\OptionChinhView.xaml.cs">
       <DependentUpon>OptionChinhView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\OptionChiTietView.xaml.cs">
+      <DependentUpon>OptionChiTietView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\OptionLayBD10View.xaml.cs">
       <DependentUpon>OptionLayBD10View.xaml</DependentUpon>
@@ -395,6 +400,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\OptionChinhView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\OptionChiTietView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

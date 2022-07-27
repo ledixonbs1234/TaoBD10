@@ -47,17 +47,15 @@ namespace TaoBD10.ViewModels
         {
             window.Close();
         }
-
-        private string BoDauAndToLower(string text)
-        {
-            return APIManager.ConvertToUnSign3(text).ToLower();
-        }
+        BackgroundWorker bwprintMaVach;
 
         public MainViewModel()
         {
             //Thuc hien Qua trinh su dung may
             //FileManager.onSetupFileManager();
             //FileManager.onSetupFileManager();
+            bwprintMaVach = new BackgroundWorker();
+            bwprintMaVach.DoWork += BwprintMaVach_DoWork;
             printTrangCuoi = new BackgroundWorker();
             printTrangCuoi.DoWork += PrintTrangCuoi_DoWork;
             LoadPageCommand = new RelayCommand<Window>(LoadPage);
@@ -301,6 +299,54 @@ namespace TaoBD10.ViewModels
             });
         }
 
+        private void BwprintMaVach_DoWork(object sender, DoWorkEventArgs e)
+        {
+            WindowInfo currentWindow = APIManager.WaitingFindedWindow("dong chuyen thu");
+            if (currentWindow == null)
+            {
+                MessageShow("Không tìm thấy window quan ly chuyen thu ");
+                return;
+            }
+
+            APIManager.ClickButton(currentWindow.hwnd, "f7", isExactly: false);
+
+            currentWindow = APIManager.WaitingFindedWindow("in an pham");
+            if (currentWindow == null)
+            {
+                MessageShow("Không tìm thấy window in an pham");
+                return;
+            }
+            SendKeys.SendWait("{UP}");
+            SendKeys.SendWait("{RIGHT");
+            Thread.Sleep(50);
+            SendKeys.SendWait("{RIGHT");
+            Thread.Sleep(50);
+            SendKeys.SendWait("{RIGHT");
+            Thread.Sleep(50);
+            SendKeys.SendWait("{DOWN}");
+            Thread.Sleep(50);
+            SendKeys.SendWait("{DOWN}");
+            Thread.Sleep(50);
+            SendKeys.SendWait("{DOWN}");
+            Thread.Sleep(50);
+            SendKeys.SendWait(" ");
+            Thread.Sleep(200);
+
+            APIManager.ClickButton(currentWindow.hwnd, "f10", isExactly: false);
+
+            currentWindow = APIManager.WaitingFindedWindow("hinh thuc sap xep");
+            if (currentWindow == null)
+            {
+                MessageShow("Không tìm thấy window ");
+                return;
+            }
+
+            APIManager.ClickButton(currentWindow.hwnd, "f10", isExactly: false);
+
+
+            printBanKeFromPrintDocument();
+        }
+
         string LocHuyen(string address)
         {
             List<string> fillAddress = address.Split('-').Select(s => s.Trim()).ToList();
@@ -309,17 +355,62 @@ namespace TaoBD10.ViewModels
             if (fillAddress.Count < 3)
                 return "";
             string addressExactly = fillAddress[fillAddress.Count - 2];
-            return BoDauAndToLower(addressExactly);
+            return APIManager.BoDauAndToLower(addressExactly);
         }
 
         private void PrintTrangCuoi_DoWork(object sender, DoWorkEventArgs e)
         {
-            WindowInfo currentWindow = APIManager.WaitingFindedWindow("print document");
+            WindowInfo currentWindow = APIManager.WaitingFindedWindow("quan ly chuyen thu chieu di");
+            if (currentWindow == null)
+            {
+                MessageShow("Không tìm thấy window quan ly chuyen thu ");
+                return;
+            }
+
+            APIManager.ClickButton(currentWindow.hwnd, "f7", isExactly: false);
+
+            currentWindow = APIManager.WaitingFindedWindow("in an pham");
+            if (currentWindow == null)
+            {
+                MessageShow("Không tìm thấy window in an pham");
+                return;
+            }
+            SendKeys.SendWait("{UP}");
+            SendKeys.SendWait("{RIGHT");
+            Thread.Sleep(50);
+            SendKeys.SendWait("{RIGHT");
+            Thread.Sleep(50);
+            SendKeys.SendWait("{RIGHT");
+            Thread.Sleep(50);
+            SendKeys.SendWait("{DOWN}");
+            Thread.Sleep(50);
+            SendKeys.SendWait("{DOWN}");
+            Thread.Sleep(50);
+            SendKeys.SendWait("{DOWN}");
+            Thread.Sleep(50);
+            SendKeys.SendWait(" ");
+            Thread.Sleep(200);
+
+            APIManager.ClickButton(currentWindow.hwnd, "f10", isExactly: false);
+
+            currentWindow = APIManager.WaitingFindedWindow("hinh thuc sap xep");
+            if (currentWindow == null)
+            {
+                MessageShow("Không tìm thấy window ");
+                return;
+            }
+
+            APIManager.ClickButton(currentWindow.hwnd, "f10", isExactly: false);
+
+
+
+            currentWindow = APIManager.WaitingFindedWindow("print document");
             if (currentWindow == null)
             {
                 MessageShow("Không tìm thấy window print document");
                 return;
             }
+            Thread.Sleep(1500);
 
             APIManager.ClickButton(currentWindow.hwnd, "in an pham", isExactly: false);
 
@@ -1551,6 +1642,13 @@ namespace TaoBD10.ViewModels
                         //thuc hien copy du lieu sau do sang ben kia
                         WeakReferenceMessenger.Default.Send(new ContentModel { Key = "TamQuanRun", Content = "" });
                         break;
+                    case Key.F11:
+                        WindowInfo activeWindows1 = APIManager.GetActiveWindowTitle();
+                        if (activeWindows1.text.IndexOf("dong chuyen thu") != -1)
+                        {
+                            bwprintMaVach.RunWorkerAsync();
+                        }
+                        break;
 
                     case Key.F12:
                         WindowInfo activeWindows = APIManager.GetActiveWindowTitle();
@@ -1558,7 +1656,7 @@ namespace TaoBD10.ViewModels
                         {
                             bwPrintBanKe.RunWorkerAsync();
                         }
-                        else if (activeWindows.text.IndexOf("print document") != -1)
+                        else if (activeWindows.text.IndexOf("quan ly chuyen thu chieu di") != -1)
                         {
                             printTrangCuoi.RunWorkerAsync();
                         }

@@ -151,13 +151,7 @@ namespace TaoBD10.ViewModels
             {
                 if (m.Key == "AddressDongChuyenThu")
                 {
-                    List<string> fillAddress = m.AddressReiceive.Split('-').Select(s => s.Trim()).ToList();
-                    if (fillAddress == null)
-                        return;
-                    if (fillAddress.Count < 3)
-                        return;
-                    string addressExactly = fillAddress[fillAddress.Count - 2];
-                    string boDauAddress = BoDauAndToLower(addressExactly);
+                    string boDauAddress = LocHuyen(m.AddressReiceive);
 
                     if (maSoBuuCucCurrent == "590100")
                     {
@@ -165,7 +159,7 @@ namespace TaoBD10.ViewModels
                         {
                             if (m.BuuCucPhat == "59")
                             {
-                                if (m.BuuCucPhat == "593280" && m.BuuCucGui != "59")
+                                if (boDauAddress == "hoai nhon" && m.BuuCucGui != "59")
                                 {
 
                                 }
@@ -305,6 +299,17 @@ namespace TaoBD10.ViewModels
                     }
                 }
             });
+        }
+
+        string LocHuyen(string address)
+        {
+            List<string> fillAddress = address.Split('-').Select(s => s.Trim()).ToList();
+            if (fillAddress == null)
+                return "";
+            if (fillAddress.Count < 3)
+                return "";
+            string addressExactly = fillAddress[fillAddress.Count - 2];
+            return BoDauAndToLower(addressExactly);
         }
 
         private void PrintTrangCuoi_DoWork(object sender, DoWorkEventArgs e)

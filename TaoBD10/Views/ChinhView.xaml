@@ -134,8 +134,8 @@
             <Button
                 Width="115"
                 Margin="4"
-                Command="{Binding ChuyenThu12Command, Mode=OneWay}"
-                Content="{Binding ChuyenThus[12].TenButton}"
+                Command="{Binding ChuyenThu14Command, Mode=OneWay}"
+                Content="{Binding ChuyenThus[14].TenButton}"
                 Style="{StaticResource MaterialDesignPaperButton}" />
             <Button
                 Width="115"

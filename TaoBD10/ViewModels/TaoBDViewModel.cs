@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Threading;
 using TaoBD10.Manager;
+using TaoBD10.Model;
 using static TaoBD10.Manager.EnumAll;
 
 namespace TaoBD10.ViewModels
@@ -128,7 +129,7 @@ namespace TaoBD10.ViewModels
 
         private BackgroundWorker taoBDWorker;
         public ICommand AddBDTinhCommand { get; }
-
+        TaoBdInfoModel taoBDInfo;
         private void AddBDTinh()
         {
         }
@@ -145,6 +146,7 @@ namespace TaoBD10.ViewModels
 
         private void AnNhon()
         {
+            taoBDInfo=
             var time = DateTime.Now;
             if (time.Hour > 12)
                 countChuyen = 2;

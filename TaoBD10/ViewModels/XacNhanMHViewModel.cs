@@ -88,10 +88,12 @@ namespace TaoBD10.ViewModels
             SendKeys.SendWait("{F5}");
             Thread.Sleep(500);
             SendKeys.SendWait("{F6}");
+            Thread.Sleep(500);
             SendKeys.SendWait("{UP}");
             SendKeys.SendWait("{UP}");
             SendKeys.SendWait("{UP}");
             SendKeys.SendWait("{UP}");
+            
             string dataCopyed = APIManager.GetCopyData();
             if (string.IsNullOrEmpty(dataCopyed))
                 return;
@@ -102,7 +104,7 @@ namespace TaoBD10.ViewModels
             }
 
             string[] datas = listTemp[0].Split('\t');
-            if (datas[3].Trim() == soCT.Trim() && datas[1].Trim() == buuCucDong.Trim())
+            if (datas[3].Trim() == _XacNhanInfo.SoCT.Trim() && datas[1].Trim() == _XacNhanInfo.MaBCDong.Trim())
             {
                 SendKeys.SendWait("{F10}");
                 WindowInfo windows = APIManager.WaitingFindedWindow("xem chuyen thu chieu den");
@@ -196,6 +198,13 @@ namespace TaoBD10.ViewModels
             
             if (MaHieu.IndexOf('\n') != -1)
             {
+                int soLuong = MaHieu.Where(m => m == '\n').Count();
+                if ( soLuong > 1)
+                {
+                    MaHieu = "";
+                    return;
+                }
+                MaHieu = MaHieu.Trim();
                 if (MaHieu.Length != 13)
                 {
                     MaHieu = "";

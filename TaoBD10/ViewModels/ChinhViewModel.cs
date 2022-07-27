@@ -50,6 +50,7 @@ namespace TaoBD10.ViewModels
             ChuyenThu6Command = new RelayCommand(ChuyenThu6);
             ChuyenThu5Command = new RelayCommand(ChuyenThu5);
             ChuyenThu13Command = new RelayCommand(ChuyenThu13);
+            ChuyenThu14Command = new RelayCommand(ChuyenThu14);
 
             SaveCTCommand = new RelayCommand(SaveCT);
 
@@ -199,7 +200,7 @@ namespace TaoBD10.ViewModels
                 return;
             }
             SendKeys.SendWait("{ESC}");
-            Thread.Sleep(500);
+            Thread.Sleep(1500);
 
             //thuc hien nhan button get chuyen thu 593200;
             WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Button593200" });
@@ -1031,7 +1032,7 @@ namespace TaoBD10.ViewModels
         private void XacNhanChiTiet200()
         {
             SendKeys.SendWait("{F6}");
-            Thread.Sleep(100);
+            Thread.Sleep(500);
 
             string copyedData = APIManager.GetCopyData();
             if (string.IsNullOrEmpty(copyedData))
@@ -1051,10 +1052,8 @@ namespace TaoBD10.ViewModels
             }
 
             string[] splitString = copyedData.Split('\t');
-
             if (splitString[1] == "593200" && splitString[3] == soCTCurrent)
             {
-                APIManager.ShowSnackbar("vao xong");
                 WindowInfo currentWindow = APIManager.GetActiveWindowTitle();
                 var controls = APIManager.GetListControlText(currentWindow.hwnd);
                 APIManager.ClickButton(currentWindow.hwnd, "f10", isExactly: false);
@@ -1093,6 +1092,30 @@ namespace TaoBD10.ViewModels
                 //Xong
             }
         }
+        public ICommand ChuyenThu14Command { get; }
+
+       
+        void ChuyenThu14()
+        {
+            if (ChuyenThus.Count >= 15)
+            {
+                currentChuyenThu = ChuyenThus[14];
+            }
+            int i = 14;
+            var temp = ChuyenThus[i].GoFastBCCP.Split(',');
+            if (!APIManager.ThoatToDefault(ChuyenThus[i].MaBCCP, "khoi tao chuyen thu"))
+            {
+                SendKeys.SendWait(temp[0]);
+                Thread.Sleep(200);
+                SendKeys.SendWait(temp[1]);
+            }
+            if (!bwCreateChuyenThu.IsBusy)
+            {
+                bwCreateChuyenThu.CancelAsync();
+                bwCreateChuyenThu.RunWorkerAsync();
+            }
+        }
+
 
         void Xuong()
         {

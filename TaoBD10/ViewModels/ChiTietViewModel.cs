@@ -55,6 +55,7 @@ namespace TaoBD10.ViewModels
             HAALs = new ObservableCollection<string>();
             BDTamQuans = new ObservableCollection<string>();
             LocBDs = new ObservableCollection<LocBDInfoModel>();
+            ShowTinhs = new ObservableCollection<TinhHuyenModel>();
 
             SetDefaultBDRunned();
 

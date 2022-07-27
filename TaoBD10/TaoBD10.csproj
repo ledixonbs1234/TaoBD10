@@ -246,7 +246,6 @@
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\OptionAllViewModel.cs" />
     <Compile Include="ViewModels\TamQuanViewModel.cs" />
-    <Compile Include="ViewModels\TaoBDViewModel.cs" />
     <Compile Include="ViewModels\TuyChonViewModel.cs" />
     <Compile Include="ViewModels\WebViewModel.cs" />
     <Compile Include="ViewModels\XacNhanMHViewModel.cs" />

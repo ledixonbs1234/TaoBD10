@@ -165,7 +165,14 @@ namespace TaoBD10.ViewModels
                         {
                             if (m.BuuCucPhat == "59")
                             {
-                                SoundManager.playSound3(@"Number\error_sound.wav");
+                                if (m.BuuCucPhat == "593280" && m.BuuCucGui != "59")
+                                {
+
+                                }
+                                else
+                                {
+                                    SoundManager.playSound3(@"Number\error_sound.wav");
+                                }
                             }
                         }
                         else if (loaiCurrent == "R")

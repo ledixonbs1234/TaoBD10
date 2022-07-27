@@ -14,7 +14,6 @@
     <viewmodel:LayBDHAViewModel x:Key="LayBDHAVM" />
     <viewmodel:DiNgoaiViewModel x:Key="DiNgoaiVM" />
     <viewmodel:AddressViewModel x:Key="AddressVM" />
-    <viewmodel:TaoBDViewModel x:Key="TaoBDVM" />
     <viewmodel:TamQuanViewModel x:Key="TamQuanVM" />
     <viewmodel:KiemTraViewModel x:Key="KiemTraVM" />
     <viewmodel:OptionAllViewModel x:Key="OptionAllVM" />

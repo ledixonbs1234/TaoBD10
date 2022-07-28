@@ -176,13 +176,38 @@ namespace TaoBD10.ViewModels
                         IEnumerable<HangHoaDetailModel> listFilledHuyen = list.Where(m => m.TuiHangHoa.ToBC.IndexOf(item) != -1);
                         foreach (HangHoaDetailModel temp in listFilledHuyen)
                         {
+                            if (!string.IsNullOrEmpty(locBD.PhanLoais))
+                            {
+                                foreach (string phanLoai in fillThang(locBD.PhanLoais))
+                                {
+                                    if(temp.TuiHangHoa.PhanLoai.IndexOf(phanLoai) != -1)
+                                    {
+                                        temp.Key = locBD.TenBD;
+                                        break;
+                                    }
+                                }
+
+                            }
                             temp.Key = locBD.TenBD;
                         }
 
                     }
-               }
-                
+                }
+                if (locBD.DanhSachTinh.Count > 0)
+                {
+                    foreach (TinhHuyenModel item in locBD.DanhSachTinh)
+                    {
+                        IEnumerable<HangHoaDetailModel> list = currentListHangHoa.Where(m => string.IsNullOrEmpty(m.Key));
+                        IEnumerable<HangHoaDetailModel> listTinh = list.Where(m => m.TuiHangHoa.ToBC.Substring(0, 2) == item.Ma);
+                        foreach (HangHoaDetailModel temp in listTinh)
+                        {
+                            temp.Key = locBD.TenBD;
+                        }
+                    }
 
+
+
+                }
             }
         }
         List<string> fillThang(string text)

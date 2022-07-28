@@ -55,6 +55,17 @@ namespace TaoBD10.Manager
             return optionTemp.Result;
         }
 
+        //public static List<TinhHuyenModel> LayDSTinh()
+        //{
+        //    if (!File.Exists(_fileTinhThanh))
+        //    {
+        //        return null;
+        //    }
+        //    string textFile = File.ReadAllText(_fileTinhThanh);
+
+
+        //}
+
         public static OptionModel GetOptionOffline()
         {
             if (!File.Exists(_fileOption))
@@ -385,6 +396,7 @@ namespace TaoBD10.Manager
         private static string _fileCT = Environment.CurrentDirectory + "\\Data\\dataCT.json";
         private static string _fileLayBD = Environment.CurrentDirectory + "\\Data\\dataLayBD.json";
         private static string _fileOption = Environment.CurrentDirectory + "\\Data\\option.json";
+        private static string _fileTinhThanh = Environment.CurrentDirectory + "\\Data\\TinhThanh.txt";
         static string auth = "Hw5ESVqVaYfqde21DIHqs4EGhYcqGIiEF4GROViU";
         static string maBuuCuc = "";
     }

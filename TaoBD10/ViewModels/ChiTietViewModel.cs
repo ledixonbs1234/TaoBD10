@@ -135,6 +135,10 @@ namespace TaoBD10.ViewModels
                     return false;
                 }
             });
+
+
+
+
         }
 
         private void SetDefaultBDRunned()

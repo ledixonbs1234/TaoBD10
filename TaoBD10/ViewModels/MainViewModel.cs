@@ -317,11 +317,12 @@ namespace TaoBD10.ViewModels
                 return;
             }
             SendKeys.SendWait("{UP}");
-            SendKeys.SendWait("{RIGHT");
             Thread.Sleep(50);
-            SendKeys.SendWait("{RIGHT");
+            SendKeys.SendWait("{RIGHT}");
             Thread.Sleep(50);
-            SendKeys.SendWait("{RIGHT");
+            SendKeys.SendWait("{RIGHT}");
+            Thread.Sleep(50);
+            SendKeys.SendWait("{RIGHT}");
             Thread.Sleep(50);
             SendKeys.SendWait("{DOWN}");
             Thread.Sleep(50);
@@ -376,11 +377,12 @@ namespace TaoBD10.ViewModels
                 return;
             }
             SendKeys.SendWait("{UP}");
-            SendKeys.SendWait("{RIGHT");
             Thread.Sleep(50);
-            SendKeys.SendWait("{RIGHT");
+            SendKeys.SendWait("{RIGHT}");
             Thread.Sleep(50);
-            SendKeys.SendWait("{RIGHT");
+            SendKeys.SendWait("{RIGHT}");
+            Thread.Sleep(50);
+            SendKeys.SendWait("{RIGHT}");
             Thread.Sleep(50);
             SendKeys.SendWait("{DOWN}");
             Thread.Sleep(50);

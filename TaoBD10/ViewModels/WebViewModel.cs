@@ -604,7 +604,13 @@ document.querySelector('#menu-3 > li:nth-child(10) > a').click();";
                         {
                             KiemTraModel kiemTra = new KiemTraModel();
 
-                            string barcode = document.DocumentNode.SelectNodes("//*[@id='MainContent_ctl00_lblBarcode']").First().InnerText;
+                            HtmlNodeCollection noteBarcode = document.DocumentNode.SelectNodes("//*[@id='MainContent_ctl00_lblBarcode']");
+                            if(noteBarcode == null)
+                            {
+                                return;
+                            }
+
+                            string barcode = noteBarcode.First().InnerText;
                             if (string.IsNullOrEmpty(barcode))
                             {
                                 return;

@@ -172,7 +172,7 @@ namespace TaoBD10.ViewModels
                 XuLyThongTin();
                 if (!APIManager.ThoatToDefault("593280", "quan ly chuyen thu chieu deen"))
                 {
-                    SendKeys.SendWait("1");
+                    SendKeys.SendWait("3");
                     Thread.Sleep(200);
                     SendKeys.SendWait("3");
                 }

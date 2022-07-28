@@ -13,6 +13,8 @@ namespace TaoBD10.Model
     {
         public string TenBD { get; set; }
         public bool IsTinh { get; set; } = true;
+        public string PhanLoais { get; set; }
+        public string DichVus { get; set; }
         private ObservableCollection<TinhHuyenModel> _DanhSachTinh;
 
         public ObservableCollection<TinhHuyenModel> DanhSachTinh

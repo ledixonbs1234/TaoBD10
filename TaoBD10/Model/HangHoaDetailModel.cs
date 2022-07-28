@@ -54,6 +54,8 @@ namespace TaoBD10.Model
         }
 
         public PhanLoaiTinh PhanLoai { get; set; } = PhanLoaiTinh.None;
+        public string Key { get; set; }
+
 
         public HangHoaDetailModel(TuiHangHoa tuiHangHoa, PhanLoaiTinh phanLoaiTinh)
         {

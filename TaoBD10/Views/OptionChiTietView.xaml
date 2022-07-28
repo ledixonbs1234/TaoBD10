@@ -24,9 +24,11 @@
                 <DataGridCheckBoxColumn Header="Is Tỉnh" Binding="{Binding IsTinh}"/>
                 <DataGridTextColumn Header="Mã Bưu Cục Huyện" Binding="{Binding DanhSachHuyen}"/>
                 <DataGridTextColumn IsReadOnly="True" Header="Số Lượng Tỉnh" Binding="{Binding DanhSachTinh.Count}"/>
+                <DataGridTextColumn Header="Phân Loại" Binding="{Binding PhanLoais}"/>
+                <DataGridTextColumn Header="Dịch Vụ" Binding="{Binding DichVus}"/>
             </DataGrid.Columns>
         </DataGrid>
-        <DataGrid Grid.Column="2" ItemsSource="{Binding SelectedLocBD.DanhSachTinh}" />
+        <DataGrid IsReadOnly="True" Grid.Column="2" SelectedItem="{Binding SelectTinh}" ItemsSource="{Binding SelectedLocBD.DanhSachTinh}" />
         <StackPanel Grid.Row="1" Orientation="Horizontal" Grid.ColumnSpan="3">
             <Button
                 Margin="5"
@@ -40,17 +42,19 @@
             <Button Margin="5" Content="Xóa" />
             <Button
                 Margin="5"
-                Command="{Binding LenCommand}"
+                Command="{Binding LenLocCommand}"
                 Content="Lên" />
             <Button
                 Margin="5"
-                Command="{Binding XuongCommand}"
+                Command="{Binding XuongLocCommand}"
                 Content="Xuống" />
             <Button
                 Margin="5"
                 Command="{Binding PublishCommand}"
                 Content="Publish To Cloud" />
         </StackPanel>
+        <Button Content="Xóa Tỉnh" Command="{Binding DeleteTinhCommand}" Width="100" Grid.Column="2" Grid.Row="1" />
+
         <DataGrid ItemsSource="{Binding ShowTinhs}" Grid.Row="2"/>
         <StackPanel Grid.Row="2" Grid.Column="1" VerticalAlignment="Center">
             <Button Content="Lưu Tỉnh" Command="{Binding SaveTinhToSelectedLocBDCommand}" Margin="5" Width="100" VerticalAlignment="Center"/>

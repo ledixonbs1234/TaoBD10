@@ -57,9 +57,11 @@ namespace TaoBD10.ViewModels
             LocBDs = new ObservableCollection<LocBDInfoModel>();
             ShowTinhs = new ObservableCollection<TinhHuyenModel>();
             SaveLocBDCommand = new RelayCommand(SaveLocBD);
+            XuongLocCommand = new RelayCommand(XuongLoc);
+            LenLocCommand = new RelayCommand(LenLoc);
             SaveTinhToSelectedLocBDCommand = new RelayCommand(SaveTinhToSelectedLocBD);
             SetDefaultBDRunned();
-
+            DeleteTinhCommand = new RelayCommand(DeleteTinh);
             WeakReferenceMessenger.Default.Register<BD10Message>(this, (r, m) =>
             {
                 //Thuc Hien Trong ngay
@@ -159,18 +161,84 @@ namespace TaoBD10.ViewModels
             }
 
             //thuc hien viec xoa Thong Tin tu Tinh Thanh;
-
-
-
-
-
         }
+
+        void FillLocBD()
+        {
+            foreach (LocBDInfoModel locBD in LocBDs)
+            {
+                if (!string.IsNullOrEmpty(locBD.DanhSachHuyen))
+                {
+                    foreach (var item in fillThang(locBD.DanhSachHuyen))
+                    {
+                        IEnumerable<HangHoaDetailModel> list = currentListHangHoa.Where(m => string.IsNullOrEmpty(m.Key));
+                        IEnumerable<HangHoaDetailModel> listFilledHuyen = list.Where(m => m.TuiHangHoa.ToBC.IndexOf(item) != -1);
+                        foreach (HangHoaDetailModel temp in listFilledHuyen)
+                        {
+                            temp.Key = locBD.TenBD;
+                        }
+
+                    }
+               }
+                
+
+            }
+        }
+        List<string> fillThang(string text)
+        {
+            return text.Split('|').ToList();
+        }
+
+
+
+
+
+        public ICommand XuongLocCommand { get; }
+
+        void XuongLoc()
+        {
+            int indexLoc = LocBDs.IndexOf(SelectedLocBD);
+            if (indexLoc == -1)
+                return;
+            if (indexLoc == LocBDs.Count - 1)
+                return;
+            LocBDInfoModel tempCT = LocBDs[indexLoc + 1];
+            LocBDs[indexLoc + 1] = SelectedLocBD;
+            LocBDs[indexLoc] = tempCT;
+            SelectedLocBD = LocBDs[indexLoc + 1];
+        }
+
+
+        void DeleteTinhWhenUnCheck()
+        {
+            foreach (LocBDInfoModel item in LocBDs)
+            {
+                if (item.DanhSachTinh.Count > 0)
+                {
+                    foreach (var tinh in item.DanhSachTinh.ToList())
+                    {
+                        if (!tinh.IsChecked)
+                            item.DanhSachTinh.Remove(tinh);
+                    }
+                }
+            }
+        }
+
+        private TinhHuyenModel _SelectTinh;
+
+        public TinhHuyenModel SelectTinh
+        {
+            get { return _SelectTinh; }
+            set { SetProperty(ref _SelectTinh, value); }
+        }
+
 
 
         public ICommand SaveLocBDCommand { get; }
 
         void SaveLocBD()
         {
+            //DeleteTinhWhenUnCheck();
             FileManager.SaveLocBD10Offline(LocBDs.ToList());
         }
 
@@ -189,7 +257,7 @@ namespace TaoBD10.ViewModels
                 {
                     if (item.IsChecked)
                     {
-                        TinhHuyenModel isHave = SelectedLocBD.DanhSachTinh.FirstOrDefault(m=>m.Ma ==item.Ma);
+                        TinhHuyenModel isHave = SelectedLocBD.DanhSachTinh.FirstOrDefault(m => m.Ma == item.Ma);
                         if (isHave == null)
                         {
                             SelectedLocBD.DanhSachTinh.Add(item);
@@ -197,8 +265,6 @@ namespace TaoBD10.ViewModels
                     }
 
                 }
-
-
             }
 
         }
@@ -965,6 +1031,35 @@ namespace TaoBD10.ViewModels
             stateTaoBd10 = StateTaoBd10.DanhSachBD10;
             timerTaoBD.Start();
         }
+
+
+        public ICommand DeleteTinhCommand { get; }
+
+        void DeleteTinh()
+        {
+            if (SelectedLocBD != null && SelectTinh != null)
+            {
+                SelectedLocBD.DanhSachTinh.Remove(SelectTinh);
+            }
+        }
+
+
+        public ICommand LenLocCommand { get; }
+
+        void LenLoc()
+        {
+            int indexLoc = LocBDs.IndexOf(SelectedLocBD);
+            if (indexLoc== -1)
+                return;
+            if ( indexLoc== 0)
+                return;
+            LocBDInfoModel tempCT = LocBDs[indexLoc - 1];
+            LocBDs[indexLoc - 1] = SelectedLocBD;
+            LocBDs[indexLoc] = tempCT;
+            SelectedLocBD = LocBDs[indexLoc - 1];
+        }
+
+
 
         private void FillData()
         {

@@ -9,26 +9,33 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="103*"/>
+            <ColumnDefinition Width="59*"/>
+            <ColumnDefinition Width="44*"/>
             <ColumnDefinition Width="57*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="200" />
             <RowDefinition Height="50" />
-            <RowDefinition Height="35" />
-            <RowDefinition />
+            <RowDefinition Height="200" />
         </Grid.RowDefinitions>
-        <DataGrid ItemsSource="{Binding ChuyenThus}" SelectedIndex="{Binding SelectedIndexCT}" />
-        <DataGrid Grid.Column="1" ItemsSource="{Binding ShowTinhs}"/>
-        <StackPanel Grid.Row="1" Orientation="Horizontal" Grid.ColumnSpan="2">
+        <DataGrid  ItemsSource="{Binding LocBDs}" AutoGenerateColumns="False" SelectedItem="{Binding SelectedLocBD}" Grid.ColumnSpan="2" >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Tên BD" Binding="{Binding TenBD}"/>
+                <DataGridCheckBoxColumn Header="Is Tỉnh" Binding="{Binding IsTinh}"/>
+                <DataGridTextColumn Header="Mã Bưu Cục Huyện" Binding="{Binding DanhSachHuyen}"/>
+                <DataGridTextColumn IsReadOnly="True" Header="Số Lượng Tỉnh" Binding="{Binding DanhSachTinh.Count}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <DataGrid Grid.Column="2" ItemsSource="{Binding SelectedLocBD.DanhSachTinh}" />
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Grid.ColumnSpan="3">
             <Button
                 Margin="5"
                 Command="{Binding GetDataFromCloudCommand}"
-                Content="Get Data From Cloud"
+                Content="Get Cloud"
                 ToolTip="Mở phần khởi tạo chuyến thư để lấy thông tin túi" />
             <Button
                 Margin="5"
-                Command="{Binding SaveCTCommand}"
+                Command="{Binding SaveLocBDCommand}"
                 Content="Lưu" />
             <Button Margin="5" Content="Xóa" />
             <Button
@@ -44,6 +51,10 @@
                 Command="{Binding PublishCommand}"
                 Content="Publish To Cloud" />
         </StackPanel>
-       
+        <DataGrid ItemsSource="{Binding ShowTinhs}" Grid.Row="2"/>
+        <StackPanel Grid.Row="2" Grid.Column="1" VerticalAlignment="Center">
+            <Button Content="Lưu Tỉnh" Command="{Binding SaveTinhToSelectedLocBDCommand}" Margin="5" Width="100" VerticalAlignment="Center"/>
+        </StackPanel>
+
     </Grid>
 </UserControl>

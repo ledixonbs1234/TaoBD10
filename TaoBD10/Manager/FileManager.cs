@@ -100,6 +100,22 @@ namespace TaoBD10.Manager
             }
         }
 
+        public static List<LocBDInfoModel> LoadLocBD10sOffline()
+        {
+            if (!File.Exists(_fileLocBD10))
+            {
+                SaveLocBD10Offline(new List<LocBDInfoModel>());
+            }
+
+            JsonSerializer serializer = new JsonSerializer();
+            using (StreamReader sReader = new StreamReader(_fileLocBD10))
+            using (JsonReader jReader = new JsonTextReader(sReader))
+            {
+                List<LocBDInfoModel> locBD10s = serializer.Deserialize<List<LocBDInfoModel>>(jReader);
+                return locBD10s;
+            }
+        }
+
         public static List<BuuCucModel> LoadBuuCucOffline()
         {
             if (!File.Exists(_fileBuuCuc))
@@ -114,6 +130,27 @@ namespace TaoBD10.Manager
                 List<BuuCucModel> listBuuCuc = serializer.Deserialize<List<BuuCucModel>>(jReader);
                 return listBuuCuc;
             }
+
+        }
+
+        public static List<TinhHuyenModel> LoadTinhThanh()
+        {
+            if (!File.Exists(_fileTinhThanh))
+            {
+                return null;
+            }
+            IEnumerable<string> tinhThanhs = File.ReadLines(_fileTinhThanh);
+            var list = new List<TinhHuyenModel>();
+            foreach (string tinh in tinhThanhs)
+            {
+                if (string.IsNullOrEmpty(tinh))
+                    continue;
+
+                string[] splitText = tinh.Split('\t');
+                list.Add(new TinhHuyenModel(splitText[1].Trim(), splitText[2].Trim()));
+            }
+            return list;
+            
 
         }
 
@@ -289,6 +326,22 @@ namespace TaoBD10.Manager
                 serializer.Serialize(jWriter, buucucs);
             }
         }
+        public static void SaveLocBD10Offline(List<LocBDInfoModel> locBD10s)
+        {
+            if (!File.Exists(_fileLocBD10))
+            {
+                using (FileStream fs = File.Create(_fileLocBD10))
+                {
+
+                }
+            }
+            JsonSerializer serializer = new JsonSerializer();
+            using (StreamWriter sWriter = new StreamWriter(_fileLocBD10))
+            using (JsonWriter jWriter = new JsonTextWriter(sWriter))
+            {
+                serializer.Serialize(jWriter, locBD10s);
+            }
+        }
 
         public static void SaveCTOffline(List<ChuyenThuModel> chuyenThus)
         {
@@ -397,6 +450,7 @@ namespace TaoBD10.Manager
         private static string _fileLayBD = Environment.CurrentDirectory + "\\Data\\dataLayBD.json";
         private static string _fileOption = Environment.CurrentDirectory + "\\Data\\option.json";
         private static string _fileTinhThanh = Environment.CurrentDirectory + "\\Data\\TinhThanh.txt";
+        private static string _fileLocBD10 = Environment.CurrentDirectory + "\\Data\\LocBD10.txt";
         static string auth = "Hw5ESVqVaYfqde21DIHqs4EGhYcqGIiEF4GROViU";
         static string maBuuCuc = "";
     }

@@ -37,7 +37,7 @@ namespace TaoBD10.ViewModels
             get { return _ShowTinhs; }
             set { SetProperty(ref _ShowTinhs, value); }
         }
-        
+
 
 
 
@@ -56,7 +56,8 @@ namespace TaoBD10.ViewModels
             BDTamQuans = new ObservableCollection<string>();
             LocBDs = new ObservableCollection<LocBDInfoModel>();
             ShowTinhs = new ObservableCollection<TinhHuyenModel>();
-
+            SaveLocBDCommand = new RelayCommand(SaveLocBD);
+            SaveTinhToSelectedLocBDCommand = new RelayCommand(SaveTinhToSelectedLocBD);
             SetDefaultBDRunned();
 
             WeakReferenceMessenger.Default.Register<BD10Message>(this, (r, m) =>
@@ -136,10 +137,84 @@ namespace TaoBD10.ViewModels
                 }
             });
 
+            var listTemp = FileManager.LoadTinhThanh();
+            if (listTemp != null)
+            {
+                ShowTinhs = new ObservableCollection<TinhHuyenModel>();
+                foreach (TinhHuyenModel item in listTemp)
+                {
+                    ShowTinhs.Add(item);
+                }
+            }
+
+            //Lay Du Lieu LocBD10
+            var listLoc = FileManager.LoadLocBD10sOffline();
+            if (listLoc != null)
+            {
+                LocBDs = new ObservableCollection<LocBDInfoModel>();
+                foreach (LocBDInfoModel item in listLoc)
+                {
+                    LocBDs.Add(item);
+                }
+            }
+
+            //thuc hien viec xoa Thong Tin tu Tinh Thanh;
+
+
 
 
 
         }
+
+
+        public ICommand SaveLocBDCommand { get; }
+
+        void SaveLocBD()
+        {
+            FileManager.SaveLocBD10Offline(LocBDs.ToList());
+        }
+
+
+
+        public ICommand SaveTinhToSelectedLocBDCommand { get; }
+
+        void SaveTinhToSelectedLocBD()
+        {
+            if (SelectedLocBD == null)
+                return;
+
+            if (SelectedLocBD.IsTinh)
+            {
+                foreach (TinhHuyenModel item in ShowTinhs)
+                {
+                    if (item.IsChecked)
+                    {
+                        TinhHuyenModel isHave = SelectedLocBD.DanhSachTinh.FirstOrDefault(m=>m.Ma ==item.Ma);
+                        if (isHave == null)
+                        {
+                            SelectedLocBD.DanhSachTinh.Add(item);
+                        }
+                    }
+
+                }
+
+
+            }
+
+        }
+
+
+
+
+        private LocBDInfoModel _SelectedLocBD;
+
+        public LocBDInfoModel SelectedLocBD
+        {
+            get { return _SelectedLocBD; }
+            set { SetProperty(ref _SelectedLocBD, value); }
+        }
+
+
 
         private void SetDefaultBDRunned()
         {
@@ -1138,9 +1213,9 @@ namespace TaoBD10.ViewModels
             else if (suaBDInfo.text.IndexOf("lap bd10 theo") != -1)
             {
                 int iShTuiHandle = controls.FindIndex(m => m.Text == "SH túi");
-                textBDHandle = controls[iShTuiHandle -1];
+                textBDHandle = controls[iShTuiHandle - 1];
             }
-            if(textBDHandle == null)
+            if (textBDHandle == null)
             {
                 return;
             }

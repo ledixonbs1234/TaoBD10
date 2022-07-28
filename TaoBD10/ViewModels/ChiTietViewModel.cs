@@ -77,6 +77,7 @@ namespace TaoBD10.ViewModels
                         }
                     }
                     FillData();
+                    FillLocBD();
                 }
             });
 

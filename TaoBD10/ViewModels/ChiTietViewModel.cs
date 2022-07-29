@@ -214,7 +214,6 @@ namespace TaoBD10.ViewModels
                             if (string.IsNullOrEmpty(locBD.PhanLoais) && string.IsNullOrEmpty(locBD.DichVus))
                             {
                                 temp.Key = locBD.TenBD;
-                                break;
                             }
                             //temp.Key = locBD.TenBD;
                         }

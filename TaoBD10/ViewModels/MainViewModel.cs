@@ -1030,8 +1030,11 @@ namespace TaoBD10.ViewModels
                                 if (!string.IsNullOrEmpty(apiContent.Text))
                                 {
                                     string textError = APIManager.ConvertToUnSign3(apiContent.Text).ToLower();
-                                    if (textError.IndexOf("ban co chac muon") != -1)
+                                    if (textError.IndexOf("ban co chac chan muon sua") != -1)
                                     {
+                                        Thread.Sleep(100);
+                                        APIManager.ClickButton(activeWindow.hwnd, "yes", isExactly: false);
+                                        isHaveError = true;
                                     }
                                     else if (textError.IndexOf("phat sinh su vu") != -1)
                                     {

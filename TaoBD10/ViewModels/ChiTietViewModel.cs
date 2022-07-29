@@ -78,6 +78,8 @@ namespace TaoBD10.ViewModels
                     }
                     FillData();
                     FillLocBD();
+
+                    ShowTest();
                 }
             });
 
@@ -163,6 +165,15 @@ namespace TaoBD10.ViewModels
 
             //thuc hien viec xoa Thong Tin tu Tinh Thanh;
         }
+        void ShowTest()
+        {
+            string text = "";
+            foreach (var item in currentListHangHoa)
+            {
+                text += "key:"+ item.Key + " |phan loai:" + item.PhanLoai.ToString()+'\n';
+            }
+            APIManager.OpenNotePad(text, "Test");
+        }
 
         void FillLocBD()
         {
@@ -180,7 +191,7 @@ namespace TaoBD10.ViewModels
                             {
                                 foreach (string phanLoai in fillThang(locBD.PhanLoais))
                                 {
-                                    if(temp.TuiHangHoa.PhanLoai.IndexOf(phanLoai) != -1)
+                                    if (temp.TuiHangHoa.PhanLoai.IndexOf(phanLoai) != -1)
                                     {
                                         temp.Key = locBD.TenBD;
                                         break;
@@ -188,7 +199,24 @@ namespace TaoBD10.ViewModels
                                 }
 
                             }
-                            temp.Key = locBD.TenBD;
+                            if (!string.IsNullOrEmpty(locBD.DichVus))
+                            {
+                                foreach (string phanLoai in fillThang(locBD.DichVus))
+                                {
+                                    if (temp.TuiHangHoa.DichVu.IndexOf(phanLoai) != -1)
+                                    {
+                                        temp.Key = locBD.TenBD;
+                                        break;
+                                    }
+                                }
+
+                            }
+                            if (string.IsNullOrEmpty(locBD.PhanLoais) && string.IsNullOrEmpty(locBD.DichVus))
+                            {
+                                temp.Key = locBD.TenBD;
+                                break;
+                            }
+                            //temp.Key = locBD.TenBD;
                         }
 
                     }
@@ -201,7 +229,30 @@ namespace TaoBD10.ViewModels
                         IEnumerable<HangHoaDetailModel> listTinh = list.Where(m => m.TuiHangHoa.ToBC.Substring(0, 2) == item.Ma);
                         foreach (HangHoaDetailModel temp in listTinh)
                         {
-                            temp.Key = locBD.TenBD;
+                            if (!string.IsNullOrEmpty(locBD.PhanLoais))
+                            {
+                                foreach (string phanLoai in fillThang(locBD.PhanLoais))
+                                {
+                                    if (temp.TuiHangHoa.PhanLoai.IndexOf(phanLoai) != -1)
+                                    {
+                                        temp.Key = locBD.TenBD;
+                                        break;
+                                    }
+                                }
+
+                            }
+                            if (!string.IsNullOrEmpty(locBD.DichVus))
+                            {
+                                foreach (string phanLoai in fillThang(locBD.DichVus))
+                                {
+                                    if (temp.TuiHangHoa.DichVu.IndexOf(phanLoai) != -1)
+                                    {
+                                        temp.Key = locBD.TenBD;
+                                        break;
+                                    }
+                                }
+
+                            }
                         }
                     }
 
@@ -212,7 +263,17 @@ namespace TaoBD10.ViewModels
         }
         List<string> fillThang(string text)
         {
-            return text.Split('|').ToList();
+            List<string> temp = text.Split('|').ToList();
+            if (temp.Count == 1)
+            {
+                if (temp[0] == "590900")
+                {
+
+                }
+
+            }
+
+            return temp;
         }
 
 
@@ -1075,9 +1136,9 @@ namespace TaoBD10.ViewModels
         void LenLoc()
         {
             int indexLoc = LocBDs.IndexOf(SelectedLocBD);
-            if (indexLoc== -1)
+            if (indexLoc == -1)
                 return;
-            if ( indexLoc== 0)
+            if (indexLoc == 0)
                 return;
             LocBDInfoModel tempCT = LocBDs[indexLoc - 1];
             LocBDs[indexLoc - 1] = SelectedLocBD;

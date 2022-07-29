@@ -28,7 +28,12 @@
                 <DataGridTextColumn Header="Dịch Vụ" Binding="{Binding DichVus}"/>
             </DataGrid.Columns>
         </DataGrid>
-        <DataGrid IsReadOnly="True" Grid.Column="2" SelectedItem="{Binding SelectTinh}" ItemsSource="{Binding SelectedLocBD.DanhSachTinh}" />
+        <DataGrid IsReadOnly="True" AutoGenerateColumns="False" Grid.Column="2" SelectedItem="{Binding SelectTinh}" ItemsSource="{Binding SelectedLocBD.DanhSachTinh}" >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Mã" Binding="{Binding Ma}"/>
+                <DataGridTextColumn Header="Tỉnh" Binding="{Binding Ten}"/>
+            </DataGrid.Columns>
+        </DataGrid>
         <StackPanel Grid.Row="1" Orientation="Horizontal" Grid.ColumnSpan="3">
             <Button
                 Margin="5"

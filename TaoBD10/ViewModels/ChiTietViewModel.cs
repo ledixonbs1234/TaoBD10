@@ -1849,10 +1849,12 @@ namespace TaoBD10.ViewModels
                 if (Name == LocKhaiThac.TenBD)
                 {
                     currenLoc = LocKhaiThac;
+                    currentBuuCuc = BuuCuc.KT;
                 }
                 else
                 {
                     currenLoc = LocBCP;
+                    currentBuuCuc = BuuCuc.BCP;
                 }
 
                 if (currenLoc.HangHoas.Count == 0)
@@ -1914,7 +1916,7 @@ namespace TaoBD10.ViewModels
 
                 case BuuCuc.KT:
 
-                    if (!APIManager.ThoatToDefault("593230", "quan ly chuyen thu chieu den"))
+                    if (!APIManager.ThoatToDefault(LocKhaiThac.DanhSachHuyen, "quan ly chuyen thu chieu den"))
                     {
                         SendKeys.SendWait("1");
                         Thread.Sleep(200);
@@ -1923,7 +1925,7 @@ namespace TaoBD10.ViewModels
                     break;
 
                 case BuuCuc.BCP:
-                    if (!APIManager.ThoatToDefault("593280", "quan ly chuyen thu chieu den"))
+                    if (!APIManager.ThoatToDefault(LocBCP.DanhSachHuyen, "quan ly chuyen thu chieu den"))
                     {
                         SendKeys.SendWait("3");
                         Thread.Sleep(200);

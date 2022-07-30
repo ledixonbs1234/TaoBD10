@@ -65,5 +65,19 @@
             <Button Content="Lưu Tỉnh" Command="{Binding SaveTinhToSelectedLocBDCommand}" Margin="5" Width="100" VerticalAlignment="Center"/>
         </StackPanel>
 
+        <StackPanel Orientation="Vertical" VerticalAlignment="Center" Grid.Row="2" Grid.Column="2">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Mã Bưu Cục Khai Thác" Margin="5" VerticalAlignment="Center" />
+                <TextBox Text="{Binding MaKT}" Margin="5" Width="70"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Mã Bưu Cục Phát" Margin="5,5,35,5" VerticalAlignment="Center" />
+                <TextBox Text="{Binding MaBCP}" Margin="5" Width="70"/>
+            </StackPanel>
+            <Button Content="Update" Command="{Binding UpdateBuuCucChuyenThuCommand}" Width="100" Margin="5"/>
+
+
+        </StackPanel>
+
     </Grid>
 </UserControl>

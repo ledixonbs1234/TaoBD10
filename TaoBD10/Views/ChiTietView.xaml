@@ -30,11 +30,11 @@
                             HorizontalAlignment="Center"
                             Foreground="#FF649741"
                             Style="{StaticResource MaterialDesignHeadline2TextBlock}"
-                            Text="{Binding NHA_AL}" />
+                            Text="{Binding LocBDs[0].HangHoas.Count}" />
                         <Button
-                            Command="{Binding SelectedTinhCommand}"
-                            CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.HA_AL}"
-                            Content="HA - AL"
+                             Command="{Binding SelectedTinhCommand}"
+                        CommandParameter="{Binding LocBDs[0].TenBD}"
+                        Content="{Binding LocBDs[0].TenBD}"
                             Style="{StaticResource MaterialDesignPaperLightButton}"
                             ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
                     </StackPanel>
@@ -43,11 +43,11 @@
                             HorizontalAlignment="Center"
                             Foreground="#FF649741"
                             Style="{StaticResource MaterialDesignHeadline2TextBlock}"
-                            Text="{Binding NTamQuan}" />
+                            Text="{Binding LocBDs[1].HangHoas.Count}" />
                         <Button
-                            Command="{Binding SelectedTinhCommand}"
-                            CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.TamQuan}"
-                            Content="Tam Quan"
+                             Command="{Binding SelectedTinhCommand}"
+                        CommandParameter="{Binding LocBDs[1].TenBD}"
+                        Content="{Binding LocBDs[1].TenBD}"
                             Style="{StaticResource MaterialDesignPaperLightButton}"
                             ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
                     </StackPanel>
@@ -56,11 +56,11 @@
                             HorizontalAlignment="Center"
                             Foreground="#FF649741"
                             Style="{StaticResource MaterialDesignHeadline2TextBlock}"
-                            Text="{Binding NKienDaNang}" />
+                            Text="{Binding LocBDs[2].HangHoas.Count}" />
                         <Button
-                            Command="{Binding SelectedTinhCommand}"
-                            CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.KienDaNang}"
-                            Content="Kiện Đà Nẵng"
+                             Command="{Binding SelectedTinhCommand}"
+                        CommandParameter="{Binding LocBDs[2].TenBD}"
+                        Content="{Binding LocBDs[2].TenBD}"
                             Style="{StaticResource MaterialDesignPaperLightButton}"
                             ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
                     </StackPanel>
@@ -69,11 +69,11 @@
                             HorizontalAlignment="Center"
                             Foreground="#FF649741"
                             Style="{StaticResource MaterialDesignHeadline2TextBlock}"
-                            Text="{Binding NEMSDaNang}" />
+                            Text="{Binding LocBDs[3].HangHoas.Count}" />
                         <Button
-                            Command="{Binding SelectedTinhCommand}"
-                            CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.EMSDaNang}"
-                            Content="EMS Đà Nẵng"
+                             Command="{Binding SelectedTinhCommand}"
+                        CommandParameter="{Binding LocBDs[3].TenBD}"
+                        Content="{Binding LocBDs[3].TenBD}"
                             Style="{StaticResource MaterialDesignPaperLightButton}"
                             ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
                     </StackPanel>
@@ -83,11 +83,11 @@
                             HorizontalAlignment="Center"
                             Foreground="#FF649741"
                             Style="{StaticResource MaterialDesignHeadline2TextBlock}"
-                            Text="{Binding NQuangNam}" />
+                            Text="{Binding LocBDs[4].HangHoas.Count}" />
                         <Button
-                            Command="{Binding SelectedTinhCommand}"
-                            CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.QuangNam}"
-                            Content="Quảng Nam"
+                             Command="{Binding SelectedTinhCommand}"
+                        CommandParameter="{Binding LocBDs[4].TenBD}"
+                        Content="{Binding LocBDs[4].TenBD}"
                             Style="{StaticResource MaterialDesignPaperLightButton}"
                             ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
                     </StackPanel>
@@ -97,11 +97,11 @@
                             HorizontalAlignment="Center"
                             Foreground="#FF649741"
                             Style="{StaticResource MaterialDesignHeadline2TextBlock}"
-                            Text="{Binding NQuangNgai}" />
+                            Text="{Binding LocBDs[5].HangHoas.Count}" />
                         <Button
-                            Command="{Binding SelectedTinhCommand}"
-                            CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.QuangNgai}"
-                            Content="Quảng Ngãi"
+                             Command="{Binding SelectedTinhCommand}"
+                        CommandParameter="{Binding LocBDs[5].TenBD}"
+                        Content="{Binding LocBDs[5].TenBD}"
                             Style="{StaticResource MaterialDesignPaperLightButton}"
                             ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
                     </StackPanel>
@@ -115,11 +115,11 @@
                             HorizontalAlignment="Center"
                             Foreground="#FF649741"
                             Style="{StaticResource MaterialDesignHeadline2TextBlock}"
-                            Text="{Binding NKNTB}" />
+                            Text="{Binding LocBDs[6].HangHoas.Count}" />
                         <Button
-                            Command="{Binding SelectedTinhCommand}"
-                            CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.DiNgoaiNamTrungBo}"
-                            Content="Kiện NTB"
+                             Command="{Binding SelectedTinhCommand}"
+                        CommandParameter="{Binding LocBDs[6].TenBD}"
+                        Content="{Binding LocBDs[6].TenBD}"
                             Style="{StaticResource MaterialDesignPaperLightButton}"
                             ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
                     </StackPanel>
@@ -128,11 +128,11 @@
                             HorizontalAlignment="Center"
                             Foreground="#FF649741"
                             Style="{StaticResource MaterialDesignHeadline2TextBlock}"
-                            Text="{Binding NTNTB}" />
+                            Text="{Binding LocBDs[7].HangHoas.Count}" />
                         <Button
-                            Command="{Binding SelectedTinhCommand}"
-                            CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.TuiNTB}"
-                            Content="Túi NTB"
+                             Command="{Binding SelectedTinhCommand}"
+                        CommandParameter="{Binding LocBDs[7].TenBD}"
+                        Content="{Binding LocBDs[7].TenBD}"
                             Style="{StaticResource MaterialDesignPaperLightButton}"
                             ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
                     </StackPanel>
@@ -141,11 +141,11 @@
                             HorizontalAlignment="Center"
                             Foreground="#FF649741"
                             Style="{StaticResource MaterialDesignHeadline2TextBlock}"
-                            Text="{Binding NKT_HN}" />
+                            Text="{Binding LocKhaiThac.HangHoas.Count}" />
                         <Button
-                            Command="{Binding SelectedTinhCommand}"
-                            CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.KTHN}"
-                            Content="593230"
+                             Command="{Binding SelectedTinhCommand}"
+                        CommandParameter="{Binding LocKhaiThac.TenBD}"
+                        Content="{Binding LocKhaiThac.TenBD}"
                             Style="{StaticResource MaterialDesignPaperLightButton}"
                             ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
                     </StackPanel>
@@ -154,11 +154,11 @@
                             HorizontalAlignment="Center"
                             Foreground="#FF649741"
                             Style="{StaticResource MaterialDesignHeadline2TextBlock}"
-                            Text="{Binding NBCP_HN}" />
+                            Text="{Binding LocBCP.HangHoas.Count}" />
                         <Button
-                            Command="{Binding SelectedTinhCommand}"
-                            CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.BCPHN}"
-                            Content="593280"
+                             Command="{Binding SelectedTinhCommand}"
+                        CommandParameter="{Binding LocBCP.TenBD}"
+                        Content="{Binding LocBCP.TenBD}"
                             Style="{StaticResource MaterialDesignPaperLightButton}"
                             ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
                     </StackPanel>
@@ -167,11 +167,11 @@
                             HorizontalAlignment="Center"
                             Foreground="#FF649741"
                             Style="{StaticResource MaterialDesignHeadline2TextBlock}"
-                            Text="{Binding NPhuMy}" />
+                            Text="{Binding LocBDs[8].HangHoas.Count}" />
                         <Button
-                            Command="{Binding SelectedTinhCommand}"
-                            CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.PhuMy}"
-                            Content="Phù Mỹ"
+                             Command="{Binding SelectedTinhCommand}"
+                        CommandParameter="{Binding LocBDs[8].TenBD}"
+                        Content="{Binding LocBDs[8].TenBD}"
                             Style="{StaticResource MaterialDesignPaperLightButton}"
                             ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
                     </StackPanel>
@@ -181,11 +181,11 @@
                             HorizontalAlignment="Center"
                             Foreground="#FF649741"
                             Style="{StaticResource MaterialDesignHeadline2TextBlock}"
-                            Text="{Binding NPhuCat}" />
+                            Text="{Binding LocBDs[9].HangHoas.Count}" />
                         <Button
-                            Command="{Binding SelectedTinhCommand}"
-                            CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.PhuCat}"
-                            Content="Phù Cát"
+                             Command="{Binding SelectedTinhCommand}"
+                        CommandParameter="{Binding LocBDs[9].TenBD}"
+                        Content="{Binding LocBDs[9].TenBD}"
                             Style="{StaticResource MaterialDesignPaperLightButton}"
                             ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
                     </StackPanel>
@@ -195,11 +195,11 @@
                             HorizontalAlignment="Center"
                             Foreground="#FF649741"
                             Style="{StaticResource MaterialDesignHeadline2TextBlock}"
-                            Text="{Binding NAnNhon}" />
+                            Text="{Binding LocBDs[10].HangHoas.Count}" />
                         <Button
-                            Command="{Binding SelectedTinhCommand}"
-                            CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.AnNhon}"
-                            Content="An Nhơn"
+                             Command="{Binding SelectedTinhCommand}"
+                        CommandParameter="{Binding LocBDs[10].TenBD}"
+                        Content="{Binding LocBDs[10].TenBD}"
                             Style="{StaticResource MaterialDesignPaperLightButton}"
                             ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
                     </StackPanel>
@@ -209,11 +209,11 @@
                             HorizontalAlignment="Center"
                             Foreground="#FF649741"
                             Style="{StaticResource MaterialDesignHeadline2TextBlock}"
-                            Text="{Binding NKT1}" />
+                            Text="{Binding LocBDs[11].HangHoas.Count}" />
                         <Button
-                            Command="{Binding SelectedTinhCommand}"
-                            CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.KT1}"
-                            Content="KT1"
+                             Command="{Binding SelectedTinhCommand}"
+                        CommandParameter="{Binding LocBDs[11].TenBD}"
+                        Content="{Binding LocBDs[11].TenBD}"
                             Style="{StaticResource MaterialDesignPaperLightButton}"
                             ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
                     </StackPanel>
@@ -222,10 +222,10 @@
                             HorizontalAlignment="Center"
                             Foreground="#FF649741"
                             Style="{StaticResource MaterialDesignHeadline2TextBlock}"
-                            Text="{Binding NConLai}" />
+                            Text="{Binding ConLai.HangHoas.Count}" />
                         <Button
-                            Command="{Binding SelectedTinhCommand}"
-                            CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.None}"
+                             Command="{Binding SelectedTinhCommand}"
+                        CommandParameter="{Binding ConLai.TenBD}"
                             Content="Còn Lại"
                             Style="{StaticResource MaterialDesignPaperLightButton}"
                             ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />

@@ -39,12 +39,86 @@ namespace TaoBD10.ViewModels
         }
 
 
+        public ICommand UpdateBuuCucChuyenThuCommand { get; }
+
+        void UpdateBuuCucChuyenThu()
+        {
+            if (MaKT.Length == 6)
+            {
+                LocKhaiThac = new LocBDInfoModel();
+                LocKhaiThac.DanhSachHuyen = MaKT;
+                LocKhaiThac.TenBD = MaKT;
+            }
+            if (MaBCP.Length == 6)
+            {
+                LocBCP = new LocBDInfoModel();
+                LocBCP.DanhSachHuyen = MaBCP;
+                LocBCP.TenBD = MaBCP;
+            }
+            List<LocBDInfoModel> list = new List<LocBDInfoModel>();
+            list.Add(LocKhaiThac);
+            list.Add(LocBCP);
+            FileManager.SaveLocKTBCPOffline(list);
+
+        }
+
+
+
+        private LocBDInfoModel _ConLai;
+
+        public LocBDInfoModel ConLai
+        {
+            get { return _ConLai; }
+            set { SetProperty(ref _ConLai, value); }
+        }
+
+        private LocBDInfoModel _LocKhaiThac;
+
+        public LocBDInfoModel LocKhaiThac
+        {
+            get { return _LocKhaiThac; }
+            set { SetProperty(ref _LocKhaiThac, value); }
+        }
+        private LocBDInfoModel _LocBCP;
+
+        public LocBDInfoModel LocBCP
+        {
+            get { return _LocBCP; }
+            set { SetProperty(ref _LocBCP, value); }
+        }
+
+
+
+        private string _MaKT;
+
+        public string MaKT
+        {
+            get { return _MaKT; }
+            set { SetProperty(ref _MaKT, value); }
+        }
+        private string _MaBCP;
+
+        public string MaBCP
+        {
+            get { return _MaBCP; }
+            set { SetProperty(ref _MaBCP, value); }
+        }
+
+
+
+
+
+
+
+
 
 
 
 
         public ChiTietViewModel()
         {
+            ConLai = new LocBDInfoModel();
+            ConLai.TenBD = "Còn Lại";
             GopBDCommand = new RelayCommand(GopBD);
             bwChiTiet = new BackgroundWorker();
             bwChiTiet.DoWork += BwChiTiet_DoWork;
@@ -56,12 +130,15 @@ namespace TaoBD10.ViewModels
             BDTamQuans = new ObservableCollection<string>();
             LocBDs = new ObservableCollection<LocBDInfoModel>();
             ShowTinhs = new ObservableCollection<TinhHuyenModel>();
+            UpdateBuuCucChuyenThuCommand = new RelayCommand(UpdateBuuCucChuyenThu);
             SaveLocBDCommand = new RelayCommand(SaveLocBD);
             XuongLocCommand = new RelayCommand(XuongLoc);
             LenLocCommand = new RelayCommand(LenLoc);
             SaveTinhToSelectedLocBDCommand = new RelayCommand(SaveTinhToSelectedLocBD);
             SetDefaultBDRunned();
             DeleteTinhCommand = new RelayCommand(DeleteTinh);
+
+            LoadLoc();
             WeakReferenceMessenger.Default.Register<BD10Message>(this, (r, m) =>
             {
                 //Thuc Hien Trong ngay
@@ -76,10 +153,12 @@ namespace TaoBD10.ViewModels
                             currentListHangHoa.Add(new HangHoaDetailModel(tuiHangHoa, EnumAll.PhanLoaiTinh.None));
                         }
                     }
-                    FillData();
+                    //FillData();
                     FillLocBD();
+                    //ResetAndCount();
 
-                    ShowTest();
+                    UpdateEnableButtonLoc();
+                    //ShowTest();
                 }
             });
 
@@ -126,7 +205,7 @@ namespace TaoBD10.ViewModels
             };
             timerTaoBD.Tick += TimerTaoBD_Tick;
 
-            SelectedTinhCommand = new RelayCommand<PhanLoaiTinh>(SelectedTinh);
+            SelectedTinhCommand = new RelayCommand<string>(SelectedTinh);
 
             SelectionCommand = new RelayCommand<HangHoaDetailModel>(Selection);
 
@@ -165,35 +244,61 @@ namespace TaoBD10.ViewModels
 
             //thuc hien viec xoa Thong Tin tu Tinh Thanh;
         }
-        void ShowTest()
+        void LoadLoc()
         {
-            string text = "";
-            foreach (var item in currentListHangHoa)
+            var list = FileManager.LoadLocKTBCPOffline();
+            LocKhaiThac = list[0];
+            LocBCP = list[1];
+        }
+        void ClearHangHoa()
+        {
+            foreach (var locBD in LocBDs)
             {
-                text += "key:"+ item.Key + " |phan loai:" + item.PhanLoai.ToString()+'\n';
+                locBD.IsEnabledButton = false;
+                locBD.HangHoas.Clear();
             }
-            APIManager.OpenNotePad(text, "Test");
+            ConLai.HangHoas.Clear();
+            ConLai.IsEnabledButton = false;
+        }
+
+        void UpdateEnableButtonLoc()
+        {
+            foreach (var locBD in LocBDs)
+            {
+                locBD.IsEnabledButton = false;
+                if (locBD.HangHoas.Count > 0)
+                {
+                    locBD.IsEnabledButton = true;
+                }
+            }
+            if (ConLai.HangHoas.Count > 0)
+            {
+                ConLai.IsEnabledButton = true;
+            }
+
         }
 
         void FillLocBD()
         {
+            ClearHangHoa();
+            //thuc hien viec clear Hang Hoa
             foreach (LocBDInfoModel locBD in LocBDs)
             {
                 if (!string.IsNullOrEmpty(locBD.DanhSachHuyen))
                 {
-                    foreach (var item in fillThang(locBD.DanhSachHuyen))
+                    foreach (var item in FillThang(locBD.DanhSachHuyen))
                     {
-                        IEnumerable<HangHoaDetailModel> list = currentListHangHoa.Where(m => string.IsNullOrEmpty(m.Key));
-                        IEnumerable<HangHoaDetailModel> listFilledHuyen = list.Where(m => m.TuiHangHoa.ToBC.IndexOf(item) != -1);
-                        foreach (HangHoaDetailModel temp in listFilledHuyen)
+                        IEnumerable<HangHoaDetailModel> listFilledHuyen = currentListHangHoa.Where(m => m.TuiHangHoa.ToBC.IndexOf(item) != -1);
+                        foreach (HangHoaDetailModel temp in listFilledHuyen.ToList())
                         {
                             if (!string.IsNullOrEmpty(locBD.PhanLoais))
                             {
-                                foreach (string phanLoai in fillThang(locBD.PhanLoais))
+                                foreach (string phanLoai in FillThang(locBD.PhanLoais))
                                 {
                                     if (temp.TuiHangHoa.PhanLoai.IndexOf(phanLoai) != -1)
                                     {
-                                        temp.Key = locBD.TenBD;
+                                        locBD.HangHoas.Add(temp);
+                                        currentListHangHoa.Remove(temp);
                                         break;
                                     }
                                 }
@@ -201,11 +306,12 @@ namespace TaoBD10.ViewModels
                             }
                             if (!string.IsNullOrEmpty(locBD.DichVus))
                             {
-                                foreach (string phanLoai in fillThang(locBD.DichVus))
+                                foreach (string phanLoai in FillThang(locBD.DichVus))
                                 {
                                     if (temp.TuiHangHoa.DichVu.IndexOf(phanLoai) != -1)
                                     {
-                                        temp.Key = locBD.TenBD;
+                                        locBD.HangHoas.Add(temp);
+                                        currentListHangHoa.Remove(temp);
                                         break;
                                     }
                                 }
@@ -213,7 +319,8 @@ namespace TaoBD10.ViewModels
                             }
                             if (string.IsNullOrEmpty(locBD.PhanLoais) && string.IsNullOrEmpty(locBD.DichVus))
                             {
-                                temp.Key = locBD.TenBD;
+                                locBD.HangHoas.Add(temp);
+                                currentListHangHoa.Remove(temp);
                             }
                             //temp.Key = locBD.TenBD;
                         }
@@ -224,17 +331,17 @@ namespace TaoBD10.ViewModels
                 {
                     foreach (TinhHuyenModel item in locBD.DanhSachTinh)
                     {
-                        IEnumerable<HangHoaDetailModel> list = currentListHangHoa.Where(m => string.IsNullOrEmpty(m.Key));
-                        IEnumerable<HangHoaDetailModel> listTinh = list.Where(m => m.TuiHangHoa.ToBC.Substring(0, 2) == item.Ma);
-                        foreach (HangHoaDetailModel temp in listTinh)
+                        IEnumerable<HangHoaDetailModel> listTinh = currentListHangHoa.Where(m => m.TuiHangHoa.ToBC.Substring(0, 2) == item.Ma);
+                        foreach (HangHoaDetailModel temp in listTinh.ToList())
                         {
                             if (!string.IsNullOrEmpty(locBD.PhanLoais))
                             {
-                                foreach (string phanLoai in fillThang(locBD.PhanLoais))
+                                foreach (string phanLoai in FillThang(locBD.PhanLoais))
                                 {
                                     if (temp.TuiHangHoa.PhanLoai.IndexOf(phanLoai) != -1)
                                     {
-                                        temp.Key = locBD.TenBD;
+                                        locBD.HangHoas.Add(temp);
+                                        currentListHangHoa.Remove(temp);
                                         break;
                                     }
                                 }
@@ -242,11 +349,12 @@ namespace TaoBD10.ViewModels
                             }
                             if (!string.IsNullOrEmpty(locBD.DichVus))
                             {
-                                foreach (string phanLoai in fillThang(locBD.DichVus))
+                                foreach (string phanLoai in FillThang(locBD.DichVus))
                                 {
                                     if (temp.TuiHangHoa.DichVu.IndexOf(phanLoai) != -1)
                                     {
-                                        temp.Key = locBD.TenBD;
+                                        locBD.HangHoas.Add(temp);
+                                        currentListHangHoa.Remove(temp);
                                         break;
                                     }
                                 }
@@ -254,23 +362,48 @@ namespace TaoBD10.ViewModels
                             }
                         }
                     }
+                }
+            }
+
+            //Xu ly ben kt bcp
+            //KT
+            if (!string.IsNullOrEmpty(LocKhaiThac.DanhSachHuyen))
+            {
+
+                IEnumerable<HangHoaDetailModel> listFill = currentListHangHoa.Where(m => m.TuiHangHoa.ToBC.IndexOf(LocKhaiThac.DanhSachHuyen) != -1);
+                foreach (var item in listFill.ToList())
+                {
+                    LocKhaiThac.HangHoas.Add(item);
+                    currentListHangHoa.Remove(item);
+                }
+            }
+
+            //BCP
+            if (!string.IsNullOrEmpty(LocBCP.DanhSachHuyen))
+            {
+
+                IEnumerable<HangHoaDetailModel> listFill = currentListHangHoa.Where(m => m.TuiHangHoa.ToBC.IndexOf(LocBCP.DanhSachHuyen) != -1);
+                foreach (var item in listFill.ToList())
+                {
+                    LocBCP.HangHoas.Add(item);
+                    currentListHangHoa.Remove(item);
+                }
+            }
 
 
-
+            //Con Lai
+            if (currentListHangHoa.Count > 0)
+            {
+                foreach (HangHoaDetailModel item in currentListHangHoa.ToList())
+                {
+                    ConLai.HangHoas.Add(item);
+                    currentListHangHoa.Remove(item);
                 }
             }
         }
-        List<string> fillThang(string text)
+        List<string> FillThang(string text)
         {
             List<string> temp = text.Split('|').ToList();
-            if (temp.Count == 1)
-            {
-                if (temp[0] == "590900")
-                {
-
-                }
-
-            }
 
             return temp;
         }
@@ -1694,35 +1827,74 @@ namespace TaoBD10.ViewModels
         {
         }
 
-        private void SelectedTinh(PhanLoaiTinh phanLoaiTinh)
+        private void SelectedTinh(string Name)
         {
-            if (currentListHangHoa == null)
+            if (Name == ConLai.TenBD)
             {
-                return;
-            }
-            var data = currentListHangHoa.FindAll(m => m.PhanLoai == phanLoaiTinh);
-            if (data != null)
-            {
-                currentTinh = phanLoaiTinh;
+                if (ConLai.HangHoas.Count == 0)
+                    return;
 
                 ListShowHangHoa = new ObservableCollection<HangHoaDetailModel>();
 
-                foreach (HangHoaDetailModel hangHoa in data)
+                foreach (HangHoaDetailModel hangHoa in ConLai.HangHoas)
                 {
-                    if (phanLoaiTinh == PhanLoaiTinh.KTHN || phanLoaiTinh == PhanLoaiTinh.BCPHN)
-                    {
-                        string temp = APIManager.ConvertToUnSign3(hangHoa.TuiHangHoa.DichVu).ToLower();
-                        string temp1 = APIManager.ConvertToUnSign3(hangHoa.TuiHangHoa.PhanLoai).ToLower();
-                        if (temp.IndexOf("phat hanh") != -1 || temp1.IndexOf("tui") != -1)
-                        {
-                            continue;
-                        }
-                    }
                     ListShowHangHoa.Add(hangHoa);
                 }
                 //thuc hien show Ten Tinh
-                ShowNameTinh(phanLoaiTinh);
+                NameTinhCurrent = ConLai.TenBD;
             }
+            else if (Name == LocKhaiThac.TenBD || Name == LocBCP.TenBD)
+            {
+                LocBDInfoModel currenLoc;
+                if (Name == LocKhaiThac.TenBD)
+                {
+                    currenLoc = LocKhaiThac;
+                }
+                else
+                {
+                    currenLoc = LocBCP;
+                }
+
+                if (currenLoc.HangHoas.Count == 0)
+                    return;
+
+                ListShowHangHoa = new ObservableCollection<HangHoaDetailModel>();
+
+                foreach (HangHoaDetailModel hangHoa in currenLoc.HangHoas)
+                {
+                    string temp = APIManager.ConvertToUnSign3(hangHoa.TuiHangHoa.DichVu).ToLower();
+                    string temp1 = APIManager.ConvertToUnSign3(hangHoa.TuiHangHoa.PhanLoai).ToLower();
+                    if (temp.IndexOf("phat hanh") != -1 || temp1.IndexOf("tui") != -1)
+                    {
+                        continue;
+                    }
+                    ListShowHangHoa.Add(hangHoa);
+                }
+
+                //thuc hien show Ten Tinh
+                NameTinhCurrent = currenLoc.TenBD;
+
+            }
+            else
+            {
+                LocBDInfoModel LocBD = LocBDs.FirstOrDefault(m => m.TenBD == Name);
+                if (LocBD == null)
+                    return;
+                if (LocBD.HangHoas.Count == 0)
+                    return;
+
+                ListShowHangHoa = new ObservableCollection<HangHoaDetailModel>();
+
+                foreach (HangHoaDetailModel hangHoa in LocBD.HangHoas)
+                {
+
+                    ListShowHangHoa.Add(hangHoa);
+                }
+                //thuc hien show Ten Tinh
+                NameTinhCurrent = LocBD.TenBD;
+                //ShowNameTinh(LocBD.TenBD);
+            }
+
         }
 
         private void Selection(HangHoaDetailModel selected)

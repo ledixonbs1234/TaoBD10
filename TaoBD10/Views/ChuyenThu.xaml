@@ -30,7 +30,7 @@
                     Text="{Binding NKT_HN}" />
                 <Button
                     Command="{Binding SelectedTinhCommand}"
-                    CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.KTHN}"
+                        CommandParameter="593230"
                     Content="593230"
                     Style="{StaticResource MaterialDesignPaperLightButton}"
                     ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
@@ -42,8 +42,8 @@
                     Style="{StaticResource MaterialDesignHeadline6TextBlock}"
                     Text="{Binding NBCP_HN}" />
                 <Button
-                    Command="{Binding SelectedTinhCommand}"
-                    CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.BCPHN}"
+                     Command="{Binding SelectedTinhCommand}"
+                        CommandParameter="593280"
                     Content="593280"
                     Style="{StaticResource MaterialDesignPaperLightButton}"
                     ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />

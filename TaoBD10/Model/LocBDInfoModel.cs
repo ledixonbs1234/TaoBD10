@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace TaoBD10.Model
 {
     [Serializable]
-    public class LocBDInfoModel:ObservableObject
+    public class LocBDInfoModel : ObservableObject
     {
         public string TenBD { get; set; }
         public bool IsTinh { get; set; } = true;
@@ -23,16 +23,42 @@ namespace TaoBD10.Model
             set { SetProperty(ref _DanhSachTinh, value); }
         }
 
+        private bool _IsEnabledButton = false;
+
+        public bool IsEnabledButton
+        {
+            get { return _IsEnabledButton; }
+            set { SetProperty(ref _IsEnabledButton, value); }
+        }
+
+
 
 
 
 
         public string DanhSachHuyen { get; set; }
-        //public List<HangHoaDetailModel> HangHoas { get; set; }
+        private ObservableCollection<HangHoaDetailModel> _HangHoas;
+
+        public ObservableCollection<HangHoaDetailModel> HangHoas
+        {
+            get { return _HangHoas; }
+            set { SetProperty(ref _HangHoas, value); }
+        }
+
+
 
         public LocBDInfoModel()
         {
             DanhSachTinh = new ObservableCollection<TinhHuyenModel>();
+            HangHoas = new ObservableCollection<HangHoaDetailModel>();
         }
+        public LocBDInfoModel(string maBC)
+        {
+            TenBD = maBC;
+            DanhSachHuyen = maBC;
+            DanhSachTinh = new ObservableCollection<TinhHuyenModel>();
+            HangHoas = new ObservableCollection<HangHoaDetailModel>();
+        }
+
     }
 }

@@ -115,6 +115,24 @@ namespace TaoBD10.Manager
                 return locBD10s;
             }
         }
+        public static List<LocBDInfoModel> LoadLocKTBCPOffline()
+        {
+            if (!File.Exists(_fileLocKTBCP))
+            {
+                var list = new List<LocBDInfoModel>();
+                list.Add(new LocBDInfoModel("59000"));
+                list.Add(new LocBDInfoModel());
+                SaveLocKTBCPOffline(list);
+            }
+
+            JsonSerializer serializer = new JsonSerializer();
+            using (StreamReader sReader = new StreamReader(_fileLocKTBCP))
+            using (JsonReader jReader = new JsonTextReader(sReader))
+            {
+                List<LocBDInfoModel> locBD10s = serializer.Deserialize<List<LocBDInfoModel>>(jReader);
+                return locBD10s;
+            }
+        }
 
         public static List<BuuCucModel> LoadBuuCucOffline()
         {
@@ -342,6 +360,22 @@ namespace TaoBD10.Manager
                 serializer.Serialize(jWriter, locBD10s);
             }
         }
+        public static void SaveLocKTBCPOffline(List<LocBDInfoModel> locBD10s)
+        {
+            if (!File.Exists(_fileLocKTBCP))
+            {
+                using (FileStream fs = File.Create(_fileLocKTBCP))
+                {
+
+                }
+            }
+            JsonSerializer serializer = new JsonSerializer();
+            using (StreamWriter sWriter = new StreamWriter(_fileLocKTBCP))
+            using (JsonWriter jWriter = new JsonTextWriter(sWriter))
+            {
+                serializer.Serialize(jWriter, locBD10s);
+            }
+        }
 
         public static void SaveCTOffline(List<ChuyenThuModel> chuyenThus)
         {
@@ -451,6 +485,7 @@ namespace TaoBD10.Manager
         private static string _fileOption = Environment.CurrentDirectory + "\\Data\\option.json";
         private static string _fileTinhThanh = Environment.CurrentDirectory + "\\Data\\TinhThanh.txt";
         private static string _fileLocBD10 = Environment.CurrentDirectory + "\\Data\\LocBD10.txt";
+        private static string _fileLocKTBCP = Environment.CurrentDirectory + "\\Data\\LocKTBCP.txt";
         static string auth = "Hw5ESVqVaYfqde21DIHqs4EGhYcqGIiEF4GROViU";
         static string maBuuCuc = "";
     }

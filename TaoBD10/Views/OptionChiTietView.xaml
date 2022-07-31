@@ -16,14 +16,15 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="200" />
             <RowDefinition Height="50" />
-            <RowDefinition Height="200" />
+            <RowDefinition Height="80" />
+            <RowDefinition Height="120"/>
         </Grid.RowDefinitions>
         <DataGrid  ItemsSource="{Binding LocBDs}" AutoGenerateColumns="False" SelectedItem="{Binding SelectedLocBD}" Grid.ColumnSpan="2" >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Tên BD" Binding="{Binding TenBD}"/>
                 <DataGridCheckBoxColumn Header="Is Tỉnh" Binding="{Binding IsTinh}"/>
-                <DataGridTextColumn Header="Mã Bưu Cục Huyện" Binding="{Binding DanhSachHuyen}"/>
-                <DataGridTextColumn IsReadOnly="True" Header="Số Lượng Tỉnh" Binding="{Binding DanhSachTinh.Count}"/>
+                <DataGridTextColumn Header="Mã Bưu Cục Huyện" Width="200" Binding="{Binding DanhSachHuyen}"/>
+                <DataGridTextColumn IsReadOnly="True" Header="SL Tỉnh" Binding="{Binding DanhSachTinh.Count}"/>
                 <DataGridTextColumn Header="Phân Loại" Binding="{Binding PhanLoais}"/>
                 <DataGridTextColumn Header="Dịch Vụ" Binding="{Binding DichVus}"/>
             </DataGrid.Columns>
@@ -58,14 +59,14 @@
                 Command="{Binding PublishCommand}"
                 Content="Publish To Cloud" />
         </StackPanel>
-        <Button Content="Xóa Tỉnh" Command="{Binding DeleteTinhCommand}" Width="100" Grid.Column="2" Grid.Row="1" />
+        <Button Content="Xóa Tỉnh" Command="{Binding DeleteTinhCommand}" Grid.Column="2" Grid.Row="1" Margin="93,9,92,9" />
 
-        <DataGrid ItemsSource="{Binding ShowTinhs}" Grid.Row="2"/>
-        <StackPanel Grid.Row="2" Grid.Column="1" VerticalAlignment="Center">
+        <DataGrid ItemsSource="{Binding ShowTinhs}" Grid.Row="3"/>
+        <StackPanel Grid.Row="3" Grid.Column="1" VerticalAlignment="Top" Margin="0,29,0,0" Height="42">
             <Button Content="Lưu Tỉnh" Command="{Binding SaveTinhToSelectedLocBDCommand}" Margin="5" Width="100" VerticalAlignment="Center"/>
         </StackPanel>
 
-        <StackPanel Orientation="Vertical" VerticalAlignment="Center" Grid.Row="2" Grid.Column="2">
+        <StackPanel Orientation="Vertical" VerticalAlignment="Top" Grid.Row="2" Grid.Column="2" Margin="0,44,0,0" Grid.RowSpan="2" Height="112">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Mã Bưu Cục Khai Thác" Margin="5" VerticalAlignment="Center" />
                 <TextBox Text="{Binding MaKT}" Margin="5" Width="70"/>
@@ -75,9 +76,8 @@
                 <TextBox Text="{Binding MaBCP}" Margin="5" Width="70"/>
             </StackPanel>
             <Button Content="Update" Command="{Binding UpdateBuuCucChuyenThuCommand}" Width="100" Margin="5"/>
-
-
         </StackPanel>
+        <DataGrid Grid.Row="2" Grid.Column="0" CanUserAddRows="False" CanUserDeleteRows="False" CanUserSortColumns="False"  ItemsSource="{Binding SelectedLocBD.TaoBDs}" Grid.ColumnSpan="2" AutoGenerateColumns="True"/>
 
     </Grid>
 </UserControl>

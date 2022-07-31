@@ -124,10 +124,6 @@ namespace TaoBD10.ViewModels
             bwChiTiet.DoWork += BwChiTiet_DoWork;
             taoBDWorker = new BackgroundWorker();
             taoBDWorker.DoWork += TaoBDWorker_DoWork;
-            RunAutoCommand = new RelayCommand(RunAuto);
-            AutoGetBD10Command = new RelayCommand(AutoGetBD10);
-            HAALs = new ObservableCollection<string>();
-            BDTamQuans = new ObservableCollection<string>();
             LocBDs = new ObservableCollection<LocBDInfoModel>();
             ShowTinhs = new ObservableCollection<TinhHuyenModel>();
             UpdateBuuCucChuyenThuCommand = new RelayCommand(UpdateBuuCucChuyenThu);
@@ -135,7 +131,6 @@ namespace TaoBD10.ViewModels
             XuongLocCommand = new RelayCommand(XuongLoc);
             LenLocCommand = new RelayCommand(LenLoc);
             SaveTinhToSelectedLocBDCommand = new RelayCommand(SaveTinhToSelectedLocBD);
-            SetDefaultBDRunned();
             DeleteTinhCommand = new RelayCommand(DeleteTinh);
 
             LoadLoc();
@@ -238,6 +233,10 @@ namespace TaoBD10.ViewModels
                 LocBDs = new ObservableCollection<LocBDInfoModel>();
                 foreach (LocBDInfoModel item in listLoc)
                 {
+                    if(item.TaoBDs.Count == 0)
+                    {
+                        item.TaoBDs.Add(new TaoBdInfoModel());
+                    }
                     LocBDs.Add(item);
                 }
             }
@@ -496,27 +495,12 @@ namespace TaoBD10.ViewModels
         public LocBDInfoModel SelectedLocBD
         {
             get { return _SelectedLocBD; }
-            set { SetProperty(ref _SelectedLocBD, value); }
+            set { SetProperty(ref _SelectedLocBD, value);
+            
+            }
         }
 
 
-
-        private void SetDefaultBDRunned()
-        {
-            BDRunned = new List<bool>();
-            BDRunned.Add(!IsEnHAAL);
-            BDRunned.Add(!IsEnTamQuan);
-            BDRunned.Add(!IsEnKDN);
-            BDRunned.Add(!IsEnEDN);
-            BDRunned.Add(!IsEnQNam);
-            BDRunned.Add(!IsEnQNgai);
-            BDRunned.Add(!IsEnKNTB);
-            BDRunned.Add(!IsEnTNTB);
-            BDRunned.Add(!IsEnPM);
-            BDRunned.Add(!IsEnPC);
-            BDRunned.Add(!IsEnAN);
-            BDRunned.Add(!IsEnKT1);
-        }
 
         private void AddBDTinh(PhanLoaiTinh phanLoaiTinh)
         {
@@ -590,6 +574,16 @@ namespace TaoBD10.ViewModels
             set { SetProperty(ref _LocBDs, value); }
         }
 
+        private TaoBdInfoModel _CurrenTaoBD;
+
+        public TaoBdInfoModel CurrenTaoBD
+        {
+            get { return _CurrenTaoBD; }
+            set { SetProperty(ref _CurrenTaoBD, value); }
+        }
+
+
+
 
 
         private void AnNhon()
@@ -606,84 +600,6 @@ namespace TaoBD10.ViewModels
             stateTaoBd10 = StateTaoBd10.DanhSachBD10;
             timerTaoBD.Start();
         }
-
-        private void AutoGetBD10()
-        {
-            if (!APIManager.ThoatToDefault("593230", "danh sach bd10 di"))
-            {
-                SendKeys.SendWait("3");
-                Thread.Sleep(200);
-                SendKeys.SendWait("2");
-            }
-            bD10DiInfoModels = new List<BD10DiInfoModel>();
-            WindowInfo activeWindows = APIManager.WaitingFindedWindow("danh sach bd10 di");
-            if (activeWindows == null)
-                return;
-            SendKeys.SendWait("{F4}");
-            Thread.Sleep(500);
-            string lastcopy = "";
-            string data = "null";
-            APIManager.ClearClipboard();
-            string test = "";
-
-            data = APIManager.GetCopyData();
-            while (lastcopy != data)
-            {
-                if (string.IsNullOrEmpty(data))
-                {
-                    return;
-                }
-                lastcopy = data;
-                BD10DiInfoModel bd10Info = ConvertBD10Di(data);
-                if (bd10Info == null)
-                    return;
-                test += bd10Info.Name + "\n";
-
-                bD10DiInfoModels.Add(bd10Info);
-
-                SendKeys.SendWait("{DOWN}");
-                Thread.Sleep(50);
-                data = APIManager.GetCopyData();
-                //550910-VCKV - Đà Nẵng LT	08/06/2022	1	Ô tô	21	206,4	Đã đi
-                //590100-VCKV Nam Trung Bộ	08/06/2022	2	Ô tô	50	456,1	Khởi tạo
-                //if ((data.IndexOf("550910") != -1
-                //    || data.IndexOf("550915") != -1
-                //    || data.IndexOf("590100") != -1
-                //    || data.IndexOf("592020") != -1
-                //    || data.IndexOf("592440") != -1
-                //    || data.IndexOf("592810") != -1
-                //    || data.IndexOf("560100") != -1
-                //    || data.IndexOf("570100") != -1)
-                //    && data.IndexOf("Khởi tạo") != -1)
-                //{
-                //    WindowInfo window = APIManager.WaitingFindedWindow("danh sach bd10 di");
-                //    if (window == null)
-                //    {
-                //        return;
-                //    }
-                //    APIManager.ClickButton(window.hwnd, "Sửa");
-                //    window = APIManager.WaitingFindedWindow("sua thong tin bd10");
-                //    if (window == null)
-                //    {
-                //        return;
-                //    }
-                //    Thread.Sleep(500);
-                //    SendKeys.SendWait("{F6}");
-                //}
-                //else
-                //{
-                //    SendKeys.SendWait("{DOWN}");
-                //    Thread.Sleep(100);
-                //    data = APIManager.GetCopyData();
-                //}
-            }
-            //APIManager.OpenNotePad(test, "Test COntent");
-            APIManager.ShowSnackbar("Run print list bd 10 complete");
-            CreateDanhSachBD();
-
-            //thuc hien cong viec tiep theo
-        }
-
         private void BwChiTiet_DoWork(object sender, DoWorkEventArgs e)
         {
             WindowInfo window = APIManager.WaitingFindedWindow("quan ly chuyen thu");
@@ -747,270 +663,7 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        private void CreateDanhSachBD()
-        {
-            HAALs = new ObservableCollection<string>();
-            DateTime time = DateTime.Now.AddDays(1);
-            HAALs.Add("Hoài Ân An Lão|" + DateTime.Now.Day);
-            HAALs.Add("Hoài Ân An Lão|" + time.Day);
-            ISelectedBDHAAL = 1;
-
-            BDTamQuans = new ObservableCollection<string>();
-            BDTamQuans.Add("Tam Quan|" + DateTime.Now.Day);
-            BDTamQuans.Add("Tam Quan|" + time.Day);
-            ISelectedBDTamQuan = 1;
-
-            //tao da nang
-            BDKDaNangs = new ObservableCollection<string>();
-            BD10DiInfoModel kDaNang = bD10DiInfoModels.FirstOrDefault(m => m.MaBuuCuc == "550910" && m.TrangThai == StateBD10Di.KhoiTao);
-
-            if (kDaNang != null)
-            {
-                BDKDaNangs.Add("Kiện Đà Nẵng|" + kDaNang.LanLap);
-            }
-            BDKDaNangs.Add("Kiện Đà Nẵng|NEW");
-            SelectedKDN = BDKDaNangs[0];
-
-            BDEDNs = new ObservableCollection<string>();
-            BD10DiInfoModel emsDN = bD10DiInfoModels.FirstOrDefault(m => m.MaBuuCuc == "550915" && m.TrangThai == StateBD10Di.KhoiTao);
-
-            if (emsDN != null)
-            {
-                BDEDNs.Add("EMS Đà Nẵng|" + emsDN.LanLap);
-            }
-            BDEDNs.Add("EMS Đà Nẵng|NEW");
-            SelectedEDN = BDEDNs[0];
-
-            BDQNams = new ObservableCollection<string>();
-            BD10DiInfoModel qNam = bD10DiInfoModels.FirstOrDefault(m => m.MaBuuCuc == "560100" && m.TrangThai == StateBD10Di.KhoiTao);
-
-            if (qNam != null)
-            {
-                BDEDNs.Add("Quảng Nam|" + qNam.LanLap);
-            }
-            BDQNams.Add("Quảng Nam|NEW");
-            SelectedQNam = BDQNams[0];
-
-            BDQNgais = new ObservableCollection<string>();
-            BD10DiInfoModel qNgai = bD10DiInfoModels.FirstOrDefault(m => m.MaBuuCuc == "570100" && m.TrangThai == StateBD10Di.KhoiTao);
-
-            if (qNgai != null)
-            {
-                BDQNgais.Add("Quảng Ngãi|" + qNgai.LanLap);
-            }
-            BDQNgais.Add("Quảng Ngãi|NEW");
-            SelectedQNgai = BDQNgais[0];
-
-            BDKNTBs = new ObservableCollection<string>();
-            List<BD10DiInfoModel> kiens = bD10DiInfoModels.Where(m => m.MaBuuCuc == "590100" && m.TrangThai == StateBD10Di.KhoiTao).ToList();
-            if (kiens.Count > 0)
-            {
-                foreach (var item in kiens)
-                {
-                    BDKNTBs.Add("Kiện NTB|" + item.LanLap);
-                }
-            }
-            BDKNTBs.Add("Kiện NTB|NEW");
-            SelectedKNTB = BDKNTBs[0];
-
-            BDTuiNTBs = new ObservableCollection<string>();
-            List<BD10DiInfoModel> tuis = bD10DiInfoModels.Where(m => m.MaBuuCuc == "590100" && m.TrangThai == StateBD10Di.KhoiTao).ToList();
-
-            if (tuis.Count > 0)
-            {
-                foreach (var item in tuis)
-                {
-                    BDTuiNTBs.Add("Túi NTB|" + item.LanLap);
-                }
-            }
-            if (tuis.Count == 1)
-            {
-                BDTuiNTBs.Add("Túi NTB|NEW");
-                SelectedTuiNTB = BDTuiNTBs[1];
-            }
-            if (tuis.Count >= 2)
-            {
-                BDTuiNTBs.Add("Túi NTB|NEW");
-                SelectedTuiNTB = BDTuiNTBs[1];
-            }
-
-            BDPMs = new ObservableCollection<string>();
-            BD10DiInfoModel phumys = bD10DiInfoModels.FirstOrDefault(m => m.MaBuuCuc == "592810" && m.TrangThai == StateBD10Di.KhoiTao);
-
-            if (phumys != null)
-            {
-                BDPMs.Add("Phù Mỹ|" + phumys.LanLap);
-            }
-            BDPMs.Add("Phù Mỹ|NEW");
-            SelectedPM = BDPMs[0];
-
-            BDANs = new ObservableCollection<string>();
-            BD10DiInfoModel anNhon = bD10DiInfoModels.FirstOrDefault(m => m.MaBuuCuc == "592020" && m.TrangThai == StateBD10Di.KhoiTao);
-
-            if (anNhon != null)
-            {
-                BDANs.Add("An Nhơn|" + anNhon.LanLap);
-            }
-            BDANs.Add("An Nhơn|NEW");
-            SelectedAN = BDANs[0];
-
-            BDPCs = new ObservableCollection<string>();
-            BD10DiInfoModel phuCat = bD10DiInfoModels.FirstOrDefault(m => m.MaBuuCuc == "550910" && m.TrangThai == StateBD10Di.KhoiTao);
-
-            if (phuCat != null)
-            {
-                BDPCs.Add("Phù Cát|" + phuCat.LanLap);
-            }
-            BDPCs.Add("Phù Cát|NEW");
-            SelectedPC = BDPCs[0];
-
-            BDKT1 = new ObservableCollection<string>();
-            List<BD10DiInfoModel> kt1 = bD10DiInfoModels.Where(m => m.MaBuuCuc == "590100" && m.TrangThai == StateBD10Di.KhoiTao).ToList();
-            if (kt1.Count > 0)
-            {
-                foreach (var item in kt1)
-                {
-                    BDKT1.Add("KT1|" + item.LanLap);
-                }
-            }
-            BDKT1.Add("Túi NTB|NEW");
-            SelectedKT1 = BDKT1[0];
-
-            SetDefaultBDRunned();
-            RunBD();
-        }
-
-        private void RunBD()
-        {
-            int countBDRead = 0;
-            for (int i = 0; i < BDRunned.Count; i++)
-            {
-                if (!BDRunned[i])
-                {
-                    countBDRead = i + 1;
-                    BDRunned[i] = true;
-                    break;
-                }
-            }
-            if (countBDRead == 0)
-            {
-                //Da chay xong
-            }
-            switch (countBDRead)
-            {
-                case 1:
-                    //Run HA
-                    break;
-
-                case 2:
-                    //Run TQ
-                    break;
-
-                case 3:
-                    string text = SelectedKDN.Split('|')[1];
-                    if (text == "NEW")
-                    {
-                    }
-                    else
-                    {
-                        var bdInfo = bD10DiInfoModels.FirstOrDefault(m => m.MaBuuCuc == "550910" && m.LanLap == int.Parse(text));
-                        RunBDBinhThuong(bdInfo, PhanLoaiTinh.KienDaNang);
-                    }
-
-                    //Run Kien DN
-
-                    break;
-
-                case 4:
-                    //Run E DN
-                    break;
-
-                case 5:
-                    //Run Quang Nam
-                    break;
-
-                case 6:
-                    //Run Quang Ngai
-                    break;
-
-                case 7:
-                    //Run Kien Nam trung Bo
-                    break;
-
-                case 8:
-                    //Run E NTB
-                    break;
-
-                case 9:
-                    //Run Phu My
-                    break;
-
-                case 10:
-                    //Run Phu Cat
-                    break;
-
-                case 11:
-                    //Run An Nhon
-                    break;
-
-                case 12:
-                    //Run KT 1
-                    break;
-
-                default:
-                    break;
-            }
-            //RunBD();
-        }
-
-        private void RunBDBinhThuong(BD10DiInfoModel bd10Di, PhanLoaiTinh tinh)
-        {
-            if (!APIManager.ThoatToDefault("593230", "danh sach bd10 di"))
-            {
-                SendKeys.SendWait("3");
-                Thread.Sleep(200);
-                SendKeys.SendWait("2");
-            }
-            WindowInfo activeWindows = APIManager.WaitingFindedWindow("danh sach bd10 di");
-            if (activeWindows == null)
-                return;
-            SendKeys.SendWait("{F4}");
-            Thread.Sleep(500);
-            string lastcopy = "";
-            string data = "null";
-            APIManager.ClearClipboard();
-
-            data = APIManager.GetCopyData();
-            bool isFinded = false;
-            while (lastcopy != data)
-            {
-                if (string.IsNullOrEmpty(data))
-                {
-                    return;
-                }
-                lastcopy = data;
-                BD10DiInfoModel bd10Info = ConvertBD10Di(data);
-                if (bd10Info == null)
-                    return;
-                if (bd10Info.MaBuuCuc == bd10Di.MaBuuCuc && bd10Di.LanLap == bd10Info.LanLap)
-                {
-                    isFinded = true;
-                    break;
-                }
-
-                SendKeys.SendWait("{DOWN}");
-                Thread.Sleep(50);
-                data = APIManager.GetCopyData();
-            }
-
-            if (isFinded)
-            {
-                SendKeys.SendWait("{F2}");
-                RunLietKeDataToSuaThongTin(tinh);
-            }
-        }
-
-        /// <summary>
+                /// <summary>
         /// Dua thong tin vao sua thong tin bd
         /// Kiem tra va luu du lieu da dang ky
         ///
@@ -1280,102 +933,7 @@ namespace TaoBD10.ViewModels
 
 
 
-        private void FillData()
-        {
-            if (currentListHangHoa.Count == 0)
-                return;
-            //Thuc hien loc tung cai 1
-            int countForeach = 0;
-
-            foreach (var hangHoa in currentListHangHoa.ToList())
-            {
-                string maSoTinh = hangHoa.TuiHangHoa.ToBC.Substring(0, 2);
-                if (hangHoa.TuiHangHoa.ToBC.IndexOf("593740") != -1 || hangHoa.TuiHangHoa.ToBC.IndexOf("593630") != -1 || hangHoa.TuiHangHoa.ToBC.IndexOf("593850") != -1 || hangHoa.TuiHangHoa.ToBC.IndexOf("593880") != -1 || hangHoa.TuiHangHoa.ToBC.IndexOf("593760") != -1 || hangHoa.TuiHangHoa.ToBC.IndexOf("593870") != -1)
-                {
-                    currentListHangHoa[countForeach].PhanLoai = Manager.EnumAll.PhanLoaiTinh.HA_AL;
-                }
-                else if (hangHoa.TuiHangHoa.ToBC.IndexOf("593330") != -1)
-                {
-                    currentListHangHoa[countForeach].PhanLoai = Manager.EnumAll.PhanLoaiTinh.TamQuan;
-                }
-                else
-               if (maSoTinh == "56")
-                {
-                    currentListHangHoa[countForeach].PhanLoai = Manager.EnumAll.PhanLoaiTinh.QuangNam;
-                }
-                else if (maSoTinh == "57")
-                {
-                    currentListHangHoa[countForeach].PhanLoai = Manager.EnumAll.PhanLoaiTinh.QuangNgai;
-                }
-                else if (hangHoa.TuiHangHoa.ToBC.IndexOf("592810") != -1 || hangHoa.TuiHangHoa.ToBC.IndexOf("592850") != -1)
-                {
-                    currentListHangHoa[countForeach].PhanLoai = Manager.EnumAll.PhanLoaiTinh.PhuMy;
-                }
-                else if (hangHoa.TuiHangHoa.ToBC.IndexOf("592440") != -1 || hangHoa.TuiHangHoa.ToBC.IndexOf("592460") != -1)
-                {
-                    currentListHangHoa[countForeach].PhanLoai = Manager.EnumAll.PhanLoaiTinh.PhuCat;
-                }
-                else if (hangHoa.TuiHangHoa.ToBC.IndexOf("592020") != -1 || hangHoa.TuiHangHoa.ToBC.IndexOf("592040") != -1)
-                {
-                    currentListHangHoa[countForeach].PhanLoai = Manager.EnumAll.PhanLoaiTinh.AnNhon;
-                }
-                else if (hangHoa.TuiHangHoa.ToBC.IndexOf("590900") != -1)
-                {
-                    currentListHangHoa[countForeach].PhanLoai = Manager.EnumAll.PhanLoaiTinh.KT1;
-                }
-                else if (hangHoa.TuiHangHoa.ToBC.IndexOf("593230") != -1)
-                {
-                    currentListHangHoa[countForeach].PhanLoai = Manager.EnumAll.PhanLoaiTinh.KTHN;
-                }
-                else if (hangHoa.TuiHangHoa.ToBC.IndexOf("593280") != -1)
-                {
-                    currentListHangHoa[countForeach].PhanLoai = Manager.EnumAll.PhanLoaiTinh.BCPHN;
-                }
-                else if (maSoTinh == "59")
-                {
-                    string temp = fillNoiTinh.FirstOrDefault(m => m.IndexOf(hangHoa.TuiHangHoa.ToBC) != -1);
-                    if (!string.IsNullOrEmpty(temp))
-                    {
-                        if (hangHoa.TuiHangHoa.PhanLoai.IndexOf("Túi") != -1 | hangHoa.TuiHangHoa.PhanLoai.IndexOf("TMĐT") != -1)
-                        {
-                            currentListHangHoa[countForeach].PhanLoai = Manager.EnumAll.PhanLoaiTinh.TuiNTB;
-                        }
-                        else if (APIManager.ConvertToUnSign3(hangHoa.TuiHangHoa.PhanLoai).ToLower().IndexOf("ngoai") != -1)
-                        {
-                            currentListHangHoa[countForeach].PhanLoai = Manager.EnumAll.PhanLoaiTinh.DiNgoaiNamTrungBo;
-                        }
-                    }
-                }
-                else
-                {
-                    string temp = fillNTB.FirstOrDefault(m => m == maSoTinh);
-                    if (!string.IsNullOrEmpty(temp))
-                    {
-                        if (APIManager.ConvertToUnSign3(hangHoa.TuiHangHoa.PhanLoai).ToLower().IndexOf("ngoai") != -1)
-                        {
-                            currentListHangHoa[countForeach].PhanLoai = Manager.EnumAll.PhanLoaiTinh.DiNgoaiNamTrungBo;
-                        }
-                    }
-                    else
-                    {
-                        string temp1 = fillDaNang.FirstOrDefault(m => m == maSoTinh);
-                        if (!string.IsNullOrEmpty(temp1))
-                        {
-                            if (hangHoa.TuiHangHoa.DichVu.IndexOf("Parcel") != -1 || hangHoa.TuiHangHoa.DichVu.IndexOf("Logi") != -1)
-                            {
-                                currentListHangHoa[countForeach].PhanLoai = Manager.EnumAll.PhanLoaiTinh.KienDaNang;
-                            }
-                            else if (hangHoa.TuiHangHoa.DichVu.IndexOf("EMS") != -1)
-                            {
-                                currentListHangHoa[countForeach].PhanLoai = Manager.EnumAll.PhanLoaiTinh.EMSDaNang;
-                            }
-                        }
-                    }
-                }
-                countForeach++;
-            }
-            ResetAndCount();
-        }
+        
 
         private void GuiTrucTiep()
         {
@@ -1755,80 +1313,13 @@ namespace TaoBD10.ViewModels
             timerTaoBD.Start();
         }
 
-        private void ResetAndCount()
-        {
-            NHA_AL = "0";
-            NTamQuan = "0";
-            NKienDaNang = "0";
-            NEMSDaNang = "0";
-            NQuangNam = "0";
-            NQuangNgai = "0";
-            NKNTB = "0";
-            NTNTB = "0";
-            NKT_HN = "0";
-            NBCP_HN = "0";
-            NPhuMy = "0";
-            NPhuCat = "0";
-            NAnNhon = "0";
-            NKT1 = "0";
-            NConLai = "0";
 
-            NHA_AL = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.HA_AL).Count.ToString();
-            if (NHA_AL != "0") IsEnHAAL = true; else IsEnHAAL = false;
-            NTamQuan = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.TamQuan).Count.ToString();
-            if (NTamQuan != "0") IsEnTamQuan = true; else IsEnTamQuan = false;
-            NKienDaNang = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.KienDaNang).Count.ToString();
-            if (NKienDaNang != "0") IsEnKDN = true; else IsEnKDN = false;
-            NEMSDaNang = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.EMSDaNang).Count.ToString();
-            if (NEMSDaNang != "0") IsEnEDN = true; else IsEnEDN = false;
-            NQuangNam = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.QuangNam).Count.ToString();
-            if (NQuangNam != "0") IsEnQNam = true; else IsEnQNam = false;
-            NQuangNgai = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.QuangNgai).Count.ToString();
-            if (NQuangNgai != "0") IsEnQNgai = true; else IsEnQNgai = false;
-            NKNTB = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.DiNgoaiNamTrungBo).Count.ToString();
-            if (NKNTB != "0") IsEnKNTB = true; else IsEnKNTB = false;
-            NTNTB = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.TuiNTB).Count.ToString();
-            if (NTNTB != "0") IsEnTNTB = true; else IsEnTNTB = false;
-            NKT_HN = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.KTHN).Count.ToString();
-            NBCP_HN = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.BCPHN).Count.ToString();
-            NPhuMy = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.PhuMy).Count.ToString();
-            if (NPhuMy != "0") IsEnPM = true; else IsEnPM = false;
-            NPhuCat = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.PhuCat).Count.ToString();
-            if (NPhuCat != "0") IsEnPC = true; else IsEnPC = false;
-            NAnNhon = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.AnNhon).Count.ToString();
-            if (NAnNhon != "0") IsEnAN = true; else IsEnAN = false;
-            NKT1 = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.KT1).Count.ToString();
-            if (NKT1 != "0") IsEnKT1 = true; else IsEnKT1 = false;
-            NConLai = currentListHangHoa.FindAll(m => m.PhanLoai == EnumAll.PhanLoaiTinh.None).Count.ToString();
-            if (NConLai != "0") IsEnConLai = true; else IsEnConLai = false;
-        }
 
-        private void RunAuto()
-        {
-        }
-
-        private void RunAutoHAAL()
-        {
-            if (!IsEnHAAL)
-            {
-                //THuc hien cong viec tiep theo
-                RunAutoTamQuan();
-            }
-            else
-            {
-            }
-        }
-
-        private void RunAutoKDN()
-        {
-        }
-
-        private void RunAutoTamQuan()
-        {
-        }
 
         private void SelectedTinh(string Name)
         {
+            if (string.IsNullOrEmpty(Name))
+                return;
             if (Name == ConLai.TenBD)
             {
                 if (ConLai.HangHoas.Count == 0)
@@ -2118,302 +1609,11 @@ namespace TaoBD10.ViewModels
             stateTaoBd10 = StateTaoBd10.DanhSachBD10;
             timerTaoBD.Start();
         }
-
-        private ObservableCollection<string> _BDKDaNangs;
-
-        public ObservableCollection<string> BDKDaNangs
-        {
-            get { return _BDKDaNangs; }
-            set { SetProperty(ref _BDKDaNangs, value); }
-        }
-
-
-
-        private string _SelectedKDN;
-
-        public string SelectedKDN
-        {
-            get { return _SelectedKDN; }
-            set { SetProperty(ref _SelectedKDN, value); }
-        }
-
-        private List<bool> BDRunned;
-
-        private ObservableCollection<string> _BDTuiNTBs;
-
-        public ObservableCollection<string> BDTuiNTBs
-        {
-            get { return _BDTuiNTBs; }
-            set { SetProperty(ref _BDTuiNTBs, value); }
-        }
-
-        private string _SelectedTuiNTB;
-
-        public string SelectedTuiNTB
-        {
-            get { return _SelectedTuiNTB; }
-            set { SetProperty(ref _SelectedTuiNTB, value); }
-        }
-
-        private ObservableCollection<string> _BDKNTBs;
-
-        public ObservableCollection<string> BDKNTBs
-        {
-            get { return _BDKNTBs; }
-            set { SetProperty(ref _BDKNTBs, value); }
-        }
-
-        private string _SelectedKNTB;
-
-        public string SelectedKNTB
-        {
-            get { return _SelectedKNTB; }
-            set { SetProperty(ref _SelectedKNTB, value); }
-        }
-
-        private ObservableCollection<string> _BDANs;
-
-        public ObservableCollection<string> BDANs
-        {
-            get { return _BDANs; }
-            set { SetProperty(ref _BDANs, value); }
-        }
-
-        private string _SelectedAN;
-
-        public string SelectedAN
-        {
-            get { return _SelectedAN; }
-            set { SetProperty(ref _SelectedAN, value); }
-        }
-
-        private ObservableCollection<string> _BDPMs;
-
-        public ObservableCollection<string> BDPMs
-        {
-            get { return _BDPMs; }
-            set { SetProperty(ref _BDPMs, value); }
-        }
-
-        private string _SelectedPM;
-
-        public string SelectedPM
-        {
-            get { return _SelectedPM; }
-            set { SetProperty(ref _SelectedPM, value); }
-        }
-
-        private ObservableCollection<string> _BDPCs;
-
-        public ObservableCollection<string> BDPCs
-        {
-            get { return _BDPCs; }
-            set { SetProperty(ref _BDPCs, value); }
-        }
-
-        private string _SelectedPC;
-
-        public string SelectedPC
-        {
-            get { return _SelectedPC; }
-            set { SetProperty(ref _SelectedPC, value); }
-        }
-
-        private ObservableCollection<string> _BDKT1;
-
-        public ObservableCollection<string> BDKT1
-        {
-            get { return _BDKT1; }
-            set { SetProperty(ref _BDKT1, value); }
-        }
-
-        private string _SelectedKT1;
-
-        public string SelectedKT1
-        {
-            get { return _SelectedKT1; }
-            set { SetProperty(ref _SelectedKT1, value); }
-        }
-
-        private ObservableCollection<string> _BDEDNs;
-
-        public ObservableCollection<string> BDEDNs
-        {
-            get { return _BDEDNs; }
-            set { SetProperty(ref _BDEDNs, value); }
-        }
-
-        private string _SelectedEDN;
-
-        public string SelectedEDN
-        {
-            get { return _SelectedEDN; }
-            set { SetProperty(ref _SelectedEDN, value); }
-        }
-
-        private ObservableCollection<string> _BDQNgais;
-
-        public ObservableCollection<string> BDQNgais
-        {
-            get { return _BDQNgais; }
-            set { SetProperty(ref _BDQNgais, value); }
-        }
-
-        private ObservableCollection<string> _BDQNams;
-
-        public ObservableCollection<string> BDQNams
-        {
-            get { return _BDQNams; }
-            set { SetProperty(ref _BDQNams, value); }
-        }
-
-        private string _SelectedQNgai;
-
-        public string SelectedQNgai
-        {
-            get { return _SelectedQNgai; }
-            set { SetProperty(ref _SelectedQNgai, value); }
-        }
-
-        private string _SelectedQNam;
-
-        public string SelectedQNam
-        {
-            get { return _SelectedQNam; }
-            set { SetProperty(ref _SelectedQNam, value); }
-        }
-
-        public RelayCommand<PhanLoaiTinh> AddBDTinhCommand { get; }
-        public ICommand AutoGetBD10Command { get; }
-
-        public ObservableCollection<string> BDTamQuans
-        {
-            get { return _BDTamQuans; }
-            set { SetProperty(ref _BDTamQuans, value); }
-        }
-
-        public IRelayCommand CopySHTuiCommand { get; }
-
-        public ObservableCollection<string> HAALs
-        {
-            get { return _HAALs; }
-            set { SetProperty(ref _HAALs, value); }
-        }
-
-        public int ISelectedBDHAAL
-        {
-            get { return _ISelectedBDHAAL; }
-            set { SetProperty(ref _ISelectedBDHAAL, value); }
-        }
-
-        public int ISelectedBDTamQuan
-        {
-            get { return _ISelectedBDTamQuan; }
-            set { SetProperty(ref _ISelectedBDTamQuan, value); }
-        }
-
-        public bool IsEnAN
-        {
-            get { return _IsEnAN; }
-            set { SetProperty(ref _IsEnAN, value); }
-        }
-
-        public bool IsEnConLai
-        {
-            get { return _IsEnConLai; }
-            set { SetProperty(ref _IsEnConLai, value); }
-        }
-
-        public bool IsEnEDN
-        {
-            get { return _IsEnEDN; }
-            set { SetProperty(ref _IsEnEDN, value); }
-        }
-
-        public bool IsEnHAAL
-        {
-            get { return _IsEnHAAL; }
-            set { SetProperty(ref _IsEnHAAL, value); }
-        }
-
-        public bool IsEnKDN
-        {
-            get { return _IsEnKDN; }
-            set { SetProperty(ref _IsEnKDN, value); }
-        }
-
-        public bool IsEnKNTB
-        {
-            get { return _IsEnKNTB; }
-            set { SetProperty(ref _IsEnKNTB, value); }
-        }
-
-        public bool IsEnKT1
-        {
-            get { return _IsEnKT1; }
-            set { SetProperty(ref _IsEnKT1, value); }
-        }
-
-        public bool IsEnPC
-        {
-            get { return _IsEnPC; }
-            set { SetProperty(ref _IsEnPC, value); }
-        }
-
-        public bool IsEnPM
-        {
-            get { return _IsEnPM; }
-            set { SetProperty(ref _IsEnPM, value); }
-        }
-
-        public bool IsEnQNam
-        {
-            get { return _IsEnQNam; }
-            set { SetProperty(ref _IsEnQNam, value); }
-        }
-
-        public bool IsEnQNgai
-        {
-            get { return _IsEnQNgai; }
-            set { SetProperty(ref _IsEnQNgai, value); }
-        }
-
-        public bool IsEnTamQuan
-        {
-            get { return _IsEnTamQuan; }
-            set { SetProperty(ref _IsEnTamQuan, value); }
-        }
-
-        public bool IsEnTNTB
-        {
-            get { return _IsEnTNTB; }
-            set { SetProperty(ref _IsEnTNTB, value); }
-        }
-
-        public bool IsExpandTaoBD
-        {
-            get { return _IsExpandTaoBD; }
-            set
-            {
-                SetProperty(ref _IsExpandTaoBD, value);
-
-                if (_IsExpandTaoBD == false)
-                {
-                    ThuHep();
-                }
-                else
-                {
-                    MoRong();
-                }
-            }
-        }
-
-        public bool IsTaoBD
-        {
-            get { return _IsTaoBD; }
-            set { SetProperty(ref _IsTaoBD, value); }
-        }
-
+             public RelayCommand<PhanLoaiTinh> AddBDTinhCommand { get; }
+    
+         public IRelayCommand CopySHTuiCommand { get; }
+
+    
         public ObservableCollection<HangHoaDetailModel> ListShowHangHoa
         {
             get { return _ListShowHangHoa; }
@@ -2425,98 +1625,6 @@ namespace TaoBD10.ViewModels
             get { return _NameTinhCurrent; }
             set { SetProperty(ref _NameTinhCurrent, value); }
         }
-
-        public string NAnNhon
-        {
-            get { return _NAnNhon; }
-            set { SetProperty(ref _NAnNhon, value); }
-        }
-
-        public string NBCP_HN
-        {
-            get { return _NBCP_HN; }
-            set { SetProperty(ref _NBCP_HN, value); }
-        }
-
-        public string NConLai
-        {
-            get { return _NConLai; }
-            set { SetProperty(ref _NConLai, value); }
-        }
-
-        public string NEMSDaNang
-        {
-            get { return _NEMSDaNang; }
-            set { SetProperty(ref _NEMSDaNang, value); }
-        }
-
-        public string NHA_AL
-        {
-            get { return _NHA_AL; }
-            set { SetProperty(ref _NHA_AL, value); }
-        }
-
-        public string NKienDaNang
-        {
-            get { return _NKienDaNang; }
-            set { SetProperty(ref _NKienDaNang, value); }
-        }
-
-        public string NKNTB
-        {
-            get { return _NKNTB; }
-            set { SetProperty(ref _NKNTB, value); }
-        }
-
-        public string NKT_HN
-        {
-            get { return _NKT_HN; }
-            set { SetProperty(ref _NKT_HN, value); }
-        }
-
-        public string NKT1
-        {
-            get { return _NKT1; }
-            set { SetProperty(ref _NKT1, value); }
-        }
-
-        public string NPhuCat
-        {
-            get { return _NPhuCat; }
-            set { SetProperty(ref _NPhuCat, value); }
-        }
-
-        public string NPhuMy
-        {
-            get { return _NPhuMy; }
-            set { SetProperty(ref _NPhuMy, value); }
-        }
-
-        public string NQuangNam
-        {
-            get { return _NQuangNam; }
-            set { SetProperty(ref _NQuangNam, value); }
-        }
-
-        public string NQuangNgai
-        {
-            get { return _NQuangNgai; }
-            set { SetProperty(ref _NQuangNgai, value); }
-        }
-
-        public string NTamQuan
-        {
-            get { return _NTamQuan; }
-            set { SetProperty(ref _NTamQuan, value); }
-        }
-
-        public string NTNTB
-        {
-            get { return _NTNTB; }
-            set { SetProperty(ref _NTNTB, value); }
-        }
-
-        public ICommand RunAutoCommand { get; }
 
         public string SelectedTime
         {
@@ -2537,13 +1645,6 @@ namespace TaoBD10.ViewModels
         }
 
         public IRelayCommand<HangHoaDetailModel> SelectionCommand { get; }
-
-        public string TestText
-        {
-            get { return _TestText; }
-            set { SetProperty(ref _TestText, value); }
-        }
-
         public string TextCurrentChuyenThu
         {
             get { return _TextCurrentChuyenThu; }
@@ -2552,50 +1653,12 @@ namespace TaoBD10.ViewModels
 
         public ICommand XeXaHoiCommand { get; }
         private readonly BackgroundWorker bwChiTiet;
-        private readonly string[] fillDaNang = new string[] { "26", "27", "23", "22", "55", "38", "40", "10", "48", "17", "18", "16", "31", "39", "24", "33", "42", "46", "43", "51", "20", "52", "36", "41", "25", "44", "31", "53", "30", "32", "29", "28", "35", "13" };
-        private readonly string[] fillNoiTinh = new string[] { "591218", "591520", "591720", "591760", "591900", "592100", "592120", "592220", "594080", "594090", "594210", "594220", "594300", "594350", "594560", "594610", "590100" };
-        private readonly string[] fillNTB = new string[] { "88", "79", "96", "93", "82", "83", "80", "97", "90", "63", "64", "81", "87", "60", "91", "70", "65", "92", "58", "67", "85", "66", "62", "95", "84", "86", "94", "89", "74" };
         private readonly BackgroundWorker taoBDWorker;
         private readonly DispatcherTimer timerTaoBD;
-        private ObservableCollection<string> _BDTamQuans;
-        private ObservableCollection<string> _HAALs;
-        private int _ISelectedBDHAAL;
-        private int _ISelectedBDTamQuan;
-        private bool _IsEnAN = true;
-        private bool _IsEnConLai = true;
-        private bool _IsEnEDN = true;
-        private bool _IsEnHAAL = true;
-        private bool _IsEnKDN = true;
-        private bool _IsEnKNTB = true;
-        private bool _IsEnKT1 = true;
-        private bool _IsEnPC = true;
-        private bool _IsEnPM = true;
-        private bool _IsEnQNam = true;
-        private bool _IsEnQNgai = true;
-        private bool _IsEnTamQuan = true;
-        private bool _IsEnTNTB = true;
-        private bool _IsExpandTaoBD;
-        private bool _IsTaoBD = false;
         private ObservableCollection<HangHoaDetailModel> _ListShowHangHoa;
         private string _NameTinhCurrent;
-        private string _NAnNhon = "0";
-        private string _NBCP_HN = "0";
-        private string _NConLai = "0";
-        private string _NEMSDaNang = "0";
-        private string _NHA_AL = "0";
-        private string _NKienDaNang = "0";
-        private string _NKNTB = "0";
-        private string _NKT_HN = "0";
-        private string _NKT1 = "0";
-        private string _NPhuCat = "0";
-        private string _NPhuMy = "0";
-        private string _NQuangNam = "0";
-        private string _NQuangNgai = "0";
-        private string _NTamQuan = "0";
-        private string _NTNTB = "0";
         private string _SelectedTime = "0.5";
         private HangHoaDetailModel _SelectedTui;
-        private string _TestText;
         private string _TextCurrentChuyenThu;
         private List<BD10DiInfoModel> bD10DiInfoModels;
         private int countChuyen = 0;

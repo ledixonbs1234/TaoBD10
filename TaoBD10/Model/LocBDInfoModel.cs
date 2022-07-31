@@ -45,12 +45,24 @@ namespace TaoBD10.Model
             set { SetProperty(ref _HangHoas, value); }
         }
 
+        private ObservableCollection<TaoBdInfoModel> _TaoBDs;
+
+        public ObservableCollection<TaoBdInfoModel> TaoBDs
+        {
+            get { return _TaoBDs; }
+            set { SetProperty(ref _TaoBDs, value); }
+        }
+
+
+
+
 
 
         public LocBDInfoModel()
         {
             DanhSachTinh = new ObservableCollection<TinhHuyenModel>();
             HangHoas = new ObservableCollection<HangHoaDetailModel>();
+            TaoBDs = new ObservableCollection<TaoBdInfoModel>();
         }
         public LocBDInfoModel(string maBC)
         {
@@ -58,6 +70,7 @@ namespace TaoBD10.Model
             DanhSachHuyen = maBC;
             DanhSachTinh = new ObservableCollection<TinhHuyenModel>();
             HangHoas = new ObservableCollection<HangHoaDetailModel>();
+            TaoBDs = new ObservableCollection<TaoBdInfoModel>();
         }
 
     }

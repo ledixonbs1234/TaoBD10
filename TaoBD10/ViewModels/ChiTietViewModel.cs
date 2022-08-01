@@ -140,7 +140,7 @@ namespace TaoBD10.ViewModels
             LenLocCommand = new RelayCommand(LenLoc);
             SaveTinhToSelectedLocBDCommand = new RelayCommand(SaveTinhToSelectedLocBD);
             DeleteTinhCommand = new RelayCommand(DeleteTinh);
-            TestCommand = new RelayCommand(Test);
+            HiddenCommand = new RelayCommand(Hidden);
             LoadLoc();
             WeakReferenceMessenger.Default.Register<BD10Message>(this, (r, m) =>
             {
@@ -1374,44 +1374,30 @@ namespace TaoBD10.ViewModels
         }
 
 
-      
-        public ICommand TestCommand { get; }
 
-        void Test()
+
+
+
+        public ICommand HiddenCommand { get; }
+
+        void Hidden()
         {
-            //var temp = FileManager.optionModel.GoFastBD10Di.Split(',');
-            //APIManager.GoToWindow(FileManager.optionModel.MaKhaiThac, "danh sach bd10 di", temp[0], temp[1]);
-
-            //WindowInfo currentWindow = APIManager.WaitingFindedWindow("danh sach bd10 di");
-            //if (currentWindow == null)
-            //    return;
-
-            //SendKeys.SendWait("{F1}");
             var currentWindow = APIManager.WaitingFindedWindow("lap bd10");
             if (currentWindow == null)
                 return;
-            System.Collections.Generic.List<Model.TestAPIModel> controls = APIManager.GetListControlText(currentWindow.hwnd);
-            Model.TestAPIModel controlDuongThu = controls.Where(m => m.ClassName == "WindowsForms10.COMBOBOX.app.0.1e6fa8e").ToList()[2];
-            Model.TestAPIModel controlChuyen = controls.Where(m => m.ClassName == "WindowsForms10.COMBOBOX.app.0.1e6fa8e").ToList()[1];
-            Model.TestAPIModel controlBCNhan = controls.Where(m => m.ClassName == "WindowsForms10.COMBOBOX.app.0.1e6fa8e").ToList()[3];
-            TestAPIModel editDuongThu = controls.Where(m => m.ClassName == "Edit").ToList()[2];
-            TestAPIModel editChuyen = controls.Where(m => m.ClassName == "Edit").ToList()[1];
-            TestAPIModel editBCNhan = controls.Where(m => m.ClassName == "Edit").ToList()[3];
-            ////const int CB_SETCURSEL = 0x014E;
-            //APIManager.FocusHandle(controlDuongThu.Handle);
-            //APIManager.setTextControl(controlDuongThu.Handle, _taoBDAdd.DuongThu);
-            //APIManager.setTextControl(editDuongThu.Handle, _taoBDAdd.DuongThu);
-            //APIManager.SendMessage(controlDuongThu.Handle, CB_SETCURSEL, countDuongThu, 0);
-            //SendKeys.SendWait("{TAB}");
+            List<TestAPIModel> controls = APIManager.GetListControlText(currentWindow.hwnd);
+            TestAPIModel controlChuyen = controls.Where(m => m.ClassName == "WindowsForms10.COMBOBOX.app.0.1e6fa8e").ToList()[1];
+            TestAPIModel controlBCNhan = controls.Where(m => m.ClassName == "WindowsForms10.COMBOBOX.app.0.1e6fa8e").ToList()[3];
             APIManager.setTextControl(controlChuyen.Handle, _taoBDAdd.Chuyen1);
             SendKeys.SendWait("{TAB}");
             APIManager.setTextControl(controlBCNhan.Handle, _taoBDAdd.BCNhan);
-
-            Thread.Sleep(200);
             SendKeys.SendWait("{TAB}");
-            APIManager.ShowSnackbar("Dfsd");
+            if (_taoBDAdd.IsNextDay)
+            {
+                SendKeys.SendWait(@"{UP}");
+            }
+            SendKeys.SendWait(@"{ENTER}");
         }
-
 
         private void TaoBDWorker_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -1421,8 +1407,8 @@ namespace TaoBD10.ViewModels
             WindowInfo currentWindow = APIManager.WaitingFindedWindow("danh sach bd10 di");
             if (currentWindow == null)
                 return;
+            APIManager.ClickButton(currentWindow.hwnd, "f1", isExactly: false);
 
-            SendKeys.SendWait("{F1}");
             currentWindow = APIManager.WaitingFindedWindow("lap bd10");
             if (currentWindow == null)
                 return;
@@ -1433,38 +1419,12 @@ namespace TaoBD10.ViewModels
             TestAPIModel editDuongThu = controls.Where(m => m.ClassName == "Edit").ToList()[2];
             TestAPIModel editChuyen = controls.Where(m => m.ClassName == "Edit").ToList()[1];
             TestAPIModel editBCNhan = controls.Where(m => m.ClassName == "Edit").ToList()[3];
-            //const int CB_SETCURSEL = 0x014E;
             APIManager.FocusHandle(controlDuongThu.Handle);
-            APIManager.setTextControl(controlDuongThu.Handle, _taoBDAdd.DuongThu);
             APIManager.setTextControl(editDuongThu.Handle, _taoBDAdd.DuongThu);
-            //APIManager.SendMessage(controlDuongThu.Handle, CB_SETCURSEL, countDuongThu, 0);
-            //SendKeys.SendWait("{TAB}");
-            //APIManager.setTextControl(controlChuyen.Handle, _taoBDAdd.Chuyen1);
-            ////SendKeys.SendWait("{TAB}");
-            //APIManager.setTextControl(controlBCNhan.Handle, _taoBDAdd.BCNhan);
 
-            Thread.Sleep(200);
             SendKeys.SendWait("{TAB}");
-            //Thread.Sleep(2000);
-            //Test(controlChuyen.Handle,editChuyen.Handle);
-            //APIManager.setTextControl(controlChuyen.Handle, _taoBDAdd.Chuyen1);
-            //APIManager.setTextControl(editChuyen.Handle, _taoBDAdd.Chuyen1);
-            ////SendKeys.SendWait("{TAB}");
-            //APIManager.setTextControl(controlBCNhan.Handle, _taoBDAdd.BCNhan);
-
-
-            //APIManager.SendMessage(controlChuyen.Handle, CB_SETCURSEL, countChuyen, 0);
-            //SendKeys.SendWait("{ENTER}");
-            //APIManager.SendMessage(controlBCNhan.Handle, CB_SETCURSEL, 10, 0);
-            //SendKeys.SendWait("{ENTER}");
-        }
-
-        void Test(IntPtr so,IntPtr so2)
-        {
-            Thread.Sleep(2000);
-            APIManager.setTextControl(so, _taoBDAdd.Chuyen1);
-            APIManager.setTextControl(so2, _taoBDAdd.Chuyen1);
- 
+            Thread.Sleep(200);
+            HiddenCommand.Execute(null);
         }
 
         private void ThuHep()

@@ -1397,11 +1397,11 @@ namespace TaoBD10.ViewModels
             APIManager.FocusHandle(controlDuongThu.Handle);
             APIManager.setTextControl(editDuongThu.Handle, _taoBDAdd.DuongThu);
             //APIManager.SendMessage(controlDuongThu.Handle, CB_SETCURSEL, countDuongThu, 0);
-            SendKeys.SendWait("{TAB}");
+            //SendKeys.SendWait("{TAB}");
             APIManager.setTextControl(editChuyen.Handle, _taoBDAdd.Chuyen1);
-            SendKeys.SendWait("{TAB}");
+            //SendKeys.SendWait("{TAB}");
             APIManager.setTextControl(editBCNhan.Handle, _taoBDAdd.BCNhan);
-            SendKeys.SendWait("{TAB}");
+            //SendKeys.SendWait("{TAB}");
             //APIManager.SendMessage(controlChuyen.Handle, CB_SETCURSEL, countChuyen, 0);
             //SendKeys.SendWait("{ENTER}");
             //APIManager.SendMessage(controlBCNhan.Handle, CB_SETCURSEL, 10, 0);

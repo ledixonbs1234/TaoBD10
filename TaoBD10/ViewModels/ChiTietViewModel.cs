@@ -1404,7 +1404,7 @@ namespace TaoBD10.ViewModels
 
             Thread.Sleep(200);
             SendKeys.SendWait("{TAB}");
-            Thread.Sleep(200);
+            Thread.Sleep(2000);
             APIManager.setTextControl(editChuyen.Handle, _taoBDAdd.Chuyen1);
             //SendKeys.SendWait("{TAB}");
             APIManager.setTextControl(editBCNhan.Handle, _taoBDAdd.BCNhan);

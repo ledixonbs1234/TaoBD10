@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:TaoBD10.Views"
              mc:Ignorable="d" 
              DataContext="{StaticResource ChiTietVM}"
-             d:DesignHeight="450" d:DesignWidth="800">
+             >
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="59*"/>
@@ -17,7 +17,7 @@
             <RowDefinition Height="200" />
             <RowDefinition Height="50" />
             <RowDefinition Height="80" />
-            <RowDefinition Height="120"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
         <DataGrid  ItemsSource="{Binding LocBDs}" AutoGenerateColumns="False" SelectedItem="{Binding SelectedLocBD}" Grid.ColumnSpan="2" >
             <DataGrid.Columns>

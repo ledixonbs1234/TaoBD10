@@ -289,9 +289,5 @@ namespace TaoBD10.ViewModels
         private KiemTraModel _XacNhanMH;
         private readonly BackgroundWorker backgroundWorker;
         private readonly BackgroundWorker backgroundWorkerXacNhan;
-        private string buuCucDong = "";
-        private bool Is280 = false;
-        private bool isR = false;
-        private string soCT = "0";
     }
 }

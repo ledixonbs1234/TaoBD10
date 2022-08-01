@@ -14,7 +14,7 @@ namespace TaoBD10.Manager
         public static void GetCode()
         {
             string dir = Directory.GetCurrentDirectory();
-            string text = File.ReadAllText(dir + @"/" + "data.txt");
+            string text = File.ReadAllText(dir + @"/" + "Data/buucuctoanquoc.txt");
             var texts = text.Split('\n');
             for (int i = 0; i < texts.Length; i++)
             {
@@ -459,6 +459,7 @@ namespace TaoBD10.Manager
             using (StreamWriter sWriter = new StreamWriter(_fileOption))
             using (JsonWriter jWriter = new JsonTextWriter(sWriter))
             {
+                optionModel = option;
                 serializer.Serialize(jWriter, option);
             }
         }

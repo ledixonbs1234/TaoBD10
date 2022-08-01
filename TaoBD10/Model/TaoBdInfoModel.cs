@@ -53,6 +53,17 @@ namespace TaoBD10.Model
             set { SetProperty(ref _ThoiGianChia2LanDT, value); }
         }
 
+        private bool _IsNextDay;
+
+        public bool IsNextDay
+        {
+            get { return _IsNextDay; }
+            set { SetProperty(ref _IsNextDay, value); }
+        }
+
+
+
+
 
 
         public TaoBdInfoModel()

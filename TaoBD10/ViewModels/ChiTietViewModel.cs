@@ -45,15 +45,19 @@ namespace TaoBD10.ViewModels
         {
             if (MaKT.Length == 6)
             {
-                LocKhaiThac = new LocBDInfoModel();
-                LocKhaiThac.DanhSachHuyen = MaKT;
-                LocKhaiThac.TenBD = MaKT;
+                LocKhaiThac = new LocBDInfoModel
+                {
+                    DanhSachHuyen = MaKT,
+                    TenBD = MaKT
+                };
             }
             if (MaBCP.Length == 6)
             {
-                LocBCP = new LocBDInfoModel();
-                LocBCP.DanhSachHuyen = MaBCP;
-                LocBCP.TenBD = MaBCP;
+                LocBCP = new LocBDInfoModel
+                {
+                    DanhSachHuyen = MaBCP,
+                    TenBD = MaBCP
+                };
             }
             List<LocBDInfoModel> list = new List<LocBDInfoModel>();
             list.Add(LocKhaiThac);
@@ -115,6 +119,9 @@ namespace TaoBD10.ViewModels
 
 
 
+
+
+
         public ChiTietViewModel()
         {
             ConLai = new LocBDInfoModel();
@@ -125,6 +132,7 @@ namespace TaoBD10.ViewModels
             taoBDWorker = new BackgroundWorker();
             taoBDWorker.DoWork += TaoBDWorker_DoWork;
             LocBDs = new ObservableCollection<LocBDInfoModel>();
+            AddBDTinhCommand = new RelayCommand<string>(AddBDTinh);
             ShowTinhs = new ObservableCollection<TinhHuyenModel>();
             UpdateBuuCucChuyenThuCommand = new RelayCommand(UpdateBuuCucChuyenThu);
             SaveLocBDCommand = new RelayCommand(SaveLocBD);
@@ -193,7 +201,6 @@ namespace TaoBD10.ViewModels
             });
 
             XeXaHoiCommand = new RelayCommand(XeXaHoi);
-            AddBDTinhCommand = new RelayCommand<PhanLoaiTinh>(AddBDTinh);
             timerTaoBD = new DispatcherTimer
             {
                 Interval = new TimeSpan(0, 0, 0, 0, 200)
@@ -233,7 +240,7 @@ namespace TaoBD10.ViewModels
                 LocBDs = new ObservableCollection<LocBDInfoModel>();
                 foreach (LocBDInfoModel item in listLoc)
                 {
-                    if(item.TaoBDs.Count == 0)
+                    if (item.TaoBDs.Count == 0)
                     {
                         item.TaoBDs.Add(new TaoBdInfoModel());
                     }
@@ -495,75 +502,26 @@ namespace TaoBD10.ViewModels
         public LocBDInfoModel SelectedLocBD
         {
             get { return _SelectedLocBD; }
-            set { SetProperty(ref _SelectedLocBD, value);
-            
+            set
+            {
+                SetProperty(ref _SelectedLocBD, value);
+
             }
         }
 
 
 
-        private void AddBDTinh(PhanLoaiTinh phanLoaiTinh)
+        TaoBdInfoModel _taoBDAdd;
+        private void AddBDTinh(string Name)
         {
-            switch (phanLoaiTinh)
-            {
-                case PhanLoaiTinh.None:
-                    break;
+            if (string.IsNullOrEmpty(Name))
+                return;
+            LocBDInfoModel loc = LocBDs.FirstOrDefault(m => m.TenBD == Name);
+            if (loc == null) return;
+            _taoBDAdd = loc.TaoBDs[0];
 
-                case PhanLoaiTinh.HA_AL:
-                    break;
+            taoBDWorker.RunWorkerAsync();
 
-                case PhanLoaiTinh.TamQuan:
-                    break;
-
-                case PhanLoaiTinh.KienDaNang:
-                    KienDaNang();
-                    break;
-
-                case PhanLoaiTinh.EMSDaNang:
-                    EMSDaNang();
-                    break;
-
-                case PhanLoaiTinh.QuangNam:
-                    QuangNam();
-                    break;
-
-                case PhanLoaiTinh.QuangNgai:
-                    QuangNgai();
-                    break;
-
-                case PhanLoaiTinh.DiNgoaiNamTrungBo:
-                    NamTrungBo();
-                    break;
-
-                case PhanLoaiTinh.TuiNTB:
-                    NamTrungBo();
-                    break;
-
-                case PhanLoaiTinh.PhuMy:
-                    PhuMy();
-                    break;
-
-                case PhanLoaiTinh.PhuCat:
-                    PhuCat();
-                    break;
-
-                case PhanLoaiTinh.AnNhon:
-                    AnNhon();
-                    break;
-
-                case PhanLoaiTinh.KT1:
-                    NamTrungBo();
-                    break;
-
-                case PhanLoaiTinh.KTHN:
-                    break;
-
-                case PhanLoaiTinh.BCPHN:
-                    break;
-
-                default:
-                    break;
-            }
         }
 
         private ObservableCollection<LocBDInfoModel> _LocBDs;
@@ -663,7 +621,7 @@ namespace TaoBD10.ViewModels
             }
         }
 
-                /// <summary>
+        /// <summary>
         /// Dua thong tin vao sua thong tin bd
         /// Kiem tra va luu du lieu da dang ky
         ///
@@ -933,7 +891,7 @@ namespace TaoBD10.ViewModels
 
 
 
-        
+
 
         private void GuiTrucTiep()
         {
@@ -1147,67 +1105,6 @@ namespace TaoBD10.ViewModels
                 }
             }
         }
-
-        private void KienDaNang()
-        {
-            maBuuCuc = "550910";
-            tenDuongThu = "Bình Định - Đà Nẵng";
-            countDuongThu = 4;
-            countChuyen = 2;
-            stateTaoBd10 = StateTaoBd10.DanhSachBD10;
-            timerTaoBD.Start();
-        }
-
-        private void MoRong()
-        {
-            WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Navigation", Content = "Center" });
-        }
-
-        private void NamTrungBo()
-        {
-            var time = DateTime.Now;
-            if (time.Hour > 12)
-                countChuyen = 2;
-            else
-                countChuyen = 1;
-
-            maBuuCuc = "590100";
-            tenDuongThu = "Đà Nẵng - Bình Định";
-            countDuongThu = 2;
-            stateTaoBd10 = StateTaoBd10.DanhSachBD10;
-            timerTaoBD.Start();
-        }
-
-        private void PhuCat()
-        {
-            var time = DateTime.Now;
-            if (time.Hour > 12)
-                countChuyen = 2;
-            else
-                countChuyen = 1;
-
-            maBuuCuc = "592440";
-            tenDuongThu = "Đà Nẵng - Bình Định";
-            countDuongThu = 2;
-            stateTaoBd10 = StateTaoBd10.DanhSachBD10;
-            timerTaoBD.Start();
-        }
-
-        private void PhuMy()
-        {
-            var time = DateTime.Now;
-            if (time.Hour > 12)
-                countChuyen = 2;
-            else
-                countChuyen = 1;
-
-            maBuuCuc = "592810";
-            tenDuongThu = "Đà Nẵng - Bình Định";
-            countDuongThu = 2;
-            stateTaoBd10 = StateTaoBd10.DanhSachBD10;
-            timerTaoBD.Start();
-        }
-
         private void PrintDiNgoai()
         {
             WindowInfo info = APIManager.WaitingFindedWindow("thong tin buu gui");
@@ -1291,26 +1188,6 @@ namespace TaoBD10.ViewModels
             if (infoThongTin == null)
                 return;
             APIManager.ClickButton(infoThongTin.hwnd, "thoat", isExactly: false);
-        }
-
-        private void QuangNam()
-        {
-            maBuuCuc = "560100";
-            tenDuongThu = "Bình Định - Đà Nẵng";
-            countDuongThu = 4;
-            countChuyen = 2;
-            stateTaoBd10 = StateTaoBd10.DanhSachBD10;
-            timerTaoBD.Start();
-        }
-
-        private void QuangNgai()
-        {
-            maBuuCuc = "570100";
-            tenDuongThu = "Bình Định - Đà Nẵng";
-            countDuongThu = 4;
-            countChuyen = 2;
-            stateTaoBd10 = StateTaoBd10.DanhSachBD10;
-            timerTaoBD.Start();
         }
 
 
@@ -1406,22 +1283,13 @@ namespace TaoBD10.ViewModels
                     return;
 
                 case BuuCuc.KT:
-
-                    if (!APIManager.ThoatToDefault(LocKhaiThac.DanhSachHuyen, "quan ly chuyen thu chieu den"))
-                    {
-                        SendKeys.SendWait("1");
-                        Thread.Sleep(200);
-                        SendKeys.SendWait("3");
-                    }
+                    string[] temp = FileManager.optionModel.GoFastQLCTCDKT.Split('|');
+                    APIManager.GoToWindow(FileManager.optionModel.MaKhaiThac, "quan ly chuyen thu chieu den", temp[0], temp[1]);
                     break;
 
                 case BuuCuc.BCP:
-                    if (!APIManager.ThoatToDefault(LocBCP.DanhSachHuyen, "quan ly chuyen thu chieu den"))
-                    {
-                        SendKeys.SendWait("3");
-                        Thread.Sleep(200);
-                        SendKeys.SendWait("3");
-                    }
+                    string[] temp1 = FileManager.optionModel.GoFastQLCTCDBCP.Split('|');
+                    APIManager.GoToWindow(FileManager.optionModel.MaBuuCucPhat, "quan ly chuyen thu chieu den", temp1[0], temp1[1]);
                     break;
 
                 default:
@@ -1507,12 +1375,9 @@ namespace TaoBD10.ViewModels
 
         private void TaoBDWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            if (!APIManager.ThoatToDefault("593230", "danh sach bd10 di"))
-            {
-                SendKeys.SendWait("3");
-                Thread.Sleep(200);
-                SendKeys.SendWait("2");
-            }
+            var temp = FileManager.optionModel.GoFastBD10Di.Split(',');
+            APIManager.GoToWindow(FileManager.optionModel.MaKhaiThac, "danh sach bd10 di", temp[0], temp[1]);
+            
             WindowInfo currentWindow = APIManager.WaitingFindedWindow("danh sach bd10 di");
             if (currentWindow == null)
                 return;
@@ -1525,13 +1390,15 @@ namespace TaoBD10.ViewModels
             Model.TestAPIModel controlDuongThu = controls.Where(m => m.ClassName == "WindowsForms10.COMBOBOX.app.0.1e6fa8e").ToList()[2];
             Model.TestAPIModel controlChuyen = controls.Where(m => m.ClassName == "WindowsForms10.COMBOBOX.app.0.1e6fa8e").ToList()[1];
             Model.TestAPIModel controlBCNhan = controls.Where(m => m.ClassName == "WindowsForms10.COMBOBOX.app.0.1e6fa8e").ToList()[3];
-            const int CB_SETCURSEL = 0x014E;
-            APIManager.SendMessage(controlDuongThu.Handle, CB_SETCURSEL, countDuongThu, 0);
+            //const int CB_SETCURSEL = 0x014E;
+            APIManager.FocusHandle(controlChuyen.Handle);
+            APIManager.setTextControl(controlDuongThu.Handle, _taoBDAdd.Chuyen);
+            //APIManager.SendMessage(controlDuongThu.Handle, CB_SETCURSEL, countDuongThu, 0);
             SendKeys.SendWait("{ENTER}");
-            APIManager.SendMessage(controlChuyen.Handle, CB_SETCURSEL, countChuyen, 0);
-            SendKeys.SendWait("{ENTER}");
-            APIManager.SendMessage(controlBCNhan.Handle, CB_SETCURSEL, 10, 0);
-            SendKeys.SendWait("{ENTER}");
+            //APIManager.SendMessage(controlChuyen.Handle, CB_SETCURSEL, countChuyen, 0);
+            //SendKeys.SendWait("{ENTER}");
+            //APIManager.SendMessage(controlBCNhan.Handle, CB_SETCURSEL, 10, 0);
+            //SendKeys.SendWait("{ENTER}");
         }
 
         private void ThuHep()
@@ -1609,11 +1476,11 @@ namespace TaoBD10.ViewModels
             stateTaoBd10 = StateTaoBd10.DanhSachBD10;
             timerTaoBD.Start();
         }
-             public RelayCommand<PhanLoaiTinh> AddBDTinhCommand { get; }
-    
-         public IRelayCommand CopySHTuiCommand { get; }
+        public IRelayCommand<string> AddBDTinhCommand { get; }
 
-    
+        public IRelayCommand CopySHTuiCommand { get; }
+
+
         public ObservableCollection<HangHoaDetailModel> ListShowHangHoa
         {
             get { return _ListShowHangHoa; }
@@ -1660,7 +1527,6 @@ namespace TaoBD10.ViewModels
         private string _SelectedTime = "0.5";
         private HangHoaDetailModel _SelectedTui;
         private string _TextCurrentChuyenThu;
-        private List<BD10DiInfoModel> bD10DiInfoModels;
         private int countChuyen = 0;
         private int countDuongThu = 0;
         private BuuCuc currentBuuCuc = BuuCuc.None;

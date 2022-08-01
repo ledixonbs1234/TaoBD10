@@ -117,16 +117,16 @@
             </DataGrid>
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                 <Button
-                    Command="{Binding StopDiNgoaiCommand}"
-                    Style="{StaticResource MaterialDesignFloatingActionMiniSecondaryButton}"
-                    ToolTip="MaterialDesignFloatingActionMiniSecondaryButton">
-                    <materialDesign:PackIcon Kind="Stop" />
+                    Command="{Binding ClearDiNgoaiCommand}"
+                    Style="{StaticResource MaterialDesignFloatingActionMiniSecondaryDarkButton}"
+                    Background="#FF5BA1FF">
+                    <materialDesign:PackIcon Kind="Close" Width="20" Height="20" />
                 </Button>
                 <CheckBox
                     Margin="5"
                     Content="Auto F1"
                     IsChecked="{Binding IsAutoF1, Mode=TwoWay}" />
-               <ToggleButton
+                <ToggleButton
                     Width="40"
                     Height="40"
                     Margin="5"

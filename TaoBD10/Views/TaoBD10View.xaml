@@ -27,7 +27,7 @@
                     Width="20"
                     Padding="0"
                     Command="{Binding AddBDTinhCommand}"
-                    CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.HA_AL}"
+                    CommandParameter="{Binding LocBDs[0].TenBD}"
                     Content="{materialDesign:PackIcon Kind=Add}"
                     Style="{StaticResource MaterialDesignPaperSecondaryDarkButton}"
                     ToolTip="Icon" />
@@ -46,7 +46,7 @@
                     Width="20"
                     Padding="0"
                     Command="{Binding AddBDTinhCommand}"
-                    CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.TamQuan}"
+                    CommandParameter="{Binding LocBDs[1].TenBD}"
                     Content="{materialDesign:PackIcon Kind=Add}"
                     Style="{StaticResource MaterialDesignPaperSecondaryDarkButton}"
                     ToolTip="Icon" />
@@ -71,7 +71,7 @@
                     Width="20"
                     Padding="0"
                     Command="{Binding AddBDTinhCommand}"
-                    CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.KienDaNang}"
+                    CommandParameter="{Binding LocBDs[2].TenBD}"
                     Content="{materialDesign:PackIcon Kind=Add}"
                     Style="{StaticResource MaterialDesignPaperSecondaryDarkButton}"
                     ToolTip="Icon" />
@@ -91,7 +91,7 @@
                     Width="20"
                     Padding="0"
                     Command="{Binding AddBDTinhCommand}"
-                    CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.EMSDaNang}"
+                    CommandParameter="{Binding LocBDs[3].TenBD}"
                     Content="{materialDesign:PackIcon Kind=Add}"
                     Style="{StaticResource MaterialDesignPaperSecondaryDarkButton}"
                     ToolTip="Icon" />
@@ -113,7 +113,7 @@
                     Width="20"
                     Padding="0"
                     Command="{Binding AddBDTinhCommand}"
-                    CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.QuangNam}"
+                    CommandParameter="{Binding LocBDs[4].TenBD}"
                     Content="{materialDesign:PackIcon Kind=Add}"
                     Style="{StaticResource MaterialDesignPaperSecondaryDarkButton}"
                     ToolTip="Icon" />
@@ -132,7 +132,7 @@
                     Width="20"
                     Padding="0"
                     Command="{Binding AddBDTinhCommand}"
-                    CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.QuangNgai}"
+                    CommandParameter="{Binding LocBDs[5].TenBD}"
                     Content="{materialDesign:PackIcon Kind=Add}"
                     Style="{StaticResource MaterialDesignPaperSecondaryDarkButton}"
                     ToolTip="Icon" />
@@ -154,7 +154,7 @@
                     Width="20"
                     Padding="0"
                     Command="{Binding AddBDTinhCommand}"
-                    CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.DiNgoaiNamTrungBo}"
+                    CommandParameter="{Binding LocBDs[6].TenBD}"
                     Content="{materialDesign:PackIcon Kind=Add}"
                     Style="{StaticResource MaterialDesignPaperSecondaryDarkButton}"
                     ToolTip="Icon" />
@@ -173,7 +173,7 @@
                     Width="20"
                     Padding="0"
                     Command="{Binding AddBDTinhCommand}"
-                    CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.TuiNTB}"
+                    CommandParameter="{Binding LocBDs[7].TenBD}"
                     Content="{materialDesign:PackIcon Kind=Add}"
                     Style="{StaticResource MaterialDesignPaperSecondaryDarkButton}"
                     ToolTip="Icon" />
@@ -194,7 +194,7 @@
                     Width="20"
                     Padding="0"
                     Command="{Binding AddBDTinhCommand}"
-                    CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.PhuMy}"
+                    CommandParameter="{Binding LocBDs[8].TenBD}"
                     Content="{materialDesign:PackIcon Kind=Add}"
                     Style="{StaticResource MaterialDesignPaperSecondaryDarkButton}"
                     ToolTip="Icon" />
@@ -213,7 +213,7 @@
                     Width="20"
                     Padding="0"
                     Command="{Binding AddBDTinhCommand}"
-                    CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.PhuCat}"
+                    CommandParameter="{Binding LocBDs[9].TenBD}"
                     Content="{materialDesign:PackIcon Kind=Add}"
                     Style="{StaticResource MaterialDesignPaperSecondaryDarkButton}"
                     ToolTip="Icon" />
@@ -235,7 +235,7 @@
                     Width="20"
                     Padding="0"
                     Command="{Binding AddBDTinhCommand}"
-                    CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.AnNhon}"
+                    CommandParameter="{Binding LocBDs[10].TenBD}"
                     Content="{materialDesign:PackIcon Kind=Add}"
                     Style="{StaticResource MaterialDesignPaperSecondaryDarkButton}"
                     ToolTip="Icon" />
@@ -256,7 +256,7 @@
                     Width="20"
                     Padding="0"
                     Command="{Binding AddBDTinhCommand}"
-                    CommandParameter="{x:Static manager:EnumAll+PhanLoaiTinh.KT1}"
+                    CommandParameter="{Binding LocBDs[11].TenBD}"
                     Content="{materialDesign:PackIcon Kind=Add}"
                     Style="{StaticResource MaterialDesignPaperSecondaryDarkButton}"
                     ToolTip="Icon" />

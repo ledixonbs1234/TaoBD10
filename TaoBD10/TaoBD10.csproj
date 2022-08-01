@@ -201,7 +201,6 @@
     <Compile Include="Manager\FileManager.cs" />
     <Compile Include="Manager\MessageManager.cs" />
     <Compile Include="Manager\SoundManager.cs" />
-    <Compile Include="Manager\ToolManager.cs" />
     <Compile Include="Manager\Y2KeyboardHook.cs" />
     <Compile Include="Model\BD10DiInfoModel.cs" />
     <Compile Include="Model\BD10InfoModel.cs" />
@@ -219,6 +218,7 @@
     <Compile Include="Model\MaBD8Model.cs" />
     <Compile Include="Model\MaHieuDiNgoaiInfo.cs" />
     <Compile Include="Model\MaHieuTuiModel.cs" />
+    <Compile Include="Model\OptionInfoModel.cs" />
     <Compile Include="Model\OptionModel.cs" />
     <Compile Include="Model\PNSNameModel.cs" />
     <Compile Include="Model\SHTuiCodeModel.cs" />

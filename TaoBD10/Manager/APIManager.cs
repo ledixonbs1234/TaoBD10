@@ -14,6 +14,12 @@ namespace TaoBD10.Manager
 {
     public static class APIManager
     {
+
+        public static void FocusHandle(IntPtr handle)
+        {
+            SendMessage(handle, 0x0007, 0, 0);
+            SendMessage(handle, 0x0007, 0, 0);
+        }
         public static void ClearClipboard()
         {
             Thread thread = new Thread(() => System.Windows.Clipboard.Clear());
@@ -336,6 +342,15 @@ namespace TaoBD10.Manager
         }
 
         private static bool isWaitingThoat = false;
+        public static void GoToWindow(string maBuuCuc,string nameHandle,string firstNumber,string twoNumber)
+        {
+            if (!ThoatToDefault(maBuuCuc, nameHandle))
+            {
+                SendKeys.SendWait(firstNumber);
+                Thread.Sleep(200);
+                SendKeys.SendWait(twoNumber);
+            }
+        }
 
         /// <summary>
         /// Thoat toi view

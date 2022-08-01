@@ -1,0 +1,374 @@
+100910 - VCKV - Hà Nội LT
+100916 - Hà Nội EMS LT
+100920 - KTNT Hà Nội
+100925 - UT - Hà Nội
+100955 - Trung tâm Khai thác BCQT Miền Bắc
+101000 - KT EMS Hà Nội nội tỉnh
+110123 - Đường thư Đại sứ - Phát nhanh
+110130 - Trung tâm dịch vụ Hoàn Kiếm
+110140 - Phát nhanh
+111300 - Đồng Xuân
+111400 - Hàng Cót
+111770 - Bưu cục Giao dịch 5
+122070 - Bán hàng 1
+130670 - BCP Phạm Hùng
+156150 - Chương Mỹ
+156200 - Xuân Mai
+156250 - Trường Yên
+158050 - Phú Xuyên
+158520 - Thường Tín
+158810 - Chợ Tía
+160100 - KTC1 Hưng Yên
+161200 - Dốc Lã
+162210 - KT Kim Động
+162511 - Bô Thời
+162910 - KT Yên Mỹ
+163210 - KT Mỹ Hào
+163510 - KT Văn Lâm
+170100 - KTC1 Hải Dương
+173220 - Kim Thành
+173440 - Nam Sách
+173810 - Kinh Môn
+174270 - Chí Linh
+174770 - Cẩm Giàng
+175120 - Bình Giang
+180100 - VCKV - Hải Phòng
+200100 - KTC1 Quảng Ninh
+202620 - Kênh Đồng
+207620 - Cây Số 11
+208010 - Uông Bí
+208640 - Đông Triều
+208650 - Mạo Khê
+208860 - Tràng Bạch
+220100 - KTC1 Bắc Ninh
+221830 - KT Tiên Du
+222150 - KT Từ Sơn
+230100 - KTC1 Bắc Giang
+234010 - KT Lạng Giang
+240100 - KTC1 Lạng Sơn
+245630 - KT Chi Lăng
+246150 - KT Hữu Lũng
+246490 - Vân Nham
+246540 - Bến Lường
+250100 - KTC1 Thái Nguyên
+252050 - GD3 Lưu Xá
+253810 - KT Phú Lương
+253970 - Yên Đổ
+254150 - Giang Tiên
+256430 - KT Sông Công
+256810 - KT Phổ Yên
+260100 - KTC1 Bắc Kạn
+261201 - Xuất Hóa
+261920 - KT Bạch Thông
+262330 - KT Ngân Sơn
+262340 - Bằng Khẩu
+262450 - Nà Phặc
+263810 - KT Chợ Mới
+263950 - Sáu Hai
+270100 - KTC1 Cao Bằng
+280200 - KTC1 Vĩnh Phúc
+281240 - KT Bình Xuyên
+283450 - KT Phúc Yên
+290100 - KTC1 Phú Thọ
+292330 - KT Phù Ninh
+293820 - Phú Hộ
+294960 - KT Đoan Hùng
+295430 - Cầu Hai
+300100 - KTC1 Tuyên Quang
+302400 - Thái Long
+305560 - KT Hàm Yên
+305870 - Ki Lô Mét 31
+310200 - KTC1 Hà Giang
+313460 - Vị Xuyên
+313700 - Việt Lâm
+314840 - KT Bắc Quang
+314960 - Tân Quang
+315050 - Vĩnh Tuy
+320100 - KTC1 Yên Bái
+321930 - KT Yên Bình
+322350 - Cảm Ân
+323010 - Khánh Hòa
+330100 - KTC1 Lào Cai
+333240 - KT Sa Pa
+335320 - KT Bảo Yên
+350100 - KTC1 Hoà Bình
+351530 - Bãi Nai
+351550 - KT Kỳ sơn
+351760 - KT Lương Sơn
+352810 - KT Tân Lạc
+353410 - KT Mai Châu
+353840 - KT Cao Phong
+360100 - KTC1 Sơn La
+361210 - Ân Sinh
+361530 - KT Mai Sơn
+361600 - Cò Nòi
+361810 - Nà Sản
+362460 - KT Yên Châu
+362820 - KT Mộc Châu
+365730 - KT Thuận Châu
+365810 - Chiềng Pấc
+366130 - Phỏng lái
+380100 - KTC1 Điện Biên
+382520 - KT H.Tuần Giáo
+384810 - KT H.Mường Ảng
+390100 - KTC1 Lai Châu
+391140 - KT Tam Đường
+400100 - KTC1 Hà Nam
+402330 - KT Duy Tiên
+402440 - Đồng Văn
+403370 - KT Thanh Liêm
+403400 - Phố Động
+403650 - Phố Cà
+403670 - Đoan Vĩ
+403810 - KT Bình Lục
+404120 - Trung Lương
+410100 - KTC1 Thái Bình
+412140 - Đông Hưng
+412400 - Tiên Hưng
+412520 - Phố Tăng
+414220 - Hưng Hà
+414540 - Hưng Nhân
+420100 - KTC1 Nam Định
+423920 - Đặng Xá
+423970 - KT Mỹ Lộc
+430100 - KTC1 Ninh Binh
+433330 - KT Tam Điệp
+433660 - Thanh Sơn
+440100 - KTC1 Thanh Hóa
+442300 - KT Hoằng Hóa
+444450 - KT Hà Trung
+444940 - KT Bỉm Sơn
+455530 - KT Quảng Xương
+456410 - KT Tĩnh Gia
+460100 - VCKV - Nghệ An
+462460 - KT Cửa Lò
+462640 - KT Nghi Lộc
+463880 - KT Diễn Châu
+464910 - KT Quỳnh Lưu
+466220 - KT Yên Thành
+468210 - Nghĩa Đàn
+468470 - KT Tân Kỳ
+469030 - KT Quỳ Hợp
+469830 - KT Quỳ Châu
+471110 - KT Quế Phong
+471420 - KT Đô Lương
+472430 - KT Anh Sơn
+473010 - KT Con Cuông
+473320 - KT Tương Dương
+473810 - KT Kỳ Sơn
+474320 - KT Hưng Nguyên
+474960 - KT Nam Đàn
+475740 - KT Thanh Chương
+477430 - TX Thái Hòa
+478120 - Bưu cục khai thác Vinh
+479210 - TX Hoàng Mai
+480200 - KTC1 Hà Tĩnh
+481920 - KT Thạch Hà
+482920 - KT Can Lộc
+483710 - KT Hồng Lĩnh
+484420 - KT Nghi Xuân
+487620 - KT Cẩm Xuyên
+488480 - KT H.Kỳ Anh
+488870 - Kỳ Long
+489410 - KT Tx.Kỳ Anh
+510100 - KTC1 Quảng Bình
+511510 - KT Bố Trạch
+511570 - Lý Hòa
+511590 - Thanh Khê
+511680 - Nam Gianh
+512210 - KT Quảng Trạch
+512280 - Roòn
+513610 - KT Quảng Ninh
+513770 - Dinh Mười
+513950 - Chợ Cưởi
+520100 - KTC1 Quảng Trị
+521410 - KT Gio Linh
+521820 - KT Vĩnh Linh
+523330 - Triệu Phong
+523730 - KTC2 TX Quảng Trị
+523980 - KT Hải Lăng
+530100 - KTC1 Huế 1
+534940 - KT Phong Điền
+535360 - KT Hương Trà
+536130 - KT Hương Thủy
+537140 - KT Phú Lộc
+537230 - La Sơn
+537340 - Thừa Lưu
+537360 - Lăng Cô
+550100 - Đà Nẵng EMS NT
+550910 - VCKV - Đà Nẵng LT
+550915 - Đà Nẵng EMS LT
+550916 - Đà Nẵng EMS QT
+550920 - Đà Nẵng NT
+550925 - UT - Đà Nẵng
+550955 - ND - Đà Nẵng
+560100 - KTC1 Quảng Nam
+561610 - KT Thăng Bình
+562720 - KT Duy Xuyên
+563080 - Hương An
+564230 - KT Điện Bàn
+570100 - KTC1 Quảng Ngãi
+571720 - KT Sơn Tịnh
+571880 - KT Bình Sơn
+573540 - KT Đức Phổ
+573660 - Sa Huỳnh
+573850 - KT Mộ Đức
+574200 - KT Tư Nghĩa
+580100 - KTC1 Kon Tum
+582220 - KT Đăk Hà
+582520 - KT Đăk Tô
+583060 - KT Ngọc Hồi
+583220 - KT Đăk Glei
+590100 - VCKV Nam Trung Bộ
+590900 - Hệ I Bình Định
+591218 - BCP Quy Nhơn 2
+591520 - BCP Quy Nhơn
+591720 - KT Tuy Phước
+591760 - BCP Tuy Phước
+591900 - Diêu Trì
+592020 - KT An Nhơn
+592040 - BCP An Nhơn
+592100 - Đập Đá
+592120 - Nhơn Thành
+592220 - Nhơn Hòa
+592440 - KT Phù Cát
+592460 - BCP Phù Cát
+592810 - KT Phù Mỹ
+592850 - BCP Phù Mỹ
+593100 - Bình Dương
+593230 - KT Hoài Nhơn
+593270 - Hòai Hương
+593280 - BCP Hoài Nhơn
+593330 - Tam Quan
+593522 - Bồng Sơn
+593630 - Ân Mỹ
+593740 - KT Hoài Ân
+593760 - BCP Hoài Ân
+593850 - KT An Lão
+593870 - BCP An Lão
+593880 - An Hòa
+594080 - KT Vĩnh Thạnh
+594090 - BCP Vĩnh Thạnh
+594210 - KT Tây Sơn
+594220 - Bình Hòa
+594300 - Tây Giang
+594350 - BCP Tây Sơn
+594560 - KT Vân Canh
+594610 - BCP Vân Canh
+594900 - KTNT Bình Định
+600100 - KTC1 Gia Lai
+601760 - KT Đắk Đoa
+602160 - KT Mang Yang
+602530 - KT An Khê
+604820 - KT Chư Sê
+605050 - Chư Pưh
+606410 - KT Đắk Pơ
+620100 - KTC1  Phú Yên
+621610 - KT Tuy An
+621800 - Hòa Đa
+621910 - KT Sông Cầu
+623110 - KT Hòa Vinh
+630100 - KTC1 Đắk Lắk
+634730 - KT Buôn Hồ
+634740 - Pơn Đrang
+635640 - KT Eahleo
+640100 - KTC1 Đắk Nông
+641330 - KT Đắk Rlấp
+641430 - Nhân Cơ
+641650 - KT Đắk Song
+641900 - KT Đắk Mil
+642420 - KT Cư Jút
+650100 - KT Khánh Hòa
+652930 - KT Ninh Hòa
+653350 - Ninh Phước
+653510 - KT Vạn Ninh
+653710 - KT Diên Khánh
+654430 - KT Cam Ranh
+654530 - Mỹ Ca
+655210 - KT Cam Lâm
+655350 - Suối Tân
+660100 - KTC1 PR-TC
+670100 - KTC1 Lâm Đồng
+673350 - Finom
+673820 - Di Linh
+674740 - Bảo Lộc
+675830 - Đạ Huoai
+700910 - VCKV - Hồ Chí Minh LT
+700916 - HCM EMS LT
+700920 - KTNT TP.HCM
+700955 - Trung tâm Khai thác BCQT Miền Nam 
+701000 - HCM EMS NT
+703000 - HCM EMS NT 1
+733030 - TTDVKH Củ Chi
+738800 - Chợ Bình Chánh
+739500 - Bình Hưng
+740020 - Bưu Chính Uỷ Thác
+742500 - BCP Logistics
+790100 - KT Bà Rịa Vũng Tàu
+795140 - KT Bà Rịa
+795730 - KT Thị Xã Phú Mỹ
+800200 - KTC1 Bình Thuận
+801950 - Bắc Bình
+802130 - Lương Sơn
+802330 - Tuy Phong
+802450 - Phan Rí Cửa
+803160 - Hàm Thuận Nam
+804010 - Hub Tân Phúc
+804130 - Tân Đức
+810100 - KTC1 Đồng Nai
+813240 - KT Long Khánh
+813740 - Gia Kiệm
+813750 - KT Thống Nhất
+813930 - KT Xuân Lộc
+814220 - KT Định Quán
+814390 - La Ngà
+814410 - Phú Túc
+814640 - KT Tân Phú
+814850 - Phú Bình
+815520 - KT Long Thành
+816420 - KT Trảng Bom
+820100 - KT Bình Dương
+822870 - KT Phú Giáo
+823980 - Khu Công Nghiệp Vsip
+830100 - KTC1 Bình Phước
+831750 - KT Bù Đăng
+831800 - Minh Hưng
+831820 - Đức Liễu
+840100 - KTC1 Tây Ninh
+842510 - Khai thác Châu Thành
+842980 - Khẩu Mộc Bài
+843200 - KT Gò Dầu
+843320 - KT Trảng Bàng
+850100 - KTC1 Long An
+852330 - KT Bến Lức
+852350 - Gò Đen
+860100 - KTC1 Tiền Giang
+861710 - Trung Lương
+863450 - Châu Thành
+863550 - Dưỡng Điềm
+863960 - Tân Phước
+864150 - Cai Lậy
+864730 - Cái Bè
+870100 - KTC1 Đồng Tháp
+880100 - KT C1 An Giang
+890100 - KTC1 Vĩnh Long
+892150 - KT Bình Minh
+900100 - KTNT Cần Thơ
+904340 - KT Thốt Nốt
+910100 - KTC1 Hậu Giang
+912270 - Khai thác Vị Thủy
+912510 - Thạnh Xuân
+912930 - khai thác Ngã Bảy
+920100 - KTC1 Kiên Giang
+923020 - KT Châu Thành
+923640 - KT Gò Quao
+923990 - KT Giồng Riềng
+930100 - KTC1 Bến Tre
+940100 - KTC1 Trà Vinh
+941740 - KT Càng Long
+950100 - KTC1 Sóc Trăng
+960100 - KTC1 Bạc Liêu
+961510 - KT Vĩnh Lợi
+962640 - KT Giá Rai
+963240 - KT Hòa Bình
+970100 - KTC1 Cà Mau

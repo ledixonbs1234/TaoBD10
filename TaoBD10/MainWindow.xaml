@@ -152,7 +152,7 @@
                         </TabItem>
                     </TabControl>
                 </TabItem>
-                <TabItem Padding="0" Header="Tam Quan">
+                <TabItem Padding="0" Header="TAM QUAN">
                     <view:TamQuanView />
                 </TabItem>
                 <TabItem Padding="0" Header="TÙY CHỌN">

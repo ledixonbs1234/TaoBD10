@@ -94,7 +94,7 @@ namespace TaoBD10.ViewModels
                             if (have != null)
                             {
                                 have.Address = chiTietTui.Address.Trim();
-                                have.MaTinh = ToolManager.AutoSetTinh(have.Address);
+                                have.MaTinh = AutoSetTinh(have.Address);
                                 AutoSetBuuCuc(have);
                             }
                         }
@@ -117,7 +117,29 @@ namespace TaoBD10.ViewModels
             });
 
             FileManager.GetCode();
-            ToolManager.SetUpTinh();
+            tinhs = FileManager.LoadTinhThanh();
+        }
+        private List<TinhHuyenModel> tinhs;
+
+        string AutoSetTinh(string address)
+        {
+            if (tinhs.Count == 0)
+                return "";
+            List<string> fillAddress = address.Split('-').Select(s => s.Trim()).ToList();
+            if (fillAddress == null)
+                return "";
+            if (fillAddress.Count < 3)
+                return "";
+            string addressBoDau = APIManager.BoDauAndToLower(fillAddress[fillAddress.Count - 1].Trim());
+            foreach (var item in tinhs)
+            {
+                if (APIManager.BoDauAndToLower(item.Ten) == addressBoDau)
+                {
+                    return item.Ma;
+                }
+            }
+            return "";
+
         }
 
         public ICommand StopDiNgoaiCommand { get; }

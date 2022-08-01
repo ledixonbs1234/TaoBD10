@@ -172,7 +172,7 @@ namespace TaoBD10.ViewModels
         void GetDataFromCloud()
         {
             ShowData(FileManager.LoadCTOnFirebase());
-                }
+        }
 
 
         private void AutoXacNhan()
@@ -381,53 +381,21 @@ namespace TaoBD10.ViewModels
 
         private void BD10Den()
         {
-            if (string.IsNullOrEmpty(FileManager.optionModel.GoFastBD10Den))
-            {
-                if (!APIManager.ThoatToDefault(FileManager.optionModel.MaBuuCuc, "danh sach bd10 den"))
-                {
-                    SendKeys.SendWait("3");
-                    Thread.Sleep(200);
-                    SendKeys.SendWait("3");
-                    PrintDefault();
-                }
-            }
-            else
+            if (!string.IsNullOrEmpty(FileManager.optionModel.GoFastBD10Den))
             {
                 var temp = FileManager.optionModel.GoFastBD10Den.Split(',');
-                if (!APIManager.ThoatToDefault(FileManager.optionModel.MaBuuCuc, "danh sach bd10 den"))
-                {
-                    SendKeys.SendWait(temp[0]);
-                    Thread.Sleep(200);
-                    SendKeys.SendWait(temp[1]);
-                    PrintDefault();
-                }
-
+                APIManager.GoToWindow(FileManager.optionModel.MaKhaiThac, "danh sach bd10 den", temp[0], temp[1]);
+                PrintDefault();
             }
         }
 
         private void BD10Di()
         {
-            if (string.IsNullOrEmpty(FileManager.optionModel.GoFastBD10Di))
-            {
-                if (!APIManager.ThoatToDefault(FileManager.optionModel.MaBuuCuc, "danh sach bd10 den"))
-                {
-                    SendKeys.SendWait("3");
-                    Thread.Sleep(200);
-                    SendKeys.SendWait("2");
-                    PrintDefault();
-                }
-            }
-            else
+            if (!string.IsNullOrEmpty(FileManager.optionModel.GoFastBD10Di))
             {
                 var temp = FileManager.optionModel.GoFastBD10Di.Split(',');
-                if (!APIManager.ThoatToDefault(FileManager.optionModel.MaBuuCuc, "danh sach bd10 den"))
-                {
-                    SendKeys.SendWait(temp[0]);
-                    Thread.Sleep(200);
-                    SendKeys.SendWait(temp[1]);
-                    PrintDefault();
-                }
-
+                APIManager.GoToWindow(FileManager.optionModel.MaKhaiThac, "danh sach bd10 di", temp[0], temp[1]);
+                PrintDefault();
             }
         }
 
@@ -665,19 +633,18 @@ namespace TaoBD10.ViewModels
 
         void ChuyenThu0()
         {
-            if (ChuyenThus.Count >= 1)
+            ChuyenThuThu(0);
+        }
+
+        void ChuyenThuThu(int number)
+        {
+            if (ChuyenThus.Count >= number + 1)
             {
-                currentChuyenThu = ChuyenThus[0];
+                currentChuyenThu = ChuyenThus[number];
             }
 
-            int i = 0;
-            var temp = ChuyenThus[i].GoFastBCCP.Split(',');
-            if (!APIManager.ThoatToDefault(ChuyenThus[i].MaBCCP, "khoi tao chuyen thu"))
-            {
-                SendKeys.SendWait(temp[0]);
-                Thread.Sleep(200);
-                SendKeys.SendWait(temp[1]);
-            }
+            var temp = ChuyenThus[number].GoFastBCCP.Split(',');
+            APIManager.GoToWindow(ChuyenThus[number].MaBCCP, "khoi tao chuyen thu", temp[0], temp[1]);
             if (!bwCreateChuyenThu.IsBusy)
             {
                 bwCreateChuyenThu.CancelAsync();
@@ -687,273 +654,67 @@ namespace TaoBD10.ViewModels
 
         void ChuyenThu1()
         {
-            if (ChuyenThus.Count >= 2)
-            {
-                currentChuyenThu = ChuyenThus[1];
-            }
-            int i = 1;
-            var temp = ChuyenThus[i].GoFastBCCP.Split(',');
-            if (!APIManager.ThoatToDefault(ChuyenThus[i].MaBCCP, "khoi tao chuyen thu"))
-            {
-                SendKeys.SendWait(temp[0]);
-                Thread.Sleep(200);
-                SendKeys.SendWait(temp[1]);
-            }
-            if (!bwCreateChuyenThu.IsBusy)
-            {
-                bwCreateChuyenThu.CancelAsync();
-                bwCreateChuyenThu.RunWorkerAsync();
-            }
-        }
+            ChuyenThuThu(1);
+                   }
 
         void ChuyenThu10()
         {
-            if (ChuyenThus.Count >= 11)
-            {
-                currentChuyenThu = ChuyenThus[10];
-            }
-            int i = 10;
-            var temp = ChuyenThus[i].GoFastBCCP.Split(',');
-            if (!APIManager.ThoatToDefault(ChuyenThus[i].MaBCCP, "khoi tao chuyen thu"))
-            {
-                SendKeys.SendWait(temp[0]);
-                Thread.Sleep(200);
-                SendKeys.SendWait(temp[1]);
-            }
-            if (!bwCreateChuyenThu.IsBusy)
-            {
-                bwCreateChuyenThu.CancelAsync();
-                bwCreateChuyenThu.RunWorkerAsync();
-            }
+            ChuyenThuThu(10);
         }
 
         void ChuyenThu11()
         {
-            if (ChuyenThus.Count >= 12)
-            {
-                currentChuyenThu = ChuyenThus[11];
-            }
-            int i = 11;
-            var temp = ChuyenThus[i].GoFastBCCP.Split(',');
-            if (!APIManager.ThoatToDefault(ChuyenThus[i].MaBCCP, "khoi tao chuyen thu"))
-            {
-                SendKeys.SendWait(temp[0]);
-                Thread.Sleep(200);
-                SendKeys.SendWait(temp[1]);
-            }
-            if (!bwCreateChuyenThu.IsBusy)
-            {
-                bwCreateChuyenThu.CancelAsync();
-                bwCreateChuyenThu.RunWorkerAsync();
-            }
+            ChuyenThuThu(11);
         }
 
         void ChuyenThu12()
         {
-            if (ChuyenThus.Count >= 13)
-            {
-                currentChuyenThu = ChuyenThus[12];
-            }
-            int i = 12;
-            var temp = ChuyenThus[i].GoFastBCCP.Split(',');
-            if (!APIManager.ThoatToDefault(ChuyenThus[i].MaBCCP, "khoi tao chuyen thu"))
-            {
-                SendKeys.SendWait(temp[0]);
-                Thread.Sleep(200);
-                SendKeys.SendWait(temp[1]);
-            }
-            if (!bwCreateChuyenThu.IsBusy)
-            {
-                bwCreateChuyenThu.CancelAsync();
-                bwCreateChuyenThu.RunWorkerAsync();
-            }
+            ChuyenThuThu(12);
         }
 
         void ChuyenThu13()
         {
-            if (ChuyenThus.Count >= 14)
-            {
-                currentChuyenThu = ChuyenThus[13];
-            }
-            if (!APIManager.ThoatToDefault("593230", "khoi tao chuyen thu"))
-            {
-                SendKeys.SendWait("1");
-                Thread.Sleep(200);
-                SendKeys.SendWait("1");
-            }
-            if (!bwCreateChuyenThu.IsBusy)
-            {
-                bwCreateChuyenThu.CancelAsync();
-                bwCreateChuyenThu.RunWorkerAsync();
-            }
+            ChuyenThuThu(13);
         }
 
         void ChuyenThu2()
         {
-            if (ChuyenThus.Count >= 3)
-            {
-                currentChuyenThu = ChuyenThus[2];
-            }
-            int i = 2;
-            var temp = ChuyenThus[i].GoFastBCCP.Split(',');
-            if (!APIManager.ThoatToDefault(ChuyenThus[i].MaBCCP, "khoi tao chuyen thu"))
-            {
-                SendKeys.SendWait(temp[0]);
-                Thread.Sleep(200);
-                SendKeys.SendWait(temp[1]);
-            }
-            if (!bwCreateChuyenThu.IsBusy)
-            {
-                bwCreateChuyenThu.CancelAsync();
-                bwCreateChuyenThu.RunWorkerAsync();
-            }
+            ChuyenThuThu(2);
         }
 
         void ChuyenThu3()
         {
-            if (ChuyenThus.Count >= 4)
-            {
-                currentChuyenThu = ChuyenThus[3];
-            }
-            int i = 3;
-            var temp = ChuyenThus[i].GoFastBCCP.Split(',');
-            if (!APIManager.ThoatToDefault(ChuyenThus[i].MaBCCP, "khoi tao chuyen thu"))
-            {
-                SendKeys.SendWait(temp[0]);
-                Thread.Sleep(200);
-                SendKeys.SendWait(temp[1]);
-            }
-            if (!bwCreateChuyenThu.IsBusy)
-            {
-                bwCreateChuyenThu.CancelAsync();
-                bwCreateChuyenThu.RunWorkerAsync();
-            }
+            ChuyenThuThu(3);
         }
 
         void ChuyenThu4()
         {
-            if (ChuyenThus.Count >= 5)
-            {
-                currentChuyenThu = ChuyenThus[4];
-            }
-            int i = 4;
-            var temp = ChuyenThus[i].GoFastBCCP.Split(',');
-            if (!APIManager.ThoatToDefault(ChuyenThus[i].MaBCCP, "khoi tao chuyen thu"))
-            {
-                SendKeys.SendWait(temp[0]);
-                Thread.Sleep(200);
-                SendKeys.SendWait(temp[1]);
-            }
-            if (!bwCreateChuyenThu.IsBusy)
-            {
-                bwCreateChuyenThu.CancelAsync();
-                bwCreateChuyenThu.RunWorkerAsync();
-            }
+            ChuyenThuThu(4);
         }
 
         void ChuyenThu5()
         {
-            if (ChuyenThus.Count >= 6)
-            {
-                currentChuyenThu = ChuyenThus[5];
-            }
-            int i = 5;
-            var temp = ChuyenThus[i].GoFastBCCP.Split(',');
-            if (!APIManager.ThoatToDefault(ChuyenThus[i].MaBCCP, "khoi tao chuyen thu"))
-            {
-                SendKeys.SendWait(temp[0]);
-                Thread.Sleep(200);
-                SendKeys.SendWait(temp[1]);
-            }
-            if (!bwCreateChuyenThu.IsBusy)
-            {
-                bwCreateChuyenThu.CancelAsync();
-                bwCreateChuyenThu.RunWorkerAsync();
-            }
+            ChuyenThuThu(5);
         }
 
         void ChuyenThu6()
         {
-            if (ChuyenThus.Count >= 7)
-            {
-                currentChuyenThu = ChuyenThus[6];
-            }
-            int i = 6;
-            var temp = ChuyenThus[i].GoFastBCCP.Split(',');
-            if (!APIManager.ThoatToDefault(ChuyenThus[i].MaBCCP, "khoi tao chuyen thu"))
-            {
-                SendKeys.SendWait(temp[0]);
-                Thread.Sleep(200);
-                SendKeys.SendWait(temp[1]);
-            }
-            if (!bwCreateChuyenThu.IsBusy)
-            {
-                bwCreateChuyenThu.CancelAsync();
-                bwCreateChuyenThu.RunWorkerAsync();
-            }
+            ChuyenThuThu(6);
         }
 
         void ChuyenThu7()
         {
-            if (ChuyenThus.Count >= 8)
-            {
-                currentChuyenThu = ChuyenThus[7];
-            }
-            int i = 7;
-            var temp = ChuyenThus[i].GoFastBCCP.Split(',');
-            if (!APIManager.ThoatToDefault(ChuyenThus[i].MaBCCP, "khoi tao chuyen thu"))
-            {
-                SendKeys.SendWait(temp[0]);
-                Thread.Sleep(200);
-                SendKeys.SendWait(temp[1]);
-            }
-            if (!bwCreateChuyenThu.IsBusy)
-            {
-                bwCreateChuyenThu.CancelAsync();
-                bwCreateChuyenThu.RunWorkerAsync();
-            }
+            ChuyenThuThu(7);
         }
 
         void ChuyenThu8()
         {
-            if (ChuyenThus.Count >= 9)
-            {
-                currentChuyenThu = ChuyenThus[8];
-            }
-            int i = 8;
-            var temp = ChuyenThus[i].GoFastBCCP.Split(',');
-            if (!APIManager.ThoatToDefault(ChuyenThus[i].MaBCCP, "khoi tao chuyen thu"))
-            {
-                SendKeys.SendWait(temp[0]);
-                Thread.Sleep(200);
-                SendKeys.SendWait(temp[1]);
-            }
-            if (!bwCreateChuyenThu.IsBusy)
-            {
-                bwCreateChuyenThu.CancelAsync();
-                bwCreateChuyenThu.RunWorkerAsync();
-            }
+            ChuyenThuThu(8);
         }
 
         void ChuyenThu9()
         {
-            if (ChuyenThus.Count >= 10)
-            {
-                currentChuyenThu = ChuyenThus[9];
-            }
-            int i = 9;
-            var temp = ChuyenThus[i].GoFastBCCP.Split(',');
-            if (!APIManager.ThoatToDefault(ChuyenThus[i].MaBCCP, "khoi tao chuyen thu"))
-            {
-                SendKeys.SendWait(temp[0]);
-                Thread.Sleep(200);
-                SendKeys.SendWait(temp[1]);
-            }
-            if (!bwCreateChuyenThu.IsBusy)
-            {
-                bwCreateChuyenThu.CancelAsync();
-                bwCreateChuyenThu.RunWorkerAsync();
-            }
+            ChuyenThuThu(9);
         }
 
         private void D420()
@@ -1094,26 +855,10 @@ namespace TaoBD10.ViewModels
         }
         public ICommand ChuyenThu14Command { get; }
 
-       
+
         void ChuyenThu14()
         {
-            if (ChuyenThus.Count >= 15)
-            {
-                currentChuyenThu = ChuyenThus[14];
-            }
-            int i = 14;
-            var temp = ChuyenThus[i].GoFastBCCP.Split(',');
-            if (!APIManager.ThoatToDefault(ChuyenThus[i].MaBCCP, "khoi tao chuyen thu"))
-            {
-                SendKeys.SendWait(temp[0]);
-                Thread.Sleep(200);
-                SendKeys.SendWait(temp[1]);
-            }
-            if (!bwCreateChuyenThu.IsBusy)
-            {
-                bwCreateChuyenThu.CancelAsync();
-                bwCreateChuyenThu.RunWorkerAsync();
-            }
+            ChuyenThuThu(14);
         }
 
 

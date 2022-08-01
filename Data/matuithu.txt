@@ -1,0 +1,47 @@
+	BA	Gói nhỏ(Túi)	Túi	Gói nhỏ quốc tế
+	BB	Gói nhỏ đi ngoài(U)	Túi	Gói nhỏ quốc tế
+	BC	BK COD		Gói nhỏ quốc tế
+	BD	BK Khai giá		Gói nhỏ quốc tế
+	BK	Gói Thường	Gói Thường	Bưu phẩm bảo đảm - Registed Mail
+	BR	Gói nhỏ giao rời (U)	UT Giao rời	Gói nhỏ quốc tế
+	CA	BK (Túi)	Túi Bưu kiện	Bưu kiện - Parcel
+	CB	Ði ngoài(BK)	Túi	Bưu kiện - Parcel
+	CC	BK COD		Bưu kiện - Parcel
+	CD	BK Khai giá		Bưu kiện - Parcel
+	CR	Giao rời(BK)	Túi giao giời của bưu kiện	Bưu kiện - Parcel
+	DA	DHL(Túi)	Túi DHL	Bưu phẩm không địa chỉ
+	DR	Giao Rời(DP3)	Giao Rời(DP3)	Datapost
+	EA	EMS Hàng hóa (Túi)	Túi EMS	EMS - Chuyển phát nhanh - Express Mail Service
+	EL	EMS Tài liệu (Túi)		EMS - Chuyển phát nhanh - Express Mail Service
+	ER	Ði ngoài(EMS)	E	EMS - Chuyển phát nhanh - Express Mail Service
+	ET	Epacket(Túi)		Epacket/Prime Tracked
+	EX	EMS Giao rời		EMS - Chuyển phát nhanh - Express Mail Service
+	KA	KT1(Túi)	Túi	KT1
+	KP	Túi BK Tiết kiệm		Bưu kiện tiết kiệm
+	LR	Giao rời(Epacket)		Epacket/Prime Tracked
+	MR	Giao rời(KT)	Túi giao giời của Khai Thác	KT1
+	PA	BCUT(Túi)	Túi	Logistic
+	PB	Đi Ngoài (PHBC)	túi đi ngoài PHBC	Phát hành báo chí
+	PC	BK COD		Logistic
+	PD	BK Khai giá		Logistic
+	PH	PHBC	PHBC	Phát hành báo chí
+	PK	Ði ngoài(UT)	Túi	Logistic
+	PL	Giao Rời (UT)	UT Giao rời	Logistic
+	PR	Giao Rời (P)	Giao Rời (P)	Phát hành báo chí
+	SA	UPS(Túi)	Túi UPS	UPS
+	SP	SpeedLink(Túi)	Túi SpeedLink	PUD
+	TB	Thường (Túi)	Túi	Bưu phẩm thường - Mail
+	TE	TMĐT	TMĐT	EMS - Chuyển phát nhanh - Express Mail Service
+	TM	TMĐT	TMĐT	Bưu kiện - Parcel
+	TR	Giao rời(T)	Túi giao giời của Bưu phẩm thường	Bưu phẩm thường - Mail
+	UA	R (Túi)	Túi	Bưu phẩm bảo đảm - Registed Mail
+	UC	COD (Túi)	Túi	Bưu phẩm bảo đảm - Registed Mail
+	UD	Khai giá (Túi)	Túi	Bưu phẩm bảo đảm - Registed Mail
+	UE	CMND(Túi)	Túi	Bưu phẩm bảo đảm - Registed Mail
+	UF	CĐHC(Túi)	Túi	Bưu phẩm bảo đảm - Registed Mail
+	UH	HSXT (Túi)	Túi	Bưu phẩm bảo đảm - Registed Mail
+	UM	Tổng hợp (Túi)	Túi	Bưu phẩm bảo đảm - Registed Mail
+	UN	Tổng hợp (Rổ nhựa)	Túi	Bưu phẩm bảo đảm - Registed Mail
+	UR	Giao rời(BP)	Túi giao giời của bưu phẩm	Bưu phẩm bảo đảm - Registed Mail
+	VA	VNQuickpost(Túi)	Túi VNQuickpost	Chuyển phát nhanh quốc tế VNQuickPost
+	XL	Xe lồng	Xe lồng	Bưu phẩm bảo đảm - Registed Mail

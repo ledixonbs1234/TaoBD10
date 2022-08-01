@@ -1395,19 +1395,19 @@ namespace TaoBD10.ViewModels
             TestAPIModel editBCNhan = controls.Where(m => m.ClassName == "Edit").ToList()[3];
             //const int CB_SETCURSEL = 0x014E;
             APIManager.FocusHandle(controlDuongThu.Handle);
-            APIManager.setTextControl(editDuongThu.Handle, _taoBDAdd.DuongThu);
+            APIManager.setTextControl(controlDuongThu.Handle, _taoBDAdd.DuongThu);
             //APIManager.SendMessage(controlDuongThu.Handle, CB_SETCURSEL, countDuongThu, 0);
             //SendKeys.SendWait("{TAB}");
-            APIManager.setTextControl(editChuyen.Handle, _taoBDAdd.Chuyen1);
+            APIManager.setTextControl(controlChuyen.Handle, _taoBDAdd.Chuyen1);
             //SendKeys.SendWait("{TAB}");
-            APIManager.setTextControl(editBCNhan.Handle, _taoBDAdd.BCNhan);
+            APIManager.setTextControl(controlBCNhan.Handle, _taoBDAdd.BCNhan);
 
             Thread.Sleep(200);
             SendKeys.SendWait("{TAB}");
-            Thread.Sleep(2000);
-            APIManager.setTextControl(editChuyen.Handle, _taoBDAdd.Chuyen1);
+            Thread.Sleep(5000);
+            APIManager.setTextControl(controlChuyen.Handle, _taoBDAdd.Chuyen1);
             //SendKeys.SendWait("{TAB}");
-            APIManager.setTextControl(editBCNhan.Handle, _taoBDAdd.BCNhan);
+            APIManager.setTextControl(controlBCNhan.Handle, _taoBDAdd.BCNhan);
 
 
             //APIManager.SendMessage(controlChuyen.Handle, CB_SETCURSEL, countChuyen, 0);

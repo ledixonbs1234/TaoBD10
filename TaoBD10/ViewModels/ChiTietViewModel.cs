@@ -1396,18 +1396,19 @@ namespace TaoBD10.ViewModels
             //const int CB_SETCURSEL = 0x014E;
             APIManager.FocusHandle(controlDuongThu.Handle);
             APIManager.setTextControl(controlDuongThu.Handle, _taoBDAdd.DuongThu);
+            APIManager.setTextControl(editDuongThu.Handle, _taoBDAdd.DuongThu);
             //APIManager.SendMessage(controlDuongThu.Handle, CB_SETCURSEL, countDuongThu, 0);
             //SendKeys.SendWait("{TAB}");
-            APIManager.setTextControl(controlChuyen.Handle, _taoBDAdd.Chuyen1);
-            //SendKeys.SendWait("{TAB}");
-            APIManager.setTextControl(controlBCNhan.Handle, _taoBDAdd.BCNhan);
+            //APIManager.setTextControl(controlChuyen.Handle, _taoBDAdd.Chuyen1);
+            ////SendKeys.SendWait("{TAB}");
+            //APIManager.setTextControl(controlBCNhan.Handle, _taoBDAdd.BCNhan);
 
             Thread.Sleep(200);
-            //SendKeys.SendWait("{TAB}");
+            SendKeys.SendWait("{TAB}");
             Thread.Sleep(5000);
-            APIManager.setTextControl(controlChuyen.Handle, _taoBDAdd.Chuyen1);
-            //SendKeys.SendWait("{TAB}");
-            APIManager.setTextControl(controlBCNhan.Handle, _taoBDAdd.BCNhan);
+            //APIManager.setTextControl(controlChuyen.Handle, _taoBDAdd.Chuyen1);
+            ////SendKeys.SendWait("{TAB}");
+            //APIManager.setTextControl(controlBCNhan.Handle, _taoBDAdd.BCNhan);
 
 
             //APIManager.SendMessage(controlChuyen.Handle, CB_SETCURSEL, countChuyen, 0);

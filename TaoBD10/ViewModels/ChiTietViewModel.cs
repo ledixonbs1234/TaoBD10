@@ -1405,9 +1405,10 @@ namespace TaoBD10.ViewModels
 
             Thread.Sleep(200);
             SendKeys.SendWait("{TAB}");
-            Thread.Sleep(5000);
-            APIManager.setTextControl(controlChuyen.Handle, _taoBDAdd.Chuyen1);
-            APIManager.setTextControl(editChuyen.Handle, _taoBDAdd.Chuyen1);
+            Thread.Sleep(2000);
+            Test(controlChuyen.Handle,editChuyen.Handle);
+            //APIManager.setTextControl(controlChuyen.Handle, _taoBDAdd.Chuyen1);
+            //APIManager.setTextControl(editChuyen.Handle, _taoBDAdd.Chuyen1);
             ////SendKeys.SendWait("{TAB}");
             //APIManager.setTextControl(controlBCNhan.Handle, _taoBDAdd.BCNhan);
 
@@ -1416,6 +1417,14 @@ namespace TaoBD10.ViewModels
             //SendKeys.SendWait("{ENTER}");
             //APIManager.SendMessage(controlBCNhan.Handle, CB_SETCURSEL, 10, 0);
             //SendKeys.SendWait("{ENTER}");
+        }
+
+        void Test(IntPtr so,IntPtr so2)
+        {
+            Thread.Sleep(2000);
+            APIManager.setTextControl(so, _taoBDAdd.Chuyen1);
+            APIManager.setTextControl(so2, _taoBDAdd.Chuyen1);
+ 
         }
 
         private void ThuHep()

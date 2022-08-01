@@ -519,6 +519,7 @@ namespace TaoBD10.ViewModels
             LocBDInfoModel loc = LocBDs.FirstOrDefault(m => m.TenBD == Name);
             if (loc == null) return;
             _taoBDAdd = loc.TaoBDs[0];
+            if (string.IsNullOrEmpty(_taoBDAdd.DuongThu)) return;
 
             taoBDWorker.RunWorkerAsync();
 
@@ -1388,7 +1389,14 @@ namespace TaoBD10.ViewModels
             List<TestAPIModel> controls = APIManager.GetListControlText(currentWindow.hwnd);
             TestAPIModel controlChuyen = controls.Where(m => m.ClassName == "WindowsForms10.COMBOBOX.app.0.1e6fa8e").ToList()[1];
             TestAPIModel controlBCNhan = controls.Where(m => m.ClassName == "WindowsForms10.COMBOBOX.app.0.1e6fa8e").ToList()[3];
-            APIManager.setTextControl(controlChuyen.Handle, _taoBDAdd.Chuyen1);
+            if (_taoBDAdd.IsSangChieu)
+            {
+                int cHour = DateTime.Now.Hour;
+                if (cHour > _taoBDAdd.ThoiGianChia2LanDT)
+                    APIManager.setTextControl(controlChuyen.Handle, _taoBDAdd.Chuyen1);
+                else
+                    APIManager.setTextControl(controlChuyen.Handle, _taoBDAdd.Chuyen2);
+            }
             SendKeys.SendWait("{TAB}");
             APIManager.setTextControl(controlBCNhan.Handle, _taoBDAdd.BCNhan);
             SendKeys.SendWait("{TAB}");

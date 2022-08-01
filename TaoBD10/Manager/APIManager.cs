@@ -402,8 +402,8 @@ namespace TaoBD10.Manager
                         //thuc hien xoa tuan tu cho toi window main handle
                         while (currentWindow.hwnd != windowHandle)
                         {
-                            currentWindow = APIManager.GetActiveWindowTitle();
-                            string textKoDau = ConvertToUnSign3(currentWindow.text);
+                            currentWindow = GetActiveWindowTitle();
+                            string textKoDau = ConvertToUnSign3(currentWindow.text).ToLower();
                             if (textKoDau.IndexOf(nameHandleChildToHangOn) != -1)
                             {
                                 isWaitingThoat = false;

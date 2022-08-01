@@ -1411,6 +1411,7 @@ namespace TaoBD10.ViewModels
             SendKeys.SendWait("{TAB}");
             Thread.Sleep(2000);
             Test(controlChuyen.Handle, editChuyen.Handle);
+            APIManager.ShowSnackbar("Dfsd");
         }
 
 

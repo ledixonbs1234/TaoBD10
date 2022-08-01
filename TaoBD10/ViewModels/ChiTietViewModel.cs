@@ -1397,6 +1397,10 @@ namespace TaoBD10.ViewModels
                 else
                     APIManager.setTextControl(controlChuyen.Handle, _taoBDAdd.Chuyen2);
             }
+            else
+            {
+                APIManager.setTextControl(controlChuyen.Handle, _taoBDAdd.Chuyen1);
+            }
             SendKeys.SendWait("{TAB}");
             APIManager.setTextControl(controlBCNhan.Handle, _taoBDAdd.BCNhan);
             SendKeys.SendWait("{TAB}");

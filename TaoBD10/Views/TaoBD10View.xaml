@@ -301,7 +301,7 @@
 
                 <Button
                     Margin="20,0"
-                    Command="{Binding GopBDCommand}"
+                    Command="{Binding TestCommand}"
                     Content="Gộp BD" />
                 <Button Command="{Binding XeXaHoiCommand}" Content="Xe Xã Hội" />
             </StackPanel>

@@ -1377,7 +1377,7 @@ namespace TaoBD10.ViewModels
         {
             var temp = FileManager.optionModel.GoFastBD10Di.Split(',');
             APIManager.GoToWindow(FileManager.optionModel.MaKhaiThac, "danh sach bd10 di", temp[0], temp[1]);
-            
+
             WindowInfo currentWindow = APIManager.WaitingFindedWindow("danh sach bd10 di");
             if (currentWindow == null)
                 return;
@@ -1401,7 +1401,15 @@ namespace TaoBD10.ViewModels
             APIManager.setTextControl(editChuyen.Handle, _taoBDAdd.Chuyen1);
             //SendKeys.SendWait("{TAB}");
             APIManager.setTextControl(editBCNhan.Handle, _taoBDAdd.BCNhan);
+
+            Thread.Sleep(200);
+            SendKeys.SendWait("{TAB}");
+            Thread.Sleep(200);
+            APIManager.setTextControl(editChuyen.Handle, _taoBDAdd.Chuyen1);
             //SendKeys.SendWait("{TAB}");
+            APIManager.setTextControl(editBCNhan.Handle, _taoBDAdd.BCNhan);
+
+
             //APIManager.SendMessage(controlChuyen.Handle, CB_SETCURSEL, countChuyen, 0);
             //SendKeys.SendWait("{ENTER}");
             //APIManager.SendMessage(controlBCNhan.Handle, CB_SETCURSEL, 10, 0);

@@ -212,6 +212,16 @@ namespace TaoBD10.ViewModels
             //tu dong xac nhan chi tiet tui thu
         }
 
+
+     
+        public ICommand TestCommand { get; }
+
+        void Test()
+        {
+
+        }
+
+
         private void BackgroundCreateChuyenThu_DoWork(object sender, DoWorkEventArgs e)
         {
             try

@@ -21,8 +21,8 @@ namespace TaoBD10.Model
         public string CodeBCMPSBCP { get; set; }
         public string StateBCMPSKT { get; set; }
         public string StateBCMPSBCP { get; set; }
-        public string MaKhaiThac { get; internal set; }
-        public string MaBuuCucPhat { get; internal set; }
+        public string MaKhaiThac { get;  set; }
+        public string MaBuuCucPhat { get;  set; }
 
 
         public string AccountDinhVi { get; set; }
@@ -31,8 +31,8 @@ namespace TaoBD10.Model
         public string PWMPS { get; set; }
         public string AccountPNS { get; set; }
         public string PWPNS { get; set; }
-        public string GoFastQLCTCDBCP { get; internal set; }
-        public string GoFastQLCTCDKT { get; internal set; }
+        public string GoFastQLCTCDBCP { get;  set; }
+        public string GoFastQLCTCDKT { get;  set; }
 
         public OptionModel()
         {

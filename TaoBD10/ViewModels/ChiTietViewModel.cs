@@ -1390,9 +1390,10 @@ namespace TaoBD10.ViewModels
             Model.TestAPIModel controlDuongThu = controls.Where(m => m.ClassName == "WindowsForms10.COMBOBOX.app.0.1e6fa8e").ToList()[2];
             Model.TestAPIModel controlChuyen = controls.Where(m => m.ClassName == "WindowsForms10.COMBOBOX.app.0.1e6fa8e").ToList()[1];
             Model.TestAPIModel controlBCNhan = controls.Where(m => m.ClassName == "WindowsForms10.COMBOBOX.app.0.1e6fa8e").ToList()[3];
+            TestAPIModel editChuyen = controls.Where(m => m.ClassName == "Edit").ToList()[2];
             //const int CB_SETCURSEL = 0x014E;
             APIManager.FocusHandle(controlChuyen.Handle);
-            APIManager.setTextControl(controlDuongThu.Handle, _taoBDAdd.Chuyen);
+            APIManager.setTextControl(editChuyen.Handle, _taoBDAdd.Chuyen);
             //APIManager.SendMessage(controlDuongThu.Handle, CB_SETCURSEL, countDuongThu, 0);
             SendKeys.SendWait("{ENTER}");
             //APIManager.SendMessage(controlChuyen.Handle, CB_SETCURSEL, countChuyen, 0);

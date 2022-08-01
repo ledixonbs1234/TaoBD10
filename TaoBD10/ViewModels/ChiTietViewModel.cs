@@ -1395,12 +1395,12 @@ namespace TaoBD10.ViewModels
             TestAPIModel editBCNhan = controls.Where(m => m.ClassName == "Edit").ToList()[3];
             //const int CB_SETCURSEL = 0x014E;
             APIManager.FocusHandle(controlDuongThu.Handle);
-            APIManager.setTextControl(editDuongThu.Handle, _taoBDAdd.Chuyen);
+            APIManager.setTextControl(editDuongThu.Handle, _taoBDAdd.DuongThu);
             //APIManager.SendMessage(controlDuongThu.Handle, CB_SETCURSEL, countDuongThu, 0);
             SendKeys.SendWait("{TAB}");
-            APIManager.setTextControl(editChuyen.Handle, _taoBDAdd.Chuyen);
+            APIManager.setTextControl(editChuyen.Handle, _taoBDAdd.Chuyen1);
             SendKeys.SendWait("{TAB}");
-            APIManager.setTextControl(editBCNhan.Handle, _taoBDAdd.Chuyen);
+            APIManager.setTextControl(editBCNhan.Handle, _taoBDAdd.BCNhan);
             SendKeys.SendWait("{TAB}");
             //APIManager.SendMessage(controlChuyen.Handle, CB_SETCURSEL, countChuyen, 0);
             //SendKeys.SendWait("{ENTER}");

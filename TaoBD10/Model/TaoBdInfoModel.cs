@@ -17,13 +17,22 @@ namespace TaoBD10.Model
             set { SetProperty(ref _DuongThu, value); }
         }
 
-        private string _Chuyen;
+        private string _Chuyen1;
 
-        public string Chuyen
+        public string Chuyen1
         {
-            get { return _Chuyen; }
-            set { SetProperty(ref _Chuyen, value); }
+            get { return _Chuyen1; }
+            set { SetProperty(ref _Chuyen1, value); }
         }
+        private string _Chuyen2;
+
+        public string Chuyen2
+        {
+            get { return _Chuyen2; }
+            set { SetProperty(ref _Chuyen2, value); }
+        }
+
+
         private string _BCNhan;
 
         public string BCNhan
@@ -38,13 +47,7 @@ namespace TaoBD10.Model
             get { return _IsSangChieu; }
             set { SetProperty(ref _IsSangChieu, value); }
         }
-        private string _DuongThu2;
-
-        public string DuongThu2
-        {
-            get { return _DuongThu2; }
-            set { SetProperty(ref _DuongThu2, value); }
-        }
+        
         private int _ThoiGianChia2LanDT;
 
         public int ThoiGianChia2LanDT

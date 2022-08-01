@@ -1392,7 +1392,7 @@ namespace TaoBD10.ViewModels
             if (_taoBDAdd.IsSangChieu)
             {
                 int cHour = DateTime.Now.Hour;
-                if (cHour > _taoBDAdd.ThoiGianChia2LanDT)
+                if (cHour < _taoBDAdd.ThoiGianChia2LanDT)
                     APIManager.setTextControl(controlChuyen.Handle, _taoBDAdd.Chuyen1);
                 else
                     APIManager.setTextControl(controlChuyen.Handle, _taoBDAdd.Chuyen2);

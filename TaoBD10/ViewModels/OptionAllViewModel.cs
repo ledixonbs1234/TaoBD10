@@ -61,6 +61,7 @@ namespace TaoBD10.ViewModels
         void LayDuLieu()
         {
            Option = FileManager.GetOptionAll();
+            SetOptionToView(); 
         }
 
         public ICommand PublishCloudCommand { get; }
@@ -83,6 +84,14 @@ namespace TaoBD10.ViewModels
             LayDuLieuCommand = new RelayCommand(LayDuLieu); 
             Option = new OptionModel();
             GetOptionData();
+            SetOptionToView();
+
+            SaveCommand = new RelayCommand(Save);
+
+        }
+
+        void SetOptionToView()
+        {
             Options = new ObservableCollection<OptionInfoModel>();
             Options.Add(new OptionInfoModel("Tài khoản định vị", Option.AccountDinhVi, Option.PWDinhVi));
             Options.Add(new OptionInfoModel("Tài khoản MPS", Option.AccountMPS, Option.PWMPS));
@@ -99,9 +108,6 @@ namespace TaoBD10.ViewModels
             Options.Add(new OptionInfoModel("Khởi Tạo Chuyến Thư BCP", Option.GoFastKTCTBCP));
             Options.Add(new OptionInfoModel("Quản lý chuyến thư chiều đến KT", Option.GoFastQLCTCDKT));
             Options.Add(new OptionInfoModel("Quản lý chuyến thư chiều đến BCP", Option.GoFastQLCTCDBCP));
-
-            SaveCommand = new RelayCommand(Save);
-
         }
 
         private void GetOptionData()

@@ -188,6 +188,7 @@ namespace TaoBD10.ViewModels
                     //ShowTest();
                 }
             });
+            
 
             WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>
             {

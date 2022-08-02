@@ -35,9 +35,9 @@ namespace TaoBD10.ViewModels
 
         private void ReadPrinter()
         {
-            if (File.Exists("printerSave.txt"))
+            if (File.Exists("\\Data\\printerSave.txt"))
             {
-                string[] lines = File.ReadAllLines("printerSave.txt");
+                string[] lines = File.ReadAllLines("\\Data\\printerSave.txt");
                 PrintBD8 = lines[0];
                 APIManager.namePrinterBD8 = PrintBD8;
                 PrintBD10 = lines[1];
@@ -69,7 +69,7 @@ namespace TaoBD10.ViewModels
                 string[] lines = { PrintBD8, PrintBD10 };
                 APIManager.namePrinterBD8 = PrintBD8;
                 APIManager.namePrinterBD10 = PrintBD10;
-                File.WriteAllLines("printerSave.txt", lines);
+                File.WriteAllLines("\\Data\\printerSave.txt", lines);
             }
         }
 

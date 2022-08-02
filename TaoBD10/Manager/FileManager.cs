@@ -13,16 +13,24 @@ namespace TaoBD10.Manager
     {
         public static void GetCode()
         {
-            string dir = Directory.GetCurrentDirectory();
-            string text = File.ReadAllText(dir + @"/" + "Data/buucuctoanquoc.txt");
-            var texts = text.Split('\n');
-            for (int i = 0; i < texts.Length; i++)
+            string dir = Directory.GetCurrentDirectory() + "\\Data\\buucuctoanquoc.txt";
+            if (Directory.Exists(dir))
             {
-                if (!string.IsNullOrEmpty(texts[i]))
+                string text = File.ReadAllText(dir);
+                var texts = text.Split('\n');
+                for (int i = 0; i < texts.Length; i++)
                 {
-                    listBuuCuc.Add(texts[i]);
+                    if (!string.IsNullOrEmpty(texts[i]))
+                    {
+                        listBuuCuc.Add(texts[i]);
+                    }
                 }
+
+            }else
+            {
+                listBuuCuc = new List<string>();
             }
+
         }
 
         public static List<MaBD8Model> GetMaBD8s()
@@ -168,7 +176,7 @@ namespace TaoBD10.Manager
                 list.Add(new TinhHuyenModel(splitText[1].Trim(), splitText[2].Trim()));
             }
             return list;
-            
+
 
         }
 
@@ -379,6 +387,10 @@ namespace TaoBD10.Manager
 
         public static void SaveCTOffline(List<ChuyenThuModel> chuyenThus)
         {
+            if (!Directory.Exists("Data"))
+            {
+                Directory.CreateDirectory("Data");
+            }
             if (!File.Exists(_fileCT))
             {
                 using (FileStream fs = File.Create(_fileCT)) { }

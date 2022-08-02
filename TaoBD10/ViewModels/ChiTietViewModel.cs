@@ -1068,7 +1068,7 @@ namespace TaoBD10.ViewModels
 
                 /////////////////////////////////
 
-                Thread.Sleep(400);
+                Thread.Sleep(500);
             }
 
             if (!isGone)

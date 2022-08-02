@@ -324,6 +324,7 @@ namespace TaoBD10.Manager
 
         public static void SaveBuuCuc(List<BuuCucModel> buuCucModels)
         {
+            onSetupFileManager();
             client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/LayBuuCuc").PutAsync(buuCucModels).Wait();
         }
 
@@ -396,6 +397,7 @@ namespace TaoBD10.Manager
 
         public static void SaveCTOnFirebase(List<ChuyenThuModel> chuyenThus)
         {
+            onSetupFileManager();
             if (chuyenThus.Count == 0)
                 return;
             JsonSerializer serializer = new JsonSerializer();
@@ -410,6 +412,7 @@ namespace TaoBD10.Manager
 
         public static void SaveData(BD10InfoModel bD10Info)
         {
+            onSetupFileManager();
             if (bD10Info != null)
                 list.Add(bD10Info);
             //JsonSerializer serializer = new JsonSerializer();
@@ -424,6 +427,7 @@ namespace TaoBD10.Manager
 
         public static void SaveLayBDFirebase(List<LayBD10Info> layBDs)
         {
+            onSetupFileManager();
             client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/LayBD10").PutAsync(layBDs).Wait();
         }
 
@@ -446,6 +450,7 @@ namespace TaoBD10.Manager
 
         public static void SaveOptionAll(OptionModel option)
         {
+            onSetupFileManager();
             client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/Option").PutAsync(option).Wait();
         }
 

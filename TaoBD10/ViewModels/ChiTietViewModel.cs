@@ -1358,7 +1358,7 @@ namespace TaoBD10.ViewModels
 
                 /////////////////////////////////
 
-                Thread.Sleep(Convert.ToInt32(Math.Round(delayTime * 1000, 0)));
+                Thread.Sleep(500);
             }
 
             if (!isGone)

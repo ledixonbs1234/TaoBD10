@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -779,7 +780,7 @@ namespace TaoBD10.ViewModels
                         string textGr = apiGr.Text.Replace("(gr)", "");
                         if (textGr.IndexOf('.') != -1)
                         {
-                            bool isRight = double.TryParse(textGr, out double numberGR);
+                            bool isRight = double.TryParse(textGr, NumberStyles.Any,CultureInfo.InvariantCulture, out double numberGR);
                             if (isRight)
                             {
                                 if (!Is16Kg)

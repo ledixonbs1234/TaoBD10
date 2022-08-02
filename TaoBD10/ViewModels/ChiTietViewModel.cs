@@ -1447,8 +1447,8 @@ namespace TaoBD10.ViewModels
 
         private void TaoBDWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            var temp = FileManager.optionModel.GoFastBD10Di.Split(',');
-            APIManager.GoToWindow(FileManager.optionModel.MaKhaiThac, "danh sach bd10 di", temp[0], temp[1]);
+            //var temp = FileManager.optionModel.GoFastBD10Di.Split(',');
+            //APIManager.GoToWindow(FileManager.optionModel.MaKhaiThac, "danh sach bd10 di", temp[0], temp[1]);
 
             WindowInfo currentWindow = APIManager.WaitingFindedWindow("danh sach bd10 di");
             if (currentWindow == null)

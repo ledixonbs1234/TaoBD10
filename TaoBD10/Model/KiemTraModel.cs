@@ -1,4 +1,5 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+using System.Collections.Generic;
 
 namespace TaoBD10.Model
 {
@@ -35,6 +36,8 @@ namespace TaoBD10.Model
             get { return _BuuCucDong; }
             set { SetProperty(ref _BuuCucDong, value); }
         }
+
+        public List<ThongTinTrangThaiModel> ThongTins { get; set; }
 
         private string _BuuCucNhan;
 

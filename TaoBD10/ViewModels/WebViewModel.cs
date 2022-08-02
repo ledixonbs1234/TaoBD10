@@ -605,7 +605,7 @@ document.querySelector('#menu-3 > li:nth-child(10) > a').click();";
                             KiemTraModel kiemTra = new KiemTraModel();
 
                             HtmlNodeCollection noteBarcode = document.DocumentNode.SelectNodes("//*[@id='MainContent_ctl00_lblBarcode']");
-                            if(noteBarcode == null)
+                            if (noteBarcode == null)
                             {
                                 return;
                             }
@@ -647,14 +647,16 @@ document.querySelector('#menu-3 > li:nth-child(10) > a').click();";
                             var tableChiTiet = tablesChiTiet.First();
                             if (tableChiTiet.HasChildNodes)
                             {
+                                List<ThongTinTrangThaiModel> list = new List<ThongTinTrangThaiModel>();
                                 for (int i = 1; i < tableChiTiet.ChildNodes.Count; i++)
                                 {
                                     HtmlNode item = tableChiTiet.ChildNodes[i];
                                     HtmlNodeCollection listTd = item.SelectNodes("td");
-                                    string a = listTd[4].InnerText;
-                                    string b = listTd[3].InnerText;
-                                    string v = listTd[2].InnerText;
-                                    string s = listTd[1].InnerText;
+                                    if (listTd.Count() >= 6)
+                                    {
+                                        list.Add(new ThongTinTrangThaiModel(listTd[1].InnerText, listTd[1].InnerText, listTd[3].InnerText, listTd[4].InnerText));
+
+                                    }
                                 }
                             }
                             //int count = tableChiTiet.ChildNodes;

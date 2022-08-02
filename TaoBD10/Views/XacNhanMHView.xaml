@@ -68,6 +68,7 @@
                     Command="{Binding GoToCTCommand}"
                     Content="Go CT" />
             </StackPanel>
+            <DataGrid></DataGrid>
         </StackPanel>
     </materialDesign:Card>
 </UserControl>

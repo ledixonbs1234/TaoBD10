@@ -226,6 +226,7 @@
     <Compile Include="Model\TamQuanModel.cs" />
     <Compile Include="Model\TaoBdInfoModel.cs" />
     <Compile Include="Model\TestAPIModel.cs" />
+    <Compile Include="Model\ThongTinTrangThaiModel.cs" />
     <Compile Include="Model\TinhHuyenModel.cs" />
     <Compile Include="Model\TinhThanh.cs" />
     <Compile Include="Model\TuiHangHoa.cs" />

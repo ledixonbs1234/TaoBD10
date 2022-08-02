@@ -1318,12 +1318,12 @@ namespace TaoBD10.ViewModels
                     return;
 
                 case BuuCuc.KT:
-                    string[] temp = FileManager.optionModel.GoFastQLCTCDKT.Split('|');
+                    string[] temp = FileManager.optionModel.GoFastQLCTCDKT.Split(',');
                     APIManager.GoToWindow(FileManager.optionModel.MaKhaiThac, "quan ly chuyen thu chieu den", temp[0], temp[1]);
                     break;
 
                 case BuuCuc.BCP:
-                    string[] temp1 = FileManager.optionModel.GoFastQLCTCDBCP.Split('|');
+                    string[] temp1 = FileManager.optionModel.GoFastQLCTCDBCP.Split(',');
                     APIManager.GoToWindow(FileManager.optionModel.MaBuuCucPhat, "quan ly chuyen thu chieu den", temp1[0], temp1[1]);
                     break;
 

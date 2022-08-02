@@ -183,7 +183,7 @@ namespace TaoBD10.Manager
         public static List<BuuCucModel> LoadBuuCucOnFirebase()
         {
             onSetupFileManager();
-            Task<List<BuuCucModel>> cts = client.Child(@"QuanLy/DanhSach/" + maBuuCuc + "/LayBuuCuc").OrderByKey().OnceSingleAsync<List<BuuCucModel>>();
+            Task<List<BuuCucModel>> cts = client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/LayBuuCuc").OrderByKey().OnceSingleAsync<List<BuuCucModel>>();
             cts.Wait();
             List<BuuCucModel> result = cts.Result;
             SaveBuuCucOffline(result);
@@ -212,7 +212,7 @@ namespace TaoBD10.Manager
         public static List<ChuyenThuModel> LoadCTOnFirebase()
         {
             onSetupFileManager();
-            Task<List<ChuyenThuModel>> cts = client.Child(@"QuanLy/DanhSach/" + maBuuCuc + "/OptionCT").OrderByKey().OnceSingleAsync<List<ChuyenThuModel>>();
+            Task<List<ChuyenThuModel>> cts = client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/OptionCT").OrderByKey().OnceSingleAsync<List<ChuyenThuModel>>();
             cts.Wait();
             List<ChuyenThuModel> result = cts.Result;
             SaveCTOffline(result);
@@ -230,23 +230,6 @@ namespace TaoBD10.Manager
             }
             return list;
 
-            //if (!File.Exists(_file))
-            //{
-            //    SaveData(new BD10InfoModel());
-            //    return null;
-            //}
-            //JsonSerializer serializer = new JsonSerializer();
-            //using (StreamReader sReader = new StreamReader(_file))
-            //using (JsonReader jReader = new JsonTextReader(sReader))
-            //{
-            //    list = serializer.Deserialize<List<BD10InfoModel>>(jReader);
-
-            //    client.Child(@"QuanLy/DanhSach/" + maBuuCuc + "/BD10").PutAsync(list);
-            //    return list;
-            //}
-            //dgvDanhSachBD10.DataSource = null;
-            //dgvDanhSachBD10.DataSource = listShowBD10Info;
-            //dgvDanhSachBD10.Refresh();
         }
 
         public static List<LayBD10Info> LoadLayBDOffline()
@@ -268,28 +251,36 @@ namespace TaoBD10.Manager
         public static List<LayBD10Info> LoadLayBDOnFirebase()
         {
             onSetupFileManager();
-            Task<List<LayBD10Info>> cts = client.Child(@"QuanLy/DanhSach/" + maBuuCuc + "/LayBD10").OrderByKey().OnceSingleAsync<List<LayBD10Info>>();
+            Task<List<LayBD10Info>> cts = client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/LayBD10").OrderByKey().OnceSingleAsync<List<LayBD10Info>>();
             cts.Wait();
             List<LayBD10Info> result = cts.Result;
             SaveLayBDOffline(result);
             return result;
+        }
 
+        public static List<LocBDInfoModel> LoadLocBDOnFirebase()
+        {
+            onSetupFileManager();
+            Task<List<LocBDInfoModel>> cts = client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/OptionLocBD").OrderByKey().OnceSingleAsync<List<LocBDInfoModel>>();
+            cts.Wait();
+            List<LocBDInfoModel> result = cts.Result;
+            SaveLocBD10Offline(result);
+            return result;
+        }
 
-
-            //if (!File.Exists(_fileCT))
-            //{
-            //    SaveCT(new List<ChuyenThuModel>());
-            //    return null;
-            //}
-
-            //JsonSerializer serializer = new JsonSerializer();
-            //using (StreamReader sReader = new StreamReader(_fileCT))
-            //using (JsonReader jReader = new JsonTextReader(sReader))
-            //{
-            //    List<ChuyenThuModel> listCT = serializer.Deserialize<List<ChuyenThuModel>>(jReader);
-            //    return listCT;
-            //}
-
+        public static void SaveLocBD10Firebase(List<LocBDInfoModel> locBDInfoModels)
+        {
+            onSetupFileManager();
+            if (locBDInfoModels.Count == 0)
+                return;
+            JsonSerializer serializer = new JsonSerializer();
+            using (StreamWriter sWriter = new StreamWriter(_fileLocBD10))
+            using (JsonWriter jWriter = new JsonTextWriter(sWriter))
+            {
+                serializer.Serialize(jWriter, locBDInfoModels);
+            }
+            //client.SetTaskAsync("QuanLy/593230",chuyenThus);
+            client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/OptionLocBD").PutAsync(locBDInfoModels);
         }
 
         public static void onSetupFileManager()
@@ -333,7 +324,7 @@ namespace TaoBD10.Manager
 
         public static void SaveBuuCuc(List<BuuCucModel> buuCucModels)
         {
-            client.Child(@"QuanLy/DanhSach/" + maBuuCuc + "/LayBuuCuc").PutAsync(buuCucModels).Wait();
+            client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/LayBuuCuc").PutAsync(buuCucModels).Wait();
         }
 
         public static void SaveBuuCucOffline(List<BuuCucModel> buucucs)
@@ -389,7 +380,7 @@ namespace TaoBD10.Manager
         {
             if (!Directory.Exists("Data"))
             {
-                Directory.CreateDirectory("Data");
+                _ = Directory.CreateDirectory("Data");
             }
             if (!File.Exists(_fileCT))
             {
@@ -414,7 +405,7 @@ namespace TaoBD10.Manager
                 serializer.Serialize(jWriter, chuyenThus);
             }
             //client.SetTaskAsync("QuanLy/593230",chuyenThus);
-            client.Child(@"QuanLy/DanhSach/" + maBuuCuc + "/OptionCT").PutAsync(chuyenThus);
+            client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/OptionCT").PutAsync(chuyenThus);
         }
 
         public static void SaveData(BD10InfoModel bD10Info)
@@ -431,9 +422,9 @@ namespace TaoBD10.Manager
             //client.SetTaskAsync("QuanLyXe/DanhSachBD/"+bD10Info.DateCreateBD10.Year+"|"+bD10Info.DateCreateBD10.DayOfYear+"|"+new Random().Next(), bD10Info);
         }
 
-        public static void SaveLayBD(List<LayBD10Info> layBDs)
+        public static void SaveLayBDFirebase(List<LayBD10Info> layBDs)
         {
-            client.Child(@"QuanLy/DanhSach/" + maBuuCuc + "/LayBD10").PutAsync(layBDs).Wait();
+            client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/LayBD10").PutAsync(layBDs).Wait();
         }
 
         public static void SaveLayBDOffline(List<LayBD10Info> laybds)

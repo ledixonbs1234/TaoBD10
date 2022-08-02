@@ -12,7 +12,11 @@
     mc:Ignorable="d">
     <StackPanel>
         <DataGrid Height="400" ItemsSource="{Binding Options}"/>
-
-        <Button Content="Save" Width="100" Margin="5" Command="{Binding SaveCommand}"/>
+        <StackPanel Orientation="Horizontal">
+            <Button Content="Lay Du Lieu" Width="100" Margin="5" Command="{Binding LayDuLieuCommand}"/>
+            <Button Content="Save" Width="100" Margin="5" Command="{Binding SaveCommand}"/>
+            <Button Content="Publish Cloud" Width="120" Margin="5" Command="{Binding PublishCloudCommand}"/>
+        </StackPanel>
+        
     </StackPanel>
 </UserControl>

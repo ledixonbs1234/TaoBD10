@@ -30,6 +30,27 @@ namespace TaoBD10.ViewModels
             int countAnNhon = currentListHangHoa.Where(m => m.PhanLoai == PhanLoaiTinh.AnNhon).Count();
         }
 
+        public ICommand GetDataFromCloudCommand { get; }
+
+        
+        void GetDataFromCloud()
+        {
+            var listLoc = FileManager.LoadLocBDOnFirebase();
+            if (listLoc != null)
+            {
+                LocBDs = new ObservableCollection<LocBDInfoModel>();
+                foreach (LocBDInfoModel item in listLoc)
+                {
+                    if (item.TaoBDs.Count == 0)
+                    {
+                        item.TaoBDs.Add(new TaoBdInfoModel());
+                    }
+                    LocBDs.Add(item);
+                }
+            }
+        }
+
+
         private ObservableCollection<TinhHuyenModel> _ShowTinhs;
 
         public ObservableCollection<TinhHuyenModel> ShowTinhs
@@ -141,6 +162,9 @@ namespace TaoBD10.ViewModels
             SaveTinhToSelectedLocBDCommand = new RelayCommand(SaveTinhToSelectedLocBD);
             DeleteTinhCommand = new RelayCommand(DeleteTinh);
             HiddenCommand = new RelayCommand(Hidden);
+            GetDataFromCloudCommand = new RelayCommand(GetDataFromCloud);
+            PublishCommand = new RelayCommand(Publish);
+
             LoadLoc();
             WeakReferenceMessenger.Default.Register<BD10Message>(this, (r, m) =>
             {
@@ -250,6 +274,15 @@ namespace TaoBD10.ViewModels
 
             //thuc hien viec xoa Thong Tin tu Tinh Thanh;
         }
+
+        public ICommand PublishCommand { get; }
+
+      
+        void Publish()
+        {
+            FileManager.SaveLocBD10Firebase(LocBDs.ToList());
+        }
+
         void LoadLoc()
         {
             var list = FileManager.LoadLocKTBCPOffline();

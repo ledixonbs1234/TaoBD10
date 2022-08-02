@@ -36,6 +36,8 @@ namespace TaoBD10.ViewModels
             GetDataFromCloudCommand = new RelayCommand(GetDataFromCloud);
             XuongCommand = new RelayCommand(Xuong);
             LenCommand = new RelayCommand(Len);
+            PublishCommand = new RelayCommand(Publish);
+
             //thuc hien lay du lieu tu web
             ChuyenThu4Command = new RelayCommand(ChuyenThu4);
             ChuyenThu3Command = new RelayCommand(ChuyenThu3);
@@ -792,11 +794,23 @@ namespace TaoBD10.ViewModels
             APIManager.SetPrintBD10();
         }
 
-        void SaveCT()
+        public ICommand PublishCommand { get; }
+
+        
+        void Publish()
         {
             if (ChuyenThus.Count != 0)
             {
                 FileManager.SaveCTOnFirebase(ChuyenThus.ToList());
+            }
+        }
+
+
+        void SaveCT()
+        {
+            if (ChuyenThus.Count != 0)
+            {
+                FileManager.SaveCTOffline(ChuyenThus.ToList());
             }
 
         }

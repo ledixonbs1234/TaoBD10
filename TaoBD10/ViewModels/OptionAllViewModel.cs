@@ -54,11 +54,33 @@ namespace TaoBD10.ViewModels
             FileManager.SaveOptionOffline(Option);
         }
 
+        public ICommand LayDuLieuCommand { get; }
+
+        
+
+        void LayDuLieu()
+        {
+
+        }
+
+        public ICommand PublishCloudCommand { get; }
+
+     
+
+        void PublishCloud()
+        {
+
+        }
+
+
+
 
 
 
         public OptionAllViewModel()
         {
+            PublishCloudCommand = new RelayCommand(PublishCloud);
+            LayDuLieuCommand = new RelayCommand(LayDuLieu); 
             Option = new OptionModel();
             GetOptionData();
             Options = new ObservableCollection<OptionInfoModel>();

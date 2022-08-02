@@ -23,8 +23,8 @@
                 ToolTip="Mở phần khởi tạo chuyến thư để lấy thông tin túi" />
             <Button
                 Margin="5"
-                Command="{Binding NewCTCommand}"
-                Content="New"
+                Command="{Binding PublishCommand}"
+                Content="Publish Cloud"
                 ToolTip="Mở phần khởi tạo chuyến thư để lấy thông tin túi" />
             <Button
                 Margin="5"

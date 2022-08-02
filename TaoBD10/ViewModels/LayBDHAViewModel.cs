@@ -20,6 +20,8 @@ namespace TaoBD10.ViewModels
         public LayBDHAViewModel()
         {
             Button1Command = new RelayCommand(Button1);
+            SaveLayBDOfflineCommand = new RelayCommand(SaveLayBDOffline);
+
             Button6Command = new RelayCommand(Button6);
             SaveLayBDCommand = new RelayCommand(SaveLayBD);
             Button5Command = new RelayCommand(Button5);
@@ -58,7 +60,6 @@ namespace TaoBD10.ViewModels
 
         void GetDataFromCloud()
         {
-
             ShowData(FileManager.LoadLayBDOnFirebase());
         }
 
@@ -247,8 +248,17 @@ namespace TaoBD10.ViewModels
 
         void SaveLayBD()
         {
-            FileManager.SaveLayBD(BD10Infos.ToList());
+            FileManager.SaveLayBDFirebase(BD10Infos.ToList());
         }
+
+        public ICommand SaveLayBDOfflineCommand { get; }
+
+        
+        void SaveLayBDOffline()
+        {
+            FileManager.SaveLayBDOffline(BD10Infos.ToList());
+        }
+
 
         private void Timer_Tick(object sender, EventArgs e)
         {

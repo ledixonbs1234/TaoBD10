@@ -27,6 +27,7 @@ namespace TaoBD10.ViewModels
             BuuCuc7Command = new RelayCommand(BuuCuc7);
             BuuCuc8Command = new RelayCommand(BuuCuc8);
             BuuCuc9Command = new RelayCommand(BuuCuc9);
+            PublishCommand = new RelayCommand(Publish);
 
             GetDataFromCloudCommand = new RelayCommand(GetDataFromCloud);
             bwLayCT = new BackgroundWorker();
@@ -45,6 +46,15 @@ namespace TaoBD10.ViewModels
             });
             ShowData(FileManager.LoadBuuCucOffline());
         }
+
+        public ICommand PublishCommand { get; }
+
+       
+        void Publish()
+        {
+            FileManager.SaveBuuCuc(BuuCucs.ToList());
+        }
+
 
         void ShowData(List<BuuCucModel> data)
         {

@@ -24,6 +24,10 @@
             <Button
                 Margin="5"
                 Command="{Binding SaveLayBDCommand}"
+                Content="Publish Cloud" />
+            <Button
+                Margin="5"
+                Command="{Binding SaveLayBDOfflineCommand}"
                 Content="Lưu" />
             <Button Margin="5" Content="Xóa" />
             <Button

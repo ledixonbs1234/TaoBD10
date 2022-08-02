@@ -39,7 +39,12 @@
             <Button
                 Margin="5"
                 Command="{Binding GetDataFromCloudCommand}"
-                Content="Get Cloud"
+                Content="Lay Du Lieu"
+                ToolTip="Mở phần khởi tạo chuyến thư để lấy thông tin túi" />
+            <Button
+                Margin="5"
+                Command="{Binding PublishCommand}"
+                Content="Publish Cloud"
                 ToolTip="Mở phần khởi tạo chuyến thư để lấy thông tin túi" />
             <Button
                 Margin="5"

@@ -128,6 +128,8 @@ namespace TaoBD10.ViewModels
                 SendKeys.SendWait("{TAB}");
                 Thread.Sleep(50);
                 SendKeys.SendWait("^(a)");
+                Thread.Sleep(300);
+                APIManager.ClickButton(window.hwnd, "Đối kiểm");
             }
         }
 
@@ -385,6 +387,10 @@ namespace TaoBD10.ViewModels
                     SoundManager.playSound(@"Number\" + Current.ToString() + ".wav");
                 else
                     SoundManager.playSound(@"Number\chuaxacdinh.wav");
+                if(Current == TongCong)
+                {
+                    SoundManager.playSound3(@"Number\dusoluong.wav");
+                }
 
                 //thuc hien viec dem so trong nay
                 MaHieu = "";

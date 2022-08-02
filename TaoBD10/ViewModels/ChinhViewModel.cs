@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
@@ -440,7 +441,7 @@ namespace TaoBD10.ViewModels
                     textGr = "0." + textGr;
             }
 
-            numberGR = double.Parse(textGr);
+            numberGR = double.Parse(textGr, CultureInfo.InvariantCulture);
 
             SendKeys.SendWait("{F6}");
 

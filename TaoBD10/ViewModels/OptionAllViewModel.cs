@@ -60,7 +60,7 @@ namespace TaoBD10.ViewModels
 
         void LayDuLieu()
         {
-
+           Option = FileManager.GetOptionAll();
         }
 
         public ICommand PublishCloudCommand { get; }
@@ -69,7 +69,7 @@ namespace TaoBD10.ViewModels
 
         void PublishCloud()
         {
-
+            FileManager.SaveOptionAll(Option);
         }
 
 

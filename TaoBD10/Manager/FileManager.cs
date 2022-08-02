@@ -57,7 +57,7 @@ namespace TaoBD10.Manager
         {
             onSetupFileManager();
 
-            Task<OptionModel> optionTemp = client.Child(@"QuanLy/DanhSach/" + maBuuCuc + "/Option").OnceSingleAsync<OptionModel>();
+            Task<OptionModel> optionTemp = client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/Option").OnceSingleAsync<OptionModel>();
             optionTemp.Wait();
             optionModel = optionTemp.Result;
             return optionTemp.Result;
@@ -446,7 +446,7 @@ namespace TaoBD10.Manager
 
         public static void SaveOptionAll(OptionModel option)
         {
-            client.Child(@"QuanLy/DanhSach/" + maBuuCuc + "/Option").PutAsync(option).Wait();
+            client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/Option").PutAsync(option).Wait();
         }
 
         public static void SaveOptionOffline(OptionModel option)

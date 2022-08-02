@@ -652,12 +652,15 @@ document.querySelector('#menu-3 > li:nth-child(10) > a').click();";
                                 {
                                     HtmlNode item = tableChiTiet.ChildNodes[i];
                                     HtmlNodeCollection listTd = item.SelectNodes("td");
-                                    if (listTd.Count() >= 6)
+                                    if (listTd == null)
+                                        break;
+                                    if (listTd.Count() >= 5)
                                     {
-                                        list.Add(new ThongTinTrangThaiModel(listTd[1].InnerText, listTd[1].InnerText, listTd[3].InnerText, listTd[4].InnerText));
+                                        list.Add(new ThongTinTrangThaiModel(listTd[1].InnerText, listTd[2].InnerText, listTd[3].InnerText, listTd[4].InnerText));
 
                                     }
                                 }
+                                kiemTra.ThongTins = list;
                             }
                             //int count = tableChiTiet.ChildNodes;
                             //kiemTra.Date = aa[2].InnerText;

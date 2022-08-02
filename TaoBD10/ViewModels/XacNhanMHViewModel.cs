@@ -3,6 +3,7 @@ using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading;
@@ -192,6 +193,18 @@ namespace TaoBD10.ViewModels
                 backgroundWorkerXacNhan.RunWorkerAsync();
             }
         }
+        private ObservableCollection<ThongTinTrangThaiModel> _TrangThais;
+
+        public ObservableCollection<ThongTinTrangThaiModel> TrangThais
+        {
+            get { return _TrangThais; }
+            set { SetProperty(ref _TrangThais, value); }
+        }
+
+
+
+
+
 
         private void OnEnterKey()
         {

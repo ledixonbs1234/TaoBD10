@@ -19,6 +19,7 @@ namespace TaoBD10.ViewModels
         public XacNhanMHViewModel()
         {
             _XacNhanInfo = new XacNhanInfoModel();
+            TrangThais = new ObservableCollection<ThongTinTrangThaiModel>();
             TestCommand = new RelayCommand(Test);
             backgroundWorker = new BackgroundWorker();
             backgroundWorker.DoWork += Woker_DoWork;
@@ -36,6 +37,11 @@ namespace TaoBD10.ViewModels
                 App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
                 {
                     XacNhanMH = m.Value;
+                    TrangThais.Clear();
+                    foreach (var item in m.Value.ThongTins)
+                    {
+                        TrangThais.Add(item);
+                    }
                     IsWaitingComplete = false;
                     GoToCTCommand.Execute(null);
                 });

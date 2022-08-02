@@ -68,7 +68,7 @@
                     Command="{Binding GoToCTCommand}"
                     Content="Go CT" />
             </StackPanel>
-            <DataGrid ItemsSource="{Binding TrangThais}"></DataGrid>
+            <DataGrid ItemsSource="{Binding TrangThais}" Height="300"></DataGrid>
         </StackPanel>
     </materialDesign:Card>
 </UserControl>

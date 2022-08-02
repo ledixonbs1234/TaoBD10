@@ -638,6 +638,21 @@ document.querySelector('#menu-3 > li:nth-child(10) > a').click();";
                             kiemTra.BuuCucNhan = aa[4].InnerText;
                             kiemTra.TTCT = aa[5].InnerText;
 
+
+                            HtmlNodeCollection tablesChiTiet = document.DocumentNode.SelectNodes("//table[@id='MainContent_ctl00_grvItemTrace']/tbody");
+                            if (tablesChiTiet == null)
+                            {
+                                return;
+                            }
+                            var tableChiTiet = tables.First();
+                            int count = tableChiTiet.ChildNodes.Count;
+                            //kiemTra.Date = aa[2].InnerText;
+                            //kiemTra.BuuCucDong = aa[3].InnerText;
+                            //kiemTra.BuuCucNhan = aa[4].InnerText;
+                            //kiemTra.TTCT = aa[5].InnerText;
+
+
+
                             //thuc hien send thong tin qua kiem tra model
                             if (_LoadWebChoose == LoadWebChoose.KiemTraWeb)
                             {

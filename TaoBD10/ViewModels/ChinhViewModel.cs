@@ -872,6 +872,8 @@ namespace TaoBD10.ViewModels
                     return;
                 if (copyedData.IndexOf("Selected") == -1)
                     return;
+                Thread.Sleep(500);
+                
                 APIManager.ClickButton(currentWindow.hwnd, "xac nhan chuyen thu", isExactly: false);
                 currentWindow = APIManager.WaitingFindedWindow("xac nhan");
                 APIManager.ClickButton(currentWindow.hwnd, "yes", isExactly: false);

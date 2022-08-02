@@ -1240,7 +1240,8 @@ namespace TaoBD10.ViewModels
 
                 case 3:
 
-                    DefaultWindowCommand.Execute(null);
+                    SetRightHeigtTuiWindow();
+                    //DefaultWindowCommand.Execute(null);
 
                     WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Focus", Content = "Box" });
                     break;

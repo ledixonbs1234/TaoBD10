@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 using TaoBD10.Manager;
 using TaoBD10.Model;
@@ -23,6 +24,7 @@ namespace TaoBD10.ViewModels
             CheckCommand = new RelayCommand(Check);
             AddAddressCommand = new RelayCommand(AddAddress);
 
+        CopySelectedCommand = new RelayCommand(CopySelected);
             GetNameCommand = new RelayCommand(GetName);
 
             HangTons = new ObservableCollection<HangTonModel>();
@@ -114,6 +116,18 @@ namespace TaoBD10.ViewModels
             get { return _TextsRange; }
             set { SetProperty(ref _TextsRange, value); }
         }
+
+        public ICommand CopySelectedCommand { get; }
+
+        void CopySelected()
+        {
+            if(Selected != null)
+            {
+                Clipboard.SetText(Selected.MaHieu.ToUpper());
+            }
+
+        }
+
 
         private List<MaHieuDiNgoaiInfo> LocTextTho(string textsRange)
         {

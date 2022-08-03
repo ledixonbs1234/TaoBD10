@@ -96,7 +96,7 @@ namespace TaoBD10.ViewModels
 
         private void LayTui()
         {
-            MoTui();
+            ChonTatCaTrongTui();
 
             APIManager.WaitingFindedWindow("xac nhan chi tiet tui thu");
             RunGetData();
@@ -108,7 +108,7 @@ namespace TaoBD10.ViewModels
 
         public ICommand MoTuiCommand { get; }
 
-        private void MoTui()
+        WindowInfo ChonTatCaTrongTui()
         {
             if (!APIManager.ThoatToDefault("593230", "quan ly chuyen thu chieu den"))
             {
@@ -121,15 +121,25 @@ namespace TaoBD10.ViewModels
             SendKeys.SendWait(SelectedXacNhan.SHTui);
             SendKeys.SendWait("{ENTER}");
             WindowInfo window = APIManager.WaitingFindedWindow("xac nhan chi tiet tui thu");
-            if (SelectedXacNhan.TuiHave == SelectedXacNhan.MaHieuTuis.Count)
+            
+            return window;
+        }
+
+        private void MoTui()
+        {
+            WindowInfo window = ChonTatCaTrongTui();
+            if (window != null)
             {
-                SendKeys.SendWait("{TAB}");
-                Thread.Sleep(50);
-                SendKeys.SendWait("{TAB}");
-                Thread.Sleep(50);
-                SendKeys.SendWait("^(a)");
-                Thread.Sleep(300);
-                APIManager.ClickButton(window.hwnd, "Đối kiểm");
+                if (SelectedXacNhan.TuiHave == SelectedXacNhan.MaHieuTuis.Count)
+                {
+                    SendKeys.SendWait("{TAB}");
+                    Thread.Sleep(50);
+                    SendKeys.SendWait("{TAB}");
+                    Thread.Sleep(50);
+                    SendKeys.SendWait("^(a)");
+                    Thread.Sleep(200);
+                    APIManager.ClickButton(window.hwnd, "Đối kiểm");
+                }
             }
         }
 
@@ -387,7 +397,7 @@ namespace TaoBD10.ViewModels
                     SoundManager.playSound(@"Number\" + Current.ToString() + ".wav");
                 else
                     SoundManager.playSound(@"Number\chuaxacdinh.wav");
-                if(Current == TongCong)
+                if (Current == TongCong)
                 {
                     SoundManager.playSound3(@"Number\dusoluong.wav");
                 }
@@ -422,7 +432,7 @@ namespace TaoBD10.ViewModels
             {
                 if (m.Value != null)
                 {
-                    if(m.Value.Key == "XacNhanTui")
+                    if (m.Value.Key == "XacNhanTui")
                     {
                         List<ChiTietTuiModel> chiTietTuis = m.Value.ChiTietTuis;
 
@@ -439,7 +449,7 @@ namespace TaoBD10.ViewModels
                             }
                         }
                     }
-                   
+
                 }
             }
             );

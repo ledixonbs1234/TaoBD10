@@ -24,7 +24,7 @@ namespace TaoBD10.ViewModels
         private bool Is16Kg = false;
         public IRelayCommand<Window> CloseWindowCommand { get; }
 
-        private bool _IsTopMost = false;
+        private bool _IsTopMost = true;
 
         private bool _IsXacNhanChiTieting = false;
 

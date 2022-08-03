@@ -201,7 +201,9 @@ namespace TaoBD10.ViewModels
                     //thuc hien lay hang hoa trong nay
                     if (currentListHangHoa == null)
                         return;
-                    List<HangHoaDetailModel> tempData = currentListHangHoa.FindAll(n => n.PhanLoai == PhanLoaiTinh.KTHN || n.PhanLoai == PhanLoaiTinh.BCPHN);
+                    List<HangHoaDetailModel> tempData = new List<HangHoaDetailModel>();
+                    tempData.AddRange(LocKhaiThac.HangHoas);
+                    tempData.AddRange(LocBCP.HangHoas);
                     if (tempData == null)
                         return;
                     List<HangHoaDetailModel> data = new List<HangHoaDetailModel>();
@@ -297,6 +299,8 @@ namespace TaoBD10.ViewModels
                 locBD.IsEnabledButton = false;
                 locBD.HangHoas.Clear();
             }
+            LocKhaiThac.HangHoas.Clear();
+            LocBCP.HangHoas.Clear();
             ConLai.HangHoas.Clear();
             ConLai.IsEnabledButton = false;
         }

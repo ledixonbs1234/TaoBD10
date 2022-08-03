@@ -13,10 +13,11 @@ namespace TaoBD10.Manager
     {
         public static void GetCode()
         {
-            string dir = Directory.GetCurrentDirectory() + "\\Data\\buucuctoanquoc.txt";
-            if (Directory.Exists(dir))
+            string file = Directory.GetCurrentDirectory() + "\\Data\\buucuctoanquoc.txt";
+            
+            if (File.Exists(file))
             {
-                string text = File.ReadAllText(dir);
+                string text = File.ReadAllText(file);
                 var texts = text.Split('\n');
                 for (int i = 0; i < texts.Length; i++)
                 {

@@ -247,7 +247,9 @@
     <Compile Include="ViewModels\LayChuyenThuViewModel.cs" />
     <Compile Include="ViewModels\LocTuiViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\ObservalbeObject.cs" />
     <Compile Include="ViewModels\OptionAllViewModel.cs" />
+    <Compile Include="ViewModels\OptionTinhThanhViewModel.cs" />
     <Compile Include="ViewModels\TamQuanViewModel.cs" />
     <Compile Include="ViewModels\TuyChonViewModel.cs" />
     <Compile Include="ViewModels\WebViewModel.cs" />
@@ -306,6 +308,9 @@
     </Compile>
     <Compile Include="Views\OptionLayCT.xaml.cs">
       <DependentUpon>OptionLayCT.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\OptionTinhThanhView.xaml.cs">
+      <DependentUpon>OptionTinhThanhView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TamQuanView.xaml.cs">
       <DependentUpon>TamQuanView.xaml</DependentUpon>
@@ -413,6 +418,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\OptionLayCT.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\OptionTinhThanhView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

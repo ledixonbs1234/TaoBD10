@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="TaoBD10.Views.OptionTinhThanhView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TaoBD10.Views"
+             mc:Ignorable="d" 
+             DataContext="{StaticResource OptionTinhThanhVM}"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="47*"/>
+            <RowDefinition Height="9*"/>
+            <RowDefinition Height="34*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="39*"/>
+            <ColumnDefinition Width="41*"/>
+        </Grid.ColumnDefinitions>
+        <DataGrid ItemsSource="{Binding TinhHuyens}" IsReadOnly="True"></DataGrid>
+        <StackPanel Orientation="Horizontal" Grid.Row="1">
+            <Button Margin="5" Content="Mở file" Command="{Binding MoFileTinhThanhCommand}"></Button>
+            <Button Margin="5" Content="Lấy Dữ Liệu" Command="{Binding LayDuLieuTinhThanhCommand}"></Button>
+            <Button Margin="5" Content="Lưu" Command="{Binding SaveTinhThanhCommand}"></Button>
+            <Button Margin="5" Content="Publish Cloud" Command="{Binding PublishTinhThanhCommand}"></Button>
+        </StackPanel>
+        <DataGrid Grid.Column="1" AutoGenerateColumns="False" ItemsSource="{Binding BuuCucs}" IsReadOnly="True" >
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
+            <Button Margin="5" Content="Mở file" Command="{Binding MoFileBuuCucCommand}"></Button>
+            <Button Margin="5" Content="Lấy Dữ Liệu" Command="{Binding LayDuLieuBuuCucCommand}"></Button>
+            <Button Margin="5" Content="Lưu" Command="{Binding SaveBuuCucCommand}"></Button>
+            <Button Margin="5" Content="Publish Cloud" Command="{Binding PublishBuuCucCommand}"></Button>
+        </StackPanel>
+
+
+    </Grid>
+</UserControl>

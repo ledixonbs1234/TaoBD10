@@ -11,29 +11,6 @@ namespace TaoBD10.Manager
 {
     public static class FileManager
     {
-        public static void GetCode()
-        {
-            string file = Directory.GetCurrentDirectory() + "\\Data\\buucuctoanquoc.txt";
-            
-            if (File.Exists(file))
-            {
-                string text = File.ReadAllText(file);
-                var texts = text.Split('\n');
-                for (int i = 0; i < texts.Length; i++)
-                {
-                    if (!string.IsNullOrEmpty(texts[i]))
-                    {
-                        listBuuCuc.Add(texts[i]);
-                    }
-                }
-
-            }else
-            {
-                listBuuCuc = new List<string>();
-            }
-
-        }
-
         public static List<MaBD8Model> GetMaBD8s()
         {
             if (File.Exists(_fileBD8))
@@ -89,6 +66,39 @@ namespace TaoBD10.Manager
                 OptionModel option = serializer.Deserialize<OptionModel>(jReader);
                 optionModel = option;
                 return option;
+            }
+        }
+
+        public static List<string> LoadBuuCucsOffline()
+        {
+            if (!File.Exists(_fileBuuCucs))
+            {
+                SaveBuuCucsOffline(new List<string>());
+            }
+
+            JsonSerializer serializer = new JsonSerializer();
+            using (StreamReader sReader = new StreamReader(_fileBuuCucs))
+            using (JsonReader jReader = new JsonTextReader(sReader))
+            {
+                List<string> listBuuCucs = serializer.Deserialize<List<string>>(jReader);
+                return listBuuCucs;
+            }
+        }
+
+        public static void SaveBuuCucsOffline(List<string> list)
+        {
+            if (!File.Exists(_fileBuuCucs))
+            {
+                using (FileStream fs = File.Create(_fileBuuCucs))
+                {
+
+                }
+            }
+            JsonSerializer serializer = new JsonSerializer();
+            using (StreamWriter sWriter = new StreamWriter(_fileBuuCucs))
+            using (JsonWriter jWriter = new JsonTextWriter(sWriter))
+            {
+                serializer.Serialize(jWriter, list);
             }
         }
 
@@ -157,16 +167,27 @@ namespace TaoBD10.Manager
                 List<BuuCucModel> listBuuCuc = serializer.Deserialize<List<BuuCucModel>>(jReader);
                 return listBuuCuc;
             }
-
         }
 
-        public static List<TinhHuyenModel> LoadTinhThanh()
+        public static void SaveTinhThanhOffline(List<TinhHuyenModel> list)
         {
             if (!File.Exists(_fileTinhThanh))
             {
-                return null;
+                using (FileStream fs = File.Create(_fileTinhThanh))
+                {
+
+                }
             }
-            IEnumerable<string> tinhThanhs = File.ReadLines(_fileTinhThanh);
+            JsonSerializer serializer = new JsonSerializer();
+            using (StreamWriter sWriter = new StreamWriter(_fileTinhThanh))
+            using (JsonWriter jWriter = new JsonTextWriter(sWriter))
+            {
+                serializer.Serialize(jWriter, list);
+            }
+        }
+        public static List<TinhHuyenModel> LoadTinhThanhFromFile(string path)
+        {
+            IEnumerable<string> tinhThanhs = File.ReadLines(path);
             var list = new List<TinhHuyenModel>();
             foreach (string tinh in tinhThanhs)
             {
@@ -177,7 +198,61 @@ namespace TaoBD10.Manager
                 list.Add(new TinhHuyenModel(splitText[1].Trim(), splitText[2].Trim()));
             }
             return list;
+        }
 
+        public static List<string> LoadBuuCucsFromFile(string path)
+        {
+            listBuuCuc = new List<string>();
+            string text = File.ReadAllText(path);
+            var texts = text.Split('\n');
+            for (int i = 0; i < texts.Length; i++)
+            {
+                if (!string.IsNullOrEmpty(texts[i]))
+                {
+                    listBuuCuc.Add(texts[i].Trim());
+                }
+            }
+            return listBuuCuc;
+        }
+
+
+
+        public static List<TinhHuyenModel> LoadTinhThanhOffline()
+        {
+            if (!File.Exists(_fileTinhThanh))
+            {
+                SaveTinhThanhOffline(new List<TinhHuyenModel>());
+            }
+
+            JsonSerializer serializer = new JsonSerializer();
+            using (StreamReader sReader = new StreamReader(_fileTinhThanh))
+            using (JsonReader jReader = new JsonTextReader(sReader))
+            {
+                List<TinhHuyenModel> listTinhThanh = serializer.Deserialize<List<TinhHuyenModel>>(jReader);
+                return listTinhThanh;
+            }
+        }
+
+
+
+        public static List<TinhHuyenModel> LoadTinhThanhOnFirebase()
+        {
+            onSetupFileManager();
+            Task<List<TinhHuyenModel>> cts = client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/TinhThanh").OrderByKey().OnceSingleAsync<List<TinhHuyenModel>>();
+            cts.Wait();
+            List<TinhHuyenModel> result = cts.Result;
+            SaveTinhThanhOffline(result);
+            return result;
+
+        }
+        public static List<string> LoadBuuCucsOnFirebase()
+        {
+            onSetupFileManager();
+            Task<List<string>> cts = client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/BuuCucs").OrderByKey().OnceSingleAsync<List<string>>();
+            cts.Wait();
+            List<string> result = cts.Result;
+            SaveBuuCucsOffline(result);
+            return result;
 
         }
 
@@ -432,6 +507,18 @@ namespace TaoBD10.Manager
             client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/LayBD10").PutAsync(layBDs).Wait();
         }
 
+        public static void SaveLayTinhThanhFirebase(List<TinhHuyenModel> tinhThanhs)
+        {
+            onSetupFileManager();
+            client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/TinhThanh").PutAsync(tinhThanhs).Wait();
+        }
+        public static void SaveBuuCucsFirebase(List<string> buucucs)
+        {
+            onSetupFileManager();
+            client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/BuuCucs").PutAsync(buucucs).Wait();
+        }
+
+
         public static void SaveLayBDOffline(List<LayBD10Info> laybds)
         {
             if (!File.Exists(_fileLayBD))
@@ -493,7 +580,8 @@ namespace TaoBD10.Manager
         private static string _fileCT = Environment.CurrentDirectory + "\\Data\\dataCT.json";
         private static string _fileLayBD = Environment.CurrentDirectory + "\\Data\\dataLayBD.json";
         private static string _fileOption = Environment.CurrentDirectory + "\\Data\\option.json";
-        private static string _fileTinhThanh = Environment.CurrentDirectory + "\\Data\\TinhThanh.txt";
+        private static string _fileTinhThanh = Environment.CurrentDirectory + "\\Data\\TinhThanh.json";
+        private static string _fileBuuCucs = Environment.CurrentDirectory + "\\Data\\BuuCucs.json";
         private static string _fileLocBD10 = Environment.CurrentDirectory + "\\Data\\LocBD10.txt";
         private static string _fileLocKTBCP = Environment.CurrentDirectory + "\\Data\\LocKTBCP.txt";
         static string auth = "Hw5ESVqVaYfqde21DIHqs4EGhYcqGIiEF4GROViU";

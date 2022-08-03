@@ -250,7 +250,7 @@ namespace TaoBD10.ViewModels
                 }
             });
 
-            var listTemp = FileManager.LoadTinhThanh();
+            var listTemp = FileManager.LoadTinhThanhOffline();
             if (listTemp != null)
             {
                 ShowTinhs = new ObservableCollection<TinhHuyenModel>();

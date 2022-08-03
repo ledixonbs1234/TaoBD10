@@ -183,6 +183,9 @@
                         <TabItem Padding="0" Header="Option BD 10">
                             <view:OptionChiTietView/>
                         </TabItem>
+                        <TabItem Padding="0" Header="Tỉnh Thành">
+                            <view:OptionTinhThanhView/>
+                        </TabItem>
                     </TabControl>
                 </TabItem>
             </TabControl>

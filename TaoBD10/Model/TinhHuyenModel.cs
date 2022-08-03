@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace TaoBD10.Model
 {
+    [Serializable]
     public class TinhHuyenModel
     {
         public bool IsChecked { get; set; }

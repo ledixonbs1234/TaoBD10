@@ -21,4 +21,5 @@
     <viewmodel:KTChuaPhatViewModel x:Key="KTChuaPhatVM" />
     <viewmodel:XacNhanMHViewModel x:Key="XacNhanMHVM" />
     <viewmodel:TuyChonViewModel x:Key="TuyChonVM" />
+    <viewmodel:OptionTinhThanhViewModel x:Key="OptionTinhThanhVM" />
 </ResourceDictionary>

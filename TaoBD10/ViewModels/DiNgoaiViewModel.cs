@@ -116,9 +116,11 @@ namespace TaoBD10.ViewModels
                 }
             });
 
-            FileManager.GetCode();
-            tinhs = FileManager.LoadTinhThanh();
+            listBuuCuc = FileManager.LoadBuuCucsOffline();
+
+            tinhs = FileManager.LoadTinhThanhOffline();
         }
+        List<string> listBuuCuc;
         private List<TinhHuyenModel> tinhs;
 
         string AutoSetTinh(string address)
@@ -1835,11 +1837,11 @@ namespace TaoBD10.ViewModels
         private List<string> GetListBuuCucFromTinh(string maTinh)
         {
             List<string> buucucs = new List<string>();
-            for (int i = 0; i < FileManager.listBuuCuc.Count; i++)
+            for (int i = 0; i < listBuuCuc.Count; i++)
             {
-                if (maTinh == FileManager.listBuuCuc[i].Substring(0, 2))
+                if (maTinh == listBuuCuc[i].Substring(0, 2))
                 {
-                    buucucs.Add(FileManager.listBuuCuc[i].Trim());
+                    buucucs.Add(listBuuCuc[i].Trim());
                 }
             }
 

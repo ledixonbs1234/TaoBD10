@@ -1577,11 +1577,6 @@ namespace TaoBD10.ViewModels
                             Thread.Sleep(700);
                             WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "LayDuLieu" });
                         }
-                        else if (KeyData.IndexOf("dong280") != -1)
-                        {
-                            Thread.Sleep(700);
-                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "BCP" });
-                        }
                         else if (KeyData.IndexOf("inbd8") != -1)
                         {
                             Thread.Sleep(100);

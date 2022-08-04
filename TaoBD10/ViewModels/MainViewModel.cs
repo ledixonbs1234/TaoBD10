@@ -28,6 +28,8 @@ namespace TaoBD10.ViewModels
 
         private bool _IsXacNhanChiTieting = false;
 
+        int lastNumberSuaBD = 0;
+
         public bool IsTopMost
         {
             get { return _IsTopMost; }
@@ -866,6 +868,11 @@ namespace TaoBD10.ViewModels
                         }
                         TestAPIModel apiNumber = listWindowStatic[8];
                         int.TryParse(Regex.Match(apiNumber.Text, @"\d+").Value, out numberRead);
+                        if (numberRead != lastNumberSuaBD)
+                        {
+                            APIManager.currentNumberBD = numberRead;
+                            lastNumberSuaBD = numberRead;
+                        }
                     }
                     else if (activeWindow.text.IndexOf("xem chuyen thu chieu den") != -1)
                     {
@@ -890,7 +897,7 @@ namespace TaoBD10.ViewModels
                             }
                         }
                     }
-                    else if (activeWindow.text.IndexOf("sua thong tin bd10") != -1)
+                    else if (activeWindow.text.IndexOf("sua thong tin bd10") != -1 || activeWindow.text == "lap bd10")
                     {
                         isHaveError = false;
 
@@ -902,6 +909,11 @@ namespace TaoBD10.ViewModels
                         TestAPIModel apiNumber = listWindowStatic[10];
                         //TestText += apiNumber.Text + "\n";
                         int.TryParse(Regex.Match(apiNumber.Text, @"\d+").Value, out numberRead);
+                        if(numberRead != lastNumberSuaBD)
+                        {
+                            APIManager.currentNumberBD = numberRead;
+                            lastNumberSuaBD = numberRead;
+                        }
                     }
 
                     if (numberRead <= 300)

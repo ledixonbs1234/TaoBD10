@@ -15,6 +15,7 @@ namespace TaoBD10.Manager
     public static class APIManager
     {
 
+        public static int currentNumberBD = 0;
         public static void FocusHandle(IntPtr handle)
         {
             SendMessage(handle, 0x0007, 0, 0);

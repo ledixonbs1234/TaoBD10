@@ -416,6 +416,9 @@ namespace TaoBD10.ViewModels
                     SendKeys.SendWait("{LEFT}");
                     SendKeys.SendWait(" ");
                     Thread.Sleep(50);
+
+                    string copedText = APIManager.GetCopyData();
+
                     SendKeys.SendWait("{F6}");
                     SendKeys.SendWait("{F6}");
                     Thread.Sleep(200);

@@ -1067,7 +1067,7 @@ namespace TaoBD10.ViewModels
                         break;
                     }
                     var active = APIManager.GetActiveWindowTitle();
-                    if (active.text != "sua thong tin bd" && active.text != "lap bd10")
+                    if (active.text.IndexOf("sua thong tin bd") == -1 && active.text.IndexOf("lap bd10") == -1)
                     {
                         APIManager.ShowSnackbar("Lỗi");
                         return;

@@ -1074,6 +1074,7 @@ namespace TaoBD10.ViewModels
                     }
                     if (countDown <= 0)
                     {
+                        indexContinueGuiTrucTiep = 0;
                         APIManager.ShowSnackbar("Hết thời gian chờ.");
                         return;
                     }

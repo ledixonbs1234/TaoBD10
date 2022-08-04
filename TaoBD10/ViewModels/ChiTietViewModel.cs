@@ -1051,6 +1051,7 @@ namespace TaoBD10.ViewModels
                 //lenh la cho khi so thay doi hoac hien thong bao toi da la 1 s
                 if (i == ListShowHangHoa.Count - 1)
                 {
+                    APIManager.ShowSnackbar("Vị trí cuối");
                     break;
                 }
 
@@ -1067,10 +1068,15 @@ namespace TaoBD10.ViewModels
                     }
                     var active = APIManager.GetActiveWindowTitle();
                     if (active.text != "sua thong tin bd" && active.text != "lap bd10")
-                        if (countDown <= 0)
-                        {
-                            return;
-                        }
+                    {
+                        APIManager.ShowSnackbar("Lỗi");
+                        return;
+                    }
+                    if (countDown <= 0)
+                    {
+                        APIManager.ShowSnackbar("Hết thời gian chờ.");
+                        return;
+                    }
                 }
 
                 //Thread.Sleep(500);

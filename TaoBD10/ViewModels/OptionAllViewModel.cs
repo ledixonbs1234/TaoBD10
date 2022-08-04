@@ -50,6 +50,8 @@ namespace TaoBD10.ViewModels
             Option.GoFastKTCTBCP = Options[12].Content1;
             Option.GoFastQLCTCDKT = Options[13].Content1;
             Option.GoFastQLCTCDBCP = Options[14].Content1;
+            Option.LayDuLieu = Options[15].Content1;
+            Option.MaBuuCucLayDuLieu = Options[15].Content2;
 
             FileManager.SaveOptionOffline(Option);
         }
@@ -108,6 +110,7 @@ namespace TaoBD10.ViewModels
             Options.Add(new OptionInfoModel("Khởi Tạo Chuyến Thư BCP", Option.GoFastKTCTBCP));
             Options.Add(new OptionInfoModel("Quản lý chuyến thư chiều đến KT", Option.GoFastQLCTCDKT));
             Options.Add(new OptionInfoModel("Quản lý chuyến thư chiều đến BCP", Option.GoFastQLCTCDBCP));
+            Options.Add(new OptionInfoModel("Lấy dữ liệu", Option.LayDuLieu,Option.MaBuuCucLayDuLieu));
         }
 
         private void GetOptionData()

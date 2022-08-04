@@ -216,7 +216,7 @@ namespace TaoBD10.ViewModels
         }
 
 
-     
+
         public ICommand TestCommand { get; }
 
         void Test()
@@ -668,7 +668,7 @@ namespace TaoBD10.ViewModels
         void ChuyenThu1()
         {
             ChuyenThuThu(1);
-                   }
+        }
 
         void ChuyenThu10()
         {
@@ -765,14 +765,16 @@ namespace TaoBD10.ViewModels
 
         private void LayDuLieu()
         {
-            APIManager.ThoatToDefault("593200", "Default");
-            SendKeys.SendWait("1");
-            Thread.Sleep(200);
-            SendKeys.SendWait("9");
-            Thread.Sleep(200);
-            SendKeys.SendWait("{F4}");
-            Thread.Sleep(1000);
-            SendKeys.SendWait("{F10}");
+            if (!string.IsNullOrEmpty(FileManager.optionModel.LayDuLieu))
+            {
+                var temp = FileManager.optionModel.LayDuLieu.Split(',');
+                APIManager.GoToWindow(FileManager.optionModel.MaBuuCucLayDuLieu, "Default", temp[0], temp[1]);
+                APIManager.WaitingFindedWindow("danh sach buu gui le");
+                SendKeys.SendWait("{F4}");
+                Thread.Sleep(1000);
+                SendKeys.SendWait("{F10}");
+
+            }
         }
 
         void Len()
@@ -796,7 +798,7 @@ namespace TaoBD10.ViewModels
 
         public ICommand PublishCommand { get; }
 
-        
+
         void Publish()
         {
             if (ChuyenThus.Count != 0)
@@ -873,7 +875,7 @@ namespace TaoBD10.ViewModels
                 if (copyedData.IndexOf("Selected") == -1)
                     return;
                 Thread.Sleep(500);
-                
+
                 APIManager.ClickButton(currentWindow.hwnd, "xac nhan chuyen thu", isExactly: false);
                 currentWindow = APIManager.WaitingFindedWindow("xac nhan");
                 APIManager.ClickButton(currentWindow.hwnd, "yes", isExactly: false);

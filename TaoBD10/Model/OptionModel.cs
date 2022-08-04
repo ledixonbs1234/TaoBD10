@@ -33,6 +33,8 @@ namespace TaoBD10.Model
         public string PWPNS { get; set; }
         public string GoFastQLCTCDBCP { get;  set; }
         public string GoFastQLCTCDKT { get;  set; }
+        public string LayDuLieu { get; set; }
+        public string MaBuuCucLayDuLieu { get;  set; }
 
         public OptionModel()
         {

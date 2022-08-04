@@ -32,7 +32,7 @@ namespace TaoBD10.ViewModels
 
         public ICommand GetDataFromCloudCommand { get; }
 
-        
+
         void GetDataFromCloud()
         {
             var listLoc = FileManager.LoadLocBDOnFirebase();
@@ -188,7 +188,7 @@ namespace TaoBD10.ViewModels
                     //ShowTest();
                 }
             });
-            
+
 
             WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>
             {
@@ -280,7 +280,7 @@ namespace TaoBD10.ViewModels
 
         public ICommand PublishCommand { get; }
 
-      
+
         void Publish()
         {
             FileManager.SaveLocBD10Firebase(LocBDs.ToList());
@@ -953,7 +953,7 @@ namespace TaoBD10.ViewModels
             int countCurrentTui = 0;
 
             bool isGone = false;
-            if (currentTinh != PhanLoaiTinh.HA_AL)
+            if (NameTinhCurrent != LocBDs[0].TenBD)
             {
                 List<TestAPIModel> controlsHandle = APIManager.GetListControlText(currentWindow.hwnd);
                 foreach (var item in controlsHandle)
@@ -982,435 +982,373 @@ namespace TaoBD10.ViewModels
             }
 
             bool isRightBD10 = true;
-            switch (currentTinh)
-            {
-                case PhanLoaiTinh.None:
-                    break;
-
-                case PhanLoaiTinh.HA_AL:
-                    isGone = true;
-                    break;
-
-                case PhanLoaiTinh.TamQuan:
-                    if (classNameComBoBox.IndexOf("593330") == -1)
-                    {
-                        isRightBD10 = false;
-                    }
-                    break;
-
-                case PhanLoaiTinh.KienDaNang:
-                    if (classNameComBoBox.IndexOf("550910") == -1)
-                    {
-                        isRightBD10 = false;
-                    }
-                    break;
-
-                case PhanLoaiTinh.EMSDaNang:
-                    if (classNameComBoBox.IndexOf("550915") == -1)
-                    {
-                        isRightBD10 = false;
-                    }
-                    break;
-
-                case PhanLoaiTinh.QuangNam:
-                    if (classNameComBoBox.IndexOf("560100") == -1)
-                    {
-                        isRightBD10 = false;
-                    }
-                    break;
-
-                case PhanLoaiTinh.QuangNgai:
-                    if (classNameComBoBox.IndexOf("570100") == -1)
-                    {
-                        isRightBD10 = false;
-                    }
-                    break;
-
-                case PhanLoaiTinh.DiNgoaiNamTrungBo:
-                case PhanLoaiTinh.TuiNTB:
-                case PhanLoaiTinh.KT1:
-                    if (classNameComBoBox.IndexOf("590100") == -1)
-                    {
-                        isRightBD10 = false;
-                    }
-                    break;
-
-                case PhanLoaiTinh.PhuMy:
-                    if (classNameComBoBox.IndexOf("592810") == -1)
-                    {
-                        isRightBD10 = false;
-                    }
-                    break;
-
-                case PhanLoaiTinh.PhuCat:
-                    if (classNameComBoBox.IndexOf("592440") == -1)
-                    {
-                        isRightBD10 = false;
-                    }
-                    break;
-
-                case PhanLoaiTinh.AnNhon:
-                    if (classNameComBoBox.IndexOf("592020") == -1)
-                    {
-                        isRightBD10 = false;
-                    }
-                    break;
-
-                default:
-                    break;
-            }
-
-            if (!isRightBD10)
-            {
-                //thuc hien doc roi thoat
-                SoundManager.playSound(@"Number\nhapkhongdung.wav");
-                return;
-            }
-            //thuc hien kiem tra ngay trong nay
-
-            Thread.Sleep(200);
-            WindowInfo suaBDInfo = APIManager.GetActiveWindowTitle();
-            ///////////////////////  
-            TestAPIModel textBDHandle = null;
-
-            var controls = APIManager.GetListControlText(suaBDInfo.hwnd);
-            if (suaBDInfo.text.IndexOf("sua thong tin bd10") != -1 || suaBDInfo.text == "lap bd10")
-            {
-                int iShTuiHandle = controls.FindIndex(m => m.Text == "SH túi");
-                textBDHandle = controls[iShTuiHandle + 1];
-            }
-            else if (suaBDInfo.text.IndexOf("lap bd10 theo") != -1)
-            {
-                int iShTuiHandle = controls.FindIndex(m => m.Text == "SH túi");
-                textBDHandle = controls[iShTuiHandle - 1];
-            }
-            if (textBDHandle == null)
+            var currentLocBd = LocBDs.FirstOrDefault(m => m.TenBD == NameTinhCurrent);
+            if (currentLocBd == null)
             {
                 return;
             }
-
-
-            ///////////////////////////////////////////
-            //txtStateSend.Text = "Đang Gửi Trực Tiếp";
-            double delayTime = Convert.ToDouble(SelectedTime);
-            foreach (var hangHoa in ListShowHangHoa)
+            if (currentLocBd.TenBD == LocBDs[0].TenBD)
             {
-                //SendKeys.SendWait(hangHoa.TuiHangHoa.SHTui);
-                //SendKeys.SendWait("{ENTER}");
-
-                ////////////////////////////////
-
-                APIManager.setTextControl(textBDHandle.Handle, hangHoa.TuiHangHoa.SHTui);
-                SendKeys.SendWait("{ENTER}");
-                //lenh la cho khi so thay doi hoac hien thong bao toi da la 1 s
-
-                /////////////////////////////////
-
-                Thread.Sleep(500);
-            }
-
-            if (!isGone)
-            {
-                //kiem tra so luong tui hien tai co bang
-                int lastCountTuiHienTai = 0;
-                countTemp = 0;
-                foreach (var item in handles)
-                {
-                    string classText = APIManager.GetWindowClass(item);
-
-                    if (classText.IndexOf(textSoLuongTui) != -1)
-                    {
-                        if (countTemp == 10)
-                        {
-                            lastCountTuiHienTai = int.Parse(APIManager.GetControlText(item));
-                        }
-                        countTemp++;
-                    }
-                    //tim cai o cua sh tui
-                    //focus no
-                    //xong roi dien vao va nhan enter thoi
-                }
-
-                if (lastCountTuiHienTai - countCurrentTui != ListShowHangHoa.Count)
-                {
-                    SoundManager.playSound(@"Number\khongkhopsolieu.wav");
-                    return;
-                }
-                else
-                {
-                    SoundManager.playSound2(@"Number\tingting.wav");
-                    APIManager.ShowSnackbar("OK");
-                    return;
-                }
-            }
-        }
-        private void PrintDiNgoai()
-        {
-            WindowInfo info = APIManager.WaitingFindedWindow("thong tin buu gui");
-            if (info == null)
-                return;
-
-            APIManager.SetPrintBD10();
-            List<TestAPIModel> listControl = APIManager.GetListControlText(info.hwnd);
-            List<TestAPIModel> listWindowForm = listControl.Where(m => m.ClassName.IndexOf("10.Window.8.ap") != -1).ToList();
-
-            //thuc hien kiem tra ma trong nay
-            SendKeys.SendWait("^(a)");
-
-            SendKeys.SendWait("+{TAB}");
-            SendKeys.SendWait("+{TAB}");
-            SendKeys.SendWait("+{TAB}");
-            SendKeys.SendWait("^(a)");
-            Thread.Sleep(50);
-            SendKeys.SendWait("^(c)");
-            Thread.Sleep(50);
-            string clipboard = System.Windows.Clipboard.GetText();
-            Thread.Sleep(50);
-            if (string.IsNullOrEmpty(clipboard))
-            {
-                return;
-            }
-            if (clipboard.IndexOf("BĐ1 Bis") == -1)
-            {
-                return;
-            }
-            foreach (string item in clipboard.Split('\n'))
-            {
-                var datas = item.Split('\t');
-                if (datas[1].IndexOf("BĐ1 Bis") != -1)
-                {
-                    SendKeys.SendWait(" ");
-                    break;
-                }
-                if (datas[4].IndexOf("BĐ1 Bis") != -1)
-                {
-                    SendKeys.SendWait("{RIGHT}");
-                    Thread.Sleep(50);
-                    SendKeys.SendWait("{RIGHT}");
-                    Thread.Sleep(50);
-                    SendKeys.SendWait("{RIGHT}");
-                    Thread.Sleep(50);
-                    SendKeys.SendWait(" ");
-                    Thread.Sleep(100);
-                    break;
-                }
-                SendKeys.SendWait("{DOWN}");
-            }
-
-            APIManager.ClickButton(info.hwnd, "in an pham", isExactly: false);
-            WindowInfo currentWindow = APIManager.WaitingFindedWindow("print document");
-            if (currentWindow == null)
-            {
-                return;
-            }
-            Thread.Sleep(500);
-            APIManager.ClickButton(currentWindow.hwnd, "in an pham", isExactly: false);
-
-            WindowInfo infoPrint = APIManager.WaitingFindedWindow("Print", isExactly: true);
-            if (infoPrint == null)
-                return;
-
-            SendKeys.SendWait("%(p)");
-            Thread.Sleep(500);
-
-            WindowInfo infoPrintDocument = APIManager.WaitingFindedWindow("Print Document", isExactly: true);
-            if (infoPrintDocument == null)
-                return;
-
-            if (CurrentSelectedHangHoaDetail != null)
-            {
-                CurrentSelectedHangHoaDetail.TrangThaiBD = TrangThaiBD.DaIn;
-            }
-            APIManager.ClickButton(currentWindow.hwnd, "thoat", isExactly: false);
-
-            WindowInfo infoThongTin = APIManager.WaitingFindedWindow("thong tin buu gui");
-            if (infoThongTin == null)
-                return;
-            APIManager.ClickButton(infoThongTin.hwnd, "thoat", isExactly: false);
-        }
-
-
-
-
-        private void SelectedTinh(string Name)
-        {
-            if (string.IsNullOrEmpty(Name))
-                return;
-            if (Name == ConLai.TenBD)
-            {
-                if (ConLai.HangHoas.Count == 0)
-                    return;
-
-                ListShowHangHoa = new ObservableCollection<HangHoaDetailModel>();
-
-                foreach (HangHoaDetailModel hangHoa in ConLai.HangHoas)
-                {
-                    ListShowHangHoa.Add(hangHoa);
-                }
-                //thuc hien show Ten Tinh
-                NameTinhCurrent = ConLai.TenBD;
-            }
-            else if (Name == LocKhaiThac.TenBD || Name == LocBCP.TenBD)
-            {
-                LocBDInfoModel currenLoc;
-                if (Name == LocKhaiThac.TenBD)
-                {
-                    currenLoc = LocKhaiThac;
-                    currentBuuCuc = BuuCuc.KT;
-                }
-                else
-                {
-                    currenLoc = LocBCP;
-                    currentBuuCuc = BuuCuc.BCP;
-                }
-
-                if (currenLoc.HangHoas.Count == 0)
-                    return;
-
-                ListShowHangHoa = new ObservableCollection<HangHoaDetailModel>();
-
-                foreach (HangHoaDetailModel hangHoa in currenLoc.HangHoas)
-                {
-                    string temp = APIManager.ConvertToUnSign3(hangHoa.TuiHangHoa.DichVu).ToLower();
-                    string temp1 = APIManager.ConvertToUnSign3(hangHoa.TuiHangHoa.PhanLoai).ToLower();
-                    if (temp.IndexOf("phat hanh") != -1 || temp1.IndexOf("tui") != -1)
-                    {
-                        continue;
-                    }
-                    ListShowHangHoa.Add(hangHoa);
-                }
-
-                //thuc hien show Ten Tinh
-                NameTinhCurrent = currenLoc.TenBD;
-
+                isGone = true;
             }
             else
+            if (classNameComBoBox.IndexOf(currentLocBd.TaoBDs[0].BCNhan.Substring(0, 6)) == -1)
             {
-                LocBDInfoModel LocBD = LocBDs.FirstOrDefault(m => m.TenBD == Name);
-                if (LocBD == null)
-                    return;
-                if (LocBD.HangHoas.Count == 0)
-                    return;
+                isRightBD10 = false;
+            }
 
-                ListShowHangHoa = new ObservableCollection<HangHoaDetailModel>();
 
-                foreach (HangHoaDetailModel hangHoa in LocBD.HangHoas)
+                if (!isRightBD10)
                 {
-
-                    ListShowHangHoa.Add(hangHoa);
+                    //thuc hien doc roi thoat
+                    SoundManager.playSound(@"Number\nhapkhongdung.wav");
+                    return;
                 }
-                //thuc hien show Ten Tinh
-                NameTinhCurrent = LocBD.TenBD;
-                //ShowNameTinh(LocBD.TenBD);
+                //thuc hien kiem tra ngay trong nay
+
+                Thread.Sleep(200);
+                WindowInfo suaBDInfo = APIManager.GetActiveWindowTitle();
+                ///////////////////////  
+                TestAPIModel textBDHandle = null;
+
+                var controls = APIManager.GetListControlText(suaBDInfo.hwnd);
+                if (suaBDInfo.text.IndexOf("sua thong tin bd10") != -1 || suaBDInfo.text == "lap bd10")
+                {
+                    int iShTuiHandle = controls.FindIndex(m => m.Text == "SH túi");
+                    textBDHandle = controls[iShTuiHandle + 1];
+                }
+                else if (suaBDInfo.text.IndexOf("lap bd10 theo") != -1)
+                {
+                    int iShTuiHandle = controls.FindIndex(m => m.Text == "SH túi");
+                    textBDHandle = controls[iShTuiHandle - 1];
+                }
+                if (textBDHandle == null)
+                {
+                    return;
+                }
+
+
+                ///////////////////////////////////////////
+                //txtStateSend.Text = "Đang Gửi Trực Tiếp";
+                double delayTime = Convert.ToDouble(SelectedTime);
+                foreach (var hangHoa in ListShowHangHoa)
+                {
+                    //SendKeys.SendWait(hangHoa.TuiHangHoa.SHTui);
+                    //SendKeys.SendWait("{ENTER}");
+
+                    ////////////////////////////////
+
+                    APIManager.setTextControl(textBDHandle.Handle, hangHoa.TuiHangHoa.SHTui);
+                    SendKeys.SendWait("{ENTER}");
+                    //lenh la cho khi so thay doi hoac hien thong bao toi da la 1 s
+
+                    /////////////////////////////////
+
+                    Thread.Sleep(500);
+                }
+
+                if (!isGone)
+                {
+                    //kiem tra so luong tui hien tai co bang
+                    int lastCountTuiHienTai = 0;
+                    countTemp = 0;
+                    foreach (var item in handles)
+                    {
+                        string classText = APIManager.GetWindowClass(item);
+
+                        if (classText.IndexOf(textSoLuongTui) != -1)
+                        {
+                            if (countTemp == 10)
+                            {
+                                lastCountTuiHienTai = int.Parse(APIManager.GetControlText(item));
+                            }
+                            countTemp++;
+                        }
+                        //tim cai o cua sh tui
+                        //focus no
+                        //xong roi dien vao va nhan enter thoi
+                    }
+
+                    if (lastCountTuiHienTai - countCurrentTui != ListShowHangHoa.Count)
+                    {
+                        SoundManager.playSound(@"Number\khongkhopsolieu.wav");
+                        return;
+                    }
+                    else
+                    {
+                        SoundManager.playSound2(@"Number\tingting.wav");
+                        APIManager.ShowSnackbar("OK");
+                        return;
+                    }
+                }
             }
-
-        }
-
-        private void Selection(HangHoaDetailModel selected)
-        {
-            if (selected == null)
-                return;
-            CurrentSelectedHangHoaDetail = selected;
-            if (selected.TrangThaiBD == TrangThaiBD.ChuaChon)
+            private void PrintDiNgoai()
             {
-                selected.TrangThaiBD = TrangThaiBD.DaChon;
-            }
-
-            switch (currentBuuCuc)
-            {
-                case BuuCuc.None:
+                WindowInfo info = APIManager.WaitingFindedWindow("thong tin buu gui");
+                if (info == null)
                     return;
 
-                case BuuCuc.KT:
-                    string[] temp = FileManager.optionModel.GoFastQLCTCDKT.Split(',');
-                    APIManager.GoToWindow(FileManager.optionModel.MaKhaiThac, "quan ly chuyen thu chieu den", temp[0], temp[1]);
-                    break;
+                APIManager.SetPrintBD10();
+                List<TestAPIModel> listControl = APIManager.GetListControlText(info.hwnd);
+                List<TestAPIModel> listWindowForm = listControl.Where(m => m.ClassName.IndexOf("10.Window.8.ap") != -1).ToList();
 
-                case BuuCuc.BCP:
-                    string[] temp1 = FileManager.optionModel.GoFastQLCTCDBCP.Split(',');
-                    APIManager.GoToWindow(FileManager.optionModel.MaBuuCucPhat, "quan ly chuyen thu chieu den", temp1[0], temp1[1]);
-                    break;
+                //thuc hien kiem tra ma trong nay
+                SendKeys.SendWait("^(a)");
 
-                default:
-                    break;
+                SendKeys.SendWait("+{TAB}");
+                SendKeys.SendWait("+{TAB}");
+                SendKeys.SendWait("+{TAB}");
+                SendKeys.SendWait("^(a)");
+                Thread.Sleep(50);
+                SendKeys.SendWait("^(c)");
+                Thread.Sleep(50);
+                string clipboard = System.Windows.Clipboard.GetText();
+                Thread.Sleep(50);
+                if (string.IsNullOrEmpty(clipboard))
+                {
+                    return;
+                }
+                if (clipboard.IndexOf("BĐ1 Bis") == -1)
+                {
+                    return;
+                }
+                foreach (string item in clipboard.Split('\n'))
+                {
+                    var datas = item.Split('\t');
+                    if (datas[1].IndexOf("BĐ1 Bis") != -1)
+                    {
+                        SendKeys.SendWait(" ");
+                        break;
+                    }
+                    if (datas[4].IndexOf("BĐ1 Bis") != -1)
+                    {
+                        SendKeys.SendWait("{RIGHT}");
+                        Thread.Sleep(50);
+                        SendKeys.SendWait("{RIGHT}");
+                        Thread.Sleep(50);
+                        SendKeys.SendWait("{RIGHT}");
+                        Thread.Sleep(50);
+                        SendKeys.SendWait(" ");
+                        Thread.Sleep(100);
+                        break;
+                    }
+                    SendKeys.SendWait("{DOWN}");
+                }
+
+                APIManager.ClickButton(info.hwnd, "in an pham", isExactly: false);
+                WindowInfo currentWindow = APIManager.WaitingFindedWindow("print document");
+                if (currentWindow == null)
+                {
+                    return;
+                }
+                Thread.Sleep(500);
+                APIManager.ClickButton(currentWindow.hwnd, "in an pham", isExactly: false);
+
+                WindowInfo infoPrint = APIManager.WaitingFindedWindow("Print", isExactly: true);
+                if (infoPrint == null)
+                    return;
+
+                SendKeys.SendWait("%(p)");
+                Thread.Sleep(500);
+
+                WindowInfo infoPrintDocument = APIManager.WaitingFindedWindow("Print Document", isExactly: true);
+                if (infoPrintDocument == null)
+                    return;
+
+                if (CurrentSelectedHangHoaDetail != null)
+                {
+                    CurrentSelectedHangHoaDetail.TrangThaiBD = TrangThaiBD.DaIn;
+                }
+                APIManager.ClickButton(currentWindow.hwnd, "thoat", isExactly: false);
+
+                WindowInfo infoThongTin = APIManager.WaitingFindedWindow("thong tin buu gui");
+                if (infoThongTin == null)
+                    return;
+                APIManager.ClickButton(infoThongTin.hwnd, "thoat", isExactly: false);
             }
-            bwChiTiet.RunWorkerAsync();
-        }
 
-        private void ShowNameTinh(PhanLoaiTinh phanLoaiTinh)
-        {
-            string textTemp = "";
-            switch (phanLoaiTinh)
+
+
+
+            private void SelectedTinh(string Name)
             {
-                case PhanLoaiTinh.None:
-                    textTemp = "Còn Lại";
-                    break;
+                if (string.IsNullOrEmpty(Name))
+                    return;
+                if (Name == ConLai.TenBD)
+                {
+                    if (ConLai.HangHoas.Count == 0)
+                        return;
 
-                case PhanLoaiTinh.HA_AL:
-                    textTemp = "Hoài Ân - An Lão";
-                    break;
+                    ListShowHangHoa = new ObservableCollection<HangHoaDetailModel>();
 
-                case PhanLoaiTinh.TamQuan:
-                    textTemp = "Tam Quan";
-                    break;
+                    foreach (HangHoaDetailModel hangHoa in ConLai.HangHoas)
+                    {
+                        ListShowHangHoa.Add(hangHoa);
+                    }
+                    //thuc hien show Ten Tinh
+                    NameTinhCurrent = ConLai.TenBD;
+                }
+                else if (Name == LocKhaiThac.TenBD || Name == LocBCP.TenBD)
+                {
+                    LocBDInfoModel currenLoc;
+                    if (Name == LocKhaiThac.TenBD)
+                    {
+                        currenLoc = LocKhaiThac;
+                        currentBuuCuc = BuuCuc.KT;
+                    }
+                    else
+                    {
+                        currenLoc = LocBCP;
+                        currentBuuCuc = BuuCuc.BCP;
+                    }
 
-                case PhanLoaiTinh.KienDaNang:
-                    textTemp = "Kiện Đà Nẵng";
-                    break;
+                    if (currenLoc.HangHoas.Count == 0)
+                        return;
 
-                case PhanLoaiTinh.EMSDaNang:
-                    textTemp = "EMS Đà Nẵng";
-                    break;
+                    ListShowHangHoa = new ObservableCollection<HangHoaDetailModel>();
 
-                case PhanLoaiTinh.QuangNam:
-                    textTemp = "Quảng Nam";
-                    break;
+                    foreach (HangHoaDetailModel hangHoa in currenLoc.HangHoas)
+                    {
+                        string temp = APIManager.ConvertToUnSign3(hangHoa.TuiHangHoa.DichVu).ToLower();
+                        string temp1 = APIManager.ConvertToUnSign3(hangHoa.TuiHangHoa.PhanLoai).ToLower();
+                        if (temp.IndexOf("phat hanh") != -1 || temp1.IndexOf("tui") != -1)
+                        {
+                            continue;
+                        }
+                        ListShowHangHoa.Add(hangHoa);
+                    }
 
-                case PhanLoaiTinh.QuangNgai:
-                    textTemp = "Quảng Ngãi";
-                    break;
+                    //thuc hien show Ten Tinh
+                    NameTinhCurrent = currenLoc.TenBD;
 
-                case PhanLoaiTinh.DiNgoaiNamTrungBo:
-                    textTemp = "Kiện Nam Trung Bộ";
-                    break;
+                }
+                else
+                {
+                    LocBDInfoModel LocBD = LocBDs.FirstOrDefault(m => m.TenBD == Name);
+                    if (LocBD == null)
+                        return;
+                    if (LocBD.HangHoas.Count == 0)
+                        return;
 
-                case PhanLoaiTinh.TuiNTB:
-                    textTemp = "Tui Nam Trung Bộ";
-                    break;
+                    ListShowHangHoa = new ObservableCollection<HangHoaDetailModel>();
 
-                case PhanLoaiTinh.PhuMy:
-                    textTemp = "Phù Mỹ";
-                    break;
+                    foreach (HangHoaDetailModel hangHoa in LocBD.HangHoas)
+                    {
 
-                case PhanLoaiTinh.PhuCat:
-                    textTemp = "Phù Cát";
-                    break;
+                        ListShowHangHoa.Add(hangHoa);
+                    }
+                    //thuc hien show Ten Tinh
+                    NameTinhCurrent = LocBD.TenBD;
+                    //ShowNameTinh(LocBD.TenBD);
+                }
 
-                case PhanLoaiTinh.AnNhon:
-                    textTemp = "An Nhơn";
-                    break;
-
-                case PhanLoaiTinh.KT1:
-                    textTemp = "KT1";
-                    break;
-
-                case PhanLoaiTinh.KTHN:
-                    textTemp = "Khai Thác Hoài Nhơn";
-                    TextCurrentChuyenThu = "593230";
-                    currentBuuCuc = BuuCuc.KT;
-                    break;
-
-                case PhanLoaiTinh.BCPHN:
-                    textTemp = "Bưu Cục Phát Hoài Nhơn";
-                    TextCurrentChuyenThu = "593280";
-                    currentBuuCuc = BuuCuc.BCP;
-                    break;
-
-                default:
-                    break;
             }
-            NameTinhCurrent = textTemp;
-        }
+
+            private void Selection(HangHoaDetailModel selected)
+            {
+                if (selected == null)
+                    return;
+                CurrentSelectedHangHoaDetail = selected;
+                if (selected.TrangThaiBD == TrangThaiBD.ChuaChon)
+                {
+                    selected.TrangThaiBD = TrangThaiBD.DaChon;
+                }
+
+                switch (currentBuuCuc)
+                {
+                    case BuuCuc.None:
+                        return;
+
+                    case BuuCuc.KT:
+                        string[] temp = FileManager.optionModel.GoFastQLCTCDKT.Split(',');
+                        APIManager.GoToWindow(FileManager.optionModel.MaKhaiThac, "quan ly chuyen thu chieu den", temp[0], temp[1]);
+                        break;
+
+                    case BuuCuc.BCP:
+                        string[] temp1 = FileManager.optionModel.GoFastQLCTCDBCP.Split(',');
+                        APIManager.GoToWindow(FileManager.optionModel.MaBuuCucPhat, "quan ly chuyen thu chieu den", temp1[0], temp1[1]);
+                        break;
+
+                    default:
+                        break;
+                }
+                bwChiTiet.RunWorkerAsync();
+            }
+
+            private void ShowNameTinh(PhanLoaiTinh phanLoaiTinh)
+            {
+                string textTemp = "";
+                switch (phanLoaiTinh)
+                {
+                    case PhanLoaiTinh.None:
+                        textTemp = "Còn Lại";
+                        break;
+
+                    case PhanLoaiTinh.HA_AL:
+                        textTemp = "Hoài Ân - An Lão";
+                        break;
+
+                    case PhanLoaiTinh.TamQuan:
+                        textTemp = "Tam Quan";
+                        break;
+
+                    case PhanLoaiTinh.KienDaNang:
+                        textTemp = "Kiện Đà Nẵng";
+                        break;
+
+                    case PhanLoaiTinh.EMSDaNang:
+                        textTemp = "EMS Đà Nẵng";
+                        break;
+
+                    case PhanLoaiTinh.QuangNam:
+                        textTemp = "Quảng Nam";
+                        break;
+
+                    case PhanLoaiTinh.QuangNgai:
+                        textTemp = "Quảng Ngãi";
+                        break;
+
+                    case PhanLoaiTinh.DiNgoaiNamTrungBo:
+                        textTemp = "Kiện Nam Trung Bộ";
+                        break;
+
+                    case PhanLoaiTinh.TuiNTB:
+                        textTemp = "Tui Nam Trung Bộ";
+                        break;
+
+                    case PhanLoaiTinh.PhuMy:
+                        textTemp = "Phù Mỹ";
+                        break;
+
+                    case PhanLoaiTinh.PhuCat:
+                        textTemp = "Phù Cát";
+                        break;
+
+                    case PhanLoaiTinh.AnNhon:
+                        textTemp = "An Nhơn";
+                        break;
+
+                    case PhanLoaiTinh.KT1:
+                        textTemp = "KT1";
+                        break;
+
+                    case PhanLoaiTinh.KTHN:
+                        textTemp = "Khai Thác Hoài Nhơn";
+                        TextCurrentChuyenThu = "593230";
+                        currentBuuCuc = BuuCuc.KT;
+                        break;
+
+                    case PhanLoaiTinh.BCPHN:
+                        textTemp = "Bưu Cục Phát Hoài Nhơn";
+                        TextCurrentChuyenThu = "593280";
+                        currentBuuCuc = BuuCuc.BCP;
+                        break;
+
+                    default:
+                        break;
+                }
+                NameTinhCurrent = textTemp;
+            }
 
 
 

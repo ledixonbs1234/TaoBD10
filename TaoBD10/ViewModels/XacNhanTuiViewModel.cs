@@ -139,6 +139,7 @@ namespace TaoBD10.ViewModels
                     SendKeys.SendWait("^(a)");
                     Thread.Sleep(200);
                     APIManager.ClickButton(window.hwnd, "Đối kiểm");
+                    SendKeys.SendWait("{ESC}");
                 }
             }
         }

@@ -57,18 +57,26 @@
 
                 <TextBox
                     x:Name="Box"
-                    Width="150"
+                    Width="120"
                     Margin="5"
                     AcceptsReturn="True"
                     Focusable="True"
                     FontSize="16"
                     Text="{Binding MaHieu, UpdateSourceTrigger=PropertyChanged}" />
+                <CheckBox Content="Auto" IsChecked="{Binding IsAutoGoCT}"/>
                 <Button
                     Margin="5"
                     Command="{Binding GoToCTCommand}"
                     Content="Go CT" />
             </StackPanel>
-            <DataGrid ItemsSource="{Binding TrangThais}" Height="300"></DataGrid>
+            <DataGrid materialDesign:DataGridAssist.CellPadding="4 2 2 2" ItemsSource="{Binding TrangThais}" Height="300" >
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Trang Thai" Binding="{Binding TrangThai}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Buu Cuc" Binding="{Binding BuuCuc}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Ngay" Binding="{Binding Date}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Gio" Binding="{Binding Hour}"></DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
         </StackPanel>
     </materialDesign:Card>
 </UserControl>

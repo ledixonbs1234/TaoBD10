@@ -43,11 +43,21 @@ namespace TaoBD10.ViewModels
                         TrangThais.Add(item);
                     }
                     IsWaitingComplete = false;
-                    GoToCTCommand.Execute(null);
+                    if (IsAutoGoCT)
+                        GoToCTCommand.Execute(null);
                 });
             }
         });
         }
+
+        private bool _IsAutoGoCT = true;
+
+        public bool IsAutoGoCT
+        {
+            get { return _IsAutoGoCT; }
+            set { SetProperty(ref _IsAutoGoCT, value); }
+        }
+
 
         private XacNhanInfoModel _XacNhanInfo;
 
@@ -100,7 +110,7 @@ namespace TaoBD10.ViewModels
             SendKeys.SendWait("{UP}");
             SendKeys.SendWait("{UP}");
             SendKeys.SendWait("{UP}");
-            
+
             string dataCopyed = APIManager.GetCopyData();
             if (string.IsNullOrEmpty(dataCopyed))
                 return;
@@ -145,7 +155,7 @@ namespace TaoBD10.ViewModels
                 default:
                     break;
             }
-            APIManager.setTextControl(EditControls.LastOrDefault().Handle,loaiString);
+            APIManager.setTextControl(EditControls.LastOrDefault().Handle, loaiString);
             SendKeys.SendWait("{TAB}");
 
             APIManager.setTextControl(EditControls[EditControls.Count - 2].Handle, _XacNhanInfo.MaBCDong);
@@ -214,11 +224,11 @@ namespace TaoBD10.ViewModels
 
         private void OnEnterKey()
         {
-            
+
             if (MaHieu.IndexOf('\n') != -1)
             {
                 int soLuong = MaHieu.Where(m => m == '\n').Count();
-                if ( soLuong > 1)
+                if (soLuong > 1)
                 {
                     MaHieu = "";
                     return;

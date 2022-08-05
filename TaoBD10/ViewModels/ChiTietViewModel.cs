@@ -1056,7 +1056,7 @@ namespace TaoBD10.ViewModels
                 }
 
                 /////////////////////////////////
-                int countDown = 50;
+                int countDown = 100;
                 while (true)
                 {
                     Thread.Sleep(50);

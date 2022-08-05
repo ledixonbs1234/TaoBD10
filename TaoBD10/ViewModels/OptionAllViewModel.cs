@@ -103,7 +103,7 @@ namespace TaoBD10.ViewModels
             Options.Add(new OptionInfoModel("Mã MPS KT", Option.CodeBCMPSKT));
             Options.Add(new OptionInfoModel("Mã Trạng Thái MPS KT", Option.StateBCMPSKT));
             Options.Add(new OptionInfoModel("Mã MPS BCP", Option.CodeBCMPSBCP));
-            Options.Add(new OptionInfoModel("Mã Trạng Thái MPS BCP", Option.CodeBCMPSBCP));
+            Options.Add(new OptionInfoModel("Mã Trạng Thái MPS BCP", Option.StateBCMPSBCP));
             Options.Add(new OptionInfoModel("BĐ 10 Đi", Option.GoFastBD10Di));
             Options.Add(new OptionInfoModel("BĐ 10 Đến", Option.GoFastBD10Den));
             Options.Add(new OptionInfoModel("Khởi Tạo Chuyến Thư KT", Option.GoFastKTCTKT));

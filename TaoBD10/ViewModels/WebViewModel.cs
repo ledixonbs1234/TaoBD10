@@ -321,8 +321,8 @@ namespace TaoBD10.ViewModels
         private void Login()
         {
             string script = @"
-                     document.getElementById('MainContent_txtUser').value='593280';
-            		document.getElementById('MainContent_txtPassword').value='593280';
+                     document.getElementById('MainContent_txtUser').value='"+FileManager.optionModel.AccountDinhVi+@"';
+            		document.getElementById('MainContent_txtPassword').value='"+FileManager.optionModel.PWDinhVi+@"';
             		document.getElementById('MainContent_btnLogin').click();
 ";
 
@@ -444,8 +444,8 @@ document.getElementsByClassName("".footer"").remove();
                     else if (diachi.IndexOf("pns.vnpost.vn/dang-nhap") != -1)
                     {
                         string script = @"
-                     document.getElementById('userid').value='593280_phuhv';
-            		document.getElementById('password').value='0914239099';
+                     document.getElementById('userid').value='"+FileManager.optionModel.AccountPNS+@"';
+            		document.getElementById('password').value='"+FileManager.optionModel.PWPNS+@"';
 document.querySelector('body>div.content>div>div>div>div>form>fieldset>div:nth-child(2)>div>div:nth-child(7)>button').click();                    ";
                         WebBrowser.ExecuteScriptAsync(script);
                     }

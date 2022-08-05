@@ -710,6 +710,7 @@ namespace TaoBD10.ViewModels
                        activeWindow.text.IndexOf("xac nhan bd10 theo so hieu tui") != -1 ||
                        activeWindow.text.IndexOf("lap bd10 theo duong thu") != -1 ||
                        activeWindow.text.IndexOf("sua thong tin bd10") != -1 ||
+                       activeWindow.text =="lap bd10" ||
                        activeWindow.text.IndexOf("canh bao") != -1 ||
                        activeWindow.text.IndexOf("xac nhan") != -1 ||
                        activeWindow.text.IndexOf("thong bao") != -1 || activeWindow.text.IndexOf("loi") != -1
@@ -897,7 +898,7 @@ namespace TaoBD10.ViewModels
                             }
                         }
                     }
-                    else if (activeWindow.text.IndexOf("sua thong tin bd10") != -1 || activeWindow.text == "lap bd10")
+                    else if (activeWindow.text.IndexOf("sua thong tin bd10") != -1 || activeWindow.text.Trim() == "lap bd10")
                     {
                         isHaveError = false;
 

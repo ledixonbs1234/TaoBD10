@@ -103,11 +103,11 @@ namespace TaoBD10.ViewModels
                      {
                          //thuc hien trong nay
                          string script = @"
-                                document.getElementById('ctl00_ctl12_rcb_tp_gui_ClientState').value='{""logEntries"":[],""value"":""593230"",""text"":""----593230 - KT Hoài Nhơn -KT2"",""enabled"":true,""checkedIndices"":[],""checkedItemsTextOverflows"":false}';
-                                document.getElementById('ctl00_ctl12_rcb_status_ClientState').value='{""logEntries"":[],""value"":"""",""text"":""Xác nhận đến"",""enabled"":true,""checkedIndices"":[2],""checkedItemsTextOverflows"":false}';
+                                document.getElementById('ctl00_ctl12_rcb_tp_gui_ClientState').value='" + FileManager.optionModel.CodeBCMPSKT + @"';
+                                document.getElementById('ctl00_ctl12_rcb_status_ClientState').value = '{""logEntries"":[],""value"":"""",""text"":""Xác nhận đến"",""enabled"":true,""checkedIndices"":[2],""checkedItemsTextOverflows"":false}';
 
-                                document.getElementById('ctl00_ctl12_btn_submit').click();
-                ";
+                         document.getElementById('ctl00_ctl12_btn_submit').click();
+                         ";
                          IsRunningChuaPhat = true;
                          WebBrowser.ExecuteScriptAsync(script);
                      }
@@ -115,7 +115,7 @@ namespace TaoBD10.ViewModels
                      {
                          //thuc hien trong nay
                          string script = @"
-                                document.getElementById('ctl00_ctl12_rcb_tp_gui_ClientState').value='{""logEntries"":[],""value"":""593280"",""text"":""----593280 - BCP Hoài Nhơn -PH2"",""enabled"":true,""checkedIndices"":[],""checkedItemsTextOverflows"":false}';
+                                document.getElementById('ctl00_ctl12_rcb_tp_gui_ClientState').value='"+ FileManager.optionModel.CodeBCMPSBCP + @"';
                                 document.getElementById('ctl00_ctl12_rcb_status_ClientState').value='{""logEntries"":[],""value"":"""",""text"":""Xác nhận đến"",""enabled"":true,""checkedIndices"":[2],""checkedItemsTextOverflows"":false}';
 
                                 document.getElementById('ctl00_ctl12_btn_submit').click();

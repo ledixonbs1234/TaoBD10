@@ -935,7 +935,15 @@ namespace TaoBD10.ViewModels
 
 
 
-        int indexContinueGuiTrucTiep = 0;
+        private int _IndexContinueGuiTrucTiep =0;
+
+        public int IndexContinueGuiTrucTiep
+        {
+            get { return _IndexContinueGuiTrucTiep; }
+            set { SetProperty(ref _IndexContinueGuiTrucTiep, value); }
+        }
+
+
 
 
         private void GuiTrucTiep()
@@ -1038,7 +1046,7 @@ namespace TaoBD10.ViewModels
             //txtStateSend.Text = "Đang Gửi Trực Tiếp";
             double delayTime = Convert.ToDouble(SelectedTime);
             int lastNumber = 0;
-            for (int i = indexContinueGuiTrucTiep; i < ListShowHangHoa.Count; i++)
+            for (int i = IndexContinueGuiTrucTiep; i < ListShowHangHoa.Count; i++)
             {
                 HangHoaDetailModel hangHoa = ListShowHangHoa[i];
                 //SendKeys.SendWait(hangHoa.TuiHangHoa.SHTui);
@@ -1069,13 +1077,13 @@ namespace TaoBD10.ViewModels
                     var active = APIManager.GetActiveWindowTitle();
                     if (active.text.IndexOf("sua thong tin bd") == -1 && active.text.IndexOf("lap bd10") == -1)
                     {
-                        indexContinueGuiTrucTiep++;
+                        IndexContinueGuiTrucTiep++;
                         APIManager.ShowSnackbar("Lỗi");
                         return;
                     }
                     if (countDown <= 0)
                     {
-                        indexContinueGuiTrucTiep = 0;
+                        IndexContinueGuiTrucTiep = 0;
                         APIManager.ShowSnackbar("Hết thời gian chờ.");
                         return;
                     }
@@ -1209,7 +1217,7 @@ namespace TaoBD10.ViewModels
 
         private void SelectedTinh(string Name)
         {
-            indexContinueGuiTrucTiep = 0;
+            IndexContinueGuiTrucTiep = 0;
             if (string.IsNullOrEmpty(Name))
                 return;
             if (Name == ConLai.TenBD)

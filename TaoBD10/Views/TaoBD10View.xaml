@@ -286,10 +286,11 @@
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                 <Button
                     Width="100"
-                    Margin="0,10,10,5"
+                    Margin="0,10,0,5"
                     Background="#FFFFBA89"
                     Command="{Binding BD10DiCommand, Source={StaticResource ChinhVM}}"
                     Content="BĐ 10 Đi" />
+                <TextBlock Text="{Binding IndexContinueGuiTrucTiep, FallbackValue=0}" Margin="5" VerticalAlignment="Center" Foreground="#FFB58DFF" FontWeight="Bold" FontSize="16" />
                 <Button
                     Width="100"
                     Margin="0,10,10,5"

@@ -325,6 +325,17 @@ namespace TaoBD10.ViewModels
                         {
                             if (DiNgoais[i].MaBuuCuc == SelectedSimple.MaBuuCuc && charCodeFirst == DiNgoais[i].Code[0].ToString().ToLower())
                             {
+                                if (charCodeFirst == "p")
+                                {
+                                    if (DiNgoais[i].Address.Trim().ToLower() == SelectedSimple.Address.Trim().ToLower())
+                                    {
+                                        listDiNgoaiCungMaBC.Add(DiNgoais[i]);
+                                    }
+                                    else
+                                    {
+                                        break;
+                                    }
+                                }
                                 listDiNgoaiCungMaBC.Add(DiNgoais[i]);
                             }
                             else

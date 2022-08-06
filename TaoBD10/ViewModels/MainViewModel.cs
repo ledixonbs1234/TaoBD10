@@ -710,7 +710,7 @@ namespace TaoBD10.ViewModels
                        activeWindow.text.IndexOf("xac nhan bd10 theo so hieu tui") != -1 ||
                        activeWindow.text.IndexOf("lap bd10 theo duong thu") != -1 ||
                        activeWindow.text.IndexOf("sua thong tin bd10") != -1 ||
-                       activeWindow.text =="lap bd10" ||
+                       activeWindow.text == "lap bd10" ||
                        activeWindow.text.IndexOf("canh bao") != -1 ||
                        activeWindow.text.IndexOf("xac nhan") != -1 ||
                        activeWindow.text.IndexOf("thong bao") != -1 || activeWindow.text.IndexOf("loi") != -1
@@ -783,7 +783,7 @@ namespace TaoBD10.ViewModels
                         string textGr = apiGr.Text.Replace("(gr)", "");
                         if (textGr.IndexOf('.') != -1)
                         {
-                            bool isRight = double.TryParse(textGr,NumberStyles.Any, CultureInfo.InvariantCulture, out double numberGR);
+                            bool isRight = double.TryParse(textGr, NumberStyles.Any, CultureInfo.InvariantCulture, out double numberGR);
                             if (isRight)
                             {
                                 if (!Is16Kg)
@@ -839,7 +839,15 @@ namespace TaoBD10.ViewModels
                             if (!isReadDuRoi)
                             {
                                 isReadDuRoi = true;
-                                SoundManager.playSound2(@"Number\dusoluong.wav");
+                                new Thread(() =>
+                                {
+                                    Thread.CurrentThread.IsBackground = true;
+                                    /* run your code here */
+                                    Thread.Sleep(1500);
+
+                                    SoundManager.playSound2(@"Number\dusoluong.wav");
+                                }).Start();
+                               
                             }
                         }
                         else
@@ -852,7 +860,14 @@ namespace TaoBD10.ViewModels
                                     if (lastConLai != tongSoTuiN - numberRead)
                                     {
                                         lastConLai = tongSoTuiN - numberRead;
-                                        SoundManager.playSound2(@"Number\" + lastConLai.ToString() + ".wav");
+                                        new Thread(() =>
+                                        {
+                                            Thread.CurrentThread.IsBackground = true;
+                                            /* run your code here */
+                                            Thread.Sleep(1500);
+
+                                            SoundManager.playSound2(@"Number\" + lastConLai.ToString() + ".wav");
+                                        }).Start();
                                     }
                                 }
                             }
@@ -910,7 +925,7 @@ namespace TaoBD10.ViewModels
                         TestAPIModel apiNumber = listWindowStatic[10];
                         //TestText += apiNumber.Text + "\n";
                         int.TryParse(Regex.Match(apiNumber.Text, @"\d+").Value, out numberRead);
-                        if(numberRead != lastNumberSuaBD)
+                        if (numberRead != lastNumberSuaBD)
                         {
                             APIManager.currentNumberBD = numberRead;
                             lastNumberSuaBD = numberRead;
@@ -1506,7 +1521,7 @@ namespace TaoBD10.ViewModels
                     case Key.Enter:
 
                         KeyData = KeyData.ToLower();
-                        if (FileManager.listChuyenThu != null&& FileManager.listChuyenThu.Count !=0)
+                        if (FileManager.listChuyenThu != null && FileManager.listChuyenThu.Count != 0)
                         {
                             if (KeyData.IndexOf(FileManager.listChuyenThu[0].Barcode) != -1)
                             {

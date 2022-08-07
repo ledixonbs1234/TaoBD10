@@ -5,6 +5,7 @@ using HtmlAgilityPack;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
+using Spire.Xls;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -213,36 +214,58 @@ namespace TaoBD10.ViewModels
             {
                 try
                 {
-                    Microsoft.Office.Interop.Excel.Application xlApp = new Microsoft.Office.Interop.Excel.Application();
-                    xlApp.Visible = false;
-                    Microsoft.Office.Interop.Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(fullPath);
-                    Microsoft.Office.Interop.Excel._Worksheet xlWorksheet = xlWorkbook.Worksheets[1];
-                    Microsoft.Office.Interop.Excel.Range xlRange = xlWorksheet.UsedRange;
-                    List<PNSNameModel> chiTietTui = new List<PNSNameModel>();
-                    for (int i = 2; i <= xlRange.Rows.Count; i++)
-                    {
-                        chiTietTui.Add(new PNSNameModel { MaHieu = xlRange[2][i].Value2.ToString(), NameReceive = xlRange[11][i].Value2.ToString(), Address = xlRange[13][i].Value2.ToString() });
-                    }
-                    if (chiTietTui.Count != 0)
-                    {
-                        //cleanup
-                        GC.Collect();
-                        GC.WaitForPendingFinalizers();
-                        //rule of thumb for releasing com objects:
-                        //  never use two dots, all COM objects must be referenced and released individually
-                        //  ex: [somthing].[something].[something] is bad
-                        //release com objects to fully kill excel process from running in the background
-                        Marshal.ReleaseComObject(xlRange);
-                        Marshal.ReleaseComObject(xlWorksheet);
-                        //close and release
-                        xlWorkbook.Close();
-                        Marshal.ReleaseComObject(xlWorkbook);
-                        //quit and release
-                        xlApp.Quit();
+                    Workbook workbook = new Workbook();
+                    workbook.LoadFromFile(fullPath);
+                    workbook.SaveToFile(@"C:\\test.xlsx", ExcelVersion.Version2013);
 
-                        Marshal.ReleaseComObject(xlApp);
-                        WeakReferenceMessenger.Default.Send(new PNSNameMessage(chiTietTui));
+                    using (var stream = File.Open(@"C:\\test.xlsx", FileMode.Open, FileAccess.Read))
+                    {
+                        using (ExcelDataReader.IExcelDataReader reader = ExcelDataReader.ExcelReaderFactory.CreateReader(stream))
+                        {
+                            System.Data.DataSet tables = reader.AsDataSet();
+                            List<PNSNameModel> chiTietTui = new List<PNSNameModel>();
+                            for (int i = 2; i < tables.Tables[0].Rows.Count; i++)
+                            {
+                                chiTietTui.Add(new PNSNameModel(tables.Tables[0].Rows[i][1].ToString(), tables.Tables[0].Rows[i][3].ToString(), tables.Tables[0].Rows[i][4].ToString()));
+                            }
+                            //thuc hien send data tra ve
+                            if (chiTietTui.Count != 0)
+                            {
+                                WeakReferenceMessenger.Default.Send(new PNSNameMessage(chiTietTui));
+                            }
+                        }
                     }
+
+                    //Microsoft.Office.Interop.Excel.Application xlApp = new Microsoft.Office.Interop.Excel.Application();
+                    //xlApp.Visible = false;
+                    //Microsoft.Office.Interop.Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(fullPath);
+                    //Microsoft.Office.Interop.Excel._Worksheet xlWorksheet = xlWorkbook.Worksheets[1];
+                    //Microsoft.Office.Interop.Excel.Range xlRange = xlWorksheet.UsedRange;
+                    //List<PNSNameModel> chiTietTui = new List<PNSNameModel>();
+                    //for (int i = 2; i <= xlRange.Rows.Count; i++)
+                    //{
+                    //    chiTietTui.Add(new PNSNameModel { MaHieu = xlRange[2][i].Value2.ToString(), NameReceive = xlRange[11][i].Value2.ToString(), Address = xlRange[13][i].Value2.ToString() });
+                    //}
+                    //if (chiTietTui.Count != 0)
+                    //{
+                    //    //cleanup
+                    //    GC.Collect();
+                    //    GC.WaitForPendingFinalizers();
+                    //    //rule of thumb for releasing com objects:
+                    //    //  never use two dots, all COM objects must be referenced and released individually
+                    //    //  ex: [somthing].[something].[something] is bad
+                    //    //release com objects to fully kill excel process from running in the background
+                    //    Marshal.ReleaseComObject(xlRange);
+                    //    Marshal.ReleaseComObject(xlWorksheet);
+                    //    //close and release
+                    //    xlWorkbook.Close();
+                    //    Marshal.ReleaseComObject(xlWorkbook);
+                    //    //quit and release
+                    //    xlApp.Quit();
+
+                    //    Marshal.ReleaseComObject(xlApp);
+                    //WeakReferenceMessenger.Default.Send(new PNSNameMessage(chiTietTui));
+                    //}
                 }
                 catch (Exception ex)
                 {

@@ -116,7 +116,7 @@ namespace TaoBD10.ViewModels
                      {
                          //thuc hien trong nay
                          string script = @"
-                                document.getElementById('ctl00_ctl12_rcb_tp_gui_ClientState').value='"+ FileManager.optionModel.CodeBCMPSBCP + @"';
+                                document.getElementById('ctl00_ctl12_rcb_tp_gui_ClientState').value='" + FileManager.optionModel.CodeBCMPSBCP + @"';
                                 document.getElementById('ctl00_ctl12_rcb_status_ClientState').value='{""logEntries"":[],""value"":"""",""text"":""Xác nhận đến"",""enabled"":true,""checkedIndices"":[2],""checkedItemsTextOverflows"":false}';
 
                                 document.getElementById('ctl00_ctl12_btn_submit').click();
@@ -344,8 +344,8 @@ namespace TaoBD10.ViewModels
         private void Login()
         {
             string script = @"
-                     document.getElementById('MainContent_txtUser').value='"+FileManager.optionModel.AccountDinhVi+@"';
-            		document.getElementById('MainContent_txtPassword').value='"+FileManager.optionModel.PWDinhVi+@"';
+                     document.getElementById('MainContent_txtUser').value='" + FileManager.optionModel.AccountDinhVi + @"';
+            		document.getElementById('MainContent_txtPassword').value='" + FileManager.optionModel.PWDinhVi + @"';
             		document.getElementById('MainContent_btnLogin').click();
 ";
 
@@ -467,8 +467,8 @@ document.getElementsByClassName("".footer"").remove();
                     else if (diachi.IndexOf("pns.vnpost.vn/dang-nhap") != -1)
                     {
                         string script = @"
-                     document.getElementById('userid').value='"+FileManager.optionModel.AccountPNS+@"';
-            		document.getElementById('password').value='"+FileManager.optionModel.PWPNS+@"';
+                     document.getElementById('userid').value='" + FileManager.optionModel.AccountPNS + @"';
+            		document.getElementById('password').value='" + FileManager.optionModel.PWPNS + @"';
 document.querySelector('body>div.content>div>div>div>div>form>fieldset>div:nth-child(2)>div>div:nth-child(7)>button').click();                    ";
                         WebBrowser.ExecuteScriptAsync(script);
                     }
@@ -490,18 +490,10 @@ document.querySelector('#menu-3 > li:nth-child(10) > a').click();";
                             WebBrowser.ExecuteScriptAsync(script);
                             APIManager.downLoadRoad = DownLoadRoad.GetName;
                             script = @"
-setTimeout(function (){  document.getElementById('export_excel').click();}, 1000); ";
+setTimeout(function (){  document.getElementById('export_excel').click();}, 2000); ";
                             WebBrowser.ExecuteScriptAsync(script);
                         }
                     }
-                    else if (diachi == "https://pns.vnpost.vn/")
-                    {
-                        string script = @"
-document.querySelector('#menu-3 > li:nth-child(10) > a').click();";
-
-                        WebBrowser.ExecuteScriptAsync(script);
-                    }
-
                     //
                     else if (diachi.IndexOf("bccp.vnpost.vn/bccp.aspx?act=trace") != -1)
                     {

@@ -226,7 +226,7 @@ namespace TaoBD10.ViewModels
                             List<PNSNameModel> chiTietTui = new List<PNSNameModel>();
                             for (int i = 2; i < tables.Tables[0].Rows.Count; i++)
                             {
-                                chiTietTui.Add(new PNSNameModel(tables.Tables[0].Rows[i][1].ToString(), tables.Tables[0].Rows[i][3].ToString(), tables.Tables[0].Rows[i][4].ToString()));
+                                chiTietTui.Add(new PNSNameModel(tables.Tables[0].Rows[i][1].ToString(), tables.Tables[0].Rows[i][10].ToString(), tables.Tables[0].Rows[i][12].ToString()));
                             }
                             //thuc hien send data tra ve
                             if (chiTietTui.Count != 0)

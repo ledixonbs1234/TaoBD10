@@ -28,6 +28,16 @@ namespace TaoBD10.Model
             set { SetProperty(ref _NameReceive, value); }
         }
 
+        private string _PhoneReceive;
+
+        public string PhoneReceive
+        {
+            get { return _PhoneReceive; }
+            set { SetProperty(ref _PhoneReceive, value); }
+        }
+
+
+
         public string BuuCucLuuGiu
         {
             get { return _BuuCucLuuGiu; }

@@ -79,6 +79,10 @@
                     Header="Người Nhận"
                     IsReadOnly="True" />
                 <DataGridTextColumn
+                    Binding="{Binding PhoneReceive}"
+                    Header="SDT Người Nhận"
+                    IsReadOnly="True" />
+                <DataGridTextColumn
                     Binding="{Binding KhoiLuong}"
                     Header="Khối Lượng"
                     IsReadOnly="True" />

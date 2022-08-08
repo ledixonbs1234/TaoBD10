@@ -71,6 +71,8 @@ namespace TaoBD10.ViewModels
                         {
                             have.NameReceive = pnsName.NameReceive;
                             have.Address = pnsName.Address;
+                            have.PhoneReceive = pnsName.PhoneReceive;
+                            
                         }
                     }
                 }

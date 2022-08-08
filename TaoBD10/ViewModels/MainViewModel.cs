@@ -1508,16 +1508,20 @@ namespace TaoBD10.ViewModels
                         if (currentWindow == null)
                             return;
                         if (currentWindow.text.IndexOf("sua thong tin bd10") != -1 || currentWindow.text.IndexOf("lap bd10") != -1)
+                        {
                             _DefaultNumberPagePrint = 3;
-                        bwPrintBD10.RunWorkerAsync();
+                            bwPrintBD10.RunWorkerAsync();
+                        }
                         break;
                     case Key.F7:
                         currentWindow = APIManager.GetActiveWindowTitle();
                         if (currentWindow == null)
                             return;
                         if (currentWindow.text.IndexOf("sua thong tin bd10") != -1 || currentWindow.text.IndexOf("lap bd10") != -1)
+                        {
                             _DefaultNumberPagePrint = 2;
-                        bwPrintBD10.RunWorkerAsync();
+                            bwPrintBD10.RunWorkerAsync();
+                        }
                         break;
                     case Key.Enter:
 

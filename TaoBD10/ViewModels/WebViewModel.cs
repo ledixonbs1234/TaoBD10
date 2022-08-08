@@ -489,9 +489,10 @@ document.querySelector('#menu-3 > li:nth-child(10) > a').click();";
                             PNSName = "";
                             WebBrowser.ExecuteScriptAsync(script);
                             APIManager.downLoadRoad = DownLoadRoad.GetName;
+                            var script1 = "document.getElementById('export_excel').click();";
                             script = @"
 setTimeout(function (){  document.getElementById('export_excel').click();}, 2000); ";
-                            WebBrowser.ExecuteScriptAsync(script);
+                            WebBrowser.ExecuteScriptAsync(script1);
                         }
                     }
                     //

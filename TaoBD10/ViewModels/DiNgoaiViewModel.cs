@@ -190,8 +190,8 @@ namespace TaoBD10.ViewModels
             SetTinhFromMaTinh();
             List<DiNgoaiItemModel> listDiNgoai = new List<DiNgoaiItemModel>();
             //Thuc hien soft Tinh
-            IOrderedEnumerable<DiNgoaiItemModel> dingoaisRa = DiNgoais.Where(m => int.Parse(m.MaTinh) < 59).OrderByDescending(x => x.TenTinh);
-            IOrderedEnumerable<DiNgoaiItemModel> dingoaisVo = DiNgoais.Where(m => int.Parse(m.MaTinh) >= 59).OrderByDescending(x => x.TenTinh);
+            IOrderedEnumerable<DiNgoaiItemModel> dingoaisRa = DiNgoais.Where(m => int.Parse(m.MaTinh) < 59 && int.Parse(m.MaTinh) != 58).OrderByDescending(x => x.TenTinh);
+            IOrderedEnumerable<DiNgoaiItemModel> dingoaisVo = DiNgoais.Where(m => int.Parse(m.MaTinh) >= 58).OrderByDescending(x => x.TenTinh);
             listDiNgoai.AddRange(dingoaisRa);
             listDiNgoai.AddRange(dingoaisVo);
             DiNgoais.Clear();

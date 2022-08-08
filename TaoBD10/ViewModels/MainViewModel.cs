@@ -577,8 +577,11 @@ namespace TaoBD10.ViewModels
             SendKeys.SendWait("%{c}");
             Thread.Sleep(50);
             SendKeys.SendWait("{Up}");
-            Thread.Sleep(50);
-            SendKeys.SendWait("{Up}");
+            if (_DefaultNumberPagePrint == 3)
+            {
+                Thread.Sleep(50);
+                SendKeys.SendWait("{Up}");
+            }
             Thread.Sleep(50);
             SendKeys.SendWait("%{o}");
             Thread.Sleep(50);
@@ -716,6 +719,7 @@ namespace TaoBD10.ViewModels
                        activeWindow.text.IndexOf("thong bao") != -1 || activeWindow.text.IndexOf("loi") != -1
                        )
                     {
+                        isHaveError = false;
                         listControl = APIManager.GetListControlText(activeWindow.hwnd);
                     }
                     else
@@ -727,7 +731,6 @@ namespace TaoBD10.ViewModels
 
                     if (activeWindow.text.IndexOf("dong chuyen thu") != -1)
                     {
-                        isHaveError = false;
                         List<TestAPIModel> listWindowForm = listControl.Where(m => m.ClassName.IndexOf("WindowsForms10.EDIT") != -1).ToList();
                         if (listWindowForm.Count < 7)
                             continue;
@@ -808,7 +811,6 @@ namespace TaoBD10.ViewModels
                     }
                     else if (activeWindow.text.IndexOf("xac nhan chi tiet tui thu") != -1)
                     {
-                        isHaveError = false;
                         TestAPIModel apiCai = listControl.FirstOrDefault(m => m.Text.IndexOf("cái") != -1);
                         if (apiCai == null)
                         {
@@ -816,14 +818,8 @@ namespace TaoBD10.ViewModels
                         }
                         int.TryParse(Regex.Match(apiCai.Text, @"\d+").Value, out numberRead);
                     }
-                    else if (activeWindow.text.IndexOf("khoi tao chuyen thu") != -1)
-                    {
-                        isHaveError = false;
-                    }
                     else if (activeWindow.text.IndexOf("xac nhan bd10 theo so hieu tui") != -1)
                     {
-                        isHaveError = false;
-
                         List<TestAPIModel> listWindowStatic = listControl.Where(m => m.ClassName.IndexOf("WindowsForms10.STATIC.app") != -1).ToList();
 
                         if (listWindowStatic.Count < 15)
@@ -847,7 +843,7 @@ namespace TaoBD10.ViewModels
 
                                     SoundManager.playSound2(@"Number\dusoluong.wav");
                                 }).Start();
-                               
+
                             }
                         }
                         else
@@ -875,8 +871,6 @@ namespace TaoBD10.ViewModels
                     }
                     else if (activeWindow.text.IndexOf("lap bd10 theo duong thu") != -1)
                     {
-                        isHaveError = false;
-
                         List<TestAPIModel> listWindowStatic = listControl.Where(m => m.ClassName.IndexOf("WindowsForms10.STATIC.app") != -1).ToList();
                         if (listWindowStatic.Count < 8)
                         {
@@ -915,8 +909,6 @@ namespace TaoBD10.ViewModels
                     }
                     else if (activeWindow.text.IndexOf("sua thong tin bd10") != -1 || activeWindow.text.Trim() == "lap bd10")
                     {
-                        isHaveError = false;
-
                         List<TestAPIModel> listWindowStatic = listControl.Where(m => m.ClassName.IndexOf("WindowsForms10.STATIC.app") != -1).ToList();
                         if (listWindowStatic.Count <= 10)
                         {
@@ -1405,6 +1397,7 @@ namespace TaoBD10.ViewModels
         }
 
         private string KeyData = "";
+        private int _DefaultNumberPagePrint = 3;
 
         private void OnKeyPress(object sender, KeyPressedArgs e)
         {
@@ -1515,9 +1508,17 @@ namespace TaoBD10.ViewModels
                         if (currentWindow == null)
                             return;
                         if (currentWindow.text.IndexOf("sua thong tin bd10") != -1 || currentWindow.text.IndexOf("lap bd10") != -1)
-                            bwPrintBD10.RunWorkerAsync();
+                            _DefaultNumberPagePrint = 3;
+                        bwPrintBD10.RunWorkerAsync();
                         break;
-
+                    case Key.F7:
+                        currentWindow = APIManager.GetActiveWindowTitle();
+                        if (currentWindow == null)
+                            return;
+                        if (currentWindow.text.IndexOf("sua thong tin bd10") != -1 || currentWindow.text.IndexOf("lap bd10") != -1)
+                            _DefaultNumberPagePrint = 2;
+                        bwPrintBD10.RunWorkerAsync();
+                        break;
                     case Key.Enter:
 
                         KeyData = KeyData.ToLower();

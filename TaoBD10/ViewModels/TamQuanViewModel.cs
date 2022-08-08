@@ -24,6 +24,7 @@ namespace TaoBD10.ViewModels
             TamQuans = new ObservableCollection<TamQuanModel>();
             SendCommand = new RelayCommand(Send);
             FillMaHieuCommand = new RelayCommand(FillMaHieu);
+            SortCommand = new RelayCommand(Sort);
             Numbers = new ObservableCollection<int>();
             Numbers.Add(1);
             Numbers.Add(2);
@@ -52,6 +53,23 @@ namespace TaoBD10.ViewModels
                     WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Navigation", Content = "TamQuan" });
                 }
             });
+        }
+        public ICommand SortCommand { get; }
+
+        
+
+        void Sort()
+        {
+            if (TamQuans.Count > 0)
+            {
+                var tempList = TamQuans.ToList();
+                tempList.Sort((m, n) => m.TrongLuong.CompareTo(n.TrongLuong));
+                TamQuans.Clear();
+                foreach (var item in tempList)
+                {
+                    TamQuans.Add(item);
+                }
+            }
         }
 
         private int _CurrentNumber = 2;
@@ -141,6 +159,9 @@ namespace TaoBD10.ViewModels
                 if (temp.Length == 2)
                 {
                     string code = temp[1].Split('\t')[1];
+                    bool isDoubleRight =double.TryParse( temp[1].Split('\t')[6],out double klTemp);
+                    
+                    //xu ly du lieu trong nay
                     if (code.Length == 13)
                     {
                         //them du lieu vao
@@ -156,7 +177,15 @@ namespace TaoBD10.ViewModels
                                 }
                             }
                         }
-                        TamQuans.Add(new TamQuanModel(TamQuans.Count + 1, code.ToUpper()));
+                        if (isDoubleRight)
+                        {
+                            TamQuans.Add(new TamQuanModel(TamQuans.Count + 1, code.ToUpper(),klTemp));
+                        }
+                        else
+                        {
+                            TamQuans.Add(new TamQuanModel(TamQuans.Count + 1, code.ToUpper()));
+                        }
+                        
                         SoundManager.playSound(@"Number\" + TamQuans.Count.ToString() + ".wav");
                     }
                 }

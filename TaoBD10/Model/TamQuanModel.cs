@@ -12,6 +12,15 @@ namespace TaoBD10.Model
             set { SetProperty(ref _Index, value); }
         }
 
+        private double _TrongLuong;
+
+        public double TrongLuong
+        {
+            get { return _TrongLuong; }
+            set { SetProperty(ref _TrongLuong, value); }
+        }
+
+
         private string _MaHieu;
 
         public string MaHieu
@@ -24,6 +33,12 @@ namespace TaoBD10.Model
         {
             this.Index = index;
             this.MaHieu = maHieu;
+        }
+        public TamQuanModel(int index, string maHieu,double KL)
+        {
+            this.Index = index;
+            this.MaHieu = maHieu;
+            TrongLuong = KL;
         }
     }
 }

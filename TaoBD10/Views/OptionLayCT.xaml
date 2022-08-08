@@ -33,19 +33,11 @@
             <Button Margin="5" Content="Xóa" />
             <Button
                 Margin="5"
-                Command="{Binding LenCommand}"
-                Content="Lên" />
-            <Button
-                Margin="5"
-                Command="{Binding XuongCommand}"
-                Content="Xuống" />
-             <Button
-                Margin="5"
                 Command="{Binding TestCommand}"
                 Content="Test" />
-            
+
         </StackPanel>
-      
+
 
     </Grid>
 </UserControl>

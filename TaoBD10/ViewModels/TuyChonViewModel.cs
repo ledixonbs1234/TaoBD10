@@ -53,7 +53,7 @@ namespace TaoBD10.ViewModels
 
             var control = controls[12];
             AutomationElement element = AutomationElement.FromHandle(control.Handle);
-            AutomationElementCollection headers = element.FindAll(TreeScope.Descendants, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Header));
+            AutomationElementCollection headers = element.FindAll(TreeScope.Descendants, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Custom));
 
             //var headerCol1 = headers[1].Current.Name; ;
             //var headerCol2 = headers[2].Current.Name;

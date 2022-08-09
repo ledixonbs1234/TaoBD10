@@ -719,8 +719,6 @@ namespace TaoBD10.ViewModels
                        activeWindow.text.IndexOf("thong bao") != -1 || activeWindow.text.IndexOf("loi") != -1
                        )
                     {
-                        if (activeWindow.text != "")
-                            isHaveError = false;
                         listControl = APIManager.GetListControlText(activeWindow.hwnd);
                     }
                     else
@@ -732,6 +730,7 @@ namespace TaoBD10.ViewModels
 
                     if (activeWindow.text.IndexOf("dong chuyen thu") != -1)
                     {
+                        isHaveError = false;
                         List<TestAPIModel> listWindowForm = listControl.Where(m => m.ClassName.IndexOf("WindowsForms10.EDIT") != -1).ToList();
                         if (listWindowForm.Count < 7)
                             continue;
@@ -812,6 +811,7 @@ namespace TaoBD10.ViewModels
                     }
                     else if (activeWindow.text.IndexOf("xac nhan chi tiet tui thu") != -1)
                     {
+                        isHaveError = false;
                         TestAPIModel apiCai = listControl.FirstOrDefault(m => m.Text.IndexOf("cái") != -1);
                         if (apiCai == null)
                         {
@@ -821,6 +821,7 @@ namespace TaoBD10.ViewModels
                     }
                     else if (activeWindow.text.IndexOf("xac nhan bd10 theo so hieu tui") != -1)
                     {
+                        isHaveError = false;
                         List<TestAPIModel> listWindowStatic = listControl.Where(m => m.ClassName.IndexOf("WindowsForms10.STATIC.app") != -1).ToList();
 
                         if (listWindowStatic.Count < 15)
@@ -872,6 +873,8 @@ namespace TaoBD10.ViewModels
                     }
                     else if (activeWindow.text.IndexOf("lap bd10 theo duong thu") != -1)
                     {
+
+                        isHaveError = false;
                         List<TestAPIModel> listWindowStatic = listControl.Where(m => m.ClassName.IndexOf("WindowsForms10.STATIC.app") != -1).ToList();
                         if (listWindowStatic.Count < 8)
                         {
@@ -887,6 +890,8 @@ namespace TaoBD10.ViewModels
                     }
                     else if (activeWindow.text.IndexOf("xem chuyen thu chieu den") != -1)
                     {
+
+                        isHaveError = false;
                         if (_IsXacNhanChiTieting)
                         {
                             _IsXacNhanChiTieting = false;
@@ -910,6 +915,8 @@ namespace TaoBD10.ViewModels
                     }
                     else if (activeWindow.text.IndexOf("sua thong tin bd10") != -1 || activeWindow.text.Trim() == "lap bd10")
                     {
+
+                        isHaveError = false;
                         List<TestAPIModel> listWindowStatic = listControl.Where(m => m.ClassName.IndexOf("WindowsForms10.STATIC.app") != -1).ToList();
                         if (listWindowStatic.Count <= 10)
                         {

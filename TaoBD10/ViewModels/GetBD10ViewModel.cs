@@ -297,6 +297,15 @@ namespace TaoBD10.ViewModels
                 {
                     item.PhanLoai = tempChiTiet.DVChiTiet;
                 }
+                else if (countChiTiet == 0)
+                {
+                    if (item.SHTui.Length == 13)
+                    {
+                        item.PhanLoai = "Đi ngoài";
+
+                    }
+
+                }
             }
         }
 

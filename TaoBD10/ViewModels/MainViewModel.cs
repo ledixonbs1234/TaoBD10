@@ -719,7 +719,8 @@ namespace TaoBD10.ViewModels
                        activeWindow.text.IndexOf("thong bao") != -1 || activeWindow.text.IndexOf("loi") != -1
                        )
                     {
-                        isHaveError = false;
+                        if (activeWindow.text != "")
+                            isHaveError = false;
                         listControl = APIManager.GetListControlText(activeWindow.hwnd);
                     }
                     else
@@ -1128,6 +1129,9 @@ namespace TaoBD10.ViewModels
                         }
                         if (isHaveError == false)
                         {
+                            if (listControl.Count <= 1)
+                                continue;
+
                             foreach (TestAPIModel apiContent in listControl)
                             {
                                 //thuc hien lay text cua handle item

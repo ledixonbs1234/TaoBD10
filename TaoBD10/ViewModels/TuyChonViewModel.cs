@@ -8,6 +8,8 @@ using System.Windows.Input;
 using TaoBD10.Manager;
 using TaoBD10.Model;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System;
 
 namespace TaoBD10.ViewModels
 {
@@ -35,17 +37,18 @@ namespace TaoBD10.ViewModels
             ReadPrinter();
         }
 
-
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool InvalidateRect(IntPtr hWnd, IntPtr rect, bool bErase);
         public ICommand TestCommand { get; }
 
         void Test()
         {
             var window = APIManager.WaitingFindedWindow("xem chuyen thu");
-            APIManager.ShowSnackbar("finded");
             System.Collections.Generic.List<TestAPIModel> controls = APIManager.GetListControlText(window.hwnd);
-            var control = controls.FirstOrDefault(m => m.Text.ToLower().IndexOf("Danh sách bưu gửi") != -1);
+            var control = controls.FirstOrDefault(m => m.Text.ToLower().IndexOf("danh sách bưu gửi") != -1);
             APIManager.setTextControl(control.Handle, "ddddddddddddddddddddddddd");
-
+            InvalidateRect(control.Handle, IntPtr.Zero, true);
 
         }
 

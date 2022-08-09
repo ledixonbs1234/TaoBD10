@@ -7,6 +7,7 @@ using System.Threading;
 using System.Windows.Input;
 using TaoBD10.Manager;
 using TaoBD10.Model;
+using System.Linq;
 
 namespace TaoBD10.ViewModels
 {
@@ -25,12 +26,27 @@ namespace TaoBD10.ViewModels
             _Printers = new ObservableCollection<string>();
             _Controls = new ObservableCollection<TestAPIModel>();
             ApplyCommand = new RelayCommand(Apply);
+            TestCommand = new RelayCommand(Test);
             ListControlCommand = new RelayCommand(ListControl);
             foreach (string printer in PrinterSettings.InstalledPrinters)
             {
                 _Printers.Add(printer);
             }
             ReadPrinter();
+        }
+
+
+        public ICommand TestCommand { get; }
+
+        void Test()
+        {
+            var window = APIManager.WaitingFindedWindow("update tool");
+            APIManager.ShowSnackbar("finded");
+            System.Collections.Generic.List<TestAPIModel> controls = APIManager.GetListControlText(window.hwnd);
+            var control = controls.FirstOrDefault(m => m.Text.ToLower().IndexOf("version") != -1);
+            APIManager.setTextControl(control.Handle, "ddddddddddddddddddddddddd");
+
+
         }
 
         private void ReadPrinter()

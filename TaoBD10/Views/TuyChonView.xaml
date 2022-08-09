@@ -47,5 +47,9 @@
             Margin="5"
             Command="{Binding ListControlCommand}"
             Content="ListControl" />
+    <Button
+            Margin="5"
+            Command="{Binding TestCommand}"
+            Content="Test" />
     </StackPanel>
 </UserControl>

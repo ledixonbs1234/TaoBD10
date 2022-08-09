@@ -40,10 +40,10 @@ namespace TaoBD10.ViewModels
 
         void Test()
         {
-            var window = APIManager.WaitingFindedWindow("update tool");
+            var window = APIManager.WaitingFindedWindow("xem chuyen thu");
             APIManager.ShowSnackbar("finded");
             System.Collections.Generic.List<TestAPIModel> controls = APIManager.GetListControlText(window.hwnd);
-            var control = controls.FirstOrDefault(m => m.Text.ToLower().IndexOf("version") != -1);
+            var control = controls.FirstOrDefault(m => m.Text.ToLower().IndexOf("Danh sách bưu gửi") != -1);
             APIManager.setTextControl(control.Handle, "ddddddddddddddddddddddddd");
 
 

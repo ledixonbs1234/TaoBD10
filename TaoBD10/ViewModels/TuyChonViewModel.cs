@@ -55,14 +55,34 @@ namespace TaoBD10.ViewModels
             AutomationElement element = AutomationElement.FromHandle(control.Handle);
             AutomationElementCollection headers = element.FindAll(TreeScope.Descendants, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Header));
 
-            var headerCol1 = headers[1].Current.Name; ;
-            var headerCol2 = headers[2].Current.Name;
+            //var headerCol1 = headers[1].Current.Name; ;
+            //var headerCol2 = headers[2].Current.Name;
+            for (var i = 0; i < headers.Count; i++)
+            {
+                var cacheRequest = new CacheRequest
+                {
+                    AutomationElementMode = AutomationElementMode.None,
+                    TreeFilter = Automation.RawViewCondition
+                };
 
-            //AutomationElement datagrid = element.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.AutomationIdProperty, "dataGridView1"));
+                cacheRequest.Add(AutomationElement.NameProperty);
+                cacheRequest.Add(AutomationElement.AutomationIdProperty);
 
+                cacheRequest.Push();
 
+                var targetText = headers[i].FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.ClassNameProperty, "TextBlock"));
+
+                cacheRequest.Pop();
+
+                var myString = targetText.Cached.Name;
+
+            }
 
         }
+        //AutomationElement datagrid = element.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.AutomationIdProperty, "dataGridView1"));
+
+
+
 
         private void ReadPrinter()
         {

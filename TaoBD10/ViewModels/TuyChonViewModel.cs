@@ -10,6 +10,7 @@ using TaoBD10.Model;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System;
+using System.Windows.Automation;
 
 namespace TaoBD10.ViewModels
 {
@@ -46,9 +47,20 @@ namespace TaoBD10.ViewModels
         {
             var window = APIManager.WaitingFindedWindow("xem chuyen thu");
             System.Collections.Generic.List<TestAPIModel> controls = APIManager.GetListControlText(window.hwnd);
-            var control = controls.FirstOrDefault(m => m.Text.ToLower().IndexOf("danh sách bưu gửi") != -1);
-            APIManager.setTextControl(control.Handle, "ddddddddddddddddddddddddd");
-            InvalidateRect(control.Handle, IntPtr.Zero, true);
+            //var control = controls.FirstOrDefault(m => m.Text.ToLower().IndexOf("danh sách bưu gửi") != -1);
+            //APIManager.setTextControl(control.Handle, "ddddddddddddddddddddddddd");
+            //InvalidateRect(control.Handle, IntPtr.Zero, true);
+
+            var control = controls[12];
+            AutomationElement element = AutomationElement.FromHandle(control.Handle);
+            AutomationElementCollection headers = element.FindAll(TreeScope.Descendants, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Header));
+
+            var headerCol1 = headers[1].Current.Name; ;
+            var headerCol2 = headers[2].Current.Name;
+
+            //AutomationElement datagrid = element.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.AutomationIdProperty, "dataGridView1"));
+
+
 
         }
 

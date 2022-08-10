@@ -695,6 +695,8 @@ namespace TaoBD10.ViewModels
 
         private bool isReadDuRoi = false;
         private int lastConLai = 0;
+        List<TestAPIModel> listControl;
+        WindowInfo currentWindowRead;
 
         private void BackgroundWorkerRead_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -705,42 +707,20 @@ namespace TaoBD10.ViewModels
                 {
 
                     Thread.Sleep(200);
-                    WindowInfo activeWindow = APIManager.GetActiveWindowTitle();
-                    List<TestAPIModel> listControl = null;
+                    currentWindowRead = APIManager.GetActiveWindowTitle();
                     //thuc hien loc du lieu con
-                    if (activeWindow.text == "" ||
-                        activeWindow.text.IndexOf("dong chuyen thu") != -1 ||
-                       activeWindow.text.IndexOf("xac nhan chi tiet tui thu") != -1 ||
-                       activeWindow.text.IndexOf("khoi tao chuyen thu") != -1 ||
-                       activeWindow.text.IndexOf("xac nhan bd10 theo so hieu tui") != -1 ||
-                       activeWindow.text.IndexOf("lap bd10 theo duong thu") != -1 ||
-                       activeWindow.text.IndexOf("sua thong tin bd10") != -1 ||
-                       activeWindow.text.IndexOf("danh sach bd10 di") != -1 ||
-                       activeWindow.text.IndexOf("danh sach bd10 den") != -1 ||
-                       activeWindow.text == "lap bd10" ||
-                       activeWindow.text.IndexOf("canh bao") != -1 ||
-                       activeWindow.text.IndexOf("xac nhan") != -1 ||
-                       activeWindow.text.IndexOf("thong bao") != -1 || activeWindow.text.IndexOf("loi") != -1
-                       )
-                    {
-                        listControl = APIManager.GetListControlText(activeWindow.hwnd);
-                        if (activeWindow.text == "")
-                        {
-                            if (listControl.Count > 10)
-                                continue;
-                        }
-                    }
-                    else
-                    {
-                        continue;
-                    }
-                    if (listControl.Count == 0)
-                        continue;
+                    //listControl = APIManager.GetListControlText(currentWindowRead.hwnd);
+                    //if (currentWindowRead.text == "")
+                    //{
+                    //    if (listControl.Count > 10)
+                    //        continue;
+                    //}
 
-                    TestText = DateTime.Now.ToString();
-                    if (activeWindow.text.IndexOf("dong chuyen thu") != -1)
+                    //TestText = DateTime.Now.ToString();
+                    if (currentWindowRead.text.IndexOf("dong chuyen thu") != -1)
                     {
                         isHaveError = false;
+                        listControl = APIManager.GetListControlText(currentWindowRead.hwnd);
                         List<TestAPIModel> listWindowForm = listControl.Where(m => m.ClassName.IndexOf("WindowsForms10.EDIT") != -1).ToList();
                         if (listWindowForm.Count < 7)
                             continue;
@@ -819,9 +799,11 @@ namespace TaoBD10.ViewModels
                         //TestText += apiCai.Text + "\n";
                         int.TryParse(Regex.Match(apiCai.Text, @"\d+").Value, out numberRead);
                     }
-                    else if (activeWindow.text.IndexOf("xac nhan chi tiet tui thu") != -1)
+                    else if (currentWindowRead.text.IndexOf("xac nhan chi tiet tui thu") != -1)
                     {
                         isHaveError = false;
+                        listControl = APIManager.GetListControlText(currentWindowRead.hwnd);
+
                         TestAPIModel apiCai = listControl.FirstOrDefault(m => m.Text.IndexOf("cái") != -1);
                         if (apiCai == null)
                         {
@@ -829,9 +811,10 @@ namespace TaoBD10.ViewModels
                         }
                         int.TryParse(Regex.Match(apiCai.Text, @"\d+").Value, out numberRead);
                     }
-                    else if (activeWindow.text.IndexOf("xac nhan bd10 theo so hieu tui") != -1)
+                    else if (currentWindowRead.text.IndexOf("xac nhan bd10 theo so hieu tui") != -1)
                     {
                         isHaveError = false;
+                        listControl = APIManager.GetListControlText(currentWindowRead.hwnd);
                         List<TestAPIModel> listWindowStatic = listControl.Where(m => m.ClassName.IndexOf("WindowsForms10.STATIC.app") != -1).ToList();
 
                         if (listWindowStatic.Count < 15)
@@ -881,10 +864,11 @@ namespace TaoBD10.ViewModels
                             }
                         }
                     }
-                    else if (activeWindow.text.IndexOf("lap bd10 theo duong thu") != -1)
+                    else if (currentWindowRead.text.IndexOf("lap bd10 theo duong thu") != -1)
                     {
 
                         isHaveError = false;
+                        listControl = APIManager.GetListControlText(currentWindowRead.hwnd);
                         List<TestAPIModel> listWindowStatic = listControl.Where(m => m.ClassName.IndexOf("WindowsForms10.STATIC.app") != -1).ToList();
                         if (listWindowStatic.Count < 8)
                         {
@@ -898,7 +882,7 @@ namespace TaoBD10.ViewModels
                             lastNumberSuaBD = numberRead;
                         }
                     }
-                    else if (activeWindow.text.IndexOf("xem chuyen thu chieu den") != -1)
+                    else if (currentWindowRead.text.IndexOf("xem chuyen thu chieu den") != -1)
                     {
 
                         isHaveError = false;
@@ -923,10 +907,11 @@ namespace TaoBD10.ViewModels
                             }
                         }
                     }
-                    else if (activeWindow.text.IndexOf("sua thong tin bd10") != -1 || activeWindow.text.Trim() == "lap bd10")
+                    else if (currentWindowRead.text.IndexOf("sua thong tin bd10") != -1 || currentWindowRead.text.Trim() == "lap bd10")
                     {
 
                         isHaveError = false;
+                        listControl = APIManager.GetListControlText(currentWindowRead.hwnd);
                         List<TestAPIModel> listWindowStatic = listControl.Where(m => m.ClassName.IndexOf("WindowsForms10.STATIC.app") != -1).ToList();
                         if (listWindowStatic.Count <= 10)
                         {
@@ -952,10 +937,11 @@ namespace TaoBD10.ViewModels
                     }
 
                     //get error window
-                    if (activeWindow.text.IndexOf("canh bao") != -1)
+                    if (currentWindowRead.text.IndexOf("canh bao") != -1)
                     {
                         if (isHaveError == false)
                         {
+                            listControl = APIManager.GetListControlText(currentWindowRead.hwnd);
                             foreach (TestAPIModel apiContent in listControl)
                             {
                                 //thuc hien lay text cua handle item
@@ -1059,10 +1045,11 @@ namespace TaoBD10.ViewModels
                             }
                         }
                     }
-                    else if (activeWindow.text == "xac nhan")
+                    else if (currentWindowRead.text == "xac nhan")
                     {
                         if (isHaveError == false)
                         {
+                            listControl = APIManager.GetListControlText(currentWindowRead.hwnd);
                             foreach (TestAPIModel apiContent in listControl)
                             {
                                 //thuc hien lay text cua handle item
@@ -1072,7 +1059,7 @@ namespace TaoBD10.ViewModels
                                     if (textError.IndexOf("ban co chac chan muon sua") != -1)
                                     {
                                         Thread.Sleep(100);
-                                        APIManager.ClickButton(activeWindow.hwnd, "yes", isExactly: false);
+                                        APIManager.ClickButton(currentWindowRead.hwnd, "yes", isExactly: false);
                                         isHaveError = true;
                                     }
                                     else if (textError.IndexOf("phat sinh su vu") != -1)
@@ -1084,10 +1071,11 @@ namespace TaoBD10.ViewModels
                             }
                         }
                     }
-                    else if (activeWindow.text.IndexOf("thong bao") != -1)
+                    else if (currentWindowRead.text.IndexOf("thong bao") != -1)
                     {
                         if (isHaveError == false)
                         {
+                            listControl = APIManager.GetListControlText(currentWindowRead.hwnd);
                             foreach (TestAPIModel apiContent in listControl)
                             {
                                 //thuc hien lay text cua handle item
@@ -1110,10 +1098,11 @@ namespace TaoBD10.ViewModels
                             }
                         }
                     }
-                    else if (activeWindow.text == "loi")
+                    else if (currentWindowRead.text == "loi")
                     {
                         if (isHaveError == false)
                         {
+                            listControl = APIManager.GetListControlText(currentWindowRead.hwnd);
                             foreach (TestAPIModel apiContent in listControl)
                             {
                                 //thuc hien lay text cua handle item
@@ -1139,9 +1128,10 @@ namespace TaoBD10.ViewModels
                             }
                         }
                     }
-                    else if (string.IsNullOrEmpty(activeWindow.text))
+                    else if (string.IsNullOrEmpty(currentWindowRead.text))
                     {
-                        if (listControl.Count > 50)
+                        listControl = APIManager.GetListControlText(currentWindowRead.hwnd);
+                        if (listControl.Count > 10)
                         {
                             continue;
                         }

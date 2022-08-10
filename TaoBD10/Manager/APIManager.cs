@@ -139,7 +139,7 @@ namespace TaoBD10.Manager
         public static string GetControlText(IntPtr hWnd)
         {
             // Get the size of the string required to hold the window title (including trailing null.)
-            int titleSize = (int)APIManager.SendMessage(hWnd, WM_GETTEXTLENGTH, 0, 0);
+            int titleSize = (int)SendMessage(hWnd, WM_GETTEXTLENGTH, 0, 0);
 
             // If titleSize is 0, there is no title so return an empty string (or null)
             if (titleSize == 0)
@@ -147,7 +147,7 @@ namespace TaoBD10.Manager
 
             StringBuilder title = new StringBuilder(titleSize + 1);
 
-            APIManager.SendMessage(hWnd, (int)WM_GETTEXT, new IntPtr(title.Capacity), title);
+            SendMessage(hWnd, WM_GETTEXT, new IntPtr(title.Capacity), title);
 
             return title.ToString();
         }

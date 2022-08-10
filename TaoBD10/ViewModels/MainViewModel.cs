@@ -720,6 +720,11 @@ namespace TaoBD10.ViewModels
                        )
                     {
                         listControl = APIManager.GetListControlText(activeWindow.hwnd);
+                        if (activeWindow.text == "")
+                        {
+                            if (listControl.Count > 10)
+                                continue;
+                        }
                     }
                     else
                     {
@@ -841,7 +846,7 @@ namespace TaoBD10.ViewModels
                                 {
                                     Thread.CurrentThread.IsBackground = true;
                                     /* run your code here */
-                                    Thread.Sleep(1500);
+                                    Thread.Sleep(1000);
 
                                     SoundManager.playSound2(@"Number\dusoluong.wav");
                                 }).Start();
@@ -862,7 +867,7 @@ namespace TaoBD10.ViewModels
                                         {
                                             Thread.CurrentThread.IsBackground = true;
                                             /* run your code here */
-                                            Thread.Sleep(1500);
+                                            Thread.Sleep(1000);
 
                                             SoundManager.playSound2(@"Number\" + lastConLai.ToString() + ".wav");
                                         }).Start();
@@ -1088,6 +1093,7 @@ namespace TaoBD10.ViewModels
                                     {
                                         Thread.Sleep(200);
                                         SendKeys.SendWait("{ENTER}");
+                                        isHaveError = true;
                                     }
                                     else if (textError.IndexOf("da truyen du lieu thanh cong") != -1)
                                     {
@@ -1136,9 +1142,6 @@ namespace TaoBD10.ViewModels
                         }
                         if (isHaveError == false)
                         {
-                            if (listControl.Count <= 1)
-                                continue;
-
                             foreach (TestAPIModel apiContent in listControl)
                             {
                                 //thuc hien lay text cua handle item

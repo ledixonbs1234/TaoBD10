@@ -14,8 +14,10 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
+using System.Windows.Threading;
 using TaoBD10.Manager;
 using TaoBD10.Model;
+using Timer = System.Threading.Timer;
 
 namespace TaoBD10.ViewModels
 {
@@ -51,6 +53,8 @@ namespace TaoBD10.ViewModels
             window.Close();
         }
         BackgroundWorker bwprintMaVach;
+        List<FindItemModel> listFindItem;
+        DispatcherTimer timer;
 
         public MainViewModel()
         {
@@ -81,10 +85,16 @@ namespace TaoBD10.ViewModels
             bwRunPrints.DoWork += BwRunPrints_DoWork;
             bwRunPrints.RunWorkerCompleted += BwRunPrints_RunWorkerCompleted;
 
+            timer = new DispatcherTimer();
+            timer.Interval = new TimeSpan(0, 20, 0);
+            timer.Tick += Timer_Tick;
+            timer.Start();
             _keyboardHook = new Y2KeyboardHook();
             _keyboardHook.OnKeyPressed += OnKeyPress;
             _keyboardHook.HookKeyboard();
             SoundManager.SetUpDirectory();
+            listFindItem = new List<FindItemModel>();
+
 
             WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>
             {
@@ -300,6 +310,21 @@ namespace TaoBD10.ViewModels
                     }
                 }
             });
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            if (listFindItem.Count > 0)
+            {
+                List<FindItemModel> data = FileManager.LoadFindItemOnFirebase();
+                if (data == null)
+                {
+                    data = new List<FindItemModel>();
+                }
+                data.AddRange(listFindItem);
+                FileManager.SaveFindItemFirebase(data);
+                listFindItem.Clear();
+            }
         }
 
         private void BwprintMaVach_DoWork(object sender, DoWorkEventArgs e)
@@ -1684,6 +1709,18 @@ namespace TaoBD10.ViewModels
                                     //lay dia chi cua ma can tim
 
                                     WeakReferenceMessenger.Default.Send(new ContentModel { Key = "LoadAddressDong", Content = code });
+                                }
+                            }
+                        }
+                        else
+                        {
+                            activeWindow1 = APIManager.GetActiveWindowTitle();
+                            if (activeWindow1.text.IndexOf("xac nhan bd10 theo") != -1)
+                            {
+                                if (KeyData.Length == 29 || KeyData.Length == 13 || KeyData.Length == 9)
+                                {
+                                    //thuc hien cong viec la luu du lieu len server
+                                    listFindItem.Add(new FindItemModel(KeyData.ToUpper(), DateTime.Now.ToString()));
                                 }
                             }
                         }

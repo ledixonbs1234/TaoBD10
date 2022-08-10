@@ -231,6 +231,7 @@
     <Compile Include="Model\ChiTietTuiModel.cs" />
     <Compile Include="Model\ChuyenThuModel.cs" />
     <Compile Include="Model\DiNgoaiItemModel.cs" />
+    <Compile Include="Model\FindItemModel.cs" />
     <Compile Include="Model\HangHoaDetailModel.cs" />
     <Compile Include="Model\HangTonModel.cs" />
     <Compile Include="Model\KiemTraModel.cs" />

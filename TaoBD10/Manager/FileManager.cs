@@ -85,6 +85,39 @@ namespace TaoBD10.Manager
             }
         }
 
+        public static List<FindItemModel> LoadFindItemOffline()
+        {
+            if (!File.Exists(_fileFindItem))
+            {
+                SaveFindItemOffline(new List<FindItemModel>());
+            }
+
+            JsonSerializer serializer = new JsonSerializer();
+            using (StreamReader sReader = new StreamReader(_fileFindItem))
+            using (JsonReader jReader = new JsonTextReader(sReader))
+            {
+                List<FindItemModel> listFindItems = serializer.Deserialize<List<FindItemModel>>(jReader);
+                return listFindItems;
+            }
+        }
+
+        public static void SaveFindItemOffline(List<FindItemModel> findItemModels)
+        {
+            if (!File.Exists(_fileFindItem))
+            {
+                using (FileStream fs = File.Create(_fileFindItem))
+                {
+
+                }
+            }
+            JsonSerializer serializer = new JsonSerializer();
+            using (StreamWriter sWriter = new StreamWriter(_fileFindItem))
+            using (JsonWriter jWriter = new JsonTextWriter(sWriter))
+            {
+                serializer.Serialize(jWriter, findItemModels);
+            }
+        }
+
         public static void SaveBuuCucsOffline(List<string> list)
         {
             if (!File.Exists(_fileBuuCucs))
@@ -254,6 +287,15 @@ namespace TaoBD10.Manager
             SaveBuuCucsOffline(result);
             return result;
 
+        }
+        public static List<FindItemModel> LoadFindItemOnFirebase()
+        {
+            onSetupFileManager();
+            Task<List<FindItemModel>> cts = client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/FindItem").OrderByKey().OnceSingleAsync<List<FindItemModel>>();
+            cts.Wait();
+            List<FindItemModel> result = cts.Result;
+            SaveFindItemOffline(result);
+            return result;
         }
 
         public static List<BuuCucModel> LoadBuuCucOnFirebase()
@@ -517,6 +559,11 @@ namespace TaoBD10.Manager
             onSetupFileManager();
             client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/BuuCucs").PutAsync(buucucs).Wait();
         }
+        public static void SaveFindItemFirebase(List<FindItemModel> buucucs)
+        {
+            onSetupFileManager();
+            client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/FindItem").PutAsync(buucucs).Wait();
+        }
 
 
         public static void SaveLayBDOffline(List<LayBD10Info> laybds)
@@ -580,6 +627,7 @@ namespace TaoBD10.Manager
         private static string _fileCT = Environment.CurrentDirectory + "\\Data\\dataCT.json";
         private static string _fileLayBD = Environment.CurrentDirectory + "\\Data\\dataLayBD.json";
         private static string _fileOption = Environment.CurrentDirectory + "\\Data\\option.json";
+        private static string _fileFindItem = Environment.CurrentDirectory + "\\Data\\finditem.json";
         private static string _fileTinhThanh = Environment.CurrentDirectory + "\\Data\\TinhThanh.json";
         private static string _fileBuuCucs = Environment.CurrentDirectory + "\\Data\\BuuCucs.json";
         private static string _fileLocBD10 = Environment.CurrentDirectory + "\\Data\\LocBD10.txt";

@@ -698,10 +698,12 @@ namespace TaoBD10.ViewModels
 
         private void BackgroundWorkerRead_DoWork(object sender, DoWorkEventArgs e)
         {
+
             try
             {
                 while (true)
                 {
+
                     Thread.Sleep(200);
                     WindowInfo activeWindow = APIManager.GetActiveWindowTitle();
                     List<TestAPIModel> listControl = null;
@@ -733,6 +735,7 @@ namespace TaoBD10.ViewModels
                     if (listControl.Count == 0)
                         continue;
 
+                    TestText = DateTime.Now.ToString();
                     if (activeWindow.text.IndexOf("dong chuyen thu") != -1)
                     {
                         isHaveError = false;
@@ -1171,8 +1174,7 @@ namespace TaoBD10.ViewModels
                             }
                         }
                     }
-                    TestText = DateTime.Now.ToString();
-                    
+
                 }
             }
             catch (Exception ex)

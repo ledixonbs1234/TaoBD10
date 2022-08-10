@@ -1171,6 +1171,8 @@ namespace TaoBD10.ViewModels
                             }
                         }
                     }
+                    TestText = DateTime.Now.ToString();
+                    
                 }
             }
             catch (Exception ex)
@@ -1186,6 +1188,16 @@ namespace TaoBD10.ViewModels
                 throw;
             }
         }
+
+        private string _TestText;
+
+        public string TestText
+        {
+            get { return _TestText; }
+            set { SetProperty(ref _TestText, value); }
+        }
+
+
 
         public string CountInBD { get => _CountInBD; set => SetProperty(ref _CountInBD, value); }
         public IRelayCommand<System.Windows.Controls.TabControl> DefaultWindowCommand { get; }

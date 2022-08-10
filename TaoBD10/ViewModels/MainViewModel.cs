@@ -715,6 +715,8 @@ namespace TaoBD10.ViewModels
                        activeWindow.text.IndexOf("xac nhan bd10 theo so hieu tui") != -1 ||
                        activeWindow.text.IndexOf("lap bd10 theo duong thu") != -1 ||
                        activeWindow.text.IndexOf("sua thong tin bd10") != -1 ||
+                       activeWindow.text.IndexOf("danh sach bd10 di") != -1 ||
+                       activeWindow.text.IndexOf("danh sach bd10 den") != -1 ||
                        activeWindow.text == "lap bd10" ||
                        activeWindow.text.IndexOf("canh bao") != -1 ||
                        activeWindow.text.IndexOf("xac nhan") != -1 ||

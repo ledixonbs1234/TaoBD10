@@ -11,6 +11,7 @@ namespace TaoBD10.Manager
 {
     public static class FileManager
     {
+
         public static List<MaBD8Model> GetMaBD8s()
         {
             if (File.Exists(_fileBD8))
@@ -405,6 +406,7 @@ namespace TaoBD10.Manager
         {
             if (client == null)
             {
+                GetOptionOffline();
                 if (!File.Exists(_fileBCCP))
                 {
                     using (FileStream fs = File.Create(_fileBCCP)) { }

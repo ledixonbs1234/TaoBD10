@@ -96,6 +96,7 @@ namespace TaoBD10.ViewModels
             _keyboardHook.HookKeyboard();
             SoundManager.SetUpDirectory();
             listFindItem = new List<FindItemModel>();
+            FileManager.onSetupFileManager();
 
 
             WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>

@@ -735,15 +735,7 @@ namespace TaoBD10.ViewModels
 
                     Thread.Sleep(200);
                     currentWindowRead = APIManager.GetActiveWindowTitle();
-                    //thuc hien loc du lieu con
-                    //listControl = APIManager.GetListControlText(currentWindowRead.hwnd);
-                    //if (currentWindowRead.text == "")
-                    //{
-                    //    if (listControl.Count > 10)
-                    //        continue;
-                    //}
 
-                    //TestText = DateTime.Now.ToString();
                     if (currentWindowRead.text.IndexOf("dong chuyen thu") != -1)
                     {
                         IsHaveError = false;
@@ -951,6 +943,10 @@ namespace TaoBD10.ViewModels
                             APIManager.currentNumberBD = numberRead;
                             lastNumberSuaBD = numberRead;
                         }
+                    }
+                    else if(currentWindowRead.text.IndexOf("khoi tao chuyen thu")!= -1)
+                    {
+                        IsHaveError = false;
                     }
 
                     if (numberRead <= 300)

@@ -138,18 +138,32 @@ namespace TaoBD10.Manager
 
         public static string GetControlText(IntPtr hWnd)
         {
-            // Get the size of the string required to hold the window title (including trailing null.)
-            int titleSize = (int)SendMessage(hWnd, WM_GETTEXTLENGTH, 0, 0);
+            try
+            {
+                // Get the size of the string required to hold the window title (including trailing null.)
+                int titleSize = (int)SendMessage(hWnd, WM_GETTEXTLENGTH, 0, 0);
 
-            // If titleSize is 0, there is no title so return an empty string (or null)
-            if (titleSize == 0)
-                return String.Empty;
+                // If titleSize is 0, there is no title so return an empty string (or null)
+                if (titleSize == 0)
+                    return String.Empty;
 
-            StringBuilder title = new StringBuilder(titleSize + 1);
+                StringBuilder title = new StringBuilder(titleSize + 1);
 
-            SendMessage(hWnd, WM_GETTEXT, new IntPtr(title.Capacity), title);
+                SendMessage(hWnd, WM_GETTEXT, new IntPtr(title.Capacity), title);
 
-            return title.ToString();
+                return title.ToString();
+            }
+            catch (Exception ex)
+            {
+                var st = new StackTrace(ex, true);
+                // Get the top stack frame
+                var frame = st.GetFrame(0);
+                // Get the line number from the stack frame
+                var line = frame.GetFileLineNumber();
+                APIManager.OpenNotePad(ex.Message + '\n' + "MainViewModel " + line + " Number Line " + APIManager.GetLineNumber(ex), "loi ");
+                throw;
+            }
+
         }
 
         public static string GetCopyData()
@@ -196,23 +210,38 @@ namespace TaoBD10.Manager
 
         public static List<TestAPIModel> GetListControlText(IntPtr handleActiveWindow)
         {
-            var allChild = GetAllChildHandles(handleActiveWindow);
-
-            List<TestAPIModel> list = new List<TestAPIModel>();
-            int count = 0;
-            foreach (var item in allChild)
+            try
             {
-                TestAPIModel test = new TestAPIModel
+                var allChild = GetAllChildHandles(handleActiveWindow);
+
+                List<TestAPIModel> list = new List<TestAPIModel>();
+                int count = 0;
+                foreach (var item in allChild)
                 {
-                    Index = count,
-                    Text = GetControlText(item),
-                    Handle = item,
-                    ClassName = GetWindowClass(item)
-                };
-                list.Add(test);
-                count++;
+                    TestAPIModel test = new TestAPIModel
+                    {
+                        Index = count,
+                        Text = GetControlText(item),
+                        Handle = item,
+                        ClassName = GetWindowClass(item)
+                    };
+                    list.Add(test);
+                    count++;
+                }
+                return list;
             }
-            return list;
+            catch (Exception ex)
+            {
+                var st = new StackTrace(ex, true);
+                // Get the top stack frame
+                var frame = st.GetFrame(0);
+                // Get the line number from the stack frame
+                var line = frame.GetFileLineNumber();
+                APIManager.OpenNotePad(ex.Message + '\n' + "MainViewModel " + line + " Number Line " + APIManager.GetLineNumber(ex), "loi ");
+
+                throw;
+            }
+
         }
 
         public static string GetWindowClass(IntPtr hWnd)
@@ -343,7 +372,7 @@ namespace TaoBD10.Manager
         }
 
         private static bool isWaitingThoat = false;
-        public static void GoToWindow(string maBuuCuc,string nameHandle,string firstNumber,string twoNumber)
+        public static void GoToWindow(string maBuuCuc, string nameHandle, string firstNumber, string twoNumber)
         {
             if (!ThoatToDefault(maBuuCuc, nameHandle))
             {

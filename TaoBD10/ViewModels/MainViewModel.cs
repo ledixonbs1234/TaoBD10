@@ -327,7 +327,7 @@ namespace TaoBD10.ViewModels
                 FileManager.SaveFindItemFirebase(data);
                 listFindItem.Clear();
             }
-            if(DateTime.Now.Hour > 12)
+            if (DateTime.Now.Hour > 12)
             {
                 IsBoQuaHuyen = true;
             }
@@ -917,17 +917,26 @@ namespace TaoBD10.ViewModels
                             //Túi số  KL(kg) Loại túi    F xác nhận
                             //False   1   3,4 Ði ngoài(EMS)   True Cleared
                             //False   1   2,2 Ði ngoài(EMS)   False Selected
-                            string dataCopped = APIManager.GetCopyData();
-                            if (dataCopped.IndexOf("Selected") != -1)
+                            int countTemp = 10;
+                            string copyedData = "";
+                            while (countTemp > 0)
                             {
-                                SendKeys.SendWait("{F10}");
-                                Thread.Sleep(200);
-                                SendKeys.SendWait(" ");
+                                countTemp--;
+                                Thread.Sleep(100);
+                                copyedData = APIManager.GetCopyData();
+                                if (string.IsNullOrEmpty(copyedData))
+                                    return;
+                                if (copyedData.IndexOf("Selected") != -1)
+                                    break;
                             }
-                            else
-                            {
-                                SendKeys.SendWait("{F6}");
-                            }
+                            if (copyedData.IndexOf("Selected") == -1)
+                                return;
+                            Thread.Sleep(50);
+
+                            var currentWindow = APIManager.WaitingFindedWindow("xem chuyen thu chieu den");
+                            APIManager.ClickButton(currentWindow.hwnd, "xac nhan chuyen thu", isExactly: false);
+                            currentWindow = APIManager.WaitingFindedWindow("xac nhan");
+                            APIManager.ClickButton(currentWindow.hwnd, "yes", isExactly: false);
                         }
                     }
                     else if (currentWindowRead.text.IndexOf("sua thong tin bd10") != -1 || currentWindowRead.text.Trim() == "lap bd10")
@@ -948,7 +957,7 @@ namespace TaoBD10.ViewModels
                             lastNumberSuaBD = numberRead;
                         }
                     }
-                    else if(currentWindowRead.text.IndexOf("khoi tao chuyen thu")!= -1)
+                    else if (currentWindowRead.text.IndexOf("khoi tao chuyen thu") != -1)
                     {
                         IsHaveError = false;
                     }

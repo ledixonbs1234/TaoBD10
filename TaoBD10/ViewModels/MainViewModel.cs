@@ -327,6 +327,10 @@ namespace TaoBD10.ViewModels
                 FileManager.SaveFindItemFirebase(data);
                 listFindItem.Clear();
             }
+            if(DateTime.Now.Hour > 12)
+            {
+                IsBoQuaHuyen = true;
+            }
         }
 
         private void BwprintMaVach_DoWork(object sender, DoWorkEventArgs e)

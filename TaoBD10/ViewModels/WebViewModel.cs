@@ -85,6 +85,7 @@ namespace TaoBD10.ViewModels
                  else if (m.Key == "ListAddressFull")
                  {
                      APIManager.downLoadRoad = DownLoadRoad.TamQuanAddress;
+                     isClickWebBCCP = false;
                      WebBrowser.LoadUrl(m.Content);
                  }
                  else if (m.Key == "ListAddressDiNgoai")

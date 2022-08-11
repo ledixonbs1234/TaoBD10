@@ -54,6 +54,7 @@
             <DataGrid.Columns>
                 <!--<DataGridCheckBoxColumn Binding="{Binding IsTamQuan}" Header="Choose" />-->
                 <materialDesign:DataGridComboBoxColumn ItemsSourceBinding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.LoaiAddress}" SelectedItemBinding="{Binding IsTamQuan}" />
+                <DataGridTextColumn Binding="{Binding PhanLoai}"></DataGridTextColumn>
 
                 <DataGridTextColumn
                     Binding="{Binding TuiHangHoa.SHTui}"

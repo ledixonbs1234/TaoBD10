@@ -47,20 +47,28 @@ namespace TaoBD10.Model
             set { SetProperty(ref _Code, value); }
         }
 
+        private string _PhanLoai ="";
+
+        public string PhanLoai
+        {
+            get { return _PhanLoai; }
+            set { SetProperty(ref _PhanLoai, value); }
+        }
+
+
+
         public TrangThaiBD TrangThaiBD
         {
             get { return _TrangThaiBD; }
             set { SetProperty(ref _TrangThaiBD, value); }
         }
 
-        public PhanLoaiTinh PhanLoai { get; set; } = PhanLoaiTinh.None;
         public string Key { get; set; }
 
 
-        public HangHoaDetailModel(TuiHangHoa tuiHangHoa, PhanLoaiTinh phanLoaiTinh)
+        public HangHoaDetailModel(TuiHangHoa tuiHangHoa )
         {
             TuiHangHoa = tuiHangHoa;
-            PhanLoai = phanLoaiTinh;
         }
     }
 }

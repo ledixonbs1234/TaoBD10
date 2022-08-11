@@ -20,16 +20,6 @@ namespace TaoBD10.ViewModels
     public class ChiTietViewModel : ObservableObject
     {
         public ICommand GopBDCommand { get; }
-
-        private void GopBD()
-        {
-            //thuc hien gop bd dua vao danh sach hien co
-            //bo bd phu my phu cat an nhon
-            int countPhuMy = currentListHangHoa.Where(m => m.PhanLoai == PhanLoaiTinh.PhuMy).Count();
-            int countPhuCat = currentListHangHoa.Where(m => m.PhanLoai == PhanLoaiTinh.PhuCat).Count();
-            int countAnNhon = currentListHangHoa.Where(m => m.PhanLoai == PhanLoaiTinh.AnNhon).Count();
-        }
-
         public ICommand GetDataFromCloudCommand { get; }
 
 
@@ -147,7 +137,6 @@ namespace TaoBD10.ViewModels
         {
             ConLai = new LocBDInfoModel();
             ConLai.TenBD = "Còn Lại";
-            GopBDCommand = new RelayCommand(GopBD);
             bwChiTiet = new BackgroundWorker();
             bwChiTiet.DoWork += BwChiTiet_DoWork;
             taoBDWorker = new BackgroundWorker();
@@ -177,7 +166,7 @@ namespace TaoBD10.ViewModels
                     {
                         foreach (TuiHangHoa tuiHangHoa in BD10.TuiHangHoas)
                         {
-                            currentListHangHoa.Add(new HangHoaDetailModel(tuiHangHoa, EnumAll.PhanLoaiTinh.None));
+                            currentListHangHoa.Add(new HangHoaDetailModel(tuiHangHoa));
                         }
                     }
                     //FillData();
@@ -341,6 +330,7 @@ namespace TaoBD10.ViewModels
                                 {
                                     if (temp.TuiHangHoa.PhanLoai.IndexOf(phanLoai) != -1)
                                     {
+                                        temp.PhanLoai = locBD.TenBD;
                                         locBD.HangHoas.Add(temp);
                                         currentListHangHoa.Remove(temp);
                                         break;
@@ -354,6 +344,7 @@ namespace TaoBD10.ViewModels
                                 {
                                     if (temp.TuiHangHoa.DichVu.IndexOf(phanLoai) != -1)
                                     {
+                                        temp.PhanLoai = locBD.TenBD;
                                         locBD.HangHoas.Add(temp);
                                         currentListHangHoa.Remove(temp);
                                         break;
@@ -363,6 +354,7 @@ namespace TaoBD10.ViewModels
                             }
                             if (string.IsNullOrEmpty(locBD.PhanLoais) && string.IsNullOrEmpty(locBD.DichVus))
                             {
+                                temp.PhanLoai = locBD.TenBD;
                                 locBD.HangHoas.Add(temp);
                                 currentListHangHoa.Remove(temp);
                             }
@@ -384,6 +376,7 @@ namespace TaoBD10.ViewModels
                                 {
                                     if (temp.TuiHangHoa.PhanLoai.IndexOf(phanLoai) != -1)
                                     {
+                                        temp.PhanLoai = locBD.TenBD;
                                         locBD.HangHoas.Add(temp);
                                         currentListHangHoa.Remove(temp);
                                         break;
@@ -397,6 +390,7 @@ namespace TaoBD10.ViewModels
                                 {
                                     if (temp.TuiHangHoa.DichVu.IndexOf(phanLoai) != -1)
                                     {
+                                        temp.PhanLoai = locBD.TenBD;
                                         locBD.HangHoas.Add(temp);
                                         currentListHangHoa.Remove(temp);
                                         break;
@@ -406,6 +400,7 @@ namespace TaoBD10.ViewModels
                             }
                             if (string.IsNullOrEmpty(locBD.PhanLoais) && string.IsNullOrEmpty(locBD.DichVus))
                             {
+                                temp.PhanLoai = locBD.TenBD;
                                 locBD.HangHoas.Add(temp);
                                 currentListHangHoa.Remove(temp);
                             }
@@ -422,6 +417,7 @@ namespace TaoBD10.ViewModels
                 IEnumerable<HangHoaDetailModel> listFill = currentListHangHoa.Where(m => m.TuiHangHoa.ToBC.IndexOf(LocKhaiThac.DanhSachHuyen) != -1);
                 foreach (var item in listFill.ToList())
                 {
+                    item.PhanLoai = LocKhaiThac.TenBD;
                     LocKhaiThac.HangHoas.Add(item);
                     currentListHangHoa.Remove(item);
                 }
@@ -434,6 +430,7 @@ namespace TaoBD10.ViewModels
                 IEnumerable<HangHoaDetailModel> listFill = currentListHangHoa.Where(m => m.TuiHangHoa.ToBC.IndexOf(LocBCP.DanhSachHuyen) != -1);
                 foreach (var item in listFill.ToList())
                 {
+                    item.PhanLoai = LocBCP.TenBD;
                     LocBCP.HangHoas.Add(item);
                     currentListHangHoa.Remove(item);
                 }
@@ -445,6 +442,7 @@ namespace TaoBD10.ViewModels
             {
                 foreach (HangHoaDetailModel item in currentListHangHoa.ToList())
                 {
+                    item.PhanLoai = ConLai.TenBD;
                     ConLai.HangHoas.Add(item);
                     currentListHangHoa.Remove(item);
                 }
@@ -935,7 +933,7 @@ namespace TaoBD10.ViewModels
 
 
 
-        private int _IndexContinueGuiTrucTiep =0;
+        private int _IndexContinueGuiTrucTiep = 0;
 
         public int IndexContinueGuiTrucTiep
         {

@@ -334,6 +334,9 @@
     <Compile Include="Views\OptionTinhThanhView.xaml.cs">
       <DependentUpon>OptionTinhThanhView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\OptionView.xaml.cs">
+      <DependentUpon>OptionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\TamQuanView.xaml.cs">
       <DependentUpon>TamQuanView.xaml</DependentUpon>
     </Compile>
@@ -444,6 +447,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\OptionTinhThanhView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\OptionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

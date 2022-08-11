@@ -156,37 +156,11 @@
                     <view:TamQuanView />
                 </TabItem>
                 <TabItem Padding="0" Header="TÙY CHỌN">
-                    <TabControl
-                        Margin="5"
-                        HorizontalContentAlignment="Left"
-                        materialDesign:ColorZoneAssist.Mode="SecondaryLight"
-                        SelectedIndex="{Binding IndexTabOption}"
-                        TabStripPlacement="Bottom">
-                        <TabItem Padding="0" Header="Default">
-                            <view:TuyChonView />
-                        </TabItem>
-                        <TabItem Padding="0" Header="Option Chuyến Thư">
-                            <view:OptionChinhView />
-                        </TabItem>
-                        <TabItem
-                            Padding="0"
-                            Background="Green"
-                            Header="Option Info">
-                            <view:OptionAllView />
-                        </TabItem>
-                        <TabItem Padding="0" Header="Option Lấy CT" >
-                            <view:OptionLayCT/>
-                        </TabItem>
-                        <TabItem Padding="0" Header="Option Lấy BD 10" >
-                            <view:OptionLayBD10View/>
-                        </TabItem>
-                        <TabItem Padding="0" Header="Option BD 10">
-                            <view:OptionChiTietView/>
-                        </TabItem>
-                        <TabItem Padding="0" Header="Tỉnh Thành">
-                            <view:OptionTinhThanhView/>
-                        </TabItem>
-                    </TabControl>
+                    <StackPanel VerticalAlignment="Center" Orientation="Vertical">
+                        <Button Width="120" Content="Option View" Command="{Binding OptionViewCommand}"></Button>
+                        <TextBlock Text="{Binding IsHaveError}"/>
+                    </StackPanel>
+
                 </TabItem>
             </TabControl>
 

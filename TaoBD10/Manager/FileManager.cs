@@ -11,6 +11,7 @@ namespace TaoBD10.Manager
 {
     public static class FileManager
     {
+        public static List<TinhHuyenModel> TinhThanhs;
 
         public static List<MaBD8Model> GetMaBD8s()
         {
@@ -403,11 +404,12 @@ namespace TaoBD10.Manager
             client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/OptionLocBD").PutAsync(locBDInfoModels);
         }
 
-        public static void onSetupFileManager()
+        public static void OnSetupFileManager()
         {
 
             GetOptionOffline();
             ReadPrinterFromFile();
+            TinhThanhs = LoadTinhThanhOffline();
             if (client == null)
             {
                 if (!File.Exists(_fileBCCP))

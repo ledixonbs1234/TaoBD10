@@ -203,7 +203,7 @@ namespace TaoBD10.ViewModels
                 return;
             }
             SendKeys.SendWait("{ESC}");
-            Thread.Sleep(1500);
+            Thread.Sleep(2000);
 
             //thuc hien nhan button get chuyen thu 593200;
             WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Button593200" });
@@ -868,13 +868,20 @@ namespace TaoBD10.ViewModels
                 SendKeys.SendWait("{F5}");
                 Thread.Sleep(200);
                 SendKeys.SendWait("^(a)");
-
-                copyedData = APIManager.GetCopyData();
-                if (string.IsNullOrEmpty(copyedData))
-                    return;
+                int countTemp = 10;
+                while (countTemp > 0)
+                {
+                    countTemp--;
+                    Thread.Sleep(100);
+                    copyedData = APIManager.GetCopyData();
+                    if (string.IsNullOrEmpty(copyedData))
+                        return;
+                    if (copyedData.IndexOf("Selected") != -1)
+                        break ;
+                }
                 if (copyedData.IndexOf("Selected") == -1)
                     return;
-                Thread.Sleep(500);
+                Thread.Sleep(50);
 
                 APIManager.ClickButton(currentWindow.hwnd, "xac nhan chuyen thu", isExactly: false);
                 currentWindow = APIManager.WaitingFindedWindow("xac nhan");

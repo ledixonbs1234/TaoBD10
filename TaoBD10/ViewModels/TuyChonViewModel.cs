@@ -86,16 +86,9 @@ namespace TaoBD10.ViewModels
 
         private void ReadPrinter()
         {
-            if (File.Exists("Data\\printerSave.txt"))
-            {
-                string[] lines = File.ReadAllLines("Data\\printerSave.txt");
-                PrintBD8 = lines[0];
-                APIManager.namePrinterBD8 = PrintBD8;
-                PrintBD10 = lines[1];
-                APIManager.namePrinterBD10 = PrintBD10;
-            }
+            PrintBD8 = APIManager.namePrinterBD8;
+            PrintBD10 = APIManager.namePrinterBD10;
         }
-
         public ICommand ApplyCommand { get; }
         public ICommand ListControlCommand { get; }
 

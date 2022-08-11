@@ -34,8 +34,6 @@ namespace TaoBD10.Manager
 
         public static OptionModel GetOptionAll()
         {
-            onSetupFileManager();
-
             Task<OptionModel> optionTemp = client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/Option").OnceSingleAsync<OptionModel>();
             optionTemp.Wait();
             optionModel = optionTemp.Result;
@@ -271,7 +269,6 @@ namespace TaoBD10.Manager
 
         public static List<TinhHuyenModel> LoadTinhThanhOnFirebase()
         {
-            onSetupFileManager();
             Task<List<TinhHuyenModel>> cts = client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/TinhThanh").OrderByKey().OnceSingleAsync<List<TinhHuyenModel>>();
             cts.Wait();
             List<TinhHuyenModel> result = cts.Result;
@@ -281,7 +278,6 @@ namespace TaoBD10.Manager
         }
         public static List<string> LoadBuuCucsOnFirebase()
         {
-            onSetupFileManager();
             Task<List<string>> cts = client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/BuuCucs").OrderByKey().OnceSingleAsync<List<string>>();
             cts.Wait();
             List<string> result = cts.Result;
@@ -291,7 +287,6 @@ namespace TaoBD10.Manager
         }
         public static List<FindItemModel> LoadFindItemOnFirebase()
         {
-            onSetupFileManager();
             Task<List<FindItemModel>> cts = client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/FindItem").OrderByKey().OnceSingleAsync<List<FindItemModel>>();
             cts.Wait();
             List<FindItemModel> result = cts.Result;
@@ -301,7 +296,6 @@ namespace TaoBD10.Manager
 
         public static List<BuuCucModel> LoadBuuCucOnFirebase()
         {
-            onSetupFileManager();
             Task<List<BuuCucModel>> cts = client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/LayBuuCuc").OrderByKey().OnceSingleAsync<List<BuuCucModel>>();
             cts.Wait();
             List<BuuCucModel> result = cts.Result;
@@ -327,10 +321,20 @@ namespace TaoBD10.Manager
                 return listCT;
             }
         }
+        public static string[] ReadPrinterFromFile()
+        {
+            string[] result = new string[2];
+            if (File.Exists("Data\\printerSave.txt"))
+            {
+                result = File.ReadAllLines("Data\\printerSave.txt");
+                APIManager.namePrinterBD8 = result[0];
+                APIManager.namePrinterBD10 = result[1];
+            }
+            return result;
+        }
 
         public static List<ChuyenThuModel> LoadCTOnFirebase()
         {
-            onSetupFileManager();
             Task<List<ChuyenThuModel>> cts = client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/OptionCT").OrderByKey().OnceSingleAsync<List<ChuyenThuModel>>();
             cts.Wait();
             List<ChuyenThuModel> result = cts.Result;
@@ -369,7 +373,6 @@ namespace TaoBD10.Manager
 
         public static List<LayBD10Info> LoadLayBDOnFirebase()
         {
-            onSetupFileManager();
             Task<List<LayBD10Info>> cts = client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/LayBD10").OrderByKey().OnceSingleAsync<List<LayBD10Info>>();
             cts.Wait();
             List<LayBD10Info> result = cts.Result;
@@ -379,7 +382,6 @@ namespace TaoBD10.Manager
 
         public static List<LocBDInfoModel> LoadLocBDOnFirebase()
         {
-            onSetupFileManager();
             Task<List<LocBDInfoModel>> cts = client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/OptionLocBD").OrderByKey().OnceSingleAsync<List<LocBDInfoModel>>();
             cts.Wait();
             List<LocBDInfoModel> result = cts.Result;
@@ -389,7 +391,6 @@ namespace TaoBD10.Manager
 
         public static void SaveLocBD10Firebase(List<LocBDInfoModel> locBDInfoModels)
         {
-            onSetupFileManager();
             if (locBDInfoModels.Count == 0)
                 return;
             JsonSerializer serializer = new JsonSerializer();
@@ -404,9 +405,11 @@ namespace TaoBD10.Manager
 
         public static void onSetupFileManager()
         {
+
+            GetOptionOffline();
+            ReadPrinterFromFile();
             if (client == null)
             {
-                GetOptionOffline();
                 if (!File.Exists(_fileBCCP))
                 {
                     using (FileStream fs = File.Create(_fileBCCP)) { }
@@ -444,7 +447,6 @@ namespace TaoBD10.Manager
 
         public static void SaveBuuCuc(List<BuuCucModel> buuCucModels)
         {
-            onSetupFileManager();
             client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/LayBuuCuc").PutAsync(buuCucModels).Wait();
         }
 
@@ -517,7 +519,6 @@ namespace TaoBD10.Manager
 
         public static void SaveCTOnFirebase(List<ChuyenThuModel> chuyenThus)
         {
-            onSetupFileManager();
             if (chuyenThus.Count == 0)
                 return;
             JsonSerializer serializer = new JsonSerializer();
@@ -532,7 +533,6 @@ namespace TaoBD10.Manager
 
         public static void SaveData(BD10InfoModel bD10Info)
         {
-            onSetupFileManager();
             if (bD10Info != null)
                 list.Add(bD10Info);
             //JsonSerializer serializer = new JsonSerializer();
@@ -547,23 +547,19 @@ namespace TaoBD10.Manager
 
         public static void SaveLayBDFirebase(List<LayBD10Info> layBDs)
         {
-            onSetupFileManager();
             client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/LayBD10").PutAsync(layBDs).Wait();
         }
 
         public static void SaveLayTinhThanhFirebase(List<TinhHuyenModel> tinhThanhs)
         {
-            onSetupFileManager();
             client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/TinhThanh").PutAsync(tinhThanhs).Wait();
         }
         public static void SaveBuuCucsFirebase(List<string> buucucs)
         {
-            onSetupFileManager();
             client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/BuuCucs").PutAsync(buucucs).Wait();
         }
         public static void SaveFindItemFirebase(List<FindItemModel> buucucs)
         {
-            onSetupFileManager();
             client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/FindItem").PutAsync(buucucs).Wait();
         }
 
@@ -587,7 +583,6 @@ namespace TaoBD10.Manager
 
         public static void SaveOptionAll(OptionModel option)
         {
-            onSetupFileManager();
             client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/Option").PutAsync(option).Wait();
         }
 

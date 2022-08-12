@@ -159,6 +159,7 @@
                     <StackPanel VerticalAlignment="Center" Orientation="Vertical">
                         <Button Width="120" Content="Option View" Command="{Binding OptionViewCommand}"></Button>
                         <TextBlock Text="{Binding IsHaveError}"/>
+                        <TextBlock Text="{Binding StateTest}"/>
                     </StackPanel>
 
                 </TabItem>

@@ -728,6 +728,15 @@ namespace TaoBD10.ViewModels
         private int lastConLai = 0;
         List<TestAPIModel> listControl;
         WindowInfo currentWindowRead;
+        private int _StateTest;
+
+        public int StateTest
+        {
+            get { return _StateTest; }
+            set { SetProperty(ref _StateTest, value); }
+        }
+
+
 
         private void BackgroundWorkerRead_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -736,12 +745,14 @@ namespace TaoBD10.ViewModels
             {
                 while (true)
                 {
-
+                    StateTest = 1;
                     Thread.Sleep(200);
                     currentWindowRead = APIManager.GetActiveWindowTitle();
 
+                    StateTest = 2;
                     if (currentWindowRead.text.IndexOf("dong chuyen thu") != -1)
                     {
+                        StateTest = 3;
                         IsHaveError = false;
                         listControl = APIManager.GetListControlText(currentWindowRead.hwnd);
                         List<TestAPIModel> listWindowForm = listControl.Where(m => m.ClassName.IndexOf("WindowsForms10.EDIT") != -1).ToList();
@@ -821,9 +832,11 @@ namespace TaoBD10.ViewModels
                         }
                         //TestText += apiCai.Text + "\n";
                         int.TryParse(Regex.Match(apiCai.Text, @"\d+").Value, out numberRead);
+                        StateTest = 4;
                     }
                     else if (currentWindowRead.text.IndexOf("xac nhan chi tiet tui thu") != -1)
                     {
+                        StateTest = 5;
                         IsHaveError = false;
                         listControl = APIManager.GetListControlText(currentWindowRead.hwnd);
 
@@ -833,9 +846,11 @@ namespace TaoBD10.ViewModels
                             continue;
                         }
                         int.TryParse(Regex.Match(apiCai.Text, @"\d+").Value, out numberRead);
+                        StateTest = 6;
                     }
                     else if (currentWindowRead.text.IndexOf("xac nhan bd10 theo so hieu tui") != -1)
                     {
+                        StateTest = 7;
                         IsHaveError = false;
                         listControl = APIManager.GetListControlText(currentWindowRead.hwnd);
                         List<TestAPIModel> listWindowStatic = listControl.Where(m => m.ClassName.IndexOf("WindowsForms10.STATIC.app") != -1).ToList();
@@ -886,10 +901,11 @@ namespace TaoBD10.ViewModels
                                 }
                             }
                         }
+                        StateTest = 8;
                     }
                     else if (currentWindowRead.text.IndexOf("lap bd10 theo duong thu") != -1)
                     {
-
+                        StateTest = 9;
                         IsHaveError = false;
                         listControl = APIManager.GetListControlText(currentWindowRead.hwnd);
                         List<TestAPIModel> listWindowStatic = listControl.Where(m => m.ClassName.IndexOf("WindowsForms10.STATIC.app") != -1).ToList();
@@ -904,10 +920,11 @@ namespace TaoBD10.ViewModels
                             APIManager.currentNumberBD = numberRead;
                             lastNumberSuaBD = numberRead;
                         }
+                        StateTest = 10;
                     }
                     else if (currentWindowRead.text.IndexOf("xem chuyen thu chieu den") != -1)
                     {
-
+                        StateTest = 11;
                         IsHaveError = false;
                         if (_IsXacNhanChiTieting)
                         {
@@ -938,9 +955,11 @@ namespace TaoBD10.ViewModels
                             currentWindow = APIManager.WaitingFindedWindow("xac nhan");
                             APIManager.ClickButton(currentWindow.hwnd, "yes", isExactly: false);
                         }
+                        StateTest = 12;
                     }
                     else if (currentWindowRead.text.IndexOf("sua thong tin bd10") != -1 || currentWindowRead.text.Trim() == "lap bd10")
                     {
+                        StateTest = 13;
                         IsHaveError = false;
                         listControl = APIManager.GetListControlText(currentWindowRead.hwnd);
                         List<TestAPIModel> listWindowStatic = listControl.Where(m => m.ClassName.IndexOf("WindowsForms10.STATIC.app") != -1).ToList();
@@ -956,6 +975,7 @@ namespace TaoBD10.ViewModels
                             APIManager.currentNumberBD = numberRead;
                             lastNumberSuaBD = numberRead;
                         }
+                        StateTest = 14;
                     }
                     else if (currentWindowRead.text.IndexOf("khoi tao chuyen thu") != -1)
                     {
@@ -974,6 +994,7 @@ namespace TaoBD10.ViewModels
                     //get error window
                     if (currentWindowRead.text.IndexOf("canh bao") != -1)
                     {
+                        StateTest = 15;
                         if (IsHaveError == false)
                         {
                             listControl = APIManager.GetListControlText(currentWindowRead.hwnd);
@@ -1079,9 +1100,11 @@ namespace TaoBD10.ViewModels
                                 }
                             }
                         }
+                        StateTest = 16;
                     }
                     else if (currentWindowRead.text == "xac nhan")
                     {
+                        StateTest = 17;
                         if (IsHaveError == false)
                         {
                             listControl = APIManager.GetListControlText(currentWindowRead.hwnd);
@@ -1105,9 +1128,11 @@ namespace TaoBD10.ViewModels
                                 }
                             }
                         }
+                        StateTest = 18;
                     }
                     else if (currentWindowRead.text.IndexOf("thong bao") != -1)
                     {
+                        StateTest = 19;
                         if (IsHaveError == false)
                         {
                             listControl = APIManager.GetListControlText(currentWindowRead.hwnd);
@@ -1132,9 +1157,11 @@ namespace TaoBD10.ViewModels
                                 }
                             }
                         }
+                        StateTest = 20;
                     }
                     else if (currentWindowRead.text == "loi")
                     {
+                        StateTest = 21;
                         if (IsHaveError == false)
                         {
                             listControl = APIManager.GetListControlText(currentWindowRead.hwnd);
@@ -1162,9 +1189,11 @@ namespace TaoBD10.ViewModels
                                 }
                             }
                         }
+                        StateTest = 22;
                     }
                     else if (string.IsNullOrEmpty(currentWindowRead.text))
                     {
+                        StateTest = 23;
                         listControl = APIManager.GetListControlText(currentWindowRead.hwnd);
                         if (listControl.Count > 10)
                         {
@@ -1200,8 +1229,10 @@ namespace TaoBD10.ViewModels
                                 }
                             }
                         }
+                        StateTest = 24;
                     }
 
+                    StateTest = 25;
                 }
             }
             catch (Exception ex)

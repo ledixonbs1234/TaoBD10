@@ -944,10 +944,6 @@ namespace TaoBD10.ViewModels
                         IsHaveError = false;
                         listControl = APIManager.GetListControlText(currentWindowRead.hwnd);
                         List<TestAPIModel> listWindowStatic = listControl.Where(m => m.ClassName.IndexOf("WindowsForms10.STATIC.app") != -1).ToList();
-                        if (listWindowStatic.Count <= 10)
-                        {
-                            continue;
-                        }
                         TestAPIModel apiNumber = listWindowStatic[10];
                         //TestText += apiNumber.Text + "\n";
                         int.TryParse(Regex.Match(apiNumber.Text, @"\d+").Value, out numberRead);
@@ -1574,7 +1570,8 @@ namespace TaoBD10.ViewModels
                         if (currentWindow.text.IndexOf("sua thong tin bd10") != -1 || currentWindow.text.IndexOf("lap bd10") != -1)
                         {
                             _DefaultNumberPagePrint = 3;
-                            bwPrintBD10.RunWorkerAsync();
+                            if (!bwPrintBD10.IsBusy)
+                                bwPrintBD10.RunWorkerAsync();
                         }
                         break;
                     case Key.F7:
@@ -1584,7 +1581,8 @@ namespace TaoBD10.ViewModels
                         if (currentWindow.text.IndexOf("sua thong tin bd10") != -1 || currentWindow.text.IndexOf("lap bd10") != -1)
                         {
                             _DefaultNumberPagePrint = 2;
-                            bwPrintBD10.RunWorkerAsync();
+                            if (!bwPrintBD10.IsBusy)
+                                bwPrintBD10.RunWorkerAsync();
                         }
                         break;
                     case Key.Enter:

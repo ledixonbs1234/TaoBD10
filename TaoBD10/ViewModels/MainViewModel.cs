@@ -55,6 +55,7 @@ namespace TaoBD10.ViewModels
         BackgroundWorker bwprintMaVach;
         List<FindItemModel> listFindItem;
         DispatcherTimer timer;
+        DispatcherTimer timerRead;
 
         public MainViewModel()
         {
@@ -84,6 +85,10 @@ namespace TaoBD10.ViewModels
             bwRunPrints.WorkerSupportsCancellation = true;
             bwRunPrints.DoWork += BwRunPrints_DoWork;
             bwRunPrints.RunWorkerCompleted += BwRunPrints_RunWorkerCompleted;
+            timerRead = new DispatcherTimer();
+            timerRead.Interval = new TimeSpan(0, 0, 0, 0, 200);
+            timerRead.Tick += TimerRead_Tick;
+
 
             OptionViewCommand = new RelayCommand(OptionView);
             timer = new DispatcherTimer();
@@ -312,6 +317,511 @@ namespace TaoBD10.ViewModels
                     }
                 }
             });
+        }
+
+        private void TimerRead_Tick(object sender, EventArgs e)
+        {
+
+            try
+            {
+                Thread.Sleep(200);
+                StateTest = 1;
+                currentWindowRead = APIManager.GetActiveWindowTitle();
+
+                StateTest = 2;
+                if (currentWindowRead.text.IndexOf("dong chuyen thu") != -1)
+                {
+                    StateTest = 3;
+                    IsHaveError = false;
+                    listControl = APIManager.GetListControlText(currentWindowRead.hwnd);
+                    List<TestAPIModel> listWindowForm = listControl.Where(m => m.ClassName.IndexOf("WindowsForms10.EDIT") != -1).ToList();
+                    if (listWindowForm.Count < 7)
+                        return;
+                    TestAPIModel apiMaBuuCuc = listWindowForm[2];
+                    TestAPIModel apiLoai;
+                    TestAPIModel apiSoCT;
+                    if (apiMaBuuCuc.Text.Length < 6)
+                        return;
+                    if (!string.IsNullOrEmpty(apiMaBuuCuc.Text) && int.TryParse(apiMaBuuCuc.Text.Substring(0, 2), out int a))
+                    {
+                        if (apiMaBuuCuc.Text.Length < 6)
+                            return;
+                        maSoBuuCucCurrent = apiMaBuuCuc.Text.Substring(0, 6);
+                        apiLoai = listWindowForm[3];
+                        apiSoCT = listWindowForm[6];
+                        soCTCurrent = apiSoCT.Text;
+                    }
+                    else
+                    {
+                        apiMaBuuCuc = listWindowForm[3];
+                        maSoBuuCucCurrent = apiMaBuuCuc.Text.Substring(0, 6);
+                        apiLoai = listWindowForm[4];
+                        apiSoCT = listWindowForm[7];
+                        soCTCurrent = apiSoCT.Text;
+                    }
+
+                    string textLoai = APIManager.ConvertToUnSign3(apiLoai.Text).ToLower();
+                    if (textLoai.IndexOf("buu kien") != -1)
+                    {
+                        loaiCurrent = "C";
+                    }
+                    else if (textLoai.IndexOf("ems") != -1)
+                    {
+                        loaiCurrent = "E";
+                    }
+                    else if (textLoai.IndexOf("buu pham") != -1)
+                    {
+                        loaiCurrent = "R";
+                    }
+                    else if (textLoai.IndexOf("logi") != -1)
+                    {
+                        loaiCurrent = "P";
+                    }
+                    else if (textLoai.IndexOf("phat hanh bao chi") != -1)
+                    {
+                        loaiCurrent = "B";
+                    }
+
+                    //kiem tra gr
+                    TestAPIModel apiGr = listControl.FirstOrDefault(m => m.Text.IndexOf("gr") != -1);
+                    if (apiGr == null)
+                        return;
+                    string textGr = apiGr.Text.Replace("(gr)", "");
+                    if (textGr.IndexOf('.') != -1)
+                    {
+                        bool isRight = double.TryParse(textGr, NumberStyles.Any, CultureInfo.InvariantCulture, out double numberGR);
+                        if (isRight)
+                        {
+                            if (!Is16Kg)
+                            {
+                                //txtInfo.Text = numberGR.ToString();
+                                if (numberGR > 16)
+                                {
+                                    Is16Kg = true;
+                                    SoundManager.playSound2(@"Number\tui16kg.wav");
+                                }
+                            }
+                        }
+                    }
+                    //kiem tra cai
+                    TestAPIModel apiCai = listControl.FirstOrDefault(m => m.Text.IndexOf("cái") != -1);
+                    if (apiCai == null)
+                    {
+                        return;
+                    }
+                    //TestText += apiCai.Text + "\n";
+                    int.TryParse(Regex.Match(apiCai.Text, @"\d+").Value, out numberRead);
+                    StateTest = 4;
+                }
+                else if (currentWindowRead.text.IndexOf("xac nhan chi tiet tui thu") != -1)
+                {
+                    StateTest = 5;
+                    IsHaveError = false;
+                    listControl = APIManager.GetListControlText(currentWindowRead.hwnd);
+
+                    TestAPIModel apiCai = listControl.FirstOrDefault(m => m.Text.IndexOf("cái") != -1);
+                    if (apiCai == null)
+                    {
+                        return;
+                    }
+                    int.TryParse(Regex.Match(apiCai.Text, @"\d+").Value, out numberRead);
+                    StateTest = 6;
+                }
+                else if (currentWindowRead.text.IndexOf("xac nhan bd10 theo so hieu tui") != -1)
+                {
+                    StateTest = 7;
+                    IsHaveError = false;
+                    listControl = APIManager.GetListControlText(currentWindowRead.hwnd);
+                    List<TestAPIModel> listWindowStatic = listControl.Where(m => m.ClassName.IndexOf("WindowsForms10.STATIC.app") != -1).ToList();
+
+                    if (listWindowStatic.Count < 15)
+                    {
+                        return;
+                    }
+                    TestAPIModel apiNumber = listWindowStatic[8];
+                    TestAPIModel tongSoTui = listWindowStatic[15];
+                    int.TryParse(Regex.Match(apiNumber.Text, @"\d+").Value, out numberRead);
+                    int.TryParse(Regex.Match(tongSoTui.Text, @"\d+").Value, out int tongSoTuiN);
+                    if (apiNumber.Text.Trim() == tongSoTui.Text.Trim() && tongSoTuiN != 0)
+                    {
+                        if (!isReadDuRoi)
+                        {
+                            isReadDuRoi = true;
+                            new Thread(() =>
+                            {
+                                Thread.CurrentThread.IsBackground = true;
+                                /* run your code here */
+                                Thread.Sleep(1000);
+
+                                SoundManager.playSound2(@"Number\dusoluong.wav");
+                            }).Start();
+
+                        }
+                    }
+                    else
+                    {
+                        isReadDuRoi = false;
+                        if (tongSoTuiN != 0)
+                        {
+                            if (tongSoTuiN - numberRead < 5)
+                            {
+                                if (lastConLai != tongSoTuiN - numberRead)
+                                {
+                                    lastConLai = tongSoTuiN - numberRead;
+                                    new Thread(() =>
+                                    {
+                                        Thread.CurrentThread.IsBackground = true;
+                                        /* run your code here */
+                                        Thread.Sleep(1000);
+
+                                        SoundManager.playSound2(@"Number\" + lastConLai.ToString() + ".wav");
+                                    }).Start();
+                                }
+                            }
+                        }
+                    }
+                    StateTest = 8;
+                }
+                else if (currentWindowRead.text.IndexOf("lap bd10 theo duong thu") != -1)
+                {
+                    StateTest = 9;
+                    IsHaveError = false;
+                    listControl = APIManager.GetListControlText(currentWindowRead.hwnd);
+                    List<TestAPIModel> listWindowStatic = listControl.Where(m => m.ClassName.IndexOf("WindowsForms10.STATIC.app") != -1).ToList();
+                    if (listWindowStatic.Count < 8)
+                    {
+                        return;
+                    }
+                    TestAPIModel apiNumber = listWindowStatic[8];
+                    int.TryParse(Regex.Match(apiNumber.Text, @"\d+").Value, out numberRead);
+                    if (numberRead != lastNumberSuaBD)
+                    {
+                        APIManager.currentNumberBD = numberRead;
+                        lastNumberSuaBD = numberRead;
+                    }
+                    StateTest = 10;
+                }
+                else if (currentWindowRead.text.IndexOf("xem chuyen thu chieu den") != -1)
+                {
+                    StateTest = 11;
+                    IsHaveError = false;
+                    if (_IsXacNhanChiTieting)
+                    {
+                        _IsXacNhanChiTieting = false;
+                        SendKeys.SendWait("{F5}");
+                        APIManager.ShowSnackbar("Dang kiem tra Auto Xac Nhan");
+                        //Túi số  KL(kg) Loại túi    F xác nhận
+                        //False   1   3,4 Ði ngoài(EMS)   True Cleared
+                        //False   1   2,2 Ði ngoài(EMS)   False Selected
+                        int countTemp = 10;
+                        string copyedData = "";
+                        while (countTemp > 0)
+                        {
+                            countTemp--;
+                            Thread.Sleep(100);
+                            copyedData = APIManager.GetCopyData();
+                            if (string.IsNullOrEmpty(copyedData))
+                                return;
+                            if (copyedData.IndexOf("Selected") != -1)
+                                break;
+                        }
+                        if (copyedData.IndexOf("Selected") == -1)
+                            return;
+                        Thread.Sleep(50);
+
+                        var currentWindow = APIManager.WaitingFindedWindow("xem chuyen thu chieu den");
+                        APIManager.ClickButton(currentWindow.hwnd, "xac nhan chuyen thu", isExactly: false);
+                        currentWindow = APIManager.WaitingFindedWindow("xac nhan");
+                        APIManager.ClickButton(currentWindow.hwnd, "yes", isExactly: false);
+                    }
+                    StateTest = 12;
+                }
+                else if (currentWindowRead.text.IndexOf("sua thong tin bd10") != -1 || currentWindowRead.text.Trim() == "lap bd10")
+                {
+                    StateTest = 13;
+                    IsHaveError = false;
+                    listControl = APIManager.GetListControlText(currentWindowRead.hwnd);
+                    List<TestAPIModel> listWindowStatic = listControl.Where(m => m.ClassName.IndexOf("WindowsForms10.STATIC.app") != -1).ToList();
+                    TestAPIModel apiNumber = listWindowStatic[10];
+                    //TestText += apiNumber.Text + "\n";
+                    int.TryParse(Regex.Match(apiNumber.Text, @"\d+").Value, out numberRead);
+                    if (numberRead != lastNumberSuaBD)
+                    {
+                        APIManager.currentNumberBD = numberRead;
+                        lastNumberSuaBD = numberRead;
+                    }
+                    StateTest = 14;
+                }
+                else if (currentWindowRead.text.IndexOf("khoi tao chuyen thu") != -1)
+                {
+                    IsHaveError = false;
+                }
+
+                if (numberRead <= 300)
+                {
+                    if (lastNumber != numberRead)
+                    {
+                        SoundManager.playSound(@"Number\" + numberRead.ToString() + ".wav");
+                        lastNumber = numberRead;
+                    }
+                }
+
+                //get error window
+                if (currentWindowRead.text.IndexOf("canh bao") != -1)
+                {
+                    StateTest = 15;
+                    if (IsHaveError == false)
+                    {
+                        listControl = APIManager.GetListControlText(currentWindowRead.hwnd);
+                        foreach (TestAPIModel apiContent in listControl)
+                        {
+                            //thuc hien lay text cua handle item
+                            if (!string.IsNullOrEmpty(apiContent.Text))
+                            {
+                                string textError = APIManager.ConvertToUnSign3(apiContent.Text).ToLower();
+                                if (textError.IndexOf("buu gui da duoc dong") != -1)
+                                {
+                                    //thuc hien su ly trong nay
+                                    Regex regex = new Regex(@"Số: ((\w||\W)+?)\r(\w||\W)+?Đến BC: ((\w||\W)+?)\r((\w||\W)+?)Dịch vụ: ((\w||\W)+?).");
+                                    Match match = regex.Match(apiContent.Text);
+                                    string tempSct = match.Groups[1].Value;
+                                    string tempMaBuuCucNhan = match.Groups[4].Value;
+                                    string tempLoai = match.Groups[8].Value;
+                                    if (tempSct == soCTCurrent && tempMaBuuCucNhan == maSoBuuCucCurrent && tempLoai == loaiCurrent)
+                                    {
+                                        SoundManager.playSound2(@"Number\buiguiduocdong.wav");
+                                        SendKeys.SendWait("{ENTER}");
+                                        IsHaveError = true;
+                                    }
+                                    else
+                                    {
+                                        SoundManager.playSound2(@"Number\dacochuyenthukhac.wav");
+                                        IsHaveError = true;
+                                    }
+                                }
+                                else if (textError.IndexOf("khong them duoc tui") != -1)
+                                {
+                                    SendKeys.SendWait("{ENTER}");
+                                }
+                                else
+                                if (textError.IndexOf("khong co buu gui") != -1)
+                                {
+                                    SoundManager.playSound2(@"Number\khongcobuugui.wav");
+                                    SendKeys.SendWait("{ENTER}");
+                                    IsHaveError = true;
+                                }
+                                else
+                                if (textError.IndexOf("buu gui khong ton tai trong co so du lieu") != -1)
+                                {
+                                    SoundManager.playSound2(@"Number\buuguikhongtontai.wav");
+                                    SendKeys.SendWait("{ENTER}");
+                                    IsHaveError = true;
+                                }
+                                else
+                                if (textError.IndexOf("khong tim thay tui thu co ma tui") != -1)
+                                {
+                                    SoundManager.playSound2(@"Number\khongtimthaytuithucomanay.wav");
+                                    SendKeys.SendWait("{ENTER}");
+                                    IsHaveError = true;
+                                }
+                                else
+                                if (textError.IndexOf("buu gui da duoc giao cho buu ta") != -1)
+                                {
+                                    SoundManager.playSound2(@"Number\buuguidaduocgiao.wav");
+                                    SendKeys.SendWait("{ENTER}");
+                                    IsHaveError = true;
+                                }
+                                else
+                                if (textError.IndexOf("buu gui da duoc xac nhan") != -1)
+                                {
+                                    SoundManager.playSound2(@"Number\buuguidaduocxacnhan.wav");
+                                    SendKeys.SendWait("{ENTER}");
+                                    IsHaveError = true;
+                                }
+                                else if (textError.IndexOf("buu gui chua duoc xac nhan den") != -1)
+                                {
+                                    SoundManager.playSound2(@"Number\buuguichuaduocxacnhan.wav");
+                                    SendKeys.SendWait("{ENTER}");
+                                    IsHaveError = true;
+                                }
+                                else
+                                if (textError.IndexOf("buu gui khong dung dich vu") != -1)
+                                {
+                                    SoundManager.playSound2(@"Number\buuguikhongdungdichvu.wav");
+                                    SendKeys.SendWait("{ENTER}");
+                                    IsHaveError = true;
+                                }
+                                else if (textError.IndexOf("phat sinh su vu") != -1)
+                                {
+                                    SoundManager.playSound2(@"Number\phatsinhsuvu.wav");
+                                    IsHaveError = true;
+                                }
+                                else if (textError.IndexOf("an nut ok de bat dau") != -1)
+                                {
+                                    Thread.Sleep(100);
+                                    SendKeys.SendWait("{ENTER}");
+                                    IsHaveError = true;
+                                }
+                                else if (textError.IndexOf("khong tao duoc tui thu") != -1)
+                                {
+                                    Thread.Sleep(100);
+                                    SendKeys.SendWait("{ENTER}");
+                                    Thread.Sleep(100);
+                                    SendKeys.SendWait("1");
+                                    SendKeys.SendWait("{ENTER}");
+                                    SendKeys.SendWait("{ENTER}");
+                                    IsHaveError = true;
+                                }
+                            }
+                        }
+                    }
+                    StateTest = 16;
+                }
+                else if (currentWindowRead.text == "xac nhan")
+                {
+                    StateTest = 17;
+                    if (IsHaveError == false)
+                    {
+                        listControl = APIManager.GetListControlText(currentWindowRead.hwnd);
+                        foreach (TestAPIModel apiContent in listControl)
+                        {
+                            //thuc hien lay text cua handle item
+                            if (!string.IsNullOrEmpty(apiContent.Text))
+                            {
+                                string textError = APIManager.ConvertToUnSign3(apiContent.Text).ToLower();
+                                if (textError.IndexOf("ban co chac chan muon sua") != -1)
+                                {
+                                    Thread.Sleep(100);
+                                    APIManager.ClickButton(currentWindowRead.hwnd, "yes", isExactly: false);
+                                    IsHaveError = true;
+                                }
+                                else if (textError.IndexOf("phat sinh su vu") != -1)
+                                {
+                                    SoundManager.playSound2(@"Number\phatsinhsuvu.wav");
+                                    IsHaveError = true;
+                                }
+                            }
+                        }
+                    }
+                    StateTest = 18;
+                }
+                else if (currentWindowRead.text.IndexOf("thong bao") != -1)
+                {
+                    StateTest = 19;
+                    if (IsHaveError == false)
+                    {
+                        listControl = APIManager.GetListControlText(currentWindowRead.hwnd);
+                        foreach (TestAPIModel apiContent in listControl)
+                        {
+                            //thuc hien lay text cua handle item
+                            if (!string.IsNullOrEmpty(apiContent.Text))
+                            {
+                                string textError = APIManager.ConvertToUnSign3(apiContent.Text).ToLower();
+                                if (textError.IndexOf("truyen thong tin chuyen thu") != -1)
+                                {
+                                    Thread.Sleep(200);
+                                    SendKeys.SendWait("{ENTER}");
+                                    IsHaveError = true;
+                                }
+                                else if (textError.IndexOf("da truyen du lieu thanh cong") != -1)
+                                {
+                                    Thread.Sleep(200);
+                                    IsHaveError = true;
+                                    SendKeys.SendWait("{ENTER}");
+                                }
+                            }
+                        }
+                    }
+                    StateTest = 20;
+                }
+                else if (currentWindowRead.text == "loi")
+                {
+                    StateTest = 21;
+                    if (IsHaveError == false)
+                    {
+                        listControl = APIManager.GetListControlText(currentWindowRead.hwnd);
+                        foreach (TestAPIModel apiContent in listControl)
+                        {
+                            //thuc hien lay text cua handle item
+                            if (!string.IsNullOrEmpty(apiContent.Text))
+                            {
+                                string textError = APIManager.ConvertToUnSign3(apiContent.Text).ToLower();
+                                if (textError.IndexOf("tui khong duoc dong buu gui") != -1)
+                                {
+                                    Thread.Sleep(200);
+                                    IsHaveError = true;
+
+                                    SoundManager.playSound2(@"Number\emsthuong.wav");
+                                    SendKeys.SendWait("{ENTER}");
+                                }
+                                else if (textError.IndexOf("tui buu gui ems tmdt dg") != -1)
+                                {
+                                    Thread.Sleep(200);
+                                    IsHaveError = true;
+                                    SoundManager.playSound2(@"Number\tmdt.wav");
+                                    SendKeys.SendWait("{ENTER}");
+                                }
+                            }
+                        }
+                    }
+                    StateTest = 22;
+                }
+                else if (string.IsNullOrEmpty(currentWindowRead.text))
+                {
+                    StateTest = 23;
+                    listControl = APIManager.GetListControlText(currentWindowRead.hwnd);
+                    if (listControl.Count > 10)
+                    {
+                        return;
+                    }
+                    if (IsHaveError == false)
+                    {
+                        foreach (TestAPIModel apiContent in listControl)
+                        {
+                            //thuc hien lay text cua handle item
+                            if (!string.IsNullOrEmpty(apiContent.Text))
+                            {
+                                string textError = APIManager.ConvertToUnSign3(apiContent.Text).ToLower();
+                                if (textError.IndexOf("khong co ma tui nay") != -1)
+                                {
+                                    SoundManager.playSound2(@"Number\khongcomatuinaytronghethong.wav");
+                                    IsHaveError = true;
+                                }
+                                else if (textError.IndexOf("ma tui nay da duoc them") != -1)
+                                {
+                                    SoundManager.playSound2(@"Number\nhanbd8.wav");
+                                    SendKeys.SendWait("{ENTER}");
+                                    IsHaveError = true;
+                                }
+                                else if (textError.IndexOf("da truyen bd10 di thanh cong") != -1)
+                                {
+                                    SendKeys.SendWait("{ENTER}");
+                                    SendKeys.SendWait("{ESC}");
+                                    Thread.Sleep(100);
+                                    SendKeys.SendWait("{ENTER}");
+                                    IsHaveError = true;
+                                }
+                            }
+                        }
+                    }
+                    StateTest = 24;
+                }
+
+                StateTest = 25;
+            }
+            catch (Exception ex)
+            {
+                MessageShow(ex.Message);
+                // Get stack trace for the exception with source file information
+                var st = new StackTrace(ex, true);
+                // Get the top stack frame
+                var frame = st.GetFrame(0);
+                // Get the line number from the stack frame
+                var line = frame.GetFileLineNumber();
+                APIManager.OpenNotePad(ex.Message + '\n' + "MainViewModel " + line + " Number Line " + APIManager.GetLineNumber(ex), "loi ");
+                throw;
+            }
+
         }
 
         private void Timer_Tick(object sender, EventArgs e)
@@ -745,8 +1255,8 @@ namespace TaoBD10.ViewModels
             {
                 while (true)
                 {
-                    StateTest = 1;
                     Thread.Sleep(200);
+                    StateTest = 1;
                     currentWindowRead = APIManager.GetActiveWindowTitle();
 
                     StateTest = 2;

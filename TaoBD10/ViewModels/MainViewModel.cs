@@ -12,6 +12,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
+using System.Windows.Automation;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -71,6 +72,7 @@ namespace TaoBD10.ViewModels
             SmallerWindowCommand = new RelayCommand(SmallerWindow);
             DefaultWindowCommand = new RelayCommand<System.Windows.Controls.TabControl>(DefaultWindow);
             ToggleWindowCommand = new RelayCommand(ToggleWindow);
+            TestCommand = new RelayCommand(Test);
             TabTuiChangedCommand = new RelayCommand<System.Windows.Controls.TabControl>(TabTuiChanged);
             CloseWindowCommand = new RelayCommand<Window>(CloseWindow);
             backgroundWorkerRead = new BackgroundWorker();
@@ -738,6 +740,18 @@ namespace TaoBD10.ViewModels
 
 
 
+        public ICommand TestCommand { get; }
+
+        void Test()
+        {
+            WindowInfo window = APIManager.WaitingFindedWindow("calculator");
+            AutomationElement element = AutomationElement.FromHandle(window.hwnd);
+            var child = element.FindFirst(TreeScope.Descendants, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Button));
+
+
+        }
+
+
         private void BackgroundWorkerRead_DoWork(object sender, DoWorkEventArgs e)
         {
 
@@ -750,7 +764,7 @@ namespace TaoBD10.ViewModels
                     currentWindowRead = APIManager.GetActiveWindowTitle();
                     if (IsShowWarning)
                     {
-                        if (currentWindowRead.text != "canh bao" && currentWindowRead.text != "xac nhan"&& currentWindowRead.text != "canh bao"&& currentWindowRead.text != "")
+                        if (currentWindowRead.text != "canh bao" && currentWindowRead.text != "xac nhan" && currentWindowRead.text != "canh bao" && currentWindowRead.text != "")
                         {
                             IsShowWarning = false;
                         }
@@ -1098,7 +1112,7 @@ namespace TaoBD10.ViewModels
                     {
                         if (IsShowWarning == false)
                         {
-                            IsShowWarning= true;
+                            IsShowWarning = true;
                             listControl = APIManager.GetListControlText(currentWindowRead.hwnd);
                             foreach (TestAPIModel apiContent in listControl)
                             {
@@ -1120,7 +1134,7 @@ namespace TaoBD10.ViewModels
                             }
                         }
                     }
-                    
+
                     else if (string.IsNullOrEmpty(currentWindowRead.text))
                     {
                         listControl = APIManager.GetListControlText(currentWindowRead.hwnd);

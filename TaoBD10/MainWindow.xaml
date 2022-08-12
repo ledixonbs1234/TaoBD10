@@ -158,8 +158,7 @@
                 <TabItem Padding="0" Header="TÙY CHỌN">
                     <StackPanel VerticalAlignment="Center" Orientation="Vertical">
                         <Button Width="120" Content="Option View" Command="{Binding OptionViewCommand}"></Button>
-                        <TextBlock Text="{Binding IsHaveError}"/>
-                        <TextBlock Text="{Binding StateTest}"/>
+                        <Button Width="120" Content="Test Button" Command="{Binding TestCommand}"></Button>
                     </StackPanel>
 
                 </TabItem>

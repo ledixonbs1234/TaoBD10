@@ -750,7 +750,7 @@ namespace TaoBD10.ViewModels
                     currentWindowRead = APIManager.GetActiveWindowTitle();
                     if (IsShowWarning)
                     {
-                        if (currentWindowRead.text != "canh bao" && currentWindowRead.text != "xac nhan"&& currentWindowRead.text != "canh bao")
+                        if (currentWindowRead.text != "canh bao" && currentWindowRead.text != "xac nhan"&& currentWindowRead.text != "canh bao"&& currentWindowRead.text != "")
                         {
                             IsShowWarning = false;
                         }

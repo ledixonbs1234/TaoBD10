@@ -19,6 +19,7 @@ using System.Windows.Threading;
 using TaoBD10.Manager;
 using TaoBD10.Model;
 using TaoBD10.Views;
+using Condition = System.Windows.Automation.Condition;
 
 namespace TaoBD10.ViewModels
 {
@@ -747,6 +748,11 @@ namespace TaoBD10.ViewModels
             WindowInfo window = APIManager.WaitingFindedWindow("calculator");
             AutomationElement element = AutomationElement.FromHandle(window.hwnd);
             var child = element.FindFirst(TreeScope.Descendants, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Button));
+            AutomationElementCollection allChild = child.FindAll(TreeScope.Children, Condition.TrueCondition);
+            foreach (object item in allChild)
+            {
+
+            }
 
 
         }

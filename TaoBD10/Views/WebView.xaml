@@ -10,8 +10,8 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="200" />
-            <RowDefinition Height="32*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="42" />
         </Grid.RowDefinitions>
         <cefSharpWpf:ChromiumWebBrowser
             x:Name="Browser"
@@ -40,6 +40,22 @@
                 VerticalAlignment="Top"
                 Command="{Binding DefaultCommand}"
                 Content="Mặc định" />
+            <Button
+                Width="60"
+                Margin="5"
+                Style="{StaticResource MaterialDesignOutlinedButton}"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                Command="{Binding FullCommand}"
+                Content="Full" />
+            <Button
+                Width="60"
+                Margin="5"
+                Style="{StaticResource MaterialDesignOutlinedButton}"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                Command="{Binding MinCommand}"
+                Content="Min" />
         </StackPanel>
     </Grid>
 </UserControl>

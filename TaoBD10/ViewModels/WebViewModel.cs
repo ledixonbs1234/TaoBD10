@@ -28,13 +28,31 @@ namespace TaoBD10.ViewModels
         bool isClickWebBCCP = false;
         DispatcherTimer timer;
 
+        
+        public ICommand FullCommand { get; }
+
+        void Full()
+        {
+            WeakReferenceMessenger.Default.Send(new ContentModel() { Key = "Window", Content = "Full" });
+        }
+
+      
+        public ICommand MinCommand { get; }
+
+        void Min()
+        {
+            WeakReferenceMessenger.Default.Send(new ContentModel() { Key = "Window", Content = "Min" });
+        }
+
+
+
         public WebViewModel()
         {
             LoadPageCommand = new RelayCommand<ChromiumWebBrowser>(LoadPage);
             LoginCommand = new RelayCommand(Login);
             DefaultCommand = new RelayCommand(Default);
-
-
+            FullCommand = new RelayCommand(Full);
+            MinCommand = new RelayCommand(Min);
             WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>
              {
                  if (m.Key == "LoadAddressWeb")

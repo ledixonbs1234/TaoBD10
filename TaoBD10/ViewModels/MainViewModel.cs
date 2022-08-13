@@ -191,6 +191,17 @@ namespace TaoBD10.ViewModels
                     {
                         _IsXacNhanChiTieting = false;
                     }
+                }else if(m.Key == "Window")
+                {
+                    if (m.Content == "Full")
+                    {
+
+                        SetChiTietWindow();
+                    }else if(m.Content == "Min")
+                    {
+                        SetDefaultWindowTui();
+
+                    }
                 }
             });
 

@@ -746,7 +746,7 @@ namespace TaoBD10.ViewModels
 
         void Test()
         {
-            WindowInfo window = APIManager.WaitingFindedWindow("xac nhan bd10 den");
+            WindowInfo window = APIManager.WaitingFindedWindow("form1");
             AutomationElement element = AutomationElement.FromHandle(window.hwnd);
             var child = element.FindFirst(TreeScope.Descendants, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Table));
             var data = APIManager.GetDataTable(child);
@@ -963,6 +963,21 @@ namespace TaoBD10.ViewModels
                             APIManager.ClickButton(currentWindow.hwnd, "xac nhan chuyen thu", isExactly: false);
                             currentWindow = APIManager.WaitingFindedWindow("xac nhan");
                             APIManager.ClickButton(currentWindow.hwnd, "yes", isExactly: false);
+                        }else
+                        {
+                            //thuc hien lay du lieu tu table
+                            //kiem tra so luong neeu lon 1 thi ko lam nua
+                            //kiem tra du lieu da cu chua
+                            //neu chua chi thuc hien viec lay dia chi dua vao table 
+
+                            var windowUI = AutomationElement.FromHandle(currentWindowRead.hwnd);
+                            AutomationElementCollection tables = windowUI.FindAll(TreeScope.Descendants, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Table));
+
+                            List<ChildListModel> data = APIManager.GetDataTable(tables[1]);
+                            if (data.Count > 1)
+                            {
+
+                            }
                         }
                     }
                     else if (currentWindowRead.text.IndexOf("sua thong tin bd10") != -1 || currentWindowRead.text.Trim() == "lap bd10")

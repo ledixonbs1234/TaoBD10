@@ -28,7 +28,7 @@ namespace TaoBD10.Manager
             Thread thread = new Thread(() => System.Windows.Clipboard.Clear());
         }
 
-        public static List<ChildListModel> GetDataTable(AutomationElement table)
+        public static List<ChildListModel> GetDataTable(AutomationElement table,int numberLeftHeader =0)
         {
             List<ChildListModel> list = new List<ChildListModel>();
             var childs = table.FindAll(TreeScope.Children, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Custom));
@@ -37,10 +37,11 @@ namespace TaoBD10.Manager
             {
                 AutomationElement item = childs[i];
                 var controlType1 = childs[i].Current.ControlType;
+
                 var listItem = item.FindAll(TreeScope.Children, Condition.TrueCondition);
                 ChildListModel tableItem = new ChildListModel();
                 tableItem.ChildList = new List<string>();
-                for (int j = 0; j < listItem.Count; j++)
+                for (int j = numberLeftHeader; j < listItem.Count; j++)
                 {
                     var controlType = listItem[j].Current.ControlType;
                     AutomationElement item1 = listItem[j];

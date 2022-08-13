@@ -13,6 +13,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
 using System.Windows.Automation;
+using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -745,14 +746,15 @@ namespace TaoBD10.ViewModels
 
         void Test()
         {
-            WindowInfo window = APIManager.WaitingFindedWindow("calculator");
+            WindowInfo window = APIManager.WaitingFindedWindow("form1");
             AutomationElement element = AutomationElement.FromHandle(window.hwnd);
-            var child = element.FindFirst(TreeScope.Descendants, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Button));
-            AutomationElementCollection allChild = child.FindAll(TreeScope.Children, Condition.TrueCondition);
-            foreach (object item in allChild)
+            var childs = element.FindAll(TreeScope.Descendants, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Button));
+            string a = "";
+            foreach (AutomationElement item in childs)
             {
-
+                a += item.Current.Name + "\n";
             }
+            string b = a;
 
 
         }
@@ -1752,6 +1754,9 @@ namespace TaoBD10.ViewModels
                         break;
 
                     case Key.F4:
+                        WindowInfo window = APIManager.WaitingFindedWindow("dong chuyen thu");
+                        AutomationElement element = AutomationElement.FromHandle(window.hwnd);
+                        AutomationElement child = element.FindFirst(TreeScope.Descendants, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Table));
 
                         break;
 

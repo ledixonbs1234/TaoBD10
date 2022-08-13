@@ -1,4 +1,5 @@
-﻿using Microsoft.Toolkit.Mvvm.Messaging;
+﻿using MaterialDesignThemes.Wpf;
+using Microsoft.Toolkit.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -6,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Windows.Automation;
 using System.Windows.Forms;
 using TaoBD10.Model;
 using static TaoBD10.Manager.EnumAll;
@@ -24,6 +26,28 @@ namespace TaoBD10.Manager
         public static void ClearClipboard()
         {
             Thread thread = new Thread(() => System.Windows.Clipboard.Clear());
+        }
+
+        public static List<ChildListModel> GetDataTable(AutomationElement table)
+        {
+            List<ChildListModel> list = new List<ChildListModel>();
+            var childs = table.FindAll(TreeScope.Children, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Custom));
+            //Rows
+            for (int i = 1; i < childs.Count; i++)
+            {
+                AutomationElement item = childs[i];
+                var listItem = item.FindAll(TreeScope.Children, Condition.TrueCondition);
+                ChildListModel tableItem = new ChildListModel();
+                tableItem.ChildList = new List<string>();
+                for (int j = 1; j < listItem.Count; j++)
+                {
+                    AutomationElement item1 = listItem[j];
+                    ValuePattern pattern = item1.GetCurrentPattern(ValuePattern.Pattern) as ValuePattern;
+                    tableItem.ChildList.Add(pattern.Current.Value);
+                }
+                list.Add(tableItem);
+            }
+            return list;
         }
 
         public static void ClickButton(IntPtr handle)

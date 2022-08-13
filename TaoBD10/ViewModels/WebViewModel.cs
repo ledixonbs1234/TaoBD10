@@ -28,7 +28,28 @@ namespace TaoBD10.ViewModels
         bool isClickWebBCCP = false;
         DispatcherTimer timer;
 
-        
+        private bool _IsExpanded;
+
+        public bool IsExpanded
+        {
+            get { return _IsExpanded; }
+            set { 
+                SetProperty(ref _IsExpanded, value);
+                if (_IsExpanded == false)
+                {
+                    Min();
+                }
+                else
+                {
+                    Full();
+                }
+
+            }
+        }
+
+
+
+
         public ICommand FullCommand { get; }
 
         void Full()

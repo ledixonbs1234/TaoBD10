@@ -20,6 +20,7 @@ using System.Windows.Threading;
 using TaoBD10.Manager;
 using TaoBD10.Model;
 using TaoBD10.Views;
+using static TaoBD10.Manager.EnumAll;
 using Condition = System.Windows.Automation.Condition;
 
 namespace TaoBD10.ViewModels
@@ -34,6 +35,7 @@ namespace TaoBD10.ViewModels
         private bool _IsXacNhanChiTieting = false;
 
         int lastNumberSuaBD = 0;
+        string lastMHInXemCT = "";
 
         public bool IsTopMost
         {
@@ -100,6 +102,34 @@ namespace TaoBD10.ViewModels
             SoundManager.SetUpDirectory();
             listFindItem = new List<FindItemModel>();
             FileManager.OnSetupFileManager();
+
+
+            WeakReferenceMessenger.Default.Register<KiemTraMessage>(this, (r, m) =>
+            {
+                if (m.Value.Key == "XacNhanMHCTDen")
+                {
+                    App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
+                    {
+                        //XacNhanMH = m.Value;
+                        //TrangThais.Clear();
+                        //foreach (var item in m.Value.ThongTins)
+                        //{
+                        //    TrangThais.Add(item);
+                        //}
+                        //IsWaitingComplete = false;
+                        //if (IsAutoGoCT)
+                        //    GoToCTCommand.Execute(null);
+                        var activecurrentWindow = APIManager.GetActiveWindowTitle();
+                        if(activecurrentWindow.text.IndexOf("xem chuyen thu chieu den")!= -1)
+                        {
+                            //thuc hien viec thay doi giao dien dia chi tai cho nay
+                            System.Collections.Generic.List<TestAPIModel> controls = APIManager.GetListControlText(activecurrentWindow.hwnd);
+                            APIManager.setTextControl(controls[9].Handle, m.Value.Address);
+                            APIManager.InvalidateRect(controls[9].Handle, IntPtr.Zero, true);
+                        }
+                    });
+                }
+            });
 
 
             WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>
@@ -974,8 +1004,15 @@ namespace TaoBD10.ViewModels
                             AutomationElementCollection tables = windowUI.FindAll(TreeScope.Descendants, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Table));
 
                             List<ChildListModel> data = APIManager.GetDataTable(tables[1]);
-                            if (data.Count > 1)
+                            if (data.Count == 1)
                             {
+                                if(lastMHInXemCT.Trim().ToLower() != data[0].ChildList[1].Trim().ToLower())
+                                {
+                                    lastMHInXemCT = data[0].ChildList[1].Trim().ToLower();
+                                    //thuc hien viec lay dia chi
+                                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "XacNhanMHCTDen", Content = lastMHInXemCT.Trim().ToLower() });
+                                }
+
 
                             }
                         }

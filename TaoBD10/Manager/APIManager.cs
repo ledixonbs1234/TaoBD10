@@ -27,8 +27,10 @@ namespace TaoBD10.Manager
         {
             Thread thread = new Thread(() => System.Windows.Clipboard.Clear());
         }
-
-        public static List<ChildListModel> GetDataTable(AutomationElement table,int numberLeftHeader =0)
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool InvalidateRect(IntPtr hWnd, IntPtr rect, bool bErase);
+        public static List<ChildListModel> GetDataTable(AutomationElement table, int numberLeftHeader = 0)
         {
             List<ChildListModel> list = new List<ChildListModel>();
             var childs = table.FindAll(TreeScope.Children, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Custom));

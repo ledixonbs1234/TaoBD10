@@ -72,6 +72,11 @@ namespace TaoBD10.ViewModels
                      _LoadWebChoose = LoadWebChoose.XacNhanMH;
                      LoadAddressDiNgoai(m.Content);
                  }
+                 else if (m.Key == "XacNhanMHCTDen")
+                 {
+                     _LoadWebChoose = LoadWebChoose.XacNhanMHCTDen;
+                     LoadAddressDiNgoai(m.Content);
+                 }
                  else if (m.Key == "LoadAddressDong")
                  {
                      _LoadWebChoose = LoadWebChoose.DongChuyenThu;
@@ -227,7 +232,7 @@ namespace TaoBD10.ViewModels
                             List<PNSNameModel> chiTietTui = new List<PNSNameModel>();
                             for (int i = 1; i < tables.Tables[0].Rows.Count; i++)
                             {
-                                chiTietTui.Add(new PNSNameModel(tables.Tables[0].Rows[i][1].ToString(), tables.Tables[0].Rows[i][10].ToString(), tables.Tables[0].Rows[i][12].ToString(),tables.Tables[0].Rows[i][11].ToString()));
+                                chiTietTui.Add(new PNSNameModel(tables.Tables[0].Rows[i][1].ToString(), tables.Tables[0].Rows[i][10].ToString(), tables.Tables[0].Rows[i][12].ToString(), tables.Tables[0].Rows[i][11].ToString()));
                             }
                             //thuc hien send data tra ve
                             if (chiTietTui.Count != 0)
@@ -664,6 +669,11 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                             else if (_LoadWebChoose == LoadWebChoose.XacNhanMH)
                             {
                                 kiemTra.Key = "XacNhanMH";
+                                WeakReferenceMessenger.Default.Send(new KiemTraMessage(kiemTra));
+                            }
+                            else if (_LoadWebChoose == LoadWebChoose.XacNhanMHCTDen)
+                            {
+                                kiemTra.Key = "XacNhanMHCTDen";
                                 WeakReferenceMessenger.Default.Send(new KiemTraMessage(kiemTra));
                             }
                         }

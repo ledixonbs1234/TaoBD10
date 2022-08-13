@@ -85,7 +85,8 @@
             KiemTraWeb,
             AddressChuaPhat,
             DongChuyenThu,
-            XacNhanMH
+            XacNhanMH,
+            XacNhanMHCTDen
         }
 
         public enum PhanLoaiTinh

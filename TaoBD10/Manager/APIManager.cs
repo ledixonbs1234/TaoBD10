@@ -32,31 +32,45 @@ namespace TaoBD10.Manager
         public static extern bool InvalidateRect(IntPtr hWnd, IntPtr rect, bool bErase);
         public static List<ChildListModel> GetDataTable(AutomationElement table, int numberLeftHeader = 0)
         {
-            List<ChildListModel> list = new List<ChildListModel>();
-            var childs = table.FindAll(TreeScope.Children, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Custom));
-            //Rows
-            if (childs.Count == 0)
-                return null;
-            for (int i = 1; i < childs.Count; i++)
+            try
             {
-                AutomationElement item = childs[i];
-                var controlType1 = childs[i].Current.ControlType;
-
-                var listItem = item.FindAll(TreeScope.Children, Condition.TrueCondition);
-                ChildListModel tableItem = new ChildListModel();
-                tableItem.ChildList = new List<string>();
-                if (listItem.Count == 0)
+                List<ChildListModel> list = new List<ChildListModel>();
+                var childs = table.FindAll(TreeScope.Children, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Custom));
+                //Rows
+                if (childs.Count == 0)
                     return null;
-                for (int j = numberLeftHeader; j < listItem.Count; j++)
+                for (int i = 1; i < childs.Count; i++)
                 {
-                    var controlType = listItem[j].Current.ControlType;
-                    AutomationElement item1 = listItem[j];
-                    ValuePattern pattern = item1.GetCurrentPattern(ValuePattern.Pattern) as ValuePattern;
-                    tableItem.ChildList.Add(pattern.Current.Value);
+                    AutomationElement item = childs[i];
+                    var controlType1 = childs[i].Current.ControlType;
+
+                    var listItem = item.FindAll(TreeScope.Children, Condition.TrueCondition);
+                    ChildListModel tableItem = new ChildListModel();
+                    tableItem.ChildList = new List<string>();
+                    if (listItem.Count == 0)
+                        return null;
+                    for (int j = numberLeftHeader; j < listItem.Count; j++)
+                    {
+                        var controlType = listItem[j].Current.ControlType;
+                        AutomationElement item1 = listItem[j];
+                        ValuePattern pattern = item1.GetCurrentPattern(ValuePattern.Pattern) as ValuePattern;
+                        tableItem.ChildList.Add(pattern.Current.Value);
+                    }
+                    list.Add(tableItem);
                 }
-                list.Add(tableItem);
+                return list;
             }
-            return list;
+            catch (Exception ex)
+            {
+                var st = new StackTrace(ex, true);
+                // Get the top stack frame
+                var frame = st.GetFrame(0);
+                // Get the line number from the stack frame
+                var line = frame.GetFileLineNumber();
+                OpenNotePad(ex.Message + '\n' + "MainViewModel " + line + " Number Line " + APIManager.GetLineNumber(ex), "loi ");
+                throw;
+            }
+         
         }
 
         public static void ClickButton(IntPtr handle)
@@ -193,7 +207,7 @@ namespace TaoBD10.Manager
                 var frame = st.GetFrame(0);
                 // Get the line number from the stack frame
                 var line = frame.GetFileLineNumber();
-                APIManager.OpenNotePad(ex.Message + '\n' + "MainViewModel " + line + " Number Line " + APIManager.GetLineNumber(ex), "loi ");
+                APIManager.OpenNotePad(ex.Message + '\n' + "APIManager " + line + " Number Line " + APIManager.GetLineNumber(ex), "loi ");
                 throw;
             }
 

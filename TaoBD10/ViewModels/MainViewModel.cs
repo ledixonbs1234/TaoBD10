@@ -1770,6 +1770,7 @@ namespace TaoBD10.ViewModels
                             activeWindow1 = APIManager.GetActiveWindowTitle();
                             if (activeWindow1.text.IndexOf("xac nhan bd10 theo") != -1)
                             {
+                                KeyData = KeyData.Trim();
                                 if (KeyData.Length == 29 || KeyData.Length == 13 || KeyData.Length == 9)
                                 {
                                     //thuc hien cong viec la luu du lieu len server

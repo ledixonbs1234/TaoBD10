@@ -36,11 +36,13 @@ namespace TaoBD10.Manager
             for (int i = 1; i < childs.Count; i++)
             {
                 AutomationElement item = childs[i];
+                var controlType1 = childs[i].Current.ControlType;
                 var listItem = item.FindAll(TreeScope.Children, Condition.TrueCondition);
                 ChildListModel tableItem = new ChildListModel();
                 tableItem.ChildList = new List<string>();
-                for (int j = 1; j < listItem.Count; j++)
+                for (int j = 0; j < listItem.Count; j++)
                 {
+                    var controlType = listItem[j].Current.ControlType;
                     AutomationElement item1 = listItem[j];
                     ValuePattern pattern = item1.GetCurrentPattern(ValuePattern.Pattern) as ValuePattern;
                     tableItem.ChildList.Add(pattern.Current.Value);

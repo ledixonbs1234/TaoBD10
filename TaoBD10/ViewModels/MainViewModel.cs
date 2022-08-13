@@ -746,15 +746,10 @@ namespace TaoBD10.ViewModels
 
         void Test()
         {
-            WindowInfo window = APIManager.WaitingFindedWindow("form1");
+            WindowInfo window = APIManager.WaitingFindedWindow("xac nhan bd10 den");
             AutomationElement element = AutomationElement.FromHandle(window.hwnd);
-            var childs = element.FindAll(TreeScope.Descendants, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Button));
-            string a = "";
-            foreach (AutomationElement item in childs)
-            {
-                a += item.Current.Name + "\n";
-            }
-            string b = a;
+            var child = element.FindFirst(TreeScope.Descendants, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Table));
+            var data = APIManager.GetDataTable(child);
 
 
         }
@@ -1754,9 +1749,10 @@ namespace TaoBD10.ViewModels
                         break;
 
                     case Key.F4:
-                        WindowInfo window = APIManager.WaitingFindedWindow("dong chuyen thu");
-                        AutomationElement element = AutomationElement.FromHandle(window.hwnd);
-                        AutomationElement child = element.FindFirst(TreeScope.Descendants, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Table));
+                        //WindowInfo window = APIManager.WaitingFindedWindow("xac nhan bd10 den");
+                        //AutomationElement element = AutomationElement.FromHandle(window.hwnd);
+                        //var child = element.FindAll(TreeScope.Descendants, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Table));
+                        //var data = APIManager.GetDataTable(child[0]);
 
                         break;
 

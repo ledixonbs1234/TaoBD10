@@ -50,6 +50,9 @@ namespace TaoBD10.Model
         public void phanGiaiBD10(string bd10)
         {
             bd10 = bd10.ToUpper();
+            if (bd10.Length != 29)
+                return;
+            //904600593230ACB20006001010053
             //108	1627	Bưu kiện - Parcel	2	590100	593760	15/11/2021	TB	16,0	590100 593760 ACB1 1627 002 01 0160	True
             this.FromBC = bd10.Substring(0, 6);
             this.ToBC = bd10.Substring(6, 6);
@@ -59,6 +62,19 @@ namespace TaoBD10.Model
             this.PhanLoai = "Đi ngoài";
             this.KhoiLuong = "1";
             this.Tinh = FillTinh(this.ToBC);
+            string tempMa = bd10.Substring(13, 2);
+
+            foreach (TuiThuModel tuiThu in FileManager.TuiThus)
+            {
+                if (tempMa == tuiThu.Ma)
+                {
+                    this.PhanLoai = tuiThu.Content;
+                    break;
+                }
+            }
+            if (string.IsNullOrEmpty(this.PhanLoai))
+                this.PhanLoai = "Đi ngoài";
+
             switch (bd10.Substring(13, 1))
             {
                 case "C":

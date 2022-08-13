@@ -5,13 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TaoBD10.Views"
              mc:Ignorable="d" 
-             DataContext="{StaticResource OptionTinhThanhVM}"
-             d:DesignHeight="450" d:DesignWidth="800">
+             DataContext="{StaticResource OptionTinhThanhVM}" d:DesignWidth="800" Height="525">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="47*"/>
             <RowDefinition Height="9*"/>
-            <RowDefinition Height="34*"/>
+            <RowDefinition Height="40*"/>
+            <RowDefinition Height="9*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="39*"/>
@@ -35,7 +35,14 @@
             <Button Margin="5" Content="Lưu" Command="{Binding SaveBuuCucCommand}"></Button>
             <Button Margin="5" Content="Publish Cloud" Command="{Binding PublishBuuCucCommand}"></Button>
         </StackPanel>
-
+        <DataGrid Grid.Column="0" Grid.Row="2" ItemsSource="{Binding TuiThus}" IsReadOnly="True" >
+        </DataGrid>
+        <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="0">
+            <Button Margin="5" Content="Mở file" Command="{Binding MoFileTuiThuCommand}"></Button>
+            <Button Margin="5" Content="Lấy Dữ Liệu" Command="{Binding LayDuLieuTuiThuCommand}"></Button>
+            <Button Margin="5" Content="Lưu" Command="{Binding SaveTuiThuCommand}"></Button>
+            <Button Margin="5" Content="Publish Cloud" Command="{Binding PublishTuiThuCommand}"></Button>
+        </StackPanel>
 
     </Grid>
 </UserControl>

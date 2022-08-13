@@ -27,13 +27,89 @@ namespace TaoBD10.ViewModels
             PublishBuuCucCommand = new RelayCommand(PublishBuuCuc);
             MoFileTinhThanhCommand = new RelayCommand(MoFileTinhThanh);
             List<TinhHuyenModel> tinhThanhs = FileManager.LoadTinhThanhOffline();
+            List<TuiThuModel> tuiThus = FileManager.LoadTuiThuOffline();
+            MoFileTuiThuCommand = new RelayCommand(MoFileTuiThu);
+            SaveTuiThuCommand = new RelayCommand(SaveTuiThu);
+            PublishTuiThuCommand = new RelayCommand(PublishTuiThu);
+            LayDuLieuTuiThuCommand = new RelayCommand(LayDuLieuTuiThu);
             ShowTinhThanh(tinhThanhs);
             List<string> buuCucs = FileManager.LoadBuuCucsOffline();
             ShowBuuCucs(buuCucs);
+            ShowTuiThu(tuiThus);
 
 
         }
 
+        private ObservableCollection<TuiThuModel> _TuiThus;
+
+        public ObservableCollection<TuiThuModel> TuiThus
+        {
+            get { return _TuiThus; }
+            set { SetProperty(ref _TuiThus, value); }
+        }
+
+
+
+
+
+        public ICommand MoFileTuiThuCommand { get; }
+
+        void MoFileTuiThu()
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.FileName = "matuithu";
+            dialog.DefaultExt = ".txt";
+            dialog.Filter = "Text documents (.txt)|*.txt";
+            // Show open file dialog box
+            bool? result = dialog.ShowDialog();
+            if (result == true)
+            {
+                // Open document
+                string filename = dialog.FileName;
+                var tempList = FileManager.LoadTuiThuFromFile(filename);
+                ShowTuiThu(tempList);
+            }
+        }
+
+       
+        public ICommand SaveTuiThuCommand { get; }
+
+        void SaveTuiThu()
+        {
+            if (TuiThus.Count != 0)
+                FileManager.SaveTuiThuOffline(TuiThus.ToList());
+        }
+
+       
+        public ICommand PublishTuiThuCommand { get; }
+
+        void PublishTuiThu()
+        {
+            if (TuiThus.Count != 0)
+            {
+                FileManager.SaveTuiThuFirebase(TuiThus.ToList());
+            }
+        }
+
+       
+        public ICommand LayDuLieuTuiThuCommand { get; }
+
+        void LayDuLieuTuiThu()
+        {
+            List<TuiThuModel> tempList = FileManager.LoadTuiThuOnFirebase();
+            ShowTuiThu(tempList);
+        }
+
+        private void ShowTuiThu(List<TuiThuModel> tempList)
+        {
+            if (tempList == null)
+                return;
+            TuiThus = new ObservableCollection<TuiThuModel>();
+            foreach (var item in tempList)
+            {
+                TuiThus.Add(item);
+            }
+        }
 
         public ICommand MoFileTinhThanhCommand { get; }
 

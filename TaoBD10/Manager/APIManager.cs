@@ -35,6 +35,8 @@ namespace TaoBD10.Manager
             List<ChildListModel> list = new List<ChildListModel>();
             var childs = table.FindAll(TreeScope.Children, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Custom));
             //Rows
+            if (childs.Count == 0)
+                return null;
             for (int i = 1; i < childs.Count; i++)
             {
                 AutomationElement item = childs[i];
@@ -43,6 +45,8 @@ namespace TaoBD10.Manager
                 var listItem = item.FindAll(TreeScope.Children, Condition.TrueCondition);
                 ChildListModel tableItem = new ChildListModel();
                 tableItem.ChildList = new List<string>();
+                if (listItem.Count == 0)
+                    return null;
                 for (int j = numberLeftHeader; j < listItem.Count; j++)
                 {
                     var controlType = listItem[j].Current.ControlType;

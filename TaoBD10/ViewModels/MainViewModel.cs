@@ -120,7 +120,7 @@ namespace TaoBD10.ViewModels
                         //if (IsAutoGoCT)
                         //    GoToCTCommand.Execute(null);
                         var activecurrentWindow = APIManager.GetActiveWindowTitle();
-                        if(activecurrentWindow.text.IndexOf("xem chuyen thu chieu den")!= -1)
+                        if (activecurrentWindow.text.IndexOf("xem chuyen thu chieu den") != -1)
                         {
                             //thuc hien viec thay doi giao dien dia chi tai cho nay
                             System.Collections.Generic.List<TestAPIModel> controls = APIManager.GetListControlText(activecurrentWindow.hwnd);
@@ -993,7 +993,8 @@ namespace TaoBD10.ViewModels
                             APIManager.ClickButton(currentWindow.hwnd, "xac nhan chuyen thu", isExactly: false);
                             currentWindow = APIManager.WaitingFindedWindow("xac nhan");
                             APIManager.ClickButton(currentWindow.hwnd, "yes", isExactly: false);
-                        }else
+                        }
+                        else
                         {
                             //thuc hien lay du lieu tu table
                             //kiem tra so luong neeu lon 1 thi ko lam nua
@@ -1002,18 +1003,24 @@ namespace TaoBD10.ViewModels
 
                             var windowUI = AutomationElement.FromHandle(currentWindowRead.hwnd);
                             AutomationElementCollection tables = windowUI.FindAll(TreeScope.Descendants, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Table));
-
-                            List<ChildListModel> data = APIManager.GetDataTable(tables[1]);
-                            if (data.Count == 1)
+                            if (tables != null)
                             {
-                                if(lastMHInXemCT.Trim().ToLower() != data[0].ChildList[1].Trim().ToLower())
-                                {
-                                    lastMHInXemCT = data[0].ChildList[1].Trim().ToLower();
-                                    //thuc hien viec lay dia chi
-                                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "XacNhanMHCTDen", Content = lastMHInXemCT.Trim().ToLower() });
-                                }
+                                List<ChildListModel> data = APIManager.GetDataTable(tables[0]);
+                                if (data != null)
+
+                                    if (data.Count == 1)
+                                    {
+                                        if (data[0].ChildList != null)
+                                            if (data[0].ChildList.Count >= 1)
+                                                if (lastMHInXemCT != data[0].ChildList[1])
+                                                {
+                                                    lastMHInXemCT = data[0].ChildList[1];
+                                                    //thuc hien viec lay dia chi
+                                                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "XacNhanMHCTDen", Content = lastMHInXemCT });
+                                                }
 
 
+                                    }
                             }
                         }
                     }

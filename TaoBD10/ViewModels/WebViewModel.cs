@@ -590,7 +590,7 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                                 WeakReferenceMessenger.Default.Send<SHTuiMessage>(new SHTuiMessage(new SHTuiCodeModel { Key = "ReturnSHTui", Code = giatri, SHTui = barcodeWeb }));
                             }
                         }
-                        else if (_LoadWebChoose == LoadWebChoose.KiemTraWeb || _LoadWebChoose == LoadWebChoose.XacNhanMH)
+                        else if (_LoadWebChoose == LoadWebChoose.KiemTraWeb || _LoadWebChoose == LoadWebChoose.XacNhanMH ||_LoadWebChoose == LoadWebChoose.XacNhanMHCTDen)
                         {
                             KiemTraModel kiemTra = new KiemTraModel();
 

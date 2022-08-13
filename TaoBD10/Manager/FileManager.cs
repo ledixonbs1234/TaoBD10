@@ -51,8 +51,6 @@ namespace TaoBD10.Manager
         //    string textFile = File.ReadAllText(_fileTinhThanh);
 
 
-        //}
-
         public static OptionModel GetOptionOffline()
         {
             if (!File.Exists(_fileOption))

@@ -1,0 +1,82 @@
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using TaoBD10.Manager;
+using TaoBD10.Model;
+
+namespace TaoBD10.ViewModels
+{
+    public class KTTuiThuViewModel:ObservableObject
+    {
+        private ObservableCollection<FindItemModel> _KTTuiThus;
+
+        public ObservableCollection<FindItemModel> KTTuiThus
+        {
+            get { return _KTTuiThus; }
+            set { SetProperty(ref _KTTuiThus, value); }
+        }
+
+        private ObservableCollection<FindItemModel> _TuiThusHave;
+
+        public ObservableCollection<FindItemModel> TuiThusHave
+        {
+            get { return _TuiThusHave; }
+            set { SetProperty(ref _TuiThusHave, value); }
+        }
+
+
+
+        private string _MaHieu;
+
+        public string MaHieu
+        {
+            get { return _MaHieu; }
+            set { SetProperty(ref _MaHieu, value); }
+        }
+
+       
+        public ICommand SearchCommand { get; }
+
+        void Search()
+        {
+            if (string.IsNullOrEmpty(_MaHieu))
+            {
+                return;
+            }
+            TuiThusHave = new ObservableCollection<FindItemModel>();
+            foreach (var item in KTTuiThus)
+            {
+                if(item.SHTui.ToUpper().IndexOf(_MaHieu.Trim().ToUpper())!= -1){
+                    TuiThusHave.Add(item);
+                }
+            }
+
+        }
+
+
+
+
+
+        public KTTuiThuViewModel()
+        {
+             List<FindItemModel> tuiThus = FileManager.LoadFindItemOffline();
+            SearchCommand = new RelayCommand(Search);
+            KTTuiThus = new ObservableCollection<FindItemModel>();
+            foreach (FindItemModel item in tuiThus)
+            {
+                KTTuiThus.Add(item);
+
+
+            }
+
+        }
+        //thuc hien 
+
+    }
+}

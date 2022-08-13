@@ -150,6 +150,9 @@
                         <TabItem Header="Kiểm Tra">
                             <view:KiemTraView />
                         </TabItem>
+                        <TabItem Header="Túi Thư">
+                            <view:KTTuiThuView />
+                        </TabItem>
                     </TabControl>
                 </TabItem>
                 <TabItem Padding="0" Header="TAM QUAN">

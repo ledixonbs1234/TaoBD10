@@ -601,6 +601,8 @@ namespace TaoBD10.Manager
         [DllImport("user32.dll", EntryPoint = "SetWindowText")]
         private static extern int SetWindowText(IntPtr hWnd, string text);
 
+        
+
         public delegate bool EnumWindowProc(IntPtr hwnd, IntPtr lParam);
 
         public static string namePrinterBD10 = "";

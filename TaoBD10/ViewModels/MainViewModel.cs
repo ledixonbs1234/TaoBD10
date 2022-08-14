@@ -1017,27 +1017,27 @@ namespace TaoBD10.ViewModels
                             //kiem tra du lieu da cu chua
                             //neu chua chi thuc hien viec lay dia chi dua vao table 
 
-                            var windowUI = AutomationElement.FromHandle(currentWindowRead.hwnd);
-                            AutomationElementCollection tables = windowUI.FindAll(TreeScope.Descendants, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Table));
-                            if (tables != null)
-                            {
-                                List<ChildListModel> data = APIManager.GetDataTable(tables[0]);
-                                if (data != null)
+                            //var windowUI = AutomationElement.FromHandle(currentWindowRead.hwnd);
+                            //AutomationElementCollection tables = windowUI.FindAll(TreeScope.Descendants, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Table));
+                            //if (tables != null)
+                            //{
+                            //    List<ChildListModel> data = APIManager.GetDataTable(tables[0]);
+                            //    if (data != null)
 
-                                    if (data.Count == 1)
-                                    {
-                                        if (data[0].ChildList != null)
-                                            if (data[0].ChildList.Count >= 1)
-                                                if (lastMHInXemCT != data[0].ChildList[1])
-                                                {
-                                                    lastMHInXemCT = data[0].ChildList[1];
-                                                    //thuc hien viec lay dia chi
-                                                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "XacNhanMHCTDen", Content = lastMHInXemCT });
-                                                }
+                            //        if (data.Count == 1)
+                            //        {
+                            //            if (data[0].ChildList != null)
+                            //                if (data[0].ChildList.Count >= 1)
+                            //                    if (lastMHInXemCT != data[0].ChildList[1])
+                            //                    {
+                            //                        lastMHInXemCT = data[0].ChildList[1];
+                            //                        //thuc hien viec lay dia chi
+                            //                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "XacNhanMHCTDen", Content = lastMHInXemCT });
+                            //                    }
 
 
-                                    }
-                            }
+                            //        }
+                            //}
                         }
                     }
                     else if (currentWindowRead.text.IndexOf("sua thong tin bd10") != -1 || currentWindowRead.text.Trim() == "lap bd10")

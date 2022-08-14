@@ -51,7 +51,7 @@ namespace TaoBD10.Manager
                     {
                         AutomationElement item1 = listItem[j];
                         ValuePattern pattern = item1.GetCurrentPattern(ValuePattern.Pattern) as ValuePattern;
-                        tableItem.ChildList.Add(pattern.Cached.Value);
+                        tableItem.ChildList.Add(pattern.Current.Value);
                     }
                     list.Add(tableItem);
                 }

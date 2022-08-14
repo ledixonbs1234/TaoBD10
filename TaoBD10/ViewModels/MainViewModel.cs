@@ -1391,7 +1391,7 @@ namespace TaoBD10.ViewModels
                     break;
 
                 case 6:
-                    SetDefaultWindowTui();
+                    SetRightHeigtHeightTuiWindow();
                     break;
 
                 case 7:
@@ -1948,6 +1948,18 @@ namespace TaoBD10.ViewModels
             var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
             _window.Width = 340;
             _window.Height = 630;
+            double width = SystemParameters.PrimaryScreenWidth;
+            // use 'Screen.AllScreens[1].WorkingArea' for secondary screen
+            _window.Left = desktopWorkingArea.Left + width - _window.Width;
+            _window.Top = desktopWorkingArea.Top + 0;
+        }
+        private void SetRightHeigtHeightTuiWindow()
+        {
+            if (_window == null)
+                return;
+            var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
+            _window.Width = 340;
+            _window.Height = 800;
             double width = SystemParameters.PrimaryScreenWidth;
             // use 'Screen.AllScreens[1].WorkingArea' for secondary screen
             _window.Left = desktopWorkingArea.Left + width - _window.Width;

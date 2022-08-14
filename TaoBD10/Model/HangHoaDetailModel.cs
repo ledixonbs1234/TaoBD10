@@ -54,6 +54,7 @@ namespace TaoBD10.Model
             get { return _PhanLoai; }
             set { SetProperty(ref _PhanLoai, value); }
         }
+        public int Index { get; set; }
 
 
 

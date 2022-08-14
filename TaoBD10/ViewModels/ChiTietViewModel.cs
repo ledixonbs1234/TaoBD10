@@ -40,6 +40,18 @@ namespace TaoBD10.ViewModels
             }
         }
 
+        private int _IndexTaoBDItem;
+
+        public int IndexTaoBDItem
+        {
+            get { return _IndexTaoBDItem; }
+            set { SetProperty(ref _IndexTaoBDItem, value); }
+        }
+
+
+
+
+
 
         private ObservableCollection<TinhHuyenModel> _ShowTinhs;
 
@@ -1044,7 +1056,7 @@ namespace TaoBD10.ViewModels
             //txtStateSend.Text = "Đang Gửi Trực Tiếp";
             double delayTime = Convert.ToDouble(SelectedTime);
             int lastNumber = 0;
-            for (int i = IndexContinueGuiTrucTiep; i < ListShowHangHoa.Count; i++)
+            for (int i = IndexTaoBDItem; i < ListShowHangHoa.Count; i++)
             {
                 HangHoaDetailModel hangHoa = ListShowHangHoa[i];
                 //SendKeys.SendWait(hangHoa.TuiHangHoa.SHTui);
@@ -1075,13 +1087,13 @@ namespace TaoBD10.ViewModels
                     var active = APIManager.GetActiveWindowTitle();
                     if (active.text.IndexOf("sua thong tin bd") == -1 && active.text.IndexOf("lap bd10") == -1)
                     {
-                        IndexContinueGuiTrucTiep++;
+                        IndexTaoBDItem = i;
                         APIManager.ShowSnackbar("Lỗi");
                         return;
                     }
                     if (countDown <= 0)
                     {
-                        IndexContinueGuiTrucTiep = 0;
+                        IndexTaoBDItem = 0;
                         APIManager.ShowSnackbar("Hết thời gian chờ.");
                         return;
                     }
@@ -1227,6 +1239,7 @@ namespace TaoBD10.ViewModels
 
                 foreach (HangHoaDetailModel hangHoa in ConLai.HangHoas)
                 {
+                    hangHoa.Index = ListShowHangHoa.Count + 1;
                     ListShowHangHoa.Add(hangHoa);
                 }
                 //thuc hien show Ten Tinh
@@ -1259,6 +1272,7 @@ namespace TaoBD10.ViewModels
                     {
                         continue;
                     }
+                    hangHoa.Index = ListShowHangHoa.Count+1;
                     ListShowHangHoa.Add(hangHoa);
                 }
 
@@ -1278,12 +1292,16 @@ namespace TaoBD10.ViewModels
 
                 foreach (HangHoaDetailModel hangHoa in LocBD.HangHoas)
                 {
-
+                    hangHoa.Index = ListShowHangHoa.Count+1;
                     ListShowHangHoa.Add(hangHoa);
                 }
                 //thuc hien show Ten Tinh
                 NameTinhCurrent = LocBD.TenBD;
                 //ShowNameTinh(LocBD.TenBD);
+            }
+            if(ListShowHangHoa.Count > 0)
+            {
+                IndexTaoBDItem = 0;
             }
 
         }

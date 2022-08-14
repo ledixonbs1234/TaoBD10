@@ -9,10 +9,14 @@
     DataContext="{StaticResource ChiTietVM}"
     mc:Ignorable="d">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="450.357"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="255" />
         </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="0">
+        <StackPanel Grid.Column="0" Grid.RowSpan="2">
             <TextBlock
                 Margin="5"
                 HorizontalAlignment="Center"
@@ -306,7 +310,19 @@
                     Content="Gộp BD" />
                 <Button Command="{Binding XeXaHoiCommand}" Content="Xe Xã Hội" />
             </StackPanel>
-        </StackPanel>
 
+        </StackPanel>
+        <DataGrid x:Name="dataGrid" AutoGenerateColumns="False" Grid.Row="1" SelectedIndex="{Binding IndexTaoBDItem}" ItemsSource="{Binding ListShowHangHoa}">
+            <DataGrid.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" 
+                   Color="#FF0000"/>
+            </DataGrid.Resources>
+
+            <DataGrid.Columns>
+                <DataGridTextColumn IsReadOnly="True" Header="STT" Binding="{Binding Index}" />
+                <DataGridTextColumn Width="184" Header="SH Túi" Binding="{Binding TuiHangHoa.SHTui}"/>
+            </DataGrid.Columns>
+
+        </DataGrid>
     </Grid>
 </UserControl>

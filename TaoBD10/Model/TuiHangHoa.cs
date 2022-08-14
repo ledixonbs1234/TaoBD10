@@ -111,7 +111,7 @@ namespace TaoBD10.Model
             List<TinhHuyenModel> tinhThanhs = FileManager.TinhThanhs;
             string nameTinh = "";
             string maTinh = maBuuCuc.Substring(0, 2);
-            var tinh = tinhThanhs.FirstOrDefault(m => m.Ma == maBuuCuc);
+            var tinh = tinhThanhs.FirstOrDefault(m => m.Ma == maTinh);
             if (tinh == null)
                 return "Chưa Biết";
             if (tinh.Ma == "59")

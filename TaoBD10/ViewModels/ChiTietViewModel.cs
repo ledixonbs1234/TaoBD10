@@ -1069,7 +1069,6 @@ namespace TaoBD10.ViewModels
                 //lenh la cho khi so thay doi hoac hien thong bao toi da la 1 s
                 if (i == ListShowHangHoa.Count - 1)
                 {
-                    APIManager.ShowSnackbar("Vị trí cuối");
                     break;
                 }
 

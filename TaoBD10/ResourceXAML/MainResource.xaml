@@ -6,7 +6,6 @@
     <viewmodel:GetBD10ViewModel x:Key="GetBD10VM" />
     <viewmodel:DanhSachViewModel x:Key="DanhSachVM" />
     <viewmodel:ChiTietViewModel x:Key="ChiTietVM" />
-    <viewmodel:FillViewModel x:Key="FillViewVM" />
     <viewmodel:LocTuiViewModel x:Key="LocTuiVM" />
     <viewmodel:ChinhViewModel x:Key="ChinhVM" />
     <viewmodel:LayChuyenThuViewModel x:Key="LayCTVM" />

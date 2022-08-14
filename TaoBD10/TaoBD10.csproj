@@ -263,7 +263,6 @@
     <Compile Include="ViewModels\ChiTietViewModel.cs" />
     <Compile Include="ViewModels\DanhSachViewModel.cs" />
     <Compile Include="ViewModels\DiNgoaiViewModel.cs" />
-    <Compile Include="ViewModels\FillViewModel.cs" />
     <Compile Include="ViewModels\GetBD10ViewModel.cs" />
     <Compile Include="ViewModels\KiemTraViewModel.cs" />
     <Compile Include="ViewModels\KTChuaPhatViewModel.cs" />

@@ -67,8 +67,10 @@ namespace TaoBD10.ViewModels
             //FileManager.onSetupFileManager();
             //FileManager.onSetupFileManager();
             bwprintMaVach = new BackgroundWorker();
+            bwprintMaVach.WorkerSupportsCancellation = true;
             bwprintMaVach.DoWork += BwprintMaVach_DoWork;
             printTrangCuoi = new BackgroundWorker();
+            printTrangCuoi.WorkerSupportsCancellation = true;
             printTrangCuoi.DoWork += PrintTrangCuoi_DoWork;
             LoadPageCommand = new RelayCommand<Window>(LoadPage);
             TabChangedCommand = new RelayCommand<System.Windows.Controls.TabControl>(TabChanged);
@@ -86,6 +88,7 @@ namespace TaoBD10.ViewModels
             bwPrintBD10.DoWork += BwPrintBD10_DoWork;
             bwPrintBanKe = new BackgroundWorker();
             bwPrintBanKe.DoWork += BwPrintBanKe_DoWork;
+            bwPrintBanKe.WorkerSupportsCancellation = true;
             bwRunPrints = new BackgroundWorker();
             bwRunPrints.WorkerSupportsCancellation = true;
             bwRunPrints.DoWork += BwRunPrints_DoWork;
@@ -191,13 +194,15 @@ namespace TaoBD10.ViewModels
                     {
                         _IsXacNhanChiTieting = false;
                     }
-                }else if(m.Key == "Window")
+                }
+                else if (m.Key == "Window")
                 {
                     if (m.Content == "Full")
                     {
 
                         SetChiTietWindow();
-                    }else if(m.Content == "Min")
+                    }
+                    else if (m.Content == "Min")
                     {
                         SetDefaultWindowTui();
 
@@ -1039,7 +1044,11 @@ namespace TaoBD10.ViewModels
                     {
                         listControl = APIManager.GetListControlText(currentWindowRead.hwnd);
                         List<TestAPIModel> listWindowStatic = listControl.Where(m => m.ClassName.IndexOf("WindowsForms10.STATIC.app") != -1).ToList();
-                        TestAPIModel apiNumber = listWindowStatic[10];
+                        TestAPIModel apiNumber;
+                        if (listWindowStatic.Count >= 11)
+                            apiNumber = listWindowStatic[10];
+                        else
+                            continue;
                         //TestText += apiNumber.Text + "\n";
                         int.TryParse(Regex.Match(apiNumber.Text, @"\d+").Value, out numberRead);
                         if (numberRead != lastNumberSuaBD)
@@ -1800,7 +1809,8 @@ namespace TaoBD10.ViewModels
                         WindowInfo activeWindows1 = APIManager.GetActiveWindowTitle();
                         if (activeWindows1.text.IndexOf("dong chuyen thu") != -1)
                         {
-                            bwprintMaVach.RunWorkerAsync();
+                            if (!bwprintMaVach.IsBusy)
+                                bwprintMaVach.RunWorkerAsync();
                         }
                         break;
 
@@ -1808,10 +1818,12 @@ namespace TaoBD10.ViewModels
                         WindowInfo activeWindows = APIManager.GetActiveWindowTitle();
                         if (activeWindows.text.IndexOf("dong chuyen thu") != -1)
                         {
-                            bwPrintBanKe.RunWorkerAsync();
+                            if (!bwPrintBanKe.IsBusy)
+                                bwPrintBanKe.RunWorkerAsync();
                         }
                         else if (activeWindows.text.IndexOf("quan ly chuyen thu chieu di") != -1)
                         {
+                            if(!printTrangCuoi.IsBusy)
                             printTrangCuoi.RunWorkerAsync();
                         }
                         break;

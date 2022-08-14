@@ -75,6 +75,7 @@ namespace TaoBD10.Manager
 
         public static void ClickButton(IntPtr handle)
         {
+            Thread.Sleep(100);
             PostMessage(handle, 0x00F5, 0, 0);
         }
         private const uint WM_SETTEXT = 0x000C;

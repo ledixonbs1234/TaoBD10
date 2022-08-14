@@ -67,7 +67,7 @@ namespace TaoBD10.Manager
                 var frame = st.GetFrame(0);
                 // Get the line number from the stack frame
                 var line = frame.GetFileLineNumber();
-                OpenNotePad(ex.Message + '\n' + "MainViewModel " + line + " Number Line " + APIManager.GetLineNumber(ex), "loi ");
+                OpenNotePad(ex.Message + '\n' + "APIManger " + line + " Number Line " + APIManager.GetLineNumber(ex), "loi ");
                 throw;
             }
          
@@ -285,7 +285,7 @@ namespace TaoBD10.Manager
                 var frame = st.GetFrame(0);
                 // Get the line number from the stack frame
                 var line = frame.GetFileLineNumber();
-                APIManager.OpenNotePad(ex.Message + '\n' + "MainViewModel " + line + " Number Line " + APIManager.GetLineNumber(ex), "loi ");
+                APIManager.OpenNotePad(ex.Message + '\n' + "API MANager " + line + " Number Line " + APIManager.GetLineNumber(ex), "loi ");
 
                 throw;
             }
@@ -581,7 +581,7 @@ namespace TaoBD10.Manager
                 var frame = st.GetFrame(0);
                 // Get the line number from the stack frame
                 var line = frame.GetFileLineNumber();
-                APIManager.OpenNotePad(ex.Message + '\n' + "loi Line WebViewModel " + line + " Number Line " + APIManager.GetLineNumber(ex), "loi ");
+                APIManager.OpenNotePad(ex.Message + '\n' + "loi Line API Manager " + line + " Number Line " + APIManager.GetLineNumber(ex), "loi ");
                 throw;
             }
         }

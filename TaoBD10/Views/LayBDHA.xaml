@@ -50,6 +50,12 @@
             Width="150"
             Command="{Binding LayToanBoCommand}"
             Content="Lấy Toàn Bộ" />
+        <Button
+            Margin="0"
+            Background="#FFFFB515"
+            Width="150"
+            Command="{Binding BD10DenCommand, Mode=OneWay, Source={StaticResource ChinhVM}}"
+            Content="BĐ 10 Đến" />
         <StackPanel
             Margin="4"
             HorizontalAlignment="Center"

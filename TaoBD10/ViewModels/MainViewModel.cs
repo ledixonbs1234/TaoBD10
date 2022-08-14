@@ -1204,12 +1204,17 @@ namespace TaoBD10.ViewModels
                                     string textError = APIManager.ConvertToUnSign3(apiContent.Text).ToLower();
                                     if (textError.IndexOf("truyen thong tin chuyen thu") != -1)
                                     {
-                                        Thread.Sleep(200);
+                                        Thread.Sleep(100);
+                                        SendKeys.SendWait("{ENTER}");
+                                    }
+                                    else if (textError.IndexOf("da xac nhan du lieu") != -1)
+                                    {
+                                        Thread.Sleep(100);
                                         SendKeys.SendWait("{ENTER}");
                                     }
                                     else if (textError.IndexOf("da truyen du lieu thanh cong") != -1)
                                     {
-                                        Thread.Sleep(200);
+                                        Thread.Sleep(100);
                                         SendKeys.SendWait("{ENTER}");
                                     }
                                 }

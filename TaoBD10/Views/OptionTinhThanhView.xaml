@@ -24,7 +24,7 @@
             <Button Margin="5" Content="Lưu" Command="{Binding SaveTinhThanhCommand}"></Button>
             <Button Margin="5" Content="Publish Cloud" Command="{Binding PublishTinhThanhCommand}"></Button>
         </StackPanel>
-        <DataGrid Grid.Column="1" AutoGenerateColumns="False" ItemsSource="{Binding BuuCucs}" IsReadOnly="True" >
+        <DataGrid Grid.Column="1" AutoGenerateColumns="False" CanUserDeleteRows="True" ItemsSource="{Binding BuuCucs}" IsReadOnly="True" >
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding}"/>
             </DataGrid.Columns>

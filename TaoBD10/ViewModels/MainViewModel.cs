@@ -799,10 +799,10 @@ namespace TaoBD10.ViewModels
 
         void Test()
         {
-            WindowInfo window = APIManager.WaitingFindedWindow("khoi tao chuyen thu");
+            WindowInfo window = APIManager.WaitingFindedWindow("xac nhan bd10 den");
             AutomationElement element = AutomationElement.FromHandle(window.hwnd);
-            var child = element.FindAll(TreeScope.Descendants, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.List));
-            AutomationElementCollection count = child[2].FindAll(TreeScope.Children,Condition.TrueCondition);
+            var child = element.FindAll(TreeScope.Descendants, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Table));
+            AutomationElementCollection count = child[0].FindAll(TreeScope.Children,Condition.TrueCondition);
             List<string> texts = new List<string>();
             foreach (AutomationElement item in count)
             {

@@ -14,8 +14,8 @@
     mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="70" />
             <RowDefinition Height="50" />
+            <RowDefinition Height="30" />
             <RowDefinition />
         </Grid.RowDefinitions>
         <StackPanel
@@ -23,12 +23,9 @@
             HorizontalAlignment="Center"
             Orientation="Horizontal">
             <StackPanel Margin="20,0,20,0">
-                <TextBlock
-                    HorizontalAlignment="Center"
-                    Foreground="#FF649741"
-                    Style="{StaticResource MaterialDesignHeadline6TextBlock}"
-                    Text="{Binding NKT_HN}" />
+               
                 <Button
+                    Margin="5"
                     Command="{Binding SelectedTinhCommand}"
                         CommandParameter="593230"
                     Content="593230"
@@ -36,12 +33,9 @@
                     ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
             </StackPanel>
             <StackPanel Margin="20,0,20,0">
-                <TextBlock
-                    HorizontalAlignment="Center"
-                    Foreground="#FF649741"
-                    Style="{StaticResource MaterialDesignHeadline6TextBlock}"
-                    Text="{Binding NBCP_HN}" />
+              
                 <Button
+                    Margin=" 5"
                      Command="{Binding SelectedTinhCommand}"
                         CommandParameter="593280"
                     Content="593280"
@@ -55,7 +49,7 @@
             VerticalAlignment="Center"
             Foreground="#007ac1"
             Style="{StaticResource MaterialDesignHeadline4TextBlock}"
-            Text="{Binding TextCurrentChuyenThu}" />
+            Text="{Binding ListShowHangHoa.Count}" />
         <DataGrid
             x:Name="dataGrid"
             Grid.Row="2"
@@ -126,7 +120,7 @@
                     FontWeight="Bold"
                     Header="Khối Lượng" />
                 <DataGridTextColumn
-                    Width="auto"
+                    Width="122"
                     Binding="{Binding TuiHangHoa.SHTui}"
                     EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
                     ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"

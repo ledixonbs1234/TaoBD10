@@ -51,12 +51,12 @@ namespace TaoBD10.ViewModels
             AutomationElement element = AutomationElement.FromHandle(window.hwnd);
             var child = element.FindAll(TreeScope.Descendants, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.List));
             AutomationElementCollection count = child[2].FindAll(TreeScope.Children, Condition.TrueCondition);
-            string text = "";
+            List<string> buuCucs = new List<string>();
             foreach (AutomationElement item in count)
             {
-                text+=item.Current.Name+'\n';
+                buuCucs.Add(item.Current.Name);
             }
-            APIManager.OpenNotePad(text,"Mã bưu cục toàn quốc");
+            ShowBuuCucs(buuCucs);
         }
 
 

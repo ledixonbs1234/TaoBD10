@@ -12,7 +12,7 @@ using TaoBD10.Model;
 
 namespace TaoBD10.ViewModels
 {
-    public class KTTuiThuViewModel:ObservableObject
+    public class KTTuiThuViewModel : ObservableObject
     {
         private ObservableCollection<FindItemModel> _KTTuiThus;
 
@@ -40,7 +40,7 @@ namespace TaoBD10.ViewModels
             set { SetProperty(ref _MaHieu, value); }
         }
 
-       
+
         public ICommand SearchCommand { get; }
 
         void Search()
@@ -52,7 +52,8 @@ namespace TaoBD10.ViewModels
             TuiThusHave = new ObservableCollection<FindItemModel>();
             foreach (var item in KTTuiThus)
             {
-                if(item.SHTui.ToUpper().IndexOf(_MaHieu.Trim().ToUpper())!= -1){
+                if (item.SHTui.ToUpper().IndexOf(_MaHieu.Trim().ToUpper()) != -1)
+                {
                     TuiThusHave.Add(item);
                 }
             }
@@ -60,21 +61,34 @@ namespace TaoBD10.ViewModels
         }
 
 
+        public ICommand LayDuLieuCommand { get; }
+
+        void LayDuLieu()
+        {
+
+            List<FindItemModel> tuiThus = FileManager.LoadFindItemOnFirebase();
+            Show(tuiThus);
+        
+        }
+
+        void Show(List<FindItemModel> SHTuis)
+        {
+            KTTuiThus = new ObservableCollection<FindItemModel>();
+            foreach (FindItemModel item in SHTuis)
+                KTTuiThus.Add(item);
+        }
+
+
+
 
 
 
         public KTTuiThuViewModel()
         {
-             List<FindItemModel> tuiThus = FileManager.LoadFindItemOffline();
+            List<FindItemModel> tuiThus = FileManager.LoadFindItemOffline();
             SearchCommand = new RelayCommand(Search);
-            KTTuiThus = new ObservableCollection<FindItemModel>();
-            foreach (FindItemModel item in tuiThus)
-            {
-                KTTuiThus.Add(item);
-
-
-            }
-
+            LayDuLieuCommand = new RelayCommand(LayDuLieu);
+            Show(tuiThus);
         }
         //thuc hien 
 

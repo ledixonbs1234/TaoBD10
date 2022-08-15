@@ -1654,6 +1654,14 @@ namespace TaoBD10.ViewModels
                     case Key.Enter:
 
                         KeyData = KeyData.ToLower();
+
+                        activeWindow1 = APIManager.GetActiveWindowTitle();
+                        if (activeWindow1.text.IndexOf("xac nhan bd10 theo") != -1)
+                        {
+                            KeyData = KeyData.Trim(); //luu du lieu len server
+                            listFindItem.Add(new FindItemModel(KeyData.ToUpper(), DateTime.Now.ToString()));
+
+                        }
                         if (FileManager.listChuyenThu != null && FileManager.listChuyenThu.Count != 0)
                         {
                             if (KeyData.IndexOf(FileManager.listChuyenThu[0].Barcode) != -1)
@@ -1797,13 +1805,7 @@ namespace TaoBD10.ViewModels
                         }
                         else
                         {
-                            activeWindow1 = APIManager.GetActiveWindowTitle();
-                            if (activeWindow1.text.IndexOf("xac nhan bd10 theo") != -1)
-                            {
-                                KeyData = KeyData.Trim(); //luu du lieu len server
-                                listFindItem.Add(new FindItemModel(KeyData.ToUpper(), DateTime.Now.ToString()));
-
-                            }
+                           
                         }
                         KeyData = "";
                         break;

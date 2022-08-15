@@ -799,11 +799,15 @@ namespace TaoBD10.ViewModels
 
         void Test()
         {
-            Thread.Sleep(5000);
             WindowInfo window = APIManager.WaitingFindedWindow("khoi tao chuyen thu");
             AutomationElement element = AutomationElement.FromHandle(window.hwnd);
             var child = element.FindAll(TreeScope.Descendants, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.List));
-            int count = child.Count;
+            AutomationElementCollection count = child[2].FindAll(TreeScope.Children,Condition.TrueCondition);
+            List<string> texts = new List<string>();
+            foreach (AutomationElement item in count)
+            {
+                texts.Add(item.Current.Name);
+            }
             //var data = APIManager.GetDataTable(child);
 
 
@@ -1262,7 +1266,7 @@ namespace TaoBD10.ViewModels
                                         SendKeys.SendWait("{ESC}");
                                         Thread.Sleep(100);
                                         SendKeys.SendWait("{ENTER}");
-                                    }
+                                   }
                                 }
                             }
                         }

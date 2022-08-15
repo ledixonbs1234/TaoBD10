@@ -357,8 +357,11 @@ namespace TaoBD10.ViewModels
             {
                 return;
             }
-            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "TopMost", Content = "False" });
-            Process.Start("chrome.exe", "https://bccp.vnpost.vn/BCCP.aspx?act=Trace&id=" + Selected.MaHieu);
+            //WeakReferenceMessenger.Default.Send(new ContentModel { Key = "TopMost", Content = "False" });
+            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "OnlyCheck", Content = Selected.MaHieu });
+            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Navigation", Content = "Web" });
+            //thuc hien navigate
+            //Process.Start("chrome.exe", "https://bccp.vnpost.vn/BCCP.aspx?act=Trace&id=" + Selected.MaHieu);
         }
 
         private void Run593230()

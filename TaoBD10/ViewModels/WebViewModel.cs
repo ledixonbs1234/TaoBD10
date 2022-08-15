@@ -138,6 +138,11 @@ namespace TaoBD10.ViewModels
                      isClickWebBCCP = false;
                      WebBrowser.LoadUrl(m.Content);
                  }
+                 else if (m.Key == "OnlyCheck")
+                 {
+                     APIManager.downLoadRoad = DownLoadRoad.None;
+                     WebBrowser.LoadUrl(m.Content);
+                 }
                  else if (m.Key == "KTChuaPhat")
                  {
                      if (m.Content == "LoadUrl")

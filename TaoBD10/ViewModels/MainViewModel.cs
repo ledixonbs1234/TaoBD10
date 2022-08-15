@@ -135,80 +135,7 @@ namespace TaoBD10.ViewModels
             });
 
 
-            WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>
-            {
-                if (m.Key == "Navigation")
-                {
-                    if (m.Content == "GoChiTiet")
-                    {
-                        IndexTabControl = 2;
-                    }
-                    else if (m.Content == "Center")
-                    {
-                        SetChiTietWindow();
-                    }
-                    else if (m.Content == "SmallRight")
-                    {
-                        SetRightHeigtTuiWindow();
-                    }
-                    else if (m.Content == "Web")
-                    {
-                        IndexTabTui = 1;
-                    }
-                    else if (m.Content == "GoTaoTui")
-                    {
-                        IndexTabTui = 6;
-                    }
-                    else if (m.Content == "TamQuan")
-                    {
-                        IndexTabTui = 8;
-                        IndexTabControl = 5;
-                    }
-                }
-                else if (m.Key == "Snackbar")
-                {
-                    MessageShow(m.Content);
-                }
-                else if (m.Key == "SetFalseKg")
-                {
-                    Is16Kg = false;
-                }
-                else if (m.Key == "TopMost")
-                {
-                    if (m.Content == "False")
-                    {
-                        IsTopMost = false;
-                    }
-                    else
-                    {
-                        IsTopMost = true;
-                    }
-                }
-                else if (m.Key == "XacNhanChiTiet")
-                {
-                    if (m.Content == "True")
-                    {
-                        _IsXacNhanChiTieting = true;
-                    }
-                    else
-                    {
-                        _IsXacNhanChiTieting = false;
-                    }
-                }
-                else if (m.Key == "Window")
-                {
-                    if (m.Content == "Full")
-                    {
-
-                        SetChiTietWindow();
-                    }
-                    else if (m.Content == "Min")
-                    {
-                        SetDefaultWindowTui();
-
-                    }
-                }
-            });
+           
 
             WeakReferenceMessenger.Default.Register<WebContentModel>(this, (r, m) =>
             {
@@ -381,6 +308,84 @@ namespace TaoBD10.ViewModels
             {
                 IsBoQuaHuyen = true;
             }
+        }
+
+        void NavigateTabTui()
+        {
+            WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>
+            {
+                if (m.Key == "Navigation")
+                {
+                    if (m.Content == "GoChiTiet")
+                    {
+                        IndexTabControl = 2;
+                    }
+                    else if (m.Content == "Center")
+                    {
+                        SetChiTietWindow();
+                    }
+                    else if (m.Content == "SmallRight")
+                    {
+                        SetRightHeigtTuiWindow();
+                    }
+                    else if (m.Content == "Web")
+                    {
+                        IndexTabTui = 1;
+                    }
+                    else if (m.Content == "GoTaoTui")
+                    {
+                        IndexTabTui = 6;
+                    }
+                    else if (m.Content == "TamQuan")
+                    {
+                        IndexTabTui = 8;
+                        IndexTabControl = 5;
+                    }
+                }
+                else if (m.Key == "Snackbar")
+                {
+                    MessageShow(m.Content);
+                }
+                else if (m.Key == "SetFalseKg")
+                {
+                    Is16Kg = false;
+                }
+                else if (m.Key == "TopMost")
+                {
+                    if (m.Content == "False")
+                    {
+                        IsTopMost = false;
+                    }
+                    else
+                    {
+                        IsTopMost = true;
+                    }
+                }
+                else if (m.Key == "XacNhanChiTiet")
+                {
+                    if (m.Content == "True")
+                    {
+                        _IsXacNhanChiTieting = true;
+                    }
+                    else
+                    {
+                        _IsXacNhanChiTieting = false;
+                    }
+                }
+                else if (m.Key == "Window")
+                {
+                    if (m.Content == "Full")
+                    {
+
+                        SetChiTietWindow();
+                    }
+                    else if (m.Content == "Min")
+                    {
+                        SetDefaultWindowTui();
+
+                    }
+                }
+            });
         }
 
         private void BwprintMaVach_DoWork(object sender, DoWorkEventArgs e)

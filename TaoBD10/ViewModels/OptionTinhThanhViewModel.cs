@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Automation;
 using System.Windows.Input;
 using TaoBD10.Manager;
 using TaoBD10.Model;
@@ -27,6 +28,7 @@ namespace TaoBD10.ViewModels
             PublishBuuCucCommand = new RelayCommand(PublishBuuCuc);
             MoFileTinhThanhCommand = new RelayCommand(MoFileTinhThanh);
             List<TinhHuyenModel> tinhThanhs = FileManager.LoadTinhThanhOffline();
+        LayTrucTiepCommand = new RelayCommand(LayTrucTiep);
             List<TuiThuModel> tuiThus = FileManager.LoadTuiThuOffline();
             MoFileTuiThuCommand = new RelayCommand(MoFileTuiThu);
             SaveTuiThuCommand = new RelayCommand(SaveTuiThu);
@@ -39,6 +41,24 @@ namespace TaoBD10.ViewModels
 
 
         }
+
+
+        public ICommand LayTrucTiepCommand { get; }
+
+        void LayTrucTiep()
+        {
+            WindowInfo window = APIManager.WaitingFindedWindow("khoi tao chuyen thu");
+            AutomationElement element = AutomationElement.FromHandle(window.hwnd);
+            var child = element.FindAll(TreeScope.Descendants, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.List));
+            AutomationElementCollection count = child[2].FindAll(TreeScope.Children, Condition.TrueCondition);
+            string text = "";
+            foreach (AutomationElement item in count)
+            {
+                text+=item.Current.Name+'\n';
+            }
+            APIManager.OpenNotePad(text,"Mã bưu cục toàn quốc");
+        }
+
 
         private ObservableCollection<TuiThuModel> _TuiThus;
 

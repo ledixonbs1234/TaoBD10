@@ -30,6 +30,7 @@
             </DataGrid.Columns>
         </DataGrid>
         <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
+            <Button Margin="5" Content="Lấy Trực Tiếp" Command="{Binding MoFileBuuCucCommand}"></Button>
             <Button Margin="5" Content="Mở file" Command="{Binding MoFileBuuCucCommand}"></Button>
             <Button Margin="5" Content="Lấy Dữ Liệu" Command="{Binding LayDuLieuBuuCucCommand}"></Button>
             <Button Margin="5" Content="Lưu" Command="{Binding SaveBuuCucCommand}"></Button>

@@ -17,6 +17,12 @@ namespace TaoBD10.Manager
     public static class APIManager
     {
 
+        [DllImport("User32.dll")]
+        public static extern bool IsIconic(IntPtr hWnd);
+        [DllImport("User32.dll")]
+        public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+        public const int SW_RESTORE = 9;
         public static int currentNumberBD = 0;
         public static void FocusHandle(IntPtr handle)
         {

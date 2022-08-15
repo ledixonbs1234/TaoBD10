@@ -406,6 +406,12 @@ namespace TaoBD10.Manager
         public static void OnSetupFileManager()
         {
 
+
+            DirectoryInfo DataFolder = new DirectoryInfo(Environment.CurrentDirectory + "\\Data");
+            if(!DataFolder.Exists)
+            {
+                DataFolder.Create();
+            }
             GetOptionOffline();
             ReadPrinterFromFile();
             TinhThanhs = LoadTinhThanhOffline();

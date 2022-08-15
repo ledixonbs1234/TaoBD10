@@ -106,6 +106,8 @@ namespace TaoBD10.ViewModels
             listFindItem = new List<FindItemModel>();
             FileManager.OnSetupFileManager();
 
+            NavigateTabTui();
+
 
             WeakReferenceMessenger.Default.Register<KiemTraMessage>(this, (r, m) =>
             {

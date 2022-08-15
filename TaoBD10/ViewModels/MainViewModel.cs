@@ -799,10 +799,12 @@ namespace TaoBD10.ViewModels
 
         void Test()
         {
-            WindowInfo window = APIManager.WaitingFindedWindow("form1");
+            Thread.Sleep(5000);
+            WindowInfo window = APIManager.WaitingFindedWindow("khoi tao chuyen thu");
             AutomationElement element = AutomationElement.FromHandle(window.hwnd);
-            var child = element.FindFirst(TreeScope.Descendants, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Table));
-            var data = APIManager.GetDataTable(child);
+            var child = element.FindAll(TreeScope.Descendants, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.List));
+            int count = child.Count;
+            //var data = APIManager.GetDataTable(child);
 
 
         }

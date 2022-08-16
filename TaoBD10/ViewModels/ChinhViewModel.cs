@@ -844,7 +844,6 @@ namespace TaoBD10.ViewModels
             if (splitString[1] == "593200" && splitString[3] == soCTCurrent)
             {
                 WindowInfo currentWindow = APIManager.GetActiveWindowTitle();
-                var controls = APIManager.GetListControlText(currentWindow.hwnd);
                 APIManager.ClickButton(currentWindow.hwnd, "f10", isExactly: false);
 
                 currentWindow = APIManager.WaitingFindedWindow("xem chuyen thu chieu den");
@@ -861,33 +860,8 @@ namespace TaoBD10.ViewModels
 
                 APIManager.ClickButton(currentWindow.hwnd, "Đối kiểm");
                 Thread.Sleep(50);
+                WeakReferenceMessenger.Default.Send(new ContentModel { Key = "XacNhanChiTiet", Content = "True" });
                 SendKeys.SendWait("{ESC}");
-                currentWindow = APIManager.WaitingFindedWindow("xem chuyen thu chieu den");
-                //	Túi số	KL (kg)	Loại túi	F	xác nhận
-                //False   1   11,8    Ði ngoài(BK)    True Cleared
-                SendKeys.SendWait("{F5}");
-                SendKeys.SendWait("{F5}");
-                Thread.Sleep(200);
-                SendKeys.SendWait("^(a)");
-                int countTemp = 10;
-                while (countTemp > 0)
-                {
-                    countTemp--;
-                    Thread.Sleep(100);
-                    copyedData = APIManager.GetCopyData();
-                    if (string.IsNullOrEmpty(copyedData))
-                        return;
-                    if (copyedData.IndexOf("Selected") != -1)
-                        break ;
-                }
-                if (copyedData.IndexOf("Selected") == -1)
-                    return;
-                Thread.Sleep(50);
-
-                APIManager.ClickButton(currentWindow.hwnd, "xac nhan chuyen thu", isExactly: false);
-                currentWindow = APIManager.WaitingFindedWindow("xac nhan");
-                APIManager.ClickButton(currentWindow.hwnd, "yes", isExactly: false);
-                //Xong
             }
         }
         public ICommand ChuyenThu14Command { get; }

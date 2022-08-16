@@ -1869,6 +1869,7 @@ namespace TaoBD10.ViewModels
         private void ClearDiNgoai()
         {
             DiNgoais.Clear();
+
         }
 
         private List<string> GetListBuuCucFromTinh(string maTinh)

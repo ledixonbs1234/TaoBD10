@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
@@ -71,66 +72,80 @@ namespace TaoBD10.ViewModels
 
         private void BackgroundWorkerXacNhan_DoWork(object sender, DoWorkEventArgs e)
         {
-            WindowInfo window = APIManager.WaitingFindedWindow("quan ly chuyen thu");
-            if (window == null)
+            try
             {
-                APIManager.ShowSnackbar("Không tìm thấy quản lý chuyến thư");
-                return;
-            }
-
-            List<TestAPIModel> controls = APIManager.GetListControlText(window.hwnd);
-            if (controls.Count == 0)
-            {
-                APIManager.ShowSnackbar("Window lỗi");
-                return;
-            }
-            List<TestAPIModel> listCombobox = controls.Where(m => m.ClassName.ToLower().IndexOf("combobox") != -1).ToList();
-            IntPtr comboHandle = listCombobox[3].Handle;
-
-            APIManager.SendMessage(comboHandle, 0x0007, 0, 0);
-            APIManager.SendMessage(comboHandle, 0x0007, 0, 0);
-            ChuyenThuDen(controls);
-            Thread.Sleep(200);
-            SendKeys.SendWait("{ENTER}");
-
-            window = APIManager.WaitingFindedWindow("canh bao", "thong bao");
-            if (window == null)
-            {
-                APIManager.ShowSnackbar("Không tìm thấy cảnh báo");
-                return;
-            }
-
-            SendKeys.SendWait("{ENTER}");
-            Thread.Sleep(500);
-            SendKeys.SendWait("{F5}");
-            Thread.Sleep(500);
-            SendKeys.SendWait("{F6}");
-            Thread.Sleep(500);
-            SendKeys.SendWait("{UP}");
-            SendKeys.SendWait("{UP}");
-            SendKeys.SendWait("{UP}");
-            SendKeys.SendWait("{UP}");
-
-            string dataCopyed = APIManager.GetCopyData();
-            if (string.IsNullOrEmpty(dataCopyed))
-                return;
-            List<string> listTemp = dataCopyed.Split('\n').ToList();
-            if (listTemp[0].IndexOf("STT") != -1)
-            {
-                listTemp.RemoveAt(0);
-            }
-
-            string[] datas = listTemp[0].Split('\t');
-            if (datas[3].Trim() == _XacNhanInfo.SoCT.Trim() && datas[1].Trim() == _XacNhanInfo.MaBCDong.Trim())
-            {
-                SendKeys.SendWait("{F10}");
-                WindowInfo windows = APIManager.WaitingFindedWindow("xem chuyen thu chieu den");
-                if (windows == null)
+                WindowInfo window = APIManager.WaitingFindedWindow("quan ly chuyen thu");
+                if (window == null)
+                {
+                    APIManager.ShowSnackbar("Không tìm thấy quản lý chuyến thư");
                     return;
-                SendKeys.SendWait("A{BS}{BS}");
-                SendKeys.SendWait("{F4}");
-                WeakReferenceMessenger.Default.Send(new ContentModel { Key = "XacNhanChiTiet", Content = "True" });
+                }
+
+                List<TestAPIModel> controls = APIManager.GetListControlText(window.hwnd);
+                if (controls.Count == 0)
+                {
+                    APIManager.ShowSnackbar("Window lỗi");
+                    return;
+                }
+                List<TestAPIModel> listCombobox = controls.Where(m => m.ClassName.ToLower().IndexOf("combobox") != -1).ToList();
+                IntPtr comboHandle = listCombobox[3].Handle;
+
+                APIManager.SendMessage(comboHandle, 0x0007, 0, 0);
+                APIManager.SendMessage(comboHandle, 0x0007, 0, 0);
+                ChuyenThuDen(controls);
+                Thread.Sleep(200);
+                SendKeys.SendWait("{ENTER}");
+
+                window = APIManager.WaitingFindedWindow("canh bao", "thong bao");
+                if (window == null)
+                {
+                    APIManager.ShowSnackbar("Không tìm thấy cảnh báo");
+                    return;
+                }
+
+                SendKeys.SendWait("{ENTER}");
+                Thread.Sleep(500);
+                SendKeys.SendWait("{F5}");
+                Thread.Sleep(500);
+                SendKeys.SendWait("{F6}");
+                Thread.Sleep(500);
+                SendKeys.SendWait("{UP}");
+                SendKeys.SendWait("{UP}");
+                SendKeys.SendWait("{UP}");
+                SendKeys.SendWait("{UP}");
+
+                string dataCopyed = APIManager.GetCopyData();
+                if (string.IsNullOrEmpty(dataCopyed))
+                    return;
+                List<string> listTemp = dataCopyed.Split('\n').ToList();
+                if (listTemp[0].IndexOf("STT") != -1)
+                {
+                    listTemp.RemoveAt(0);
+                }
+
+                string[] datas = listTemp[0].Split('\t');
+                if (datas[3].Trim() == _XacNhanInfo.SoCT.Trim() && datas[1].Trim() == _XacNhanInfo.MaBCDong.Trim())
+                {
+                    SendKeys.SendWait("{F10}");
+                    WindowInfo windows = APIManager.WaitingFindedWindow("xem chuyen thu chieu den");
+                    if (windows == null)
+                        return;
+                    SendKeys.SendWait("A{BS}{BS}");
+                    SendKeys.SendWait("{F4}");
+                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "XacNhanChiTiet", Content = "True" });
+                }
             }
+            catch (Exception ex)
+            {
+                var st = new StackTrace(ex, true);
+                // Get the top stack frame
+                var frame = st.GetFrame(0);
+                // Get the line number from the stack frame
+                var line = frame.GetFileLineNumber();
+                APIManager.OpenNotePad(ex.Message + '\n' + "XNMaHieu " + line + " Number Line " + APIManager.GetLineNumber(ex), "loi ");
+                throw;
+            }
+
         }
 
         private void ChuyenThuDen(List<TestAPIModel> controls)

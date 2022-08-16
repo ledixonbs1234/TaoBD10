@@ -57,7 +57,7 @@
 
                 <TextBox
                     x:Name="Box"
-                    Width="120"
+                    Width="100"
                     Margin="5"
                     AcceptsReturn="True"
                     Focusable="True"

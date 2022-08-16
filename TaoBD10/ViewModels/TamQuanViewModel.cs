@@ -96,11 +96,15 @@ namespace TaoBD10.ViewModels
                 if (string.IsNullOrEmpty(item))
                     continue;
                 string textChanged = item.Trim().ToUpper();
-                if (textChanged.Length != 13)
+                if (textChanged.Length == 13||textChanged.Length==29)
+                {
+                    TamQuans.Add(new TamQuanModel(TamQuans.Count + 1, item));
+                }
+                else
                 {
                     continue;
                 }
-                TamQuans.Add(new TamQuanModel(TamQuans.Count + 1, item));
+                
             }
         }
 

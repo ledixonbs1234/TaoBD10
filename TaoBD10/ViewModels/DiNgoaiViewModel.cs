@@ -424,20 +424,43 @@ namespace TaoBD10.ViewModels
                     SendKeys.SendWait("{F5}");
 
                     SendKeys.SendWait("^{RIGHT}");
+                    Thread.Sleep(50);
                     SendKeys.SendWait("{LEFT}");
+                    Thread.Sleep(50);
                     SendKeys.SendWait(" ");
                     Thread.Sleep(50);
 
                     string copedText = APIManager.GetCopyData();
+                    string clipboard1 = "";
+                    bool isCheckTui = false;
+                    for (int i = 0; i < 3; i++)
+                    {
+                        //Kiem tra Da dong tui chua
 
+                        clipboard1 = APIManager.GetCopyData();
+
+                        if (string.IsNullOrEmpty(clipboard1))
+                        {
+                            APIManager.ShowSnackbar("Khong copy duoc");
+                            return;
+                        }
+
+                        if (clipboard1.IndexOf("True") != -1)
+                        {
+                            isCheckTui = true;
+                            break;
+                        }
+                        SendKeys.SendWait(" ");
+                        Thread.Sleep(500);
+                    }
                     SendKeys.SendWait("{F6}");
                     SendKeys.SendWait("{F6}");
                     Thread.Sleep(200);
                     SendKeys.SendWait(SelectedSimple.Code);
                     SendKeys.SendWait("{ENTER}");
                     Thread.Sleep(200);
-                    string clipboard1 = "";
-                    bool isCheckTui = false;
+                     clipboard1 = "";
+                    isCheckTui = false;
                     for (int i = 0; i < 3; i++)
                     {
                         SendKeys.SendWait("{F5}");

@@ -594,6 +594,7 @@ namespace TaoBD10.ViewModels
                     break;
                 }
                 SendKeys.SendWait("{DOWN}");
+                Thread.Sleep(50);
             }
 
             currentWindow = APIManager.GetActiveWindowTitle();

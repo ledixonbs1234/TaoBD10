@@ -689,7 +689,7 @@ namespace TaoBD10.ViewModels
                 {
                     return;
                 }
-                Thread.Sleep(500);
+                Thread.Sleep(2000);
                 SendKeys.SendWait("{F3}");
             }
         }

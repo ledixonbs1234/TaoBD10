@@ -1138,24 +1138,20 @@ namespace TaoBD10.ViewModels
         }
         private void PrintDiNgoai()
         {
-            WindowInfo xemWindow = APIManager.WaitingFindedWindow("xem chuyen thu chieu den");
-            SendKeys.SendWait("{F9}");
-            
             WindowInfo info = APIManager.WaitingFindedWindow("thong tin buu gui");
             if (info == null)
                 return;
-            Thread.Sleep(300);
+
             APIManager.SetPrintBD10();
             List<TestAPIModel> listControl = APIManager.GetListControlText(info.hwnd);
             List<TestAPIModel> listWindowForm = listControl.Where(m => m.ClassName.IndexOf("10.Window.8.ap") != -1).ToList();
 
             //thuc hien kiem tra ma trong nay
+            SendKeys.SendWait("^(a)");
+
             SendKeys.SendWait("+{TAB}");
-            Thread.Sleep(50);
             SendKeys.SendWait("+{TAB}");
-            Thread.Sleep(50);
             SendKeys.SendWait("+{TAB}");
-            Thread.Sleep(50);
             SendKeys.SendWait("^(a)");
             Thread.Sleep(50);
             SendKeys.SendWait("^(c)");

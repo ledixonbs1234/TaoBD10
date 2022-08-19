@@ -137,7 +137,7 @@ namespace TaoBD10.ViewModels
             });
 
 
-
+           
 
             WeakReferenceMessenger.Default.Register<WebContentModel>(this, (r, m) =>
             {
@@ -797,21 +797,17 @@ namespace TaoBD10.ViewModels
 
         public ICommand TestCommand { get; }
 
-        private void Test()
+        void Test()
         {
-            WindowInfo window = APIManager.WaitingFindedWindow("thong tin buu gui");
+            WindowInfo window = APIManager.WaitingFindedWindow("xac nhan bd10 den");
             AutomationElement element = AutomationElement.FromHandle(window.hwnd);
             var child = element.FindAll(TreeScope.Descendants, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Table));
-            string a = "";
-            //foreach (AutomationElement item in child)
-            //{
-            //    a += item.Current.Name + "    ";
-            //}
-            //APIManager.OpenNotePad(a);
-            AutomationElementCollection count = child[3].FindAll(TreeScope.Children, Condition.TrueCondition);
-            AutomationElement row1Header = child[2].FindFirst(TreeScope.Descendants, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.DataItem));
-
-            ((InvokePattern)row1Header.GetCurrentPattern(InvokePattern.Pattern)).Invoke();
+            AutomationElementCollection count = child[0].FindAll(TreeScope.Children,Condition.TrueCondition);
+            List<string> texts = new List<string>();
+            foreach (AutomationElement item in count)
+            {
+                texts.Add(item.Current.Name);
+            }
             //var data = APIManager.GetDataTable(child);
 
 
@@ -1270,7 +1266,7 @@ namespace TaoBD10.ViewModels
                                         SendKeys.SendWait("{ESC}");
                                         Thread.Sleep(100);
                                         SendKeys.SendWait("{ENTER}");
-                                    }
+                                   }
                                 }
                             }
                         }
@@ -1618,10 +1614,9 @@ namespace TaoBD10.ViewModels
                         {
                             WeakReferenceMessenger.Default.Send(new ContentModel { Key = "GuiTrucTiep", Content = "PrintDiNgoai" });
                         }
-                        else if (currentWindow.text.IndexOf("xem chuyen thu chieu den") != -1)
+                        else if (currentWindow.text.IndexOf("thong tin buu gui") != -1)
                         {
-                            if (!_IsXacNhanChiTieting)
-                                WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Navigation", Content = "PrintDiNgoai" });
+                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Navigation", Content = "PrintDiNgoai" });
                         }
                         else if (currentWindow.text.IndexOf("xac nhan chi tiet tui thu") != -1)
                         {
@@ -1639,21 +1634,6 @@ namespace TaoBD10.ViewModels
                         else if (currentWindow.text.IndexOf("dong chuyen thu") != -1)
                         {
                             WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "Print" });
-                        }
-                        else if (currentWindow.text.IndexOf("xem chuyen thu chieu den") != -1)
-                        {
-                            //thuc hien lay dia chi hang hoa
-                            SendKeys.SendWait("{F6}");
-                            Thread.Sleep(50);
-                            SendKeys.SendWait("{Tab}");
-                            Thread.Sleep(50);
-                            SendKeys.SendWait("{Tab}");
-                            var copyed = APIManager.GetCopyData();
-                            if (string.IsNullOrEmpty(copyed))
-                                return;
-                            string[] d = copyed.Split('\t');
-                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "XacNhanMHCTDen", Content = d[10] });
-
                         }
                         break;
 
@@ -1831,7 +1811,7 @@ namespace TaoBD10.ViewModels
                         }
                         else
                         {
-
+                           
                         }
                         KeyData = "";
                         break;
@@ -1861,8 +1841,8 @@ namespace TaoBD10.ViewModels
                         }
                         else if (activeWindows.text.IndexOf("quan ly chuyen thu chieu di") != -1)
                         {
-                            if (!printTrangCuoi.IsBusy)
-                                printTrangCuoi.RunWorkerAsync();
+                            if(!printTrangCuoi.IsBusy)
+                            printTrangCuoi.RunWorkerAsync();
                         }
                         break;
 

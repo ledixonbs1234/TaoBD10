@@ -721,6 +721,7 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                                 WeakReferenceMessenger.Default.Send(new KiemTraMessage(kiemTra));
                             }
                         }
+                        _LoadWebChoose = LoadWebChoose.None;
                     }
                     else if (diachi.IndexOf("bccp.vnpost.vn/bccp.aspx?act=multitrace") != -1)
                     {

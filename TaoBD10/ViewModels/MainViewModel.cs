@@ -1004,37 +1004,31 @@ namespace TaoBD10.ViewModels
                             //False   1   2,2 Ði ngoài(EMS)   False Selected
                             int countTemp = 10;
                             string copyedData = "";
-                            APIManager.ShowSnackbar("1");
                             while (countTemp > 0)
                             {
                                 countTemp--;
                                 Thread.Sleep(100);
                                 copyedData = APIManager.GetCopyData();
                                 if (string.IsNullOrEmpty(copyedData))
-                                    return;
+                                    continue;
                                 if (copyedData.IndexOf("Selected") != -1)
                                     break;
                             }
-
-                            APIManager.ShowSnackbar("2");
+                            if (string.IsNullOrEmpty(copyedData))
+                                continue;
                             if (copyedData.IndexOf("Selected") == -1)
-                                return;
+                                continue;
                             Thread.Sleep(100);
 
-                            APIManager.ShowSnackbar("3");
 
                             var currentWindow = APIManager.WaitingFindedWindow("xem chuyen thu chieu den");
 
-                            APIManager.ShowSnackbar("4");
                             APIManager.ClickButton(currentWindow.hwnd, "xac nhan chuyen thu", isExactly: false);
 
-                            APIManager.ShowSnackbar("5");
                             currentWindow = APIManager.WaitingFindedWindow("xac nhan");
 
-                            APIManager.ShowSnackbar("6");
                             APIManager.ClickButton(currentWindow.hwnd, "yes", isExactly: false);
 
-                            APIManager.ShowSnackbar("7");
                         }
                         else
                         {

@@ -137,7 +137,7 @@ namespace TaoBD10.ViewModels
             });
 
 
-           
+
 
             WeakReferenceMessenger.Default.Register<WebContentModel>(this, (r, m) =>
             {
@@ -802,7 +802,7 @@ namespace TaoBD10.ViewModels
             WindowInfo window = APIManager.WaitingFindedWindow("xac nhan bd10 den");
             AutomationElement element = AutomationElement.FromHandle(window.hwnd);
             var child = element.FindAll(TreeScope.Descendants, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Table));
-            AutomationElementCollection count = child[0].FindAll(TreeScope.Children,Condition.TrueCondition);
+            AutomationElementCollection count = child[0].FindAll(TreeScope.Children, Condition.TrueCondition);
             List<string> texts = new List<string>();
             foreach (AutomationElement item in count)
             {
@@ -1004,6 +1004,7 @@ namespace TaoBD10.ViewModels
                             //False   1   2,2 Ði ngoài(EMS)   False Selected
                             int countTemp = 10;
                             string copyedData = "";
+                            APIManager.ShowSnackbar("1");
                             while (countTemp > 0)
                             {
                                 countTemp--;
@@ -1014,14 +1015,26 @@ namespace TaoBD10.ViewModels
                                 if (copyedData.IndexOf("Selected") != -1)
                                     break;
                             }
+
+                            APIManager.ShowSnackbar("2");
                             if (copyedData.IndexOf("Selected") == -1)
                                 return;
                             Thread.Sleep(100);
 
+                            APIManager.ShowSnackbar("3");
+
                             var currentWindow = APIManager.WaitingFindedWindow("xem chuyen thu chieu den");
+
+                            APIManager.ShowSnackbar("4");
                             APIManager.ClickButton(currentWindow.hwnd, "xac nhan chuyen thu", isExactly: false);
+
+                            APIManager.ShowSnackbar("5");
                             currentWindow = APIManager.WaitingFindedWindow("xac nhan");
+
+                            APIManager.ShowSnackbar("6");
                             APIManager.ClickButton(currentWindow.hwnd, "yes", isExactly: false);
+
+                            APIManager.ShowSnackbar("7");
                         }
                         else
                         {
@@ -1266,7 +1279,7 @@ namespace TaoBD10.ViewModels
                                         SendKeys.SendWait("{ESC}");
                                         Thread.Sleep(100);
                                         SendKeys.SendWait("{ENTER}");
-                                   }
+                                    }
                                 }
                             }
                         }
@@ -1811,7 +1824,7 @@ namespace TaoBD10.ViewModels
                         }
                         else
                         {
-                           
+
                         }
                         KeyData = "";
                         break;
@@ -1841,8 +1854,8 @@ namespace TaoBD10.ViewModels
                         }
                         else if (activeWindows.text.IndexOf("quan ly chuyen thu chieu di") != -1)
                         {
-                            if(!printTrangCuoi.IsBusy)
-                            printTrangCuoi.RunWorkerAsync();
+                            if (!printTrangCuoi.IsBusy)
+                                printTrangCuoi.RunWorkerAsync();
                         }
                         break;
 

@@ -91,26 +91,45 @@ namespace TaoBD10.Manager
         //private static int WM_LBUTTONUP = 0x0202;
         public static void ClickButton(IntPtr window, string name, bool isExactly = true)
         {
-            List<TestAPIModel> controls = APIManager.GetListControlText(window);
-            foreach (TestAPIModel control in controls)
+            try
             {
-                if (isExactly)
+                if (window == IntPtr.Zero)
+                    return;
+
+                List<TestAPIModel> controls = GetListControlText(window);
+                if (controls.Count == 0)
+                    return;
+                foreach (TestAPIModel control in controls)
                 {
-                    if (control.Text == name)
+                    if (isExactly)
                     {
-                        ClickButton(control.Handle);
-                        break;
+                        if (control.Text == name)
+                        {
+                            ClickButton(control.Handle);
+                            break;
+                        }
                     }
-                }
-                else
-                {
-                    if (BoDauAndToLower(control.Text).IndexOf(name) != -1)
+                    else
                     {
-                        ClickButton(control.Handle);
-                        break;
+                        if (BoDauAndToLower(control.Text).IndexOf(name) != -1)
+                        {
+                            ClickButton(control.Handle);
+                            break;
+                        }
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                var st = new StackTrace(ex, true);
+                // Get the top stack frame
+                var frame = st.GetFrame(0);
+                // Get the line number from the stack frame
+                var line = frame.GetFileLineNumber();
+                APIManager.OpenNotePad(ex.Message + '\n' + "APIManager " + line + " Number Line " + APIManager.GetLineNumber(ex), "loi ");
+                throw;
+            }
+            
         }
 
         public static void ClickButton(IntPtr mainHandle, IntPtr buttonHandle)
@@ -264,8 +283,11 @@ namespace TaoBD10.Manager
             try
             {
                 var allChild = GetAllChildHandles(handleActiveWindow);
+                
 
                 List<TestAPIModel> list = new List<TestAPIModel>();
+                if (allChild.Count == 0)
+                    return list;
                 int count = 0;
                 foreach (var item in allChild)
                 {

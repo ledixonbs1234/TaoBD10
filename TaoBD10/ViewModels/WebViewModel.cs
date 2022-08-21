@@ -541,6 +541,9 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                                 return;
                             }
                             string barcodeWeb = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblBarcode']").InnerText;
+                            if (barcodeWeb.Length < 13)
+                                return;
+
 
                             barcodeWeb = barcodeWeb.Substring(0, 13).ToUpper();
                             if (string.IsNullOrEmpty(barcodeWeb))

@@ -192,10 +192,10 @@ namespace TaoBD10.ViewModels
             {
                 return;
             }
-            Model.TestAPIModel combobox = childControl.FindAll(m => m.ClassName == classDefault)[1];
-            Model.TestAPIModel editControl = childControl.FindAll(m => m.ClassName == classEditDefault)[1];
-            Model.TestAPIModel buttonFindControl = childControl.FindAll(m => m.ClassName == classButtonDefault)[5];
-            Model.TestAPIModel buttonGetControl = childControl.FindAll(m => m.ClassName == classButtonDefault)[4];
+            TestAPIModel combobox = childControl.FindAll(m => m.ClassName == classDefault)[1];
+            TestAPIModel editControl = childControl.FindAll(m => m.ClassName == classEditDefault)[1];
+            TestAPIModel buttonFindControl = childControl.FindAll(m => m.ClassName == classButtonDefault)[5];
+            TestAPIModel buttonGetControl = childControl.FindAll(m => m.ClassName == classButtonDefault)[4];
             //const int CB_SETCURSEL = 0x014E;
             //APIManager.SendMessage(combobox.Handle, CB_SETCURSEL, indexBuuCuc, 0);
             APIManager.SendMessage(combobox.Handle, 0x0007, 0, 0);

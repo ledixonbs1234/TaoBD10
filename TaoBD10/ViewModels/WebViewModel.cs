@@ -33,7 +33,8 @@ namespace TaoBD10.ViewModels
         public bool IsExpanded
         {
             get { return _IsExpanded; }
-            set { 
+            set
+            {
                 SetProperty(ref _IsExpanded, value);
                 if (_IsExpanded == false)
                 {
@@ -57,7 +58,7 @@ namespace TaoBD10.ViewModels
             WeakReferenceMessenger.Default.Send(new ContentModel() { Key = "Window", Content = "Full" });
         }
 
-      
+
         public ICommand MinCommand { get; }
 
         void Min()
@@ -537,12 +538,15 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                             var check = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblBarcode']");
                             if (check == null)
                             {
-                                APIManager.ShowSnackbar("Lỗi Web");
+                                APIManager.ShowSnackbar("Không có mã hiệu web");
                                 return;
                             }
                             string barcodeWeb = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblBarcode']").InnerText;
                             if (barcodeWeb.Length < 13)
+                            {
+                                APIManager.ShowSnackbar("Ma hiệu nhỏ hơn 13");
                                 return;
+                            }
 
 
                             barcodeWeb = barcodeWeb.Substring(0, 13).ToUpper();
@@ -637,7 +641,7 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                                 WeakReferenceMessenger.Default.Send<SHTuiMessage>(new SHTuiMessage(new SHTuiCodeModel { Key = "ReturnSHTui", Code = giatri, SHTui = barcodeWeb }));
                             }
                         }
-                        else if (_LoadWebChoose == LoadWebChoose.KiemTraWeb || _LoadWebChoose == LoadWebChoose.XacNhanMH ||_LoadWebChoose == LoadWebChoose.XacNhanMHCTDen)
+                        else if (_LoadWebChoose == LoadWebChoose.KiemTraWeb || _LoadWebChoose == LoadWebChoose.XacNhanMH || _LoadWebChoose == LoadWebChoose.XacNhanMHCTDen)
                         {
                             KiemTraModel kiemTra = new KiemTraModel();
 
@@ -724,7 +728,7 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                                 WeakReferenceMessenger.Default.Send(new KiemTraMessage(kiemTra));
                             }
                         }
-                        _LoadWebChoose = LoadWebChoose.None;
+                        //_LoadWebChoose = LoadWebChoose.None;
                     }
                     else if (diachi.IndexOf("bccp.vnpost.vn/bccp.aspx?act=multitrace") != -1)
                     {

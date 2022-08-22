@@ -25,6 +25,9 @@
         <Behaviors:EventTrigger EventName="Closing">
             <Behaviors:InvokeCommandAction Command="{Binding OnCloseWindowCommand}" />
         </Behaviors:EventTrigger>
+        <Behaviors:EventTrigger EventName="Deactivated">
+            <Behaviors:InvokeCommandAction Command="{Binding DeactivatedWindowCommand}" />
+        </Behaviors:EventTrigger>
     </Behaviors:Interaction.Triggers>
     <Grid>
         <Grid.RowDefinitions>

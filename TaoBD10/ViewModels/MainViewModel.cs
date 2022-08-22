@@ -35,7 +35,6 @@ namespace TaoBD10.ViewModels
         private bool _IsXacNhanChiTieting = false;
 
         int lastNumberSuaBD = 0;
-        string lastMHInXemCT = "";
 
         public bool IsTopMost
         {
@@ -60,6 +59,15 @@ namespace TaoBD10.ViewModels
         BackgroundWorker bwprintMaVach;
         List<FindItemModel> listFindItem;
         DispatcherTimer timer;
+        private bool _IsActivatedWindow =true;
+
+        public bool IsActivatedWindow
+        {
+            get { return _IsActivatedWindow; }
+            set { SetProperty(ref _IsActivatedWindow, value); }
+        }
+
+
 
         public MainViewModel()
         {
@@ -70,6 +78,7 @@ namespace TaoBD10.ViewModels
             bwprintMaVach.WorkerSupportsCancellation = true;
             bwprintMaVach.DoWork += BwprintMaVach_DoWork;
             printTrangCuoi = new BackgroundWorker();
+            DeactivatedWindowCommand = new RelayCommand(DeactivatedWindow);
             printTrangCuoi.WorkerSupportsCancellation = true;
             printTrangCuoi.DoWork += PrintTrangCuoi_DoWork;
             LoadPageCommand = new RelayCommand<Window>(LoadPage);
@@ -540,6 +549,19 @@ namespace TaoBD10.ViewModels
                 }
             }
         }
+
+
+        public ICommand DeactivatedWindowCommand { get; }
+
+        void DeactivatedWindow()
+        {
+            IsActivatedWindow = false;
+            if(IndexTabTui == 0 || IndexTabTui ==2 || IndexTabTui == 1|| IndexTabTui == 4|| IndexTabTui == 5|| IndexTabTui == 9|| IndexTabTui == 10)
+            {
+                SmallerWindow();
+            }
+        }
+
 
         private bool isRunnedPrintBD = false;
 

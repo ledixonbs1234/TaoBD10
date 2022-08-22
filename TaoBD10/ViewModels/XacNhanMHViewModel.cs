@@ -192,6 +192,8 @@ namespace TaoBD10.ViewModels
         private void GoToCT()
         {
             _XacNhanInfo = new XacNhanInfoModel();
+            if (XacNhanMH == null)
+                return;
             //quy trinh thuc hien
             //kiem tra thu buu cuc nhan co 280 hay 230 ko
             // neu co thi chay vao 1 trong n2 cai do

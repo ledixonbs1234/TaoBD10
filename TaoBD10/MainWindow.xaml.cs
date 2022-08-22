@@ -83,5 +83,10 @@ namespace TaoBD10
         {
             this.WindowState = WindowState.Minimized;
         }
+
+        private void TabTui_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+
+        }
     }
 }

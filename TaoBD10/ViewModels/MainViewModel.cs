@@ -22,6 +22,7 @@ using TaoBD10.Model;
 using TaoBD10.Views;
 using static TaoBD10.Manager.EnumAll;
 using Condition = System.Windows.Automation.Condition;
+using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace TaoBD10.ViewModels
 {
@@ -59,7 +60,7 @@ namespace TaoBD10.ViewModels
         BackgroundWorker bwprintMaVach;
         List<FindItemModel> listFindItem;
         DispatcherTimer timer;
-        private bool _IsActivatedWindow =true;
+        private bool _IsActivatedWindow = true;
 
         public bool IsActivatedWindow
         {
@@ -88,6 +89,7 @@ namespace TaoBD10.ViewModels
             DefaultWindowCommand = new RelayCommand<System.Windows.Controls.TabControl>(DefaultWindow);
             ToggleWindowCommand = new RelayCommand(ToggleWindow);
             TestCommand = new RelayCommand(Test);
+            MouseEnterTabTuiCommand = new RelayCommand(MouseEnterTabTui);
             TabTuiChangedCommand = new RelayCommand<System.Windows.Controls.TabControl>(TabTuiChanged);
             CloseWindowCommand = new RelayCommand<Window>(CloseWindow);
             backgroundWorkerRead = new BackgroundWorker();
@@ -551,12 +553,25 @@ namespace TaoBD10.ViewModels
         }
 
 
+        public ICommand MouseEnterTabTuiCommand { get; }
+
+        void MouseEnterTabTui()
+        {
+            if (!IsActivatedWindow)
+            {
+                IsActivatedWindow = true;
+                SetDefaultWindowTui();
+            }
+        }
+
+
+
         public ICommand DeactivatedWindowCommand { get; }
 
         void DeactivatedWindow()
         {
             IsActivatedWindow = false;
-            if(IndexTabTui == 0  || IndexTabTui == 1|| IndexTabTui == 4|| IndexTabTui == 5|| IndexTabTui == 9|| IndexTabTui == 10)
+            if (IndexTabTui == 0 || IndexTabTui == 1 || IndexTabTui == 4 || IndexTabTui == 5 || IndexTabTui == 9 || IndexTabTui == 10)
             {
                 SmallerWindow();
             }

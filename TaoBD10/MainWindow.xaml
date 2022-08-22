@@ -80,7 +80,7 @@
                 TabStripPlacement="Left" >
                 <Behaviors:Interaction.Triggers>
                     <Behaviors:EventTrigger EventName="MouseEnter">
-                        <Behaviors:InvokeCommandAction Command="{Binding MouseEnterTabTuiCommand}" />
+                        <Behaviors:InvokeCommandAction Command="{Binding MouseEnterTabTuiCommand}" CommandParameter="{Binding ElementName=MainView}" />
                     </Behaviors:EventTrigger>
                 </Behaviors:Interaction.Triggers>
                 <TabItem Padding="0" Header="CHÍNH">

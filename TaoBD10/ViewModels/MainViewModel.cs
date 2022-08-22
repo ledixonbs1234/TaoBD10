@@ -89,7 +89,7 @@ namespace TaoBD10.ViewModels
             DefaultWindowCommand = new RelayCommand<System.Windows.Controls.TabControl>(DefaultWindow);
             ToggleWindowCommand = new RelayCommand(ToggleWindow);
             TestCommand = new RelayCommand(Test);
-            MouseEnterTabTuiCommand = new RelayCommand(MouseEnterTabTui);
+            MouseEnterTabTuiCommand = new RelayCommand<Window>(MouseEnterTabTui);
             TabTuiChangedCommand = new RelayCommand<System.Windows.Controls.TabControl>(TabTuiChanged);
             CloseWindowCommand = new RelayCommand<Window>(CloseWindow);
             backgroundWorkerRead = new BackgroundWorker();
@@ -555,12 +555,14 @@ namespace TaoBD10.ViewModels
 
         public ICommand MouseEnterTabTuiCommand { get; }
 
-        void MouseEnterTabTui()
+        void MouseEnterTabTui(Window window)
         {
             if (!IsActivatedWindow)
             {
                 IsActivatedWindow = true;
-                SetDefaultWindowTui();
+                OnSelectedTabTui();
+                window.Activate();
+                
             }
         }
 

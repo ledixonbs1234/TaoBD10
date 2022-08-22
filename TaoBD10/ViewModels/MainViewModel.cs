@@ -556,7 +556,7 @@ namespace TaoBD10.ViewModels
         void DeactivatedWindow()
         {
             IsActivatedWindow = false;
-            if(IndexTabTui == 0 || IndexTabTui ==2 || IndexTabTui == 1|| IndexTabTui == 4|| IndexTabTui == 5|| IndexTabTui == 9|| IndexTabTui == 10)
+            if(IndexTabTui == 0  || IndexTabTui == 1|| IndexTabTui == 4|| IndexTabTui == 5|| IndexTabTui == 9|| IndexTabTui == 10)
             {
                 SmallerWindow();
             }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Threading;
 using TaoBD10.Manager;
@@ -24,14 +25,18 @@ namespace TaoBD10
         private void Current_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             //e.Handled = true;
-            MessageBox.Show("An unhandled exception just occurred: " + e.Exception.Message, "Exception Sample", MessageBoxButton.OK, MessageBoxImage.Warning);
+            //var st = new StackTrace(e.Exception, true);
+            //var frame = st.GetFrame(0);
+            // Get the line number from the stack frame
+            //var line = frame.GetFileLineNumber();
+            MessageBox.Show("An unhandled exception just occurred: " + e.Exception.Message+ "Line: "+APIManager.GetLineNumber(e.Exception)+" Them:"+e.Exception.StackTrace, "Exception Sample", MessageBoxButton.OK, MessageBoxImage.Warning);
             e.Handled = true;
         }
 
         private void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             //e.Handled = true;
-            MessageBox.Show("An unhandled exception just occurred: " + e.Exception.Message, "Exception Sample", MessageBoxButton.OK, MessageBoxImage.Warning);
+            MessageBox.Show("An unhandled exception just occurred: " + e.Exception.Message + "Line: " + APIManager.GetLineNumber(e.Exception) + " Them:" + e.Exception.StackTrace, "Exception Sample", MessageBoxButton.OK, MessageBoxImage.Warning);
             e.Handled = true;
         }
 

@@ -269,7 +269,7 @@ namespace TaoBD10.ViewModels
                         }
                         if (!string.IsNullOrEmpty(deleteItem.BuuCucNhan))
                         {
-                            if (APIManager.ConvertToUnSign3(hangTon.BuuCucNhan.ToLower()).IndexOf(APIManager.ConvertToUnSign3(deleteItem.BuuCucNhan.ToLower())) != -1)
+                            if (APIManager.ConvertToUnSign3(hangTon.BuuCucNhan.ToLower()).IndexOf(APIManager.ConvertToUnSign3(deleteItem.BuuCucNhan.ToLower())) == -1)
                                 isCanDelete = true;
                             else
                             {

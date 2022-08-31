@@ -40,7 +40,7 @@ namespace TaoBD10.ViewModels
                 string[] splitTabTexts = item.Split('\t');
                 if (splitTabTexts.Length >= 7)
                 {
-                    if(MaBCP == splitTabTexts[3])
+                    if(MaBCP == splitTabTexts[4])
                     {
                         list.Add(splitTabTexts[1]);
                     }

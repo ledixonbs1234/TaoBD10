@@ -16,6 +16,56 @@ namespace TaoBD10.ViewModels
 {
     public class TamQuanViewModel : ObservableObject
     {
+        private string _MaBCP;
+
+        public string MaBCP
+        {
+            get { return _MaBCP; }
+            set { SetProperty(ref _MaBCP, value); }
+        }
+
+
+        public ICommand FillMaBCCommand { get; }
+
+        List<string> LocBCP(string TextFill)
+        {
+            List<string> list= new List<string>();
+            if (string.IsNullOrEmpty(TextFill))
+                return null;
+            string[] texts = TextFill.Split('\n');
+            //2	ED594304497VN	59	593200	590000	EU	2800	0		 
+            //3   RA596820153VN   59  593200  593330  R!  50  0
+            foreach (var item in texts)
+            {
+                string[] splitTabTexts = item.Split('\t');
+                if (splitTabTexts.Length >= 7)
+                {
+                    if(MaBCP == splitTabTexts[3])
+                    {
+                        list.Add(splitTabTexts[1]);
+                    }
+                }
+            }
+            return list;
+        }
+
+        void FillMaBC()
+        {
+            if (string.IsNullOrEmpty(_MaBCP))
+                return;
+
+            TamQuans.Clear();
+            List<string> list = LocBCP(TextFill);
+            for (int i = 0; i < list.Count; i++)
+            {
+                string item = list[i];
+                TamQuans.Add(new TamQuanModel(i + 1, list[i]));
+            }
+
+        }
+
+
+
         public TamQuanViewModel()
         {
             timer = new DispatcherTimer();
@@ -24,6 +74,7 @@ namespace TaoBD10.ViewModels
             TamQuans = new ObservableCollection<TamQuanModel>();
             SendCommand = new RelayCommand(Send);
             FillMaHieuCommand = new RelayCommand(FillMaHieu);
+            FillMaBCCommand = new RelayCommand(FillMaBC);
             SortCommand = new RelayCommand(Sort);
             Numbers = new ObservableCollection<int>();
             Numbers.Add(1);
@@ -56,7 +107,7 @@ namespace TaoBD10.ViewModels
         }
         public ICommand SortCommand { get; }
 
-        
+
 
         void Sort()
         {
@@ -96,7 +147,7 @@ namespace TaoBD10.ViewModels
                 if (string.IsNullOrEmpty(item))
                     continue;
                 string textChanged = item.Trim().ToUpper();
-                if (textChanged.Length == 13||textChanged.Length==29)
+                if (textChanged.Length == 13 || textChanged.Length == 29)
                 {
                     TamQuans.Add(new TamQuanModel(TamQuans.Count + 1, item));
                 }
@@ -104,7 +155,7 @@ namespace TaoBD10.ViewModels
                 {
                     continue;
                 }
-                
+
             }
         }
 
@@ -163,8 +214,8 @@ namespace TaoBD10.ViewModels
                 if (temp.Length == 2)
                 {
                     string code = temp[1].Split('\t')[1];
-                    bool isDoubleRight =double.TryParse( temp[1].Split('\t')[6],out double klTemp);
-                    
+                    bool isDoubleRight = double.TryParse(temp[1].Split('\t')[6], out double klTemp);
+
                     //xu ly du lieu trong nay
                     if (code.Length == 13)
                     {
@@ -183,13 +234,13 @@ namespace TaoBD10.ViewModels
                         }
                         if (isDoubleRight)
                         {
-                            TamQuans.Add(new TamQuanModel(TamQuans.Count + 1, code.ToUpper(),klTemp));
+                            TamQuans.Add(new TamQuanModel(TamQuans.Count + 1, code.ToUpper(), klTemp));
                         }
                         else
                         {
                             TamQuans.Add(new TamQuanModel(TamQuans.Count + 1, code.ToUpper()));
                         }
-                        
+
                         SoundManager.playSound(@"Number\" + TamQuans.Count.ToString() + ".wav");
                     }
                 }

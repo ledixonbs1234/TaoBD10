@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:design="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:local="clr-namespace:TaoBD10.Views"
+    xmlns:materialDesign ="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     DataContext="{StaticResource TamQuanVM}"
     mc:Ignorable="d">
@@ -24,7 +25,7 @@
             Margin="5"
             ItemsSource="{Binding Numbers}"
             SelectedItem="{Binding CurrentNumber}" />
-        <StackPanel Orientation="Horizontal"> 
+        <StackPanel Orientation="Horizontal">
             <Button
             Margin="10"
             Command="{Binding SortCommand}"
@@ -34,7 +35,7 @@
             Command="{Binding SendCommand}"
             Content="Send" />
         </StackPanel>
-      
+
         <design:Card Margin="5">
 
             <TextBox
@@ -43,5 +44,12 @@
                 Text="{Binding TextFill}" />
         </design:Card>
         <Button Command="{Binding FillMaHieuCommand}" Content="Lọc Mã Hiệu" />
+        <materialDesign:Card Margin="5,10">
+            <StackPanel>
+                <TextBox Text="{Binding MaBCP}" Margin="5"/>
+                <Button Command="{Binding FillMaBCCommand}" Content="Lọc Mã BC" />
+            </StackPanel>
+
+        </materialDesign:Card>
     </StackPanel>
 </UserControl>

@@ -1108,7 +1108,7 @@ namespace TaoBD10.ViewModels
                             apiNumber = listWindowStatic[10];
                         else
                         {
-                            if (listWindowStatic.Count == 4)
+                            if (listControl.Count == 4)
                             {
                                 APIManager.ClickButton(currentWindowRead.hwnd, "yes", isExactly: false);
                                 continue;

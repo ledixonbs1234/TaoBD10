@@ -419,6 +419,8 @@ namespace TaoBD10.ViewModels
                         return;
                     APIManager.setTextControl(controlSys.Handle, "01/09/2022");
                     APIManager.FocusHandle(controlSys.Handle);
+                    Thread.Sleep(100);
+                    APIManager.FocusHandle(controlSys.Handle);
 
 
                 }

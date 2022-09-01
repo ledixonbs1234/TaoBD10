@@ -73,7 +73,7 @@ namespace TaoBD10.Manager
                 OpenNotePad(ex.Message + '\n' + "APIManger " + line + " Number Line " + APIManager.GetLineNumber(ex), "loi ");
                 throw;
             }
-         
+
         }
 
         public static void ClickButton(IntPtr handle)
@@ -129,7 +129,7 @@ namespace TaoBD10.Manager
                 APIManager.OpenNotePad(ex.Message + '\n' + "APIManager " + line + " Number Line " + APIManager.GetLineNumber(ex), "loi ");
                 throw;
             }
-            
+
         }
 
         public static void ClickButton(IntPtr mainHandle, IntPtr buttonHandle)
@@ -240,15 +240,19 @@ namespace TaoBD10.Manager
         {
             string clipboard = "";
             Thread thread;
-            thread = new Thread(() => clipboard = System.Windows.Clipboard.GetText());
+            thread = new Thread(() => clipboard = System.Windows.Clipboard.GetText(System.Windows.TextDataFormat.Text));
             thread.SetApartmentState(ApartmentState.STA); //Set the thread to STA
             for (int i = 0; i < 10; i++)
             {
                 SendKeys.SendWait("^(c)");
                 Thread.Sleep(50);
+                if (!thread.IsAlive)
+                {
+                    thread.Start();
+                    thread.Join(); //Wait for the thread to end
+                }
+                Thread.Sleep(50);
 
-                thread.Start();
-                thread.Join(); //Wait for the thread to end
                 if (!string.IsNullOrEmpty(clipboard))
                 {
                     break;
@@ -283,7 +287,7 @@ namespace TaoBD10.Manager
             try
             {
                 var allChild = GetAllChildHandles(handleActiveWindow);
-                
+
 
                 List<TestAPIModel> list = new List<TestAPIModel>();
                 if (allChild.Count == 0)
@@ -627,7 +631,7 @@ namespace TaoBD10.Manager
         [DllImport("user32.dll", EntryPoint = "SetWindowText")]
         private static extern int SetWindowText(IntPtr hWnd, string text);
 
-        
+
 
         public delegate bool EnumWindowProc(IntPtr hwnd, IntPtr lParam);
 

@@ -124,6 +124,11 @@ namespace TaoBD10.ViewModels
                 }
 
                 string[] datas = listTemp[0].Split('\t');
+                if (datas.Length < 4)
+                {
+                    APIManager.ShowSnackbar("Không có dữ liệu CT");
+                    return;
+                }
                 if (datas[3].Trim() == _XacNhanInfo.SoCT.Trim() && datas[1].Trim() == _XacNhanInfo.MaBCDong.Trim())
                 {
                     SendKeys.SendWait("{F10}");

@@ -1107,7 +1107,16 @@ namespace TaoBD10.ViewModels
                         if (listWindowStatic.Count >= 11)
                             apiNumber = listWindowStatic[10];
                         else
-                            continue;
+                        {
+                            if (listWindowStatic.Count == 4)
+                            {
+                                APIManager.ClickButton(currentWindowRead.hwnd, "yes", isExactly: false);
+                                continue;
+                            }else
+                            {
+                                continue;
+                            }
+                        }
                         //TestText += apiNumber.Text + "\n";
                         int.TryParse(Regex.Match(apiNumber.Text, @"\d+").Value, out numberRead);
                         if (numberRead != lastNumberSuaBD)

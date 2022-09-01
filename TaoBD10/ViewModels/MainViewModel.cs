@@ -562,7 +562,7 @@ namespace TaoBD10.ViewModels
                 IsActivatedWindow = true;
                 OnSelectedTabTui();
                 window.Activate();
-                
+
             }
         }
 
@@ -1112,7 +1112,8 @@ namespace TaoBD10.ViewModels
                             {
                                 APIManager.ClickButton(currentWindowRead.hwnd, "yes", isExactly: false);
                                 continue;
-                            }else
+                            }
+                            else
                             {
                                 continue;
                             }
@@ -1124,6 +1125,20 @@ namespace TaoBD10.ViewModels
                             APIManager.currentNumberBD = numberRead;
                             lastNumberSuaBD = numberRead;
                         }
+                    }
+                    else if (currentWindowRead.text.IndexOf("danh sach bd10 di") != -1)
+                    {
+                        listControl = APIManager.GetListControlText(currentWindowRead.hwnd);
+                        if (listControl.Count == 4)
+                        {
+                            APIManager.ClickButton(currentWindowRead.hwnd, "yes", isExactly: false);
+                            continue;
+                        }
+                        else
+                        {
+                            continue;
+                        }
+
                     }
 
                     if (numberRead <= 300)
@@ -1338,7 +1353,7 @@ namespace TaoBD10.ViewModels
                 var frame = st.GetFrame(0);
                 // Get the line number from the stack frame
                 var line = frame.GetFileLineNumber();
-                APIManager.OpenNotePad(ex.Message + '\n' + "MainViewModel " + line + " Number Line " + APIManager.GetLineNumber(ex)+"Message+\n"+ex.StackTrace, "loi ");
+                APIManager.OpenNotePad(ex.Message + '\n' + "MainViewModel " + line + " Number Line " + APIManager.GetLineNumber(ex) + "Message+\n" + ex.StackTrace, "loi ");
                 throw;
             }
         }

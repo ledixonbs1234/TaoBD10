@@ -22,6 +22,8 @@ namespace TaoBD10.Manager
         [DllImport("User32.dll")]
         public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
 
+
+
         public const int SW_RESTORE = 9;
         public static int currentNumberBD = 0;
         public static void FocusHandle(IntPtr handle)
@@ -73,7 +75,7 @@ namespace TaoBD10.Manager
                 OpenNotePad(ex.Message + '\n' + "APIManger " + line + " Number Line " + APIManager.GetLineNumber(ex), "loi ");
                 throw;
             }
-         
+
         }
 
         public static void ClickButton(IntPtr handle)
@@ -129,7 +131,7 @@ namespace TaoBD10.Manager
                 APIManager.OpenNotePad(ex.Message + '\n' + "APIManager " + line + " Number Line " + APIManager.GetLineNumber(ex), "loi ");
                 throw;
             }
-            
+
         }
 
         public static void ClickButton(IntPtr mainHandle, IntPtr buttonHandle)
@@ -246,8 +248,10 @@ namespace TaoBD10.Manager
             {
                 SendKeys.SendWait("^(c)");
                 Thread.Sleep(50);
+                //if (!thread.IsAlive)
+                    thread.Start();
+                //else
 
-                thread.Start();
                 thread.Join(); //Wait for the thread to end
                 if (!string.IsNullOrEmpty(clipboard))
                 {
@@ -283,7 +287,7 @@ namespace TaoBD10.Manager
             try
             {
                 var allChild = GetAllChildHandles(handleActiveWindow);
-                
+
 
                 List<TestAPIModel> list = new List<TestAPIModel>();
                 if (allChild.Count == 0)
@@ -627,7 +631,7 @@ namespace TaoBD10.Manager
         [DllImport("user32.dll", EntryPoint = "SetWindowText")]
         private static extern int SetWindowText(IntPtr hWnd, string text);
 
-        
+
 
         public delegate bool EnumWindowProc(IntPtr hwnd, IntPtr lParam);
 

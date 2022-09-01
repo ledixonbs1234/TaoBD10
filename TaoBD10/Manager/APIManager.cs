@@ -22,6 +22,8 @@ namespace TaoBD10.Manager
         [DllImport("User32.dll")]
         public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
 
+
+
         public const int SW_RESTORE = 9;
         public static int currentNumberBD = 0;
         public static void FocusHandle(IntPtr handle)

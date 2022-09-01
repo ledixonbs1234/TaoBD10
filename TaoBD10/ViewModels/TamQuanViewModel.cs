@@ -37,7 +37,7 @@ namespace TaoBD10.ViewModels
             //3   RA596820153VN   59  593200  593330  R!  50  0
             foreach (var item in texts)
             {
-                string[] splitTabTexts = item.Split('\t');
+                string[] splitTabTexts = item.Split(' ');
                 if (splitTabTexts.Length >= 7)
                 {
                     if(MaBCP == splitTabTexts[4])

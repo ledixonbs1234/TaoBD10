@@ -1142,7 +1142,8 @@ namespace TaoBD10.ViewModels
                 default:
                     break;
             }
-            bwChiTiet.RunWorkerAsync();
+            if (!bwChiTiet.IsBusy)
+                bwChiTiet.RunWorkerAsync();
         }
 
         private void ShowNameTinh(PhanLoaiTinh phanLoaiTinh)

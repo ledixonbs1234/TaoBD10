@@ -559,9 +559,16 @@ namespace TaoBD10.ViewModels
         {
             if (!IsActivatedWindow)
             {
-                IsActivatedWindow = true;
-                OnSelectedTabTui();
-                window.Activate();
+                if (IndexTabControl != 3)
+                {
+                    IsActivatedWindow = true;
+                    OnSelectedTabTui();
+                    window.Activate();
+                }
+                else
+                {
+                    APIManager.ShowSnackbar("Lay CHuyen thu");
+                }
 
             }
         }

@@ -204,8 +204,16 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        [ObservableProperty]
+
         private bool _IsGroupCT = false;
+
+        public bool IsGroupCT
+        {
+            get { return _IsGroupCT; }
+            set { SetProperty(ref _IsGroupCT, value); }
+        }
+
+
 
 
         private void BwPrintDiNgoai_DoWork(object sender, DoWorkEventArgs e)

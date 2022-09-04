@@ -1,6 +1,6 @@
-﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.Input;
-using Microsoft.Toolkit.Mvvm.Messaging;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -204,13 +204,8 @@ namespace TaoBD10.ViewModels
             }
         }
 
+        [ObservableProperty]
         private bool _IsGroupCT = false;
-
-        public bool IsGroupCT
-        {
-            get { return _IsGroupCT; }
-            set { SetProperty(ref _IsGroupCT, value); }
-        }
 
 
         private void BwPrintDiNgoai_DoWork(object sender, DoWorkEventArgs e)
@@ -314,7 +309,7 @@ namespace TaoBD10.ViewModels
                 List<DiNgoaiItemModel> listDiNgoaiCungMaBC = new List<DiNgoaiItemModel>();
 
                 //chia lam 2 phan he trong nay
-                if (IsGroupCT)
+                if (_IsGroupCT)
                 {
                     //thuc hien trong nay
                     int iSelected = DiNgoais.IndexOf(SelectedSimple);
@@ -1886,6 +1881,7 @@ namespace TaoBD10.ViewModels
             return buucucs;
         }
 
+        [RelayCommand]
         private void MoRong()
         {
             WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Navigation", Content = "Center" });

@@ -135,12 +135,12 @@ namespace TaoBD10.ViewModels
                         //IsWaitingComplete = false;
                         //if (IsAutoGoCT)
                         //    GoToCTCommand.Execute(null);
-                        var activecurrentWindow = APIManager.GetActiveWindowTitle();
-                        if (activecurrentWindow.text.IndexOf("xem chuyen thu chieu den") != -1)
+                        WindowInfo XemCTChieuDenWindow = APIManager.WaitingFindedWindow("xem chuyen thu chieu den");
+                        if (XemCTChieuDenWindow!= null)
                         {
                             //thuc hien viec thay doi giao dien dia chi tai cho nay
-                            System.Collections.Generic.List<TestAPIModel> controls = APIManager.GetListControlText(activecurrentWindow.hwnd);
-                            APIManager.setTextControl(controls[9].Handle, m.Value.Address);
+                            System.Collections.Generic.List<TestAPIModel> controls = APIManager.GetListControlText(XemCTChieuDenWindow.hwnd);
+                            APIManager.setTextControl(controls[9].Handle,m.Value.MaHieu+"|"+ m.Value.Address);
                             APIManager.InvalidateRect(controls[9].Handle, IntPtr.Zero, true);
                         }
                     });
@@ -567,7 +567,6 @@ namespace TaoBD10.ViewModels
                 }
                 else
                 {
-                    APIManager.ShowSnackbar("Lay CHuyen thu");
                 }
 
             }

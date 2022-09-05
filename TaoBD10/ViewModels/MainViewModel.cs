@@ -1,7 +1,7 @@
-﻿using MaterialDesignThemes.Wpf;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.Input;
-using Microsoft.Toolkit.Mvvm.Messaging;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -559,9 +559,16 @@ namespace TaoBD10.ViewModels
         {
             if (!IsActivatedWindow)
             {
-                IsActivatedWindow = true;
-                OnSelectedTabTui();
-                window.Activate();
+                if (IndexTabControl != 3)
+                {
+                    IsActivatedWindow = true;
+                    OnSelectedTabTui();
+                    window.Activate();
+                }
+                else
+                {
+                    APIManager.ShowSnackbar("Lay CHuyen thu");
+                }
 
             }
         }

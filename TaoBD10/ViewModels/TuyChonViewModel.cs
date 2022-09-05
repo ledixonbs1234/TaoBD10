@@ -1,6 +1,4 @@
-﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.Input;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Drawing.Printing;
 using System.IO;
 using System.Threading;
@@ -11,6 +9,8 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System;
 using System.Windows.Automation;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace TaoBD10.ViewModels
 {

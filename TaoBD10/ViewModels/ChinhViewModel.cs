@@ -1,6 +1,6 @@
-﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.Input;
-using Microsoft.Toolkit.Mvvm.Messaging;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -409,21 +409,21 @@ namespace TaoBD10.ViewModels
                 var temp = FileManager.optionModel.GoFastBD10Di.Split(',');
                 APIManager.GoToWindow(FileManager.optionModel.MaKhaiThac, "danh sach bd10 di", temp[0], temp[1]);
                 PrintDefault();
-                var currentWindow = APIManager.GetActiveWindowTitle();
-                if(currentWindow.text.IndexOf("danh sach bd10 di")!= -1)
-                {
-                    //SysDateTimePick32
-                    List<TestAPIModel> listControl = APIManager.GetListControlText(currentWindow.hwnd);
-                     var controlSys =listControl.FirstOrDefault(m => m.ClassName.IndexOf("SysDateTimePick32") != -1);
-                    if (controlSys == null)
-                        return;
-                    APIManager.setTextControl(controlSys.Handle, "01/09/2022");
-                    APIManager.FocusHandle(controlSys.Handle);
-                    Thread.Sleep(100);
-                    APIManager.FocusHandle(controlSys.Handle);
+                //var currentWindow = APIManager.GetActiveWindowTitle();
+                //if(currentWindow.text.IndexOf("danh sach bd10 di")!= -1)
+                //{
+                //    //SysDateTimePick32
+                //    List<TestAPIModel> listControl = APIManager.GetListControlText(currentWindow.hwnd);
+                //     var controlSys =listControl.FirstOrDefault(m => m.ClassName.IndexOf("SysDateTimePick32") != -1);
+                //    if (controlSys == null)
+                //        return;
+                //    APIManager.setTextControl(controlSys.Handle, "01/09/2022");
+                //    APIManager.FocusHandle(controlSys.Handle);
+                //    Thread.Sleep(100);
+                //    APIManager.FocusHandle(controlSys.Handle);
 
 
-                }
+                //}
             }
         }
 

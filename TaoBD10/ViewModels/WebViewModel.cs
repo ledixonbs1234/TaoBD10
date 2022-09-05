@@ -1,10 +1,10 @@
 ﻿using CefSharp;
 using CefSharp.Wpf;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using ExcelDataReader;
 using HtmlAgilityPack;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.Input;
-using Microsoft.Toolkit.Mvvm.Messaging;
 using Spire.Xls;
 using System;
 using System.Collections.Generic;
@@ -181,7 +181,6 @@ namespace TaoBD10.ViewModels
                      PNSName = m.Content;
                      WebBrowser.LoadUrl("https://pns.vnpost.vn/");
                  }
-
              });
             timer = new DispatcherTimer();
             timer.Tick += Timer_Tick;
@@ -372,27 +371,7 @@ namespace TaoBD10.ViewModels
             WebBrowser.ExecuteScriptAsync(script);
         }
 
-        private readonly string scriptLogin = @"
-Element.prototype.remove = function() {
-    this.parentElement.removeChild(this);
-}
-NodeList.prototype.remove = HTMLCollection.prototype.remove = function() {
-    for(var i = this.length - 1; i >= 0; i--) {
-        if(this[i] && this[i].parentElement) {
-            this[i].parentElement.removeChild(this[i]);
-        }
-    }
-}
-document.getElementById(""vnpNav"").remove();
-document.getElementsByClassName("".mainHomepageTitle"").remove();
-document.getElementsByClassName("".mainHomepageUserLogin"").remove();
-document.getElementsByClassName("".footer"").remove();
-
-                                    var textbox = document.getElementById(""MainContent_imgCaptcha"");
-    textbox.focus();
-                    textbox.scrollIntoView();
-                    ";
-
+       
         private bool isFirstLoginSuccess = false;
         private bool isFix = false;
 
@@ -417,7 +396,7 @@ document.getElementsByClassName("".footer"").remove();
                         }
                         else
                         {
-                            WebBrowser.ExecuteScriptAsync(scriptLogin);
+                            WebBrowser.ExecuteScriptAsync(TextManager.SCRIPT_LOGIN);
                             //App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
                             //{
                             //    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Navigation", Content = "Web" });
@@ -612,8 +591,10 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                             {
                                 webContent.Key = "AddressDongChuyenThu";
                             }
+
+                            _LoadWebChoose = LoadWebChoose.None;
                             //Thuc hien send Web content qua do
-                            WeakReferenceMessenger.Default.Send<WebContentModel>(webContent);
+                            _ = WeakReferenceMessenger.Default.Send(webContent);
                         }
                         else if (_LoadWebChoose == LoadWebChoose.CodeFromBD)
                         {

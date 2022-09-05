@@ -1,5 +1,5 @@
-﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -85,10 +85,10 @@ namespace TaoBD10.ViewModels
 
         public KTTuiThuViewModel()
         {
-            List<FindItemModel> tuiThus = FileManager.LoadFindItemOffline();
+            //List<FindItemModel> tuiThus = FileManager.LoadFindItemOffline();
             SearchCommand = new RelayCommand(Search);
             LayDuLieuCommand = new RelayCommand(LayDuLieu);
-            Show(tuiThus);
+            //Show(tuiThus);
         }
         //thuc hien 
 

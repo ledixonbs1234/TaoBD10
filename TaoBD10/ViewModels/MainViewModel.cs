@@ -665,14 +665,14 @@ namespace TaoBD10.ViewModels
 
             APIManager.SetPrintBD10();
             SendKeys.SendWait("{F3}");
-            Thread.Sleep(50);
-            WindowInfo cuaSo = APIManager.WaitingFindedWindow("sua thong tin bd10", "lap bd10");
-            while (currentWindow.hwnd == cuaSo.hwnd)
-            {
-                Thread.Sleep(50);
-                cuaSo = APIManager.WaitingFindedWindow("sua thong tin bd10", "lap bd10");
-            }
-            APIManager.ClickButton(cuaSo.hwnd, "yes", isExactly: false);
+            //Thread.Sleep(50);
+            //WindowInfo cuaSo = APIManager.WaitingFindedWindow("sua thong tin bd10", "lap bd10");
+            //while (currentWindow.hwnd == cuaSo.hwnd)
+            //{
+            //    Thread.Sleep(50);
+            //    cuaSo = APIManager.WaitingFindedWindow("sua thong tin bd10", "lap bd10");
+            //}
+            //APIManager.ClickButton(cuaSo.hwnd, "yes", isExactly: false);
 
             currentWindow = APIManager.WaitingFindedWindow("print document");
             if (currentWindow == null)

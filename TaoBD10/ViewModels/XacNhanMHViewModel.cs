@@ -137,6 +137,7 @@ namespace TaoBD10.ViewModels
                         return;
                     SendKeys.SendWait("A{BS}{BS}");
                     SendKeys.SendWait("{F4}");
+                    APIManager.WaitingFindedWindow("xac nhan chi tiet tui thu");
                     WeakReferenceMessenger.Default.Send(new ContentModel { Key = "XacNhanChiTiet", Content = "True" });
                 }
             }

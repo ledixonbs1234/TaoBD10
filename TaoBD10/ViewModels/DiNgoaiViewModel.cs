@@ -22,6 +22,23 @@ namespace TaoBD10.ViewModels
     {
         private readonly BackgroundWorker bwPrintDiNgoai;
 
+
+        public ICommand ShowDataCommand { get; }
+
+        
+        void ShowData()
+        {
+            if(DiNgoais.Count != 0)
+            {
+                string text = "";
+                foreach (DiNgoaiItemModel item in DiNgoais)
+                {
+                    text += item.Code + "\n";
+                }
+                APIManager.OpenNotePad(text, "noi dung");
+            }
+        }
+
         public DiNgoaiViewModel()
         {
             DiNgoais = new ObservableCollection<DiNgoaiItemModel>();
@@ -38,6 +55,7 @@ namespace TaoBD10.ViewModels
             bwKhoiTao.WorkerSupportsCancellation = true;
             bwKhoiTao.DoWork += BwKhoiTao_DoWork;
             bwPrintDiNgoai = new BackgroundWorker();
+            ShowDataCommand = new RelayCommand(ShowData);
 
             bwPrintDiNgoai.DoWork += BwPrintDiNgoai_DoWork;
             bwPrintDiNgoai.WorkerSupportsCancellation = true;

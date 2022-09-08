@@ -228,7 +228,14 @@
                     Margin="5,5"
                     Background="#FF83C4F7"
                     Command="{Binding SetMaTinhGuiCommand}"
+                    
                     Content="Set BC Gửi" />
+                <Button
+                    Margin="5,5"
+                    Background="#FF83C4F7"
+                    Command="{Binding ShowDataCommand}"
+                    
+                    Content="Show Data" />
                 <Button
                     Margin="5,5,20,5"
                     Background="#FF83C4F7"

@@ -241,12 +241,11 @@ namespace TaoBD10.Manager
         {
             string clipboard = "";
             Thread thread;
-            thread = new Thread(() => { Clipboard.Clear();Thread.Sleep(50);SendKeys.SendWait("^(c)");Thread.Sleep(50);  });
+            thread = new Thread(() => { ;  });
             thread.SetApartmentState(ApartmentState.STA); //Set the thread to STA
             for (int i = 0; i < 10; i++)
             {
-                thread.Start();
-                thread.Join(); //Wait for the thread to end
+                Clipboard.Clear(); Thread.Sleep(50); SendKeys.SendWait("^(c)"); Thread.Sleep(50);//Wait for the thread to end
                 if (Clipboard.ContainsText())
                 {
                     break;

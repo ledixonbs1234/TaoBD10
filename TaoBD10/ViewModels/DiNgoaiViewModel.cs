@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Printing;
 using System.Text;
@@ -754,9 +755,15 @@ namespace TaoBD10.ViewModels
                         LocalPrintServer localPrintServer = new LocalPrintServer();
 
                         string ss = "";
+
+                        PrinterSettings settings = new PrinterSettings();
                         foreach (PrintQueue printQueue in localPrintServer.GetPrintQueues())
                         {
-                            ss+=$"{printQueue.FullName}  [{printQueue.QueueStatus}]"+"\n";
+                            if (settings.PrinterName == printQueue.FullName)
+                            {
+                                ss += $"{printQueue.FullName}  [{printQueue.QueueStatus}]" + "\n";
+                                break;
+                            }
                         }
                         APIManager.OpenNotePad(ss);
 

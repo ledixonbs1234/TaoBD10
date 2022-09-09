@@ -39,8 +39,9 @@ namespace TaoBD10.ViewModels
             ShowTinhThanh(tinhThanhs);
             List<string> buuCucs = FileManager.LoadBuuCucsOffline();
             List<string> buuCucTuDongs = FileManager.LoadBuuCucTuDongsOffline();
-            //ShowBuuCucs(buuCucs);
-            //ShowTuiThu(tuiThus);
+            ShowBuuCucs(buuCucs);
+            ShowBuuCucTuDongs(buuCucs);
+            ShowTuiThu(tuiThus);
 
 
         }

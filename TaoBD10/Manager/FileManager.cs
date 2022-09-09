@@ -684,6 +684,41 @@ namespace TaoBD10.Manager
             client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/TuiThu").PutAsync(tuiThuModels).Wait();
         }
 
+        public static List<string> LoadBuuCucTuDongsOffline()
+        {
+            if (!File.Exists(_fileBuuCucTuDongs))
+            {
+                SaveBuuCucTuDongsOffline(new List<string>());
+            }
+
+            JsonSerializer serializer = new JsonSerializer();
+            using (StreamReader sReader = new StreamReader(_fileBuuCucTuDongs))
+            using (JsonReader jReader = new JsonTextReader(sReader))
+            {
+                List<string> listBuuCucTuDongs = serializer.Deserialize<List<string>>(jReader);
+                return listBuuCucTuDongs;
+            }
+        }
+
+        public static void SaveBuuCucTuDongsOffline(List<string> list)
+        {
+            if (!File.Exists(_fileBuuCucTuDongs))
+            {
+                using (FileStream fs = File.Create(_fileBuuCucTuDongs))
+                {
+
+                }
+            }
+            JsonSerializer serializer = new JsonSerializer();
+            using (StreamWriter sWriter = new StreamWriter(_fileBuuCucTuDongs))
+            using (JsonWriter jWriter = new JsonTextWriter(sWriter))
+            {
+                serializer.Serialize(jWriter, list);
+            }
+        }
+
+
+
         public static FirebaseClient client;
         public static List<BD10InfoModel> list = new List<BD10InfoModel>();
         public static List<string> listBuuCuc = new List<string>();
@@ -700,6 +735,7 @@ namespace TaoBD10.Manager
         private static string _fileTinhThanh = Environment.CurrentDirectory + "\\Data\\TinhThanh.json";
         private static string _fileTuiThu = Environment.CurrentDirectory + "\\Data\\TuiThu.json";
         private static string _fileBuuCucs = Environment.CurrentDirectory + "\\Data\\BuuCucs.json";
+        private static string _fileBuuCucTuDongs = Environment.CurrentDirectory + "\\Data\\BuuCucTuDongs.json";
         private static string _fileLocBD10 = Environment.CurrentDirectory + "\\Data\\LocBD10.txt";
         private static string _fileLocKTBCP = Environment.CurrentDirectory + "\\Data\\LocKTBCP.txt";
         static string auth = "Hw5ESVqVaYfqde21DIHqs4EGhYcqGIiEF4GROViU";

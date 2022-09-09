@@ -24,7 +24,9 @@ namespace TaoBD10.ViewModels
             SaveTinhThanhCommand = new RelayCommand(SaveTinhThanh);
             LayDuLieuBuuCucCommand = new RelayCommand(LayDuLieuBuuCuc);
             SaveBuuCucCommand = new RelayCommand(SaveBuuCuc);
+        SaveBuuCucTuDongCommand = new RelayCommand(SaveBuuCucTuDong);
             MoFileBuuCucCommand = new RelayCommand(MoFileBuuCuc);
+            LayTrucTiepTuDongCommand = new RelayCommand(LayTrucTiepTuDong);
             PublishBuuCucCommand = new RelayCommand(PublishBuuCuc);
             MoFileTinhThanhCommand = new RelayCommand(MoFileTinhThanh);
             List<TinhHuyenModel> tinhThanhs = FileManager.LoadTinhThanhOffline();
@@ -36,8 +38,9 @@ namespace TaoBD10.ViewModels
             LayDuLieuTuiThuCommand = new RelayCommand(LayDuLieuTuiThu);
             ShowTinhThanh(tinhThanhs);
             List<string> buuCucs = FileManager.LoadBuuCucsOffline();
-            ShowBuuCucs(buuCucs);
-            ShowTuiThu(tuiThus);
+            List<string> buuCucTuDongs = FileManager.LoadBuuCucTuDongsOffline();
+            //ShowBuuCucs(buuCucs);
+            //ShowTuiThu(tuiThus);
 
 
         }
@@ -58,6 +61,25 @@ namespace TaoBD10.ViewModels
             }
             ShowBuuCucs(buuCucs);
         }
+
+
+       
+        public ICommand LayTrucTiepTuDongCommand { get; }
+
+        void LayTrucTiepTuDong()
+        {
+            WindowInfo window = APIManager.WaitingFindedWindow("khai thac kien di ngoai");
+            AutomationElement element = AutomationElement.FromHandle(window.hwnd);
+            var child = element.FindAll(TreeScope.Descendants, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.List));
+            AutomationElementCollection count = child[0].FindAll(TreeScope.Children, Condition.TrueCondition);
+            List<string> buuCucTuDong = new List<string>();
+            foreach (AutomationElement item in count)
+            {
+                buuCucTuDong.Add(item.Current.Name);
+            }
+            ShowBuuCucTuDongs(buuCucTuDong);
+        }
+
 
 
         private ObservableCollection<TuiThuModel> _TuiThus;
@@ -177,6 +199,16 @@ namespace TaoBD10.ViewModels
             set { SetProperty(ref _BuuCucs, value); }
         }
 
+        private ObservableCollection<string> _BuuCucTuDongs;
+
+        public ObservableCollection<string> BuuCucTuDongs
+        {
+            get { return _BuuCucTuDongs; }
+            set { SetProperty(ref _BuuCucTuDongs, value); }
+        }
+
+
+
         void ShowBuuCucs(List<string> buuCucs)
         {
 
@@ -184,6 +216,15 @@ namespace TaoBD10.ViewModels
             foreach (var item in buuCucs)
             {
                 BuuCucs.Add(item);
+            }
+        }
+        void ShowBuuCucTuDongs(List<string> buuCucs)
+        {
+
+            BuuCucTuDongs = new ObservableCollection<string>();
+            foreach (var item in buuCucs)
+            {
+                BuuCucTuDongs.Add(item);
             }
         }
 
@@ -259,6 +300,16 @@ namespace TaoBD10.ViewModels
             if (BuuCucs.Count != 0)
                 FileManager.SaveBuuCucsOffline(BuuCucs.ToList());
         }
+
+
+        public ICommand SaveBuuCucTuDongCommand { get; }
+
+        void SaveBuuCucTuDong()
+        {
+            if (BuuCucTuDongs.Count != 0)
+                FileManager.SaveBuuCucTuDongsOffline(BuuCucTuDongs.ToList());
+        }
+
 
         public ICommand PublishBuuCucCommand { get; }
 

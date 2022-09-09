@@ -36,6 +36,21 @@
             <Button Margin="5" Content="Lưu" Command="{Binding SaveBuuCucCommand}"></Button>
             <Button Margin="5" Content="Publish Cloud" Command="{Binding PublishBuuCucCommand}"></Button>
         </StackPanel>
+
+        <DataGrid Grid.Column="1" Grid.Row="2" AutoGenerateColumns="False" CanUserDeleteRows="True" ItemsSource="{Binding BuuCucTuDongs}" IsReadOnly="True" >
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="1">
+            <Button Margin="5" Content="Lấy Trực Tiếp" Command="{Binding LayTrucTiepTuDongCommand}"></Button>
+            <Button Margin="5" Content="Mở file" Command="{Binding MoFileBuuCucCommand}"></Button>
+            <Button Margin="5" Content="Lấy Dữ Liệu" Command="{Binding LayDuLieuBuuCucCommand}"></Button>
+            <Button Margin="5" Content="Lưu" Command="{Binding SaveBuuCucTuDongCommand}"></Button>
+            <Button Margin="5" Content="Publish Cloud" Command="{Binding PublishBuuCucCommand}"></Button>
+        </StackPanel>
+        
+        
         <DataGrid Grid.Column="0" Grid.Row="2" ItemsSource="{Binding TuiThus}" IsReadOnly="True" >
         </DataGrid>
         <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="0">

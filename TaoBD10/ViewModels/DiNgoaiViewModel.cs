@@ -25,10 +25,10 @@ namespace TaoBD10.ViewModels
 
         public ICommand ShowDataCommand { get; }
 
-        
+
         void ShowData()
         {
-            if(DiNgoais.Count != 0)
+            if (DiNgoais.Count != 0)
             {
                 string text = "";
                 foreach (DiNgoaiItemModel item in DiNgoais)
@@ -135,11 +135,22 @@ namespace TaoBD10.ViewModels
             });
 
             listBuuCuc = FileManager.LoadBuuCucsOffline();
+            listBuuCucTuDong = FileManager.LoadBuuCucTuDongsOffline();
 
             tinhs = FileManager.LoadTinhThanhOffline();
         }
         List<string> listBuuCuc;
+        List<string> listBuuCucTuDong;
         private List<TinhHuyenModel> tinhs;
+
+        private bool _IsTuDongDong;
+
+        public bool IsTuDongDong
+        {
+            get { return _IsTuDongDong; }
+            set { SetProperty(ref _IsTuDongDong, value); }
+        }
+
 
         string AutoSetTinh(string address)
         {
@@ -480,7 +491,7 @@ namespace TaoBD10.ViewModels
                     SendKeys.SendWait(SelectedSimple.Code);
                     SendKeys.SendWait("{ENTER}");
                     Thread.Sleep(200);
-                     clipboard1 = "";
+                    clipboard1 = "";
                     isCheckTui = false;
                     for (int i = 0; i < 3; i++)
                     {
@@ -672,43 +683,88 @@ namespace TaoBD10.ViewModels
         {
             try
             {
-                WindowInfo currentWindow = APIManager.WaitingFindedWindow("khoi tao chuyen thu");
-                if (currentWindow == null)
+                if (!IsTuDongDong)
                 {
-                    APIManager.ShowSnackbar("Không tìm thấy window khởi tạo chuyến thư");
-                    return;
-                }
-                System.Collections.Generic.List<TestAPIModel> childControls = APIManager.GetListControlText(currentWindow.hwnd);
-                //thuc hien lay vi tri nao do
-
-                APIManager.SendMessage(childControls[14].Handle, 0x0007, 0, 0);
-                APIManager.SendMessage(childControls[14].Handle, 0x0007, 0, 0);
-
-                //Thuc hien trong nay
-                if (!string.IsNullOrEmpty(SelectedSimple.MaBuuCuc))
-                {
-                    APIManager.setTextControl(childControls[15].Handle, SelectedSimple.TenBuuCuc);
-                    //Thread.Sleep(300);
-                    //SendKeys.SendWait("{DOWN}");
-                    //Thread.Sleep(100);
-                    SendKeys.SendWait("{TAB}");
-                    Thread.Sleep(200);
-
-                    //Nhan F1 ngang cho nay
-                    if (IsAutoF1)
+                    WindowInfo currentWindow = APIManager.WaitingFindedWindow("khoi tao chuyen thu");
+                    if (currentWindow == null)
                     {
-                        bwPrintDiNgoai.RunWorkerAsync();
+                        APIManager.ShowSnackbar("Không tìm thấy window khởi tạo chuyến thư");
+                        return;
+                    }
+                    System.Collections.Generic.List<TestAPIModel> childControls = APIManager.GetListControlText(currentWindow.hwnd);
+                    //thuc hien lay vi tri nao do
+
+                    APIManager.SendMessage(childControls[14].Handle, 0x0007, 0, 0);
+                    APIManager.SendMessage(childControls[14].Handle, 0x0007, 0, 0);
+
+                    //Thuc hien trong nay
+                    if (!string.IsNullOrEmpty(SelectedSimple.MaBuuCuc))
+                    {
+                        APIManager.setTextControl(childControls[15].Handle, SelectedSimple.TenBuuCuc);
+                        //Thread.Sleep(300);
+                        //SendKeys.SendWait("{DOWN}");
+                        //Thread.Sleep(100);
+                        SendKeys.SendWait("{TAB}");
+                        Thread.Sleep(200);
+
+                        //Nhan F1 ngang cho nay
+                        if (IsAutoF1)
+                        {
+                            bwPrintDiNgoai.RunWorkerAsync();
+                        }
+                    }
+                    else
+                    {
+                        if (string.IsNullOrEmpty(SelectedSimple.MaTinh))
+                        {
+                            APIManager.ShowSnackbar("Không có mã tỉnh");
+                            return;
+                        }
+                        SendKeys.SendWait(SelectedSimple.MaTinh);
                     }
                 }
                 else
                 {
-                    if (string.IsNullOrEmpty(SelectedSimple.MaTinh))
+                    WindowInfo currentWindow = APIManager.WaitingFindedWindow("khai thac kien di ngoai");
+                    if (currentWindow == null)
                     {
-                        APIManager.ShowSnackbar("Không có mã tỉnh");
+                        APIManager.ShowSnackbar("Không tìm thấy window kiện đi ngoài");
                         return;
                     }
-                    SendKeys.SendWait(SelectedSimple.MaTinh);
+                    System.Collections.Generic.List<TestAPIModel> childControls = APIManager.GetListControlText(currentWindow.hwnd);
+                    //thuc hien lay vi tri nao do
+
+                    APIManager.SendMessage(childControls[1].Handle, 0x0007, 0, 0);
+                    APIManager.SendMessage(childControls[1].Handle, 0x0007, 0, 0);
+
+                    //Thuc hien trong nay
+                    if (!string.IsNullOrEmpty(SelectedSimple.MaBuuCuc))
+                    {
+                        APIManager.setTextControl(childControls[2].Handle, SelectedSimple.TenBuuCuc);
+                        //Thread.Sleep(300);
+                        //SendKeys.SendWait("{DOWN}");
+                        //Thread.Sleep(100);
+                        SendKeys.SendWait("{TAB}");
+                        Thread.Sleep(100);
+
+                        APIManager.setTextControl(childControls[10].Handle, SelectedSimple.Code);
+                        SendKeys.SendWait("{ENTER}");
+
+                        //Set text
+                        //APIManager.setTextControl(childControls[2].Handle, temp);
+
+                    }
+                    else
+                    {
+                        if (string.IsNullOrEmpty(SelectedSimple.MaTinh))
+                        {
+                            APIManager.ShowSnackbar("Không có mã tỉnh");
+                            return;
+                        }
+                        SendKeys.SendWait(SelectedSimple.MaTinh);
+                    }
                 }
+
             }
             catch (Exception ex)
             {
@@ -1896,14 +1952,26 @@ namespace TaoBD10.ViewModels
         private List<string> GetListBuuCucFromTinh(string maTinh)
         {
             List<string> buucucs = new List<string>();
-            for (int i = 0; i < listBuuCuc.Count; i++)
+            if (!IsTuDongDong)
             {
-                if (maTinh == listBuuCuc[i].Substring(0, 2))
+                for (int i = 0; i < listBuuCuc.Count; i++)
                 {
-                    buucucs.Add(listBuuCuc[i].Trim());
+                    if (maTinh == listBuuCuc[i].Substring(0, 2))
+                    {
+                        buucucs.Add(listBuuCuc[i].Trim());
+                    }
                 }
             }
-
+            else
+            {
+                for (int i = 0; i < listBuuCucTuDong.Count; i++)
+                {
+                    if (maTinh == listBuuCucTuDong[i].Substring(0, 2))
+                    {
+                        buucucs.Add(listBuuCucTuDong[i].Trim());
+                    }
+                }
+            }
             return buucucs;
         }
 

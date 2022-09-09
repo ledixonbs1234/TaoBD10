@@ -116,7 +116,6 @@
                 </DataGrid.Columns>
             </DataGrid>
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                <Button Content="Adress" Margin="5"/>
                 <Button
                     Command="{Binding ClearDiNgoaiCommand}"
                     Style="{StaticResource MaterialDesignFloatingActionMiniSecondaryDarkButton}"
@@ -253,7 +252,7 @@
                 <Button
                     Margin="5"
                     Command="{Binding SortTinhCommand}"
-                    Content="Soft Theo Tỉnh" />
+                    Content="Sắp xếp Theo Tỉnh" />
                 <Button
                     Margin="5"
                     Command="{Binding SortCommand}"

@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Printing;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
@@ -749,6 +750,15 @@ namespace TaoBD10.ViewModels
 
                         APIManager.setTextControl(childControls[10].Handle, SelectedSimple.Code);
                         SendKeys.SendWait("{ENTER}");
+
+                        LocalPrintServer localPrintServer = new LocalPrintServer();
+
+                        string ss = "";
+                        foreach (PrintQueue printQueue in localPrintServer.GetPrintQueues())
+                        {
+                            ss+=$"{printQueue.FullName}  [{printQueue.QueueStatus}]"+"\n";
+                        }
+                        APIManager.OpenNotePad(ss);
 
                         //Set text
                         //APIManager.setTextControl(childControls[2].Handle, temp);

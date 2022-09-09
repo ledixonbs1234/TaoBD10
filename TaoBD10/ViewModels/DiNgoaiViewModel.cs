@@ -757,15 +757,34 @@ namespace TaoBD10.ViewModels
                         string ss = "";
 
                         PrinterSettings settings = new PrinterSettings();
-                        foreach (PrintQueue printQueue in localPrintServer.GetPrintQueues())
+                        PrintQueueStatus statusPrint = PrintQueueStatus.None;
+                        for (int i = 0; i < 5; i++)
                         {
-                            if (settings.PrinterName == printQueue.FullName)
+                            foreach (PrintQueue printQueue in localPrintServer.GetPrintQueues())
                             {
-                                ss += $"{printQueue.FullName}  [{printQueue.QueueStatus}]" + "\n";
+                                if (settings.PrinterName == printQueue.FullName)
+                                {
+                                    statusPrint = printQueue.QueueStatus;
+                                    break;
+                                }
+                            }
+                            if (statusPrint != PrintQueueStatus.None)
+                            {
                                 break;
                             }
+                            Thread.Sleep(100);
                         }
-                        APIManager.OpenNotePad(ss);
+                        if(statusPrint == PrintQueueStatus.None)
+                        {
+                            APIManager.ShowSnackbar("Khong In");
+
+                        }
+                        else
+                        {
+                            APIManager.ShowSnackbar("KT In Duoc");
+                        }
+
+                        //APIManager.OpenNotePad(ss);
 
                         //Set text
                         //APIManager.setTextControl(childControls[2].Handle, temp);

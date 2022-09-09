@@ -758,7 +758,7 @@ namespace TaoBD10.ViewModels
 
                         PrinterSettings settings = new PrinterSettings();
                         PrintQueueStatus statusPrint = PrintQueueStatus.None;
-                        for (int i = 0; i < 5; i++)
+                        for (int i = 0; i < 8; i++)
                         {
                             foreach (PrintQueue printQueue in localPrintServer.GetPrintQueues())
                             {

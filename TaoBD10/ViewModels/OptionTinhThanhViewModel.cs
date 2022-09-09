@@ -40,7 +40,7 @@ namespace TaoBD10.ViewModels
             List<string> buuCucs = FileManager.LoadBuuCucsOffline();
             List<string> buuCucTuDongs = FileManager.LoadBuuCucTuDongsOffline();
             ShowBuuCucs(buuCucs);
-            ShowBuuCucTuDongs(buuCucs);
+            ShowBuuCucTuDongs(buuCucTuDongs);
             ShowTuiThu(tuiThus);
 
 

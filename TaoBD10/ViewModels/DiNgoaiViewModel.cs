@@ -133,6 +133,9 @@ namespace TaoBD10.ViewModels
                         bwPrintDiNgoai.CancelAsync();
                         bwPrintDiNgoai.RunWorkerAsync();
                     }
+                }else if(m.Key == "DiNgoaiTuDongNext")
+                {
+                    DiNgoaiTuDongNext();
                 }
             });
 
@@ -140,6 +143,35 @@ namespace TaoBD10.ViewModels
             listBuuCucTuDong = FileManager.LoadBuuCucTuDongsOffline();
 
             tinhs = FileManager.LoadTinhThanhOffline();
+        }
+
+        void DiNgoaiTuDongNext()
+        {
+            if (DiNgoais.Count == 0)
+            {
+                APIManager.ShowSnackbar("Không có dữ liệu");
+                return;
+            }
+            //lay vi tri tiep theo
+            //get index
+            int index = DiNgoais.IndexOf(SelectedSimple);
+            if (index == -1)
+            {
+                APIManager.ShowSnackbar("Chưa chọn mã hiệu");
+                return;
+            }
+            index++;
+            if (index > DiNgoais.Count - 1)
+            {
+                APIManager.ShowSnackbar("Đã tới vị trí cuối cùng");
+                //txtInfo.Text = "Đã tới vị trí cuối cùng";
+                return;
+            }
+
+            //////xem thu no co chay cai gi khong
+
+            SelectedSimple = DiNgoais[index];
+            Selection(SelectedSimple);
         }
         List<string> listBuuCuc;
         List<string> listBuuCucTuDong;

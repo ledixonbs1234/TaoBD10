@@ -1710,6 +1710,9 @@ namespace TaoBD10.ViewModels
                         else if (currentWindow.text.IndexOf("dong chuyen thu") != -1)
                         {
                             WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "Print" });
+                        }else if(currentWindow.text.IndexOf("khai thac kien di ngoai")!= -1)
+                        {
+                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "DiNgoaiTuDongNext"});
                         }
                         break;
 

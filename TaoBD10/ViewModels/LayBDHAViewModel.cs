@@ -50,7 +50,7 @@ namespace TaoBD10.ViewModels
                 {
                     if (m.Content == "AnMy")
                     {
-                        selectionBDIndex = 1;
+                        selectionBDIndex = 3;
                         Button1();
                     }
                     else if (m.Content == "HoaiAn")
@@ -62,13 +62,13 @@ namespace TaoBD10.ViewModels
                     else if (m.Content == "AnLao")
                     {
 
-                        selectionBDIndex = 3;
+                        selectionBDIndex = 4;
                         Button3();
                     }
                     else if (m.Content == "AnHoa")
                     {
 
-                        selectionBDIndex = 4;
+                        selectionBDIndex = 5;
                         Button4();
                     }
                 }

@@ -50,19 +50,19 @@ namespace TaoBD10.ViewModels
                 {
                     if (m.Content == "AnMy")
                     {
-                        Button2();
+                        Button1();
                     }
                     else if (m.Content == "HoaiAn")
                     {
-                        Button3();
+                        Button2();
                     }
                     else if (m.Content == "AnLao")
                     {
-                        Button4();
+                        Button3();
                     }
                     else if (m.Content == "AnHoa")
                     {
-                        Button5();
+                        Button4();
                     }
                 }
             });

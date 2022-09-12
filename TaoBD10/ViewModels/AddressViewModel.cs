@@ -32,16 +32,7 @@ namespace TaoBD10.ViewModels
             LayDiaChiCommand = new RelayCommand(LayDiaChi);
             SendDataCommand = new RelayCommand(SendData);
 
-            try
-            {
-                client = new MqttClient("broker.hivemq.com");
-                _clientId = Guid.NewGuid().ToString();
-                client.Connect(_clientId);
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message);
-            }
+           
 
             WeakReferenceMessenger.Default.Register<TuiHangHoaMessage>(this, (r, m) =>
 {
@@ -249,7 +240,7 @@ namespace TaoBD10.ViewModels
                     }
                 }
             }
-            client.Publish("tamquanget1", Encoding.UTF8.GetBytes(dataSend), MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, true);
+            MqttManager.Pulish("tamquanget1", dataSend);
         }
 
         private void SetCountTamQuan()
@@ -284,8 +275,7 @@ namespace TaoBD10.ViewModels
 
         public ICommand LocCommand { get; }
         public ICommand SendDataCommand { get; }
-        private readonly MqttClient client;
-        private readonly string _clientId;
+       
         private int _CountTamQuan;
         private ObservableCollection<HangHoaDetailModel> _HangHoas;
         private ObservableCollection<string> _LoaiAddress;

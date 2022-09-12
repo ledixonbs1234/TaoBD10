@@ -36,6 +36,13 @@ namespace TaoBD10.ViewModels
         private bool _IsXacNhanChiTieting = false;
 
         int lastNumberSuaBD = 0;
+        private string _MqttKey;
+
+        public string MqttKey
+        {
+            get { return _MqttKey; }
+            set { SetProperty(ref _MqttKey, value); }
+        }
 
         public bool IsTopMost
         {
@@ -69,6 +76,16 @@ namespace TaoBD10.ViewModels
         }
 
 
+        public ICommand SaveKeyCommand { get; }
+
+        void SaveKey()
+        {
+            if (!string.IsNullOrEmpty(MqttKey))
+                FileManager.SaveKeyMqtt(MqttKey);
+        }
+
+
+
 
         public MainViewModel()
         {
@@ -85,6 +102,7 @@ namespace TaoBD10.ViewModels
             LoadPageCommand = new RelayCommand<Window>(LoadPage);
             TabChangedCommand = new RelayCommand<System.Windows.Controls.TabControl>(TabChanged);
             OnCloseWindowCommand = new RelayCommand(OnCloseWindow);
+            SaveKeyCommand = new RelayCommand(SaveKey);
             SmallerWindowCommand = new RelayCommand(SmallerWindow);
             DefaultWindowCommand = new RelayCommand<System.Windows.Controls.TabControl>(DefaultWindow);
             ToggleWindowCommand = new RelayCommand(ToggleWindow);
@@ -116,8 +134,15 @@ namespace TaoBD10.ViewModels
             SoundManager.SetUpDirectory();
             listFindItem = new List<FindItemModel>();
             FileManager.OnSetupFileManager();
+            MqttKey = FileManager.LoadKeyMqtt();
 
             NavigateTabTui();
+
+            MqttManager.Connect();
+            if (!string.IsNullOrEmpty(MqttKey))
+                MqttManager.Subcribe(MqttKey);
+           
+
 
 
             WeakReferenceMessenger.Default.Register<KiemTraMessage>(this, (r, m) =>
@@ -136,11 +161,11 @@ namespace TaoBD10.ViewModels
                         //if (IsAutoGoCT)
                         //    GoToCTCommand.Execute(null);
                         WindowInfo XemCTChieuDenWindow = APIManager.WaitingFindedWindow("xem chuyen thu chieu den");
-                        if (XemCTChieuDenWindow!= null)
+                        if (XemCTChieuDenWindow != null)
                         {
                             //thuc hien viec thay doi giao dien dia chi tai cho nay
                             System.Collections.Generic.List<TestAPIModel> controls = APIManager.GetListControlText(XemCTChieuDenWindow.hwnd);
-                            APIManager.setTextControl(controls[9].Handle,m.Value.MaHieu+"|"+ m.Value.Address);
+                            APIManager.setTextControl(controls[9].Handle, m.Value.MaHieu + "|" + m.Value.Address);
                             APIManager.InvalidateRect(controls[9].Handle, IntPtr.Zero, true);
                         }
                     });
@@ -397,6 +422,10 @@ namespace TaoBD10.ViewModels
                         SetDefaultWindowTui();
 
                     }
+                }
+                if (m.Key == "CreateListKeyMQTT")
+                {
+                    MqttManager.Subcribe(new string[] { MqttKey + "_control" });
                 }
             });
         }
@@ -1710,9 +1739,10 @@ namespace TaoBD10.ViewModels
                         else if (currentWindow.text.IndexOf("dong chuyen thu") != -1)
                         {
                             WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "Print" });
-                        }else if(currentWindow.text.IndexOf("khai thac kien di ngoai")!= -1)
+                        }
+                        else if (currentWindow.text.IndexOf("khai thac kien di ngoai") != -1)
                         {
-                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "DiNgoaiTuDongNext"});
+                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "DiNgoaiTuDongNext" });
                         }
                         break;
 

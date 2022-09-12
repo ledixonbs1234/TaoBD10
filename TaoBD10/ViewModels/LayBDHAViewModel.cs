@@ -1,5 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using ExcelLibrary.BinaryFileFormat;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -41,7 +43,30 @@ namespace TaoBD10.ViewModels
             };
             timer.Tick += Timer_Tick;
             ShowData(FileManager.LoadLayBDOffline());
-                   }
+
+            WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>
+            {
+                if (m.Key == "Button")
+                {
+                    if (m.Content == "AnMy")
+                    {
+                        Button2();
+                    }
+                    else if (m.Content == "HoaiAn")
+                    {
+                        Button3();
+                    }
+                    else if (m.Content == "AnLao")
+                    {
+                        Button4();
+                    }
+                    else if (m.Content == "AnHoa")
+                    {
+                        Button5();
+                    }
+                }
+            });
+        }
 
 
         void ShowData(List<LayBD10Info> data)
@@ -146,6 +171,7 @@ namespace TaoBD10.ViewModels
             }
             maBuuCuc = BD10Infos[i].MaBuuCuc;
             indexBuuCuc = BD10Infos[i].IndexBuuCuc;
+            if(!bwLayBD.IsBusy)
             bwLayBD.RunWorkerAsync();
         }
 
@@ -176,6 +202,8 @@ namespace TaoBD10.ViewModels
 
         private void BwLayBD_DoWork(object sender, DoWorkEventArgs e)
         {
+            var temp = FileManager.optionModel.GoFastBD10Den.Split(',');
+            APIManager.GoToWindow(FileManager.optionModel.MaKhaiThac, "danh sach bd10 den", temp[0], temp[1]);
             WindowInfo currentWindow = APIManager.WaitingFindedWindow("danh sach bd10 den");
             if (currentWindow == null)
             {
@@ -253,7 +281,7 @@ namespace TaoBD10.ViewModels
 
         public ICommand SaveLayBDOfflineCommand { get; }
 
-        
+
         void SaveLayBDOffline()
         {
             FileManager.SaveLayBDOffline(BD10Infos.ToList());

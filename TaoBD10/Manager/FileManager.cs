@@ -116,6 +116,46 @@ namespace TaoBD10.Manager
                 serializer.Serialize(jWriter, findItemModels);
             }
         }
+        public static string MQTTKEY;
+
+
+
+        public static string LoadKeyMqtt()
+        {
+            if (!File.Exists(_fileKeyMqtt))
+            {
+                SaveKeyMqtt("");
+            }
+
+            JsonSerializer serializer = new JsonSerializer();
+            using (StreamReader sReader = new StreamReader(_fileKeyMqtt))
+            using (JsonReader jReader = new JsonTextReader(sReader))
+            {
+                string listFindItems = serializer.Deserialize<string>(jReader);
+                MQTTKEY = listFindItems;
+                return listFindItems;
+            }
+        }
+
+        public static void SaveKeyMqtt(string findItemModels)
+        {
+            if (!File.Exists(_fileKeyMqtt))
+            {
+                using (FileStream fs = File.Create(_fileKeyMqtt))
+                {
+
+                }
+            }
+            JsonSerializer serializer = new JsonSerializer();
+            using (StreamWriter sWriter = new StreamWriter(_fileKeyMqtt))
+            using (JsonWriter jWriter = new JsonTextWriter(sWriter))
+            {
+                serializer.Serialize(jWriter, findItemModels);
+            }
+        }
+
+
+
 
         public static void SaveBuuCucsOffline(List<string> list)
         {
@@ -735,6 +775,7 @@ namespace TaoBD10.Manager
         private static string _fileTinhThanh = Environment.CurrentDirectory + "\\Data\\TinhThanh.json";
         private static string _fileTuiThu = Environment.CurrentDirectory + "\\Data\\TuiThu.json";
         private static string _fileBuuCucs = Environment.CurrentDirectory + "\\Data\\BuuCucs.json";
+        private static string _fileKeyMqtt = Environment.CurrentDirectory + "\\Data\\KeyMqtt.json";
         private static string _fileBuuCucTuDongs = Environment.CurrentDirectory + "\\Data\\BuuCucTuDongs.json";
         private static string _fileLocBD10 = Environment.CurrentDirectory + "\\Data\\LocBD10.txt";
         private static string _fileLocKTBCP = Environment.CurrentDirectory + "\\Data\\LocKTBCP.txt";

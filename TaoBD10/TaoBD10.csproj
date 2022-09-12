@@ -272,6 +272,7 @@
     <Compile Include="Manager\EnumAll.cs" />
     <Compile Include="Manager\FileManager.cs" />
     <Compile Include="Manager\MessageManager.cs" />
+    <Compile Include="Manager\MqttManager.cs" />
     <Compile Include="Manager\SingleInstance.cs" />
     <Compile Include="Manager\SoundManager.cs" />
     <Compile Include="Manager\TextManager.cs" />

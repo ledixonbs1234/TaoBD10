@@ -236,6 +236,30 @@ namespace TaoBD10.ViewModels
             APIManager.SendMessage(editControl.Handle, WM_SETTEXT, IntPtr.Zero, new StringBuilder((SelectedLanLap + 1).ToString()));
             APIManager.ClickButton(currentWindow.hwnd, buttonGetControl.Handle);
             APIManager.ClickButton(currentWindow.hwnd, buttonFindControl.Handle);
+            SendKeys.SendWait("{TAB}");
+            Thread.Sleep(200);
+            var textBoxHandle = childControl.FirstOrDefault(m => m.ClassName.IndexOf(".EDIT.") != -1);
+            if (textBoxHandle == null)
+                return;
+            APIManager.FocusHandle(textBoxHandle.Handle);
+            SendKeys.SendWait("{TAB}");
+            string data = APIManager.GetCopyData();
+            if (string.IsNullOrEmpty(data))
+                return;
+            var countEnter = data.Split('\n').Length;
+            if(countEnter == 0)
+            {
+                //thuc hien cong viec trong nay
+                string[] texts = data.Split('\t');
+                if (texts[0].Substring(0,6) != maBuuCuc)
+                {
+                    return;
+                }
+                string slTui =texts[4];
+                APIManager.ShowSnackbar(slTui);
+            }
+
+
         }
 
         private void BwLayBD_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)

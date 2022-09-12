@@ -246,9 +246,10 @@ namespace TaoBD10.ViewModels
             string data = APIManager.GetCopyData();
             if (string.IsNullOrEmpty(data))
                 return;
-            var countEnter = data.Split('\n').Length;
-            if(countEnter == 0)
+            int countEnter = data.Split('\n').Length;
+            if(countEnter == 2)
             {
+                data= data.Split('\n')[1];
                 //thuc hien cong viec trong nay
                 string[] texts = data.Split('\t');
                 if (texts[0].Substring(0,6) != maBuuCuc)

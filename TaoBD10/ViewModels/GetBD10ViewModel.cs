@@ -80,6 +80,17 @@ namespace TaoBD10.ViewModels
                 Interval = TimeSpan.FromMilliseconds(50)
             };
             timer.Tick += Timer_Tick;
+            WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>
+            {
+                if(m.Key== "BD10BUOI")
+                {
+                    if(m.Content == "Toi")
+                    {
+                        BuoiArray[4] = true;
+                    }
+                }
+
+            });
         }
 
         private void BwGetData_DoWork(object sender, DoWorkEventArgs e)

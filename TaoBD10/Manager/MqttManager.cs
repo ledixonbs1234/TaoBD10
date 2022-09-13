@@ -64,6 +64,33 @@ namespace TaoBD10.Manager
                     WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Button",Content="AnHoa" });
                 }
             }
+            else if (e.Topic == FileManager.MQTTKEY + "_datapc")
+            {
+                string[] datas= data.Split('|');
+                if (datas[0] == "laybd")
+                {
+                    //Thuc hien lay bd sang trua chieu toi
+                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "BD10BUOI", Content = "Toi" });
+                    var window = APIManager.GetActiveWindowTitle();
+                    if(window == null)
+                    {
+                        return;
+                    }
+                    if (window.text != "danh sach bd10 den")
+                    {
+                        return;
+                    }
+                    var list = APIManager.GetListControlText(window.hwnd);
+                    var control = list.FirstOrDefault(m => m.Text.IndexOf("xac nhan")!= -1);
+                    if(control == null)
+                    {
+                        return;
+                    }
+                    APIManager.ClickButton(control.Handle);
+                    APIManager.WaitingFindedWindow("xac nhan bd10 den");
+                }
+
+            }
         }
 
         private static void Client_MqttMsgSubscribed(object sender, MqttMsgSubscribedEventArgs e)

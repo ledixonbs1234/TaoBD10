@@ -86,7 +86,7 @@ namespace TaoBD10.ViewModels
                 {
                     if(m.Content == "Toi")
                     {
-                        BuoiArray[4] = true;
+                        BuoiArray[3] = true;
                     }
                 }
 

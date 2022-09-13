@@ -44,8 +44,9 @@ namespace TaoBD10.Manager
                 IsConnected = true;
                 WeakReferenceMessenger.Default.Send(new ContentModel { Key = "CreateListKeyMQTT" });
                 Pulish(FileManager.MQTTKEY + "_phone", data);
+                Subcribe(FileManager.MQTTKEY + "_datapc");
             }
-            if (e.Topic == FileManager.MQTTKEY + "_control")
+            else if (e.Topic == FileManager.MQTTKEY + "_control")
             {
                 if (data == "anmy")
                 {

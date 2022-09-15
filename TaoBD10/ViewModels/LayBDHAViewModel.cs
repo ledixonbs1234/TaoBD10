@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using ExcelLibrary.BinaryFileFormat;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -37,6 +38,9 @@ namespace TaoBD10.ViewModels
             bwLayBD.DoWork += BwLayBD_DoWork;
             bwLayBD.RunWorkerCompleted += BwLayBD_RunWorkerCompleted;
             GetDataFromCloudCommand = new RelayCommand(GetDataFromCloud);
+
+            bwGetDanhSachBD = new BackgroundWorker();
+            bwGetDanhSachBD.DoWork += BwGetDanhSachBD_DoWork;
             timer = new DispatcherTimer
             {
                 Interval = new TimeSpan(0, 0, 0, 0, 500)
@@ -71,8 +75,71 @@ namespace TaoBD10.ViewModels
                         selectionBDIndex = 4;
                         Button5();
                     }
+                }else if(m.Key == "ToLayBDHA_LayDanhSach")
+                {
+                    bwGetDanhSachBD.RunWorkerAsync();
                 }
             });
+        }
+
+        private void BwGetDanhSachBD_DoWork(object sender, DoWorkEventArgs e)
+        {
+            var temp = FileManager.optionModel.GoFastBD10Den.Split(',');
+            APIManager.GoToWindow(FileManager.optionModel.MaKhaiThac, "danh sach bd10 den", temp[0], temp[1]);
+            WindowInfo currentWindow = APIManager.WaitingFindedWindow("danh sach bd10 den");
+            if (currentWindow == null)
+            {
+                return;
+            }
+            Thread.Sleep(100);
+            SendKeys.SendWait("{TAB}");
+            Thread.Sleep(100);
+            SendKeys.SendWait("^{UP}");
+            Thread.Sleep(200);
+
+            string lastText = "";
+            int countSame = 0;
+            List<BD10DenInfo> bD10Dens = new List<BD10DenInfo>();
+            while (countSame <= 3)
+            {
+                string textClip = APIManager.GetCopyData();
+
+                if (string.IsNullOrEmpty(textClip))
+                {
+                    APIManager.ShowSnackbar("Chạy Lại");
+                    return;
+                }
+                //593880-An Hòa	14/09/2022	1	Ô tô	5	18,7	Đã nhận
+                if (lastText == textClip)
+                {
+                    countSame++;
+                }
+                else
+                {
+                    lastText = textClip;
+                    countSame = 0;
+                }
+
+                List<string> listString = textClip.Split('\t').ToList();
+                if (listString.Count >= 6)
+                {
+                    bD10Dens.Add(new BD10DenInfo(listString[0], listString[2], listString[4], listString[5], listString[6]));
+                }
+                else
+                {
+                    APIManager.ShowSnackbar("Lỗi! Không Copy Được");
+                    return;
+                }
+                //tuiHangHoas.Add(TuiHangHoa);
+                SendKeys.SendWait("{DOWN}");
+            }
+            if (bD10Dens.Count > 0)
+            {
+                string jsonText = JsonConvert.SerializeObject(bD10Dens);
+                MqttManager.Pulish(FileManager.MQTTKEY + "_laydanhsachbd", jsonText);
+
+
+            }
         }
 
         int selectionBDIndex = 0;
@@ -180,8 +247,8 @@ namespace TaoBD10.ViewModels
             }
             maBuuCuc = BD10Infos[i].MaBuuCuc;
             indexBuuCuc = BD10Infos[i].IndexBuuCuc;
-            if(!bwLayBD.IsBusy)
-            bwLayBD.RunWorkerAsync();
+            if (!bwLayBD.IsBusy)
+                bwLayBD.RunWorkerAsync();
         }
 
         void Button5()
@@ -207,6 +274,8 @@ namespace TaoBD10.ViewModels
             indexBuuCuc = BD10Infos[i].IndexBuuCuc;
             bwLayBD.RunWorkerAsync();
         }
+
+        BackgroundWorker bwGetDanhSachBD;
 
 
         private void BwLayBD_DoWork(object sender, DoWorkEventArgs e)
@@ -256,19 +325,19 @@ namespace TaoBD10.ViewModels
             if (string.IsNullOrEmpty(data))
                 return;
             int countEnter = data.Split('\n').Length;
-            if(countEnter == 2)
+            if (countEnter == 2)
             {
-                data= data.Split('\n')[1];
+                data = data.Split('\n')[1];
                 //thuc hien cong viec trong nay
                 string[] texts = data.Split('\t');
-                if (texts[0].Substring(0,6) != maBuuCuc)
+                if (texts[0].Substring(0, 6) != maBuuCuc)
                 {
                     return;
                 }
-                string slTui =texts[4];
+                string slTui = texts[4];
                 if (MqttManager.IsConnected)
                 {
-                    MqttManager.Pulish(FileManager.MQTTKEY + "_data","soluong|"+ selectionBDIndex.ToString() + "|" + slTui);
+                    MqttManager.Pulish(FileManager.MQTTKEY + "_data", "soluong|" + selectionBDIndex.ToString() + "|" + slTui);
                 }
             }
 
@@ -277,6 +346,8 @@ namespace TaoBD10.ViewModels
 
         private void BwLayBD_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+           
+
         }
 
         private void DaNang()

@@ -44,7 +44,7 @@ namespace TaoBD10.Manager
                 IsConnected = true;
                 WeakReferenceMessenger.Default.Send(new ContentModel { Key = "CreateListKeyMQTT" });
                 Pulish(FileManager.MQTTKEY + "_phone", data);
-                Subcribe(FileManager.MQTTKEY + "_datapc");
+                Subcribe(FileManager.MQTTKEY + "_datatopc");
             }
             else if (e.Topic == FileManager.MQTTKEY + "_control")
             {
@@ -65,7 +65,7 @@ namespace TaoBD10.Manager
                     WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Button",Content="AnHoa" });
                 }
             }
-            else if (e.Topic == FileManager.MQTTKEY + "_datapc")
+            else if (e.Topic == FileManager.MQTTKEY + "_datatopc")
             {
                 string[] datas= data.Split('|');
                 if (datas[0] == "laybd")
@@ -89,7 +89,11 @@ namespace TaoBD10.Manager
                     //}
                     APIManager.ClickButton(window.hwnd,"xac nhan",isExactly:false);
                     APIManager.WaitingFindedWindow("xac nhan bd10 den");
-                    System.Windows.Forms.SendKeys.SendWait("{F8}");
+                }else if (datas[0] == "laydanhsachbd")
+                {
+                    //Thuc hien xu ly lay danh sach bd
+                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToLayBDHA_LayDanhSach" });
+
                 }
 
             }

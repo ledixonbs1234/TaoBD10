@@ -134,7 +134,7 @@ namespace TaoBD10.ViewModels
             }
             if (bD10Dens.Count > 0)
             {
-                string jsonText = JsonConvert.SerializeObject(bD10Dens,Formatting.Indented);
+                string jsonText = JsonConvert.SerializeObject(bD10Dens,Formatting.None);
                 MqttManager.Pulish(FileManager.MQTTKEY + "_laydanhsachbd", jsonText);
 
 

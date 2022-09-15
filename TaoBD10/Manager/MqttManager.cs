@@ -91,6 +91,7 @@ namespace TaoBD10.Manager
                     APIManager.WaitingFindedWindow("xac nhan bd10 den");
                 }else if (datas[0] == "laydanhsachbd")
                 {
+                    APIManager.ShowSnackbar("Đang lấy danh sách bd đến");
                     //Thuc hien xu ly lay danh sach bd
                     WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToLayBDHA_LayDanhSach" });
 

@@ -118,17 +118,18 @@ namespace TaoBD10.ViewModels
                 {
                     lastText = textClip;
                     countSame = 0;
+                    List<string> listString = textClip.Split('\t').ToList();
+                    if (listString.Count >= 6)
+                    {
+                        bD10Dens.Add(new BD10DenInfo(APIManager.ConvertToUnSign3(listString[0]), listString[2], listString[4], listString[5], APIManager.ConvertToUnSign3(listString[6])));
+                    }
+                    else
+                    {
+                        APIManager.ShowSnackbar("Lỗi! Không Copy Được");
+                        return;
+                    }
                 }
-                List<string> listString = textClip.Split('\t').ToList();
-                if (listString.Count >= 6)
-                {
-                    bD10Dens.Add(new BD10DenInfo(APIManager.ConvertToUnSign3(listString[0]), listString[2], listString[4], listString[5],APIManager.ConvertToUnSign3( listString[6])));
-                }
-                else
-                {
-                    APIManager.ShowSnackbar("Lỗi! Không Copy Được");
-                    return;
-                }
+               
                 //tuiHangHoas.Add(TuiHangHoa);
                 SendKeys.SendWait("{DOWN}");
             }

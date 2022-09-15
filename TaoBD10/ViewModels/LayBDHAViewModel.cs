@@ -119,7 +119,6 @@ namespace TaoBD10.ViewModels
                     lastText = textClip;
                     countSame = 0;
                 }
-                string ss = "dfd";
                 List<string> listString = textClip.Split('\t').ToList();
                 if (listString.Count >= 6)
                 {

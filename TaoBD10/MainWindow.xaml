@@ -83,7 +83,7 @@
                         <Behaviors:InvokeCommandAction Command="{Binding MouseEnterTabTuiCommand}" CommandParameter="{Binding ElementName=MainView}" />
                     </Behaviors:EventTrigger>
                 </Behaviors:Interaction.Triggers>
-                <TabItem Padding="0" Header="CHÍNH">
+                <TabItem Padding="0"  Header="CHÍNH">
                     <view:ChinhView />
                 </TabItem>
                 <TabItem Padding="0" Header="WEB">
@@ -195,7 +195,7 @@
             <CheckBox Content="Top Most" IsChecked="{Binding IsTopMost}" />
             <CheckBox Content="Auto F4" IsChecked="{Binding IsAutoF4}" />
             <CheckBox Content="Is Find Item" IsChecked="{Binding IsFindItem}" />
-            <CheckBox Content="Bỏ Qua Huyện" IsChecked="{Binding IsBoQuaHuyen}" />
+            <CheckBox Content="Bỏ Huyện" IsChecked="{Binding IsBoQuaHuyen}" />
         </StackPanel>
     </Grid>
 </Window>

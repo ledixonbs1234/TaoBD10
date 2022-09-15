@@ -81,14 +81,15 @@ namespace TaoBD10.Manager
                     {
                         return;
                     }
-                    var list = APIManager.GetListControlText(window.hwnd);
-                    var control = list.FirstOrDefault(m => m.Text.IndexOf("xac nhan")!= -1);
-                    if(control == null)
-                    {
-                        return;
-                    }
-                    APIManager.ClickButton(control.Handle);
+                    //var list = APIManager.GetListControlText(window.hwnd);
+                    //var control = list.FirstOrDefault(m => m.Text.IndexOf("xac nhan")!= -1);
+                    //if(control == null)
+                    //{
+                    //    return;
+                    //}
+                    APIManager.ClickButton(window.hwnd,"xac nhan",isExactly:false);
                     APIManager.WaitingFindedWindow("xac nhan bd10 den");
+                    System.Windows.Forms.SendKeys.SendWait("{F8}");
                 }
 
             }

@@ -18,7 +18,7 @@ mono_crash.*
 
 # Build results
 !*/Debug/TaoBD10.exe
-[Dd]ebug/
+#[Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/

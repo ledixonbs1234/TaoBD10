@@ -87,7 +87,7 @@ namespace TaoBD10.ViewModels
                     string bdIndex = datas[0];
                     string lanLap = datas[1];
                     _LanLapArray = new bool[] { false, false, false, false, false };
-                    _LanLapArray[int.Parse(lanLap)] = true;
+                    _LanLapArray[int.Parse(lanLap)-1] = true;
                     switch (bdIndex)
                     {
 
@@ -125,7 +125,7 @@ namespace TaoBD10.ViewModels
         private void BwGetDanhSachBD_DoWork(object sender, DoWorkEventArgs e)
         {
             var temp = FileManager.optionModel.GoFastBD10Den.Split(',');
-            APIManager.GoToWindow(FileManager.optionModel.MaKhaiThac, "danh sach bd10 den", temp[0], temp[1]);
+            APIManager.GoToWindow(FileManager.optionModel.MaKhaiThac, "danh sach bd1", temp[0], temp[1]);
             WindowInfo currentWindow = APIManager.WaitingFindedWindow("danh sach bd10 den");
             if (currentWindow == null)
             {
@@ -321,7 +321,7 @@ namespace TaoBD10.ViewModels
         private void BwLayBD_DoWork(object sender, DoWorkEventArgs e)
         {
             var temp = FileManager.optionModel.GoFastBD10Den.Split(',');
-            APIManager.GoToWindow(FileManager.optionModel.MaKhaiThac, "danh sach bd10 n", temp[0], temp[1]);
+            APIManager.GoToWindow(FileManager.optionModel.MaKhaiThac, "danh sach bd10 den", temp[0], temp[1]);
             WindowInfo currentWindow = APIManager.WaitingFindedWindow("danh sach bd10 den");
             if (currentWindow == null)
             {

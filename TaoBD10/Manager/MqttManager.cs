@@ -91,6 +91,9 @@ namespace TaoBD10.Manager
                     //Thuc hien xu ly lay danh sach bd
                     WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToLayBDHA_LayDanhSach" });
 
+                }else if (datas[0] == "savebd")
+                {
+                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToGetBD_SaveBD", Content = datas[1] + "|" + datas[2] });
                 }
 
             }

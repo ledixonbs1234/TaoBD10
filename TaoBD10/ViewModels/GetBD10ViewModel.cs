@@ -63,6 +63,8 @@ namespace TaoBD10.ViewModels
 
         private List<TuiHangHoa> tuiTempHangHoa;
 
+        BackgroundWorker bwGoToBd;
+
         public GetBD10ViewModel()
         {
             listMaBD8 = new List<MaBD8Model>();
@@ -71,6 +73,8 @@ namespace TaoBD10.ViewModels
             TestCommand = new RelayCommand(new Action(() =>
             {
             }));
+            bwGoToBd = new BackgroundWorker();
+            bwGoToBd.DoWork += BwGoToBd_DoWork;
 
             bwGetData = new BackgroundWorker();
             bwGetData.WorkerSupportsCancellation = true;
@@ -88,9 +92,85 @@ namespace TaoBD10.ViewModels
                     {
                         BuoiArray[3] = true;
                     }
+                }else if(m.Key == "ToGetBD_SaveBD")
+                {
+                    string[] datas = m.Content.Split('|');
+                    currentMaBuuCuc = datas[0];
+                    currentLanLap = datas[1];
+                    bwGoToBd.RunWorkerAsync();
+
                 }
 
             });
+        }
+        string currentMaBuuCuc = "";
+        string currentLanLap = "";
+
+        private void BwGoToBd_DoWork(object sender, DoWorkEventArgs e)
+        {
+            var temp = FileManager.optionModel.GoFastBD10Den.Split(',');
+            APIManager.GoToWindow(FileManager.optionModel.MaKhaiThac, "danh sach bd14", temp[0], temp[1]);
+            WindowInfo currentWindow = APIManager.WaitingFindedWindow("danh sach bd10 den");
+            if (currentWindow == null)
+            {
+                return;
+            }
+            Thread.Sleep(100);
+            SendKeys.SendWait("{TAB}");
+            Thread.Sleep(100);
+            SendKeys.SendWait("^{UP}");
+            Thread.Sleep(200);
+
+            string lastText = "";
+            int countSame = 0;
+            List<BD10DenInfo> bD10Dens = new List<BD10DenInfo>();
+            bool isFinded = false;
+            while (countSame <= 3)
+            {
+                string textClip = APIManager.GetCopyData();
+
+                if (string.IsNullOrEmpty(textClip))
+                {
+                    APIManager.ShowSnackbar("Chạy Lại");
+                    return;
+                }
+                //593880-An Hòa	14/09/2022	1	Ô tô	5	18,7	Đã nhận
+                if (lastText == textClip)
+                {
+                    countSame++;
+                }
+                else
+                {
+                    lastText = textClip;
+                    countSame = 0;
+                    List<string> listString = textClip.Split('\t').ToList();
+                    if (listString.Count >= 6)
+                    {
+                        if (listString[0].Substring(0,6) == currentMaBuuCuc&& listString[2] == currentLanLap)
+                        {
+                            isFinded = true;
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        APIManager.ShowSnackbar("Lỗi! Không Copy Được");
+                        return;
+                    }
+                }
+                SendKeys.SendWait("{DOWN}");
+            }
+
+            //thuc hien lenh
+            if (!isFinded)
+            {
+                return;
+            }
+            APIManager.ClickButton(currentWindow.hwnd, "xac nhan", isExactly: false);
+            APIManager.WaitingFindedWindow("xac nhan bd10 den");
+            Thread.Sleep(200);
+            RunAutoGetData();
+
         }
 
         private void BwGetData_DoWork(object sender, DoWorkEventArgs e)

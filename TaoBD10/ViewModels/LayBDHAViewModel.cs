@@ -125,7 +125,7 @@ namespace TaoBD10.ViewModels
         private void BwGetDanhSachBD_DoWork(object sender, DoWorkEventArgs e)
         {
             var temp = FileManager.optionModel.GoFastBD10Den.Split(',');
-            APIManager.GoToWindow(FileManager.optionModel.MaKhaiThac, "danh sach bd1", temp[0], temp[1]);
+            APIManager.GoToWindow(FileManager.optionModel.MaKhaiThac, "danh sach bd14", temp[0], temp[1]);
             WindowInfo currentWindow = APIManager.WaitingFindedWindow("danh sach bd10 den");
             if (currentWindow == null)
             {

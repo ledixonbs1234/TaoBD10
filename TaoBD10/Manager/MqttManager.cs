@@ -70,25 +70,21 @@ namespace TaoBD10.Manager
                 string[] datas= data.Split('|');
                 if (datas[0] == "laybd")
                 {
+                    //thuc hien lay bd hien tai
+                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToLayHAAL_LayBD", Content = datas[1] + "|" + datas[2] });
                     //Thuc hien lay bd sang trua chieu toi
-                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "BD10BUOI", Content = "Toi" });
-                    var window = APIManager.GetActiveWindowTitle();
-                    if(window == null)
-                    {
-                        return;
-                    }
-                    if (window.text != "danh sach bd10 den")
-                    {
-                        return;
-                    }
-                    //var list = APIManager.GetListControlText(window.hwnd);
-                    //var control = list.FirstOrDefault(m => m.Text.IndexOf("xac nhan")!= -1);
-                    //if(control == null)
+                    //WeakReferenceMessenger.Default.Send(new ContentModel { Key = "BD10BUOI", Content = "Toi" });
+                    //var window = APIManager.GetActiveWindowTitle();
+                    //if(window == null)
                     //{
                     //    return;
                     //}
-                    APIManager.ClickButton(window.hwnd,"xac nhan",isExactly:false);
-                    APIManager.WaitingFindedWindow("xac nhan bd10 den");
+                    //if (window.text != "danh sach bd10 den")
+                    //{
+                    //    return;
+                    //}
+                    //APIManager.ClickButton(window.hwnd,"xac nhan",isExactly:false);
+                    //APIManager.WaitingFindedWindow("xac nhan bd10 den");
                 }else if (datas[0] == "laydanhsachbd")
                 {
                     APIManager.ShowSnackbar("Đang lấy danh sách bd đến");

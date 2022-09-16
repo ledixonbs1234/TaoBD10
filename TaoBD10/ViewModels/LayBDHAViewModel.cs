@@ -75,9 +75,49 @@ namespace TaoBD10.ViewModels
                         selectionBDIndex = 4;
                         Button5();
                     }
-                }else if(m.Key == "ToLayBDHA_LayDanhSach")
+                }
+                else if (m.Key == "ToLayBDHA_LayDanhSach")
                 {
                     bwGetDanhSachBD.RunWorkerAsync();
+                }
+                else if (m.Key == "ToLayHAAL_LayBD")
+                {
+                    isGetDataFromPhone = true;
+                    string[] datas = m.Content.Split('|');
+                    string bdIndex = datas[0];
+                    string lanLap = datas[1];
+                    _LanLapArray = new bool[] { false, false, false, false, false };
+                    _LanLapArray[int.Parse(lanLap)] = true;
+                    switch (bdIndex)
+                    {
+
+                        case "1":
+                            Button0();
+
+                            break;
+                        case "2":
+
+                            Button1();
+                            break;
+                        case "3":
+
+                            Button2();
+                            break;
+                        case "4":
+
+                            Button3();
+                            break;
+                        case "5":
+
+                            Button4();
+                            break;
+                        case "6":
+
+                            Button5();
+                            break;
+                        default:
+                            break;
+                    }
                 }
             });
         }
@@ -129,13 +169,13 @@ namespace TaoBD10.ViewModels
                         return;
                     }
                 }
-               
+
                 //tuiHangHoas.Add(TuiHangHoa);
                 SendKeys.SendWait("{DOWN}");
             }
             if (bD10Dens.Count > 0)
             {
-                string jsonText = JsonConvert.SerializeObject(bD10Dens,Formatting.None);
+                string jsonText = JsonConvert.SerializeObject(bD10Dens, Formatting.None);
                 MqttManager.Pulish(FileManager.MQTTKEY + "_laydanhsachbd", jsonText);
 
 
@@ -323,30 +363,40 @@ namespace TaoBD10.ViewModels
             SendKeys.SendWait("{TAB}");
             string data = APIManager.GetCopyData();
             if (string.IsNullOrEmpty(data))
-                return;
-            int countEnter = data.Split('\n').Length;
-            if (countEnter == 2)
             {
-                data = data.Split('\n')[1];
-                //thuc hien cong viec trong nay
-                string[] texts = data.Split('\t');
-                if (texts[0].Substring(0, 6) != maBuuCuc)
+                return;
+            }
+            else
+            {
+                if (isGetDataFromPhone)
                 {
-                    return;
-                }
-                string slTui = texts[4];
-                if (MqttManager.IsConnected)
-                {
-                    MqttManager.Pulish(FileManager.MQTTKEY + "_data", "soluong|" + selectionBDIndex.ToString() + "|" + slTui);
+                    isGetDataFromPhone = false;
+                    bwGetDanhSachBD.RunWorkerAsync();
                 }
             }
+            //int countEnter = data.Split('\n').Length;
+            //if (countEnter == 2)
+            //{
+            //    data = data.Split('\n')[1];
+            //    //thuc hien cong viec trong nay
+            //    string[] texts = data.Split('\t');
+            //    if (texts[0].Substring(0, 6) != maBuuCuc)
+            //    {
+            //        return;
+            //    }
+            //    string slTui = texts[4];
+            //    if (MqttManager.IsConnected)
+            //    {
+            //        MqttManager.Pulish(FileManager.MQTTKEY + "_data", "soluong|" + selectionBDIndex.ToString() + "|" + slTui);
+            //    }
+            //}
 
 
         }
 
         private void BwLayBD_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-           
+
 
         }
 
@@ -454,7 +504,7 @@ namespace TaoBD10.ViewModels
         }
 
         private const uint WM_SETTEXT = 0x000C;
-        private readonly bool[] _LanLapArray = new bool[] { true, false, false, false, false };
+        private bool[] _LanLapArray = new bool[] { true, false, false, false, false };
         private readonly BackgroundWorker bwLayBD;
         private readonly DispatcherTimer timer;
         private ObservableCollection<LayBD10Info> _BD10Infos;
@@ -462,6 +512,8 @@ namespace TaoBD10.ViewModels
         private int indexBuuCuc = 0;
         private bool isWating = false;
         private string maBuuCuc = "";
+        private bool isGetDataFromPhone;
+
         public ICommand AnHoaCommand { get; }
         public ICommand AnLaoCommand { get; }
         public ICommand AnMyCommand { get; }
@@ -498,5 +550,6 @@ namespace TaoBD10.ViewModels
         {
             get { return Array.IndexOf(_LanLapArray, true); }
         }
+
     }
 }

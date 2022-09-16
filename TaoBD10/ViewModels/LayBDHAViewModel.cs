@@ -87,7 +87,7 @@ namespace TaoBD10.ViewModels
                     string bdIndex = datas[0];
                     string lanLap = datas[1];
                     _LanLapArray = new bool[] { false, false, false, false, false };
-                    _LanLapArray[int.Parse(lanLap)-1] = true;
+                    _LanLapArray[int.Parse(lanLap) - 1] = true;
                     switch (bdIndex)
                     {
 
@@ -362,17 +362,11 @@ namespace TaoBD10.ViewModels
             APIManager.FocusHandle(textBoxHandle.Handle);
             SendKeys.SendWait("{TAB}");
             string data = APIManager.GetCopyData();
-            if (string.IsNullOrEmpty(data))
+
+            if (isGetDataFromPhone)
             {
-                return;
-            }
-            else
-            {
-                if (isGetDataFromPhone)
-                {
-                    isGetDataFromPhone = false;
-                    bwGetDanhSachBD.RunWorkerAsync();
-                }
+                isGetDataFromPhone = false;
+                bwGetDanhSachBD.RunWorkerAsync();
             }
             //int countEnter = data.Split('\n').Length;
             //if (countEnter == 2)

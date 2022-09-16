@@ -97,6 +97,7 @@ namespace TaoBD10.ViewModels
                     string[] datas = m.Content.Split('|');
                     currentMaBuuCuc = datas[0];
                     currentLanLap = datas[1];
+                    BuoiArray[int.Parse(datas[2])] = true;
                     bwGoToBd.RunWorkerAsync();
 
                 }

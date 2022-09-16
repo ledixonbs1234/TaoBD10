@@ -361,10 +361,11 @@ namespace TaoBD10.ViewModels
                 return;
             APIManager.FocusHandle(textBoxHandle.Handle);
             SendKeys.SendWait("{TAB}");
-            string data = APIManager.GetCopyData();
+            //string data = APIManager.GetCopyData();
 
             if (isGetDataFromPhone)
             {
+                APIManager.ShowSnackbar("Chay");
                 isGetDataFromPhone = false;
                 bwGetDanhSachBD.RunWorkerAsync();
             }

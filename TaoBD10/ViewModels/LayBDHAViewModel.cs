@@ -164,7 +164,8 @@ namespace TaoBD10.ViewModels
                     {
                         test += listString[0] + '\n';
                         
-                        bD10Dens.Add(new BD10DenInfo(APIManager.ConvertToUnSign3(listString[0]), listString[2], listString[4], listString[5], APIManager.ConvertToUnSign3(listString[6])));
+                        //bD10Dens.Add(new BD10DenInfo(APIManager.ConvertToUnSign3(listString[0]), listString[2], listString[4], listString[5], APIManager.ConvertToUnSign3(listString[6])));
+bD10Dens.Add(new BD10DenInfo(listString[0], listString[2], listString[4], listString[5], listString[6]));
                     }
                     else
                     {

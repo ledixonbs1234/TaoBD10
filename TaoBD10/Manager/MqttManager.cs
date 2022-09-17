@@ -106,7 +106,7 @@ namespace TaoBD10.Manager
 
         public static void Pulish(string topic, string message)
         {
-            client.Publish(topic, Encoding.UTF8.GetBytes(message), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
+            client.Publish(topic, Encoding.UTF8.GetBytes(message), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
         }
 
         public static void Subcribe(string topic)

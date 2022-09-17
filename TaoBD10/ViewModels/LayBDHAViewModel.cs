@@ -140,7 +140,6 @@ namespace TaoBD10.ViewModels
             string lastText = "";
             int countSame = 0;
             List<BD10DenInfo> bD10Dens = new List<BD10DenInfo>();
-            string test ="";
             while (countSame <= 3)
             {
                 string textClip = APIManager.GetCopyData();
@@ -162,10 +161,8 @@ namespace TaoBD10.ViewModels
                     List<string> listString = textClip.Split('\t').ToList();
                     if (listString.Count >= 6)
                     {
-                        test += listString[0] + '\n';
-                        
-                        //bD10Dens.Add(new BD10DenInfo(APIManager.ConvertToUnSign3(listString[0]), listString[2], listString[4], listString[5], APIManager.ConvertToUnSign3(listString[6])));
-bD10Dens.Add(new BD10DenInfo(listString[0], listString[2], listString[4], listString[5], listString[6]));
+
+                        bD10Dens.Add(new BD10DenInfo(listString[0], listString[2], listString[4], listString[5], listString[6]));
                     }
                     else
                     {
@@ -180,8 +177,6 @@ bD10Dens.Add(new BD10DenInfo(listString[0], listString[2], listString[4], listSt
             if (bD10Dens.Count > 0)
             {
 
-                        APIManager.ShowSnackbar(bD10Dens[0].Name);
-                APIManager.OpenNotePad(test, "df");
                 string jsonText = JsonConvert.SerializeObject(bD10Dens, Formatting.Indented);
                 MqttManager.Pulish(FileManager.MQTTKEY + "_laydanhsachbd", jsonText);
 

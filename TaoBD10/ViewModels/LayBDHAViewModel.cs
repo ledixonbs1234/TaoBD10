@@ -179,8 +179,10 @@ bD10Dens.Add(new BD10DenInfo(listString[0], listString[2], listString[4], listSt
             }
             if (bD10Dens.Count > 0)
             {
+
+                        APIManager.ShowSnackbar(bD10Dens[0].Name);
                 APIManager.OpenNotePad(test, "df");
-                string jsonText = JsonConvert.SerializeObject(bD10Dens, Formatting.None);
+                string jsonText = JsonConvert.SerializeObject(bD10Dens, Formatting.Indented);
                 MqttManager.Pulish(FileManager.MQTTKEY + "_laydanhsachbd", jsonText);
 
 

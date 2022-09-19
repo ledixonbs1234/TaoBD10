@@ -49,33 +49,7 @@ namespace TaoBD10.ViewModels
 
             WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>
             {
-                if (m.Key == "Button")
-                {
-                    if (m.Content == "AnMy")
-                    {
-                        selectionBDIndex = 1;
-                        Button3();
-                    }
-                    else if (m.Content == "HoaiAn")
-                    {
-
-                        selectionBDIndex = 2;
-                        Button2();
-                    }
-                    else if (m.Content == "AnLao")
-                    {
-
-                        selectionBDIndex = 3;
-                        Button4();
-                    }
-                    else if (m.Content == "AnHoa")
-                    {
-
-                        selectionBDIndex = 4;
-                        Button5();
-                    }
-                }
-                else if (m.Key == "ToLayBDHA_LayDanhSach")
+                if (m.Key == "ToLayBDHA_LayDanhSach")
                 {
                     if (!bwGetDanhSachBD.IsBusy)
                         bwGetDanhSachBD.RunWorkerAsync();
@@ -179,13 +153,12 @@ namespace TaoBD10.ViewModels
             {
 
                 string jsonText = JsonConvert.SerializeObject(bD10Dens, Formatting.Indented);
-                MqttManager.Pulish(FileManager.MQTTKEY + "_laydanhsachbd", jsonText);
+                MqttManager.Pulish(FileManager.MQTTKEY + "_laydanhsach", jsonText);
 
 
             }
         }
 
-        int selectionBDIndex = 0;
 
 
         void ShowData(List<LayBD10Info> data)

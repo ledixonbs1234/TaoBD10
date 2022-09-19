@@ -18,7 +18,7 @@ namespace TaoBD10.ViewModels
 {
     public class GetBD10ViewModel : ObservableObject
     {
-        private readonly bool[] _BuoiArray = new bool[] { true, false, false, false };
+        private bool[] _BuoiArray = new bool[] { true, false, false, false };
 
         private string _NameBD = "";
 
@@ -99,7 +99,8 @@ namespace TaoBD10.ViewModels
                     string[] datas = m.Content.Split('|');
                     currentMaBuuCuc = datas[0];
                     currentLanLap = datas[1];
-                    BuoiArray[int.Parse(datas[2])] = true;
+                    _BuoiArray = new bool[] { false, false, false, false };
+                    _BuoiArray[int.Parse(datas[2])] = true;
                     bwGoToBd.RunWorkerAsync();
 
                 }
@@ -320,6 +321,7 @@ namespace TaoBD10.ViewModels
             SoundManager.playSound2(@"Number\tingting.wav");
             APIManager.ShowSnackbar("OK");
             MqttManager.SendMessageToPhone("OK");
+            MqttManager.Pulish(FileManager.MQTTKEY + "_luubd", currentMaBuuCuc + "|" + currentLanLap);
 
             WeakReferenceMessenger.Default.Send<string>("LoadBD10");
         }

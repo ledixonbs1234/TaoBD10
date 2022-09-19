@@ -9,7 +9,6 @@ using System.Diagnostics;
 using System.Drawing.Printing;
 using System.Linq;
 using System.Printing;
-using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -133,7 +132,8 @@ namespace TaoBD10.ViewModels
                         bwPrintDiNgoai.CancelAsync();
                         bwPrintDiNgoai.RunWorkerAsync();
                     }
-                }else if(m.Key == "DiNgoaiTuDongNext")
+                }
+                else if (m.Key == "DiNgoaiTuDongNext")
                 {
                     DiNgoaiTuDongNext();
                 }
@@ -786,7 +786,6 @@ namespace TaoBD10.ViewModels
 
                         LocalPrintServer localPrintServer = new LocalPrintServer();
 
-                        string ss = "";
 
                         PrinterSettings settings = new PrinterSettings();
                         PrintQueueStatus statusPrint = PrintQueueStatus.None;
@@ -806,7 +805,7 @@ namespace TaoBD10.ViewModels
                             }
                             Thread.Sleep(100);
                         }
-                        if(statusPrint == PrintQueueStatus.None)
+                        if (statusPrint == PrintQueueStatus.None)
                         {
                             APIManager.ShowSnackbar("Khong In");
 

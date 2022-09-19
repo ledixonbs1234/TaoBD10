@@ -1,13 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
 using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using TaoBD10.Model;
-using TaoBD10.ViewModels;
 using uPLibrary.Networking.M2Mqtt;
 using uPLibrary.Networking.M2Mqtt.Messages;
 
@@ -50,24 +45,24 @@ namespace TaoBD10.Manager
             {
                 if (data == "anmy")
                 {
-                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Button",Content="AnMy" });
+                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Button", Content = "AnMy" });
                 }
                 else if (data == "hoaian")
                 {
-                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Button",Content="HoaiAn" });
+                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Button", Content = "HoaiAn" });
                 }
                 else if (data == "anlao")
                 {
-                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Button",Content="AnLao" });
+                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Button", Content = "AnLao" });
                 }
                 else if (data == "anhoa")
                 {
-                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Button",Content="AnHoa" });
+                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Button", Content = "AnHoa" });
                 }
             }
             else if (e.Topic == FileManager.MQTTKEY + "_datatopc")
             {
-                string[] datas= data.Split('|');
+                string[] datas = data.Split('|');
                 if (datas[0] == "laybd")
                 {
                     //thuc hien lay bd hien tai
@@ -85,16 +80,19 @@ namespace TaoBD10.Manager
                     //}
                     //APIManager.ClickButton(window.hwnd,"xac nhan",isExactly:false);
                     //APIManager.WaitingFindedWindow("xac nhan bd10 den");
-                }else if (datas[0] == "laydanhsachbd")
+                }
+                else if (datas[0] == "laydanhsach")
                 {
                     APIManager.ShowSnackbar("Đang lấy danh sách bd đến");
                     //Thuc hien xu ly lay danh sach bd
                     WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToLayBDHA_LayDanhSach" });
 
-                }else if (datas[0] == "savebd")
+                }
+                else if (datas[0] == "savebd")
                 {
-                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToGetBD_SaveBD", Content = datas[1] + "|" + datas[2]+ "|" + datas[3] });
-                }else if (datas[0]== "checkbd")
+                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToGetBD_SaveBD", Content = datas[1] + "|" + datas[2] + "|" + datas[3] });
+                }
+                else if (datas[0] == "checkbd")
                 {
                     //thuc hien lay danh sach da save
                     WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToDanhSach_CheckBD", Content = datas[1] });

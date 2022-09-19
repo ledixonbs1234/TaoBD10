@@ -292,7 +292,7 @@ namespace TaoBD10.ViewModels
             {
                 APIManager.ShowSnackbar("Không tìm thấy window xác nhận");
             }
-            Thread thread = new Thread(() => System.Windows.Clipboard.SetText("a"));
+            Thread thread = new Thread(() => System.Windows.Clipboard.Clear());
             string maBDGui = noiGuiBD.Substring(0, 6);
             string dataCopyed = "";
             if (maBDGui == "593740" || maBDGui == "593850" || maBDGui == "593880" || maBDGui == "593630")
@@ -307,17 +307,25 @@ namespace TaoBD10.ViewModels
                 Thread.Sleep(800);
 
                 dataCopyed = APIManager.GetCopyData();
-                if (dataCopyed == "a")
+                if (!string.IsNullOrEmpty(dataCopyed))
                 {
-                    APIManager.ShowSnackbar("Chay Copy");
-                    SendKeys.SendWait("{TAB}");
-                    Thread.Sleep(50);
+                    if (dataCopyed.Split('\n')[0].Split('\t').Length == 11)
+                    {
+                        SendKeys.SendWait("{TAB}");
+                        Thread.Sleep(50);
+                    }
+                    else
+                    {
+                        APIManager.ClickButton(window.hwnd, ">");
+                        Thread.Sleep(500);
+                        SendKeys.SendWait("+{TAB}");
+                        Thread.Sleep(50);
+                    }
+
                 }
                 else
                 {
-                    APIManager.ClickButton(window.hwnd, ">");
-                    Thread.Sleep(500);
-                    SendKeys.SendWait("+{TAB}");
+                    SendKeys.SendWait("{TAB}");
                     Thread.Sleep(50);
                 }
             }

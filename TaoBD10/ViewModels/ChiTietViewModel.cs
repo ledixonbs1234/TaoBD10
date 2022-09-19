@@ -218,30 +218,31 @@ namespace TaoBD10.ViewModels
                 //kiemtra thu cho nay co sh tui la bao nhieu neu vn thi lay dia chi
                 //de ra phan xem chuyen thu chieu den thi in ra luon
                 //con neu khong co lam cach nao do de lay duoc cai ma hieu va in ra
-                if(CurrentSelectedHangHoaDetail.TuiHangHoa.SHTui.Length == 13)
+                if (CurrentSelectedHangHoaDetail.TuiHangHoa.SHTui.Length == 13)
                 {
                     //thuc hien lay dia chi cho nay
                     currentMH = CurrentSelectedHangHoaDetail.TuiHangHoa.SHTui;
-                }else
+                }
+                else
                 {
                     SendKeys.SendWait("{TAB}{TAB}");
                     Thread.Sleep(50);
 
                     string copyed = APIManager.GetCopyData();
-                    if(copyed != null)
+                    if (copyed != null)
                     {
                         string[] enterText = copyed.Split('\n');
-                        if(enterText.Length == 2)
+                        if (enterText.Length == 2)
                         {
                             copyed = enterText[1];
                         }
-                        string[] data=copyed.Split('\t');
+                        string[] data = copyed.Split('\t');
 
                         currentMH = data[1];
                     }
                 }
-                
-                if(currentMH.Length == 13)
+
+                if (currentMH.Length == 13)
                 {
                     WeakReferenceMessenger.Default.Send(new ContentModel { Key = "XacNhanMHCTDen", Content = currentMH });
                 }
@@ -547,8 +548,7 @@ namespace TaoBD10.ViewModels
             {
                 isGone = true;
             }
-            else
-            if (classNameComBoBox.IndexOf(currentLocBd.TaoBDs[0].BCNhan.Substring(0, 6)) == -1)
+            else if (classNameComBoBox.IndexOf(currentLocBd.TaoBDs[0].BCNhan.Substring(0, 6)) == -1)
             {
                 isRightBD10 = false;
             }

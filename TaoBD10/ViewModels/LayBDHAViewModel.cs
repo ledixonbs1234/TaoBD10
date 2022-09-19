@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using ExcelLibrary.BinaryFileFormat;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -78,7 +77,8 @@ namespace TaoBD10.ViewModels
                 }
                 else if (m.Key == "ToLayBDHA_LayDanhSach")
                 {
-                    bwGetDanhSachBD.RunWorkerAsync();
+                    if (!bwGetDanhSachBD.IsBusy)
+                        bwGetDanhSachBD.RunWorkerAsync();
                 }
                 else if (m.Key == "ToLayHAAL_LayBD")
                 {
@@ -146,6 +146,7 @@ namespace TaoBD10.ViewModels
 
                 if (string.IsNullOrEmpty(textClip))
                 {
+                    MqttManager.SendMessageToPhone("Chạy Lại");
                     APIManager.ShowSnackbar("Chạy Lại");
                     return;
                 }
@@ -161,12 +162,12 @@ namespace TaoBD10.ViewModels
                     List<string> listString = textClip.Split('\t').ToList();
                     if (listString.Count >= 6)
                     {
-
                         bD10Dens.Add(new BD10DenInfo(listString[0], listString[2], listString[4], listString[5], listString[6]));
                     }
                     else
                     {
                         APIManager.ShowSnackbar("Lỗi! Không Copy Được");
+                        MqttManager.SendMessageToPhone("Lỗi! Không Copy Được");
                         return;
                     }
                 }
@@ -329,7 +330,7 @@ namespace TaoBD10.ViewModels
             {
                 return;
             }
-            System.Collections.Generic.List<Model.TestAPIModel> childControl = APIManager.GetListControlText(currentWindow.hwnd);
+            List<TestAPIModel> childControl = APIManager.GetListControlText(currentWindow.hwnd);
             IntPtr combo = IntPtr.Zero;
 
             string classDefault = "WindowsForms10.COMBOBOX.app.0.1e6fa8e";
@@ -367,7 +368,8 @@ namespace TaoBD10.ViewModels
 
             if (isGetDataFromPhone)
             {
-                APIManager.ShowSnackbar("Chay");
+                MqttManager.SendMessageToPhone("Lấy BD Xong");
+
                 isGetDataFromPhone = false;
                 bwGetDanhSachBD.RunWorkerAsync();
             }

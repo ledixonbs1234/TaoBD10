@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Threading;
 using TaoBD10.Manager;
 using TaoBD10.Model;
+using static TaoBD10.Manager.EnumAll;
 
 namespace TaoBD10.ViewModels
 {
@@ -86,13 +87,14 @@ namespace TaoBD10.ViewModels
             timer.Tick += Timer_Tick;
             WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>
             {
-                if(m.Key== "BD10BUOI")
+                if (m.Key == "BD10BUOI")
                 {
-                    if(m.Content == "Toi")
+                    if (m.Content == "Toi")
                     {
                         BuoiArray[3] = true;
                     }
-                }else if(m.Key == "ToGetBD_SaveBD")
+                }
+                else if (m.Key == "ToGetBD_SaveBD")
                 {
                     string[] datas = m.Content.Split('|');
                     currentMaBuuCuc = datas[0];
@@ -133,6 +135,7 @@ namespace TaoBD10.ViewModels
                 if (string.IsNullOrEmpty(textClip))
                 {
                     APIManager.ShowSnackbar("Chạy Lại");
+                    MqttManager.SendMessageToPhone("Chạy Lại");
                     return;
                 }
                 //593880-An Hòa	14/09/2022	1	Ô tô	5	18,7	Đã nhận
@@ -147,7 +150,7 @@ namespace TaoBD10.ViewModels
                     List<string> listString = textClip.Split('\t').ToList();
                     if (listString.Count >= 6)
                     {
-                        if (listString[0].Substring(0,6) == currentMaBuuCuc&& listString[2] == currentLanLap)
+                        if (listString[0].Substring(0, 6) == currentMaBuuCuc && listString[2] == currentLanLap)
                         {
                             isFinded = true;
                             break;
@@ -156,6 +159,7 @@ namespace TaoBD10.ViewModels
                     else
                     {
                         APIManager.ShowSnackbar("Lỗi! Không Copy Được");
+                        MqttManager.SendMessageToPhone("Lỗi! Không Copy Được");
                         return;
                     }
                 }
@@ -169,7 +173,7 @@ namespace TaoBD10.ViewModels
             }
             APIManager.ClickButton(currentWindow.hwnd, "xac nhan", isExactly: false);
             APIManager.WaitingFindedWindow("xac nhan bd10 den");
-            Thread.Sleep(200);
+            Thread.Sleep(1500);
             RunAutoGetData();
 
         }
@@ -191,32 +195,34 @@ namespace TaoBD10.ViewModels
             ngayThangBD = childHandles.Where(m => m.ClassName.IndexOf("SysDateTimePick32") != -1).ToList()[1].Text;
             lanLapBD = childHandles.Last(m => m.ClassName.IndexOf(".EDIT.app.0") != -1).Text;
             slTuiInBD = int.Parse(childHandles.Where(m => m.ClassName.IndexOf(".STATIC.app") != -1).ToList()[22].Text);
-
+            if (SelectedBuoi == -1)
+            {
+                APIManager.ShowSnackbar("Bạn chưa chọn buổi trong ngày");
+                MqttManager.SendMessageToPhone("Bạn chưa chọn buổi trong ngày");
+                return;
+            }
             //thuc hien xu ly ngay thang bd
             DateTime ngayThang = DateTime.Now;
             //DateTime.TryParseExact(ngayThangBD, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out ngayThang);
 
-            var info = FileManager.list.Find(m => m.Name == noiGuiBD && m.LanLap == lanLapBD && m.DateCreateBD10.DayOfYear == ngayThang.DayOfYear);
+            var info = FileManager.list.Find(m => m.Name == noiGuiBD && m.LanLap == lanLapBD && m.DateCreateBD10.DayOfYear == ngayThang.DayOfYear && m.TimeTrongNgay == (TimeSet)SelectedBuoi);
             if (info != null)
             {
                 SoundManager.playSound(@"Number\trungbd.wav");
+                MqttManager.SendMessageToPhone("Trùng BD");
                 return;
             }
 
-            if (SelectedBuoi == -1)
-            {
-                WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Snackbar", Content = "Ban chua chon buoi trong ngay" });
-                return;
-            }
+
 
             NameBD = noiGuiBD;
             IsLoading = true;
             ValueLoading = 50;
 
             SendKeys.SendWait("{F3}");
-            Thread.Sleep(200);
+            Thread.Sleep(300);
             SendKeys.SendWait("^{UP}");
-            Thread.Sleep(200);
+            Thread.Sleep(300);
 
             String lastText = "";
             int countSame = 0;
@@ -228,6 +234,7 @@ namespace TaoBD10.ViewModels
                 if (string.IsNullOrEmpty(textClip))
                 {
                     NameBD = "Chạy Lại";
+                    MqttManager.SendMessageToPhone("Chạy lại");
                     return;
                 }
 
@@ -255,6 +262,7 @@ namespace TaoBD10.ViewModels
                 }
                 else
                 {
+                    MqttManager.SendMessageToPhone("Lỗi! Không Copy Được");
                     NameBD = "Lỗi! Không Copy Được";
                     return;
                 }
@@ -267,6 +275,7 @@ namespace TaoBD10.ViewModels
                 ValueLoading = 0;
 
                 SoundManager.playSound(@"Number\chuadusoluong.wav");
+                MqttManager.SendMessageToPhone(" Chưa đủ số lượng");
                 return;
             }
 
@@ -297,6 +306,7 @@ namespace TaoBD10.ViewModels
             if (string.IsNullOrEmpty(dataCopyed))
             {
                 APIManager.ShowSnackbar("Không copy được");
+                MqttManager.SendMessageToPhone("Không copy được");
                 return;
             }
             PhanLoai(dataCopyed);
@@ -309,6 +319,7 @@ namespace TaoBD10.ViewModels
                 SendKeys.SendWait("{ESC}");
             SoundManager.playSound2(@"Number\tingting.wav");
             APIManager.ShowSnackbar("OK");
+            MqttManager.SendMessageToPhone("OK");
 
             WeakReferenceMessenger.Default.Send<string>("LoadBD10");
         }

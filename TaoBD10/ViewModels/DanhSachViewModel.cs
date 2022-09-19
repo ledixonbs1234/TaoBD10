@@ -96,6 +96,7 @@ namespace TaoBD10.ViewModels
                     _BuoiArray = new bool[] { false, false, false, false };
                     _BuoiArray[int.Parse(m.Content)] = true;
                     LoadBD10();
+                    APIManager.ShowSnackbar("Chay Danh Sach");
                 }
             
             });
@@ -139,6 +140,7 @@ namespace TaoBD10.ViewModels
             {
                 IsSendToPhone = false;
                 string jsonText = JsonConvert.SerializeObject(tempBDs, Formatting.Indented);
+                APIManager.ShowSnackbar("Da Send");
                 MqttManager.Pulish(FileManager.MQTTKEY + "_checkbd", jsonText);
 
             }

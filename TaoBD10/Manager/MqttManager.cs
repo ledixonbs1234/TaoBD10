@@ -109,6 +109,11 @@ namespace TaoBD10.Manager
 
         }
 
+        public static void SendMessageToPhone(string message)
+        {
+            Pulish(FileManager.MQTTKEY + "_message", message);
+        }
+
         public static void Pulish(string topic, string message)
         {
             client.Publish(topic, Encoding.UTF8.GetBytes(message), MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE, false);

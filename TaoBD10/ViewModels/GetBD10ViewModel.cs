@@ -292,10 +292,9 @@ namespace TaoBD10.ViewModels
             {
                 APIManager.ShowSnackbar("Không tìm thấy window xác nhận");
             }
-            Thread thread = new Thread(() => System.Windows.Clipboard.Clear());
+            Thread thread = new Thread(() => System.Windows.Clipboard.SetText("a"));
             string maBDGui = noiGuiBD.Substring(0, 6);
             string dataCopyed = "";
-            System.Windows.Clipboard.SetText("a");
             if (maBDGui == "593740" || maBDGui == "593850" || maBDGui == "593880" || maBDGui == "593630")
             {
                 SendKeys.SendWait("{TAB}");

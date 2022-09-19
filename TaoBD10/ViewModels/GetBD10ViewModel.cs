@@ -293,17 +293,47 @@ namespace TaoBD10.ViewModels
                 APIManager.ShowSnackbar("Không tìm thấy window xác nhận");
             }
             Thread thread = new Thread(() => System.Windows.Clipboard.Clear());
-
-            for (int i = 0; i < 4; i++)
+            string maBDGui = noiGuiBD.Substring(0, 6);
+            string dataCopyed = "";
+            if (maBDGui == "593740" || maBDGui == "593850" || maBDGui == "593880" || maBDGui == "593630")
             {
                 SendKeys.SendWait("{TAB}");
                 Thread.Sleep(50);
+                SendKeys.SendWait("{TAB}");
+                Thread.Sleep(50);
+                SendKeys.SendWait("{TAB}");
+                Thread.Sleep(50);
+                SendKeys.SendWait("^(a)");
+                Thread.Sleep(800);
+                dataCopyed = APIManager.GetCopyData();
+                if (string.IsNullOrEmpty(dataCopyed))
+                {
+                    SendKeys.SendWait("{TAB}");
+                    Thread.Sleep(50);
+                }
+                else
+                {
+                    APIManager.ClickButton(window.hwnd, ">");
+                    Thread.Sleep(500);
+                    SendKeys.SendWait("+{TAB}");
+                    Thread.Sleep(50);
+                }
             }
-            //thuc hien ctrl a
-            SendKeys.SendWait("^(a)");
-            Thread.Sleep(500);
+            else
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    SendKeys.SendWait("{TAB}");
+                    Thread.Sleep(50);
+                }
+                //thuc hien ctrl a
 
-            string dataCopyed = APIManager.GetCopyData();
+
+            }
+
+            SendKeys.SendWait("^(a)");
+            Thread.Sleep(800);
+            dataCopyed = APIManager.GetCopyData();
             if (string.IsNullOrEmpty(dataCopyed))
             {
                 APIManager.ShowSnackbar("Không copy được");

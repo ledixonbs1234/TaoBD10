@@ -150,6 +150,29 @@ namespace TaoBD10.ViewModels
                 }
             }
 
+            WeakReferenceMessenger.Default.Register<ChiTietTuiMessage>(this, (r, m) =>
+            {
+                if (m.Value != null)
+                {
+                    if (m.Value.Key == "ChuyenThuAddress")
+                    {
+                        List<ChiTietTuiModel> chiTietTuis = m.Value.ChiTietTuis;
+
+                        foreach (ChiTietTuiModel chiTietTui in chiTietTuis)
+                        {
+                            var HaveHangHoa = ListShowHangHoa.FirstOrDefault(s => s.TuiHangHoa.SHTui.ToUpper() == chiTietTui.MaHieu.ToUpper());
+                            if (HaveHangHoa != null)
+                            {
+                                HaveHangHoa.Address = chiTietTui.Address.Trim();
+                            }
+
+                        }
+                    }
+
+                }
+            }
+          );
+
             //thuc hien viec xoa Thong Tin tu Tinh Thanh;
         }
 
@@ -1102,6 +1125,7 @@ namespace TaoBD10.ViewModels
                     return;
 
                 ListShowHangHoa = new ObservableCollection<HangHoaDetailModel>();
+                string SHTuiList = "";
 
                 foreach (HangHoaDetailModel hangHoa in currenLoc.HangHoas)
                 {
@@ -1113,6 +1137,15 @@ namespace TaoBD10.ViewModels
                     }
                     hangHoa.Index = ListShowHangHoa.Count + 1;
                     ListShowHangHoa.Add(hangHoa);
+                    if (hangHoa.TuiHangHoa.SHTui.Length == 13)
+                    {
+                        SHTuiList += hangHoa.TuiHangHoa.SHTui + ",";
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(SHTuiList))
+                {
+                    LayDiaChi(SHTuiList);
                 }
 
                 //thuc hien show Ten Tinh
@@ -1143,6 +1176,14 @@ namespace TaoBD10.ViewModels
                 IndexTaoBDItem = 0;
             }
 
+        }
+
+        void LayDiaChi(string listCode)
+        {
+            string addressDefault = "https://bccp.vnpost.vn/BCCP.aspx?act=MultiTrace&id=";
+
+            addressDefault += listCode;
+            WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "ListAddressChuyenThu", Content = addressDefault });
         }
 
         private void Selection(HangHoaDetailModel selected)
@@ -1436,7 +1477,15 @@ namespace TaoBD10.ViewModels
         private int countDuongThu = 0;
         private BuuCuc currentBuuCuc = BuuCuc.None;
         private List<HangHoaDetailModel> currentListHangHoa;
-        private HangHoaDetailModel CurrentSelectedHangHoaDetail = null;
+        private HangHoaDetailModel _CurrentSelectedHangHoaDetail;
+
+        public HangHoaDetailModel CurrentSelectedHangHoaDetail
+        {
+            get { return _CurrentSelectedHangHoaDetail; }
+            set { SetProperty(ref _CurrentSelectedHangHoaDetail, value); }
+        }
+
+
         private PhanLoaiTinh currentTinh = PhanLoaiTinh.None;
         private bool isWaiting = false;
         private string maBuuCuc = "0";

@@ -11,7 +11,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -133,6 +132,13 @@ namespace TaoBD10.ViewModels
                      isClickWebBCCP = false;
                      WebBrowser.LoadUrl(m.Content);
                  }
+                 else if (m.Key == "ListAddressChuyenThu")
+                 {
+                     APIManager.downLoadRoad = DownLoadRoad.ChuyenThuAddress;
+                     isClickWebBCCP = false;
+                     WebBrowser.LoadUrl(m.Content);
+
+                 }
                  else if (m.Key == "ListAddressDiNgoai")
                  {
                      APIManager.downLoadRoad = DownLoadRoad.DiNgoai;
@@ -247,6 +253,9 @@ namespace TaoBD10.ViewModels
                                 break;
                             case DownLoadRoad.TamQuanAddress:
                                 GetListAddress(downloadItem.FullPath, "TamQuanAddress");
+                                break;
+                            case DownLoadRoad.ChuyenThuAddress:
+                                GetListAddress(downloadItem.FullPath, "ChuyenThuAddress");
                                 break;
                             case DownLoadRoad.DiNgoai:
                                 GetListAddress(downloadItem.FullPath, "DiNgoai");
@@ -371,7 +380,7 @@ namespace TaoBD10.ViewModels
             WebBrowser.ExecuteScriptAsync(script);
         }
 
-       
+
         private bool isFirstLoginSuccess = false;
         private bool isFix = false;
 

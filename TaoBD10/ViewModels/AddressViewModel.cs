@@ -1,17 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Windows;
 using System.Windows.Input;
 using TaoBD10.Manager;
 using TaoBD10.Model;
-using uPLibrary.Networking.M2Mqtt;
-using uPLibrary.Networking.M2Mqtt.Messages;
 
 namespace TaoBD10.ViewModels
 {
@@ -32,7 +27,7 @@ namespace TaoBD10.ViewModels
             LayDiaChiCommand = new RelayCommand(LayDiaChi);
             SendDataCommand = new RelayCommand(SendData);
 
-           
+
 
             WeakReferenceMessenger.Default.Register<TuiHangHoaMessage>(this, (r, m) =>
 {
@@ -275,7 +270,7 @@ namespace TaoBD10.ViewModels
 
         public ICommand LocCommand { get; }
         public ICommand SendDataCommand { get; }
-       
+
         private int _CountTamQuan;
         private ObservableCollection<HangHoaDetailModel> _HangHoas;
         private ObservableCollection<string> _LoaiAddress;

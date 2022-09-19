@@ -94,6 +94,11 @@ namespace TaoBD10.Manager
                 }else if (datas[0] == "savebd")
                 {
                     WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToGetBD_SaveBD", Content = datas[1] + "|" + datas[2]+ "|" + datas[3] });
+                }else if (datas[0]== "checkbd")
+                {
+                    //thuc hien lay danh sach da save
+                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToDanhSach_CheckBD", Content = datas[1] });
+
                 }
 
             }

@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -72,6 +73,7 @@ namespace TaoBD10.ViewModels
         }
 
         public ICommand LayDuLieuCommand { get; }
+        bool IsSendToPhone = false;
 
         public DanhSachViewModel()
         {
@@ -85,6 +87,17 @@ namespace TaoBD10.ViewModels
                 {
                     LoadBD10();
                 }
+            });
+            WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) => { 
+                if(m.Key == "ToDanhSach_CheckBD")
+                {
+                    //thuch ien lay danh sach voi 
+                    IsSendToPhone = true;
+                    _BuoiArray = new bool[] { false, false, false, false };
+                    _BuoiArray[int.Parse(m.Content)] = true;
+                    LoadBD10();
+                }
+            
             });
         }
 
@@ -104,6 +117,7 @@ namespace TaoBD10.ViewModels
 
         private void LoadForDate(DateTime time, TimeSet buoi)
         {
+            List<BD10InfoModel> tempBDs = new List<BD10InfoModel>();
             foreach (var item in FileManager.LoadBD10Offline())
             {
                 //thuc hien load theo ngay
@@ -112,10 +126,31 @@ namespace TaoBD10.ViewModels
                     if (item.TimeTrongNgay == buoi)
                     {
                         item.isChecked = false;
-                        BD10List.Add(item);
+                        tempBDs.Add(item);
                     }
                 }
             }
+            if (tempBDs.Count == 0)
+            {
+                IsSendToPhone = false;
+                return;
+            }
+            if (IsSendToPhone)
+            {
+                IsSendToPhone = false;
+                string jsonText = JsonConvert.SerializeObject(tempBDs, Formatting.Indented);
+                MqttManager.Pulish(FileManager.MQTTKEY + "_checkbd", jsonText);
+
+            }
+            else
+            {
+                foreach (var item in tempBDs)
+                {
+                    BD10List.Add(item);
+                }
+            }
+
+            
         }
 
         private void LayDuLieu()

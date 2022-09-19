@@ -295,7 +295,7 @@ namespace TaoBD10.ViewModels
             Thread thread = new Thread(() => System.Windows.Clipboard.Clear());
             string maBDGui = noiGuiBD.Substring(0, 6);
             string dataCopyed = "";
-            Clipboard.SetText("a");
+            System.Windows.Clipboard.SetText("a");
             if (maBDGui == "593740" || maBDGui == "593850" || maBDGui == "593880" || maBDGui == "593630")
             {
                 SendKeys.SendWait("{TAB}");

@@ -305,9 +305,11 @@ namespace TaoBD10.ViewModels
                 Thread.Sleep(50);
                 SendKeys.SendWait("^(a)");
                 Thread.Sleep(800);
+
                 dataCopyed = APIManager.GetCopyData();
                 if (string.IsNullOrEmpty(dataCopyed))
                 {
+                    APIManager.ShowSnackbar("Chay Copy");
                     SendKeys.SendWait("{TAB}");
                     Thread.Sleep(50);
                 }

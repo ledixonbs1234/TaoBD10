@@ -13,16 +13,13 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
 using System.Windows.Automation;
-using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Threading;
 using TaoBD10.Manager;
 using TaoBD10.Model;
 using TaoBD10.Views;
-using static TaoBD10.Manager.EnumAll;
 using Condition = System.Windows.Automation.Condition;
-using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace TaoBD10.ViewModels
 {
@@ -86,6 +83,7 @@ namespace TaoBD10.ViewModels
 
 
 
+        BackgroundWorker bwCheckConnectMqtt;
 
         public MainViewModel()
         {
@@ -125,7 +123,7 @@ namespace TaoBD10.ViewModels
 
             OptionViewCommand = new RelayCommand(OptionView);
             timer = new DispatcherTimer();
-            timer.Interval = new TimeSpan(0, 20, 0);
+            timer.Interval = new TimeSpan(0, 3, 0);
             timer.Tick += Timer_Tick;
             timer.Start();
             _keyboardHook = new Y2KeyboardHook();
@@ -141,7 +139,11 @@ namespace TaoBD10.ViewModels
             MqttManager.Connect();
             if (!string.IsNullOrEmpty(MqttKey))
                 MqttManager.Subcribe(MqttKey);
-           
+
+            bwCheckConnectMqtt = new BackgroundWorker();
+            bwCheckConnectMqtt.DoWork += BwCheckConnectMqtt_DoWork;
+            bwCheckConnectMqtt.RunWorkerAsync();
+
 
 
 
@@ -329,6 +331,14 @@ namespace TaoBD10.ViewModels
             });
         }
 
+        private void BwCheckConnectMqtt_DoWork(object sender, DoWorkEventArgs e)
+        {
+            while (true)
+            {
+                MqttManager.checkConnect();
+            }
+        }
+
         private void Timer_Tick(object sender, EventArgs e)
         {
             if (listFindItem.Count > 0)
@@ -341,10 +351,6 @@ namespace TaoBD10.ViewModels
                 data.AddRange(listFindItem);
                 FileManager.SaveFindItemFirebase(data);
                 listFindItem.Clear();
-            }
-            if (DateTime.Now.Hour > 12)
-            {
-                IsBoQuaHuyen = true;
             }
         }
 

@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
 using System;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using TaoBD10.Model;
 using uPLibrary.Networking.M2Mqtt;
@@ -28,6 +30,10 @@ namespace TaoBD10.Manager
             {
                 MessageBox.Show(e.Message);
             }
+        }
+        private static async Task TryReconnectAsync(CancellationToken cancellationToken)
+        {
+
         }
 
         private static void Client_MqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e)
@@ -112,9 +118,12 @@ namespace TaoBD10.Manager
             Pulish(FileManager.MQTTKEY + "_message", message);
         }
 
-        public static void Pulish(string topic, string message)
+        public static void Pulish(string topic, string message, bool isRetain = false)
         {
-            client.Publish(topic, Encoding.UTF8.GetBytes(message), MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE, false);
+            if (!isRetain)
+                client.Publish(topic, Encoding.UTF8.GetBytes(message), MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE, false);
+            else
+                client.Publish(topic, Encoding.UTF8.GetBytes(message), MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE, true);
         }
 
         public static void Subcribe(string topic)
@@ -124,6 +133,21 @@ namespace TaoBD10.Manager
         public static void Subcribe(string[] topics)
         {
             client.Subscribe(topics, new byte[] { MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE });
+        }
+
+        public static void checkConnect()
+        {
+            var connected = client.IsConnected;
+            if (!connected)
+            {
+                try
+                {
+                    client.Connect(_clientId);
+                }
+                catch
+                {
+                }
+            }
         }
     }
 }

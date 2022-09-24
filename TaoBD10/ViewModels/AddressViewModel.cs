@@ -235,7 +235,7 @@ namespace TaoBD10.ViewModels
                     }
                 }
             }
-            MqttManager.Pulish("tamquanget1", dataSend);
+            MqttManager.Pulish("tamquanget1", dataSend, isRetain: true);
         }
 
         private void SetCountTamQuan()

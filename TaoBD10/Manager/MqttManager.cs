@@ -112,9 +112,12 @@ namespace TaoBD10.Manager
             Pulish(FileManager.MQTTKEY + "_message", message);
         }
 
-        public static void Pulish(string topic, string message)
+        public static void Pulish(string topic, string message, bool isRetain = false)
         {
-            client.Publish(topic, Encoding.UTF8.GetBytes(message), MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE, false);
+            if (!isRetain)
+                client.Publish(topic, Encoding.UTF8.GetBytes(message), MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE, false);
+            else
+                client.Publish(topic, Encoding.UTF8.GetBytes(message), MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE, true);
         }
 
         public static void Subcribe(string topic)

@@ -83,6 +83,7 @@ namespace TaoBD10.ViewModels
 
 
 
+        BackgroundWorker bwCheckConnectMqtt;
 
         public MainViewModel()
         {
@@ -138,6 +139,10 @@ namespace TaoBD10.ViewModels
             MqttManager.Connect();
             if (!string.IsNullOrEmpty(MqttKey))
                 MqttManager.Subcribe(MqttKey);
+
+            bwCheckConnectMqtt = new BackgroundWorker();
+            bwCheckConnectMqtt.DoWork += BwCheckConnectMqtt_DoWork;
+            bwCheckConnectMqtt.RunWorkerAsync();
 
 
 
@@ -324,6 +329,14 @@ namespace TaoBD10.ViewModels
                     }
                 }
             });
+        }
+
+        private void BwCheckConnectMqtt_DoWork(object sender, DoWorkEventArgs e)
+        {
+            while (true)
+            {
+                MqttManager.checkConnect();
+            }
         }
 
         private void Timer_Tick(object sender, EventArgs e)

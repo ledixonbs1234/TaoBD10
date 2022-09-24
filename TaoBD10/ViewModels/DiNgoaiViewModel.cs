@@ -647,7 +647,6 @@ namespace TaoBD10.ViewModels
                     APIManager.ShowSnackbar("Không tìm thấy button thoát");
                     return;
                 }
-
                 SendKeys.SendWait("{F10}");
                 APIManager.SendMessage(thoatControl.Handle, 0x00F5, 0, 0);
 
@@ -659,6 +658,7 @@ namespace TaoBD10.ViewModels
                     return;
                 }
 
+                Thread.Sleep(200);
                 SendKeys.SendWait("{F10}");
                 Thread.Sleep(200);
                 currentWindow = APIManager.WaitingFindedWindow("xac nhan");

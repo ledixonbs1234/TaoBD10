@@ -241,19 +241,7 @@ namespace TaoBD10.Manager
         {
             string clipboard = "";
             Thread thread;
-            thread = new Thread(() =>
-            {
-                System.Windows.IDataObject tempCopied = System.Windows.Clipboard.GetDataObject();
-                if (tempCopied != null)
-                {
-                    if (tempCopied.GetDataPresent(typeof(string)))
-                    {
-                        clipboard = tempCopied.GetData(typeof(string)) as string;
-                    }
-                }
-            }
-            );
-
+            thread = new Thread(() => clipboard = System.Windows.Clipboard.GetText(System.Windows.TextDataFormat.UnicodeText));
             thread.SetApartmentState(ApartmentState.STA); //Set the thread to STA
             for (int i = 0; i < 10; i++)
             {

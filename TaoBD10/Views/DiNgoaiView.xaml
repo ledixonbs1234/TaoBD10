@@ -117,9 +117,17 @@
             </DataGrid>
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                 <Button
-                    Command="{Binding AddFastCommand}"
+                    Command="{Binding SortTinhCommand}"
                     Style="{StaticResource MaterialDesignFloatingActionMiniSecondaryDarkButton}"
                     Background="#FF5BA1FF">
+                    <materialDesign:PackIcon Kind="SortAlphabeticalAscending" Width="20" Height="20" />
+                </Button>
+                <Button
+                    Command="{Binding AddFastCommand}"
+                    Margin="5"
+                    Style="{StaticResource MaterialDesignFloatingActionMiniSecondaryDarkButton}"
+                    Background="#FF5BA1FF">
+
                     <materialDesign:PackIcon Kind="flash" Width="20" Height="20" />
                 </Button>
                 <CheckBox

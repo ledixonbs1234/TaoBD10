@@ -71,7 +71,6 @@ namespace TaoBD10
             string text = File.ReadAllText("key.txt");
             string decryText = Decrypt(text);
             return decryText == hdSN;
-
         }
 
         private void MainView_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -86,7 +85,6 @@ namespace TaoBD10
 
         private void TabTui_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
-
         }
     }
 }

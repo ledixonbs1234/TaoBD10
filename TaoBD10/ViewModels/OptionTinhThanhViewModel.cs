@@ -1,12 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Win32;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Automation;
 using System.Windows.Input;
 using TaoBD10.Manager;
@@ -18,19 +15,18 @@ namespace TaoBD10.ViewModels
     {
         public OptionTinhThanhViewModel()
         {
-
             PublishTinhThanhCommand = new RelayCommand(PublishTinhThanh);
             LayDuLieuTinhThanhCommand = new RelayCommand(LayDuLieuTinhThanh);
             SaveTinhThanhCommand = new RelayCommand(SaveTinhThanh);
             LayDuLieuBuuCucCommand = new RelayCommand(LayDuLieuBuuCuc);
             SaveBuuCucCommand = new RelayCommand(SaveBuuCuc);
-        SaveBuuCucTuDongCommand = new RelayCommand(SaveBuuCucTuDong);
+            SaveBuuCucTuDongCommand = new RelayCommand(SaveBuuCucTuDong);
             MoFileBuuCucCommand = new RelayCommand(MoFileBuuCuc);
             LayTrucTiepTuDongCommand = new RelayCommand(LayTrucTiepTuDong);
             PublishBuuCucCommand = new RelayCommand(PublishBuuCuc);
             MoFileTinhThanhCommand = new RelayCommand(MoFileTinhThanh);
             List<TinhHuyenModel> tinhThanhs = FileManager.LoadTinhThanhOffline();
-        LayTrucTiepCommand = new RelayCommand(LayTrucTiep);
+            LayTrucTiepCommand = new RelayCommand(LayTrucTiep);
             List<TuiThuModel> tuiThus = FileManager.LoadTuiThuOffline();
             MoFileTuiThuCommand = new RelayCommand(MoFileTuiThu);
             SaveTuiThuCommand = new RelayCommand(SaveTuiThu);
@@ -42,14 +38,11 @@ namespace TaoBD10.ViewModels
             ShowBuuCucs(buuCucs);
             ShowBuuCucTuDongs(buuCucTuDongs);
             ShowTuiThu(tuiThus);
-
-
         }
-
 
         public ICommand LayTrucTiepCommand { get; }
 
-        void LayTrucTiep()
+        private void LayTrucTiep()
         {
             WindowInfo window = APIManager.WaitingFindedWindow("khoi tao chuyen thu");
             AutomationElement element = AutomationElement.FromHandle(window.hwnd);
@@ -63,11 +56,9 @@ namespace TaoBD10.ViewModels
             ShowBuuCucs(buuCucs);
         }
 
-
-       
         public ICommand LayTrucTiepTuDongCommand { get; }
 
-        void LayTrucTiepTuDong()
+        private void LayTrucTiepTuDong()
         {
             WindowInfo window = APIManager.WaitingFindedWindow("khai thac kien di ngoai");
             AutomationElement element = AutomationElement.FromHandle(window.hwnd);
@@ -81,8 +72,6 @@ namespace TaoBD10.ViewModels
             ShowBuuCucTuDongs(buuCucTuDong);
         }
 
-
-
         private ObservableCollection<TuiThuModel> _TuiThus;
 
         public ObservableCollection<TuiThuModel> TuiThus
@@ -91,13 +80,9 @@ namespace TaoBD10.ViewModels
             set { SetProperty(ref _TuiThus, value); }
         }
 
-
-
-
-
         public ICommand MoFileTuiThuCommand { get; }
 
-        void MoFileTuiThu()
+        private void MoFileTuiThu()
         {
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.FileName = "matuithu";
@@ -114,19 +99,17 @@ namespace TaoBD10.ViewModels
             }
         }
 
-       
         public ICommand SaveTuiThuCommand { get; }
 
-        void SaveTuiThu()
+        private void SaveTuiThu()
         {
             if (TuiThus.Count != 0)
                 FileManager.SaveTuiThuOffline(TuiThus.ToList());
         }
 
-       
         public ICommand PublishTuiThuCommand { get; }
 
-        void PublishTuiThu()
+        private void PublishTuiThu()
         {
             if (TuiThus.Count != 0)
             {
@@ -134,10 +117,9 @@ namespace TaoBD10.ViewModels
             }
         }
 
-       
         public ICommand LayDuLieuTuiThuCommand { get; }
 
-        void LayDuLieuTuiThu()
+        private void LayDuLieuTuiThu()
         {
             List<TuiThuModel> tempList = FileManager.LoadTuiThuOnFirebase();
             ShowTuiThu(tempList);
@@ -156,7 +138,7 @@ namespace TaoBD10.ViewModels
 
         public ICommand MoFileTinhThanhCommand { get; }
 
-        void MoFileTinhThanh()
+        private void MoFileTinhThanh()
         {
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.FileName = "TinhThanh";
@@ -173,10 +155,9 @@ namespace TaoBD10.ViewModels
             }
         }
 
-
         public ICommand MoFileBuuCucCommand { get; }
 
-        void MoFileBuuCuc()
+        private void MoFileBuuCuc()
         {
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.FileName = "BuuCuc";
@@ -192,6 +173,7 @@ namespace TaoBD10.ViewModels
                 ShowBuuCucs(tempList);
             }
         }
+
         private ObservableCollection<string> _BuuCucs;
 
         public ObservableCollection<string> BuuCucs
@@ -208,20 +190,17 @@ namespace TaoBD10.ViewModels
             set { SetProperty(ref _BuuCucTuDongs, value); }
         }
 
-
-
-        void ShowBuuCucs(List<string> buuCucs)
+        private void ShowBuuCucs(List<string> buuCucs)
         {
-
             BuuCucs = new ObservableCollection<string>();
             foreach (var item in buuCucs)
             {
                 BuuCucs.Add(item);
             }
         }
-        void ShowBuuCucTuDongs(List<string> buuCucs)
-        {
 
+        private void ShowBuuCucTuDongs(List<string> buuCucs)
+        {
             BuuCucTuDongs = new ObservableCollection<string>();
             foreach (var item in buuCucs)
             {
@@ -229,22 +208,14 @@ namespace TaoBD10.ViewModels
             }
         }
 
-
-
-
-
-
-
-        void ShowTinhThanh(List<TinhHuyenModel> tinhThanhs)
+        private void ShowTinhThanh(List<TinhHuyenModel> tinhThanhs)
         {
-
             TinhHuyens = new ObservableCollection<TinhHuyenModel>();
             foreach (var item in tinhThanhs)
             {
                 TinhHuyens.Add(item);
             }
         }
-
 
         private ObservableCollection<TinhHuyenModel> _TinhHuyens;
 
@@ -254,10 +225,9 @@ namespace TaoBD10.ViewModels
             set { SetProperty(ref _TinhHuyens, value); }
         }
 
-
         public ICommand LayDuLieuTinhThanhCommand { get; }
 
-        void LayDuLieuTinhThanh()
+        private void LayDuLieuTinhThanh()
         {
             List<TinhHuyenModel> tempList = FileManager.LoadTinhThanhOnFirebase();
             ShowTinhThanh(tempList);
@@ -265,30 +235,25 @@ namespace TaoBD10.ViewModels
 
         public ICommand SaveTinhThanhCommand { get; }
 
-        void SaveTinhThanh()
+        private void SaveTinhThanh()
         {
             if (TinhHuyens.Count != 0)
                 FileManager.SaveTinhThanhOffline(TinhHuyens.ToList());
         }
 
-
-
         public ICommand PublishTinhThanhCommand { get; }
 
-        void PublishTinhThanh()
+        private void PublishTinhThanh()
         {
-
             if (TinhHuyens.Count != 0)
             {
                 FileManager.SaveLayTinhThanhFirebase(TinhHuyens.ToList());
             }
-
         }
-
 
         public ICommand LayDuLieuBuuCucCommand { get; }
 
-        void LayDuLieuBuuCuc()
+        private void LayDuLieuBuuCuc()
         {
             List<string> buuCucs = FileManager.LoadBuuCucsOnFirebase();
             ShowBuuCucs(buuCucs);
@@ -296,34 +261,28 @@ namespace TaoBD10.ViewModels
 
         public ICommand SaveBuuCucCommand { get; }
 
-        void SaveBuuCuc()
+        private void SaveBuuCuc()
         {
             if (BuuCucs.Count != 0)
                 FileManager.SaveBuuCucsOffline(BuuCucs.ToList());
         }
 
-
         public ICommand SaveBuuCucTuDongCommand { get; }
 
-        void SaveBuuCucTuDong()
+        private void SaveBuuCucTuDong()
         {
             if (BuuCucTuDongs.Count != 0)
                 FileManager.SaveBuuCucTuDongsOffline(BuuCucTuDongs.ToList());
         }
 
-
         public ICommand PublishBuuCucCommand { get; }
 
-        void PublishBuuCuc()
+        private void PublishBuuCuc()
         {
             if (BuuCucs.Count != 0)
             {
                 FileManager.SaveBuuCucsFirebase(BuuCucs.ToList());
             }
         }
-
-
-
-
     }
 }

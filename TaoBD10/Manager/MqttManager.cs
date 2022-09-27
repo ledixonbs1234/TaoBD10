@@ -1,8 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
 using System;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using TaoBD10.Model;
 using uPLibrary.Networking.M2Mqtt;
@@ -12,10 +10,10 @@ namespace TaoBD10.Manager
 {
     public static class MqttManager
     {
-
         public static string _clientId;
         public static MqttClient client;
         public static bool IsConnected = false;
+
         public static void Connect()
         {
             try
@@ -30,10 +28,6 @@ namespace TaoBD10.Manager
             {
                 MessageBox.Show(e.Message);
             }
-        }
-        private static async Task TryReconnectAsync(CancellationToken cancellationToken)
-        {
-
         }
 
         private static void Client_MqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e)
@@ -92,7 +86,6 @@ namespace TaoBD10.Manager
                     APIManager.ShowSnackbar("Đang lấy danh sách bd đến");
                     //Thuc hien xu ly lay danh sach bd
                     WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToLayBDHA_LayDanhSach" });
-
                 }
                 else if (datas[0] == "savebd")
                 {
@@ -102,15 +95,12 @@ namespace TaoBD10.Manager
                 {
                     //thuc hien lay danh sach da save
                     WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToDanhSach_CheckBD", Content = datas[1] });
-
                 }
-
             }
         }
 
         private static void Client_MqttMsgSubscribed(object sender, MqttMsgSubscribedEventArgs e)
         {
-
         }
 
         public static void SendMessageToPhone(string message)
@@ -130,6 +120,7 @@ namespace TaoBD10.Manager
         {
             client.Subscribe(new string[] { topic }, new byte[] { MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE });
         }
+
         public static void Subcribe(string[] topics)
         {
             client.Subscribe(topics, new byte[] { MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE });

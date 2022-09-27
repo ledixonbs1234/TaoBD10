@@ -64,7 +64,7 @@ namespace TaoBD10.ViewModels
 
         private List<TuiHangHoa> tuiTempHangHoa;
 
-        BackgroundWorker bwGoToBd;
+        private BackgroundWorker bwGoToBd;
 
         public GetBD10ViewModel()
         {
@@ -102,13 +102,12 @@ namespace TaoBD10.ViewModels
                     _BuoiArray = new bool[] { false, false, false, false };
                     _BuoiArray[int.Parse(datas[2])] = true;
                     bwGoToBd.RunWorkerAsync();
-
                 }
-
             });
         }
-        string currentMaBuuCuc = "";
-        string currentLanLap = "";
+
+        private string currentMaBuuCuc = "";
+        private string currentLanLap = "";
 
         private void BwGoToBd_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -176,7 +175,6 @@ namespace TaoBD10.ViewModels
             APIManager.WaitingFindedWindow("xac nhan bd10 den");
             Thread.Sleep(1500);
             RunAutoGetData();
-
         }
 
         private void BwGetData_DoWork(object sender, DoWorkEventArgs e)
@@ -213,8 +211,6 @@ namespace TaoBD10.ViewModels
                 MqttManager.SendMessageToPhone("Trùng BD");
                 return;
             }
-
-
 
             NameBD = noiGuiBD;
             IsLoading = true;
@@ -321,7 +317,6 @@ namespace TaoBD10.ViewModels
                         SendKeys.SendWait("+{TAB}");
                         Thread.Sleep(50);
                     }
-
                 }
                 else
                 {
@@ -337,8 +332,6 @@ namespace TaoBD10.ViewModels
                     Thread.Sleep(50);
                 }
                 //thuc hien ctrl a
-
-
             }
 
             SendKeys.SendWait("^(a)");
@@ -447,9 +440,7 @@ namespace TaoBD10.ViewModels
                     if (item.SHTui.Length == 13)
                     {
                         item.PhanLoai = "Đi ngoài";
-
                     }
-
                 }
             }
         }

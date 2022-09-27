@@ -24,8 +24,8 @@ namespace TaoBD10.ViewModels
     {
         private string PNSName = "";
         private string currentMaHieu = "";
-        bool isClickWebBCCP = false;
-        DispatcherTimer timer;
+        private bool isClickWebBCCP = false;
+        private DispatcherTimer timer;
 
         private bool _IsExpanded;
 
@@ -43,29 +43,22 @@ namespace TaoBD10.ViewModels
                 {
                     Full();
                 }
-
             }
         }
 
-
-
-
         public ICommand FullCommand { get; }
 
-        void Full()
+        private void Full()
         {
             WeakReferenceMessenger.Default.Send(new ContentModel() { Key = "Window", Content = "Full" });
         }
 
-
         public ICommand MinCommand { get; }
 
-        void Min()
+        private void Min()
         {
             WeakReferenceMessenger.Default.Send(new ContentModel() { Key = "Window", Content = "Min" });
         }
-
-
 
         public WebViewModel()
         {
@@ -137,7 +130,6 @@ namespace TaoBD10.ViewModels
                      APIManager.downLoadRoad = DownLoadRoad.ChuyenThuAddress;
                      isClickWebBCCP = false;
                      WebBrowser.LoadUrl(m.Content);
-
                  }
                  else if (m.Key == "ListAddressDiNgoai")
                  {
@@ -251,16 +243,18 @@ namespace TaoBD10.ViewModels
                             case DownLoadRoad.GetName:
                                 GetNames(downloadItem.FullPath);
                                 break;
+
                             case DownLoadRoad.TamQuanAddress:
                                 GetListAddress(downloadItem.FullPath, "TamQuanAddress");
                                 break;
+
                             case DownLoadRoad.ChuyenThuAddress:
                                 GetListAddress(downloadItem.FullPath, "ChuyenThuAddress");
                                 break;
+
                             case DownLoadRoad.DiNgoai:
                                 GetListAddress(downloadItem.FullPath, "DiNgoai");
                                 break;
-
 
                             default:
                                 break;
@@ -379,7 +373,6 @@ namespace TaoBD10.ViewModels
 
             WebBrowser.ExecuteScriptAsync(script);
         }
-
 
         private bool isFirstLoginSuccess = false;
         private bool isFix = false;
@@ -536,7 +529,6 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                                 return;
                             }
 
-
                             barcodeWeb = barcodeWeb.Substring(0, 13).ToUpper();
                             if (string.IsNullOrEmpty(barcodeWeb))
                             {
@@ -669,7 +661,6 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                             kiemTra.BuuCucNhan = aa[4].InnerText;
                             kiemTra.TTCT = aa[5].InnerText;
 
-
                             HtmlNodeCollection tablesChiTiet = document.DocumentNode.SelectNodes("//table[@id='MainContent_ctl00_grvItemTrace']/tbody");
                             if (tablesChiTiet == null)
                             {
@@ -688,7 +679,6 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                                     if (listTd.Count() >= 5)
                                     {
                                         list.Add(new ThongTinTrangThaiModel(listTd[1].InnerText, listTd[2].InnerText, listTd[3].InnerText, listTd[4].InnerText));
-
                                     }
                                 }
                                 kiemTra.ThongTins = list;
@@ -698,8 +688,6 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                             //kiemTra.BuuCucDong = aa[3].InnerText;
                             //kiemTra.BuuCucNhan = aa[4].InnerText;
                             //kiemTra.TTCT = aa[5].InnerText;
-
-
 
                             //thuc hien send thong tin qua kiem tra model
                             if (_LoadWebChoose == LoadWebChoose.KiemTraWeb)

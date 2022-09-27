@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TaoBD10.Model
+﻿namespace TaoBD10.Model
 {
     public class ThongTinTrangThaiModel
     {
@@ -21,9 +15,9 @@ namespace TaoBD10.Model
         public string Hour { get; set; }
         public string TrangThai { get; set; }
         public string BuuCuc { get; set; }
+
         public ThongTinTrangThaiModel()
         {
-
         }
     }
 }

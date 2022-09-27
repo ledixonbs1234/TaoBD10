@@ -73,7 +73,7 @@ namespace TaoBD10.ViewModels
         }
 
         public ICommand LayDuLieuCommand { get; }
-        bool IsSendToPhone = false;
+        private bool IsSendToPhone = false;
 
         public DanhSachViewModel()
         {
@@ -88,17 +88,17 @@ namespace TaoBD10.ViewModels
                     LoadBD10();
                 }
             });
-            WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) => { 
-                if(m.Key == "ToDanhSach_CheckBD")
+            WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>
+            {
+                if (m.Key == "ToDanhSach_CheckBD")
                 {
-                    //thuch ien lay danh sach voi 
+                    //thuch ien lay danh sach voi
                     IsSendToPhone = true;
                     _BuoiArray = new bool[] { false, false, false, false };
                     _BuoiArray[int.Parse(m.Content)] = true;
                     LoadBD10();
                     APIManager.ShowSnackbar("Chay Danh Sach");
                 }
-            
             });
         }
 
@@ -142,7 +142,6 @@ namespace TaoBD10.ViewModels
                 string jsonText = JsonConvert.SerializeObject(tempBDs, Formatting.Indented);
                 APIManager.ShowSnackbar("Da Send");
                 MqttManager.Pulish(FileManager.MQTTKEY + "_checkbd", jsonText);
-
             }
             else
             {
@@ -151,8 +150,6 @@ namespace TaoBD10.ViewModels
                     BD10List.Add(item);
                 }
             }
-
-            
         }
 
         private void LayDuLieu()

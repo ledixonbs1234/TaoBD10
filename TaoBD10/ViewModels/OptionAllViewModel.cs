@@ -1,11 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using TaoBD10.Manager;
 using TaoBD10.Model;
@@ -21,6 +16,7 @@ namespace TaoBD10.ViewModels
             get { return _Option; }
             set { SetProperty(ref _Option, value); }
         }
+
         private ObservableCollection<OptionInfoModel> _Options;
 
         public ObservableCollection<OptionInfoModel> Options
@@ -28,9 +24,10 @@ namespace TaoBD10.ViewModels
             get { return _Options; }
             set { SetProperty(ref _Options, value); }
         }
+
         public ICommand SaveCommand { get; }
 
-        void Save()
+        private void Save()
         {
             Option.AccountDinhVi = Options[0].Content1;
             Option.PWDinhVi = Options[0].Content2;
@@ -58,41 +55,31 @@ namespace TaoBD10.ViewModels
 
         public ICommand LayDuLieuCommand { get; }
 
-        
-
-        void LayDuLieu()
+        private void LayDuLieu()
         {
-           Option = FileManager.GetOptionAll();
-            SetOptionToView(); 
+            Option = FileManager.GetOptionAll();
+            SetOptionToView();
         }
 
         public ICommand PublishCloudCommand { get; }
 
-     
-
-        void PublishCloud()
+        private void PublishCloud()
         {
             FileManager.SaveOptionAll(Option);
         }
 
-
-
-
-
-
         public OptionAllViewModel()
         {
             PublishCloudCommand = new RelayCommand(PublishCloud);
-            LayDuLieuCommand = new RelayCommand(LayDuLieu); 
+            LayDuLieuCommand = new RelayCommand(LayDuLieu);
             Option = new OptionModel();
             GetOptionData();
             SetOptionToView();
 
             SaveCommand = new RelayCommand(Save);
-
         }
 
-        void SetOptionToView()
+        private void SetOptionToView()
         {
             Options = new ObservableCollection<OptionInfoModel>();
             Options.Add(new OptionInfoModel("Tài khoản định vị", Option.AccountDinhVi, Option.PWDinhVi));
@@ -110,13 +97,12 @@ namespace TaoBD10.ViewModels
             Options.Add(new OptionInfoModel("Khởi Tạo Chuyến Thư BCP", Option.GoFastKTCTBCP));
             Options.Add(new OptionInfoModel("Quản lý chuyến thư chiều đến KT", Option.GoFastQLCTCDKT));
             Options.Add(new OptionInfoModel("Quản lý chuyến thư chiều đến BCP", Option.GoFastQLCTCDBCP));
-            Options.Add(new OptionInfoModel("Lấy dữ liệu", Option.LayDuLieu,Option.MaBuuCucLayDuLieu));
+            Options.Add(new OptionInfoModel("Lấy dữ liệu", Option.LayDuLieu, Option.MaBuuCucLayDuLieu));
         }
 
         private void GetOptionData()
         {
             Option = FileManager.GetOptionOffline();
-
         }
     }
 }

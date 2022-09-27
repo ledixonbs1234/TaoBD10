@@ -50,7 +50,6 @@ namespace TaoBD10.Manager
         //    }
         //    string textFile = File.ReadAllText(_fileTinhThanh);
 
-
         public static OptionModel GetOptionOffline()
         {
             if (!File.Exists(_fileOption))
@@ -106,7 +105,6 @@ namespace TaoBD10.Manager
             {
                 using (FileStream fs = File.Create(_fileFindItem))
                 {
-
                 }
             }
             JsonSerializer serializer = new JsonSerializer();
@@ -116,9 +114,8 @@ namespace TaoBD10.Manager
                 serializer.Serialize(jWriter, findItemModels);
             }
         }
+
         public static string MQTTKEY;
-
-
 
         public static string LoadKeyMqtt()
         {
@@ -143,7 +140,6 @@ namespace TaoBD10.Manager
             {
                 using (FileStream fs = File.Create(_fileKeyMqtt))
                 {
-
                 }
             }
             JsonSerializer serializer = new JsonSerializer();
@@ -154,16 +150,12 @@ namespace TaoBD10.Manager
             }
         }
 
-
-
-
         public static void SaveBuuCucsOffline(List<string> list)
         {
             if (!File.Exists(_fileBuuCucs))
             {
                 using (FileStream fs = File.Create(_fileBuuCucs))
                 {
-
                 }
             }
             JsonSerializer serializer = new JsonSerializer();
@@ -206,6 +198,7 @@ namespace TaoBD10.Manager
                 return locBD10s;
             }
         }
+
         public static List<LocBDInfoModel> LoadLocKTBCPOffline()
         {
             if (!File.Exists(_fileLocKTBCP))
@@ -247,7 +240,6 @@ namespace TaoBD10.Manager
             {
                 using (FileStream fs = File.Create(_fileTinhThanh))
                 {
-
                 }
             }
             JsonSerializer serializer = new JsonSerializer();
@@ -257,6 +249,7 @@ namespace TaoBD10.Manager
                 serializer.Serialize(jWriter, list);
             }
         }
+
         public static List<TinhHuyenModel> LoadTinhThanhFromFile(string path)
         {
             IEnumerable<string> tinhThanhs = File.ReadLines(path);
@@ -287,8 +280,6 @@ namespace TaoBD10.Manager
             return listBuuCuc;
         }
 
-
-
         public static List<TinhHuyenModel> LoadTinhThanhOffline()
         {
             if (!File.Exists(_fileTinhThanh))
@@ -305,8 +296,6 @@ namespace TaoBD10.Manager
             }
         }
 
-
-
         public static List<TinhHuyenModel> LoadTinhThanhOnFirebase()
         {
             Task<List<TinhHuyenModel>> cts = client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/TinhThanh").OrderByKey().OnceSingleAsync<List<TinhHuyenModel>>();
@@ -314,8 +303,8 @@ namespace TaoBD10.Manager
             List<TinhHuyenModel> result = cts.Result;
             SaveTinhThanhOffline(result);
             return result;
-
         }
+
         public static List<string> LoadBuuCucsOnFirebase()
         {
             Task<List<string>> cts = client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/BuuCucs").OrderByKey().OnceSingleAsync<List<string>>();
@@ -323,8 +312,8 @@ namespace TaoBD10.Manager
             List<string> result = cts.Result;
             SaveBuuCucsOffline(result);
             return result;
-
         }
+
         public static List<FindItemModel> LoadFindItemOnFirebase()
         {
             Task<List<FindItemModel>> cts = client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/FindItem").OrderByKey().OnceSingleAsync<List<FindItemModel>>();
@@ -341,7 +330,6 @@ namespace TaoBD10.Manager
             List<BuuCucModel> result = cts.Result;
             SaveBuuCucOffline(result);
             return result;
-
         }
 
         public static List<ChuyenThuModel> LoadCTOffline()
@@ -361,6 +349,7 @@ namespace TaoBD10.Manager
                 return listCT;
             }
         }
+
         public static string[] ReadPrinterFromFile()
         {
             string[] result = new string[2];
@@ -384,7 +373,6 @@ namespace TaoBD10.Manager
 
         public static List<BD10InfoModel> LoadData()
         {
-
             if (list.Count == 0)
             {
                 Task<List<BD10InfoModel>> a = client.Child(@"QuanLy/DanhSach/" + maBuuCuc + "/BD10").OnceSingleAsync<List<BD10InfoModel>>();
@@ -392,7 +380,6 @@ namespace TaoBD10.Manager
                 list = a.Result;
             }
             return list;
-
         }
 
         public static List<LayBD10Info> LoadLayBDOffline()
@@ -445,10 +432,8 @@ namespace TaoBD10.Manager
 
         public static void OnSetupFileManager()
         {
-
-
             DirectoryInfo DataFolder = new DirectoryInfo(Environment.CurrentDirectory + "\\Data");
-            if(!DataFolder.Exists)
+            if (!DataFolder.Exists)
             {
                 DataFolder.Create();
             }
@@ -471,7 +456,6 @@ namespace TaoBD10.Manager
 
                 client = new FirebaseClient("https://taoappbd10-default-rtdb.asia-southeast1.firebasedatabase.app/", new FirebaseOptions { AuthTokenAsyncFactory = () => Task.FromResult(auth) });
             }
-
         }
 
         public static void SaveBD10Offline(BD10InfoModel bd10)
@@ -480,7 +464,6 @@ namespace TaoBD10.Manager
             {
                 using (FileStream fs = File.Create(_fileBD10))
                 {
-
                 }
             }
             JsonSerializer serializer = new JsonSerializer();
@@ -504,7 +487,6 @@ namespace TaoBD10.Manager
             {
                 using (FileStream fs = File.Create(_fileBuuCuc))
                 {
-
                 }
             }
             JsonSerializer serializer = new JsonSerializer();
@@ -514,13 +496,13 @@ namespace TaoBD10.Manager
                 serializer.Serialize(jWriter, buucucs);
             }
         }
+
         public static void SaveLocBD10Offline(List<LocBDInfoModel> locBD10s)
         {
             if (!File.Exists(_fileLocBD10))
             {
                 using (FileStream fs = File.Create(_fileLocBD10))
                 {
-
                 }
             }
             JsonSerializer serializer = new JsonSerializer();
@@ -530,13 +512,13 @@ namespace TaoBD10.Manager
                 serializer.Serialize(jWriter, locBD10s);
             }
         }
+
         public static void SaveLocKTBCPOffline(List<LocBDInfoModel> locBD10s)
         {
             if (!File.Exists(_fileLocKTBCP))
             {
                 using (FileStream fs = File.Create(_fileLocKTBCP))
                 {
-
                 }
             }
             JsonSerializer serializer = new JsonSerializer();
@@ -602,15 +584,16 @@ namespace TaoBD10.Manager
         {
             client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/TinhThanh").PutAsync(tinhThanhs).Wait();
         }
+
         public static void SaveBuuCucsFirebase(List<string> buucucs)
         {
             client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/BuuCucs").PutAsync(buucucs).Wait();
         }
+
         public static void SaveFindItemFirebase(List<FindItemModel> buucucs)
         {
             client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/FindItem").PutAsync(buucucs).Wait();
         }
-
 
         public static void SaveLayBDOffline(List<LayBD10Info> laybds)
         {
@@ -618,7 +601,6 @@ namespace TaoBD10.Manager
             {
                 using (FileStream fs = File.Create(_fileLayBD))
                 {
-
                 }
             }
             JsonSerializer serializer = new JsonSerializer();
@@ -640,7 +622,6 @@ namespace TaoBD10.Manager
             {
                 using (FileStream fs = File.Create(_fileOption))
                 {
-
                 }
             }
             JsonSerializer serializer = new JsonSerializer();
@@ -651,7 +632,8 @@ namespace TaoBD10.Manager
                 serializer.Serialize(jWriter, option);
             }
         }
-        static async void test()
+
+        private static async void test()
         {
             IReadOnlyCollection<FirebaseObject<ChuyenThuModel>> ss = await client.Child(@"QuanLy").OrderByKey().LimitToFirst(2).OnceAsync<ChuyenThuModel>();
             foreach (var item in ss)
@@ -691,7 +673,6 @@ namespace TaoBD10.Manager
             {
                 using (FileStream fs = File.Create(_fileTuiThu))
                 {
-
                 }
             }
             JsonSerializer serializer = new JsonSerializer();
@@ -746,7 +727,6 @@ namespace TaoBD10.Manager
             {
                 using (FileStream fs = File.Create(_fileBuuCucTuDongs))
                 {
-
                 }
             }
             JsonSerializer serializer = new JsonSerializer();
@@ -756,8 +736,6 @@ namespace TaoBD10.Manager
                 serializer.Serialize(jWriter, list);
             }
         }
-
-
 
         public static FirebaseClient client;
         public static List<BD10InfoModel> list = new List<BD10InfoModel>();
@@ -779,7 +757,7 @@ namespace TaoBD10.Manager
         private static string _fileBuuCucTuDongs = Environment.CurrentDirectory + "\\Data\\BuuCucTuDongs.json";
         private static string _fileLocBD10 = Environment.CurrentDirectory + "\\Data\\LocBD10.txt";
         private static string _fileLocKTBCP = Environment.CurrentDirectory + "\\Data\\LocKTBCP.txt";
-        static string auth = "Hw5ESVqVaYfqde21DIHqs4EGhYcqGIiEF4GROViU";
-        static string maBuuCuc = "";
+        private static string auth = "Hw5ESVqVaYfqde21DIHqs4EGhYcqGIiEF4GROViU";
+        private static string maBuuCuc = "";
     }
 }

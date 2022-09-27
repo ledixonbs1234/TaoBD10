@@ -12,23 +12,23 @@
             Width="150"
             Margin="5,20,5,5"
             Command="{Binding Button0Command}"
-            Content="{Binding BD10Infos[0].TenButton}"/>
+            Content="{Binding BD10Infos[0].TenButton}" />
         <Button
             Width="150"
             Margin="5,5,5,20"
              Command="{Binding Button1Command}"
-            Content="{Binding BD10Infos[1].TenButton}"/>
+            Content="{Binding BD10Infos[1].TenButton}" />
         <Button
             Margin="5"
             Width="150"
               Command="{Binding Button2Command}"
-            Content="{Binding BD10Infos[2].TenButton}"/>
+            Content="{Binding BD10Infos[2].TenButton}" />
 
         <Button
             Margin="5"
             Width="150"
              Command="{Binding Button3Command}"
-            Content="{Binding BD10Infos[3].TenButton}"/>
+            Content="{Binding BD10Infos[3].TenButton}" />
         <Button
             Margin="5"
              Command="{Binding Button4Command}"

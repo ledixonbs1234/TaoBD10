@@ -64,31 +64,36 @@ namespace TaoBD10.ViewModels
                     _LanLapArray[int.Parse(lanLap) - 1] = true;
                     switch (bdIndex)
                     {
-
                         case "1":
                             Button0();
 
                             break;
+
                         case "2":
 
                             Button1();
                             break;
+
                         case "3":
 
                             Button2();
                             break;
+
                         case "4":
 
                             Button3();
                             break;
+
                         case "5":
 
                             Button4();
                             break;
+
                         case "6":
 
                             Button5();
                             break;
+
                         default:
                             break;
                     }
@@ -151,17 +156,12 @@ namespace TaoBD10.ViewModels
             }
             if (bD10Dens.Count > 0)
             {
-
                 string jsonText = JsonConvert.SerializeObject(bD10Dens, Formatting.Indented);
                 MqttManager.Pulish(FileManager.MQTTKEY + "_laydanhsach", jsonText);
-
-
             }
         }
 
-
-
-        void ShowData(List<LayBD10Info> data)
+        private void ShowData(List<LayBD10Info> data)
         {
             if (data != null)
                 if (data.Count != 0)
@@ -173,14 +173,13 @@ namespace TaoBD10.ViewModels
                     }
                 }
         }
+
         public ICommand GetDataFromCloudCommand { get; }
 
-        void GetDataFromCloud()
+        private void GetDataFromCloud()
         {
             ShowData(FileManager.LoadLayBDOnFirebase());
         }
-
-
 
         private void AnHoa()
         {
@@ -206,7 +205,7 @@ namespace TaoBD10.ViewModels
             bwLayBD.RunWorkerAsync();
         }
 
-        void Button0()
+        private void Button0()
         {
             int i = 0;
             if (BD10Infos.Count < (i + 1))
@@ -218,7 +217,7 @@ namespace TaoBD10.ViewModels
             bwLayBD.RunWorkerAsync();
         }
 
-        void Button1()
+        private void Button1()
         {
             int i = 1;
             if (BD10Infos.Count < (i + 1))
@@ -230,7 +229,7 @@ namespace TaoBD10.ViewModels
             bwLayBD.RunWorkerAsync();
         }
 
-        void Button2()
+        private void Button2()
         {
             int i = 2;
             if (BD10Infos.Count < (i + 1))
@@ -242,7 +241,7 @@ namespace TaoBD10.ViewModels
             bwLayBD.RunWorkerAsync();
         }
 
-        void Button3()
+        private void Button3()
         {
             int i = 3;
             if (BD10Infos.Count < (i + 1))
@@ -254,7 +253,7 @@ namespace TaoBD10.ViewModels
             bwLayBD.RunWorkerAsync();
         }
 
-        void Button4()
+        private void Button4()
         {
             int i = 4;
             if (BD10Infos.Count < (i + 1))
@@ -267,7 +266,7 @@ namespace TaoBD10.ViewModels
                 bwLayBD.RunWorkerAsync();
         }
 
-        void Button5()
+        private void Button5()
         {
             int i = 5;
             if (BD10Infos.Count < (i + 1))
@@ -279,7 +278,7 @@ namespace TaoBD10.ViewModels
             bwLayBD.RunWorkerAsync();
         }
 
-        void Button6()
+        private void Button6()
         {
             int i = 6;
             if (BD10Infos.Count < (i + 1))
@@ -291,8 +290,7 @@ namespace TaoBD10.ViewModels
             bwLayBD.RunWorkerAsync();
         }
 
-        BackgroundWorker bwGetDanhSachBD;
-
+        private BackgroundWorker bwGetDanhSachBD;
 
         private void BwLayBD_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -362,14 +360,10 @@ namespace TaoBD10.ViewModels
             //        MqttManager.Pulish(FileManager.MQTTKEY + "_data", "soluong|" + selectionBDIndex.ToString() + "|" + slTui);
             //    }
             //}
-
-
         }
 
         private void BwLayBD_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-
-
         }
 
         private void DaNang()
@@ -404,19 +398,17 @@ namespace TaoBD10.ViewModels
             bwLayBD.RunWorkerAsync();
         }
 
-        void SaveLayBD()
+        private void SaveLayBD()
         {
             FileManager.SaveLayBDFirebase(BD10Infos.ToList());
         }
 
         public ICommand SaveLayBDOfflineCommand { get; }
 
-
-        void SaveLayBDOffline()
+        private void SaveLayBDOffline()
         {
             FileManager.SaveLayBDOffline(BD10Infos.ToList());
         }
-
 
         private void Timer_Tick(object sender, EventArgs e)
         {
@@ -489,6 +481,7 @@ namespace TaoBD10.ViewModels
         public ICommand AnHoaCommand { get; }
         public ICommand AnLaoCommand { get; }
         public ICommand AnMyCommand { get; }
+
         public ObservableCollection<LayBD10Info> BD10Infos
         {
             get { return _BD10Infos; }
@@ -504,6 +497,7 @@ namespace TaoBD10.ViewModels
         public ICommand Button6Command { get; }
         public ICommand DaNangCommand { get; }
         public ICommand HoaiAnCommand { get; }
+
         public int IndexBD10Infos
         {
             get { return _IndexBD10Infos; }
@@ -518,10 +512,10 @@ namespace TaoBD10.ViewModels
         public ICommand LayToanBoCommand { get; }
         public ICommand NamTrungBoCommand { get; }
         public ICommand SaveLayBDCommand { get; }
+
         public int SelectedLanLap
         {
             get { return Array.IndexOf(_LanLapArray, true); }
         }
-
     }
 }

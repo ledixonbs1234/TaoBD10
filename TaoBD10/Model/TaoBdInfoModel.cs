@@ -1,13 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TaoBD10.Model
 {
-    public class TaoBdInfoModel:ObservableObject
+    public class TaoBdInfoModel : ObservableObject
     {
         private string _DuongThu;
 
@@ -24,6 +19,7 @@ namespace TaoBD10.Model
             get { return _Chuyen1; }
             set { SetProperty(ref _Chuyen1, value); }
         }
+
         private string _Chuyen2;
 
         public string Chuyen2
@@ -32,7 +28,6 @@ namespace TaoBD10.Model
             set { SetProperty(ref _Chuyen2, value); }
         }
 
-
         private string _BCNhan;
 
         public string BCNhan
@@ -40,6 +35,7 @@ namespace TaoBD10.Model
             get { return _BCNhan; }
             set { SetProperty(ref _BCNhan, value); }
         }
+
         private bool _IsSangChieu;
 
         public bool IsSangChieu
@@ -47,7 +43,7 @@ namespace TaoBD10.Model
             get { return _IsSangChieu; }
             set { SetProperty(ref _IsSangChieu, value); }
         }
-        
+
         private int _ThoiGianChia2LanDT;
 
         public int ThoiGianChia2LanDT
@@ -64,14 +60,8 @@ namespace TaoBD10.Model
             set { SetProperty(ref _IsNextDay, value); }
         }
 
-
-
-
-
-
         public TaoBdInfoModel()
         {
-
         }
     }
 }

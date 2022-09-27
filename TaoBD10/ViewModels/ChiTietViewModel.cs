@@ -189,21 +189,6 @@ namespace TaoBD10.ViewModels
 
         }
 
-        private void AnNhon()
-        {
-            var time = DateTime.Now;
-            if (time.Hour > 12)
-                countChuyen = 2;
-            else
-                countChuyen = 1;
-
-            maBuuCuc = "592020";
-            tenDuongThu = "Đà Nẵng - Bình Định";
-            countDuongThu = 2;
-            stateTaoBd10 = StateTaoBd10.DanhSachBD10;
-            timerTaoBD.Start();
-        }
-
         private void BwChiTiet_DoWork(object sender, DoWorkEventArgs e)
         {
             WindowInfo window = APIManager.WaitingFindedWindow("quan ly chuyen thu");
@@ -722,6 +707,14 @@ namespace TaoBD10.ViewModels
             SendKeys.SendWait(@"{ENTER}");
         }
 
+        void LayDiaChi(string listCode)
+        {
+            string addressDefault = "https://bccp.vnpost.vn/BCCP.aspx?act=MultiTrace&id=";
+
+            addressDefault += listCode;
+            WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "ListAddressChuyenThu", Content = addressDefault });
+        }
+
         void LenLoc()
         {
             int indexLoc = LocBDs.IndexOf(SelectedLocBD);
@@ -1177,15 +1170,6 @@ namespace TaoBD10.ViewModels
             }
 
         }
-
-        void LayDiaChi(string listCode)
-        {
-            string addressDefault = "https://bccp.vnpost.vn/BCCP.aspx?act=MultiTrace&id=";
-
-            addressDefault += listCode;
-            WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "ListAddressChuyenThu", Content = addressDefault });
-        }
-
         private void Selection(HangHoaDetailModel selected)
         {
             if (selected == null)
@@ -1457,6 +1441,7 @@ namespace TaoBD10.ViewModels
         private readonly DispatcherTimer timerTaoBD;
         private LocBDInfoModel _ConLai;
         private TaoBdInfoModel _CurrenTaoBD;
+        private HangHoaDetailModel _CurrentSelectedHangHoaDetail;
         private int _IndexContinueGuiTrucTiep = 0;
         private int _IndexTaoBDItem;
         private ObservableCollection<HangHoaDetailModel> _ListShowHangHoa;
@@ -1477,21 +1462,18 @@ namespace TaoBD10.ViewModels
         private int countDuongThu = 0;
         private BuuCuc currentBuuCuc = BuuCuc.None;
         private List<HangHoaDetailModel> currentListHangHoa;
-        private HangHoaDetailModel _CurrentSelectedHangHoaDetail;
-
-        public HangHoaDetailModel CurrentSelectedHangHoaDetail
-        {
-            get { return _CurrentSelectedHangHoaDetail; }
-            set { SetProperty(ref _CurrentSelectedHangHoaDetail, value); }
-        }
-
-
         private PhanLoaiTinh currentTinh = PhanLoaiTinh.None;
+
         private bool isWaiting = false;
+
         private string maBuuCuc = "0";
+
         private StateTaoBd10 stateTaoBd10;
+
         private string tenDuongThu = "";
+
         public IRelayCommand<string> AddBDTinhCommand { get; }
+
         public LocBDInfoModel ConLai
         {
             get { return _ConLai; }
@@ -1499,12 +1481,18 @@ namespace TaoBD10.ViewModels
         }
 
         public IRelayCommand CopySHTuiCommand { get; }
+
         public TaoBdInfoModel CurrenTaoBD
         {
             get { return _CurrenTaoBD; }
             set { SetProperty(ref _CurrenTaoBD, value); }
         }
 
+        public HangHoaDetailModel CurrentSelectedHangHoaDetail
+        {
+            get { return _CurrentSelectedHangHoaDetail; }
+            set { SetProperty(ref _CurrentSelectedHangHoaDetail, value); }
+        }
         public ICommand DeleteTinhCommand { get; }
         public ICommand GetDataFromCloudCommand { get; }
         public ICommand GopBDCommand { get; }

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TaoBD10.Model
 {
@@ -14,9 +10,9 @@ namespace TaoBD10.Model
         public bool IsBaoDam { get; set; }
         public string MaBCCP { get; set; }
         public string GoFastBCCP { get; set; }
+
         public BuuCucModel()
         {
-
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace TaoBD10.Model
 {
@@ -21,7 +20,6 @@ namespace TaoBD10.Model
             set { SetProperty(ref _TrongLuong, value); }
         }
 
-
         private string _MaHieu;
 
         public string MaHieu
@@ -35,7 +33,8 @@ namespace TaoBD10.Model
             this.Index = index;
             this.MaHieu = maHieu;
         }
-        public TamQuanModel(int index, string maHieu,double KL)
+
+        public TamQuanModel(int index, string maHieu, double KL)
         {
             this.Index = index;
             this.MaHieu = maHieu;

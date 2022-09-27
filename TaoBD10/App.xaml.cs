@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Threading;
 using TaoBD10.Manager;
@@ -17,7 +16,7 @@ namespace TaoBD10
             DispatcherUnhandledException += new DispatcherUnhandledExceptionEventHandler(App_DispatcherUnhandledException);
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
             if (SingleInstance.AlreadyRunning())
-                App.Current.Shutdown(); // Just shutdown the current application,if any instance found.  
+                App.Current.Shutdown(); // Just shutdown the current application,if any instance found.
 
             base.OnStartup(e);
         }
@@ -29,7 +28,7 @@ namespace TaoBD10
             //var frame = st.GetFrame(0);
             // Get the line number from the stack frame
             //var line = frame.GetFileLineNumber();
-            MessageBox.Show("An unhandled exception just occurred: " + e.Exception.Message+ "Line: "+APIManager.GetLineNumber(e.Exception)+" Them:"+e.Exception.StackTrace, "Exception Sample", MessageBoxButton.OK, MessageBoxImage.Warning);
+            MessageBox.Show("An unhandled exception just occurred: " + e.Exception.Message + "Line: " + APIManager.GetLineNumber(e.Exception) + " Them:" + e.Exception.StackTrace, "Exception Sample", MessageBoxButton.OK, MessageBoxImage.Warning);
             e.Handled = true;
         }
 

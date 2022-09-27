@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TaoBD10.Model
 {
@@ -24,6 +20,5 @@ namespace TaoBD10.Model
         public string SoLuong { get; set; }
         public string TrongLuong { get; set; }
         public string TrangThai { get; set; }
-
     }
 }

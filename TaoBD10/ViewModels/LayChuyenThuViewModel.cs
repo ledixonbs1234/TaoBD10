@@ -49,14 +49,12 @@ namespace TaoBD10.ViewModels
 
         public ICommand PublishCommand { get; }
 
-       
-        void Publish()
+        private void Publish()
         {
             FileManager.SaveBuuCuc(BuuCucs.ToList());
         }
 
-
-        void ShowData(List<BuuCucModel> data)
+        private void ShowData(List<BuuCucModel> data)
         {
             if (data != null)
                 if (data.Count != 0)
@@ -69,10 +67,9 @@ namespace TaoBD10.ViewModels
                 }
         }
 
-
         public ICommand GetDataFromCloudCommand { get; }
 
-        void GetDataFromCloud()
+        private void GetDataFromCloud()
         {
             ShowData(FileManager.LoadBuuCucOnFirebase());
         }
@@ -104,8 +101,7 @@ namespace TaoBD10.ViewModels
             bwLayCT.RunWorkerAsync();
         }
 
-
-        void BuuCuc0()
+        private void BuuCuc0()
         {
             if (BuuCucs.Count < 1)
             {
@@ -128,7 +124,7 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        void BuuCuc1()
+        private void BuuCuc1()
         {
             if (BuuCucs.Count < 2)
             {
@@ -152,7 +148,7 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        void BuuCuc2()
+        private void BuuCuc2()
         {
             if (BuuCucs.Count < 3)
             {
@@ -175,7 +171,7 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        void BuuCuc3()
+        private void BuuCuc3()
         {
             if (BuuCucs.Count < 4)
             {
@@ -198,7 +194,7 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        void BuuCuc4()
+        private void BuuCuc4()
         {
             if (BuuCucs.Count < 5)
             {
@@ -221,7 +217,7 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        void BuuCuc5()
+        private void BuuCuc5()
         {
             if (BuuCucs.Count < 6)
             {
@@ -244,7 +240,7 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        void BuuCuc6()
+        private void BuuCuc6()
         {
             if (BuuCucs.Count < 7)
             {
@@ -267,7 +263,7 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        void BuuCuc7()
+        private void BuuCuc7()
         {
             if (BuuCucs.Count < 8)
             {
@@ -290,7 +286,7 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        void BuuCuc8()
+        private void BuuCuc8()
         {
             if (BuuCucs.Count < 9)
             {
@@ -315,9 +311,7 @@ namespace TaoBD10.ViewModels
 
         public ICommand BuuCuc9Command { get; }
 
-
-
-        void BuuCuc9()
+        private void BuuCuc9()
         {
             int i = 9;
             if (BuuCucs.Count < (i + 1))
@@ -340,7 +334,6 @@ namespace TaoBD10.ViewModels
                 bwLayCT.RunWorkerAsync();
             }
         }
-
 
         private void BwLayCT_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -393,8 +386,6 @@ namespace TaoBD10.ViewModels
                 //buu pham bao dam
                 //SendKeys.SendWait("{DOWN}{DOWN}{DOWN}{DOWN}{DOWN}{DOWN}");
                 APIManager.setTextControl(EditControls.LastOrDefault().Handle, "Bưu phẩm bảo đảm - Registed Mail");
-
-
             }
             else
             {
@@ -414,12 +405,10 @@ namespace TaoBD10.ViewModels
             SendKeys.SendWait("{F8}");
         }
 
-        void SaveBuuCuc()
+        private void SaveBuuCuc()
         {
             FileManager.SaveBuuCucOffline(BuuCucs.ToList());
-
         }
-
 
         private readonly BackgroundWorker bwLayCT;
         private ObservableCollection<BuuCucModel> _BuuCucs;
@@ -455,7 +444,6 @@ namespace TaoBD10.ViewModels
             set { SetProperty(ref _BuuCucs, value); }
         }
 
-
         public ICommand GiaoDichCommand { get; }
         public ICommand HoaiDucCommand { get; }
         public ICommand HoaiHaiCommand { get; }
@@ -464,11 +452,13 @@ namespace TaoBD10.ViewModels
         public ICommand HoaiTanCommand { get; }
         public ICommand HoaiXuanCommand { get; }
         public ICommand SaveBuuCucCommand { get; }
+
         public int SelectedIndexBC
         {
             get { return _SelectedIndexBC; }
             set { SetProperty(ref _SelectedIndexBC, value); }
         }
+
         public ICommand TestCommand { get; }
     }
 }

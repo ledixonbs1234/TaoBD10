@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TaoBD10.Manager
+﻿namespace TaoBD10.Manager
 {
     public static class TextManager
     {
@@ -28,6 +22,5 @@ document.getElementsByClassName("".footer"").remove();
     textbox.focus();
                     textbox.scrollIntoView();
                     ";
-
     }
 }

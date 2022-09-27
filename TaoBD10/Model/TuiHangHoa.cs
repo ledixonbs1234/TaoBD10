@@ -261,7 +261,6 @@ namespace TaoBD10.Model
                 {
                     nameTinh = "KTNT Bình Định";
                 }
-
             }
             else
             {

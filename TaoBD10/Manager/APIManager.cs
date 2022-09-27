@@ -15,28 +15,30 @@ namespace TaoBD10.Manager
 {
     public static class APIManager
     {
-
         [DllImport("User32.dll")]
         public static extern bool IsIconic(IntPtr hWnd);
+
         [DllImport("User32.dll")]
         public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
 
-
-
         public const int SW_RESTORE = 9;
         public static int currentNumberBD = 0;
+
         public static void FocusHandle(IntPtr handle)
         {
             SendMessage(handle, 0x0007, 0, 0);
             SendMessage(handle, 0x0007, 0, 0);
         }
+
         public static void ClearClipboard()
         {
             Thread thread = new Thread(() => System.Windows.Clipboard.Clear());
         }
+
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool InvalidateRect(IntPtr hWnd, IntPtr rect, bool bErase);
+
         public static List<ChildListModel> GetDataTable(AutomationElement table, int numberLeftHeader = 0)
         {
             try
@@ -74,7 +76,6 @@ namespace TaoBD10.Manager
                 OpenNotePad(ex.Message + '\n' + "APIManger " + line + " Number Line " + APIManager.GetLineNumber(ex), "loi ");
                 throw;
             }
-
         }
 
         public static void ClickButton(IntPtr handle)
@@ -82,7 +83,9 @@ namespace TaoBD10.Manager
             Thread.Sleep(100);
             PostMessage(handle, 0x00F5, 0, 0);
         }
+
         private const uint WM_SETTEXT = 0x000C;
+
         public static void setTextControl(IntPtr handle, string content)
         {
             SendMessage(handle, WM_SETTEXT, IntPtr.Zero, new StringBuilder(content));
@@ -130,7 +133,6 @@ namespace TaoBD10.Manager
                 APIManager.OpenNotePad(ex.Message + '\n' + "APIManager " + line + " Number Line " + APIManager.GetLineNumber(ex), "loi ");
                 throw;
             }
-
         }
 
         public static void ClickButton(IntPtr mainHandle, IntPtr buttonHandle)
@@ -234,7 +236,6 @@ namespace TaoBD10.Manager
                 APIManager.OpenNotePad(ex.Message + '\n' + "APIManager " + line + " Number Line " + APIManager.GetLineNumber(ex), "loi ");
                 throw;
             }
-
         }
 
         public static string GetCopyData()
@@ -285,7 +286,6 @@ namespace TaoBD10.Manager
             {
                 var allChild = GetAllChildHandles(handleActiveWindow);
 
-
                 List<TestAPIModel> list = new List<TestAPIModel>();
                 if (allChild.Count == 0)
                     return list;
@@ -315,7 +315,6 @@ namespace TaoBD10.Manager
 
                 throw;
             }
-
         }
 
         public static string GetWindowClass(IntPtr hWnd)
@@ -446,6 +445,7 @@ namespace TaoBD10.Manager
         }
 
         private static bool isWaitingThoat = false;
+
         public static void GoToWindow(string maBuuCuc, string nameHandle, string firstNumber, string twoNumber)
         {
             if (!ThoatToDefault(maBuuCuc, nameHandle))
@@ -627,8 +627,6 @@ namespace TaoBD10.Manager
 
         [DllImport("user32.dll", EntryPoint = "SetWindowText")]
         private static extern int SetWindowText(IntPtr hWnd, string text);
-
-
 
         public delegate bool EnumWindowProc(IntPtr hwnd, IntPtr lParam);
 

@@ -23,11 +23,9 @@ namespace TaoBD10.ViewModels
     {
         private readonly BackgroundWorker bwPrintDiNgoai;
 
-
         public ICommand ShowDataCommand { get; }
 
-
-        void ShowData()
+        private void ShowData()
         {
             if (DiNgoais.Count != 0)
             {
@@ -118,7 +116,6 @@ namespace TaoBD10.ViewModels
                             }
                         }
                     }
-
                 }
             }
            );
@@ -145,7 +142,7 @@ namespace TaoBD10.ViewModels
             tinhs = FileManager.LoadTinhThanhOffline();
         }
 
-        void DiNgoaiTuDongNext()
+        private void DiNgoaiTuDongNext()
         {
             if (DiNgoais.Count == 0)
             {
@@ -173,8 +170,9 @@ namespace TaoBD10.ViewModels
             SelectedSimple = DiNgoais[index];
             Selection(SelectedSimple);
         }
-        List<string> listBuuCuc;
-        List<string> listBuuCucTuDong;
+
+        private List<string> listBuuCuc;
+        private List<string> listBuuCucTuDong;
         private List<TinhHuyenModel> tinhs;
 
         private bool _IsTuDongDong;
@@ -185,8 +183,7 @@ namespace TaoBD10.ViewModels
             set { SetProperty(ref _IsTuDongDong, value); }
         }
 
-
-        string AutoSetTinh(string address)
+        private string AutoSetTinh(string address)
         {
             if (tinhs.Count == 0)
                 return "";
@@ -204,7 +201,6 @@ namespace TaoBD10.ViewModels
                 }
             }
             return "";
-
         }
 
         public ICommand StopDiNgoaiCommand { get; }
@@ -213,10 +209,10 @@ namespace TaoBD10.ViewModels
         {
             bwPrintDiNgoai.CancelAsync();
         }
+
         public ICommand AddFastCommand { get; }
 
-
-        void AddFast()
+        private void AddFast()
         {
             //thuc hien them dia chi 1 cach nhanh hon
             if (DiNgoais.Count == 0)
@@ -267,7 +263,6 @@ namespace TaoBD10.ViewModels
             }
         }
 
-
         private bool _IsGroupCT = false;
 
         public bool IsGroupCT
@@ -275,9 +270,6 @@ namespace TaoBD10.ViewModels
             get { return _IsGroupCT; }
             set { SetProperty(ref _IsGroupCT, value); }
         }
-
-
-
 
         private void BwPrintDiNgoai_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -326,7 +318,6 @@ namespace TaoBD10.ViewModels
 
                 var controls = APIManager.GetListControlText(currentWindow.hwnd);
                 var handleTaoTui = controls[8].Handle;
-
 
                 APIManager.SendMessage(handleTaoTui, 0x0007, 0, 0);
                 APIManager.SendMessage(handleTaoTui, 0x0007, 0, 0);
@@ -417,7 +408,6 @@ namespace TaoBD10.ViewModels
                 else
                     IsRunGroup = false;
 
-
                 if (IsRunGroup)
                 {
                     for (int i = 0; i < listDiNgoaiCungMaBC.Count - 1; i++)
@@ -467,7 +457,6 @@ namespace TaoBD10.ViewModels
                         return;
                     }
                     /////////////////////////////////////////////
-
 
                     SendKeys.SendWait("{F6}");
                     SendKeys.SendWait(listDiNgoaiCungMaBC.Last().Code);
@@ -561,25 +550,7 @@ namespace TaoBD10.ViewModels
                     Thread.Sleep(200);
                 }
 
-
-
-
                 ///////////////////////////////////////////////////////////////
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
                 SendKeys.SendWait("{F7}");
 
@@ -786,7 +757,6 @@ namespace TaoBD10.ViewModels
 
                         LocalPrintServer localPrintServer = new LocalPrintServer();
 
-
                         PrinterSettings settings = new PrinterSettings();
                         PrintQueueStatus statusPrint = PrintQueueStatus.None;
                         for (int i = 0; i < 8; i++)
@@ -808,7 +778,6 @@ namespace TaoBD10.ViewModels
                         if (statusPrint == PrintQueueStatus.None)
                         {
                             APIManager.ShowSnackbar("Khong In");
-
                         }
                         else
                         {
@@ -819,7 +788,6 @@ namespace TaoBD10.ViewModels
 
                         //Set text
                         //APIManager.setTextControl(childControls[2].Handle, temp);
-
                     }
                     else
                     {
@@ -831,7 +799,6 @@ namespace TaoBD10.ViewModels
                         SendKeys.SendWait(SelectedSimple.MaTinh);
                     }
                 }
-
             }
             catch (Exception ex)
             {
@@ -1608,7 +1575,6 @@ namespace TaoBD10.ViewModels
         {
             if (!bwKhoiTao.IsBusy)
             {
-
                 bwKhoiTao.CancelAsync();
                 bwKhoiTao.RunWorkerAsync();
             }
@@ -2013,7 +1979,6 @@ namespace TaoBD10.ViewModels
         private void ClearDiNgoai()
         {
             DiNgoais.Clear();
-
         }
 
         private List<string> GetListBuuCucFromTinh(string maTinh)

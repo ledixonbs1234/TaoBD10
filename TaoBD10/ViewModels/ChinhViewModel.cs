@@ -156,7 +156,7 @@ namespace TaoBD10.ViewModels
             });
         }
 
-        void ShowData(List<ChuyenThuModel> data)
+        private void ShowData(List<ChuyenThuModel> data)
         {
             if (data != null)
                 if (data.Count != 0)
@@ -169,14 +169,12 @@ namespace TaoBD10.ViewModels
                 }
         }
 
-
         public ICommand GetDataFromCloudCommand { get; }
 
-        void GetDataFromCloud()
+        private void GetDataFromCloud()
         {
             ShowData(FileManager.LoadCTOnFirebase());
         }
-
 
         private void AutoXacNhan()
         {
@@ -215,15 +213,11 @@ namespace TaoBD10.ViewModels
             //tu dong xac nhan chi tiet tui thu
         }
 
-
-
         public ICommand TestCommand { get; }
 
-        void Test()
+        private void Test()
         {
-
         }
-
 
         private void BackgroundCreateChuyenThu_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -421,7 +415,6 @@ namespace TaoBD10.ViewModels
                 //    APIManager.FocusHandle(controlSys.Handle);
                 //    Thread.Sleep(100);
                 //    APIManager.FocusHandle(controlSys.Handle);
-
 
                 //}
             }
@@ -660,12 +653,12 @@ namespace TaoBD10.ViewModels
             APIManager.SendMessage(childControls[14].Handle, 0x0007, 0, 0);
         }
 
-        void ChuyenThu0()
+        private void ChuyenThu0()
         {
             ChuyenThuThu(0);
         }
 
-        void ChuyenThuThu(int number)
+        private void ChuyenThuThu(int number)
         {
             if (ChuyenThus.Count >= number + 1)
             {
@@ -681,67 +674,67 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        void ChuyenThu1()
+        private void ChuyenThu1()
         {
             ChuyenThuThu(1);
         }
 
-        void ChuyenThu10()
+        private void ChuyenThu10()
         {
             ChuyenThuThu(10);
         }
 
-        void ChuyenThu11()
+        private void ChuyenThu11()
         {
             ChuyenThuThu(11);
         }
 
-        void ChuyenThu12()
+        private void ChuyenThu12()
         {
             ChuyenThuThu(12);
         }
 
-        void ChuyenThu13()
+        private void ChuyenThu13()
         {
             ChuyenThuThu(13);
         }
 
-        void ChuyenThu2()
+        private void ChuyenThu2()
         {
             ChuyenThuThu(2);
         }
 
-        void ChuyenThu3()
+        private void ChuyenThu3()
         {
             ChuyenThuThu(3);
         }
 
-        void ChuyenThu4()
+        private void ChuyenThu4()
         {
             ChuyenThuThu(4);
         }
 
-        void ChuyenThu5()
+        private void ChuyenThu5()
         {
             ChuyenThuThu(5);
         }
 
-        void ChuyenThu6()
+        private void ChuyenThu6()
         {
             ChuyenThuThu(6);
         }
 
-        void ChuyenThu7()
+        private void ChuyenThu7()
         {
             ChuyenThuThu(7);
         }
 
-        void ChuyenThu8()
+        private void ChuyenThu8()
         {
             ChuyenThuThu(8);
         }
 
-        void ChuyenThu9()
+        private void ChuyenThu9()
         {
             ChuyenThuThu(9);
         }
@@ -789,11 +782,10 @@ namespace TaoBD10.ViewModels
                 SendKeys.SendWait("{F4}");
                 Thread.Sleep(1000);
                 SendKeys.SendWait("{F10}");
-
             }
         }
 
-        void Len()
+        private void Len()
         {
             if (SelectedIndexCT == -1)
                 return;
@@ -814,8 +806,7 @@ namespace TaoBD10.ViewModels
 
         public ICommand PublishCommand { get; }
 
-
-        void Publish()
+        private void Publish()
         {
             if (ChuyenThus.Count != 0)
             {
@@ -823,14 +814,12 @@ namespace TaoBD10.ViewModels
             }
         }
 
-
-        void SaveCT()
+        private void SaveCT()
         {
             if (ChuyenThus.Count != 0)
             {
                 FileManager.SaveCTOffline(ChuyenThus.ToList());
             }
-
         }
 
         private void XacNhanChiTiet200()
@@ -879,16 +868,15 @@ namespace TaoBD10.ViewModels
                 SendKeys.SendWait("{ESC}");
             }
         }
+
         public ICommand ChuyenThu14Command { get; }
 
-
-        void ChuyenThu14()
+        private void ChuyenThu14()
         {
             ChuyenThuThu(14);
         }
 
-
-        void Xuong()
+        private void Xuong()
         {
             if (SelectedIndexCT == -1)
                 return;
@@ -901,8 +889,6 @@ namespace TaoBD10.ViewModels
             ChuyenThus[SelectedIndexCT] = tempCT;
             SelectedIndexCT = tempSelected + 1;
         }
-
-
 
         private readonly BackgroundWorker bwCreateChuyenThu;
         private readonly BackgroundWorker bwPrint;
@@ -962,6 +948,7 @@ namespace TaoBD10.ViewModels
             get { return _SelectedIndexCT; }
             set { SetProperty(ref _SelectedIndexCT, value); }
         }
+
         public ICommand XuongCommand { get; }
     }
 }

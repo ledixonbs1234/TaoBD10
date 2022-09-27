@@ -24,23 +24,22 @@ namespace TaoBD10.ViewModels
             set { SetProperty(ref _MaBCP, value); }
         }
 
-
         public ICommand FillMaBCCommand { get; }
 
-        List<string> LocBCP(string TextFill)
+        private List<string> LocBCP(string TextFill)
         {
-            List<string> list= new List<string>();
+            List<string> list = new List<string>();
             if (string.IsNullOrEmpty(TextFill))
                 return null;
             string[] texts = TextFill.Split('\n');
-            //2	ED594304497VN	59	593200	590000	EU	2800	0		 
+            //2	ED594304497VN	59	593200	590000	EU	2800	0
             //3   RA596820153VN   59  593200  593330  R!  50  0
             foreach (var item in texts)
             {
                 string[] splitTabTexts = item.Split(' ');
                 if (splitTabTexts.Length >= 7)
                 {
-                    if(MaBCP == splitTabTexts[4])
+                    if (MaBCP == splitTabTexts[4])
                     {
                         list.Add(splitTabTexts[1]);
                     }
@@ -49,7 +48,7 @@ namespace TaoBD10.ViewModels
             return list;
         }
 
-        void FillMaBC()
+        private void FillMaBC()
         {
             if (string.IsNullOrEmpty(_MaBCP))
                 return;
@@ -61,10 +60,7 @@ namespace TaoBD10.ViewModels
                 string item = list[i];
                 TamQuans.Add(new TamQuanModel(i + 1, list[i]));
             }
-
         }
-
-
 
         public TamQuanViewModel()
         {
@@ -105,11 +101,10 @@ namespace TaoBD10.ViewModels
                 }
             });
         }
+
         public ICommand SortCommand { get; }
 
-
-
-        void Sort()
+        private void Sort()
         {
             if (TamQuans.Count > 0)
             {
@@ -155,7 +150,6 @@ namespace TaoBD10.ViewModels
                 {
                     continue;
                 }
-
             }
         }
 

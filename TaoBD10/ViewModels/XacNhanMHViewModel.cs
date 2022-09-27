@@ -59,7 +59,6 @@ namespace TaoBD10.ViewModels
             set { SetProperty(ref _IsAutoGoCT, value); }
         }
 
-
         private XacNhanInfoModel _XacNhanInfo;
 
         private bool _IsWaitingComplete = false;
@@ -151,7 +150,6 @@ namespace TaoBD10.ViewModels
                 APIManager.OpenNotePad(ex.Message + '\n' + "XNMaHieu " + line + " Number Line " + APIManager.GetLineNumber(ex), "loi ");
                 throw;
             }
-
         }
 
         private void ChuyenThuDen(List<TestAPIModel> controls)
@@ -164,15 +162,19 @@ namespace TaoBD10.ViewModels
                 case "C":
                     loaiString = "Bưu kiện - Parcel";
                     break;
+
                 case "E":
                     loaiString = "EMS - Chuyển phát nhanh - Express Mail Service";
                     break;
+
                 case "R":
                     loaiString = "Bưu phẩm bảo đảm - Registed Mail";
                     break;
+
                 case "P":
                     loaiString = "Logistic";
                     break;
+
                 default:
                     break;
             }
@@ -232,6 +234,7 @@ namespace TaoBD10.ViewModels
                 backgroundWorkerXacNhan.RunWorkerAsync();
             }
         }
+
         private ObservableCollection<ThongTinTrangThaiModel> _TrangThais;
 
         public ObservableCollection<ThongTinTrangThaiModel> TrangThais
@@ -240,14 +243,8 @@ namespace TaoBD10.ViewModels
             set { SetProperty(ref _TrangThais, value); }
         }
 
-
-
-
-
-
         private void OnEnterKey()
         {
-
             if (MaHieu.IndexOf('\n') != -1)
             {
                 int soLuong = MaHieu.Where(m => m == '\n').Count();

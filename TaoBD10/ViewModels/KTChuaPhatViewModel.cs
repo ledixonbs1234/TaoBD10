@@ -4,7 +4,6 @@ using CommunityToolkit.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -24,7 +23,7 @@ namespace TaoBD10.ViewModels
             CheckCommand = new RelayCommand(Check);
             AddAddressCommand = new RelayCommand(AddAddress);
 
-        CopySelectedCommand = new RelayCommand(CopySelected);
+            CopySelectedCommand = new RelayCommand(CopySelected);
             GetNameCommand = new RelayCommand(GetName);
 
             HangTons = new ObservableCollection<HangTonModel>();
@@ -72,7 +71,6 @@ namespace TaoBD10.ViewModels
                             have.NameReceive = pnsName.NameReceive;
                             have.Address = pnsName.Address;
                             have.PhoneReceive = pnsName.PhoneReceive;
-                            
                         }
                     }
                 }
@@ -121,15 +119,13 @@ namespace TaoBD10.ViewModels
 
         public ICommand CopySelectedCommand { get; }
 
-        void CopySelected()
+        private void CopySelected()
         {
-            if(Selected != null)
+            if (Selected != null)
             {
                 Clipboard.SetText(Selected.MaHieu.ToUpper());
             }
-
         }
-
 
         private List<MaHieuDiNgoaiInfo> LocTextTho(string textsRange)
         {
@@ -358,7 +354,7 @@ namespace TaoBD10.ViewModels
                 return;
             }
             //WeakReferenceMessenger.Default.Send(new ContentModel { Key = "TopMost", Content = "False" });
-            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "OnlyCheck", Content = "https://bccp.vnpost.vn/BCCP.aspx?act=Trace&id="+ Selected.MaHieu });
+            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "OnlyCheck", Content = "https://bccp.vnpost.vn/BCCP.aspx?act=Trace&id=" + Selected.MaHieu });
             WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Navigation", Content = "Web" });
             //thuc hien navigate
             //Process.Start("chrome.exe", "https://bccp.vnpost.vn/BCCP.aspx?act=Trace&id=" + Selected.MaHieu);

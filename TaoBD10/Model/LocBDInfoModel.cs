@@ -1,10 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TaoBD10.Model
 {
@@ -31,11 +27,6 @@ namespace TaoBD10.Model
             set { SetProperty(ref _IsEnabledButton, value); }
         }
 
-
-
-
-
-
         public string DanhSachHuyen { get; set; }
         private ObservableCollection<HangHoaDetailModel> _HangHoas;
 
@@ -53,17 +44,13 @@ namespace TaoBD10.Model
             set { SetProperty(ref _TaoBDs, value); }
         }
 
-
-
-
-
-
         public LocBDInfoModel()
         {
             DanhSachTinh = new ObservableCollection<TinhHuyenModel>();
             HangHoas = new ObservableCollection<HangHoaDetailModel>();
             TaoBDs = new ObservableCollection<TaoBdInfoModel>();
         }
+
         public LocBDInfoModel(string maBC)
         {
             TenBD = maBC;
@@ -72,6 +59,5 @@ namespace TaoBD10.Model
             HangHoas = new ObservableCollection<HangHoaDetailModel>();
             TaoBDs = new ObservableCollection<TaoBdInfoModel>();
         }
-
     }
 }

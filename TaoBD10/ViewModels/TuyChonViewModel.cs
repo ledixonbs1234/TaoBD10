@@ -1,16 +1,15 @@
-﻿using System.Collections.ObjectModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using System;
+using System.Collections.ObjectModel;
 using System.Drawing.Printing;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Threading;
+using System.Windows.Automation;
 using System.Windows.Input;
 using TaoBD10.Manager;
 using TaoBD10.Model;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System;
-using System.Windows.Automation;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 
 namespace TaoBD10.ViewModels
 {
@@ -41,9 +40,10 @@ namespace TaoBD10.ViewModels
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool InvalidateRect(IntPtr hWnd, IntPtr rect, bool bErase);
+
         public ICommand TestCommand { get; }
 
-        void Test()
+        private void Test()
         {
             var window = APIManager.WaitingFindedWindow("xem chuyen thu");
             System.Collections.Generic.List<TestAPIModel> controls = APIManager.GetListControlText(window.hwnd);
@@ -75,20 +75,17 @@ namespace TaoBD10.ViewModels
                 cacheRequest.Pop();
 
                 var myString = targetText.Cached.Name;
-
             }
-
         }
+
         //AutomationElement datagrid = element.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.AutomationIdProperty, "dataGridView1"));
-
-
-
 
         private void ReadPrinter()
         {
             PrintBD8 = APIManager.namePrinterBD8;
             PrintBD10 = APIManager.namePrinterBD10;
         }
+
         public ICommand ApplyCommand { get; }
         public ICommand ListControlCommand { get; }
 

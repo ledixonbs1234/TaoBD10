@@ -17,7 +17,8 @@ namespace TaoBD10.Model
             Name = name;
             Content1 = content1;
         }
-        public OptionInfoModel(string name, string content1,string content2)
+
+        public OptionInfoModel(string name, string content1, string content2)
         {
             Name = name;
             Content1 = content1;
@@ -26,11 +27,9 @@ namespace TaoBD10.Model
 
         public string Content1 { get; set; }
         public string Content2 { get; set; }
+
         public OptionInfoModel()
         {
-
         }
-
-
     }
 }

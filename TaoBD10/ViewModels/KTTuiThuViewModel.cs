@@ -1,11 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using TaoBD10.Manager;
 using TaoBD10.Model;
@@ -30,8 +26,6 @@ namespace TaoBD10.ViewModels
             set { SetProperty(ref _TuiThusHave, value); }
         }
 
-
-
         private string _MaHieu;
 
         public string MaHieu
@@ -40,10 +34,9 @@ namespace TaoBD10.ViewModels
             set { SetProperty(ref _MaHieu, value); }
         }
 
-
         public ICommand SearchCommand { get; }
 
-        void Search()
+        private void Search()
         {
             if (string.IsNullOrEmpty(_MaHieu))
             {
@@ -57,31 +50,22 @@ namespace TaoBD10.ViewModels
                     TuiThusHave.Add(item);
                 }
             }
-
         }
-
 
         public ICommand LayDuLieuCommand { get; }
 
-        void LayDuLieu()
+        private void LayDuLieu()
         {
-
             List<FindItemModel> tuiThus = FileManager.LoadFindItemOnFirebase();
             Show(tuiThus);
-        
         }
 
-        void Show(List<FindItemModel> SHTuis)
+        private void Show(List<FindItemModel> SHTuis)
         {
             KTTuiThus = new ObservableCollection<FindItemModel>();
             foreach (FindItemModel item in SHTuis)
                 KTTuiThus.Add(item);
         }
-
-
-
-
-
 
         public KTTuiThuViewModel()
         {
@@ -90,7 +74,7 @@ namespace TaoBD10.ViewModels
             LayDuLieuCommand = new RelayCommand(LayDuLieu);
             //Show(tuiThus);
         }
-        //thuc hien 
 
+        //thuc hien
     }
 }

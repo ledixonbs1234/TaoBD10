@@ -108,7 +108,7 @@ namespace TaoBD10.ViewModels
 
         public ICommand MoTuiCommand { get; }
 
-        WindowInfo ChonTatCaTrongTui()
+        private WindowInfo ChonTatCaTrongTui()
         {
             if (!APIManager.ThoatToDefault("593230", "quan ly chuyen thu chieu den"))
             {
@@ -121,7 +121,7 @@ namespace TaoBD10.ViewModels
             SendKeys.SendWait(SelectedXacNhan.SHTui);
             SendKeys.SendWait("{ENTER}");
             WindowInfo window = APIManager.WaitingFindedWindow("xac nhan chi tiet tui thu");
-            
+
             return window;
         }
 
@@ -450,7 +450,6 @@ namespace TaoBD10.ViewModels
                             }
                         }
                     }
-
                 }
             }
             );

@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TaoBD10.Manager;
+﻿using TaoBD10.Manager;
 
 namespace TaoBD10.Model
 {
-    public  class TinhThanh
+    public class TinhThanh
     {
         public string MaTinh { get; set; }
         public string TinhKhongDau { get; set; }

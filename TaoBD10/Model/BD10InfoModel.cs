@@ -13,6 +13,7 @@ namespace TaoBD10.Model
 
         public DateTime DateCreateBD10 { get; set; }
         public TimeSet TimeTrongNgay { get; set; }
+        public string NgayThangBD { get; set; }
         public string CountTui { get; set; }
         public List<TuiHangHoa> TuiHangHoas { get; set; }
 

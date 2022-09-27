@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
@@ -23,6 +24,8 @@ namespace TaoBD10.ViewModels
             get { return _MaBCP; }
             set { SetProperty(ref _MaBCP, value); }
         }
+
+        BackgroundWorker bwTamQuanCheck;
 
         public ICommand FillMaBCCommand { get; }
 
@@ -67,6 +70,8 @@ namespace TaoBD10.ViewModels
             timer = new DispatcherTimer();
             timer.Interval = new TimeSpan(0, 0, 0, 0, 500);
             timer.Tick += Timer_Tick;
+            bwTamQuanCheck = new BackgroundWorker();
+            bwTamQuanCheck.DoWork += BwTamQuanCheck_DoWork;
             TamQuans = new ObservableCollection<TamQuanModel>();
             SendCommand = new RelayCommand(Send);
             FillMaHieuCommand = new RelayCommand(FillMaHieu);
@@ -84,7 +89,8 @@ namespace TaoBD10.ViewModels
                 }
                 else if (m.Key == "TamQuanRun")
                 {
-                    timer.Start();
+                    if (!bwTamQuanCheck.IsBusy)
+                        bwTamQuanCheck.RunWorkerAsync();
                 }
             });
 
@@ -100,6 +106,58 @@ namespace TaoBD10.ViewModels
                     WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Navigation", Content = "TamQuan" });
                 }
             });
+        }
+
+        private void BwTamQuanCheck_DoWork(object sender, DoWorkEventArgs e)
+        {
+            var currentWindow = APIManager.GetActiveWindowTitle();
+            if (currentWindow == null)
+                return;
+
+            if (currentWindow.text.IndexOf("xem chuyen thu chieu den") != -1)
+            {
+                SendKeys.SendWait("{TAB}{TAB}");
+                Thread.Sleep(100);
+
+                SendKeys.SendWait("^(c)");
+                string data = Clipboard.GetText();
+
+                //loc du lieu trong nay
+                //STT	Số hiệu	Tỉnh gốc	BC gốc	BC phát	Loại	KL (gr)	QĐ (gr)	Số hiệu lô	Ghi chú
+                // 1   CH214294910VN   10  157870  593280  C * 10000   0
+                var temp = data.Split('\n');
+                if (temp.Length == 2)
+                {
+                    string code = temp[1].Split('\t')[1];
+                    bool isDoubleRight = double.TryParse(temp[1].Split('\t')[6], out double klTemp);
+
+                    //xu ly du lieu trong nay
+                    if (code.Length == 13)
+                    {
+                        //them du lieu vao
+                        if (TamQuans.Count >= 1)
+                        {
+                            foreach (TamQuanModel item in TamQuans)
+                            {
+                                if (item.MaHieu == code.ToUpper())
+                                {
+                                    return;
+                                }
+                            }
+                        }
+                        if (isDoubleRight)
+                        {
+                            TamQuans.Add(new TamQuanModel(TamQuans.Count + 1, code.ToUpper(), klTemp));
+                        }
+                        else
+                        {
+                            TamQuans.Add(new TamQuanModel(TamQuans.Count + 1, code.ToUpper()));
+                        }
+
+                        SoundManager.playSound(@"Number\" + TamQuans.Count.ToString() + ".wav");
+                    }
+                }
+            };
         }
 
         public ICommand SortCommand { get; }

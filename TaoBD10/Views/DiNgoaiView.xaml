@@ -102,7 +102,7 @@
                 </Behaviors:Interaction.Triggers>
                 <DataGrid.Columns>
                     <DataGridTextColumn
-                        Binding="{Binding Index}"
+                        Binding="{Binding }"
                         Header="Index"
                         IsReadOnly="True" />
                     <DataGridTextColumn
@@ -116,6 +116,12 @@
                 </DataGrid.Columns>
             </DataGrid>
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                <Button
+                    Command="{Binding ClearDiNgoaiCommand}"
+                    Style="{StaticResource MaterialDesignFloatingActionMiniSecondaryDarkButton}"
+                    Background="#FF5BA1FF">
+                    <materialDesign:PackIcon Kind="Close" Width="20" Height="20" />
+                </Button>
                 <Button
                     Command="{Binding SortTinhCommand}"
                     Style="{StaticResource MaterialDesignFloatingActionMiniSecondaryDarkButton}"

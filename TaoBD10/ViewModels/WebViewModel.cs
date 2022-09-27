@@ -69,6 +69,8 @@ namespace TaoBD10.ViewModels
             MinCommand = new RelayCommand(Min);
             WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>
              {
+                 _LoadWebChoose = LoadWebChoose.None;
+                 APIManager.downLoadRoad = DownLoadRoad.None;
                  if (m.Key == "LoadAddressWeb")
                  {
                      _LoadWebChoose = LoadWebChoose.DiNgoaiAddress;
@@ -390,7 +392,7 @@ namespace TaoBD10.ViewModels
                     {
                         if (isFirstLoginSuccess)
                         {
-                            SoundManager.playSound2(@"Number\tingting.wav");
+                            //SoundManager.playSound2(@"Number\tingting.wav");
                             isFirstLoginSuccess = false;
                             WebBrowser.LoadUrl("https://bccp.vnpost.vn/BCCP.aspx?act=Trace&id=" + currentMaHieu);
 
@@ -519,12 +521,14 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                             var check = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblBarcode']");
                             if (check == null)
                             {
+                                _LoadWebChoose = LoadWebChoose.None;
                                 APIManager.ShowSnackbar("Không có mã hiệu web");
                                 return;
                             }
                             string barcodeWeb = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblBarcode']").InnerText;
                             if (barcodeWeb.Length < 13)
                             {
+                                _LoadWebChoose = LoadWebChoose.None;
                                 APIManager.ShowSnackbar("Ma hiệu nhỏ hơn 13");
                                 return;
                             }
@@ -533,6 +537,7 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                             if (string.IsNullOrEmpty(barcodeWeb))
                             {
                                 WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Snackbar", Content = "Không đúng Code" });
+                                _LoadWebChoose = LoadWebChoose.None;
                                 return;
                             }
                             WebContentModel webContent = new WebContentModel
@@ -544,6 +549,7 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                             var dd = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblReceiverAddr']");
                             if (dd == null)
                             {
+                                _LoadWebChoose = LoadWebChoose.None;
                                 return;
                             }
 
@@ -561,6 +567,8 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                             webContent.BuuCucGui = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblFrPOS']").InnerText;
                             webContent.NguoiGui = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblSenderName']").InnerText;
 
+
+
                             if (_LoadWebChoose == LoadWebChoose.DiNgoaiAddress)
                                 webContent.Key = "DiNgoaiAddress";
                             else if (_LoadWebChoose == LoadWebChoose.DiNgoaiAddress)
@@ -574,6 +582,8 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                                 if (tables == null)
                                 {
                                     APIManager.ShowSnackbar("Error");
+                                    _LoadWebChoose = LoadWebChoose.None;
+
                                     return;
                                 }
                                 HtmlNode table = tables.First();
@@ -605,8 +615,10 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                             if (string.IsNullOrEmpty(barcodeWeb))
                             {
                                 //txtInfo.Text = "Lỗi ! Chạy Lại";
+                                _LoadWebChoose = LoadWebChoose.None;
                                 return;
                             }
+                            _LoadWebChoose = LoadWebChoose.None;
 
                             Regex regexMaTinh = new Regex(@"<a href=""\/BCCP.aspx\?act=Trace(\w|\W)+?"" title=""Xem chi tiết"">((\w|\W)+?)<\/a>");
                             var matchMaTinh = regexMaTinh.Matches(html);
@@ -630,12 +642,14 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                             HtmlNodeCollection noteBarcode = document.DocumentNode.SelectNodes("//*[@id='MainContent_ctl00_lblBarcode']");
                             if (noteBarcode == null)
                             {
+                                _LoadWebChoose = LoadWebChoose.None;
                                 return;
                             }
 
                             string barcode = noteBarcode.First().InnerText;
                             if (string.IsNullOrEmpty(barcode))
                             {
+                                _LoadWebChoose = LoadWebChoose.None;
                                 return;
                             }
                             kiemTra.MaHieu = barcode.Substring(0, 13);
@@ -644,6 +658,7 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                             var addresss = document.DocumentNode.SelectNodes("//*[@id='MainContent_ctl00_lblReceiverAddr']");
                             if (addresss == null)
                             {
+                                _LoadWebChoose = LoadWebChoose.None;
                                 APIManager.ShowSnackbar("Error");
                                 return;
                             }
@@ -652,6 +667,7 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                             HtmlNodeCollection tables = document.DocumentNode.SelectNodes("//table[@id='MainContent_ctl00_grvItemMailTrip']/tbody");
                             if (tables == null)
                             {
+                                _LoadWebChoose = LoadWebChoose.None;
                                 return;
                             }
                             var table = tables.First();
@@ -664,6 +680,7 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                             HtmlNodeCollection tablesChiTiet = document.DocumentNode.SelectNodes("//table[@id='MainContent_ctl00_grvItemTrace']/tbody");
                             if (tablesChiTiet == null)
                             {
+                                _LoadWebChoose = LoadWebChoose.None;
                                 return;
                             }
                             var tableChiTiet = tablesChiTiet.First();
@@ -705,6 +722,7 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                                 kiemTra.Key = "XacNhanMHCTDen";
                                 WeakReferenceMessenger.Default.Send(new KiemTraMessage(kiemTra));
                             }
+                            _LoadWebChoose = LoadWebChoose.None;
                         }
                         //_LoadWebChoose = LoadWebChoose.None;
                     }

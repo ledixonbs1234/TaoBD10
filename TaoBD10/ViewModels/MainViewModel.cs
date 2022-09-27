@@ -181,13 +181,13 @@ namespace TaoBD10.ViewModels
                         {
                             if (m.BuuCucPhat == "59")
                             {
-                                if (boDauAddress == "hoai nhon" && m.BuuCucGui != "59")
-                                {
-                                }
-                                else
-                                {
-                                    SoundManager.playSound3(@"Number\error_sound.wav");
-                                }
+                                //if (boDauAddress == "hoai nhon" && m.BuuCucGui != "59")
+                                //{
+                                //}
+                                //else
+                                //{
+                                SoundManager.playSound3(@"Number\error_sound.wav");
+                                //}
                             }
                         }
                         else if (loaiCurrent == "R")
@@ -326,6 +326,7 @@ namespace TaoBD10.ViewModels
         {
             while (true)
             {
+                Thread.Sleep(10000);
                 MqttManager.checkConnect();
             }
         }
@@ -1385,7 +1386,7 @@ namespace TaoBD10.ViewModels
         public string CountInBD { get => _CountInBD; set => SetProperty(ref _CountInBD, value); }
         public IRelayCommand<System.Windows.Controls.TabControl> DefaultWindowCommand { get; }
         private bool _IsFindItem = true;
-        private bool _IsBoQuaHuyen;
+        private bool _IsBoQuaHuyen = true;
 
         public bool IsBoQuaHuyen
         {
@@ -1963,8 +1964,8 @@ namespace TaoBD10.ViewModels
 
         private void XoaBG()
         {
-            Thread.Sleep(2000);
-            WindowInfo currentWindow = APIManager.GetActiveWindowTitle();
+            Thread.Sleep(200);
+            WindowInfo currentWindow = APIManager.WaitingFindedWindow("dong chuyen thu", time: 5);
             if (currentWindow == null)
                 return;
             if (currentWindow.text.IndexOf("dong chuyen thu") == -1)

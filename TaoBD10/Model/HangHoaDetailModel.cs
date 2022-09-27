@@ -6,7 +6,15 @@ namespace TaoBD10.Model
 {
     public class HangHoaDetailModel : ObservableObject
     {
-        public TuiHangHoa TuiHangHoa { get; set; }
+        private TuiHangHoa _TuiHangHoa;
+
+        public TuiHangHoa TuiHangHoa
+        {
+            get { return _TuiHangHoa; }
+            set { SetProperty(ref _TuiHangHoa, value); }
+        }
+
+
 
         //public TrangThaiBD TrangThaiBD { get; set; } = TrangThaiBD.ChuaChon;
         private TrangThaiBD _TrangThaiBD = Manager.EnumAll.TrangThaiBD.ChuaChon;

@@ -204,7 +204,7 @@ namespace TaoBD10.ViewModels
             DateTime ngayThang = DateTime.Now;
             //DateTime.TryParseExact(ngayThangBD, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out ngayThang);
 
-            var info = FileManager.list.Find(m => m.Name == noiGuiBD && m.LanLap == lanLapBD && m.DateCreateBD10.DayOfYear == ngayThang.DayOfYear && m.TimeTrongNgay == (TimeSet)SelectedBuoi);
+            var info = FileManager.list.Find(m => m.Name == noiGuiBD && m.LanLap == lanLapBD && m.NgayThangBD == ngayThangBD && m.TimeTrongNgay == (TimeSet)SelectedBuoi);
             if (info != null)
             {
                 SoundManager.playSound(@"Number\trungbd.wav");

@@ -1,9 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
 using System;
-using System.IO;
-using System.Management;
-using System.Security.Cryptography;
-using System.Text;
 using System.Windows;
 using TaoBD10.Model;
 
@@ -32,46 +28,46 @@ namespace TaoBD10
             //    Close();
         }
 
-        private string key = "ledixonbs";
+        //private string key = "ledixonbs";
 
-        public string Decrypt(string toDecrypt)
-        {
-            bool useHashing = true;
-            byte[] keyArray;
-            byte[] toEncryptArray = Convert.FromBase64String(toDecrypt);
+        //public string Decrypt(string toDecrypt)
+        //{
+        //    bool useHashing = true;
+        //    byte[] keyArray;
+        //    byte[] toEncryptArray = Convert.FromBase64String(toDecrypt);
 
-            if (useHashing)
-            {
-                MD5CryptoServiceProvider hashmd5 = new MD5CryptoServiceProvider();
-                keyArray = hashmd5.ComputeHash(Encoding.UTF8.GetBytes(key));
-            }
-            else
-                keyArray = Encoding.UTF8.GetBytes(key);
+        //    if (useHashing)
+        //    {
+        //        MD5CryptoServiceProvider hashmd5 = new MD5CryptoServiceProvider();
+        //        keyArray = hashmd5.ComputeHash(Encoding.UTF8.GetBytes(key));
+        //    }
+        //    else
+        //        keyArray = Encoding.UTF8.GetBytes(key);
 
-            TripleDESCryptoServiceProvider tdes = new TripleDESCryptoServiceProvider();
-            tdes.Key = keyArray;
-            tdes.Mode = CipherMode.ECB;
-            tdes.Padding = PaddingMode.PKCS7;
+        //    TripleDESCryptoServiceProvider tdes = new TripleDESCryptoServiceProvider();
+        //    tdes.Key = keyArray;
+        //    tdes.Mode = CipherMode.ECB;
+        //    tdes.Padding = PaddingMode.PKCS7;
 
-            ICryptoTransform cTransform = tdes.CreateDecryptor();
-            byte[] resultArray = cTransform.TransformFinalBlock(toEncryptArray, 0, toEncryptArray.Length);
+        //    ICryptoTransform cTransform = tdes.CreateDecryptor();
+        //    byte[] resultArray = cTransform.TransformFinalBlock(toEncryptArray, 0, toEncryptArray.Length);
 
-            return Encoding.UTF8.GetString(resultArray);
-        }
+        //    return Encoding.UTF8.GetString(resultArray);
+        //}
 
-        private bool ValidHD()
-        {
-            string hdSN = string.Empty;
-            ManagementObjectSearcher moSearcher = new ManagementObjectSearcher("select * from Win32_DiskDrive");
-            foreach (ManagementObject wmi_HDD in moSearcher.Get())
-            {
-                hdSN = wmi_HDD["SerialNumber"].ToString();
-                break;
-            }
-            string text = File.ReadAllText("key.txt");
-            string decryText = Decrypt(text);
-            return decryText == hdSN;
-        }
+        //private bool ValidHD()
+        //{
+        //    string hdSN = string.Empty;
+        //    ManagementObjectSearcher moSearcher = new ManagementObjectSearcher("select * from Win32_DiskDrive");
+        //    foreach (ManagementObject wmi_HDD in moSearcher.Get())
+        //    {
+        //        hdSN = wmi_HDD["SerialNumber"].ToString();
+        //        break;
+        //    }
+        //    string text = File.ReadAllText("key.txt");
+        //    string decryText = Decrypt(text);
+        //    return decryText == hdSN;
+        //}
 
         private void MainView_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {

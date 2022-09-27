@@ -36,6 +36,7 @@ namespace TaoBD10.ViewModels
     HangHoas.Clear();
     foreach (HangHoaDetailModel item in m.Value)
     {
+
         HangHoas.Add(item);
     }
 });

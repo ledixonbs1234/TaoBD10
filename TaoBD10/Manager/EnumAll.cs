@@ -87,7 +87,8 @@
             AddressChuaPhat,
             DongChuyenThu,
             XacNhanMH,
-            XacNhanMHCTDen
+            XacNhanMHCTDen,
+            CheckCode
         }
 
         public enum PhanLoaiTinh

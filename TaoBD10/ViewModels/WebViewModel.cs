@@ -111,6 +111,13 @@ namespace TaoBD10.ViewModels
                      _LoadWebChoose = LoadWebChoose.XacNhanMHCTDen;
                      LoadAddressDiNgoai(m.Content);
                  }
+                 else if (m.Key == "ToWeb_CheckCode")
+                 {
+                     _LoadWebChoose = LoadWebChoose.CheckCode;
+                     LoadAddressDiNgoai(m.Content);
+
+                 }
+
                  else if (m.Key == "LoadAddressDong")
                  {
                      _LoadWebChoose = LoadWebChoose.DongChuyenThu;
@@ -534,12 +541,97 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                             }
 
                             barcodeWeb = barcodeWeb.Substring(0, 13).ToUpper();
-                            if (string.IsNullOrEmpty(barcodeWeb))
+                            //if (string.IsNullOrEmpty(barcodeWeb))
+                            //{
+                            //    WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Snackbar", Content = "Không đúng Code" });
+                            //    _LoadWebChoose = LoadWebChoose.None;
+                            //    return;
+                            //}
+                            WebContentModel webContent = new WebContentModel
                             {
-                                WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Snackbar", Content = "Không đúng Code" });
+                                Code = barcodeWeb
+                            };
+
+                            //kiem tra null
+                            var dd = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblReceiverAddr']");
+                            if (dd == null)
+                            {
                                 _LoadWebChoose = LoadWebChoose.None;
                                 return;
                             }
+
+                            webContent.AddressReiceive = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblReceiverAddr']").InnerText;
+                            if (string.IsNullOrEmpty(webContent.AddressReiceive))
+                            {
+                                webContent.AddressReiceive = "";
+                            }
+                            webContent.AddressSend = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblSenderAddr']").InnerText;
+                            var ff = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblDesPOS']").InnerText;
+                            if (!string.IsNullOrEmpty(ff))
+                            {
+                                webContent.BuuCucPhat = ff.Substring(0, 2);
+                            }
+                            webContent.BuuCucGui = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblFrPOS']").InnerText;
+                            webContent.NguoiGui = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblSenderName']").InnerText;
+
+
+
+                            if (_LoadWebChoose == LoadWebChoose.DiNgoaiAddress)
+                                webContent.Key = "DiNgoaiAddress";
+                            else if (_LoadWebChoose == LoadWebChoose.DiNgoaiAddress)
+                                webContent.Key = "DongChuyenThu";
+                            else if (_LoadWebChoose == LoadWebChoose.AddressTamQuan)
+                                webContent.Key = "AddressTamQuan";
+                            else if (_LoadWebChoose == LoadWebChoose.AddressChuaPhat)
+                            {
+                                HtmlNodeCollection tables = document.DocumentNode.SelectNodes("//table[@id='MainContent_ctl00_grvItemMailTrip']/tbody");
+
+                                if (tables == null)
+                                {
+                                    APIManager.ShowSnackbar("Error");
+                                    _LoadWebChoose = LoadWebChoose.None;
+
+                                    return;
+                                }
+                                HtmlNode table = tables.First();
+                                HtmlNodeCollection aa = table.LastChild.PreviousSibling.SelectNodes("td");
+
+                                webContent.KiemTraWeb = new KiemTraModel
+                                {
+                                    Date = aa[2].InnerText,
+                                    BuuCucDong = aa[3].InnerText,
+                                    BuuCucNhan = aa[4].InnerText,
+                                    TTCT = aa[5].InnerText
+                                };
+                                webContent.Key = "AddressChuaPhat";
+                            }
+                            else if (_LoadWebChoose == LoadWebChoose.DongChuyenThu)
+                            {
+                                webContent.Key = "AddressDongChuyenThu";
+                            }
+
+                            _LoadWebChoose = LoadWebChoose.None;
+                            //Thuc hien send Web content qua do
+                            _ = WeakReferenceMessenger.Default.Send(webContent);
+                        }
+                        else if (_LoadWebChoose == LoadWebChoose.CheckCode)
+                        {
+                            var check = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblBarcode']");
+                            if (check == null)
+                            {
+                                _LoadWebChoose = LoadWebChoose.None;
+                                APIManager.ShowSnackbar("Không có mã hiệu web");
+                                return;
+                            }
+                            string barcodeWeb = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblBarcode']").InnerText;
+                            if (barcodeWeb.Length < 13)
+                            {
+                                _LoadWebChoose = LoadWebChoose.None;
+                                APIManager.ShowSnackbar("Ma hiệu nhỏ hơn 13");
+                                return;
+                            }
+
+                            barcodeWeb = barcodeWeb.Substring(0, 13).ToUpper();
                             WebContentModel webContent = new WebContentModel
                             {
                                 Code = barcodeWeb

@@ -96,6 +96,10 @@ namespace TaoBD10.Manager
                     //thuc hien lay danh sach da save
                     WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToDanhSach_CheckBD", Content = datas[1] });
                 }
+                else if (datas[0] == "checkcode")
+                {
+                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToWeb_CheckCode", Content = datas[1] });
+                }
             }
         }
 

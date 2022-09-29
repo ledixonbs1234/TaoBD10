@@ -244,7 +244,24 @@ namespace TaoBD10.Manager
             {
                 string clipboard = "";
                 Thread thread;
-                thread = new Thread(() => clipboard = System.Windows.Clipboard.GetText(System.Windows.TextDataFormat.UnicodeText));
+                thread = new Thread(() =>
+                {
+                    try
+                    {
+                        clipboard = System.Windows.Clipboard.GetText(System.Windows.TextDataFormat.UnicodeText);
+                    }
+                    catch (Exception ex)
+                    {
+                        var st = new StackTrace(ex, true);
+                        // Get the top stack frame
+                        var frame = st.GetFrame(0);
+                        // Get the line number from the stack frame
+                        var line = frame.GetFileLineNumber();
+                        OpenNotePad(ex.Message + '\n' + "APIManager " + line + " Number Line " + GetLineNumber(ex), "loi ");
+                        clipboard = "";
+                        throw;
+                    }
+                });
                 thread.SetApartmentState(ApartmentState.STA); //Set the thread to STA
                 for (int i = 0; i < 10; i++)
                 {
@@ -270,7 +287,7 @@ namespace TaoBD10.Manager
                 OpenNotePad(ex.Message + '\n' + "APIManager " + line + " Number Line " + GetLineNumber(ex), "loi ");
                 return "";
             }
-            
+
         }
 
         [DllImport("user32.dll")]

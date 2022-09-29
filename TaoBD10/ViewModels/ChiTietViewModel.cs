@@ -627,7 +627,7 @@ namespace TaoBD10.ViewModels
                 }
                 else
                 {
-                    SoundManager.playSound2(@"Number\dusoluong.wav");
+                    SoundManager.playSound(@"Number\dusoluong.wav");
                     APIManager.ShowSnackbar("OK");
                     return;
                 }

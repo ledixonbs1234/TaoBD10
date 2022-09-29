@@ -616,88 +616,69 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                         }
                         else if (_LoadWebChoose == LoadWebChoose.CheckCode)
                         {
-                            var check = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblBarcode']");
-                            if (check == null)
-                            {
-                                _LoadWebChoose = LoadWebChoose.None;
-                                APIManager.ShowSnackbar("Không có mã hiệu web");
-                                return;
-                            }
-                            string barcodeWeb = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblBarcode']").InnerText;
-                            if (barcodeWeb.Length < 13)
-                            {
-                                _LoadWebChoose = LoadWebChoose.None;
-                                APIManager.ShowSnackbar("Ma hiệu nhỏ hơn 13");
-                                return;
-                            }
+                            KiemTraModel kiemTra = new KiemTraModel();
 
-                            barcodeWeb = barcodeWeb.Substring(0, 13).ToUpper();
-                            WebContentModel webContent = new WebContentModel
-                            {
-                                Code = barcodeWeb
-                            };
-
-                            //kiem tra null
-                            var dd = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblReceiverAddr']");
-                            if (dd == null)
+                            HtmlNodeCollection noteBarcode = document.DocumentNode.SelectNodes("//*[@id='MainContent_ctl00_lblBarcode']");
+                            if (noteBarcode == null)
                             {
                                 _LoadWebChoose = LoadWebChoose.None;
                                 return;
                             }
 
-                            webContent.AddressReiceive = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblReceiverAddr']").InnerText;
-                            if (string.IsNullOrEmpty(webContent.AddressReiceive))
+                            string barcode = noteBarcode.First().InnerText;
+                            if (string.IsNullOrEmpty(barcode))
                             {
-                                webContent.AddressReiceive = "";
+                                _LoadWebChoose = LoadWebChoose.None;
+                                return;
                             }
-                            webContent.AddressSend = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblSenderAddr']").InnerText;
-                            var ff = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblDesPOS']").InnerText;
-                            if (!string.IsNullOrEmpty(ff))
+                            kiemTra.MaHieu = barcode.Substring(0, 13);
+                            //thuc hien lay barcode
+
+                            var addresss = document.DocumentNode.SelectNodes("//*[@id='MainContent_ctl00_lblReceiverAddr']");
+                            if (addresss == null)
                             {
-                                webContent.BuuCucPhat = ff.Substring(0, 2);
+                                _LoadWebChoose = LoadWebChoose.None;
+                                APIManager.ShowSnackbar("Error");
+                                return;
                             }
-                            webContent.BuuCucGui = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblFrPOS']").InnerText;
-                            webContent.NguoiGui = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblSenderName']").InnerText;
+                            kiemTra.Address = addresss.First().InnerText;
 
-
-
-                            if (_LoadWebChoose == LoadWebChoose.DiNgoaiAddress)
-                                webContent.Key = "DiNgoaiAddress";
-                            else if (_LoadWebChoose == LoadWebChoose.DiNgoaiAddress)
-                                webContent.Key = "DongChuyenThu";
-                            else if (_LoadWebChoose == LoadWebChoose.AddressTamQuan)
-                                webContent.Key = "AddressTamQuan";
-                            else if (_LoadWebChoose == LoadWebChoose.AddressChuaPhat)
+                            HtmlNodeCollection tables = document.DocumentNode.SelectNodes("//table[@id='MainContent_ctl00_grvItemMailTrip']/tbody");
+                            if (tables == null)
                             {
-                                HtmlNodeCollection tables = document.DocumentNode.SelectNodes("//table[@id='MainContent_ctl00_grvItemMailTrip']/tbody");
+                                _LoadWebChoose = LoadWebChoose.None;
+                                return;
+                            }
+                            var table = tables.First();
+                            HtmlNodeCollection aa = table.LastChild.PreviousSibling.SelectNodes("td");
+                            kiemTra.Date = aa[2].InnerText;
+                            kiemTra.BuuCucDong = aa[3].InnerText;
+                            kiemTra.BuuCucNhan = aa[4].InnerText;
+                            kiemTra.TTCT = aa[5].InnerText;
 
-                                if (tables == null)
+                            HtmlNodeCollection tablesChiTiet = document.DocumentNode.SelectNodes("//table[@id='MainContent_ctl00_grvItemTrace']/tbody");
+                            if (tablesChiTiet == null)
+                            {
+                                _LoadWebChoose = LoadWebChoose.None;
+                                return;
+                            }
+                            var tableChiTiet = tablesChiTiet.First();
+                            if (tableChiTiet.HasChildNodes)
+                            {
+                                List<ThongTinTrangThaiModel> list = new List<ThongTinTrangThaiModel>();
+                                for (int i = 1; i < tableChiTiet.ChildNodes.Count; i++)
                                 {
-                                    APIManager.ShowSnackbar("Error");
-                                    _LoadWebChoose = LoadWebChoose.None;
-
-                                    return;
+                                    HtmlNode item = tableChiTiet.ChildNodes[i];
+                                    HtmlNodeCollection listTd = item.SelectNodes("td");
+                                    if (listTd == null)
+                                        break;
+                                    if (listTd.Count() >= 5)
+                                    {
+                                        list.Add(new ThongTinTrangThaiModel(listTd[1].InnerText, listTd[2].InnerText, listTd[3].InnerText, listTd[4].InnerText));
+                                    }
                                 }
-                                HtmlNode table = tables.First();
-                                HtmlNodeCollection aa = table.LastChild.PreviousSibling.SelectNodes("td");
-
-                                webContent.KiemTraWeb = new KiemTraModel
-                                {
-                                    Date = aa[2].InnerText,
-                                    BuuCucDong = aa[3].InnerText,
-                                    BuuCucNhan = aa[4].InnerText,
-                                    TTCT = aa[5].InnerText
-                                };
-                                webContent.Key = "AddressChuaPhat";
+                                kiemTra.ThongTins = list;
                             }
-                            else if (_LoadWebChoose == LoadWebChoose.DongChuyenThu)
-                            {
-                                webContent.Key = "AddressDongChuyenThu";
-                            }
-
-                            _LoadWebChoose = LoadWebChoose.None;
-                            //Thuc hien send Web content qua do
-                            _ = WeakReferenceMessenger.Default.Send(webContent);
                         }
                         else if (_LoadWebChoose == LoadWebChoose.CodeFromBD)
                         {

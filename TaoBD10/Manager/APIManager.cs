@@ -73,7 +73,7 @@ namespace TaoBD10.Manager
                 var frame = st.GetFrame(0);
                 // Get the line number from the stack frame
                 var line = frame.GetFileLineNumber();
-                OpenNotePad(ex.Message + '\n' + "APIManger " + line + " Number Line " + APIManager.GetLineNumber(ex), "loi ");
+                OpenNotePad(ex.Message + '\n' + "APIManger " + line + " Number Line " + GetLineNumber(ex), "loi ");
                 throw;
             }
         }
@@ -130,7 +130,7 @@ namespace TaoBD10.Manager
                 var frame = st.GetFrame(0);
                 // Get the line number from the stack frame
                 var line = frame.GetFileLineNumber();
-                APIManager.OpenNotePad(ex.Message + '\n' + "APIManager " + line + " Number Line " + APIManager.GetLineNumber(ex), "loi ");
+                OpenNotePad(ex.Message + '\n' + "APIManager " + line + " Number Line " + GetLineNumber(ex), "loi ");
                 throw;
             }
         }
@@ -138,7 +138,7 @@ namespace TaoBD10.Manager
         public static void ClickButton(IntPtr mainHandle, IntPtr buttonHandle)
         {
             int wparam = (0 << 16) | (0x79 & 0xffff);
-            APIManager.SendMessage(mainHandle, WM_COMMAND, wparam, (int)buttonHandle);
+            SendMessage(mainHandle, WM_COMMAND, wparam, (int)buttonHandle);
         }
 
         public static string ConvertToUnSign3(string s)
@@ -233,30 +233,44 @@ namespace TaoBD10.Manager
                 var frame = st.GetFrame(0);
                 // Get the line number from the stack frame
                 var line = frame.GetFileLineNumber();
-                APIManager.OpenNotePad(ex.Message + '\n' + "APIManager " + line + " Number Line " + APIManager.GetLineNumber(ex), "loi ");
+                OpenNotePad(ex.Message + '\n' + "APIManager " + line + " Number Line " + GetLineNumber(ex), "loi ");
                 throw;
             }
         }
 
         public static string GetCopyData()
         {
-            string clipboard = "";
-            Thread thread;
-            thread = new Thread(() => clipboard = System.Windows.Clipboard.GetText(System.Windows.TextDataFormat.UnicodeText));
-            thread.SetApartmentState(ApartmentState.STA); //Set the thread to STA
-            for (int i = 0; i < 10; i++)
+            try
             {
-                SendKeys.SendWait("^(c)");
-                Thread.Sleep(50);
-
-                thread.Start();
-                thread.Join(); //Wait for the thread to end
-                if (!string.IsNullOrEmpty(clipboard))
+                string clipboard = "";
+                Thread thread;
+                thread = new Thread(() => clipboard = System.Windows.Clipboard.GetText(System.Windows.TextDataFormat.UnicodeText));
+                thread.SetApartmentState(ApartmentState.STA); //Set the thread to STA
+                for (int i = 0; i < 10; i++)
                 {
-                    break;
+                    SendKeys.SendWait("^(c)");
+                    Thread.Sleep(50);
+
+                    thread.Start();
+                    thread.Join(); //Wait for the thread to end
+                    if (!string.IsNullOrEmpty(clipboard))
+                    {
+                        break;
+                    }
                 }
+                return clipboard;
             }
-            return clipboard;
+            catch (Exception ex)
+            {
+                var st = new StackTrace(ex, true);
+                // Get the top stack frame
+                var frame = st.GetFrame(0);
+                // Get the line number from the stack frame
+                var line = frame.GetFileLineNumber();
+                OpenNotePad(ex.Message + '\n' + "APIManager " + line + " Number Line " + GetLineNumber(ex), "loi ");
+                return "";
+            }
+            
         }
 
         [DllImport("user32.dll")]
@@ -311,7 +325,7 @@ namespace TaoBD10.Manager
                 var frame = st.GetFrame(0);
                 // Get the line number from the stack frame
                 var line = frame.GetFileLineNumber();
-                APIManager.OpenNotePad(ex.Message + '\n' + "API MANager " + line + " Number Line " + APIManager.GetLineNumber(ex), "loi ");
+                OpenNotePad(ex.Message + '\n' + "API MANager " + line + " Number Line " + GetLineNumber(ex), "loi ");
 
                 throw;
             }
@@ -402,7 +416,7 @@ namespace TaoBD10.Manager
 
         public static string BoDauAndToLower(string text)
         {
-            return APIManager.ConvertToUnSign3(text).ToLower();
+            return ConvertToUnSign3(text).ToLower();
         }
 
         //Tu Dong vao ung dung 230 280
@@ -525,7 +539,7 @@ namespace TaoBD10.Manager
                     }
                     else
                     {
-                        APIManager.SetForegroundWindow(last);
+                        SetForegroundWindow(last);
                     }
                     Thread.Sleep(300);
                     SendKeys.SendWait("{F7}");
@@ -547,7 +561,7 @@ namespace TaoBD10.Manager
                 var frame = st.GetFrame(0);
                 // Get the line number from the stack frame
                 var line = frame.GetFileLineNumber();
-                APIManager.OpenNotePad(ex.Message + '\n' + "loi Line APIManager " + line + " Number Line " + APIManager.GetLineNumber(ex), "loi ");
+                OpenNotePad(ex.Message + '\n' + "loi Line APIManager " + line + " Number Line " + GetLineNumber(ex), "loi ");
                 throw;
             }
         }
@@ -607,7 +621,7 @@ namespace TaoBD10.Manager
                 var frame = st.GetFrame(0);
                 // Get the line number from the stack frame
                 var line = frame.GetFileLineNumber();
-                APIManager.OpenNotePad(ex.Message + '\n' + "loi Line API Manager " + line + " Number Line " + APIManager.GetLineNumber(ex), "loi ");
+                OpenNotePad(ex.Message + '\n' + "loi Line API Manager " + line + " Number Line " + GetLineNumber(ex), "loi ");
                 throw;
             }
         }

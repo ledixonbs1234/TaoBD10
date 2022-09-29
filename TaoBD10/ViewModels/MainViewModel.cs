@@ -1611,7 +1611,6 @@ namespace TaoBD10.ViewModels
         private void OnKeyPress(object sender, KeyPressedArgs e)
         {
             //thuc hien kiem tra cua so active hien tai
-            WindowInfo currentWindow = null;
             try
             {
                 switch (e.KeyPressed)
@@ -1660,7 +1659,7 @@ namespace TaoBD10.ViewModels
                         break;
 
                     case Key.F1:
-                        currentWindow = APIManager.GetActiveWindowTitle();
+                        WindowInfo currentWindow = APIManager.GetActiveWindowTitle();
                         if (currentWindow == null)
                             return;
                         if (currentWindow.text.IndexOf("khoi tao chuyen thu") != -1)

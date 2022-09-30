@@ -686,8 +686,7 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                                 thongTinCoBan.ThongTinTrangThais = list;
                             }
 
-
-                            HtmlNode tablesBd = document.DocumentNode.SelectSingleNode("//*[@id=\"MainContent_ctl00_grvBD10Status\"]/tbody");
+                            HtmlNode tablesBd = document.DocumentNode.SelectSingleNode("//*[@id=\"MainContent_ctl00_grvBD10\"]/tbody");
                             if (tablesBd == null)
                             {
                                 _LoadWebChoose = LoadWebChoose.None;

@@ -125,7 +125,6 @@ namespace TaoBD10.ViewModels
                  }
                  else if (m.Key == "ListAddress")
                  {
-					 isClickWebBCCP = false;
                      APIManager.downLoadRoad = DownLoadRoad.XacNhanTui;
                      WebBrowser.LoadUrl(m.Content);
                  }

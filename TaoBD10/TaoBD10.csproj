@@ -305,6 +305,7 @@
     <Compile Include="Model\TaoBdInfoModel.cs" />
     <Compile Include="Model\TestAPIModel.cs" />
     <Compile Include="Model\ThongTinChuyenThuModel.cs" />
+    <Compile Include="Model\ThongTinCoBanModel.cs" />
     <Compile Include="Model\ThongTinGiaoNhanBDModel.cs" />
     <Compile Include="Model\ThongTinTrangThaiModel.cs" />
     <Compile Include="Model\TinhHuyenModel.cs" />

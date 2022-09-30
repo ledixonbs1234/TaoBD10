@@ -360,7 +360,7 @@ namespace TaoBD10.ViewModels
             Thread.Sleep(200);
             SendKeys.SendWait("{ENTER}");
 
-            window = APIManager.WaitingFindedWindow("canh bao", "thong bao");
+            window = APIManager.WaitingFindedWindow("canh bao", "thong bao",time:14);
             if (window == null)
             {
                 APIManager.ShowSnackbar("Không tìm thấy cảnh báo");

@@ -125,7 +125,6 @@ namespace TaoBD10.ViewModels
                  }
                  else if (m.Key == "ListAddress")
                  {
-					 isClickWebBCCP = false;
                      APIManager.downLoadRoad = DownLoadRoad.XacNhanTui;
                      WebBrowser.LoadUrl(m.Content);
                  }
@@ -617,7 +616,7 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                         }
                         else if (_LoadWebChoose == LoadWebChoose.CheckCode)
                         {
-                            ThongTinCoBanModel thongTinCoBan = new ThongTinCoBanModel();
+                            KiemTraModel kiemTra = new KiemTraModel();
 
                             HtmlNodeCollection noteBarcode = document.DocumentNode.SelectNodes("//*[@id='MainContent_ctl00_lblBarcode']");
                             if (noteBarcode == null)
@@ -632,36 +631,30 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                                 _LoadWebChoose = LoadWebChoose.None;
                                 return;
                             }
-                            thongTinCoBan.MaHieu = barcode.Substring(0, 13);
+                            kiemTra.MaHieu = barcode.Substring(0, 13);
                             //thuc hien lay barcode
 
-                            var addresss = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblReceiverAddr']");
+                            var addresss = document.DocumentNode.SelectNodes("//*[@id='MainContent_ctl00_lblReceiverAddr']");
                             if (addresss == null)
                             {
                                 _LoadWebChoose = LoadWebChoose.None;
                                 APIManager.ShowSnackbar("Error");
                                 return;
                             }
-                            thongTinCoBan.DiaChiNhan = addresss.InnerText;
-                            
+                            kiemTra.Address = addresss.First().InnerText;
 
-                            //Danh sach chuyen thu
-                            HtmlNode table = document.DocumentNode.SelectSingleNode("//table[@id='MainContent_ctl00_grvItemMailTrip']/tbody");
-                            if (table == null)
+                            HtmlNodeCollection tables = document.DocumentNode.SelectNodes("//table[@id='MainContent_ctl00_grvItemMailTrip']/tbody");
+                            if (tables == null)
                             {
                                 _LoadWebChoose = LoadWebChoose.None;
                                 return;
                             }
-                            List<ThongTinChuyenThuModel> thongTinCTs = new List<ThongTinChuyenThuModel>();
-
+                            var table = tables.First();
                             HtmlNodeCollection aa = table.LastChild.PreviousSibling.SelectNodes("td");
-                            foreach (HtmlNode item in table.ChildNodes)
-                            {
-                                ThongTinChuyenThuModel chuyenThu = new ThongTinChuyenThuModel(aa[1].InnerText, aa[2].InnerText, aa[3].InnerText, aa[4].InnerText, aa[5].InnerText);
-                                thongTinCTs.Add(chuyenThu);
-                            }
-                            thongTinCoBan.ThongTinChuyenThus = thongTinCTs;
-
+                            kiemTra.Date = aa[2].InnerText;
+                            kiemTra.BuuCucDong = aa[3].InnerText;
+                            kiemTra.BuuCucNhan = aa[4].InnerText;
+                            kiemTra.TTCT = aa[5].InnerText;
 
                             HtmlNodeCollection tablesChiTiet = document.DocumentNode.SelectNodes("//table[@id='MainContent_ctl00_grvItemTrace']/tbody");
                             if (tablesChiTiet == null)
@@ -684,32 +677,8 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                                         list.Add(new ThongTinTrangThaiModel(listTd[1].InnerText, listTd[2].InnerText, listTd[3].InnerText, listTd[4].InnerText));
                                     }
                                 }
-                                thongTinCoBan.ThongTinTrangThais = list;
+                                kiemTra.ThongTins = list;
                             }
-
-                            HtmlNode tablesBd = document.DocumentNode.SelectSingleNode("//*[@id=\"MainContent_ctl00_grvBD10\"]/tbody");
-                            if (tablesBd == null)
-                            {
-                                _LoadWebChoose = LoadWebChoose.None;
-                                return;
-                            }
-                            if (tablesBd.HasChildNodes)
-                            {
-                                List<ThongTinGiaoNhanBDModel> list = new List<ThongTinGiaoNhanBDModel>();
-                                for (int i = 1; i < tablesBd.ChildNodes.Count; i++)
-                                {
-                                    HtmlNode item = tablesBd.ChildNodes[i];
-                                    HtmlNodeCollection listTd = item.SelectNodes("td");
-                                    if (listTd == null)
-                                        break;
-                                    if (listTd.Count() >= 5)
-                                    {
-                                        list.Add(new ThongTinGiaoNhanBDModel(listTd[1].InnerText, listTd[2].InnerText, listTd[3].InnerText, listTd[4].InnerText, listTd[5].InnerText, listTd[5].InnerText));
-                                    }
-                                }
-                                thongTinCoBan.ThongTinGiaoNhanBDs = list;
-                            }
-                            string text = "";
                         }
                         else if (_LoadWebChoose == LoadWebChoose.CodeFromBD)
                         {

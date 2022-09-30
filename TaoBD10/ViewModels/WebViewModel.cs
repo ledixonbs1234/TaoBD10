@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using ExcelDataReader;
 using HtmlAgilityPack;
+using Newtonsoft.Json;
 using Spire.Xls;
 using System;
 using System.Collections.Generic;
@@ -704,12 +705,16 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                                         break;
                                     if (listTd.Count() >= 5)
                                     {
-                                        list.Add(new ThongTinGiaoNhanBDModel(listTd[1].InnerText, listTd[2].InnerText, listTd[3].InnerText, listTd[4].InnerText, listTd[5].InnerText, listTd[5].InnerText));
+                                        string[] temps = listTd[5].InnerText.Split('/');
+                                        list.Add(new ThongTinGiaoNhanBDModel(listTd[1].InnerText, listTd[2].InnerText, listTd[3].InnerText, listTd[4].InnerText, temps[0].Trim(), temps[1].Trim() ));
                                     }
                                 }
                                 thongTinCoBan.ThongTinGiaoNhanBDs = list;
                             }
-                            string text = "";
+                            _LoadWebChoose = LoadWebChoose.None;
+                            string thongTinJson = JsonConvert.SerializeObject(thongTinCoBan);
+                            //Thuc hien send data to web
+                            MqttManager.Pulish(FileManager.MQTTKEY + "_checkcode", thongTinJson);
                         }
                         else if (_LoadWebChoose == LoadWebChoose.CodeFromBD)
                         {

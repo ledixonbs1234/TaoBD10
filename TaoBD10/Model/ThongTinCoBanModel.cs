@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace TaoBD10.Model
 {
     public class ThongTinCoBanModel
@@ -17,6 +16,8 @@ namespace TaoBD10.Model
         public List<ThongTinTrangThaiModel> ThongTinTrangThais { get; set; } 
         public List<ThongTinGiaoNhanBDModel> ThongTinGiaoNhanBDs { get; set; }
         public List<ThongTinChuyenThuModel> ThongTinChuyenThus { get; set; }
+        public string KhoiLuongThucTe { get;  set; }
+
         public ThongTinCoBanModel()
         {
 

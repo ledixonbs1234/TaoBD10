@@ -126,7 +126,7 @@ namespace TaoBD10.ViewModels
                  }
                  else if (m.Key == "ListAddress")
                  {
-					 isClickWebBCCP = false;
+                     isClickWebBCCP = false;
                      APIManager.downLoadRoad = DownLoadRoad.XacNhanTui;
                      WebBrowser.LoadUrl(m.Content);
                  }
@@ -636,80 +636,109 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                             thongTinCoBan.MaHieu = barcode.Substring(0, 13);
                             //thuc hien lay barcode
 
-                            var addresss = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblReceiverAddr']");
+                            HtmlNode addresss = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblReceiverAddr']");
                             if (addresss == null)
-                            {
-                                _LoadWebChoose = LoadWebChoose.None;
-                                APIManager.ShowSnackbar("Error");
-                                return;
-                            }
-                            thongTinCoBan.DiaChiNhan = addresss.InnerText;
-                            
+                                thongTinCoBan.DiaChiNhan = "";
+                            else
+                                thongTinCoBan.DiaChiNhan = addresss.InnerText;
+
+                            HtmlNode buuCucChapNhan = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblFrPOS']");
+                            if (buuCucChapNhan == null)
+                                thongTinCoBan.BuuCucChapNhan = "";
+                            else
+                                thongTinCoBan.BuuCucChapNhan = buuCucChapNhan.InnerText;
+                            HtmlNode nguoiGui = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblSenderName']");
+                            if (nguoiGui == null)
+                                thongTinCoBan.NguoiGui = "";
+                            else
+                                thongTinCoBan.NguoiGui = nguoiGui.InnerText;
+                            HtmlNode diaChiGui = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblSenderAddr']");
+                            if (diaChiGui == null)
+                                thongTinCoBan.DiaChiGui = "";
+                            else
+                                thongTinCoBan.DiaChiGui = diaChiGui.InnerText;
+                            HtmlNode nguoiNhan = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblReceiverName']");
+                            if (nguoiNhan == null)
+                                thongTinCoBan.NguoiNhan = "";
+                            else
+                                thongTinCoBan.NguoiNhan = nguoiNhan.InnerText;
+                            HtmlNode khoiLuongThucTe = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblWeightthucte']");
+                            if (khoiLuongThucTe == null)
+                                thongTinCoBan.KhoiLuongThucTe = "";
+                            else
+                                thongTinCoBan.KhoiLuongThucTe = khoiLuongThucTe.InnerText;
+
 
                             //Danh sach chuyen thu
                             HtmlNode table = document.DocumentNode.SelectSingleNode("//table[@id='MainContent_ctl00_grvItemMailTrip']/tbody");
+                            List<ThongTinChuyenThuModel> thongTinCTs = new List<ThongTinChuyenThuModel>();
                             if (table == null)
                             {
-                                _LoadWebChoose = LoadWebChoose.None;
-                                return;
+                                thongTinCoBan.ThongTinChuyenThus = thongTinCTs;
                             }
-                            List<ThongTinChuyenThuModel> thongTinCTs = new List<ThongTinChuyenThuModel>();
-
-                            HtmlNodeCollection aa = table.LastChild.PreviousSibling.SelectNodes("td");
-                            foreach (HtmlNode item in table.ChildNodes)
+                            else
                             {
-                                ThongTinChuyenThuModel chuyenThu = new ThongTinChuyenThuModel(aa[1].InnerText, aa[2].InnerText, aa[3].InnerText, aa[4].InnerText, aa[5].InnerText);
-                                thongTinCTs.Add(chuyenThu);
+                                HtmlNodeCollection aa = table.LastChild.PreviousSibling.SelectNodes("td");
+                                foreach (HtmlNode item in table.ChildNodes)
+                                {
+                                    ThongTinChuyenThuModel chuyenThu = new ThongTinChuyenThuModel(aa[1].InnerText, aa[2].InnerText, aa[3].InnerText, aa[4].InnerText, aa[5].InnerText);
+                                    thongTinCTs.Add(chuyenThu);
+                                }
+                                thongTinCoBan.ThongTinChuyenThus = thongTinCTs;
                             }
-                            thongTinCoBan.ThongTinChuyenThus = thongTinCTs;
-
 
                             HtmlNodeCollection tablesChiTiet = document.DocumentNode.SelectNodes("//table[@id='MainContent_ctl00_grvItemTrace']/tbody");
+
+                            List<ThongTinTrangThaiModel> list = new List<ThongTinTrangThaiModel>();
                             if (tablesChiTiet == null)
                             {
-                                _LoadWebChoose = LoadWebChoose.None;
-                                return;
-                            }
-                            var tableChiTiet = tablesChiTiet.First();
-                            if (tableChiTiet.HasChildNodes)
-                            {
-                                List<ThongTinTrangThaiModel> list = new List<ThongTinTrangThaiModel>();
-                                for (int i = 1; i < tableChiTiet.ChildNodes.Count; i++)
-                                {
-                                    HtmlNode item = tableChiTiet.ChildNodes[i];
-                                    HtmlNodeCollection listTd = item.SelectNodes("td");
-                                    if (listTd == null)
-                                        break;
-                                    if (listTd.Count() >= 5)
-                                    {
-                                        list.Add(new ThongTinTrangThaiModel(listTd[1].InnerText, listTd[2].InnerText, listTd[3].InnerText, listTd[4].InnerText));
-                                    }
-                                }
                                 thongTinCoBan.ThongTinTrangThais = list;
                             }
-
+                            else
+                            {
+                                var tableChiTiet = tablesChiTiet.First();
+                                if (tableChiTiet.HasChildNodes)
+                                {
+                                    for (int i = 1; i < tableChiTiet.ChildNodes.Count; i++)
+                                    {
+                                        HtmlNode item = tableChiTiet.ChildNodes[i];
+                                        HtmlNodeCollection listTd = item.SelectNodes("td");
+                                        if (listTd == null)
+                                            break;
+                                        if (listTd.Count() >= 5)
+                                        {
+                                            list.Add(new ThongTinTrangThaiModel(listTd[1].InnerText, listTd[2].InnerText, listTd[3].InnerText, listTd[4].InnerText));
+                                        }
+                                    }
+                                    thongTinCoBan.ThongTinTrangThais = list;
+                                }
+                            }
                             HtmlNode tablesBd = document.DocumentNode.SelectSingleNode("//*[@id=\"MainContent_ctl00_grvBD10\"]/tbody");
+
+                            List<ThongTinGiaoNhanBDModel> listGiaoNhan = new List<ThongTinGiaoNhanBDModel>();
                             if (tablesBd == null)
                             {
-                                _LoadWebChoose = LoadWebChoose.None;
-                                return;
+                                thongTinCoBan.ThongTinGiaoNhanBDs = listGiaoNhan;
                             }
-                            if (tablesBd.HasChildNodes)
+                            else
                             {
-                                List<ThongTinGiaoNhanBDModel> list = new List<ThongTinGiaoNhanBDModel>();
-                                for (int i = 1; i < tablesBd.ChildNodes.Count; i++)
+                                if (tablesBd.HasChildNodes)
                                 {
-                                    HtmlNode item = tablesBd.ChildNodes[i];
-                                    HtmlNodeCollection listTd = item.SelectNodes("td");
-                                    if (listTd == null)
-                                        break;
-                                    if (listTd.Count() >= 5)
+                                    for (int i = 1; i < tablesBd.ChildNodes.Count; i++)
                                     {
-                                        string[] temps = listTd[5].InnerText.Split('/');
-                                        list.Add(new ThongTinGiaoNhanBDModel(listTd[1].InnerText, listTd[2].InnerText, listTd[3].InnerText, listTd[4].InnerText, temps[0].Trim(), temps[1].Trim() ));
+                                        HtmlNode item = tablesBd.ChildNodes[i];
+                                        HtmlNodeCollection listTd = item.SelectNodes("td");
+                                        if (listTd == null)
+                                            break;
+                                        if (listTd.Count() >= 5)
+                                        {
+                                            string[] temps = listTd[5].InnerText.Split('/');
+                                            listGiaoNhan.Add(new ThongTinGiaoNhanBDModel(listTd[1].InnerText, listTd[2].InnerText, listTd[3].InnerText, listTd[4].InnerText, temps[0].Trim(), temps[1].Trim()));
+                                        }
                                     }
+                                    thongTinCoBan.ThongTinGiaoNhanBDs = listGiaoNhan;
                                 }
-                                thongTinCoBan.ThongTinGiaoNhanBDs = list;
+
                             }
                             _LoadWebChoose = LoadWebChoose.None;
                             string thongTinJson = JsonConvert.SerializeObject(thongTinCoBan);

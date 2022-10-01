@@ -678,13 +678,23 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                             }
                             else
                             {
-                                HtmlNodeCollection aa = table.PreviousSibling.SelectNodes("td");
-                                foreach (HtmlNode item in table.ChildNodes)
+
+                                if (table.HasChildNodes)
                                 {
-                                    ThongTinChuyenThuModel chuyenThu = new ThongTinChuyenThuModel(aa[1].InnerText, aa[2].InnerText, aa[3].InnerText, aa[4].InnerText, aa[5].InnerText);
-                                    thongTinCTs.Add(chuyenThu);
+                                    for (int i = 1; i < table.ChildNodes.Count; i++)
+                                    {
+                                        HtmlNode item = table.ChildNodes[i];
+                                        HtmlNodeCollection listtd = item.SelectNodes("td");
+                                        if (listtd == null)
+                                            break;
+                                        if (listtd.Count() >= 5)
+                                        {
+                                            ThongTinChuyenThuModel chuyenThu = new ThongTinChuyenThuModel(listtd[1].InnerText, listtd[2].InnerText, listtd[3].InnerText, listtd[4].InnerText, listtd[5].InnerText);
+                                            thongTinCTs.Add(chuyenThu);
+                                        }
+                                    }
+                                    thongTinCoBan.ThongTinChuyenThus = thongTinCTs;
                                 }
-                                thongTinCoBan.ThongTinChuyenThus = thongTinCTs;
                             }
 
                             HtmlNodeCollection tablesChiTiet = document.DocumentNode.SelectNodes("//table[@id='MainContent_ctl00_grvItemTrace']/tbody");

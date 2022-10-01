@@ -678,7 +678,7 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                             }
                             else
                             {
-                                HtmlNodeCollection aa = table.LastChild.PreviousSibling.SelectNodes("td");
+                                HtmlNodeCollection aa = table.PreviousSibling.SelectNodes("td");
                                 foreach (HtmlNode item in table.ChildNodes)
                                 {
                                     ThongTinChuyenThuModel chuyenThu = new ThongTinChuyenThuModel(aa[1].InnerText, aa[2].InnerText, aa[3].InnerText, aa[4].InnerText, aa[5].InnerText);

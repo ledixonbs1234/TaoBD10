@@ -122,7 +122,7 @@ namespace TaoBD10.ViewModels
                 Thread.Sleep(100);
 
                 SendKeys.SendWait("^(c)");
-                string data = Clipboard.GetText();
+                string data = APIManager.GetCopyData();
 
                 //loc du lieu trong nay
                 //STT	Số hiệu	Tỉnh gốc	BC gốc	BC phát	Loại	KL (gr)	QĐ (gr)	Số hiệu lô	Ghi chú
@@ -147,6 +147,7 @@ namespace TaoBD10.ViewModels
                                 }
                             }
                         }
+
                         if (isDoubleRight)
                         {
                             TamQuans.Add(new TamQuanModel(TamQuans.Count + 1, code.ToUpper(), klTemp));

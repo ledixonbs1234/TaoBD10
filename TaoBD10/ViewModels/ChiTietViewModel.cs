@@ -622,12 +622,12 @@ namespace TaoBD10.ViewModels
 
                 if (lastCountTuiHienTai - countCurrentTui != ListShowHangHoa.Count)
                 {
-                    SoundManager.playSound(@"Number\khongkhopsolieu.wav");
+                    SoundManager.playSound2(@"Number\khongkhopsolieu.wav");
                     return;
                 }
                 else
                 {
-                    SoundManager.playSound(@"Number\dusoluong.wav");
+                    SoundManager.playSound2(@"Number\dusoluong.wav");
                     APIManager.ShowSnackbar("OK");
                     return;
                 }

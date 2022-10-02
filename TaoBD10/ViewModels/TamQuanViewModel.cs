@@ -147,17 +147,21 @@ namespace TaoBD10.ViewModels
                                 }
                             }
                         }
-
-                        if (isDoubleRight)
+                        App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
                         {
-                            TamQuans.Add(new TamQuanModel(TamQuans.Count + 1, code.ToUpper(), klTemp));
-                        }
-                        else
-                        {
-                            TamQuans.Add(new TamQuanModel(TamQuans.Count + 1, code.ToUpper()));
-                        }
+                            if (isDoubleRight)
+                            {
+                                TamQuans.Add(new TamQuanModel(TamQuans.Count + 1, code.ToUpper(), klTemp));
+                            }
+                            else
+                            {
+                                TamQuans.Add(new TamQuanModel(TamQuans.Count + 1, code.ToUpper()));
+                            }
 
-                        SoundManager.playSound(@"Number\" + TamQuans.Count.ToString() + ".wav");
+                            SoundManager.playSound(@"Number\" + TamQuans.Count.ToString() + ".wav");
+                        });
+
+
                     }
                 }
             };

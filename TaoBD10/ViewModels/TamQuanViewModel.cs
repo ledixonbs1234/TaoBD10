@@ -116,6 +116,8 @@ namespace TaoBD10.ViewModels
 
             if (currentWindow.text.IndexOf("xem chuyen thu chieu den") != -1)
             {
+                SendKeys.SendWait("{F6}");
+                Thread.Sleep(100);
                 SendKeys.SendWait("{TAB}{TAB}");
                 Thread.Sleep(100);
 

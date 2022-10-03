@@ -98,6 +98,9 @@ namespace TaoBD10.Manager
                 else if (datas[0] == "checkcode")
                 {
                     WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToWeb_CheckCode", Content = datas[1] });
+                }else if (datas[0]== "laydiachi")
+                {
+                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToDiNgoai_GetAddressPhone", Content = datas[1] });
                 }
             }
         }

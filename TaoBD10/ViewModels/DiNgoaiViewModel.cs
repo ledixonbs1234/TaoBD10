@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using MaterialDesignThemes.Wpf;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -24,6 +26,7 @@ namespace TaoBD10.ViewModels
         private readonly BackgroundWorker bwPrintDiNgoai;
 
         public ICommand ShowDataCommand { get; }
+        bool IsPhoneRunning = false;
 
         private void ShowData()
         {
@@ -115,6 +118,20 @@ namespace TaoBD10.ViewModels
                                 AutoSetBuuCuc(have);
                             }
                         }
+                        if (IsPhoneRunning)
+                        {
+                            foreach (var diNgoai in DiNgoais)
+                            {
+                                if (string.IsNullOrEmpty(diNgoai.MaBuuCuc) && !string.IsNullOrEmpty(diNgoai.MaTinh))
+                                {
+                                    diNgoai.danhSachBuuCuc = GetListBuuCucFromTinh(diNgoai.MaTinh);
+                                }
+                            }
+
+                            //thuc hien send du lieu qua phone
+                            string json = JsonConvert.SerializeObject(DiNgoais);
+                            MqttManager.Pulish(FileManager.MQTTKEY + "_dingoai", json);
+                        }
                     }
                 }
             }
@@ -134,12 +151,60 @@ namespace TaoBD10.ViewModels
                 {
                     DiNgoaiTuDongNext();
                 }
+                else if (m.Key == "ToDiNgoai_GetAddressPhone")
+                {
+                    IsPhoneRunning = true;
+                    //thuc hien dejson
+                    List<string> list = JsonConvert.DeserializeObject<List<String>>(m.Content);
+                    App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
+                    {
+                        foreach (var item in list)
+                        {
+                            AddMaHieu(item);
+                        }
+                        AddFast();
+                    });
+                   
+
+                    //thuc hien lay dia chi
+
+
+                }
             });
 
             listBuuCuc = FileManager.LoadBuuCucsOffline();
             listBuuCucTuDong = FileManager.LoadBuuCucTuDongsOffline();
 
             tinhs = FileManager.LoadTinhThanhOffline();
+        }
+
+        private void AddMaHieu(string MaHieu)
+        {
+            MaHieu = MaHieu.Trim().ToUpper();
+            if (MaHieu.Length != 13)
+            {
+                return;
+            }                //    //kiem tra trung khong
+            if (DiNgoais.Count == 0)
+            {
+                DiNgoais.Add(new DiNgoaiItemModel(DiNgoais.Count + 1, MaHieu));
+                SoundManager.playSound(@"Number\1.wav");
+            }
+            else
+            {
+                foreach (DiNgoaiItemModel item in DiNgoais)
+                {
+                    if (item.Code == MaHieu)
+                    {
+                        return;
+                    }
+                }
+                DiNgoais.Add(new DiNgoaiItemModel(DiNgoais.Count + 1, MaHieu));
+                if (IsSayNumber)
+                {
+                    SoundManager.playSound(@"Number\" + DiNgoais.Count.ToString() + ".wav");
+                }
+            }
         }
 
         private void DiNgoaiTuDongNext()

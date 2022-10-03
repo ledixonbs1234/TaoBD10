@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System.Collections.Generic;
 
 namespace TaoBD10.Model
 {
@@ -28,6 +29,8 @@ namespace TaoBD10.Model
             }
             set { SetProperty(ref _Address, value); }
         }
+
+        public List<string> danhSachBuuCuc;
 
         public string AddressSend { get; set; }
         public string BuuCucGui { get; set; }
@@ -64,6 +67,7 @@ namespace TaoBD10.Model
             get { return _TenTinh; }
             set { SetProperty(ref _TenTinh, value); }
         }
+
 
         public string TinhGocGui { get; set; }
 

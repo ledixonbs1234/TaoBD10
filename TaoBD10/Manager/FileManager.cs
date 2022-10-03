@@ -546,6 +546,20 @@ namespace TaoBD10.Manager
                 serializer.Serialize(jWriter, chuyenThus);
             }
         }
+        public static void SaveErrorOnFirebase(string errorText)
+        {
+            string error = DateTime.Now.ToString() + ":" + errorText;
+            //client.SetTaskAsync("QuanLy/593230",chuyenThus);
+            client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/ErrorList").PostAsync(error);
+        }
+
+        public static List<string> LoadErrorOnFirebase()
+        {
+            Task<List<string>> cts = client.Child(@"QuanLy//" + optionModel.MaKhaiThac + "/ErrorList").OrderByKey().OnceSingleAsync<List<string>>();
+            cts.Wait();
+            List<string> result = cts.Result;
+            return result;
+        }
 
         public static void SaveCTOnFirebase(List<ChuyenThuModel> chuyenThus)
         {

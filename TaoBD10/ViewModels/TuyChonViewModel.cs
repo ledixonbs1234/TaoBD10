@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing.Printing;
 using System.IO;
@@ -45,37 +46,44 @@ namespace TaoBD10.ViewModels
 
         private void Test()
         {
-            var window = APIManager.WaitingFindedWindow("xem chuyen thu");
-            System.Collections.Generic.List<TestAPIModel> controls = APIManager.GetListControlText(window.hwnd);
-            //var control = controls.FirstOrDefault(m => m.Text.ToLower().IndexOf("danh sách bưu gửi") != -1);
-            //APIManager.setTextControl(control.Handle, "ddddddddddddddddddddddddd");
-            //InvalidateRect(control.Handle, IntPtr.Zero, true);
-
-            var control = controls[12];
-            AutomationElement element = AutomationElement.FromHandle(control.Handle);
-            AutomationElementCollection headers = element.FindAll(TreeScope.Descendants, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Custom));
-
-            //var headerCol1 = headers[1].Current.Name; ;
-            //var headerCol2 = headers[2].Current.Name;
-            for (var i = 0; i < headers.Count; i++)
+            List<string> list = FileManager.LoadErrorOnFirebase();
+            String text = "";
+            foreach (var item in list)
             {
-                var cacheRequest = new CacheRequest
-                {
-                    AutomationElementMode = AutomationElementMode.None,
-                    TreeFilter = Automation.RawViewCondition
-                };
-
-                cacheRequest.Add(AutomationElement.NameProperty);
-                cacheRequest.Add(AutomationElement.AutomationIdProperty);
-
-                cacheRequest.Push();
-
-                var targetText = headers[i].FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.ClassNameProperty, "TextBlock"));
-
-                cacheRequest.Pop();
-
-                var myString = targetText.Cached.Name;
+                text += item + "\n";
             }
+            APIManager.OpenNotePad(text, "Error Text");
+            //var window = APIManager.WaitingFindedWindow("xem chuyen thu");
+            //System.Collections.Generic.List<TestAPIModel> controls = APIManager.GetListControlText(window.hwnd);
+            ////var control = controls.FirstOrDefault(m => m.Text.ToLower().IndexOf("danh sách bưu gửi") != -1);
+            ////APIManager.setTextControl(control.Handle, "ddddddddddddddddddddddddd");
+            ////InvalidateRect(control.Handle, IntPtr.Zero, true);
+
+            //var control = controls[12];
+            //AutomationElement element = AutomationElement.FromHandle(control.Handle);
+            //AutomationElementCollection headers = element.FindAll(TreeScope.Descendants, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Custom));
+
+            ////var headerCol1 = headers[1].Current.Name; ;
+            ////var headerCol2 = headers[2].Current.Name;
+            //for (var i = 0; i < headers.Count; i++)
+            //{
+            //    var cacheRequest = new CacheRequest
+            //    {
+            //        AutomationElementMode = AutomationElementMode.None,
+            //        TreeFilter = Automation.RawViewCondition
+            //    };
+
+            //    cacheRequest.Add(AutomationElement.NameProperty);
+            //    cacheRequest.Add(AutomationElement.AutomationIdProperty);
+
+            //    cacheRequest.Push();
+
+            //    var targetText = headers[i].FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.ClassNameProperty, "TextBlock"));
+
+            //    cacheRequest.Pop();
+
+            //    var myString = targetText.Cached.Name;
+            //}
         }
 
         //AutomationElement datagrid = element.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.AutomationIdProperty, "dataGridView1"));

@@ -35,7 +35,6 @@ namespace TaoBD10.Manager
             string data = Encoding.UTF8.GetString(e.Message);
             if (e.Topic == FileManager.MQTTKEY)
             {
-                APIManager.ShowSnackbar("Connected");
                 IsConnected = true;
                 WeakReferenceMessenger.Default.Send(new ContentModel { Key = "CreateListKeyMQTT" });
                 Pulish(FileManager.MQTTKEY + "_phone", data);

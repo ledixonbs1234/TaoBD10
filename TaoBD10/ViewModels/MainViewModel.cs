@@ -186,6 +186,7 @@ namespace TaoBD10.ViewModels
                                 //}
                                 //else
                                 //{
+                                FileManager.SaveErrorOnFirebase("Addess:"+m.AddressReiceive + '|' + maSoBuuCucCurrent + "|" + loaiCurrent);
                                 SoundManager.playSound3(@"Number\error_sound.wav");
                                 //}
                             }
@@ -209,6 +210,7 @@ namespace TaoBD10.ViewModels
                                     else
                                     {
                                         SoundManager.playSound3(@"Number\error_sound.wav");
+                                        FileManager.SaveErrorOnFirebase("Addess:" + m.AddressReiceive + '|' + maSoBuuCucCurrent + "|" + loaiCurrent);
                                     }
                                 }
                                 else
@@ -223,6 +225,7 @@ namespace TaoBD10.ViewModels
                                     else
                                     {
                                         SoundManager.playSound3(@"Number\error_sound.wav");
+                                        FileManager.SaveErrorOnFirebase("Addess:" + m.AddressReiceive + '|' + maSoBuuCucCurrent + "|" + loaiCurrent);
                                     }
                                 }
                             }
@@ -232,6 +235,7 @@ namespace TaoBD10.ViewModels
                                 if (fisrtchar == "c" || fisrtchar == "e")
                                 {
                                     SoundManager.playSound3(@"Number\error_sound.wav");
+                                    FileManager.SaveErrorOnFirebase("Addess:" + m.AddressReiceive + '|' + maSoBuuCucCurrent + "|" + loaiCurrent);
                                 }
                             }
                         }
@@ -240,6 +244,7 @@ namespace TaoBD10.ViewModels
                     {
                         if (boDauAddress.IndexOf("phu my") == -1)
                             SoundManager.playSound3(@"Number\error_sound.wav");
+
                     }
                     else if (maSoBuuCucCurrent == "592460")
                     {
@@ -259,12 +264,18 @@ namespace TaoBD10.ViewModels
                     else if (maSoBuuCucCurrent == "593280")
                     {
                         if (boDauAddress.IndexOf("hoai nhon") == -1)
+                        {
                             SoundManager.playSound3(@"Number\error_sound.wav");
+                            FileManager.SaveErrorOnFirebase("Addess:" + m.AddressReiceive + '|' + maSoBuuCucCurrent + "|" + loaiCurrent);
+                        }
                     }
                     else if (maSoBuuCucCurrent == "593330")
                     {
                         if (boDauAddress.IndexOf("hoai nhon") == -1)
+                        {
+                            FileManager.SaveErrorOnFirebase("Addess:" + m.AddressReiceive + '|' + maSoBuuCucCurrent + "|" + loaiCurrent);
                             SoundManager.playSound3(@"Number\error_sound.wav");
+                        }
                     }
                     else if (maSoBuuCucCurrent == "593740" || maSoBuuCucCurrent == "593630")
                     {
@@ -287,6 +298,7 @@ namespace TaoBD10.ViewModels
                             address.IndexOf("hoai tan") != -1
                         )
                         {
+                            FileManager.SaveErrorOnFirebase("Addess:" + m.AddressReiceive + '|' + maSoBuuCucCurrent + "|" + loaiCurrent);
                             SoundManager.playSound3(@"Number\error_sound.wav");
                         }
                     }
@@ -301,6 +313,7 @@ namespace TaoBD10.ViewModels
                             address.IndexOf("hoai tan") != -1
                         )
                         {
+                            FileManager.SaveErrorOnFirebase("Addess:" + m.AddressReiceive + '|' + maSoBuuCucCurrent + "|" + loaiCurrent);
                             SoundManager.playSound3(@"Number\error_sound.wav");
                         }
                     }
@@ -315,6 +328,7 @@ namespace TaoBD10.ViewModels
                             address.IndexOf("hoai tan") != -1
                         )
                         {
+                            FileManager.SaveErrorOnFirebase("Addess:" + m.AddressReiceive + '|' + maSoBuuCucCurrent + "|" + loaiCurrent);
                             SoundManager.playSound3(@"Number\error_sound.wav");
                         }
                     }

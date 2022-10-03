@@ -179,10 +179,7 @@
                 </TabItem>
             </TabControl>
 
-            <materialDesign:Snackbar
-                Margin="0,0,0,0"
-                Panel.ZIndex="10"
-                MessageQueue="{Binding MessageQueue, Mode=TwoWay}" />
+           
         </Grid>
         <StackPanel
             Grid.Row="1"
@@ -194,5 +191,9 @@
             <CheckBox Content="Is Find Item" IsChecked="{Binding IsFindItem}" />
             <CheckBox Content="Bỏ Huyện" IsChecked="{Binding IsBoQuaHuyen}" />
         </StackPanel>
+        <materialDesign:Snackbar
+            Grid.Row="0" Grid.RowSpan="2"
+                Panel.ZIndex="10"
+                MessageQueue="{Binding MessageQueue, Mode=TwoWay}" />
     </Grid>
 </Window>

@@ -17,6 +17,7 @@ namespace TaoBD10.Manager
     {
         [DllImport("User32.dll")]
         public static extern bool IsIconic(IntPtr hWnd);
+        public static bool isDownloading = false;
 
         [DllImport("User32.dll")]
         public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);

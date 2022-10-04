@@ -70,8 +70,10 @@ namespace TaoBD10.ViewModels
             MinCommand = new RelayCommand(Min);
             WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>
              {
+                 
                  _LoadWebChoose = LoadWebChoose.None;
-                 APIManager.downLoadRoad = DownLoadRoad.None;
+                 if (!APIManager.isDownloading)
+                     APIManager.downLoadRoad = DownLoadRoad.None;
                  if (m.Key == "LoadAddressWeb")
                  {
                      _LoadWebChoose = LoadWebChoose.DiNgoaiAddress;
@@ -242,6 +244,7 @@ namespace TaoBD10.ViewModels
                 {
                     if (downloadItem.IsComplete)
                     {
+                        APIManager.isDownloading = false;
                         switch (APIManager.downLoadRoad)
                         {
                             case DownLoadRoad.None:
@@ -386,6 +389,7 @@ namespace TaoBD10.ViewModels
         }
 
         private bool isFirstLoginSuccess = false;
+        private bool isDownloading;
         private bool isFix = false;
 
         private async void WebBrowser_LoadingStateChanged(object sender, LoadingStateChangedEventArgs e)
@@ -882,6 +886,7 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                         //HtmlDocument document = new HtmlDocument();
                         //document.LoadHtml(html);
                         //APIManager.downLoadRoad = DownLoadRoad.XacNhanTui;
+                        APIManager.isDownloading = true;
                         string script = @"
                      document.getElementById('MainContent_ctl00_btnExportV2').click();
 ";

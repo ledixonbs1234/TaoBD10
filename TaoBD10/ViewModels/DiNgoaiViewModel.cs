@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using ExcelLibrary.BinaryFileFormat;
 using MaterialDesignThemes.Wpf;
 using Newtonsoft.Json;
 using System;
@@ -165,11 +166,16 @@ namespace TaoBD10.ViewModels
                         }
                         AddFast();
                     });
-                   
-
-                    //thuc hien lay dia chi
-
-
+                                   }
+                else if(m.Key == "ToDiNgoai_InDiNgoai")
+                {
+                    //thuc hien in di ngoai trong nay
+                    var diNgoai =  DiNgoais.FirstOrDefault(n => n.Code.ToLower() == m.Content.ToLower());
+                    if (diNgoai == null)
+                        return;
+                    var temp =FileManager.optionModel.GoFastKTCTKT.Split(',');
+                    APIManager.GoToWindow(FileManager.optionModel.MaKhaiThac, "khoi tao chuyen thu", temp[0], temp[1]);
+                    Selection(diNgoai);
                 }
             });
 

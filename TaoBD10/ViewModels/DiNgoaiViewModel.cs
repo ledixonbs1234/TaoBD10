@@ -124,10 +124,8 @@ namespace TaoBD10.ViewModels
                         {
                             foreach (var diNgoai in DiNgoais)
                             {
-                                if (string.IsNullOrEmpty(diNgoai.MaBuuCuc) && !string.IsNullOrEmpty(diNgoai.MaTinh))
-                                {
                                     diNgoai.danhSachBuuCuc = GetListBuuCucFromTinh(diNgoai.MaTinh);
-                                }
+                                
                             }
 
                             //thuc hien send du lieu qua phone

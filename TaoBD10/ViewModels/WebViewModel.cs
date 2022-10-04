@@ -72,8 +72,7 @@ namespace TaoBD10.ViewModels
              {
                  
                  _LoadWebChoose = LoadWebChoose.None;
-                 if (!APIManager.isDownloading)
-                     APIManager.downLoadRoad = DownLoadRoad.None;
+                 
                  if (m.Key == "LoadAddressWeb")
                  {
                      _LoadWebChoose = LoadWebChoose.DiNgoaiAddress;
@@ -244,7 +243,6 @@ namespace TaoBD10.ViewModels
                 {
                     if (downloadItem.IsComplete)
                     {
-                        APIManager.isDownloading = false;
                         switch (APIManager.downLoadRoad)
                         {
                             case DownLoadRoad.None:
@@ -886,7 +884,6 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                         //HtmlDocument document = new HtmlDocument();
                         //document.LoadHtml(html);
                         //APIManager.downLoadRoad = DownLoadRoad.XacNhanTui;
-                        APIManager.isDownloading = true;
                         string script = @"
                      document.getElementById('MainContent_ctl00_btnExportV2').click();
 ";

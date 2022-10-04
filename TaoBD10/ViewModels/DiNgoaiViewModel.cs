@@ -106,6 +106,7 @@ namespace TaoBD10.ViewModels
                 {
                     if (m.Value.Key == "DiNgoai")
                     {
+                        APIManager.ShowSnackbar("ChiTiet Tui get duoc");
                         List<ChiTietTuiModel> chiTietTuis = m.Value.ChiTietTuis;
 
                         foreach (ChiTietTuiModel chiTietTui in chiTietTuis)

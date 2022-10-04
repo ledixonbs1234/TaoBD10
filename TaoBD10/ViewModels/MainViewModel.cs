@@ -35,6 +35,16 @@ namespace TaoBD10.ViewModels
         private int lastNumberSuaBD = 0;
         private string _MqttKey;
 
+        private bool _IsMqttOnline = false;
+
+        public bool IsMqttOnline
+        {
+            get { return _IsMqttOnline; }
+            set { SetProperty(ref _IsMqttOnline, value); }
+        }
+
+
+
         public string MqttKey
         {
             get { return _MqttKey; }
@@ -161,7 +171,7 @@ namespace TaoBD10.ViewModels
                         if (XemCTChieuDenWindow != null)
                         {
                             //thuc hien viec thay doi giao dien dia chi tai cho nay
-                            System.Collections.Generic.List<TestAPIModel> controls = APIManager.GetListControlText(XemCTChieuDenWindow.hwnd);
+                            List<TestAPIModel> controls = APIManager.GetListControlText(XemCTChieuDenWindow.hwnd);
                             APIManager.setTextControl(controls[9].Handle, m.Value.MaHieu + "|" + m.Value.Address);
                             APIManager.InvalidateRect(controls[9].Handle, IntPtr.Zero, true);
                         }
@@ -341,6 +351,7 @@ namespace TaoBD10.ViewModels
             while (true)
             {
                 Thread.Sleep(10000);
+                IsMqttOnline = MqttManager.client.IsConnected;
                 MqttManager.checkConnect();
             }
         }

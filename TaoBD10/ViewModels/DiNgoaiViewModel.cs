@@ -173,6 +173,7 @@ namespace TaoBD10.ViewModels
                         return;
                     var temp =FileManager.optionModel.GoFastKTCTKT.Split(',');
                     APIManager.GoToWindow(FileManager.optionModel.MaKhaiThac, "khoi tao chuyen thu", temp[0], temp[1]);
+                    SelectedSimple = diNgoai;
                     Selection(diNgoai);
                 }
             });

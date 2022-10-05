@@ -152,6 +152,10 @@ namespace TaoBD10.ViewModels
                 else if (m.Key == "XN593200")
                 {
                     XacNhanChiTiet200();
+                }else if(m.Key == "xntd200")
+                {
+                    Thread.Sleep(1200);
+                    AutoXacNhan();
                 }
             });
         }
@@ -776,6 +780,7 @@ namespace TaoBD10.ViewModels
         {
             if (!string.IsNullOrEmpty(FileManager.optionModel.LayDuLieu))
             {
+                Thread.Sleep(400);
                 var temp = FileManager.optionModel.LayDuLieu.Split(',');
                 APIManager.GoToWindow(FileManager.optionModel.MaBuuCucLayDuLieu, "Default", temp[0], temp[1]);
                 APIManager.WaitingFindedWindow("danh sach buu gui le");

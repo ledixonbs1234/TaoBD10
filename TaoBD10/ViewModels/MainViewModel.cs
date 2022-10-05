@@ -1913,6 +1913,10 @@ namespace TaoBD10.ViewModels
                             Thread.Sleep(100);
                             WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Focus", Content = "Box" });
                         }
+                        else if (KeyData.IndexOf("xntd") != -1)
+                        {
+                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "xntd200", Content = "Box" });
+                        }
                         else if (KeyData.IndexOf("xoabg") != -1)
                         {
                             XoaBG();

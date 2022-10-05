@@ -156,8 +156,10 @@ namespace TaoBD10.ViewModels
                     IsPhoneRunning = true;
                     //thuc hien dejson
                     List<string> list = JsonConvert.DeserializeObject<List<String>>(m.Content);
-                    App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
+                    App.Current.Dispatcher.Invoke(delegate // <--- HERE
                     {
+                        DiNgoais.Clear();
+
                         foreach (var item in list)
                         {
                             AddMaHieu(item);
@@ -807,7 +809,7 @@ namespace TaoBD10.ViewModels
                         APIManager.ShowSnackbar("Không tìm thấy window kiện đi ngoài");
                         return;
                     }
-                    System.Collections.Generic.List<TestAPIModel> childControls = APIManager.GetListControlText(currentWindow.hwnd);
+                    List<TestAPIModel> childControls = APIManager.GetListControlText(currentWindow.hwnd);
                     //thuc hien lay vi tri nao do
 
                     APIManager.SendMessage(childControls[1].Handle, 0x0007, 0, 0);

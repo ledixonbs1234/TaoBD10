@@ -103,6 +103,7 @@ namespace TaoBD10.Manager
                     WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToDiNgoai_GetAddressPhone", Content = datas[1] });
                 }else if (datas[0]== "indingoai")
                 {
+                    APIManager.ShowSnackbar("Dang in");
                     WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToDiNgoai_InDiNgoai", Content = datas[1] });
                 }
             }

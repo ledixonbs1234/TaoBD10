@@ -105,6 +105,9 @@ namespace TaoBD10.Manager
                 {
                     APIManager.ShowSnackbar("Dang in");
                     WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToDiNgoai_InDiNgoai", Content = datas[1] });
+                }else if (datas[0] == "chinhsualai")
+                {
+                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToDiNgoai_ChinhSuaLai", Content = datas[1] });
                 }
             }
         }

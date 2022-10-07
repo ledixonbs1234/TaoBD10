@@ -155,7 +155,7 @@ namespace TaoBD10.ViewModels
                 {
                     IsPhoneRunning = true;
                     //thuc hien dejson
-                    List<string> list = JsonConvert.DeserializeObject<List<String>>(m.Content);
+                    List<string> list = JsonConvert.DeserializeObject<List<string>>(m.Content);
                     App.Current.Dispatcher.Invoke(delegate // <--- HERE
                     {
                         DiNgoais.Clear();
@@ -177,6 +177,16 @@ namespace TaoBD10.ViewModels
                     APIManager.GoToWindow(FileManager.optionModel.MaKhaiThac, "khoi tao chuyen thu", temp[0], temp[1]);
                     SelectedSimple = diNgoai;
                     Selection(diNgoai);
+                }else if (m.Key == "ToDiNgoai_ChinhSuaLai")
+                {
+                    List<string> list = JsonConvert.DeserializeObject<List<string>>(m.Content);
+                    foreach (string item in list)
+                    {
+                        string[] phanChia =  item.Split('_');
+                        var diNgoai = DiNgoais.FirstOrDefault(n => n.Code == phanChia[0].ToUpper());
+                        if (diNgoai == null) continue;
+                        diNgoai.MaBuuCuc = phanChia[1];
+                    }
                 }
             });
 

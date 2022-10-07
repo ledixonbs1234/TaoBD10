@@ -266,15 +266,15 @@ namespace TaoBD10.ViewModels
                 //tuiHangHoas.Add(TuiHangHoa);
                 SendKeys.SendWait("{DOWN}");
             }
-            if (slTuiInBD != tuiTempHangHoa.Count)
-            {
-                IsLoading = false;
-                ValueLoading = 0;
+            //if (slTuiInBD != tuiTempHangHoa.Count)
+            //{
+            //    IsLoading = false;
+            //    ValueLoading = 0;
 
-                SoundManager.playSound(@"Number\chuadusoluong.wav");
-                MqttManager.SendMessageToPhone(" Chưa đủ số lượng");
-                return;
-            }
+            //    SoundManager.playSound(@"Number\chuadusoluong.wav");
+            //    MqttManager.SendMessageToPhone(" Chưa đủ số lượng");
+            //    return;
+            //}
 
             /// Kiem tra trong nay co trung so luong voi file khong neu khong thi hie nra thong bao loi
 

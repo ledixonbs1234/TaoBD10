@@ -124,8 +124,8 @@ namespace TaoBD10.ViewModels
                         {
                             foreach (var diNgoai in DiNgoais)
                             {
-                                    diNgoai.danhSachBuuCuc = GetListBuuCucFromTinh(diNgoai.MaTinh);
-                                
+                                diNgoai.danhSachBuuCuc = GetListBuuCucFromTinh(diNgoai.MaTinh);
+
                             }
 
                             ChuyenDataDiNgoaiToPhone();
@@ -165,30 +165,33 @@ namespace TaoBD10.ViewModels
                         }
                         AddFast();
                     });
-                                   }
-                else if(m.Key == "ToDiNgoai_InDiNgoai")
+                }
+                else if (m.Key == "ToDiNgoai_InDiNgoai")
                 {
                     //thuc hien in di ngoai trong nay
-                    var diNgoai =  DiNgoais.FirstOrDefault(n => n.Code.ToLower() == m.Content.ToLower());
+                    var diNgoai = DiNgoais.FirstOrDefault(n => n.Code.ToLower() == m.Content.ToLower());
                     if (diNgoai == null)
                         return;
-                    var temp =FileManager.optionModel.GoFastKTCTKT.Split(',');
+                    var temp = FileManager.optionModel.GoFastKTCTKT.Split(',');
                     APIManager.GoToWindow(FileManager.optionModel.MaKhaiThac, "khoi tao chuyen thu", temp[0], temp[1]);
                     SelectedSimple = diNgoai;
                     Selection(diNgoai);
-                }else if (m.Key == "ToDiNgoai_ChinhSuaLai")
+                }
+                else if (m.Key == "ToDiNgoai_ChinhSuaLai")
                 {
                     List<string> list = JsonConvert.DeserializeObject<List<string>>(m.Content);
                     foreach (string item in list)
                     {
-                        string[] phanChia =  item.Split('_');
+                        string[] phanChia = item.Split('_');
                         var diNgoai = DiNgoais.FirstOrDefault(n => n.Code == phanChia[0].ToUpper());
                         if (diNgoai == null) continue;
                         diNgoai.MaBuuCuc = phanChia[1];
-                        diNgoai.TenBuuCuc = diNgoai.danhSachBuuCuc.First(d=>d.IndexOf( diNgoai.MaBuuCuc) != -1);
+                        if (!string.IsNullOrEmpty(diNgoai.MaBuuCuc))
+                            diNgoai.TenBuuCuc = diNgoai.danhSachBuuCuc.First(d => d.IndexOf(diNgoai.MaBuuCuc) != -1);
                     }
                     ChuyenDataDiNgoaiToPhone();
-                }else if(m.Key == "ToDiNgoai_SapXepDiNgoai")
+                }
+                else if (m.Key == "ToDiNgoai_SapXepDiNgoai")
                 {
                     SortTinh();
                     ChuyenDataDiNgoaiToPhone();

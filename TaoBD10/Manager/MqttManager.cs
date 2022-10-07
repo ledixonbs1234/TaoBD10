@@ -109,6 +109,10 @@ namespace TaoBD10.Manager
                 {
                     WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToDiNgoai_ChinhSuaLai", Content = datas[1] });
                 }
+                else if (datas[0] == "sapxepdingoai")
+                {
+                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToDiNgoai_SapXepDiNgoai", Content = datas[1] });
+                }
             }
         }
 

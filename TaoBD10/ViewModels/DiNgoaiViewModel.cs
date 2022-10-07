@@ -128,9 +128,8 @@ namespace TaoBD10.ViewModels
                                 
                             }
 
-                            //thuc hien send du lieu qua phone
-                            string json = JsonConvert.SerializeObject(DiNgoais);
-                            MqttManager.Pulish(FileManager.MQTTKEY + "_dingoai", json);
+                            ChuyenDataDiNgoaiToPhone();
+
                         }
                     }
                 }
@@ -186,7 +185,13 @@ namespace TaoBD10.ViewModels
                         var diNgoai = DiNgoais.FirstOrDefault(n => n.Code == phanChia[0].ToUpper());
                         if (diNgoai == null) continue;
                         diNgoai.MaBuuCuc = phanChia[1];
+                        diNgoai.TenBuuCuc = phanChia[2];
                     }
+                    ChuyenDataDiNgoaiToPhone();
+                }else if(m.Key == "ToDiNgoai_SapXepDiNgoai")
+                {
+                    SortTinh();
+                    ChuyenDataDiNgoaiToPhone();
                 }
             });
 
@@ -194,6 +199,13 @@ namespace TaoBD10.ViewModels
             listBuuCucTuDong = FileManager.LoadBuuCucTuDongsOffline();
 
             tinhs = FileManager.LoadTinhThanhOffline();
+        }
+
+        private void ChuyenDataDiNgoaiToPhone()
+        {
+            //thuc hien send du lieu qua phone
+            string json = JsonConvert.SerializeObject(DiNgoais);
+            MqttManager.Pulish(FileManager.MQTTKEY + "_dingoai", json);
         }
 
         private void AddMaHieu(string MaHieu)

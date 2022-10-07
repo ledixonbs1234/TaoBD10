@@ -23,44 +23,6 @@ namespace TaoBD10.ViewModels
 {
     public class WebViewModel : ObservableObject
     {
-        private string PNSName = "";
-        private string currentMaHieu = "";
-        private bool isClickWebBCCP = false;
-        private DispatcherTimer timer;
-
-        private bool _IsExpanded;
-
-        public bool IsExpanded
-        {
-            get { return _IsExpanded; }
-            set
-            {
-                SetProperty(ref _IsExpanded, value);
-                if (_IsExpanded == false)
-                {
-                    Min();
-                }
-                else
-                {
-                    Full();
-                }
-            }
-        }
-
-        public ICommand FullCommand { get; }
-
-        private void Full()
-        {
-            WeakReferenceMessenger.Default.Send(new ContentModel() { Key = "Window", Content = "Full" });
-        }
-
-        public ICommand MinCommand { get; }
-
-        private void Min()
-        {
-            WeakReferenceMessenger.Default.Send(new ContentModel() { Key = "Window", Content = "Min" });
-        }
-
         public WebViewModel()
         {
             LoadPageCommand = new RelayCommand<ChromiumWebBrowser>(LoadPage);
@@ -70,9 +32,9 @@ namespace TaoBD10.ViewModels
             MinCommand = new RelayCommand(Min);
             WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>
              {
-                 
+
                  _LoadWebChoose = LoadWebChoose.None;
-                 
+
                  if (m.Key == "LoadAddressWeb")
                  {
                      _LoadWebChoose = LoadWebChoose.DiNgoaiAddress;
@@ -198,171 +160,40 @@ namespace TaoBD10.ViewModels
             timer.Start();
         }
 
-        private void Timer_Tick(object sender, EventArgs e)
+        private void CheckPageMPS(HtmlDocument document)
         {
-            Default();
+            IEnumerable<HtmlNode> pageHave = document.DocumentNode.Descendants("section").Where(d => d.Attributes["class"].Value.Contains("paging"));
+            bool isHasPaging = document.DocumentNode.HasClass("paging");
+            if (pageHave == null)
+                return;
+            HtmlNodeCollection childPage = document.DocumentNode.SelectNodes(@"//section[contains(@class,'paging')]/ul/li");
+            //HtmlNodeCollection childPage = PagingClass.FirstChild.ChildNodes;
+            for (int i = 0; i < childPage.Count; i++)
+            {
+                if (i != childPage.Count - 1)
+                {
+                    HtmlNode child = childPage[i];
+                    if (child.InnerHtml.Contains("active"))
+                    {
+                        var child1 = childPage[i + 1];
+                        string id = child1.SelectSingleNode("./input").Id;
+                        string script = @"document.getElementById('" + id + "').click();";
+                        IsRunningChuaPhat = true;
+                        WebBrowser.ExecuteScriptAsync(script);
+                        break;
+                    }
+                }
+            }
         }
-
-        public ICommand DefaultCommand { get; }
 
         private void Default()
         {
             WebBrowser.LoadUrl(defaultWeb);
         }
 
-        public string AddressWeb
+        private void Full()
         {
-            get { return _AddressWeb; }
-            set
-            {
-                SetProperty(ref _AddressWeb, value);
-            }
-        }
-
-        public class MyDownloadHandler : IDownloadHandler
-        {
-            public bool CanDownload(IWebBrowser chromiumWebBrowser, IBrowser browser, string url, string requestMethod)
-            {
-                return true;
-            }
-
-            public void OnBeforeDownload(IWebBrowser chromiumWebBrowser, IBrowser browser, DownloadItem downloadItem, IBeforeDownloadCallback callback)
-            {
-                if (!callback.IsDisposed)
-                {
-                    using (callback)
-                    {
-                        callback.Continue(System.IO.Path.Combine(@"c:\downloadFolder", downloadItem.SuggestedFileName), showDialog: false);
-                    }
-                }
-            }
-
-            public void OnDownloadUpdated(IWebBrowser chromiumWebBrowser, IBrowser browser, DownloadItem downloadItem, IDownloadItemCallback callback)
-            {
-                if (downloadItem.IsValid)
-                {
-                    if (downloadItem.IsComplete)
-                    {
-                        switch (APIManager.downLoadRoad)
-                        {
-                            case DownLoadRoad.None:
-                                break;
-
-                            case DownLoadRoad.XacNhanTui:
-                                GetListAddress(downloadItem.FullPath, "XacNhanTui");
-                                break;
-
-                            case DownLoadRoad.GetName:
-                                GetNames(downloadItem.FullPath);
-                                break;
-
-                            case DownLoadRoad.TamQuanAddress:
-                                GetListAddress(downloadItem.FullPath, "TamQuanAddress");
-                                break;
-
-                            case DownLoadRoad.ChuyenThuAddress:
-                                GetListAddress(downloadItem.FullPath, "ChuyenThuAddress");
-                                break;
-
-                            case DownLoadRoad.DiNgoai:
-                                GetListAddress(downloadItem.FullPath, "DiNgoai");
-                                break;
-
-                            default:
-                                break;
-                        }
-                    }
-                }
-            }
-
-            private void GetNames(string fullPath)
-            {
-                try
-                {
-                    Workbook workbook = new Workbook();
-                    workbook.LoadFromFile(fullPath);
-                    workbook.SaveToFile(@"C:\\test.xlsx", ExcelVersion.Version2013);
-
-                    using (var stream = File.Open(@"C:\\test.xlsx", FileMode.Open, FileAccess.Read))
-                    {
-                        using (ExcelDataReader.IExcelDataReader reader = ExcelDataReader.ExcelReaderFactory.CreateReader(stream))
-                        {
-                            System.Data.DataSet tables = reader.AsDataSet();
-                            List<PNSNameModel> chiTietTui = new List<PNSNameModel>();
-                            for (int i = 1; i < tables.Tables[0].Rows.Count; i++)
-                            {
-                                chiTietTui.Add(new PNSNameModel(tables.Tables[0].Rows[i][1].ToString(), tables.Tables[0].Rows[i][10].ToString(), tables.Tables[0].Rows[i][12].ToString(), tables.Tables[0].Rows[i][11].ToString()));
-                            }
-                            //thuc hien send data tra ve
-                            if (chiTietTui.Count != 0)
-                            {
-                                WeakReferenceMessenger.Default.Send(new PNSNameMessage(chiTietTui));
-                            }
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    // Get stack trace for the exception with source file information
-                    var st = new StackTrace(ex, true);
-                    // Get the top stack frame
-                    var frame = st.GetFrame(0);
-                    // Get the line number from the stack frame
-                    var line = frame.GetFileLineNumber();
-                    APIManager.OpenNotePad(ex.Message + '\n' + "loi Line WebViewModel " + line + " Number Line " + APIManager.GetLineNumber(ex), "loi ");
-                    throw;
-                }
-            }
-
-            private void GetListAddress(string fullPath, string key)
-            {
-                try
-                {
-                    //Send list address to Data;
-                    //thuc hien doc du lieu tu file nao do
-                    //WorkBook workBook = new WorkBook(fullPath);
-                    //WorkSheet sheet = workBook.WorkSheets.First();
-
-                    //string cellValue = sheet["B5"].StringValue;
-                    using (var stream = File.Open(fullPath, FileMode.Open, FileAccess.Read))
-                    {
-                        using (IExcelDataReader reader = ExcelReaderFactory.CreateReader(stream))
-                        {
-                            System.Data.DataSet tables = reader.AsDataSet();
-                            List<ChiTietTuiModel> chiTietTui = new List<ChiTietTuiModel>();
-                            for (int i = 2; i < tables.Tables[0].Rows.Count; i++)
-                            {
-                                chiTietTui.Add(new ChiTietTuiModel(tables.Tables[0].Rows[i][1].ToString(), tables.Tables[0].Rows[i][3].ToString(), tables.Tables[0].Rows[i][4].ToString()));
-                            }
-                            //thuc hien send data tra ve
-                            if (chiTietTui.Count != 0)
-                            {
-                                WeakReferenceMessenger.Default.Send(new ChiTietTuiMessage(new ChiTietTuiInfo() { ChiTietTuis = chiTietTui, Key = key }));
-                            }
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    // Get stack trace for the exception with source file information
-                    var st = new StackTrace(ex, true);
-                    // Get the top stack frame
-                    var frame = st.GetFrame(0);
-                    // Get the line number from the stack frame
-                    var line = frame.GetFileLineNumber();
-                    APIManager.OpenNotePad(ex.Message + '\n' + "loi Line WebViewModel " + line + " Number Line " + APIManager.GetLineNumber(ex), "loi ");
-                    throw;
-                }
-            }
-        }
-
-        //thuc hien lay du lieu tu danh sach da co
-        public ICommand LoginCommand { get; }
-
-        public ChromiumWebBrowser WebBrowser
-        {
-            get { return _WebBrowser; }
-            set { SetProperty(ref _WebBrowser, value); }
+            WeakReferenceMessenger.Default.Send(new ContentModel() { Key = "Window", Content = "Full" });
         }
 
         private void LoadAddressDiNgoai(string code)
@@ -386,9 +217,15 @@ namespace TaoBD10.ViewModels
             WebBrowser.ExecuteScriptAsync(script);
         }
 
-        private bool isFirstLoginSuccess = false;
-        private bool isDownloading;
-        private bool isFix = false;
+        private void Min()
+        {
+            WeakReferenceMessenger.Default.Send(new ContentModel() { Key = "Window", Content = "Min" });
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            Default();
+        }
 
         private async void WebBrowser_LoadingStateChanged(object sender, LoadingStateChangedEventArgs e)
         {
@@ -754,6 +591,7 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                             }
                             _LoadWebChoose = LoadWebChoose.None;
                             string thongTinJson = JsonConvert.SerializeObject(thongTinCoBan);
+                            
                             //Thuc hien send data to web
                             MqttManager.Pulish(FileManager.MQTTKEY + "_checkcode", thongTinJson);
                         }
@@ -908,39 +746,195 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
             }
         }
 
-        private void CheckPageMPS(HtmlDocument document)
+        public IRelayCommand<ChromiumWebBrowser> LoadPageCommand;
+        private readonly string defaultWeb = "https://bccp.vnpost.vn/BCCP.aspx?act=Trace";
+        private string _AddressWeb = "https://bccp.vnpost.vn/BCCP.aspx?act=Trace";
+        private bool _IsExpanded;
+        private LoadWebChoose _LoadWebChoose = LoadWebChoose.None;
+        private ChromiumWebBrowser _WebBrowser;
+        private string currentMaHieu = "";
+        private bool isCheckingChuaPhat = false;
+        private bool isClickWebBCCP = false;
+        private bool isDownloading;
+        private bool isFirstLoginSuccess = false;
+        private bool isFix = false;
+        private bool IsRunningChuaPhat = false;
+        private string PNSName = "";
+        private DispatcherTimer timer;
+        public string AddressWeb
         {
-            IEnumerable<HtmlNode> pageHave = document.DocumentNode.Descendants("section").Where(d => d.Attributes["class"].Value.Contains("paging"));
-            bool isHasPaging = document.DocumentNode.HasClass("paging");
-            if (pageHave == null)
-                return;
-            HtmlNodeCollection childPage = document.DocumentNode.SelectNodes(@"//section[contains(@class,'paging')]/ul/li");
-            //HtmlNodeCollection childPage = PagingClass.FirstChild.ChildNodes;
-            for (int i = 0; i < childPage.Count; i++)
+            get { return _AddressWeb; }
+            set
             {
-                if (i != childPage.Count - 1)
-                {
-                    HtmlNode child = childPage[i];
-                    if (child.InnerHtml.Contains("active"))
-                    {
-                        var child1 = childPage[i + 1];
-                        string id = child1.SelectSingleNode("./input").Id;
-                        string script = @"document.getElementById('" + id + "').click();";
-                        IsRunningChuaPhat = true;
-                        WebBrowser.ExecuteScriptAsync(script);
-                        break;
-                    }
-                }
+                SetProperty(ref _AddressWeb, value);
             }
         }
 
-        private readonly string defaultWeb = "https://bccp.vnpost.vn/BCCP.aspx?act=Trace";
+        public ICommand DefaultCommand { get; }
 
-        public IRelayCommand<ChromiumWebBrowser> LoadPageCommand;
-        private string _AddressWeb = "https://bccp.vnpost.vn/BCCP.aspx?act=Trace";
-        private LoadWebChoose _LoadWebChoose = LoadWebChoose.None;
-        private ChromiumWebBrowser _WebBrowser;
-        private bool isCheckingChuaPhat = false;
-        private bool IsRunningChuaPhat = false;
+        public ICommand FullCommand { get; }
+
+        public bool IsExpanded
+        {
+            get { return _IsExpanded; }
+            set
+            {
+                SetProperty(ref _IsExpanded, value);
+                if (_IsExpanded == false)
+                {
+                    Min();
+                }
+                else
+                {
+                    Full();
+                }
+            }
+        }
+        //thuc hien lay du lieu tu danh sach da co
+        public ICommand LoginCommand { get; }
+
+        public ICommand MinCommand { get; }
+        public ChromiumWebBrowser WebBrowser
+        {
+            get { return _WebBrowser; }
+            set { SetProperty(ref _WebBrowser, value); }
+        }
+
+        public class MyDownloadHandler : IDownloadHandler
+        {
+            public bool CanDownload(IWebBrowser chromiumWebBrowser, IBrowser browser, string url, string requestMethod)
+            {
+                return true;
+            }
+
+            public void OnBeforeDownload(IWebBrowser chromiumWebBrowser, IBrowser browser, DownloadItem downloadItem, IBeforeDownloadCallback callback)
+            {
+                if (!callback.IsDisposed)
+                {
+                    using (callback)
+                    {
+                        callback.Continue(System.IO.Path.Combine(@"c:\downloadFolder", downloadItem.SuggestedFileName), showDialog: false);
+                    }
+                }
+            }
+
+            public void OnDownloadUpdated(IWebBrowser chromiumWebBrowser, IBrowser browser, DownloadItem downloadItem, IDownloadItemCallback callback)
+            {
+                if (downloadItem.IsValid)
+                {
+                    if (downloadItem.IsComplete)
+                    {
+                        switch (APIManager.downLoadRoad)
+                        {
+                            case DownLoadRoad.None:
+                                break;
+
+                            case DownLoadRoad.XacNhanTui:
+                                GetListAddress(downloadItem.FullPath, "XacNhanTui");
+                                break;
+
+                            case DownLoadRoad.GetName:
+                                GetNames(downloadItem.FullPath);
+                                break;
+
+                            case DownLoadRoad.TamQuanAddress:
+                                GetListAddress(downloadItem.FullPath, "TamQuanAddress");
+                                break;
+
+                            case DownLoadRoad.ChuyenThuAddress:
+                                GetListAddress(downloadItem.FullPath, "ChuyenThuAddress");
+                                break;
+
+                            case DownLoadRoad.DiNgoai:
+                                GetListAddress(downloadItem.FullPath, "DiNgoai");
+                                break;
+
+                            default:
+                                break;
+                        }
+                    }
+                }
+            }
+
+            private void GetListAddress(string fullPath, string key)
+            {
+                try
+                {
+                    //Send list address to Data;
+                    //thuc hien doc du lieu tu file nao do
+                    //WorkBook workBook = new WorkBook(fullPath);
+                    //WorkSheet sheet = workBook.WorkSheets.First();
+
+                    //string cellValue = sheet["B5"].StringValue;
+                    using (var stream = File.Open(fullPath, FileMode.Open, FileAccess.Read))
+                    {
+                        using (IExcelDataReader reader = ExcelReaderFactory.CreateReader(stream))
+                        {
+                            System.Data.DataSet tables = reader.AsDataSet();
+                            List<ChiTietTuiModel> chiTietTui = new List<ChiTietTuiModel>();
+                            for (int i = 2; i < tables.Tables[0].Rows.Count; i++)
+                            {
+                                chiTietTui.Add(new ChiTietTuiModel(tables.Tables[0].Rows[i][1].ToString(), tables.Tables[0].Rows[i][3].ToString(), tables.Tables[0].Rows[i][4].ToString()));
+                            }
+                            //thuc hien send data tra ve
+                            if (chiTietTui.Count != 0)
+                            {
+                                WeakReferenceMessenger.Default.Send(new ChiTietTuiMessage(new ChiTietTuiInfo() { ChiTietTuis = chiTietTui, Key = key }));
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Get stack trace for the exception with source file information
+                    var st = new StackTrace(ex, true);
+                    // Get the top stack frame
+                    var frame = st.GetFrame(0);
+                    // Get the line number from the stack frame
+                    var line = frame.GetFileLineNumber();
+                    APIManager.OpenNotePad(ex.Message + '\n' + "loi Line WebViewModel " + line + " Number Line " + APIManager.GetLineNumber(ex), "loi ");
+                    throw;
+                }
+            }
+
+            private void GetNames(string fullPath)
+            {
+                try
+                {
+                    Workbook workbook = new Workbook();
+                    workbook.LoadFromFile(fullPath);
+                    workbook.SaveToFile(@"C:\\test.xlsx", ExcelVersion.Version2013);
+
+                    using (var stream = File.Open(@"C:\\test.xlsx", FileMode.Open, FileAccess.Read))
+                    {
+                        using (ExcelDataReader.IExcelDataReader reader = ExcelDataReader.ExcelReaderFactory.CreateReader(stream))
+                        {
+                            System.Data.DataSet tables = reader.AsDataSet();
+                            List<PNSNameModel> chiTietTui = new List<PNSNameModel>();
+                            for (int i = 1; i < tables.Tables[0].Rows.Count; i++)
+                            {
+                                chiTietTui.Add(new PNSNameModel(tables.Tables[0].Rows[i][1].ToString(), tables.Tables[0].Rows[i][10].ToString(), tables.Tables[0].Rows[i][12].ToString(), tables.Tables[0].Rows[i][11].ToString()));
+                            }
+                            //thuc hien send data tra ve
+                            if (chiTietTui.Count != 0)
+                            {
+                                WeakReferenceMessenger.Default.Send(new PNSNameMessage(chiTietTui));
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Get stack trace for the exception with source file information
+                    var st = new StackTrace(ex, true);
+                    // Get the top stack frame
+                    var frame = st.GetFrame(0);
+                    // Get the line number from the stack frame
+                    var line = frame.GetFileLineNumber();
+                    APIManager.OpenNotePad(ex.Message + '\n' + "loi Line WebViewModel " + line + " Number Line " + APIManager.GetLineNumber(ex), "loi ");
+                    throw;
+                }
+            }
+        }
     }
 }

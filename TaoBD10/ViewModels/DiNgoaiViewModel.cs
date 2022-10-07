@@ -185,7 +185,6 @@ namespace TaoBD10.ViewModels
                         var diNgoai = DiNgoais.FirstOrDefault(n => n.Code == phanChia[0].ToUpper());
                         if (diNgoai == null) continue;
                         diNgoai.MaBuuCuc = phanChia[1];
-                        diNgoai.TenBuuCuc = phanChia[2];
                     }
                     ChuyenDataDiNgoaiToPhone();
                 }else if(m.Key == "ToDiNgoai_SapXepDiNgoai")

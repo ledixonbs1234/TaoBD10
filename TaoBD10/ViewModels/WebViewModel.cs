@@ -23,6 +23,7 @@ namespace TaoBD10.ViewModels
 {
     public class WebViewModel : ObservableObject
     {
+        string keyPathCheckCode = "";
         public WebViewModel()
         {
             LoadPageCommand = new RelayCommand<ChromiumWebBrowser>(LoadPage);
@@ -114,7 +115,9 @@ namespace TaoBD10.ViewModels
                  else if (m.Key == "OnlyCheck")
                  {
                      APIManager.downLoadRoad = DownLoadRoad.None;
-                     WebBrowser.LoadUrl(m.Content);
+                     string[] split = m.Content.Split('|');
+                     keyPathCheckCode = split[1];
+                     WebBrowser.LoadUrl(split[0]);
                  }
                  else if (m.Key == "KTChuaPhat")
                  {
@@ -590,7 +593,10 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
 
                             }
                             _LoadWebChoose = LoadWebChoose.None;
+                            thongTinCoBan.State = 1;
                             string thongTinJson = JsonConvert.SerializeObject(thongTinCoBan);
+                            //thuc hien cong viec update value
+                            FileManager.client.Child("ledixon1/danhsachmahieu/"+keyPathCheckCode).PutAsync(thongTinJson).Wait();
                             
                             //Thuc hien send data to web
                             MqttManager.Pulish(FileManager.MQTTKEY + "_checkcode", thongTinJson);

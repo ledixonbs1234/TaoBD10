@@ -1,13 +1,17 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CefSharp.DevTools.IO;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using Firebase.Database.Offline;
 using MaterialDesignThemes.Wpf;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -25,74 +29,6 @@ namespace TaoBD10.ViewModels
 {
     public class MainViewModel : ObservableObject
     {
-        private bool Is16Kg = false;
-        public IRelayCommand<Window> CloseWindowCommand { get; }
-
-        private bool _IsTopMost = true;
-
-        private bool _IsXacNhanChiTieting = false;
-
-        private int lastNumberSuaBD = 0;
-        private string _MqttKey;
-
-        private bool _IsMqttOnline = false;
-
-        public bool IsMqttOnline
-        {
-            get { return _IsMqttOnline; }
-            set { SetProperty(ref _IsMqttOnline, value); }
-        }
-
-
-
-        public string MqttKey
-        {
-            get { return _MqttKey; }
-            set { SetProperty(ref _MqttKey, value); }
-        }
-
-        public bool IsTopMost
-        {
-            get { return _IsTopMost; }
-            set { SetProperty(ref _IsTopMost, value); }
-        }
-
-        private readonly BackgroundWorker backgroundWorkerRead;
-
-        private bool _IsAutoF4 = false;
-
-        public bool IsAutoF4
-        {
-            get { return _IsAutoF4; }
-            set { SetProperty(ref _IsAutoF4, value); }
-        }
-
-        private void CloseWindow(Window window)
-        {
-            window.Close();
-        }
-
-        private BackgroundWorker bwprintMaVach;
-        private List<FindItemModel> listFindItem;
-        private DispatcherTimer timer;
-        private bool _IsActivatedWindow = true;
-
-        public bool IsActivatedWindow
-        {
-            get { return _IsActivatedWindow; }
-            set { SetProperty(ref _IsActivatedWindow, value); }
-        }
-
-        public ICommand SaveKeyCommand { get; }
-
-        private void SaveKey()
-        {
-            if (!string.IsNullOrEmpty(MqttKey))
-                FileManager.SaveKeyMqtt(MqttKey);
-        }
-
-        private BackgroundWorker bwCheckConnectMqtt;
-
         public MainViewModel()
         {
             //Thuc hien Qua trinh su dung may
@@ -141,6 +77,10 @@ namespace TaoBD10.ViewModels
             listFindItem = new List<FindItemModel>();
             FileManager.OnSetupFileManager();
             MqttKey = FileManager.LoadKeyMqtt();
+
+
+
+           
 
             NavigateTabTui();
 
@@ -196,7 +136,7 @@ namespace TaoBD10.ViewModels
                                 //}
                                 //else
                                 //{
-                                FileManager.SaveErrorOnFirebase("Addess:"+m.AddressReiceive + '|' + maSoBuuCucCurrent + "|" + loaiCurrent);
+                                FileManager.SaveErrorOnFirebase("Addess:" + m.AddressReiceive + '|' + maSoBuuCucCurrent + "|" + loaiCurrent);
                                 SoundManager.playSound3(@"Number\error_sound.wav");
                                 //}
                             }
@@ -344,555 +284,6 @@ namespace TaoBD10.ViewModels
                     }
                 }
             });
-        }
-
-        private void BwCheckConnectMqtt_DoWork(object sender, DoWorkEventArgs e)
-        {
-            while (true)
-            {
-                Thread.Sleep(10000);
-                IsMqttOnline = MqttManager.client.IsConnected;
-                MqttManager.checkConnect();
-            }
-        }
-
-        private void Timer_Tick(object sender, EventArgs e)
-        {
-            if (listFindItem.Count > 0)
-            {
-                List<FindItemModel> data = FileManager.LoadFindItemOnFirebase();
-                if (data == null)
-                {
-                    data = new List<FindItemModel>();
-                }
-                data.AddRange(listFindItem);
-                FileManager.SaveFindItemFirebase(data);
-                listFindItem.Clear();
-            }
-        }
-
-        private void NavigateTabTui()
-        {
-            WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>
-            {
-                if (m.Key == "Navigation")
-                {
-                    if (m.Content == "GoChiTiet")
-                    {
-                        IndexTabControl = 2;
-                    }
-                    else if (m.Content == "Center")
-                    {
-                        SetChiTietWindow();
-                    }
-                    else if (m.Content == "SmallRight")
-                    {
-                        SetRightHeigtTuiWindow();
-                    }
-                    else if (m.Content == "Web")
-                    {
-                        IndexTabTui = 1;
-                    }
-                    else if (m.Content == "GoTaoTui")
-                    {
-                        IndexTabTui = 6;
-                    }
-                    else if (m.Content == "TamQuan")
-                    {
-                        IndexTabTui = 8;
-                        IndexTabControl = 5;
-                    }
-                }
-                else if (m.Key == "Snackbar")
-                {
-                    MessageShow(m.Content);
-                }
-                else if (m.Key == "SetFalseKg")
-                {
-                    Is16Kg = false;
-                }
-                else if (m.Key == "TopMost")
-                {
-                    if (m.Content == "False")
-                    {
-                        IsTopMost = false;
-                    }
-                    else
-                    {
-                        IsTopMost = true;
-                    }
-                }
-                else if (m.Key == "XacNhanChiTiet")
-                {
-                    if (m.Content == "True")
-                    {
-                        _IsXacNhanChiTieting = true;
-                    }
-                    else
-                    {
-                        _IsXacNhanChiTieting = false;
-                    }
-                }
-                else if (m.Key == "Window")
-                {
-                    if (m.Content == "Full")
-                    {
-                        SetChiTietWindow();
-                    }
-                    else if (m.Content == "Min")
-                    {
-                        SetDefaultWindowTui();
-                    }
-                }
-                if (m.Key == "CreateListKeyMQTT")
-                {
-                    MqttManager.Subcribe(new string[] { MqttKey + "_control" });
-                }
-            });
-        }
-
-        private void BwprintMaVach_DoWork(object sender, DoWorkEventArgs e)
-        {
-            WindowInfo currentWindow = APIManager.WaitingFindedWindow("dong chuyen thu");
-            if (currentWindow == null)
-            {
-                MessageShow("Không tìm thấy window quan ly chuyen thu ");
-                return;
-            }
-
-            APIManager.ClickButton(currentWindow.hwnd, "f7", isExactly: false);
-
-            currentWindow = APIManager.WaitingFindedWindow("in an pham");
-            if (currentWindow == null)
-            {
-                MessageShow("Không tìm thấy window in an pham");
-                return;
-            }
-            SendKeys.SendWait("{UP}");
-            Thread.Sleep(50);
-            SendKeys.SendWait("{RIGHT}");
-            Thread.Sleep(50);
-            SendKeys.SendWait("{RIGHT}");
-            Thread.Sleep(50);
-            SendKeys.SendWait("{RIGHT}");
-            Thread.Sleep(50);
-            SendKeys.SendWait("{DOWN}");
-            Thread.Sleep(50);
-            SendKeys.SendWait("{DOWN}");
-            Thread.Sleep(50);
-            SendKeys.SendWait("{DOWN}");
-            Thread.Sleep(50);
-            SendKeys.SendWait(" ");
-            Thread.Sleep(200);
-
-            APIManager.ClickButton(currentWindow.hwnd, "f10", isExactly: false);
-
-            currentWindow = APIManager.WaitingFindedWindow("hinh thuc sap xep");
-            if (currentWindow == null)
-            {
-                MessageShow("Không tìm thấy window ");
-                return;
-            }
-
-            APIManager.ClickButton(currentWindow.hwnd, "f10", isExactly: false);
-
-            printBanKeFromPrintDocument();
-        }
-
-        private string LocHuyen(string address)
-        {
-            List<string> fillAddress = address.Split('-').Select(s => s.Trim()).ToList();
-            if (fillAddress == null)
-                return "";
-            if (fillAddress.Count < 3)
-                return "";
-            string addressExactly = fillAddress[fillAddress.Count - 2];
-            return APIManager.BoDauAndToLower(addressExactly);
-        }
-
-        private void PrintTrangCuoi_DoWork(object sender, DoWorkEventArgs e)
-        {
-            WindowInfo currentWindow = APIManager.WaitingFindedWindow("quan ly chuyen thu chieu di");
-            if (currentWindow == null)
-            {
-                MessageShow("Không tìm thấy window quan ly chuyen thu ");
-                return;
-            }
-
-            APIManager.ClickButton(currentWindow.hwnd, "f7", isExactly: false);
-
-            currentWindow = APIManager.WaitingFindedWindow("in an pham");
-            if (currentWindow == null)
-            {
-                MessageShow("Không tìm thấy window in an pham");
-                return;
-            }
-            SendKeys.SendWait("{UP}");
-            Thread.Sleep(50);
-            SendKeys.SendWait("{RIGHT}");
-            Thread.Sleep(50);
-            SendKeys.SendWait("{RIGHT}");
-            Thread.Sleep(50);
-            SendKeys.SendWait("{RIGHT}");
-            Thread.Sleep(50);
-            SendKeys.SendWait("{DOWN}");
-            Thread.Sleep(50);
-            SendKeys.SendWait("{DOWN}");
-            Thread.Sleep(50);
-            SendKeys.SendWait("{DOWN}");
-            Thread.Sleep(50);
-            SendKeys.SendWait(" ");
-            Thread.Sleep(200);
-
-            APIManager.ClickButton(currentWindow.hwnd, "f10", isExactly: false);
-
-            currentWindow = APIManager.WaitingFindedWindow("hinh thuc sap xep");
-            if (currentWindow == null)
-            {
-                MessageShow("Không tìm thấy window ");
-                return;
-            }
-
-            APIManager.ClickButton(currentWindow.hwnd, "f10", isExactly: false);
-
-            currentWindow = APIManager.WaitingFindedWindow("print document");
-            if (currentWindow == null)
-            {
-                MessageShow("Không tìm thấy window print document");
-                return;
-            }
-            Thread.Sleep(1500);
-
-            APIManager.ClickButton(currentWindow.hwnd, "in an pham", isExactly: false);
-
-            currentWindow = APIManager.WaitingFindedWindow("Print", isExactly: true);
-            if (currentWindow == null)
-            {
-                MessageShow("Không tìm thấy window print document");
-                return;
-            }
-            List<TestAPIModel> controls = APIManager.GetListControlText(currentWindow.hwnd);
-            TestAPIModel editControl = controls.Where(m => m.ClassName == "Edit").ToList()[3];
-            string control = editControl.Text.Split('-')[1];
-
-            string newText = control + "-" + control;
-            APIManager.SendMessage(editControl.Handle, (int)0x000C, IntPtr.Zero, new StringBuilder(newText));
-
-            SendKeys.SendWait("%{p}");
-        }
-
-        private void BwRunPrints_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            if (IsAutoF4)
-            {
-                if (isRunnedPrintBD)
-                {
-                    WindowInfo window = APIManager.WaitingFindedWindow("danh sach bd10 di");
-                    if (window == null)
-                    {
-                        return;
-                    }
-                    Thread.Sleep(1000);
-
-                    bwRunPrints.RunWorkerAsync();
-                }
-            }
-        }
-
-        public ICommand MouseEnterTabTuiCommand { get; }
-
-        private void MouseEnterTabTui(Window window)
-        {
-            if (!IsActivatedWindow)
-            {
-                if (IndexTabControl != 3)
-                {
-                    IsActivatedWindow = true;
-                    OnSelectedTabTui();
-                    window.Activate();
-                }
-                else
-                {
-                }
-            }
-        }
-
-        public ICommand DeactivatedWindowCommand { get; }
-
-        private void DeactivatedWindow()
-        {
-            IsActivatedWindow = false;
-            if (IndexTabTui == 0 || IndexTabTui == 1 || IndexTabTui == 4 || IndexTabTui == 5 || IndexTabTui == 9 || IndexTabTui == 10)
-            {
-                SmallerWindow();
-            }
-        }
-
-        private bool isRunnedPrintBD = false;
-
-        private void BwRunPrints_DoWork(object sender, DoWorkEventArgs e)
-        {
-            try
-            {
-                isRunnedPrintBD = false;
-                string lastcopy = "";
-                string data = "null";
-                APIManager.ClearClipboard();
-
-                data = APIManager.GetCopyData();
-                while (lastcopy != data)
-                {
-                    if (string.IsNullOrEmpty(data))
-                    {
-                        return;
-                    }
-                    lastcopy = data;
-                    //550910-VCKV - Đà Nẵng LT	08/06/2022	1	Ô tô	21	206,4	Đã đi
-                    //590100-VCKV Nam Trung Bộ	08/06/2022	2	Ô tô	50	456,1	Khởi tạo
-                    if ((data.IndexOf("550910") != -1
-                        || data.IndexOf("550915") != -1
-                        || data.IndexOf("590100") != -1
-                        || data.IndexOf("592020") != -1
-                        || data.IndexOf("592440") != -1
-                        || data.IndexOf("592810") != -1
-                        || data.IndexOf("560100") != -1
-                        || data.IndexOf("570100") != -1)
-                        && data.IndexOf("Khởi tạo") != -1)
-                    {
-                        isRunnedPrintBD = true;
-                        WindowInfo window = APIManager.WaitingFindedWindow("danh sach bd10 di");
-                        if (window == null)
-                        {
-                            return;
-                        }
-                        APIManager.ClickButton(window.hwnd, "Sửa");
-                        window = APIManager.WaitingFindedWindow("sua thong tin bd10");
-                        if (window == null)
-                        {
-                            return;
-                        }
-                        Thread.Sleep(500);
-                        SendKeys.SendWait("{F6}");
-                    }
-                    else
-                    {
-                        SendKeys.SendWait("{DOWN}");
-                        Thread.Sleep(100);
-                        data = APIManager.GetCopyData();
-                    }
-                }
-                APIManager.ShowSnackbar("Run print list bd 10 complete");
-            }
-            catch (Exception ex)
-            {
-                var st = new StackTrace(ex, true);
-                // Get the top stack frame
-                var frame = st.GetFrame(0);
-                // Get the line number from the stack frame
-                var line = frame.GetFileLineNumber();
-                APIManager.OpenNotePad(ex.Message + '\n' + "MainViewModel " + line + " Number Line " + APIManager.GetLineNumber(ex), "loi ");
-                throw;
-            }
-        }
-
-        private void BwPrintBD10_DoWork(object sender, DoWorkEventArgs e)
-        {
-            WindowInfo currentWindow = APIManager.WaitingFindedWindow("sua thong tin bd10", "lap bd10");
-            if (currentWindow == null)
-            {
-                MessageShow("Không tìm thấy window bd 10");
-                return;
-            }
-
-            APIManager.SetPrintBD10();
-            SendKeys.SendWait("{F3}");
-            //Thread.Sleep(50);
-            //WindowInfo cuaSo = APIManager.WaitingFindedWindow("sua thong tin bd10", "lap bd10");
-            //while (currentWindow.hwnd == cuaSo.hwnd)
-            //{
-            //    Thread.Sleep(50);
-            //    cuaSo = APIManager.WaitingFindedWindow("sua thong tin bd10", "lap bd10");
-            //}
-            //APIManager.ClickButton(cuaSo.hwnd, "yes", isExactly: false);
-
-            currentWindow = APIManager.WaitingFindedWindow("print document");
-            if (currentWindow == null)
-            {
-                MessageShow("Không tìm thấy window bd 10");
-                return;
-            }
-            Thread.Sleep(500);
-            APIManager.ClickButton(currentWindow.hwnd, "in an pham", isExactly: false);
-            WindowInfo printWindow = APIManager.WaitingFindedWindow("Print", isExactly: true);
-            //if (printWindow == null)
-            //{
-            //    MessageShow("Không tìm thấy window print document");
-            //    return;
-            //}
-            //SendKeys.SendWait("%{r}");
-            //currentWindow = APIManager.WaitingFindedWindow("printing preferences");
-
-            //if (currentWindow == null)
-            //{
-            //    MessageShow("Không tìm thấy window print pre");
-            //    return;
-            //}
-
-            //Thread.Sleep(50);
-            //SendKeys.SendWait("{DOWN}");
-            //Thread.Sleep(100);
-            //APIManager.ClickButton(currentWindow.hwnd, "ok", isExactly: false);
-
-            //currentWindow = APIManager.WaitingFindedWindow("Print", isExactly: true);
-            //if (currentWindow == null)
-            //{
-            //    MessageShow("Không tìm thấy window print document");
-            //    return;
-            //}
-            SendKeys.SendWait("%{c}");
-            Thread.Sleep(50);
-            SendKeys.SendWait("{Up}");
-            if (_DefaultNumberPagePrint == 3)
-            {
-                Thread.Sleep(50);
-                SendKeys.SendWait("{Up}");
-            }
-            Thread.Sleep(50);
-            SendKeys.SendWait("%{o}");
-            Thread.Sleep(50);
-            SendKeys.SendWait("%{p}");
-            Thread.Sleep(500);
-
-            currentWindow = APIManager.WaitingFindedWindow("print document");
-            if (currentWindow == null)
-                return;
-            APIManager.ClickButton(currentWindow.hwnd, "thoat", isExactly: false);
-            APIManager.WaitingFindedWindow("sua thong tin bd10", "lap bd10");
-
-            if (IsAutoF4)
-            {
-                WindowInfo window = APIManager.WaitingFindedWindow("danh sach bd10 di");
-                if (window == null)
-                {
-                    return;
-                }
-                Thread.Sleep(2000);
-                SendKeys.SendWait("{F3}");
-            }
-        }
-
-        private void printBanKeFromPrintDocument()
-        {
-            WindowInfo currentWindow = APIManager.WaitingFindedWindow("print document");
-            if (currentWindow == null)
-            {
-                MessageShow("Không tìm thấy window print document");
-                return;
-            }
-
-            Thread.Sleep(200);
-            APIManager.ClickButton(currentWindow.hwnd, "in an pham", isExactly: false);
-
-            currentWindow = APIManager.WaitingFindedWindow("Print", isExactly: true);
-            if (currentWindow == null)
-            {
-                MessageShow("Không tìm thấy window print document");
-                return;
-            }
-            SendKeys.SendWait("%{r}");
-            currentWindow = APIManager.WaitingFindedWindow("printing preferences");
-
-            if (currentWindow == null)
-            {
-                MessageShow("Không tìm thấy window print pre");
-                return;
-            }
-
-            Thread.Sleep(50);
-            SendKeys.SendWait("%{u}");
-            //SendKeys.SendWait("{DOWN}");
-            //Thread.Sleep(100);
-            APIManager.ClickButton(currentWindow.hwnd, "ok", isExactly: false);
-
-            currentWindow = APIManager.WaitingFindedWindow("Print", isExactly: true);
-            if (currentWindow == null)
-            {
-                MessageShow("Không tìm thấy window print document");
-                return;
-            }
-            SendKeys.SendWait("%{p}");
-
-            Thread.Sleep(300);
-            currentWindow = APIManager.WaitingFindedWindow("print document");
-            if (currentWindow == null)
-            {
-                MessageShow("Không tìm thấy window print document");
-                return;
-            }
-
-            APIManager.ClickButton(currentWindow.hwnd, "thoat", isExactly: false);
-        }
-
-        private void BwPrintBanKe_DoWork(object sender, DoWorkEventArgs e)
-        {
-            WindowInfo currentWindow = APIManager.GetActiveWindowTitle();
-            if (currentWindow.text.IndexOf("dong chuyen thu") == -1)
-            {
-                return;
-            }
-            APIManager.ClickButton(currentWindow.hwnd, "in an pham", isExactly: false);
-            currentWindow = APIManager.WaitingFindedWindow("in an pham");
-            if (currentWindow == null)
-                return;
-
-            SendKeys.SendWait("{UP}");
-            SendKeys.SendWait(" ");
-            SendKeys.SendWait("{DOWN}");
-            SendKeys.SendWait(" ");
-
-            APIManager.ClickButton(currentWindow.hwnd, "in an pham", isExactly: false);
-            //Hình thức
-            currentWindow = APIManager.WaitingFindedWindow("hinh thuc");
-            if (currentWindow == null)
-                return;
-            APIManager.ClickButton(currentWindow.hwnd, "chap nhan", isExactly: false);
-
-            printBanKeFromPrintDocument();
-
-            currentWindow = APIManager.WaitingFindedWindow("hinh thuc");
-            if (currentWindow == null)
-                return;
-            APIManager.ClickButton(currentWindow.hwnd, "chap nhan", isExactly: false);
-
-            printBanKeFromPrintDocument();
-        }
-
-        private bool isReadDuRoi = false;
-        private int lastConLai = 0;
-        private List<TestAPIModel> listControl;
-        private WindowInfo currentWindowRead;
-        private int _StateTest;
-
-        public int StateTest
-        {
-            get { return _StateTest; }
-            set { SetProperty(ref _StateTest, value); }
-        }
-
-        public ICommand TestCommand { get; }
-
-        private void Test()
-        {
-            WindowInfo window = APIManager.WaitingFindedWindow("xac nhan bd10 den");
-            AutomationElement element = AutomationElement.FromHandle(window.hwnd);
-            var child = element.FindAll(TreeScope.Descendants, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Table));
-            AutomationElementCollection count = child[0].FindAll(TreeScope.Children, Condition.TrueCondition);
-            List<string> texts = new List<string>();
-            foreach (AutomationElement item in count)
-            {
-                texts.Add(item.Current.Name);
-            }
-            //var data = APIManager.GetDataTable(child);
         }
 
         private void BackgroundWorkerRead_DoWork(object sender, DoWorkEventArgs e)
@@ -1392,202 +783,274 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        public ICommand OptionViewCommand { get; }
-
-        private void OptionView()
+        private void BwCheckConnectMqtt_DoWork(object sender, DoWorkEventArgs e)
         {
-            OptionView optionView = new OptionView();
-            optionView.ShowDialog();
-        }
-
-        private string _TestText;
-
-        public string TestText
-        {
-            get { return _TestText; }
-            set { SetProperty(ref _TestText, value); }
-        }
-
-        public string CountInBD { get => _CountInBD; set => SetProperty(ref _CountInBD, value); }
-        public IRelayCommand<System.Windows.Controls.TabControl> DefaultWindowCommand { get; }
-        private bool _IsFindItem = true;
-        private bool _IsBoQuaHuyen = true;
-
-        public bool IsBoQuaHuyen
-        {
-            get { return _IsBoQuaHuyen; }
-            set { SetProperty(ref _IsBoQuaHuyen, value); }
-        }
-
-        public bool IsFindItem
-        {
-            get { return _IsFindItem; }
-            set { SetProperty(ref _IsFindItem, value); }
-        }
-
-        public int IndexTabControl
-        {
-            get { return _IndexTabControl; }
-            set
+            while (true)
             {
-                SetProperty(ref _IndexTabControl, value);
-                OnSelectedTabBD();
+                Thread.Sleep(10000);
+                IsMqttOnline = MqttManager.client.IsConnected;
+                MqttManager.checkConnect();
             }
         }
 
-        private int _IndexTabKT;
-
-        public int IndexTabKT
+        private void BwPrintBanKe_DoWork(object sender, DoWorkEventArgs e)
         {
-            get { return _IndexTabKT; }
-            set { SetProperty(ref _IndexTabKT, value); OnSelectedTabKT(); }
+            WindowInfo currentWindow = APIManager.GetActiveWindowTitle();
+            if (currentWindow.text.IndexOf("dong chuyen thu") == -1)
+            {
+                return;
+            }
+            APIManager.ClickButton(currentWindow.hwnd, "in an pham", isExactly: false);
+            currentWindow = APIManager.WaitingFindedWindow("in an pham");
+            if (currentWindow == null)
+                return;
+
+            SendKeys.SendWait("{UP}");
+            SendKeys.SendWait(" ");
+            SendKeys.SendWait("{DOWN}");
+            SendKeys.SendWait(" ");
+
+            APIManager.ClickButton(currentWindow.hwnd, "in an pham", isExactly: false);
+            //Hình thức
+            currentWindow = APIManager.WaitingFindedWindow("hinh thuc");
+            if (currentWindow == null)
+                return;
+            APIManager.ClickButton(currentWindow.hwnd, "chap nhan", isExactly: false);
+
+            printBanKeFromPrintDocument();
+
+            currentWindow = APIManager.WaitingFindedWindow("hinh thuc");
+            if (currentWindow == null)
+                return;
+            APIManager.ClickButton(currentWindow.hwnd, "chap nhan", isExactly: false);
+
+            printBanKeFromPrintDocument();
         }
 
-        private void OnSelectedTabKT()
+        private void BwPrintBD10_DoWork(object sender, DoWorkEventArgs e)
         {
-            SetChiTietWindow();
-            switch (IndexTabKT)
+            WindowInfo currentWindow = APIManager.WaitingFindedWindow("sua thong tin bd10", "lap bd10");
+            if (currentWindow == null)
             {
-                default:
-                    break;
+                MessageShow("Không tìm thấy window bd 10");
+                return;
+            }
+
+            APIManager.SetPrintBD10();
+            SendKeys.SendWait("{F3}");
+            //Thread.Sleep(50);
+            //WindowInfo cuaSo = APIManager.WaitingFindedWindow("sua thong tin bd10", "lap bd10");
+            //while (currentWindow.hwnd == cuaSo.hwnd)
+            //{
+            //    Thread.Sleep(50);
+            //    cuaSo = APIManager.WaitingFindedWindow("sua thong tin bd10", "lap bd10");
+            //}
+            //APIManager.ClickButton(cuaSo.hwnd, "yes", isExactly: false);
+
+            currentWindow = APIManager.WaitingFindedWindow("print document");
+            if (currentWindow == null)
+            {
+                MessageShow("Không tìm thấy window bd 10");
+                return;
+            }
+            Thread.Sleep(500);
+            APIManager.ClickButton(currentWindow.hwnd, "in an pham", isExactly: false);
+            WindowInfo printWindow = APIManager.WaitingFindedWindow("Print", isExactly: true);
+            //if (printWindow == null)
+            //{
+            //    MessageShow("Không tìm thấy window print document");
+            //    return;
+            //}
+            //SendKeys.SendWait("%{r}");
+            //currentWindow = APIManager.WaitingFindedWindow("printing preferences");
+
+            //if (currentWindow == null)
+            //{
+            //    MessageShow("Không tìm thấy window print pre");
+            //    return;
+            //}
+
+            //Thread.Sleep(50);
+            //SendKeys.SendWait("{DOWN}");
+            //Thread.Sleep(100);
+            //APIManager.ClickButton(currentWindow.hwnd, "ok", isExactly: false);
+
+            //currentWindow = APIManager.WaitingFindedWindow("Print", isExactly: true);
+            //if (currentWindow == null)
+            //{
+            //    MessageShow("Không tìm thấy window print document");
+            //    return;
+            //}
+            SendKeys.SendWait("%{c}");
+            Thread.Sleep(50);
+            SendKeys.SendWait("{Up}");
+            if (_DefaultNumberPagePrint == 3)
+            {
+                Thread.Sleep(50);
+                SendKeys.SendWait("{Up}");
+            }
+            Thread.Sleep(50);
+            SendKeys.SendWait("%{o}");
+            Thread.Sleep(50);
+            SendKeys.SendWait("%{p}");
+            Thread.Sleep(500);
+
+            currentWindow = APIManager.WaitingFindedWindow("print document");
+            if (currentWindow == null)
+                return;
+            APIManager.ClickButton(currentWindow.hwnd, "thoat", isExactly: false);
+            APIManager.WaitingFindedWindow("sua thong tin bd10", "lap bd10");
+
+            if (IsAutoF4)
+            {
+                WindowInfo window = APIManager.WaitingFindedWindow("danh sach bd10 di");
+                if (window == null)
+                {
+                    return;
+                }
+                Thread.Sleep(2000);
+                SendKeys.SendWait("{F3}");
             }
         }
 
-        private int _IndexTabOption;
-
-        public int IndexTabOption
+        private void BwprintMaVach_DoWork(object sender, DoWorkEventArgs e)
         {
-            get { return _IndexTabOption; }
-            set { SetProperty(ref _IndexTabOption, value); }
+            WindowInfo currentWindow = APIManager.WaitingFindedWindow("dong chuyen thu");
+            if (currentWindow == null)
+            {
+                MessageShow("Không tìm thấy window quan ly chuyen thu ");
+                return;
+            }
+
+            APIManager.ClickButton(currentWindow.hwnd, "f7", isExactly: false);
+
+            currentWindow = APIManager.WaitingFindedWindow("in an pham");
+            if (currentWindow == null)
+            {
+                MessageShow("Không tìm thấy window in an pham");
+                return;
+            }
+            SendKeys.SendWait("{UP}");
+            Thread.Sleep(50);
+            SendKeys.SendWait("{RIGHT}");
+            Thread.Sleep(50);
+            SendKeys.SendWait("{RIGHT}");
+            Thread.Sleep(50);
+            SendKeys.SendWait("{RIGHT}");
+            Thread.Sleep(50);
+            SendKeys.SendWait("{DOWN}");
+            Thread.Sleep(50);
+            SendKeys.SendWait("{DOWN}");
+            Thread.Sleep(50);
+            SendKeys.SendWait("{DOWN}");
+            Thread.Sleep(50);
+            SendKeys.SendWait(" ");
+            Thread.Sleep(200);
+
+            APIManager.ClickButton(currentWindow.hwnd, "f10", isExactly: false);
+
+            currentWindow = APIManager.WaitingFindedWindow("hinh thuc sap xep");
+            if (currentWindow == null)
+            {
+                MessageShow("Không tìm thấy window ");
+                return;
+            }
+
+            APIManager.ClickButton(currentWindow.hwnd, "f10", isExactly: false);
+
+            printBanKeFromPrintDocument();
         }
 
-        private int _IndexTabTui = 1;
-
-        public int IndexTabTui
+        private void BwRunPrints_DoWork(object sender, DoWorkEventArgs e)
         {
-            get { return _IndexTabTui; }
-            set
+            try
             {
-                SetProperty(ref _IndexTabTui, value);
-                OnSelectedTabTui();
+                isRunnedPrintBD = false;
+                string lastcopy = "";
+                string data = "null";
+                APIManager.ClearClipboard();
+
+                data = APIManager.GetCopyData();
+                while (lastcopy != data)
+                {
+                    if (string.IsNullOrEmpty(data))
+                    {
+                        return;
+                    }
+                    lastcopy = data;
+                    //550910-VCKV - Đà Nẵng LT	08/06/2022	1	Ô tô	21	206,4	Đã đi
+                    //590100-VCKV Nam Trung Bộ	08/06/2022	2	Ô tô	50	456,1	Khởi tạo
+                    if ((data.IndexOf("550910") != -1
+                        || data.IndexOf("550915") != -1
+                        || data.IndexOf("590100") != -1
+                        || data.IndexOf("592020") != -1
+                        || data.IndexOf("592440") != -1
+                        || data.IndexOf("592810") != -1
+                        || data.IndexOf("560100") != -1
+                        || data.IndexOf("570100") != -1)
+                        && data.IndexOf("Khởi tạo") != -1)
+                    {
+                        isRunnedPrintBD = true;
+                        WindowInfo window = APIManager.WaitingFindedWindow("danh sach bd10 di");
+                        if (window == null)
+                        {
+                            return;
+                        }
+                        APIManager.ClickButton(window.hwnd, "Sửa");
+                        window = APIManager.WaitingFindedWindow("sua thong tin bd10");
+                        if (window == null)
+                        {
+                            return;
+                        }
+                        Thread.Sleep(500);
+                        SendKeys.SendWait("{F6}");
+                    }
+                    else
+                    {
+                        SendKeys.SendWait("{DOWN}");
+                        Thread.Sleep(100);
+                        data = APIManager.GetCopyData();
+                    }
+                }
+                APIManager.ShowSnackbar("Run print list bd 10 complete");
+            }
+            catch (Exception ex)
+            {
+                var st = new StackTrace(ex, true);
+                // Get the top stack frame
+                var frame = st.GetFrame(0);
+                // Get the line number from the stack frame
+                var line = frame.GetFileLineNumber();
+                APIManager.OpenNotePad(ex.Message + '\n' + "MainViewModel " + line + " Number Line " + APIManager.GetLineNumber(ex), "loi ");
+                throw;
             }
         }
 
-        private void OnSelectedTabTui()
+        private void BwRunPrints_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            switch (IndexTabTui)
+            if (IsAutoF4)
             {
-                case 0:
-                    //thuc hien chuyen ve
+                if (isRunnedPrintBD)
+                {
+                    WindowInfo window = APIManager.WaitingFindedWindow("danh sach bd10 di");
+                    if (window == null)
+                    {
+                        return;
+                    }
+                    Thread.Sleep(1000);
 
-                    SetDefaultWindowTui();
-                    break;
-
-                case 1:
-
-                    SetDefaultWindowTui();
-                    break;
-
-                case 2:
-                    SetRightHeigtTuiWindow();
-                    break;
-
-                case 3:
-
-                    SetRightHeigtTuiWindow();
-                    //DefaultWindowCommand.Execute(null);
-
-                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Focus", Content = "Box" });
-                    break;
-
-                case 4:
-                    SetDefaultWindowTui();
-                    break;
-
-                case 5:
-                    SetDefaultWindowTui();
-                    break;
-
-                case 6:
-                    SetRightHeigtHeightTuiWindow();
-                    break;
-
-                case 7:
-                    SetDefaultWindowTui();
-                    break;
-
-                case 8:
-                    OnSelectedTabBD();
-                    break;
-
-                case 9:
-                    SetChiTietWindow();
-                    break;
-
-                case 10:
-                    SetChiTietWindow();
-                    break;
-
-                case 11:
-                    SetLayChuyenThuWindow();
-                    break;
-
-                case 12:
-                    SetDefaultWindowTui();
-                    break;
-
-                default:
-                    break;
+                    bwRunPrints.RunWorkerAsync();
+                }
             }
         }
 
-        private void OnSelectedTabBD()
+        private void CloseWindow(Window window)
         {
-            switch (IndexTabControl)
-            {
-                case 0:
-                    //thuc hien chuyen ve
-                    SetGetBD10Window();
-                    break;
-
-                case 1:
-                    //SetDanhSachBD10Window();
-                    SetChiTietWindow();
-                    break;
-
-                case 2:
-                    SetChiTietWindow();
-                    break;
-
-                case 3:
-                    SetLayChuyenThuWindow();
-                    break;
-
-                case 4:
-                    SetChiTietWindow();
-                    break;
-
-                case 5:
-                    break;
-
-                default:
-                    break;
-            }
+            _keyboardHook.UnHookKeyboard();
+            FileManager.client.Child("ledixon1/connect/pc").PutAsync("false").Wait();
+            FileManager.client.Dispose();
+            window.Close();
         }
-
-        public ICommand LoadPageCommand { get; }
-
-        public SnackbarMessageQueue MessageQueue
-        {
-            get { return _MessageQueue; }
-            set { SetProperty(ref _MessageQueue, value); }
-        }
-
-        public ICommand OnCloseWindowCommand { get; }
-        public ICommand SmallerWindowCommand { get; }
-        public ICommand TabChangedCommand { get; }
-        public ICommand TabTuiChangedCommand { get; }
-        public ICommand ToggleWindowCommand { get; }
 
         private void CreateConnection()
         {
@@ -1598,7 +1061,14 @@ namespace TaoBD10.ViewModels
             //_con.Open();
         }
 
-        private BackgroundWorker printTrangCuoi;
+        private void DeactivatedWindow()
+        {
+            IsActivatedWindow = false;
+            if (IndexTabTui == 0 || IndexTabTui == 1 || IndexTabTui == 4 || IndexTabTui == 5 || IndexTabTui == 9 || IndexTabTui == 10)
+            {
+                SmallerWindow();
+            }
+        }
 
         private void DefaultWindow(System.Windows.Controls.TabControl tabControl)
         {
@@ -1607,11 +1077,61 @@ namespace TaoBD10.ViewModels
             isSmallWindow = false;
         }
 
+        private string GetCodeFromString(string content)
+        {
+            int index = content.LastIndexOf("vn");
+            return content.Substring(index - 11, 13);
+        }
+
         private void LoadPage(Window window)
         {
             _window = window;
             //SetRightWindow();
             SetDefaultWindowTui();
+            FileManager.client.Child("ledixon1/connect/pc").PutAsync("true").Wait();
+
+            Firebase.Database.Query.ChildQuery child = FileManager.client.Child("ledixon1/connect");
+
+            var giatri = child.AsObservable<string>();
+            giatri.Where(m => m.Key == "phone")
+                .Subscribe(x =>
+                {
+                    var gia = x.Object.ToString();
+                    if (gia == "true")
+                    {
+                        IsMqttOnline = true;
+                    }
+                    else
+                    {
+                        IsMqttOnline = false;
+                    }
+                }
+            ) ;
+            var temp =  FileManager.client.Child("ledixon1/danhsachmahieu/").AsObservable<Object>();
+            temp.Subscribe(x => {
+                ThongTinCoBanModel a =JsonConvert.DeserializeObject<ThongTinCoBanModel>(x.Object.ToString());
+                if(a.State == 0)
+                {
+                    //thuc hien cong viec tim kiem trong nay
+                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToWeb_CheckCode", Content = a.MaHieu+"|"+x.Key });
+                }
+
+            
+            });
+
+
+
+        }
+
+        private string LocHuyen(string address)
+        {
+            List<string> fillAddress = address.Split('-').Select(s => s.Trim()).ToList();
+            if (fillAddress == null)
+                return "";
+            if (fillAddress.Count < 3)
+                return "";
+            string addressExactly = fillAddress[fillAddress.Count - 2];
+            return APIManager.BoDauAndToLower(addressExactly);
         }
 
         private void MessageShow(string content)
@@ -1625,13 +1145,107 @@ namespace TaoBD10.ViewModels
             });
         }
 
+        private void MouseEnterTabTui(Window window)
+        {
+            if (!IsActivatedWindow)
+            {
+                if (IndexTabControl != 3)
+                {
+                    IsActivatedWindow = true;
+                    OnSelectedTabTui();
+                    window.Activate();
+                }
+                else
+                {
+                }
+            }
+        }
+
+        private void NavigateTabTui()
+        {
+            WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>
+            {
+                if (m.Key == "Navigation")
+                {
+                    if (m.Content == "GoChiTiet")
+                    {
+                        IndexTabControl = 2;
+                    }
+                    else if (m.Content == "Center")
+                    {
+                        SetChiTietWindow();
+                    }
+                    else if (m.Content == "SmallRight")
+                    {
+                        SetRightHeigtTuiWindow();
+                    }
+                    else if (m.Content == "Web")
+                    {
+                        IndexTabTui = 1;
+                    }
+                    else if (m.Content == "GoTaoTui")
+                    {
+                        IndexTabTui = 6;
+                    }
+                    else if (m.Content == "TamQuan")
+                    {
+                        IndexTabTui = 8;
+                        IndexTabControl = 5;
+                    }
+                }
+                else if (m.Key == "Snackbar")
+                {
+                    MessageShow(m.Content);
+                }
+                else if (m.Key == "SetFalseKg")
+                {
+                    Is16Kg = false;
+                }
+                else if (m.Key == "TopMost")
+                {
+                    if (m.Content == "False")
+                    {
+                        IsTopMost = false;
+                    }
+                    else
+                    {
+                        IsTopMost = true;
+                    }
+                }
+                else if (m.Key == "XacNhanChiTiet")
+                {
+                    if (m.Content == "True")
+                    {
+                        _IsXacNhanChiTieting = true;
+                    }
+                    else
+                    {
+                        _IsXacNhanChiTieting = false;
+                    }
+                }
+                else if (m.Key == "Window")
+                {
+                    if (m.Content == "Full")
+                    {
+                        SetChiTietWindow();
+                    }
+                    else if (m.Content == "Min")
+                    {
+                        SetDefaultWindowTui();
+                    }
+                }
+                if (m.Key == "CreateListKeyMQTT")
+                {
+                    MqttManager.Subcribe(new string[] { MqttKey + "_control" });
+                }
+            });
+        }
+
         private void OnCloseWindow()
         {
             _keyboardHook.UnHookKeyboard();
-        }
 
-        private string KeyData = "";
-        private int _DefaultNumberPagePrint = 3;
+        }
 
         private void OnKeyPress(object sender, KeyPressedArgs e)
         {
@@ -1981,37 +1595,251 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        private readonly BackgroundWorker bwPrintBanKe;
-        private readonly BackgroundWorker bwRunPrints;
-
-        private string GetCodeFromString(string content)
+        private void OnSelectedTabBD()
         {
-            int index = content.LastIndexOf("vn");
-            return content.Substring(index - 11, 13);
+            switch (IndexTabControl)
+            {
+                case 0:
+                    //thuc hien chuyen ve
+                    SetGetBD10Window();
+                    break;
+
+                case 1:
+                    //SetDanhSachBD10Window();
+                    SetChiTietWindow();
+                    break;
+
+                case 2:
+                    SetChiTietWindow();
+                    break;
+
+                case 3:
+                    SetLayChuyenThuWindow();
+                    break;
+
+                case 4:
+                    SetChiTietWindow();
+                    break;
+
+                case 5:
+                    break;
+
+                default:
+                    break;
+            }
         }
 
-        private void XoaBG()
+        private void OnSelectedTabKT()
         {
-            Thread.Sleep(200);
-            WindowInfo currentWindow = APIManager.WaitingFindedWindow("dong chuyen thu", time: 5);
+            SetChiTietWindow();
+            switch (IndexTabKT)
+            {
+                default:
+                    break;
+            }
+        }
+
+        private void OnSelectedTabTui()
+        {
+            switch (IndexTabTui)
+            {
+                case 0:
+                    //thuc hien chuyen ve
+
+                    SetDefaultWindowTui();
+                    break;
+
+                case 1:
+
+                    SetDefaultWindowTui();
+                    break;
+
+                case 2:
+                    SetRightHeigtTuiWindow();
+                    break;
+
+                case 3:
+
+                    SetRightHeigtTuiWindow();
+                    //DefaultWindowCommand.Execute(null);
+
+                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Focus", Content = "Box" });
+                    break;
+
+                case 4:
+                    SetDefaultWindowTui();
+                    break;
+
+                case 5:
+                    SetDefaultWindowTui();
+                    break;
+
+                case 6:
+                    SetRightHeigtHeightTuiWindow();
+                    break;
+
+                case 7:
+                    SetDefaultWindowTui();
+                    break;
+
+                case 8:
+                    OnSelectedTabBD();
+                    break;
+
+                case 9:
+                    SetChiTietWindow();
+                    break;
+
+                case 10:
+                    SetChiTietWindow();
+                    break;
+
+                case 11:
+                    SetLayChuyenThuWindow();
+                    break;
+
+                case 12:
+                    SetDefaultWindowTui();
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        private void OptionView()
+        {
+            OptionView optionView = new OptionView();
+            optionView.ShowDialog();
+        }
+
+        private void printBanKeFromPrintDocument()
+        {
+            WindowInfo currentWindow = APIManager.WaitingFindedWindow("print document");
             if (currentWindow == null)
-                return;
-            if (currentWindow.text.IndexOf("dong chuyen thu") == -1)
             {
-                return;
-            }
-            APIManager.ClickButton(currentWindow.hwnd, "xoa buu gui", isExactly: false);
-            WindowInfo xacNhanWindow = APIManager.WaitingFindedWindow("xac nhan");
-            if (xacNhanWindow == null)
-            {
+                MessageShow("Không tìm thấy window print document");
                 return;
             }
-            else
+
+            Thread.Sleep(200);
+            APIManager.ClickButton(currentWindow.hwnd, "in an pham", isExactly: false);
+
+            currentWindow = APIManager.WaitingFindedWindow("Print", isExactly: true);
+            if (currentWindow == null)
             {
-                APIManager.ClickButton(xacNhanWindow.hwnd, "yes", isExactly: false);
-                Thread.Sleep(1500);
-                SoundManager.playSound2(@"\music\xoabg.wav");
+                MessageShow("Không tìm thấy window print document");
+                return;
             }
+            SendKeys.SendWait("%{r}");
+            currentWindow = APIManager.WaitingFindedWindow("printing preferences");
+
+            if (currentWindow == null)
+            {
+                MessageShow("Không tìm thấy window print pre");
+                return;
+            }
+
+            Thread.Sleep(50);
+            SendKeys.SendWait("%{u}");
+            //SendKeys.SendWait("{DOWN}");
+            //Thread.Sleep(100);
+            APIManager.ClickButton(currentWindow.hwnd, "ok", isExactly: false);
+
+            currentWindow = APIManager.WaitingFindedWindow("Print", isExactly: true);
+            if (currentWindow == null)
+            {
+                MessageShow("Không tìm thấy window print document");
+                return;
+            }
+            SendKeys.SendWait("%{p}");
+
+            Thread.Sleep(300);
+            currentWindow = APIManager.WaitingFindedWindow("print document");
+            if (currentWindow == null)
+            {
+                MessageShow("Không tìm thấy window print document");
+                return;
+            }
+
+            APIManager.ClickButton(currentWindow.hwnd, "thoat", isExactly: false);
+        }
+
+        private void PrintTrangCuoi_DoWork(object sender, DoWorkEventArgs e)
+        {
+            WindowInfo currentWindow = APIManager.WaitingFindedWindow("quan ly chuyen thu chieu di");
+            if (currentWindow == null)
+            {
+                MessageShow("Không tìm thấy window quan ly chuyen thu ");
+                return;
+            }
+
+            APIManager.ClickButton(currentWindow.hwnd, "f7", isExactly: false);
+
+            currentWindow = APIManager.WaitingFindedWindow("in an pham");
+            if (currentWindow == null)
+            {
+                MessageShow("Không tìm thấy window in an pham");
+                return;
+            }
+            SendKeys.SendWait("{UP}");
+            Thread.Sleep(50);
+            SendKeys.SendWait("{RIGHT}");
+            Thread.Sleep(50);
+            SendKeys.SendWait("{RIGHT}");
+            Thread.Sleep(50);
+            SendKeys.SendWait("{RIGHT}");
+            Thread.Sleep(50);
+            SendKeys.SendWait("{DOWN}");
+            Thread.Sleep(50);
+            SendKeys.SendWait("{DOWN}");
+            Thread.Sleep(50);
+            SendKeys.SendWait("{DOWN}");
+            Thread.Sleep(50);
+            SendKeys.SendWait(" ");
+            Thread.Sleep(200);
+
+            APIManager.ClickButton(currentWindow.hwnd, "f10", isExactly: false);
+
+            currentWindow = APIManager.WaitingFindedWindow("hinh thuc sap xep");
+            if (currentWindow == null)
+            {
+                MessageShow("Không tìm thấy window ");
+                return;
+            }
+
+            APIManager.ClickButton(currentWindow.hwnd, "f10", isExactly: false);
+
+            currentWindow = APIManager.WaitingFindedWindow("print document");
+            if (currentWindow == null)
+            {
+                MessageShow("Không tìm thấy window print document");
+                return;
+            }
+            Thread.Sleep(1500);
+
+            APIManager.ClickButton(currentWindow.hwnd, "in an pham", isExactly: false);
+
+            currentWindow = APIManager.WaitingFindedWindow("Print", isExactly: true);
+            if (currentWindow == null)
+            {
+                MessageShow("Không tìm thấy window print document");
+                return;
+            }
+            List<TestAPIModel> controls = APIManager.GetListControlText(currentWindow.hwnd);
+            TestAPIModel editControl = controls.Where(m => m.ClassName == "Edit").ToList()[3];
+            string control = editControl.Text.Split('-')[1];
+
+            string newText = control + "-" + control;
+            APIManager.SendMessage(editControl.Handle, (int)0x000C, IntPtr.Zero, new StringBuilder(newText));
+
+            SendKeys.SendWait("%{p}");
+        }
+
+        private void SaveKey()
+        {
+            if (!string.IsNullOrEmpty(MqttKey))
+                FileManager.SaveKeyMqtt(MqttKey);
         }
 
         private void SetChiTietWindow()
@@ -2025,8 +1853,6 @@ namespace TaoBD10.ViewModels
             _window.Left = (width - 1150) / 2;
             _window.Top = (height - 630) / 2;
         }
-
-        private readonly BackgroundWorker bwPrintBD10;
 
         private void SetDefaultWindowTui()
         {
@@ -2068,19 +1894,6 @@ namespace TaoBD10.ViewModels
             _window.Top = desktopWorkingArea.Top + 0;
         }
 
-        private void SetRightHeigtTuiWindow()
-        {
-            if (_window == null)
-                return;
-            var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
-            _window.Width = 340;
-            _window.Height = 630;
-            double width = SystemParameters.PrimaryScreenWidth;
-            // use 'Screen.AllScreens[1].WorkingArea' for secondary screen
-            _window.Left = desktopWorkingArea.Left + width - _window.Width;
-            _window.Top = desktopWorkingArea.Top + 0;
-        }
-
         private void SetRightHeigtHeightTuiWindow()
         {
             if (_window == null)
@@ -2088,6 +1901,19 @@ namespace TaoBD10.ViewModels
             var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
             _window.Width = 340;
             _window.Height = 740;
+            double width = SystemParameters.PrimaryScreenWidth;
+            // use 'Screen.AllScreens[1].WorkingArea' for secondary screen
+            _window.Left = desktopWorkingArea.Left + width - _window.Width;
+            _window.Top = desktopWorkingArea.Top + 0;
+        }
+
+        private void SetRightHeigtTuiWindow()
+        {
+            if (_window == null)
+                return;
+            var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
+            _window.Width = 340;
+            _window.Height = 630;
             double width = SystemParameters.PrimaryScreenWidth;
             // use 'Screen.AllScreens[1].WorkingArea' for secondary screen
             _window.Left = desktopWorkingArea.Left + width - _window.Width;
@@ -2127,8 +1953,35 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        private double lastWidth = 0;
-        private double lastHeight = 0;
+        private void Test()
+        {
+           
+            //WindowInfo window = APIManager.WaitingFindedWindow("xac nhan bd10 den");
+            //AutomationElement element = AutomationElement.FromHandle(window.hwnd);
+            //var child = element.FindAll(TreeScope.Descendants, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Table));
+            //AutomationElementCollection count = child[0].FindAll(TreeScope.Children, Condition.TrueCondition);
+            //List<string> texts = new List<string>();
+            //foreach (AutomationElement item in count)
+            //{
+            //    texts.Add(item.Current.Name);
+            //}
+            //var data = APIManager.GetDataTable(child);
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            if (listFindItem.Count > 0)
+            {
+                List<FindItemModel> data = FileManager.LoadFindItemOnFirebase();
+                if (data == null)
+                {
+                    data = new List<FindItemModel>();
+                }
+                data.AddRange(listFindItem);
+                FileManager.SaveFindItemFirebase(data);
+                listFindItem.Clear();
+            }
+        }
 
         private void ToggleWindow()
         {
@@ -2169,18 +2022,186 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        private string _CountInBD;
-        private int _IndexTabControl = 0;
-        private readonly Y2KeyboardHook _keyboardHook;
-        private SnackbarMessageQueue _MessageQueue;
-        private Window _window;
+        private void XoaBG()
+        {
+            Thread.Sleep(200);
+            WindowInfo currentWindow = APIManager.WaitingFindedWindow("dong chuyen thu", time: 5);
+            if (currentWindow == null)
+                return;
+            if (currentWindow.text.IndexOf("dong chuyen thu") == -1)
+            {
+                return;
+            }
+            APIManager.ClickButton(currentWindow.hwnd, "xoa buu gui", isExactly: false);
+            WindowInfo xacNhanWindow = APIManager.WaitingFindedWindow("xac nhan");
+            if (xacNhanWindow == null)
+            {
+                return;
+            }
+            else
+            {
+                APIManager.ClickButton(xacNhanWindow.hwnd, "yes", isExactly: false);
+                Thread.Sleep(1500);
+                SoundManager.playSound2(@"\music\xoabg.wav");
+            }
+        }
 
+        private readonly Y2KeyboardHook _keyboardHook;
+        private readonly BackgroundWorker backgroundWorkerRead;
+        private readonly BackgroundWorker bwPrintBanKe;
+        private readonly BackgroundWorker bwPrintBD10;
+        private readonly BackgroundWorker bwRunPrints;
+        private string _CountInBD;
+        private int _DefaultNumberPagePrint = 3;
+        private int _IndexTabControl = 0;
+        private int _IndexTabKT;
+        private int _IndexTabOption;
+        private int _IndexTabTui = 1;
+        private bool _IsActivatedWindow = true;
+        private bool _IsAutoF4 = false;
+        private bool _IsBoQuaHuyen = true;
+        private bool _IsFindItem = true;
+        private bool _IsMqttOnline = false;
+        private bool _IsTopMost = true;
+        private bool _IsXacNhanChiTieting = false;
+        private SnackbarMessageQueue _MessageQueue;
+        private string _MqttKey;
+        private int _StateTest;
+        private string _TestText;
+        private Window _window;
+        private BackgroundWorker bwCheckConnectMqtt;
+        private BackgroundWorker bwprintMaVach;
+        private WindowInfo currentWindowRead;
+        private bool Is16Kg = false;
+        private bool isReadDuRoi = false;
+        private bool isRunnedPrintBD = false;
         private bool isSmallWindow = false;
+        private string KeyData = "";
+        private int lastConLai = 0;
+        private double lastHeight = 0;
         private int lastNumber = 0;
+        private int lastNumberSuaBD = 0;
         private int lastSelectedTabTui = 0;
+        private double lastWidth = 0;
+        private List<TestAPIModel> listControl;
+        private List<FindItemModel> listFindItem;
         private string loaiCurrent = "";
         private string maSoBuuCucCurrent = "";
         private int numberRead = 0;
+        private BackgroundWorker printTrangCuoi;
         private string soCTCurrent = "";
+        private DispatcherTimer timer;
+        public IRelayCommand<Window> CloseWindowCommand { get; }
+        public string CountInBD { get => _CountInBD; set => SetProperty(ref _CountInBD, value); }
+
+        public ICommand DeactivatedWindowCommand { get; }
+
+        public IRelayCommand<System.Windows.Controls.TabControl> DefaultWindowCommand { get; }
+
+        public int IndexTabControl
+        {
+            get { return _IndexTabControl; }
+            set
+            {
+                SetProperty(ref _IndexTabControl, value);
+                OnSelectedTabBD();
+            }
+        }
+
+        public int IndexTabKT
+        {
+            get { return _IndexTabKT; }
+            set { SetProperty(ref _IndexTabKT, value); OnSelectedTabKT(); }
+        }
+
+        public int IndexTabOption
+        {
+            get { return _IndexTabOption; }
+            set { SetProperty(ref _IndexTabOption, value); }
+        }
+
+        public int IndexTabTui
+        {
+            get { return _IndexTabTui; }
+            set
+            {
+                SetProperty(ref _IndexTabTui, value);
+                OnSelectedTabTui();
+            }
+        }
+
+        public bool IsActivatedWindow
+        {
+            get { return _IsActivatedWindow; }
+            set { SetProperty(ref _IsActivatedWindow, value); }
+        }
+
+        public bool IsAutoF4
+        {
+            get { return _IsAutoF4; }
+            set { SetProperty(ref _IsAutoF4, value); }
+        }
+
+        public bool IsBoQuaHuyen
+        {
+            get { return _IsBoQuaHuyen; }
+            set { SetProperty(ref _IsBoQuaHuyen, value); }
+        }
+
+        public bool IsFindItem
+        {
+            get { return _IsFindItem; }
+            set { SetProperty(ref _IsFindItem, value); }
+        }
+
+        public bool IsMqttOnline
+        {
+            get { return _IsMqttOnline; }
+            set { SetProperty(ref _IsMqttOnline, value); }
+        }
+
+
+
+        public bool IsTopMost
+        {
+            get { return _IsTopMost; }
+            set { SetProperty(ref _IsTopMost, value); }
+        }
+
+        public ICommand LoadPageCommand { get; }
+
+        public SnackbarMessageQueue MessageQueue
+        {
+            get { return _MessageQueue; }
+            set { SetProperty(ref _MessageQueue, value); }
+        }
+
+        public ICommand MouseEnterTabTuiCommand { get; }
+
+        public string MqttKey
+        {
+            get { return _MqttKey; }
+            set { SetProperty(ref _MqttKey, value); }
+        }
+        public ICommand OnCloseWindowCommand { get; }
+        public ICommand OptionViewCommand { get; }
+        public ICommand SaveKeyCommand { get; }
+        public ICommand SmallerWindowCommand { get; }
+
+        public int StateTest
+        {
+            get { return _StateTest; }
+            set { SetProperty(ref _StateTest, value); }
+        }
+
+        public ICommand TabChangedCommand { get; }
+        public ICommand TabTuiChangedCommand { get; }
+        public ICommand TestCommand { get; }
+        public string TestText
+        {
+            get { return _TestText; }
+            set { SetProperty(ref _TestText, value); }
+        }
+        public ICommand ToggleWindowCommand { get; }
     }
 }

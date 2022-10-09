@@ -456,6 +456,7 @@ namespace TaoBD10.Manager
 
                 client = new FirebaseClient("https://taoappbd10-default-rtdb.asia-southeast1.firebasedatabase.app/", new FirebaseOptions { AuthTokenAsyncFactory = () => Task.FromResult(auth) });
             }
+
         }
 
         public static void SaveBD10Offline(BD10InfoModel bd10)

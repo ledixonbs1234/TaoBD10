@@ -80,7 +80,7 @@ namespace TaoBD10.ViewModels
 
 
 
-           
+
 
             NavigateTabTui();
 
@@ -1106,21 +1106,26 @@ namespace TaoBD10.ViewModels
                         IsMqttOnline = false;
                     }
                 }
-            ) ;
-            var temp =  FileManager.client.Child("ledixon1/danhsachmahieu/").AsObservable<Object>();
-            temp.Subscribe(x => {
-                if(x.Object != null)
+            );
+            var temp = FileManager.client.Child("ledixon1/danhsachmahieu/").AsObservable<Object>();
+            temp.Subscribe(x =>
+            {
+                if (x.EventType == Firebase.Database.Streaming.FirebaseEventType.InsertOrUpdate)
                 {
-                ThongTinCoBanModel a =JsonConvert.DeserializeObject<ThongTinCoBanModel>(x.Object.ToString());
-                if(a.State == 0)
-                {
-                    //thuc hien cong viec tim kiem trong nay
-                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToWeb_CheckCode", Content = a.MaHieu+"|"+a.id });
-                }
+                    if (x.Object.ToString() !="{object}")
+                    {
+                        ThongTinCoBanModel a = JsonConvert.DeserializeObject<ThongTinCoBanModel>(x.Object.ToString());
+                        if (a.State == 0)
+                        {
+                            //thuc hien cong viec tim kiem trong nay
+                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToWeb_CheckCode", Content = a.MaHieu + "|" + a.id });
+                        }
 
 
+                    }
+
                 }
-            
+
             });
 
 
@@ -1959,7 +1964,7 @@ namespace TaoBD10.ViewModels
 
         private void Test()
         {
-           
+
             //WindowInfo window = APIManager.WaitingFindedWindow("xac nhan bd10 den");
             //AutomationElement element = AutomationElement.FromHandle(window.hwnd);
             //var child = element.FindAll(TreeScope.Descendants, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Table));

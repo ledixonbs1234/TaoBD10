@@ -1113,7 +1113,8 @@ namespace TaoBD10.ViewModels
                 if (x.EventType == Firebase.Database.Streaming.FirebaseEventType.InsertOrUpdate)
                 {
 
-string test =x.Object.ToString()
+                    string test = x.Object.ToString();
+                    var  mddd = x.Object as ThongTinCoBanModel;
                     if (test != "")
                     {
                         ThongTinCoBanModel a = JsonConvert.DeserializeObject<ThongTinCoBanModel>(x.Object.ToString());

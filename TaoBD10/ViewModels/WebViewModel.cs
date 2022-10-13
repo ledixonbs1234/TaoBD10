@@ -9,10 +9,12 @@ using Newtonsoft.Json;
 using Spire.Xls;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Windows.Input;
 using System.Windows.Threading;
 using TaoBD10.Manager;
@@ -78,11 +80,19 @@ namespace TaoBD10.ViewModels
                  }
                  else if (m.Key == "ToWeb_CheckCode")
                  {
-                     _LoadWebChoose = LoadWebChoose.CheckCode;
-                     var splitText = m.Content.Split('|');
-                     keyPathCheckCode = splitText[1];
-                     LoadAddressDiNgoai(splitText[0]);
+                     heapList.Add(m.Content);
+                     if (isFirstLoginSuccess)
+                     {
+                         _LoadWebChoose = LoadWebChoose.CheckCode;
+                         if (IsRunningCheck)
+                         {
+                         }
+                         else
+                         {
+                             requestOnHeap();
+                         }
 
+                     }
                  }
 
                  else if (m.Key == "LoadAddressDong")
@@ -164,6 +174,9 @@ namespace TaoBD10.ViewModels
             timer.Interval = new TimeSpan(0, 20, 0);
             timer.Start();
         }
+        bool IsRunningCheck = false;
+        List<string> heapList = new List<string>();
+
 
         private void CheckPageMPS(HtmlDocument document)
         {
@@ -189,6 +202,19 @@ namespace TaoBD10.ViewModels
                     }
                 }
             }
+        }
+        BackgroundWorker heapWorker;
+
+        void requestOnHeap()
+        {
+            IsRunningCheck = true;
+            if (heapList.Count == 0)
+                return;
+            string content = heapList[0];
+            var splitText = content.Split('|');
+            keyPathCheckCode = splitText[1];
+            LoadAddressDiNgoai(splitText[0]);
+            heapList.RemoveAt(0);
         }
 
         private void Default()
@@ -468,6 +494,8 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                             if (noteBarcode == null)
                             {
                                 _LoadWebChoose = LoadWebChoose.None;
+                                IsRunningCheck = false;
+                                requestOnHeap();
                                 return;
                             }
 
@@ -475,6 +503,8 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                             if (string.IsNullOrEmpty(barcode))
                             {
                                 _LoadWebChoose = LoadWebChoose.None;
+                                IsRunningCheck = false;
+                                requestOnHeap();
                                 return;
                             }
                             thongTinCoBan.MaHieu = barcode.Substring(0, 13);
@@ -598,10 +628,11 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                             thongTinCoBan.State = 1;
                             string thongTinJson = JsonConvert.SerializeObject(thongTinCoBan);
                             //thuc hien cong viec update value
-                            FileManager.client.Child("ledixon1/danhsachmahieu/"+keyPathCheckCode).PutAsync(thongTinJson).Wait();
-                            
+                            FileManager.client.Child("ledixon1/danhsachmahieu/" + keyPathCheckCode).PutAsync(thongTinJson).Wait();
+
                             //Thuc hien send data to web
                             MqttManager.Pulish(FileManager.MQTTKEY + "_checkcode", thongTinJson);
+                            requestOnHeap();
                         }
                         else if (_LoadWebChoose == LoadWebChoose.CodeFromBD)
                         {
@@ -764,7 +795,20 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
         private bool isCheckingChuaPhat = false;
         private bool isClickWebBCCP = false;
         private bool isDownloading;
-        private bool isFirstLoginSuccess = false;
+        private bool _isFirstLoginSuccess =false;
+
+        public bool isFirstLoginSuccess
+        {
+            get { return _isFirstLoginSuccess; }
+            set {
+                if (value)
+                {
+                    requestOnHeap();
+                }
+                SetProperty(ref _isFirstLoginSuccess, value); }
+        }
+
+
         private bool isFix = false;
         private bool IsRunningChuaPhat = false;
         private string PNSName = "";

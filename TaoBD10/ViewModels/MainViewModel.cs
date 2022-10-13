@@ -1109,6 +1109,8 @@ namespace TaoBD10.ViewModels
             ) ;
             var temp =  FileManager.client.Child("ledixon1/danhsachmahieu/").AsObservable<Object>();
             temp.Subscribe(x => {
+                if(x.Object != null)
+                {
                 ThongTinCoBanModel a =JsonConvert.DeserializeObject<ThongTinCoBanModel>(x.Object.ToString());
                 if(a.State == 0)
                 {
@@ -1116,6 +1118,8 @@ namespace TaoBD10.ViewModels
                     WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToWeb_CheckCode", Content = a.MaHieu+"|"+a.id });
                 }
 
+
+                }
             
             });
 

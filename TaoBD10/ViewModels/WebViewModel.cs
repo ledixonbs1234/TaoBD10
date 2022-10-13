@@ -626,6 +626,7 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                             }
                             _LoadWebChoose = LoadWebChoose.None;
                             thongTinCoBan.State = 1;
+                            thongTinCoBan.id = keyPathCheckCode;
                             string thongTinJson = JsonConvert.SerializeObject(thongTinCoBan);
                             //thuc hien cong viec update value
                             FileManager.client.Child("ledixon1/danhsachmahieu/" + keyPathCheckCode).PutAsync(thongTinJson).Wait();

@@ -79,7 +79,9 @@ namespace TaoBD10.ViewModels
                  else if (m.Key == "ToWeb_CheckCode")
                  {
                      _LoadWebChoose = LoadWebChoose.CheckCode;
-                     LoadAddressDiNgoai(m.Content);
+                     var splitText = m.Content.Split('|');
+                     keyPathCheckCode = splitText[1];
+                     LoadAddressDiNgoai(splitText[0]);
 
                  }
 

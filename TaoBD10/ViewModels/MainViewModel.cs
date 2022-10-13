@@ -1113,7 +1113,7 @@ namespace TaoBD10.ViewModels
                 if(a.State == 0)
                 {
                     //thuc hien cong viec tim kiem trong nay
-                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToWeb_CheckCode", Content = a.MaHieu+"|"+x.Key });
+                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToWeb_CheckCode", Content = a.MaHieu+"|"+a.id });
                 }
 
             

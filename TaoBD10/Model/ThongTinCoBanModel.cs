@@ -7,6 +7,7 @@ namespace TaoBD10.Model
 {
     public class ThongTinCoBanModel
     {
+        public string id { get; set; }
         public string MaHieu { get; set; }
         public int State { get; set; } = 0;
         public bool IsSelected { get; set; }

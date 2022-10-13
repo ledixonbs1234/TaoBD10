@@ -84,14 +84,7 @@ namespace TaoBD10.ViewModels
                      if (isFirstLoginSuccess)
                      {
                          _LoadWebChoose = LoadWebChoose.CheckCode;
-                         if (IsRunningCheck)
-                         {
-                         }
-                         else
-                         {
-                             requestOnHeap();
-                         }
-
+                         requestOnHeap();
                      }
                  }
 
@@ -207,14 +200,18 @@ namespace TaoBD10.ViewModels
 
         void requestOnHeap()
         {
-            IsRunningCheck = true;
-            if (heapList.Count == 0)
-                return;
-            string content = heapList[0];
-            var splitText = content.Split('|');
-            keyPathCheckCode = splitText[1];
-            LoadAddressDiNgoai(splitText[0]);
-            heapList.RemoveAt(0);
+            if (!IsRunningCheck)
+            {
+                IsRunningCheck = true;
+                if (heapList.Count == 0)
+                    return;
+                string content = heapList[0];
+                var splitText = content.Split('|');
+                keyPathCheckCode = splitText[1];
+                LoadAddressDiNgoai(splitText[0]);
+                heapList.RemoveAt(0);
+
+            }
         }
 
         private void Default()
@@ -633,6 +630,7 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
 
                             //Thuc hien send data to web
                             MqttManager.Pulish(FileManager.MQTTKEY + "_checkcode", thongTinJson);
+                            IsRunningCheck = false;
                             requestOnHeap();
                         }
                         else if (_LoadWebChoose == LoadWebChoose.CodeFromBD)
@@ -796,17 +794,19 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
         private bool isCheckingChuaPhat = false;
         private bool isClickWebBCCP = false;
         private bool isDownloading;
-        private bool _isFirstLoginSuccess =false;
+        private bool _isFirstLoginSuccess = false;
 
         public bool isFirstLoginSuccess
         {
             get { return _isFirstLoginSuccess; }
-            set {
+            set
+            {
                 if (value)
                 {
                     requestOnHeap();
                 }
-                SetProperty(ref _isFirstLoginSuccess, value); }
+                SetProperty(ref _isFirstLoginSuccess, value);
+            }
         }
 
 

@@ -207,6 +207,7 @@ namespace TaoBD10.ViewModels
                     return;
                 string content = heapList[0];
                 var splitText = content.Split('|');
+                _LoadWebChoose = LoadWebChoose.CheckCode;
                 keyPathCheckCode = splitText[1];
                 LoadAddressDiNgoai(splitText[0]);
                 heapList.RemoveAt(0);

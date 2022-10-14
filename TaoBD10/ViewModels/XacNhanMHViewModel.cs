@@ -280,13 +280,13 @@ namespace TaoBD10.ViewModels
                     MaHieu = "";
                     return;
                 }
-                MaHieu = MaHieu.Trim();
-                if (MaHieu.Length != 13)
+                string temp = "";
+                if(MaHieu.Length>= 13)
                 {
-                    MaHieu = "";
-                    return;
+                    temp = MaHieu.Substring(0, 13);
                 }
-                WeakReferenceMessenger.Default.Send(new ContentModel { Key = "XacNhanMH", Content = _MaHieu.Trim().ToLower() });
+                
+                WeakReferenceMessenger.Default.Send(new ContentModel { Key = "XacNhanMH", Content = temp });
                 IsWaitingComplete = true;
 
                 MaHieu = "";

@@ -36,8 +36,6 @@ namespace TaoBD10.ViewModels
             WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>
              {
 
-                 _LoadWebChoose = LoadWebChoose.None;
-
                  if (m.Key == "LoadAddressWeb")
                  {
                      _LoadWebChoose = LoadWebChoose.DiNgoaiAddress;

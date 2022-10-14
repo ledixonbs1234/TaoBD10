@@ -301,6 +301,7 @@
     <Compile Include="Model\PNSNameModel.cs" />
     <Compile Include="Model\SHTuiCodeModel.cs" />
     <Compile Include="Model\SnackbarModel.cs" />
+    <Compile Include="Model\StatePhoneInfo.cs" />
     <Compile Include="Model\TamQuanModel.cs" />
     <Compile Include="Model\TaoBdInfoModel.cs" />
     <Compile Include="Model\TestAPIModel.cs" />

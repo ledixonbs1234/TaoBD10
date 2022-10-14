@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Firebase.Database.Offline;
+using Firebase.Database.Query;
 using MaterialDesignThemes.Wpf;
 using Newtonsoft.Json;
 using System;
@@ -1090,7 +1091,7 @@ namespace TaoBD10.ViewModels
             SetDefaultWindowTui();
             FileManager.client.Child("ledixon1/connect/pc").PutAsync("true").Wait();
 
-            Firebase.Database.Query.ChildQuery child = FileManager.client.Child("ledixon1/connect");
+            ChildQuery child = FileManager.client.Child("ledixon1/connect");
 
             var giatri = child.AsObservable<string>();
             giatri.Where(m => m.Key == "phone")
@@ -1107,31 +1108,73 @@ namespace TaoBD10.ViewModels
                     }
                 }
             );
-            var temp = FileManager.client.Child("ledixon1/danhsachmahieu/").AsObservable<Object>();
+            var temp = FileManager.client.Child("ledixon1/danhsachmahieu/").AsObservable<ThongTinCoBanModel>();
             temp.Subscribe(x =>
             {
                 if (x.EventType == Firebase.Database.Streaming.FirebaseEventType.InsertOrUpdate)
                 {
-
-                    string test = x.Object.ToString();
-                    var  mddd = x.Object as ThongTinCoBanModel;
-                    if (test != "")
+                    if (x.Object != null)
                     {
-                        ThongTinCoBanModel a = JsonConvert.DeserializeObject<ThongTinCoBanModel>(x.Object.ToString());
+                        ThongTinCoBanModel a = x.Object;
                         if (a.State == 0)
                         {
                             //thuc hien cong viec tim kiem trong nay
                             WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToWeb_CheckCode", Content = a.MaHieu + "|" + a.id });
                         }
-
-
                     }
 
                 }
 
             });
 
+            var notification = FileManager.client.Child("ledixon1/notification/").AsObservable<string>();
+            notification.Where(m=>m.Key == "phone").Subscribe(x =>
+            {
+                if (x.EventType == Firebase.Database.Streaming.FirebaseEventType.InsertOrUpdate)
+                {
+                    if (x.Object != null)
+                    {
+                        if (!string.IsNullOrEmpty(x.Object))
+                        {
+                            if(x.Object == "xacnhan")
+                            {
+                                APIManager.ShowSnackbar("xac nhan");
+                            FileManager.client.Child(@"ledixon1/notification/").PutAsync(@"{""phone"":""""}");
+                                ExcuteXacNhan();
+                                //thuc hien cong viec xac nhan trong nay
+                            }
+                        }
+                    }
 
+                }
+
+            });
+        }
+
+        void ExcuteXacNhan()
+        {
+            var thongTins = FileManager.client.Child("ledixon1/danhsachmahieu/").OnceAsync<ThongTinCoBanModel>();
+            thongTins.Wait();
+            List<string> list = new List<string>();
+            string maBuuCucXacNhan;
+            foreach (Firebase.Database.FirebaseObject<ThongTinCoBanModel> thongTinObject in thongTins.Result)
+            {
+                ThongTinCoBanModel thongTin = thongTinObject.Object;
+                if (thongTin.IsSelected)
+                {
+                    list.Add(thongTin.MaHieu);
+                }
+            }
+            //List<string> maHieu = new List<string>();
+
+            //foreach (var thongtin in thongTins.Result)
+            //{
+            //    if (thongtin.IsSelected)
+            //    {
+            //        maHieu.Add(thongtin.MaHieu);
+            //    }
+
+            //}
 
         }
 

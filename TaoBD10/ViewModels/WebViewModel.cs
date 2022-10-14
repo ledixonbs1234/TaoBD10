@@ -202,11 +202,13 @@ namespace TaoBD10.ViewModels
         {
             if (!IsRunningCheck)
             {
-                IsRunningCheck = true;
                 if (heapList.Count == 0)
                     return;
+
+                IsRunningCheck = true;
                 string content = heapList[0];
                 var splitText = content.Split('|');
+                APIManager.ShowSnackbar(splitText[0] + " đang được xử lý");
                 _LoadWebChoose = LoadWebChoose.CheckCode;
                 keyPathCheckCode = splitText[1];
                 LoadAddressDiNgoai(splitText[0]);
@@ -630,7 +632,7 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                             FileManager.client.Child("ledixon1/danhsachmahieu/" + keyPathCheckCode).PutAsync(thongTinJson).Wait();
 
                             //Thuc hien send data to web
-                            MqttManager.Pulish(FileManager.MQTTKEY + "_checkcode", thongTinJson);
+                            //MqttManager.Pulish("ledixon1_checkcode", thongTinJson);
                             IsRunningCheck = false;
                             requestOnHeap();
                         }

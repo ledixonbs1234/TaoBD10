@@ -55,7 +55,7 @@ namespace TaoBD10.ViewModels
                 {
                     IsAutoDoiKiem = true;
                     listDoiKiem = JsonConvert.DeserializeObject<List<string>>(m.Content);
-                    MaHieu = listDoiKiem[0];
+                    MaHieu = listDoiKiem[0]+"\n";
 
                 }
             

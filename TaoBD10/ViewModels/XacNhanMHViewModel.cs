@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -49,7 +50,20 @@ namespace TaoBD10.ViewModels
                 });
             }
         });
+            WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) => {
+                if(m.Key == "ToXNMH_XacNhanList")
+                {
+                    IsAutoDoiKiem = true;
+                    listDoiKiem = JsonConvert.DeserializeObject<List<string>>(m.Content);
+                    MaHieu = listDoiKiem[0];
+
+                }
+            
+            });
         }
+        List<string> listDoiKiem = new List<string>();
+
+        bool IsAutoDoiKiem = false;
 
         private bool _IsAutoGoCT = true;
 
@@ -138,6 +152,19 @@ namespace TaoBD10.ViewModels
                     SendKeys.SendWait("{F4}");
                     APIManager.WaitingFindedWindow("xac nhan chi tiet tui thu");
                     WeakReferenceMessenger.Default.Send(new ContentModel { Key = "XacNhanChiTiet", Content = "True" });
+
+                    if (IsAutoDoiKiem)
+                    {
+                        IsAutoDoiKiem = false;
+                        Thread.Sleep(1000);
+
+                        //thuc hien xu ly lenh trong nay
+                        foreach (var mahieu in listDoiKiem)
+                        {
+                            SendKeys.SendWait(mahieu);
+                            //SendKeys.SendWait("{ENTER}");
+                        }
+                    }
                 }
             }
             catch (Exception ex)

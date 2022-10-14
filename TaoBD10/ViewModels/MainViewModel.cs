@@ -1157,7 +1157,7 @@ namespace TaoBD10.ViewModels
             thongTins.Wait();
             List<string> list = new List<string>();
             string maBuuCucXacNhan;
-            foreach (Firebase.Database.FirebaseObject<ThongTinCoBanModel> thongTinObject in thongTins.Result)
+            foreach (var thongTinObject in thongTins.Result)
             {
                 ThongTinCoBanModel thongTin = thongTinObject.Object;
                 if (thongTin.IsSelected)
@@ -1165,7 +1165,13 @@ namespace TaoBD10.ViewModels
                     list.Add(thongTin.MaHieu);
                 }
             }
-            //List<string> maHieu = new List<string>();
+
+            if (list.Count != 0) {
+             string jsonText = JsonConvert.SerializeObject(list);
+            WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "ToXNMH_XacNhanList", Content = jsonText });
+
+}
+                       //List<string> maHieu = new List<string>();
 
             //foreach (var thongtin in thongTins.Result)
             //{

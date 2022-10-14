@@ -236,7 +236,7 @@ namespace TaoBD10.ViewModels
                     APIManager.ShowSnackbar("Không tìm thấy window khởi tạo chuyến thư");
                     return;
                 }
-                System.Collections.Generic.List<TestAPIModel> childControls = APIManager.GetListControlText(currentWindow.hwnd);
+                List<TestAPIModel> childControls = APIManager.GetListControlText(currentWindow.hwnd);
                 //thuc hien lay vi tri nao do
 
                 APIManager.SendMessage(childControls[14].Handle, 0x0007, 0, 0);

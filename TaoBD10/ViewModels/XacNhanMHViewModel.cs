@@ -36,7 +36,7 @@ namespace TaoBD10.ViewModels
         {
             if (m.Value.Key == "XacNhanMH")
             {
-                App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
+                App.Current.Dispatcher.Invoke(delegate // <--- HERE
                 {
                     XacNhanMH = m.Value;
                     TrangThais.Clear();
@@ -50,15 +50,16 @@ namespace TaoBD10.ViewModels
                 });
             }
         });
-            WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) => {
-                if(m.Key == "ToXNMH_XacNhanList")
+            WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>
+            {
+                if (m.Key == "ToXNMH_XacNhanList")
                 {
                     IsAutoDoiKiem = true;
                     listDoiKiem = JsonConvert.DeserializeObject<List<string>>(m.Content);
-                    MaHieu = listDoiKiem[0]+"\n";
+                    MaHieu = listDoiKiem[0] + "\n";
 
                 }
-            
+
             });
         }
         List<string> listDoiKiem = new List<string>();
@@ -150,20 +151,56 @@ namespace TaoBD10.ViewModels
                         return;
                     SendKeys.SendWait("A{BS}{BS}");
                     SendKeys.SendWait("{F4}");
-                    APIManager.WaitingFindedWindow("xac nhan chi tiet tui thu");
+                    windows = APIManager.WaitingFindedWindow("xac nhan chi tiet tui thu");
+                    if (windows == null)
+                    {
+                        IsAutoDoiKiem = false;
+                        return;
+                    }
                     WeakReferenceMessenger.Default.Send(new ContentModel { Key = "XacNhanChiTiet", Content = "True" });
 
                     if (IsAutoDoiKiem)
                     {
                         IsAutoDoiKiem = false;
+                        WindowInfo currentWindow = APIManager.GetActiveWindowTitle();
+
+                        List<TestAPIModel> listControl = APIManager.GetListControlText(currentWindow.hwnd);
+                        string numberText = listControl[2].Text;
+                        numberText = numberText.Replace("(cái)", "").Trim();
+                        int number = int.Parse(numberText);
+
+
+
+
                         Thread.Sleep(1000);
 
                         //thuc hien xu ly lenh trong nay
                         foreach (var mahieu in listDoiKiem)
                         {
+                            Thread.Sleep(500);
                             SendKeys.SendWait(mahieu);
-                            //SendKeys.SendWait("{ENTER}");
+                            SendKeys.SendWait("{ENTER}");
                         }
+                        Thread.Sleep(700);
+                        currentWindow = APIManager.GetActiveWindowTitle();
+                        if (currentWindow.text.IndexOf("xac nhan chi tiet tui thu") != -1)
+                        {
+                            listControl = APIManager.GetListControlText(currentWindow.hwnd);
+                            numberText = listControl[2].Text;
+                            numberText = numberText.Replace("(cái)", "").Trim();
+                            int numberLast = int.Parse(numberText);
+
+
+                            if (number + listDoiKiem.Count == numberLast)
+                            {
+                                //THuc hien send thanh cong
+                                FileManager.client.Child("ledixon1/message/tophone").PutAsync("Đã xác nhận thành công").Wait();
+                                FileManager.client.Child("ledixon1/notification/pc").PutAsync("message");
+                            
+                            }
+                        }
+
+
                     }
                 }
             }
@@ -281,11 +318,11 @@ namespace TaoBD10.ViewModels
                     return;
                 }
                 string temp = "";
-                if(MaHieu.Length>= 13)
+                if (MaHieu.Length >= 13)
                 {
                     temp = MaHieu.Substring(0, 13);
                 }
-                
+
                 WeakReferenceMessenger.Default.Send(new ContentModel { Key = "XacNhanMH", Content = temp });
                 IsWaitingComplete = true;
 

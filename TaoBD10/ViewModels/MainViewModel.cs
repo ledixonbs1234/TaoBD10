@@ -727,6 +727,9 @@ namespace TaoBD10.ViewModels
                                     {
                                         Thread.Sleep(100);
                                         SendKeys.SendWait("{ENTER}");
+
+                                        Thread.Sleep(100);
+                                        IsShowWarning = false;
                                     }
                                 }
                             }

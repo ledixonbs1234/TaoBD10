@@ -157,7 +157,10 @@ namespace TaoBD10.ViewModels
             if (bD10Dens.Count > 0)
             {
                 string jsonText = JsonConvert.SerializeObject(bD10Dens, Formatting.Indented);
-                MqttManager.Pulish(FileManager.MQTTKEY + "_laydanhsach", jsonText);
+                //MqttManager.Pulish(FileManager.MQTTKEY + "_laydanhsach", jsonText);
+                FileManager.client.Child("notification").PutAsync(@"{""tophone"":""showbd10""|");
+                FileManager.client.Child("message/tophone").PutAsync(jsonText);
+
             }
         }
 

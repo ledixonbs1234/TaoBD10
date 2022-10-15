@@ -1142,10 +1142,17 @@ namespace TaoBD10.ViewModels
                             if(x.Object == "xacnhan")
                             {
                                 APIManager.ShowSnackbar("xac nhan");
-                            FileManager.client.Child(@"ledixon1/notification/").PutAsync(@"{""phone"":""""}");
                                 ExcuteXacNhan();
                                 //thuc hien cong viec xac nhan trong nay
+                            }else if (x.Object == "laydanhsach")
+                            {
+                                APIManager.ShowSnackbar("Đang lấy danh sách bd đến");
+                                //Thuc hien xu ly lay danh sach bd
+                                WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToLayBDHA_LayDanhSach" });
+
                             }
+
+                            FileManager.client.Child(@"ledixon1/notification/").PutAsync(@"{""phone"":""""}");
                         }
                     }
 

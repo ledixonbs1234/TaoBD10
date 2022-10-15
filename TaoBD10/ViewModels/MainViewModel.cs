@@ -1149,6 +1149,8 @@ namespace TaoBD10.ViewModels
                 }
 
             });
+
+           
         }
 
         void ExcuteXacNhan()

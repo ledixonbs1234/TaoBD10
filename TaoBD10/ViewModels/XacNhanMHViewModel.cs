@@ -189,15 +189,22 @@ namespace TaoBD10.ViewModels
                             numberText = listControl[2].Text;
                             numberText = numberText.Replace("(cái)", "").Trim();
                             int numberLast = int.Parse(numberText);
+                            APIManager.ShowSnackbar("number last :" + numberLast+" number: "+number+" count: "+listDoiKiem.Count);
 
 
                             if (number + listDoiKiem.Count == numberLast)
                             {
+
+                            APIManager.ShowSnackbar("da vao trong");
                                 //THuc hien send thanh cong
-                                FileManager.client.Child("ledixon1/message/tophone").PutAsync("Đã xác nhận thành công").Wait();
-                                FileManager.client.Child("ledixon1/notification/pc").PutAsync("message");
-                            
+                                FileManager.client.Child("ledixon1/message/").PutAsync(@"{""tophone"":""Đã xác nhận thành công""}").Wait();
+                                FileManager.client.Child("ledixon1/notification/").PutAsync(@"{""pc"":""message""}").Wait();
+
                             }
+                        }else
+                        {
+                            FileManager.client.Child("ledixon1/message/").PutAsync(@"{""tophone"":""Đã xác nhận thành công""}").Wait();
+                            FileManager.client.Child("ledixon1/notification/").PutAsync(@"{""pc"":""message""}").Wait();
                         }
 
 

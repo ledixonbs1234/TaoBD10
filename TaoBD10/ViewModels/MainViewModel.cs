@@ -20,6 +20,7 @@ using System.Windows;
 using System.Windows.Automation;
 using System.Windows.Forms;
 using System.Windows.Input;
+using System.Windows.Markup;
 using System.Windows.Threading;
 using TaoBD10.Manager;
 using TaoBD10.Model;
@@ -1131,7 +1132,7 @@ namespace TaoBD10.ViewModels
             });
 
             var notification = FileManager.client.Child("ledixon1/notification/").AsObservable<string>();
-            notification.Where(m=>m.Key == "phone").Subscribe(x =>
+            notification.Where(m=>m.Key == "topc").Subscribe(x =>
             {
                 if (x.EventType == Firebase.Database.Streaming.FirebaseEventType.InsertOrUpdate)
                 {
@@ -1139,20 +1140,30 @@ namespace TaoBD10.ViewModels
                     {
                         if (!string.IsNullOrEmpty(x.Object))
                         {
-                            if(x.Object == "xacnhan")
+                            if (x.Object == "xacnhan")
                             {
                                 APIManager.ShowSnackbar("xac nhan");
                                 ExcuteXacNhan();
                                 //thuc hien cong viec xac nhan trong nay
-                            }else if (x.Object == "laydanhsach")
+                            }
+                            else if (x.Object == "laydanhsach")
                             {
                                 APIManager.ShowSnackbar("Đang lấy danh sách bd đến");
                                 //Thuc hien xu ly lay danh sach bd
                                 WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToLayBDHA_LayDanhSach" });
 
                             }
+                            else if (x.Object.IndexOf("laybd") != -1)
+                            {
+                                string[] datas = x.Object.Split('|');
+                                if (datas[0] == "laybd")
+                                {
+                                    //thuc hien lay bd hien tai
+                                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToLayHAAL_LayBD", Content = datas[1] + "|" + datas[2] });
+                                }
 
-                            FileManager.client.Child(@"ledixon1/notification/").PutAsync(@"{""phone"":""""}");
+                                FileManager.client.Child(@"ledixon1/notification/").PutAsync(@"{""topc"":""""}");
+                            }
                         }
                     }
 

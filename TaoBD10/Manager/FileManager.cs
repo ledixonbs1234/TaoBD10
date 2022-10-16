@@ -296,6 +296,12 @@ namespace TaoBD10.Manager
             }
         }
 
+        public static void SendNotification(string message)
+        {
+            FileManager.client.Child("ledixon1/message/").PutAsync(@"{""tophone"":"""+message+@"""}").Wait();
+            FileManager.client.Child("ledixon1/notification/").PutAsync(@"{""pc"":""message""}").Wait();
+        }
+
         public static List<TinhHuyenModel> LoadTinhThanhOnFirebase()
         {
             Task<List<TinhHuyenModel>> cts = client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/TinhThanh").OrderByKey().OnceSingleAsync<List<TinhHuyenModel>>();

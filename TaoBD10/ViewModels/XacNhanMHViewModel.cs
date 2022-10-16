@@ -195,11 +195,8 @@ namespace TaoBD10.ViewModels
                             if (number + listDoiKiem.Count == numberLast)
                             {
 
-                            APIManager.ShowSnackbar("da vao trong");
                                 //THuc hien send thanh cong
-                                FileManager.client.Child("ledixon1/message/").PutAsync(@"{""tophone"":""Đã xác nhận thành công""}").Wait();
-                                FileManager.client.Child("ledixon1/notification/").PutAsync(@"{""pc"":""message""}").Wait();
-
+                                FileManager.SendNotification("Đã xác nhận thành công");
                             }
                         }else
                         {

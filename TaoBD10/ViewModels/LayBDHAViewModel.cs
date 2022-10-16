@@ -342,7 +342,8 @@ namespace TaoBD10.ViewModels
 
             if (isGetDataFromPhone)
             {
-                MqttManager.SendMessageToPhone("Lấy BD Xong");
+                //MqttManager.SendMessageToPhone("Lấy BD Xong");
+                FileManager.SendNotification("Lấy BD Xong");
 
                 isGetDataFromPhone = false;
                 bwGetDanhSachBD.RunWorkerAsync();

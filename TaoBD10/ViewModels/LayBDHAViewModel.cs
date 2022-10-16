@@ -158,8 +158,8 @@ namespace TaoBD10.ViewModels
             {
                 string jsonText = JsonConvert.SerializeObject(bD10Dens, Formatting.Indented);
                 //MqttManager.Pulish(FileManager.MQTTKEY + "_laydanhsach", jsonText);
-                FileManager.client.Child("notification").PutAsync(@"{""tophone"":""showbd10""}");
-                FileManager.client.Child("message/tophone").PutAsync(jsonText);
+                FileManager.client.Child("ledixon1/notification").PutAsync(@"{""tophone"":""showbd10""}");
+                FileManager.client.Child("ledixon1/message/tophone").PutAsync(jsonText);
 
             }
         }

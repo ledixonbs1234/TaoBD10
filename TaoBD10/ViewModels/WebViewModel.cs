@@ -513,7 +513,7 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                                 thongTinCoBan.id = keyPathCheckCode;
                                 thongTinJson = JsonConvert.SerializeObject(thongTinCoBan);
                                 //thuc hien cong viec update value
-                                FileManager.client.Child("ledixon1/danhsachmahieu/" + keyPathCheckCode).PutAsync(thongTinJson).Wait();
+                                FileManager.client.Child("ledixon1/danhsachmahieu/" + keyPathCheckCode).PutAsync(@"{""State"":2}").Wait();
                                 requestOnHeap();
                                 return;
                             }

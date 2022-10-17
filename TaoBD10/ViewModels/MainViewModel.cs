@@ -1171,6 +1171,7 @@ namespace TaoBD10.ViewModels
                                 List<string> lists = list.Result;
                                 WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToDiNgoai_GetAddressPhone", Content = JsonConvert.SerializeObject(lists) });
                             }
+                            FileManager.SetDefaultToPc();
                         }
                     }
 

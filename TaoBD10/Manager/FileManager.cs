@@ -310,6 +310,10 @@ namespace TaoBD10.Manager
         {
             FileManager.client.Child("ledixon1/notification/").PutAsync(@"{""tophone"":"""+lenh+@"""}").Wait();
         }
+        public static void SetDefaultToPc()
+        {
+            client.Child("ledixon1/notification/").PutAsync(@"{""topc"":""""}").Wait();
+        }
 
 
         public static List<TinhHuyenModel> LoadTinhThanhOnFirebase()

@@ -489,10 +489,17 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                             ThongTinCoBanModel thongTinCoBan = new ThongTinCoBanModel();
 
                             HtmlNodeCollection noteBarcode = document.DocumentNode.SelectNodes("//*[@id='MainContent_ctl00_lblBarcode']");
+                            String thongTinJson;
                             if (noteBarcode == null)
                             {
                                 _LoadWebChoose = LoadWebChoose.None;
                                 IsRunningCheck = false;
+                                thongTinCoBan.State = 2;
+                                thongTinCoBan.id = keyPathCheckCode;
+                                 thongTinJson = JsonConvert.SerializeObject(thongTinCoBan);
+                                //thuc hien cong viec update value
+                                FileManager.client.Child("ledixon1/danhsachmahieu/" + keyPathCheckCode).PutAsync(thongTinJson).Wait();
+
                                 requestOnHeap();
                                 return;
                             }
@@ -502,6 +509,11 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                             {
                                 _LoadWebChoose = LoadWebChoose.None;
                                 IsRunningCheck = false;
+                                thongTinCoBan.State = 2;
+                                thongTinCoBan.id = keyPathCheckCode;
+                                thongTinJson = JsonConvert.SerializeObject(thongTinCoBan);
+                                //thuc hien cong viec update value
+                                FileManager.client.Child("ledixon1/danhsachmahieu/" + keyPathCheckCode).PutAsync(thongTinJson).Wait();
                                 requestOnHeap();
                                 return;
                             }
@@ -625,7 +637,7 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                             _LoadWebChoose = LoadWebChoose.None;
                             thongTinCoBan.State = 1;
                             thongTinCoBan.id = keyPathCheckCode;
-                            string thongTinJson = JsonConvert.SerializeObject(thongTinCoBan);
+                             thongTinJson = JsonConvert.SerializeObject(thongTinCoBan);
                             //thuc hien cong viec update value
                             FileManager.client.Child("ledixon1/danhsachmahieu/" + keyPathCheckCode).PutAsync(thongTinJson).Wait();
 

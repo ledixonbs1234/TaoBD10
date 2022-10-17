@@ -196,11 +196,11 @@ namespace TaoBD10.ViewModels
                             {
 
                                 //THuc hien send thanh cong
-                                FileManager.SendNotification("Đã xác nhận thành công");
+                                FileManager.SendMessageNotification("Đã xác nhận thành công");
                             }
                         }else
                         {
-                            FileManager.SendNotification("Đã xác nhận thành công");
+                            FileManager.SendMessageNotification("Đã xác nhận thành công");
                         }
 
 

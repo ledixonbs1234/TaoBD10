@@ -296,11 +296,21 @@ namespace TaoBD10.Manager
             }
         }
 
-        public static void SendNotification(string message)
+        /// <summary>
+        /// Send tin nhan tu pc to phone
+        /// </summary>
+        /// <param name="message"></param>
+        public static void SendMessageNotification(string message)
         {
             FileManager.client.Child("ledixon1/message/").PutAsync(@"{""tophone"":"""+message+@"""}").Wait();
-            FileManager.client.Child("ledixon1/notification/").PutAsync(@"{""pc"":""message""}").Wait();
+            FileManager.client.Child("ledixon1/notification/").PutAsync(@"{""tophone"":""message""}").Wait();
         }
+
+        public static void SendVoidToPhone(string lenh)
+        {
+            FileManager.client.Child("ledixon1/message/").PutAsync(@"{""tophone"":"""+lenh+@"""}").Wait();
+        }
+
 
         public static List<TinhHuyenModel> LoadTinhThanhOnFirebase()
         {

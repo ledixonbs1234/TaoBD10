@@ -210,8 +210,8 @@ namespace TaoBD10.ViewModels
             string json = JsonConvert.SerializeObject(DiNgoais);
             //MqttManager.Pulish(FileManager.MQTTKEY + "_dingoai", json);
             FileManager.client.Child("ledixon1/message/tophone").PutAsync(json);
+            FileManager.SendVoidToPhone("senddingoaitophone");
 
-            FileManager.client.Child("ledixon1/notification/tophone").PutAsync("senddingoaitophone");
         }
 
         private void AddMaHieu(string MaHieu)

@@ -308,7 +308,7 @@ namespace TaoBD10.Manager
 
         public static void SendVoidToPhone(string lenh)
         {
-            FileManager.client.Child("ledixon1/message/").PutAsync(@"{""tophone"":"""+lenh+@"""}").Wait();
+            FileManager.client.Child("ledixon1/notification/").PutAsync(@"{""tophone"":"""+lenh+@"""}").Wait();
         }
 
 

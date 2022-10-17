@@ -1170,6 +1170,13 @@ namespace TaoBD10.ViewModels
                                 list.Wait();
                                 List<string> lists = list.Result;
                                 WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToDiNgoai_GetAddressPhone", Content = JsonConvert.SerializeObject(lists) });
+                            }else if(x.Object == "indingoai")
+                            {
+                                var list = FileManager.client.Child(@"ledixon1/message/topc").OnceSingleAsync<string>();
+                                list.Wait();
+                                string mahieuSelected = list.Result;
+                                APIManager.ShowSnackbar("Dang in");
+                                WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToDiNgoai_InDiNgoai", Content = mahieuSelected });
                             }
                             FileManager.SetDefaultToPc();
                         }

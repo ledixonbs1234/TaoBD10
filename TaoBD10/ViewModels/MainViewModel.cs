@@ -1164,6 +1164,13 @@ namespace TaoBD10.ViewModels
 
                                 FileManager.client.Child(@"ledixon1/notification/").PutAsync(@"{""topc"":""""}");
                             }
+                            else if (x.Object == "laybuucuc")
+                            {
+                                var list = FileManager.client.Child(@"ledixon1/message/topc").OnceSingleAsync<List<string>>();
+                                list.Wait();
+                                List<string> lists = list.Result;
+                                WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToDiNgoai_GetAddressPhone", Content = JsonConvert.SerializeObject(lists) });
+                            }
                         }
                     }
 

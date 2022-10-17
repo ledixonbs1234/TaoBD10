@@ -155,16 +155,20 @@ namespace TaoBD10.ViewModels
                     IsPhoneRunning = true;
                     //thuc hien dejson
                     List<string> list = JsonConvert.DeserializeObject<List<string>>(m.Content);
-                    App.Current.Dispatcher.Invoke(delegate // <--- HERE
+                    if(list != null)
                     {
-                        DiNgoais.Clear();
-
-                        foreach (var item in list)
+                        App.Current.Dispatcher.Invoke(delegate // <--- HERE
                         {
-                            AddMaHieu(item);
-                        }
-                        AddFast();
-                    });
+                            DiNgoais.Clear();
+
+                            foreach (var item in list)
+                            {
+                                AddMaHieu(item);
+                            }
+                            AddFast();
+                        });
+                    }
+                    
                 }
                 else if (m.Key == "ToDiNgoai_InDiNgoai")
                 {

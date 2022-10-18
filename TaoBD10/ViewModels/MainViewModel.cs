@@ -10,8 +10,12 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing.Imaging;
+using System.Drawing;
 using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Reactive.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -1181,8 +1185,13 @@ namespace TaoBD10.ViewModels
                                 string mahieuSelected = list.Result;
                                 APIManager.ShowSnackbar("Đã sửa mã bưu cục.");
                                 WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToDiNgoai_ChinhSuaLai", Content = mahieuSelected });
+                            }else if(x.Object == "capturescreen")
+                            {
+                                WeakReferenceMessenger.Default.Send(new ContentModel { Key = "CaptureScreen" });
+                            }else if(x.Object == "showfullweb")
+                            {
+                                WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ShowFullWeb" });
                             }
-                            
                             else if(x.Object == "laydulieu200")
                             {
                                 
@@ -1216,13 +1225,13 @@ namespace TaoBD10.ViewModels
 
            
         }
+       
 
         void ExcuteXacNhan()
         {
             var thongTins = FileManager.client.Child(FileManager.FirebaseKey + "/danhsachmahieu/").OnceAsync<ThongTinCoBanModel>();
             thongTins.Wait();
             List<string> list = new List<string>();
-            string maBuuCucXacNhan;
             foreach (var thongTinObject in thongTins.Result)
             {
                 ThongTinCoBanModel thongTin = thongTinObject.Object;
@@ -1359,6 +1368,26 @@ namespace TaoBD10.ViewModels
                     else if (m.Content == "Min")
                     {
                         SetDefaultWindowTui();
+                    }
+                }else if (m.Key == "MaxWindow")
+                {
+                    if(_window == null)
+                    {
+                        return;
+                    }else
+                    {
+                        _window.WindowState = WindowState.Maximized;
+                    }
+                }
+                else if (m.Key == "NormalWindow")
+                {
+                    if (_window == null)
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        _window.WindowState = WindowState.Normal;
                     }
                 }
                 if (m.Key == "CreateListKeyMQTT")

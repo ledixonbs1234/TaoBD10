@@ -11,8 +11,11 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing.Imaging;
+using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Input;
@@ -20,6 +23,7 @@ using System.Windows.Threading;
 using TaoBD10.Manager;
 using TaoBD10.Model;
 using static TaoBD10.Manager.EnumAll;
+using System.Threading.Tasks;
 
 namespace TaoBD10.ViewModels
 {
@@ -121,6 +125,12 @@ namespace TaoBD10.ViewModels
                      string[] split = m.Content.Split('|');
                      keyPathCheckCode = split[1];
                      WebBrowser.LoadUrl(split[0]);
+                 }else if(m.Key == "ShowFullWeb")
+                 {
+                     showFullWeb();
+                 }else if(m.Key == "CaptureScreen")
+                 {
+                     captureAndUpdateScreen();
                  }
                  else if (m.Key == "KTChuaPhat")
                  {
@@ -194,7 +204,6 @@ namespace TaoBD10.ViewModels
                 }
             }
         }
-        BackgroundWorker heapWorker;
 
         void requestOnHeap()
         {
@@ -235,6 +244,25 @@ namespace TaoBD10.ViewModels
         {
         }
 
+        void showFullWeb()
+        {
+            App.Current.Dispatcher.Invoke(delegate // <--- HERE
+            {
+                Default();
+                WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Navigation", Content = "Web" });
+                Full();
+                //string pathImage = captureScreen();
+                //PublishToWeb(new FileInfo(pathImage));
+                //WeakReferenceMessenger.Default.Send(new ContentModel() { Key = "NormalWindow", Content = "Full" });
+            });
+        }
+
+        void captureAndUpdateScreen()
+        {
+            string pathImage = captureScreen();
+            PublishToWeb(new FileInfo(pathImage));
+        }
+
         private void Login()
         {
             string script = @"
@@ -244,6 +272,14 @@ namespace TaoBD10.ViewModels
 ";
 
             WebBrowser.ExecuteScriptAsync(script);
+        }
+        private void PublishToWeb(FileInfo file)
+        {
+            using (var client = new WebClient())
+            {
+                client.Credentials = new NetworkCredential("bd10", "ledixonbs123");
+                client.UploadFile("ftp://files.000webhost.com/public_html/" + file.Name, WebRequestMethods.Ftp.UploadFile, file.FullName);
+            }
         }
 
         private void Min()
@@ -278,10 +314,7 @@ namespace TaoBD10.ViewModels
                         else
                         {
                             WebBrowser.ExecuteScriptAsync(TextManager.SCRIPT_LOGIN);
-                            //App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
-                            //{
-                            //    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Navigation", Content = "Web" });
-                            //});
+
                         }
                     }
                     else if (diachi.IndexOf("mps.vnpost.vn/login") != -1)
@@ -496,7 +529,7 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                                 IsRunningCheck = false;
                                 thongTinCoBan.State = 2;
                                 thongTinCoBan.id = keyPathCheckCode;
-                                 thongTinJson = JsonConvert.SerializeObject(thongTinCoBan);
+                                thongTinJson = JsonConvert.SerializeObject(thongTinCoBan);
                                 //thuc hien cong viec update value
                                 FileManager.client.Child(FileManager.FirebaseKey + "/danhsachmahieu/" + keyPathCheckCode).PatchAsync(thongTinJson).Wait();
 
@@ -637,7 +670,7 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                             _LoadWebChoose = LoadWebChoose.None;
                             thongTinCoBan.State = 1;
                             thongTinCoBan.id = keyPathCheckCode;
-                             thongTinJson = JsonConvert.SerializeObject(thongTinCoBan);
+                            thongTinJson = JsonConvert.SerializeObject(thongTinCoBan);
                             //thuc hien cong viec update value
                             FileManager.client.Child(FileManager.FirebaseKey + "/danhsachmahieu/" + keyPathCheckCode).PatchAsync(thongTinJson).Wait();
 
@@ -796,6 +829,22 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                 throw;
             }
         }
+        string captureScreen()
+        {
+            Bitmap captureBitmap = new Bitmap(1024, 768, PixelFormat.Format32bppArgb);
+            //Bitmap captureBitmap = new Bitmap(int width, int height, PixelFormat);
+            //Creating a Rectangle object which will
+            //capture our Current Screen
+            Rectangle captureRectangle = System.Windows.Forms.Screen.AllScreens[0].Bounds;
+            //Creating a New Graphics Object
+            Graphics captureGraphics = Graphics.FromImage(captureBitmap);
+            //Copying Image from The Screen
+            captureGraphics.CopyFromScreen(captureRectangle.Left, captureRectangle.Top, 0, 0, captureRectangle.Size);
+            string path = Environment.CurrentDirectory + @"\Capture.jpg";
+            //Saving the Image File (I am here Saving it in My E drive).
+            captureBitmap.Save(path, ImageFormat.Jpeg);
+            return path;
+        }
 
         public IRelayCommand<ChromiumWebBrowser> LoadPageCommand;
         private readonly string defaultWeb = "https://bccp.vnpost.vn/BCCP.aspx?act=Trace";
@@ -806,7 +855,6 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
         private string currentMaHieu = "";
         private bool isCheckingChuaPhat = false;
         private bool isClickWebBCCP = false;
-        private bool isDownloading;
         private bool _isFirstLoginSuccess = false;
 
         public bool isFirstLoginSuccess

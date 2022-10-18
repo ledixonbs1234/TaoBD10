@@ -253,6 +253,8 @@ namespace TaoBD10.ViewModels
                 Default();
                 WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Navigation", Content = "Web" });
                 Full();
+                Thread.Sleep(500);
+                FileManager.SendMessageNotification("Đã hiện full web");
                 //string pathImage = captureScreen();
                 //PublishToWeb(new FileInfo(pathImage));
                 //WeakReferenceMessenger.Default.Send(new ContentModel() { Key = "NormalWindow", Content = "Full" });
@@ -263,6 +265,7 @@ namespace TaoBD10.ViewModels
         {
             string pathImage = captureScreen();
             PublishToWeb(new FileInfo(pathImage));
+                FileManager.SendMessageNotification("Đã upload screen thành công");
         }
 
         private void Login()

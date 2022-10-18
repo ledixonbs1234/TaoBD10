@@ -1152,6 +1152,13 @@ namespace TaoBD10.ViewModels
                                 //Thuc hien xu ly lay danh sach bd
                                 WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToLayBDHA_LayDanhSach" });
 
+                            }else if(x.Object == "savebd")
+                            {
+                                var list = FileManager.client.Child(FileManager.FirebaseKey + "/message/topc").OnceSingleAsync<string>();
+                                list.Wait();
+                                string[] datas = list.Result.Split('|');
+                                APIManager.ShowSnackbar("Đang save bd");
+                                WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToGetBD_SaveBD", Content = datas[0] + "|" + datas[1] + "|" + datas[2] });
                             }
                            
                             else if (x.Object == "laybuucuc")
@@ -1167,7 +1174,16 @@ namespace TaoBD10.ViewModels
                                 string mahieuSelected = list.Result;
                                 APIManager.ShowSnackbar("Dang in");
                                 WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToDiNgoai_InDiNgoai", Content = mahieuSelected });
-                            }else if(x.Object == "laydulieu200")
+                            }else if(x.Object == "chinhsualai")
+                            {
+                                var list = FileManager.client.Child(FileManager.FirebaseKey + "/message/topc").OnceSingleAsync<string>();
+                                list.Wait();
+                                string mahieuSelected = list.Result;
+                                APIManager.ShowSnackbar("Đã sửa mã bưu cục.");
+                                WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToDiNgoai_ChinhSuaLai", Content = mahieuSelected });
+                            }
+                            
+                            else if(x.Object == "laydulieu200")
                             {
                                 
                                 WeakReferenceMessenger.Default.Send(new ContentModel {Key ="Chinh", Content = "LayDuLieu" });

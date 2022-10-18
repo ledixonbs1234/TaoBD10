@@ -396,6 +396,9 @@ namespace TaoBD10.ViewModels
                         //THuc hien send thanh cong
                         FileManager.SendMessageNotification("Đang đóng ct qua 230");
                         AutoXacNhan();
+                    }else
+                    {
+                        FileManager.SendMessageNotification("Không khớp số liệu");
                     }
                 }
             }

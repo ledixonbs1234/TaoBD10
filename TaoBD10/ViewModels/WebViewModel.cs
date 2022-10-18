@@ -125,10 +125,12 @@ namespace TaoBD10.ViewModels
                      string[] split = m.Content.Split('|');
                      keyPathCheckCode = split[1];
                      WebBrowser.LoadUrl(split[0]);
-                 }else if(m.Key == "ShowFullWeb")
+                 }
+                 else if (m.Key == "ShowFullWeb")
                  {
                      showFullWeb();
-                 }else if(m.Key == "CaptureScreen")
+                 }
+                 else if (m.Key == "CaptureScreen")
                  {
                      captureAndUpdateScreen();
                  }
@@ -275,11 +277,20 @@ namespace TaoBD10.ViewModels
         }
         private void PublishToWeb(FileInfo file)
         {
-            using (var client = new WebClient())
+            try
             {
-                client.Credentials = new NetworkCredential("bd10", "ledixonbs123");
-                client.UploadFile("ftp://files.000webhost.com/public_html/" + file.Name, WebRequestMethods.Ftp.UploadFile, file.FullName);
+                using (var client = new WebClient())
+                {
+                    client.Credentials = new NetworkCredential("bd10", "ledixonbs123");
+                    client.UploadFile("ftp://files.000webhost.com/public_html/" + file.Name, WebRequestMethods.Ftp.UploadFile, file.FullName);
+                }
             }
+            catch (Exception ex)
+            {
+                FileManager.SendMessageNotification(ex.Message);
+
+            }
+
         }
 
         private void Min()

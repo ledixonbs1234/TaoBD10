@@ -88,6 +88,9 @@ namespace TaoBD10.ViewModels
                          _LoadWebChoose = LoadWebChoose.CheckCode;
                          requestOnHeap();
                      }
+                 }else if (m.Key == "ToWeb_WriteCapchar")
+                 {
+                     LoginWithCapchar(m.Content);
                  }
 
                  else if (m.Key == "LoadAddressDong")
@@ -273,6 +276,17 @@ namespace TaoBD10.ViewModels
             string script = @"
                      document.getElementById('MainContent_txtUser').value='" + FileManager.optionModel.AccountDinhVi + @"';
             		document.getElementById('MainContent_txtPassword').value='" + FileManager.optionModel.PWDinhVi + @"';
+            		document.getElementById('MainContent_btnLogin').click();
+";
+
+            WebBrowser.ExecuteScriptAsync(script);
+        }
+        private void LoginWithCapchar(string capchar)
+        {
+            string script = @"
+                     document.getElementById('MainContent_txtUser').value='" + FileManager.optionModel.AccountDinhVi + @"';
+            		document.getElementById('MainContent_txtPassword').value='" + FileManager.optionModel.PWDinhVi + @"';
+            		document.getElementById('MainContent_txtcaptcha').value='" +capchar + @"';
             		document.getElementById('MainContent_btnLogin').click();
 ";
 

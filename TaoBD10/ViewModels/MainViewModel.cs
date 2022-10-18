@@ -1203,6 +1203,12 @@ namespace TaoBD10.ViewModels
                                 List<string> lists = list.Result;
                                 WeakReferenceMessenger.Default.Send(new ContentModel { Key = "SetTrueAuto200", Content = JsonConvert.SerializeObject(lists) });
                                 WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "KT" });
+                            }else if (x.Object == "writecapchar")
+                            {
+                                var list = FileManager.client.Child(FileManager.FirebaseKey + "/message/topc").OnceSingleAsync<string>();
+                                list.Wait();
+                                string mahieuSelected = list.Result;
+                                WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToWeb_WriteCapchar", Content = mahieuSelected });
                             }
                             else if (x.Object.IndexOf("laybd") != -1)
                             {

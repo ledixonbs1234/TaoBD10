@@ -1173,6 +1173,10 @@ namespace TaoBD10.ViewModels
                                 WeakReferenceMessenger.Default.Send(new ContentModel {Key ="Chinh", Content = "LayDuLieu" });
                             }else if(x.Object == "dongqua230")
                             {
+                                var list = FileManager.client.Child(FileManager.FirebaseKey + "/message/topc").OnceSingleAsync<List<string>>();
+                                list.Wait();
+                                List<string> lists = list.Result;
+                                WeakReferenceMessenger.Default.Send(new ContentModel { Key = "SetTrueAuto200", Content = JsonConvert.SerializeObject(lists) });
                                 WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "KT" });
                             }
                             else if (x.Object.IndexOf("laybd") != -1)
@@ -1214,7 +1218,7 @@ namespace TaoBD10.ViewModels
 
             if (list.Count != 0) {
              string jsonText = JsonConvert.SerializeObject(list);
-            WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "ToXNMH_XacNhanList", Content = jsonText });
+            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToXNMH_XacNhanList", Content = jsonText });
 
 }
                        //List<string> maHieu = new List<string>();

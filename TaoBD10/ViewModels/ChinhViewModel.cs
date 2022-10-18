@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,6 +9,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -20,6 +22,9 @@ namespace TaoBD10.ViewModels
 {
     public class ChinhViewModel : ObservableObject
     {
+
+        bool isAutoAddMaHieuFrom200To230 = false;
+        List<string> mahieus200 = new List<string>();
         public ChinhViewModel()
         {
             ChuyenThus = new ObservableCollection<ChuyenThuModel>();
@@ -71,6 +76,7 @@ namespace TaoBD10.ViewModels
             bwCreateChuyenThu.WorkerSupportsCancellation = true;
             bwPrint = new BackgroundWorker();
             bwPrint.DoWork += BwPrint_DoWork;
+
 
             WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>
             {
@@ -148,14 +154,24 @@ namespace TaoBD10.ViewModels
                     {
                         bwPrint.RunWorkerAsync();
                     }
+                    else if (m.Content == "SetTrueAuto200")
+                    {
+
+                    }
                 }
                 else if (m.Key == "XN593200")
                 {
                     XacNhanChiTiet200();
-                }else if(m.Key == "xntd200")
+                }
+                else if (m.Key == "xntd200")
                 {
                     Thread.Sleep(1200);
                     AutoXacNhan();
+                }
+                else if (m.Key == "SetTrueAuto200")
+                {
+                    isAutoAddMaHieuFrom200To230 = true;
+                    mahieus200 = JsonConvert.DeserializeObject<List<String>>(m.Content);
                 }
             });
         }
@@ -347,6 +363,40 @@ namespace TaoBD10.ViewModels
                 {
                     //Kiem tra lai
                     SoundManager.playSound2(@"\Number\khongkhopsolieu.wav");
+                }
+                if (isAutoAddMaHieuFrom200To230)
+                {
+                    isAutoAddMaHieuFrom200To230 = false;
+                    currentWindow = APIManager.GetActiveWindowTitle();
+                    List<TestAPIModel> listControl = APIManager.GetListControlText(currentWindow.hwnd);
+
+                    TestAPIModel apiCai = listControl.FirstOrDefault(m => m.Text.IndexOf("cái") != -1);
+                    //TestText += apiCai.Text + "\n";
+                    int.TryParse(Regex.Match(apiCai.Text, @"\d+").Value, out int numberRead);
+
+
+                    Thread.Sleep(1000);
+
+                    //thuc hien xu ly lenh trong nay
+                    foreach (var mahieu in mahieus200)
+                    {
+                        Thread.Sleep(500);
+                        SendKeys.SendWait(mahieu);
+                        SendKeys.SendWait("{ENTER}");
+                    }
+                    Thread.Sleep(700);
+                    listControl = APIManager.GetListControlText(currentWindow.hwnd);
+
+                    apiCai = listControl.FirstOrDefault(m => m.Text.IndexOf("cái") != -1);
+                    int.TryParse(Regex.Match(apiCai.Text, @"\d+").Value, out int numberReadLast);
+
+
+                    if (numberRead + mahieus200.Count == numberReadLast)
+                    {
+                        //THuc hien send thanh cong
+                        FileManager.SendMessageNotification("Đang đóng ct qua 230");
+                        AutoXacNhan();
+                    }
                 }
             }
             catch (Exception ex)

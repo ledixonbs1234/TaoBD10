@@ -1171,6 +1171,9 @@ namespace TaoBD10.ViewModels
                             {
                                 
                                 WeakReferenceMessenger.Default.Send(new ContentModel {Key ="Chinh", Content = "LayDuLieu" });
+                            }else if(x.Object == "dongqua230")
+                            {
+                                WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "KT" });
                             }
                             else if (x.Object.IndexOf("laybd") != -1)
                             {

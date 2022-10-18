@@ -1153,17 +1153,7 @@ namespace TaoBD10.ViewModels
                                 WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToLayBDHA_LayDanhSach" });
 
                             }
-                            else if (x.Object.IndexOf("laybd") != -1)
-                            {
-                                string[] datas = x.Object.Split('|');
-                                if (datas[0] == "laybd")
-                                {
-                                    //thuc hien lay bd hien tai
-                                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToLayHAAL_LayBD", Content = datas[1] + "|" + datas[2] });
-                                }
-
-                                FileManager.client.Child(@"ledixon1/notification/").PutAsync(@"{""topc"":""""}");
-                            }
+                           
                             else if (x.Object == "laybuucuc")
                             {
                                 var list = FileManager.client.Child(@"ledixon1/message/topc").OnceSingleAsync<List<string>>();
@@ -1177,6 +1167,21 @@ namespace TaoBD10.ViewModels
                                 string mahieuSelected = list.Result;
                                 APIManager.ShowSnackbar("Dang in");
                                 WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToDiNgoai_InDiNgoai", Content = mahieuSelected });
+                            }else if(x.Object == "laydulieu200")
+                            {
+                                
+                                WeakReferenceMessenger.Default.Send(new ContentModel {Key ="Chinh", Content = "LayDuLieu" });
+                            }
+                            else if (x.Object.IndexOf("laybd") != -1)
+                            {
+                                string[] datas = x.Object.Split('|');
+                                if (datas[0] == "laybd")
+                                {
+                                    //thuc hien lay bd hien tai
+                                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToLayHAAL_LayBD", Content = datas[1] + "|" + datas[2] });
+                                }
+
+                                FileManager.client.Child(@"ledixon1/notification/").PutAsync(@"{""topc"":""""}");
                             }
                             FileManager.SetDefaultToPc();
                         }

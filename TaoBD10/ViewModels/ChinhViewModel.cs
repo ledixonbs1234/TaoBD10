@@ -787,6 +787,7 @@ namespace TaoBD10.ViewModels
                 SendKeys.SendWait("{F4}");
                 Thread.Sleep(1000);
                 SendKeys.SendWait("{F10}");
+                FileManager.SendMessageNotification("Đã lấy dữ liệu thành công");
             }
         }
 

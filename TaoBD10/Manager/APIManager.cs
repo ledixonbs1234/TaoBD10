@@ -494,7 +494,7 @@ namespace TaoBD10.Manager
         /// <param name="maBuuCuc"> Mã Bưu Cục</param>
         /// <param name="nameHandleChildToHangOn">Tên có dấu</param>
         /// <returns></returns>
-        public static bool ThoatToDefault(string maBuuCuc, string nameHandleChildToHangOn)
+        public static bool ThoatToDefault(string maBuuCuc, string nameHandleChildToHangOn,int timex10=100)
         {
             if (isWaitingThoat)
                 return false;
@@ -535,9 +535,16 @@ namespace TaoBD10.Manager
                         //Kiem tra handle name trong nay thu
                         WindowInfo currentWindow = GetActiveWindowTitle();
 
+                        int time = 0;
                         //thuc hien xoa tuan tu cho toi window main handle
                         while (currentWindow.hwnd != windowHandle)
                         {
+                            time++;
+                            if (time > timex10)
+                            {
+                                isWaitingThoat = false;
+                                return false;
+                            }
                             currentWindow = GetActiveWindowTitle();
                             string textKoDau = ConvertToUnSign3(currentWindow.text).ToLower();
                             if (textKoDau.IndexOf(nameHandleChildToHangOn) != -1)

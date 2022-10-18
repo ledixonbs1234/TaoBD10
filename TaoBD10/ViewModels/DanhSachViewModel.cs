@@ -141,7 +141,7 @@ namespace TaoBD10.ViewModels
                 IsSendToPhone = false;
                 string jsonText = JsonConvert.SerializeObject(tempBDs, Formatting.Indented);
                 APIManager.ShowSnackbar("Da Send");
-                MqttManager.Pulish(FileManager.MQTTKEY + "_checkbd", jsonText);
+                MqttManager.Pulish(FileManager.FirebaseKey + "_checkbd", jsonText);
             }
             else
             {

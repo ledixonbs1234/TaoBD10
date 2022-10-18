@@ -354,7 +354,7 @@ namespace TaoBD10.ViewModels
             SoundManager.playSound2(@"Number\tingting.wav");
             APIManager.ShowSnackbar("OK");
             MqttManager.SendMessageToPhone("OK");
-            MqttManager.Pulish(FileManager.MQTTKEY + "_luubd", currentMaBuuCuc + "|" + currentLanLap);
+            MqttManager.Pulish(FileManager.FirebaseKey + "_luubd", currentMaBuuCuc + "|" + currentLanLap);
 
             WeakReferenceMessenger.Default.Send<string>("LoadBD10");
         }

@@ -11,9 +11,6 @@ namespace TaoBD10.Manager
 {
     public static class FileManager
     {
-        public static List<TinhHuyenModel> TinhThanhs;
-        public static List<TuiThuModel> TuiThus;
-
         public static List<MaBD8Model> GetMaBD8s()
         {
             if (File.Exists(_fileBD8))
@@ -42,14 +39,6 @@ namespace TaoBD10.Manager
             return optionTemp.Result;
         }
 
-        //public static List<TinhHuyenModel> LayDSTinh()
-        //{
-        //    if (!File.Exists(_fileTinhThanh))
-        //    {
-        //        return null;
-        //    }
-        //    string textFile = File.ReadAllText(_fileTinhThanh);
-
         public static OptionModel GetOptionOffline()
         {
             if (!File.Exists(_fileOption))
@@ -64,105 +53,6 @@ namespace TaoBD10.Manager
                 OptionModel option = serializer.Deserialize<OptionModel>(jReader);
                 optionModel = option;
                 return option;
-            }
-        }
-
-        public static List<string> LoadBuuCucsOffline()
-        {
-            if (!File.Exists(_fileBuuCucs))
-            {
-                SaveBuuCucsOffline(new List<string>());
-            }
-
-            JsonSerializer serializer = new JsonSerializer();
-            using (StreamReader sReader = new StreamReader(_fileBuuCucs))
-            using (JsonReader jReader = new JsonTextReader(sReader))
-            {
-                List<string> listBuuCucs = serializer.Deserialize<List<string>>(jReader);
-                return listBuuCucs;
-            }
-        }
-
-        public static List<FindItemModel> LoadFindItemOffline()
-        {
-            if (!File.Exists(_fileFindItem))
-            {
-                SaveFindItemOffline(new List<FindItemModel>());
-            }
-
-            JsonSerializer serializer = new JsonSerializer();
-            using (StreamReader sReader = new StreamReader(_fileFindItem))
-            using (JsonReader jReader = new JsonTextReader(sReader))
-            {
-                List<FindItemModel> listFindItems = serializer.Deserialize<List<FindItemModel>>(jReader);
-                return listFindItems;
-            }
-        }
-
-        public static void SaveFindItemOffline(List<FindItemModel> findItemModels)
-        {
-            if (!File.Exists(_fileFindItem))
-            {
-                using (FileStream fs = File.Create(_fileFindItem))
-                {
-                }
-            }
-            JsonSerializer serializer = new JsonSerializer();
-            using (StreamWriter sWriter = new StreamWriter(_fileFindItem))
-            using (JsonWriter jWriter = new JsonTextWriter(sWriter))
-            {
-                serializer.Serialize(jWriter, findItemModels);
-            }
-        }
-
-        public static string MQTTKEY;
-
-        public static string LoadKeyMqtt()
-        {
-            if (!File.Exists(_fileKeyMqtt))
-            {
-                SaveKeyMqtt("");
-            }
-
-            JsonSerializer serializer = new JsonSerializer();
-            using (StreamReader sReader = new StreamReader(_fileKeyMqtt))
-            using (JsonReader jReader = new JsonTextReader(sReader))
-            {
-                string listFindItems = serializer.Deserialize<string>(jReader);
-                MQTTKEY = listFindItems;
-                return listFindItems;
-            }
-        }
-
-        public static void SaveKeyMqtt(string findItemModels)
-        {
-            if (!File.Exists(_fileKeyMqtt))
-            {
-                using (FileStream fs = File.Create(_fileKeyMqtt))
-                {
-                }
-            }
-            JsonSerializer serializer = new JsonSerializer();
-            using (StreamWriter sWriter = new StreamWriter(_fileKeyMqtt))
-            using (JsonWriter jWriter = new JsonTextWriter(sWriter))
-            {
-                serializer.Serialize(jWriter, findItemModels);
-            }
-        }
-
-        public static void SaveBuuCucsOffline(List<string> list)
-        {
-            if (!File.Exists(_fileBuuCucs))
-            {
-                using (FileStream fs = File.Create(_fileBuuCucs))
-                {
-                }
-            }
-            JsonSerializer serializer = new JsonSerializer();
-            using (StreamWriter sWriter = new StreamWriter(_fileBuuCucs))
-            using (JsonWriter jWriter = new JsonTextWriter(sWriter))
-            {
-                serializer.Serialize(jWriter, list);
             }
         }
 
@@ -183,41 +73,6 @@ namespace TaoBD10.Manager
             }
         }
 
-        public static List<LocBDInfoModel> LoadLocBD10sOffline()
-        {
-            if (!File.Exists(_fileLocBD10))
-            {
-                SaveLocBD10Offline(new List<LocBDInfoModel>());
-            }
-
-            JsonSerializer serializer = new JsonSerializer();
-            using (StreamReader sReader = new StreamReader(_fileLocBD10))
-            using (JsonReader jReader = new JsonTextReader(sReader))
-            {
-                List<LocBDInfoModel> locBD10s = serializer.Deserialize<List<LocBDInfoModel>>(jReader);
-                return locBD10s;
-            }
-        }
-
-        public static List<LocBDInfoModel> LoadLocKTBCPOffline()
-        {
-            if (!File.Exists(_fileLocKTBCP))
-            {
-                var list = new List<LocBDInfoModel>();
-                list.Add(new LocBDInfoModel("59000"));
-                list.Add(new LocBDInfoModel());
-                SaveLocKTBCPOffline(list);
-            }
-
-            JsonSerializer serializer = new JsonSerializer();
-            using (StreamReader sReader = new StreamReader(_fileLocKTBCP))
-            using (JsonReader jReader = new JsonTextReader(sReader))
-            {
-                List<LocBDInfoModel> locBD10s = serializer.Deserialize<List<LocBDInfoModel>>(jReader);
-                return locBD10s;
-            }
-        }
-
         public static List<BuuCucModel> LoadBuuCucOffline()
         {
             if (!File.Exists(_fileBuuCuc))
@@ -234,35 +89,13 @@ namespace TaoBD10.Manager
             }
         }
 
-        public static void SaveTinhThanhOffline(List<TinhHuyenModel> list)
+        public static List<BuuCucModel> LoadBuuCucOnFirebase()
         {
-            if (!File.Exists(_fileTinhThanh))
-            {
-                using (FileStream fs = File.Create(_fileTinhThanh))
-                {
-                }
-            }
-            JsonSerializer serializer = new JsonSerializer();
-            using (StreamWriter sWriter = new StreamWriter(_fileTinhThanh))
-            using (JsonWriter jWriter = new JsonTextWriter(sWriter))
-            {
-                serializer.Serialize(jWriter, list);
-            }
-        }
-
-        public static List<TinhHuyenModel> LoadTinhThanhFromFile(string path)
-        {
-            IEnumerable<string> tinhThanhs = File.ReadLines(path);
-            var list = new List<TinhHuyenModel>();
-            foreach (string tinh in tinhThanhs)
-            {
-                if (string.IsNullOrEmpty(tinh))
-                    continue;
-
-                string[] splitText = tinh.Split('\t');
-                list.Add(new TinhHuyenModel(splitText[1].Trim(), splitText[2].Trim()));
-            }
-            return list;
+            Task<List<BuuCucModel>> cts = client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/LayBuuCuc").OrderByKey().OnceSingleAsync<List<BuuCucModel>>();
+            cts.Wait();
+            List<BuuCucModel> result = cts.Result;
+            SaveBuuCucOffline(result);
+            return result;
         }
 
         public static List<string> LoadBuuCucsFromFile(string path)
@@ -280,49 +113,27 @@ namespace TaoBD10.Manager
             return listBuuCuc;
         }
 
-        public static List<TinhHuyenModel> LoadTinhThanhOffline()
+        //public static List<TinhHuyenModel> LayDSTinh()
+        //{
+        //    if (!File.Exists(_fileTinhThanh))
+        //    {
+        //        return null;
+        //    }
+        //    string textFile = File.ReadAllText(_fileTinhThanh);
+        public static List<string> LoadBuuCucsOffline()
         {
-            if (!File.Exists(_fileTinhThanh))
+            if (!File.Exists(_fileBuuCucs))
             {
-                SaveTinhThanhOffline(new List<TinhHuyenModel>());
+                SaveBuuCucsOffline(new List<string>());
             }
 
             JsonSerializer serializer = new JsonSerializer();
-            using (StreamReader sReader = new StreamReader(_fileTinhThanh))
+            using (StreamReader sReader = new StreamReader(_fileBuuCucs))
             using (JsonReader jReader = new JsonTextReader(sReader))
             {
-                List<TinhHuyenModel> listTinhThanh = serializer.Deserialize<List<TinhHuyenModel>>(jReader);
-                return listTinhThanh;
+                List<string> listBuuCucs = serializer.Deserialize<List<string>>(jReader);
+                return listBuuCucs;
             }
-        }
-
-        /// <summary>
-        /// Send tin nhan tu pc to phone
-        /// </summary>
-        /// <param name="message"></param>
-        public static void SendMessageNotification(string message)
-        {
-            FileManager.client.Child("ledixon1/message/").PutAsync(@"{""tophone"":"""+message+@"""}").Wait();
-            FileManager.client.Child("ledixon1/notification/").PutAsync(@"{""tophone"":""message""}").Wait();
-        }
-
-        public static void SendVoidToPhone(string lenh)
-        {
-            FileManager.client.Child("ledixon1/notification/").PutAsync(@"{""tophone"":"""+lenh+@"""}").Wait();
-        }
-        public static void SetDefaultToPc()
-        {
-            client.Child("ledixon1/notification/").PutAsync(@"{""topc"":""""}").Wait();
-        }
-
-
-        public static List<TinhHuyenModel> LoadTinhThanhOnFirebase()
-        {
-            Task<List<TinhHuyenModel>> cts = client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/TinhThanh").OrderByKey().OnceSingleAsync<List<TinhHuyenModel>>();
-            cts.Wait();
-            List<TinhHuyenModel> result = cts.Result;
-            SaveTinhThanhOffline(result);
-            return result;
         }
 
         public static List<string> LoadBuuCucsOnFirebase()
@@ -334,22 +145,20 @@ namespace TaoBD10.Manager
             return result;
         }
 
-        public static List<FindItemModel> LoadFindItemOnFirebase()
+        public static List<string> LoadBuuCucTuDongsOffline()
         {
-            Task<List<FindItemModel>> cts = client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/FindItem").OrderByKey().OnceSingleAsync<List<FindItemModel>>();
-            cts.Wait();
-            List<FindItemModel> result = cts.Result;
-            SaveFindItemOffline(result);
-            return result;
-        }
+            if (!File.Exists(_fileBuuCucTuDongs))
+            {
+                SaveBuuCucTuDongsOffline(new List<string>());
+            }
 
-        public static List<BuuCucModel> LoadBuuCucOnFirebase()
-        {
-            Task<List<BuuCucModel>> cts = client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/LayBuuCuc").OrderByKey().OnceSingleAsync<List<BuuCucModel>>();
-            cts.Wait();
-            List<BuuCucModel> result = cts.Result;
-            SaveBuuCucOffline(result);
-            return result;
+            JsonSerializer serializer = new JsonSerializer();
+            using (StreamReader sReader = new StreamReader(_fileBuuCucTuDongs))
+            using (JsonReader jReader = new JsonTextReader(sReader))
+            {
+                List<string> listBuuCucTuDongs = serializer.Deserialize<List<string>>(jReader);
+                return listBuuCucTuDongs;
+            }
         }
 
         public static List<ChuyenThuModel> LoadCTOffline()
@@ -370,18 +179,6 @@ namespace TaoBD10.Manager
             }
         }
 
-        public static string[] ReadPrinterFromFile()
-        {
-            string[] result = new string[2];
-            if (File.Exists("Data\\printerSave.txt"))
-            {
-                result = File.ReadAllLines("Data\\printerSave.txt");
-                APIManager.namePrinterBD8 = result[0];
-                APIManager.namePrinterBD10 = result[1];
-            }
-            return result;
-        }
-
         public static List<ChuyenThuModel> LoadCTOnFirebase()
         {
             Task<List<ChuyenThuModel>> cts = client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/OptionCT").OrderByKey().OnceSingleAsync<List<ChuyenThuModel>>();
@@ -400,6 +197,56 @@ namespace TaoBD10.Manager
                 list = a.Result;
             }
             return list;
+        }
+
+        public static List<string> LoadErrorOnFirebase()
+        {
+            Task<List<string>> cts = client.Child(@"QuanLy//" + optionModel.MaKhaiThac + "/ErrorList").OrderByKey().OnceSingleAsync<List<string>>();
+            cts.Wait();
+            List<string> result = cts.Result;
+            return result;
+        }
+
+        public static List<FindItemModel> LoadFindItemOffline()
+        {
+            if (!File.Exists(_fileFindItem))
+            {
+                SaveFindItemOffline(new List<FindItemModel>());
+            }
+
+            JsonSerializer serializer = new JsonSerializer();
+            using (StreamReader sReader = new StreamReader(_fileFindItem))
+            using (JsonReader jReader = new JsonTextReader(sReader))
+            {
+                List<FindItemModel> listFindItems = serializer.Deserialize<List<FindItemModel>>(jReader);
+                return listFindItems;
+            }
+        }
+
+        public static List<FindItemModel> LoadFindItemOnFirebase()
+        {
+            Task<List<FindItemModel>> cts = client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/FindItem").OrderByKey().OnceSingleAsync<List<FindItemModel>>();
+            cts.Wait();
+            List<FindItemModel> result = cts.Result;
+            SaveFindItemOffline(result);
+            return result;
+        }
+
+        public static string LoadKeyMqtt()
+        {
+            if (!File.Exists(_fileKeyMqtt))
+            {
+                SaveKeyMqtt("");
+            }
+
+            JsonSerializer serializer = new JsonSerializer();
+            using (StreamReader sReader = new StreamReader(_fileKeyMqtt))
+            using (JsonReader jReader = new JsonTextReader(sReader))
+            {
+                string listFindItems = serializer.Deserialize<string>(jReader);
+                FirebaseKey = listFindItems;
+                return listFindItems;
+            }
         }
 
         public static List<LayBD10Info> LoadLayBDOffline()
@@ -427,6 +274,22 @@ namespace TaoBD10.Manager
             return result;
         }
 
+        public static List<LocBDInfoModel> LoadLocBD10sOffline()
+        {
+            if (!File.Exists(_fileLocBD10))
+            {
+                SaveLocBD10Offline(new List<LocBDInfoModel>());
+            }
+
+            JsonSerializer serializer = new JsonSerializer();
+            using (StreamReader sReader = new StreamReader(_fileLocBD10))
+            using (JsonReader jReader = new JsonTextReader(sReader))
+            {
+                List<LocBDInfoModel> locBD10s = serializer.Deserialize<List<LocBDInfoModel>>(jReader);
+                return locBD10s;
+            }
+        }
+
         public static List<LocBDInfoModel> LoadLocBDOnFirebase()
         {
             Task<List<LocBDInfoModel>> cts = client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/OptionLocBD").OrderByKey().OnceSingleAsync<List<LocBDInfoModel>>();
@@ -436,18 +299,105 @@ namespace TaoBD10.Manager
             return result;
         }
 
-        public static void SaveLocBD10Firebase(List<LocBDInfoModel> locBDInfoModels)
+        public static List<LocBDInfoModel> LoadLocKTBCPOffline()
         {
-            if (locBDInfoModels.Count == 0)
-                return;
-            JsonSerializer serializer = new JsonSerializer();
-            using (StreamWriter sWriter = new StreamWriter(_fileLocBD10))
-            using (JsonWriter jWriter = new JsonTextWriter(sWriter))
+            if (!File.Exists(_fileLocKTBCP))
             {
-                serializer.Serialize(jWriter, locBDInfoModels);
+                var list = new List<LocBDInfoModel>();
+                list.Add(new LocBDInfoModel("59000"));
+                list.Add(new LocBDInfoModel());
+                SaveLocKTBCPOffline(list);
             }
-            //client.SetTaskAsync("QuanLy/593230",chuyenThus);
-            client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/OptionLocBD").PutAsync(locBDInfoModels);
+
+            JsonSerializer serializer = new JsonSerializer();
+            using (StreamReader sReader = new StreamReader(_fileLocKTBCP))
+            using (JsonReader jReader = new JsonTextReader(sReader))
+            {
+                List<LocBDInfoModel> locBD10s = serializer.Deserialize<List<LocBDInfoModel>>(jReader);
+                return locBD10s;
+            }
+        }
+
+        public static List<TinhHuyenModel> LoadTinhThanhFromFile(string path)
+        {
+            IEnumerable<string> tinhThanhs = File.ReadLines(path);
+            var list = new List<TinhHuyenModel>();
+            foreach (string tinh in tinhThanhs)
+            {
+                if (string.IsNullOrEmpty(tinh))
+                    continue;
+
+                string[] splitText = tinh.Split('\t');
+                list.Add(new TinhHuyenModel(splitText[1].Trim(), splitText[2].Trim()));
+            }
+            return list;
+        }
+
+        public static List<TinhHuyenModel> LoadTinhThanhOffline()
+        {
+            if (!File.Exists(_fileTinhThanh))
+            {
+                SaveTinhThanhOffline(new List<TinhHuyenModel>());
+            }
+
+            JsonSerializer serializer = new JsonSerializer();
+            using (StreamReader sReader = new StreamReader(_fileTinhThanh))
+            using (JsonReader jReader = new JsonTextReader(sReader))
+            {
+                List<TinhHuyenModel> listTinhThanh = serializer.Deserialize<List<TinhHuyenModel>>(jReader);
+                return listTinhThanh;
+            }
+        }
+
+        public static List<TinhHuyenModel> LoadTinhThanhOnFirebase()
+        {
+            Task<List<TinhHuyenModel>> cts = client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/TinhThanh").OrderByKey().OnceSingleAsync<List<TinhHuyenModel>>();
+            cts.Wait();
+            List<TinhHuyenModel> result = cts.Result;
+            SaveTinhThanhOffline(result);
+            return result;
+        }
+
+        public static List<TuiThuModel> LoadTuiThuFromFile(string filename)
+        {
+            IEnumerable<string> tuiThus = File.ReadLines(filename);
+            var list = new List<TuiThuModel>();
+            foreach (string tinh in tuiThus)
+            {
+                if (string.IsNullOrEmpty(tinh))
+                    continue;
+
+                string[] splitText = tinh.Split('\t');
+                list.Add(new TuiThuModel(splitText[1].Trim(), splitText[2].Trim()));
+            }
+            TuiThus = list;
+            return list;
+        }
+
+        public static List<TuiThuModel> LoadTuiThuOffline()
+        {
+            if (!File.Exists(_fileTuiThu))
+            {
+                SaveTuiThuOffline(new List<TuiThuModel>());
+            }
+
+            JsonSerializer serializer = new JsonSerializer();
+            using (StreamReader sReader = new StreamReader(_fileTuiThu))
+            using (JsonReader jReader = new JsonTextReader(sReader))
+            {
+                List<TuiThuModel> listTuiThu = serializer.Deserialize<List<TuiThuModel>>(jReader);
+                TuiThus = listTuiThu;
+                return listTuiThu;
+            }
+        }
+
+        public static List<TuiThuModel> LoadTuiThuOnFirebase()
+        {
+            Task<List<TuiThuModel>> cts = client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/TuiThu").OrderByKey().OnceSingleAsync<List<TuiThuModel>>();
+            cts.Wait();
+            List<TuiThuModel> result = cts.Result;
+            SaveTuiThuOffline(result);
+            return result;
         }
 
         public static void OnSetupFileManager()
@@ -477,6 +427,18 @@ namespace TaoBD10.Manager
                 client = new FirebaseClient("https://taoappbd10-default-rtdb.asia-southeast1.firebasedatabase.app/", new FirebaseOptions { AuthTokenAsyncFactory = () => Task.FromResult(auth) });
             }
 
+        }
+
+        public static string[] ReadPrinterFromFile()
+        {
+            string[] result = new string[2];
+            if (File.Exists("Data\\printerSave.txt"))
+            {
+                result = File.ReadAllLines("Data\\printerSave.txt");
+                APIManager.namePrinterBD8 = result[0];
+                APIManager.namePrinterBD10 = result[1];
+            }
+            return result;
         }
 
         public static void SaveBD10Offline(BD10InfoModel bd10)
@@ -518,6 +480,173 @@ namespace TaoBD10.Manager
             }
         }
 
+        public static void SaveBuuCucsFirebase(List<string> buucucs)
+        {
+            client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/BuuCucs").PutAsync(buucucs).Wait();
+        }
+
+        public static void SaveBuuCucsOffline(List<string> list)
+        {
+            if (!File.Exists(_fileBuuCucs))
+            {
+                using (FileStream fs = File.Create(_fileBuuCucs))
+                {
+                }
+            }
+            JsonSerializer serializer = new JsonSerializer();
+            using (StreamWriter sWriter = new StreamWriter(_fileBuuCucs))
+            using (JsonWriter jWriter = new JsonTextWriter(sWriter))
+            {
+                serializer.Serialize(jWriter, list);
+            }
+        }
+
+        public static void SaveBuuCucTuDongsOffline(List<string> list)
+        {
+            if (!File.Exists(_fileBuuCucTuDongs))
+            {
+                using (FileStream fs = File.Create(_fileBuuCucTuDongs))
+                {
+                }
+            }
+            JsonSerializer serializer = new JsonSerializer();
+            using (StreamWriter sWriter = new StreamWriter(_fileBuuCucTuDongs))
+            using (JsonWriter jWriter = new JsonTextWriter(sWriter))
+            {
+                serializer.Serialize(jWriter, list);
+            }
+        }
+
+        public static void SaveCTOffline(List<ChuyenThuModel> chuyenThus)
+        {
+            if (!Directory.Exists("Data"))
+            {
+                _ = Directory.CreateDirectory("Data");
+            }
+            if (!File.Exists(_fileCT))
+            {
+                using (FileStream fs = File.Create(_fileCT)) { }
+            }
+            JsonSerializer serializer = new JsonSerializer();
+            using (StreamWriter sWriter = new StreamWriter(_fileCT))
+            using (JsonWriter jWriter = new JsonTextWriter(sWriter))
+            {
+                serializer.Serialize(jWriter, chuyenThus);
+            }
+        }
+
+        public static void SaveCTOnFirebase(List<ChuyenThuModel> chuyenThus)
+        {
+            if (chuyenThus.Count == 0)
+                return;
+            JsonSerializer serializer = new JsonSerializer();
+            using (StreamWriter sWriter = new StreamWriter(_fileCT))
+            using (JsonWriter jWriter = new JsonTextWriter(sWriter))
+            {
+                serializer.Serialize(jWriter, chuyenThus);
+            }
+            //client.SetTaskAsync("QuanLy/593230",chuyenThus);
+            client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/OptionCT").PutAsync(chuyenThus);
+        }
+
+        public static void SaveData(BD10InfoModel bD10Info)
+        {
+            if (bD10Info != null)
+                list.Add(bD10Info);
+            //JsonSerializer serializer = new JsonSerializer();
+            //using (StreamWriter sWriter = new StreamWriter(_file))
+            //using (JsonWriter jWriter = new JsonTextWriter(sWriter))
+            //{
+            //    serializer.Serialize(jWriter, list);
+            //}
+            client.Child(@"QuanLy/DanhSach/" + maBuuCuc + "/BD10").PutAsync(list);
+            //client.SetTaskAsync("QuanLyXe/DanhSachBD/"+bD10Info.DateCreateBD10.Year+"|"+bD10Info.DateCreateBD10.DayOfYear+"|"+new Random().Next(), bD10Info);
+        }
+
+        public static void SaveErrorOnFirebase(string errorText)
+        {
+            string error = DateTime.Now.ToString() + ":" + errorText;
+            //client.SetTaskAsync("QuanLy/593230",chuyenThus);
+            client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/ErrorList").PostAsync(error);
+        }
+
+        public static void SaveFindItemFirebase(List<FindItemModel> buucucs)
+        {
+            client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/FindItem").PutAsync(buucucs).Wait();
+        }
+
+        public static void SaveFindItemOffline(List<FindItemModel> findItemModels)
+        {
+            if (!File.Exists(_fileFindItem))
+            {
+                using (FileStream fs = File.Create(_fileFindItem))
+                {
+                }
+            }
+            JsonSerializer serializer = new JsonSerializer();
+            using (StreamWriter sWriter = new StreamWriter(_fileFindItem))
+            using (JsonWriter jWriter = new JsonTextWriter(sWriter))
+            {
+                serializer.Serialize(jWriter, findItemModels);
+            }
+        }
+
+        public static void SaveKeyMqtt(string findItemModels)
+        {
+            if (!File.Exists(_fileKeyMqtt))
+            {
+                using (FileStream fs = File.Create(_fileKeyMqtt))
+                {
+                }
+            }
+            JsonSerializer serializer = new JsonSerializer();
+            using (StreamWriter sWriter = new StreamWriter(_fileKeyMqtt))
+            using (JsonWriter jWriter = new JsonTextWriter(sWriter))
+            {
+                serializer.Serialize(jWriter, findItemModels);
+            }
+        }
+
+        public static void SaveLayBDFirebase(List<LayBD10Info> layBDs)
+        {
+            client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/LayBD10").PutAsync(layBDs).Wait();
+        }
+
+        public static void SaveLayBDOffline(List<LayBD10Info> laybds)
+        {
+            if (!File.Exists(_fileLayBD))
+            {
+                using (FileStream fs = File.Create(_fileLayBD))
+                {
+                }
+            }
+            JsonSerializer serializer = new JsonSerializer();
+            using (StreamWriter sWriter = new StreamWriter(_fileLayBD))
+            using (JsonWriter jWriter = new JsonTextWriter(sWriter))
+            {
+                serializer.Serialize(jWriter, laybds);
+            }
+        }
+
+        public static void SaveLayTinhThanhFirebase(List<TinhHuyenModel> tinhThanhs)
+        {
+            client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/TinhThanh").PutAsync(tinhThanhs).Wait();
+        }
+
+        public static void SaveLocBD10Firebase(List<LocBDInfoModel> locBDInfoModels)
+        {
+            if (locBDInfoModels.Count == 0)
+                return;
+            JsonSerializer serializer = new JsonSerializer();
+            using (StreamWriter sWriter = new StreamWriter(_fileLocBD10))
+            using (JsonWriter jWriter = new JsonTextWriter(sWriter))
+            {
+                serializer.Serialize(jWriter, locBDInfoModels);
+            }
+            //client.SetTaskAsync("QuanLy/593230",chuyenThus);
+            client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/OptionLocBD").PutAsync(locBDInfoModels);
+        }
+
         public static void SaveLocBD10Offline(List<LocBDInfoModel> locBD10s)
         {
             if (!File.Exists(_fileLocBD10))
@@ -550,102 +679,6 @@ namespace TaoBD10.Manager
             }
         }
 
-        public static void SaveCTOffline(List<ChuyenThuModel> chuyenThus)
-        {
-            if (!Directory.Exists("Data"))
-            {
-                _ = Directory.CreateDirectory("Data");
-            }
-            if (!File.Exists(_fileCT))
-            {
-                using (FileStream fs = File.Create(_fileCT)) { }
-            }
-            JsonSerializer serializer = new JsonSerializer();
-            using (StreamWriter sWriter = new StreamWriter(_fileCT))
-            using (JsonWriter jWriter = new JsonTextWriter(sWriter))
-            {
-                serializer.Serialize(jWriter, chuyenThus);
-            }
-        }
-        public static void SaveErrorOnFirebase(string errorText)
-        {
-            string error = DateTime.Now.ToString() + ":" + errorText;
-            //client.SetTaskAsync("QuanLy/593230",chuyenThus);
-            client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/ErrorList").PostAsync(error);
-        }
-
-        public static List<string> LoadErrorOnFirebase()
-        {
-            Task<List<string>> cts = client.Child(@"QuanLy//" + optionModel.MaKhaiThac + "/ErrorList").OrderByKey().OnceSingleAsync<List<string>>();
-            cts.Wait();
-            List<string> result = cts.Result;
-            return result;
-        }
-
-        public static void SaveCTOnFirebase(List<ChuyenThuModel> chuyenThus)
-        {
-            if (chuyenThus.Count == 0)
-                return;
-            JsonSerializer serializer = new JsonSerializer();
-            using (StreamWriter sWriter = new StreamWriter(_fileCT))
-            using (JsonWriter jWriter = new JsonTextWriter(sWriter))
-            {
-                serializer.Serialize(jWriter, chuyenThus);
-            }
-            //client.SetTaskAsync("QuanLy/593230",chuyenThus);
-            client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/OptionCT").PutAsync(chuyenThus);
-        }
-
-        public static void SaveData(BD10InfoModel bD10Info)
-        {
-            if (bD10Info != null)
-                list.Add(bD10Info);
-            //JsonSerializer serializer = new JsonSerializer();
-            //using (StreamWriter sWriter = new StreamWriter(_file))
-            //using (JsonWriter jWriter = new JsonTextWriter(sWriter))
-            //{
-            //    serializer.Serialize(jWriter, list);
-            //}
-            client.Child(@"QuanLy/DanhSach/" + maBuuCuc + "/BD10").PutAsync(list);
-            //client.SetTaskAsync("QuanLyXe/DanhSachBD/"+bD10Info.DateCreateBD10.Year+"|"+bD10Info.DateCreateBD10.DayOfYear+"|"+new Random().Next(), bD10Info);
-        }
-
-        public static void SaveLayBDFirebase(List<LayBD10Info> layBDs)
-        {
-            client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/LayBD10").PutAsync(layBDs).Wait();
-        }
-
-        public static void SaveLayTinhThanhFirebase(List<TinhHuyenModel> tinhThanhs)
-        {
-            client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/TinhThanh").PutAsync(tinhThanhs).Wait();
-        }
-
-        public static void SaveBuuCucsFirebase(List<string> buucucs)
-        {
-            client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/BuuCucs").PutAsync(buucucs).Wait();
-        }
-
-        public static void SaveFindItemFirebase(List<FindItemModel> buucucs)
-        {
-            client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/FindItem").PutAsync(buucucs).Wait();
-        }
-
-        public static void SaveLayBDOffline(List<LayBD10Info> laybds)
-        {
-            if (!File.Exists(_fileLayBD))
-            {
-                using (FileStream fs = File.Create(_fileLayBD))
-                {
-                }
-            }
-            JsonSerializer serializer = new JsonSerializer();
-            using (StreamWriter sWriter = new StreamWriter(_fileLayBD))
-            using (JsonWriter jWriter = new JsonTextWriter(sWriter))
-            {
-                serializer.Serialize(jWriter, laybds);
-            }
-        }
-
         public static void SaveOptionAll(OptionModel option)
         {
             client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/Option").PutAsync(option).Wait();
@@ -668,38 +701,25 @@ namespace TaoBD10.Manager
             }
         }
 
-        private static async void test()
+        public static void SaveTinhThanhOffline(List<TinhHuyenModel> list)
         {
-            IReadOnlyCollection<FirebaseObject<ChuyenThuModel>> ss = await client.Child(@"QuanLy").OrderByKey().LimitToFirst(2).OnceAsync<ChuyenThuModel>();
-            foreach (var item in ss)
+            if (!File.Exists(_fileTinhThanh))
             {
-                var sss = item.Key;
+                using (FileStream fs = File.Create(_fileTinhThanh))
+                {
+                }
+            }
+            JsonSerializer serializer = new JsonSerializer();
+            using (StreamWriter sWriter = new StreamWriter(_fileTinhThanh))
+            using (JsonWriter jWriter = new JsonTextWriter(sWriter))
+            {
+                serializer.Serialize(jWriter, list);
             }
         }
 
-        public static List<TuiThuModel> LoadTuiThuOnFirebase()
+        public static void SaveTuiThuFirebase(List<TuiThuModel> tuiThuModels)
         {
-            Task<List<TuiThuModel>> cts = client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/TuiThu").OrderByKey().OnceSingleAsync<List<TuiThuModel>>();
-            cts.Wait();
-            List<TuiThuModel> result = cts.Result;
-            SaveTuiThuOffline(result);
-            return result;
-        }
-
-        public static List<TuiThuModel> LoadTuiThuFromFile(string filename)
-        {
-            IEnumerable<string> tuiThus = File.ReadLines(filename);
-            var list = new List<TuiThuModel>();
-            foreach (string tinh in tuiThus)
-            {
-                if (string.IsNullOrEmpty(tinh))
-                    continue;
-
-                string[] splitText = tinh.Split('\t');
-                list.Add(new TuiThuModel(splitText[1].Trim(), splitText[2].Trim()));
-            }
-            TuiThus = list;
-            return list;
+            client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/TuiThu").PutAsync(tuiThuModels).Wait();
         }
 
         public static void SaveTuiThuOffline(List<TuiThuModel> tuiThuModels)
@@ -718,80 +738,49 @@ namespace TaoBD10.Manager
             }
         }
 
-        public static List<TuiThuModel> LoadTuiThuOffline()
+        /// <summary>
+        /// Send tin nhan tu pc to phone
+        /// </summary>
+        /// <param name="message"></param>
+        public static void SendMessageNotification(string message)
         {
-            if (!File.Exists(_fileTuiThu))
-            {
-                SaveTuiThuOffline(new List<TuiThuModel>());
-            }
-
-            JsonSerializer serializer = new JsonSerializer();
-            using (StreamReader sReader = new StreamReader(_fileTuiThu))
-            using (JsonReader jReader = new JsonTextReader(sReader))
-            {
-                List<TuiThuModel> listTuiThu = serializer.Deserialize<List<TuiThuModel>>(jReader);
-                TuiThus = listTuiThu;
-                return listTuiThu;
-            }
+            FileManager.client.Child(FirebaseKey+"/message/").PutAsync(@"{""tophone"":""" + message + @"""}").Wait();
+            FileManager.client.Child(FirebaseKey+"/notification/").PutAsync(@"{""tophone"":""message""}").Wait();
         }
 
-        public static void SaveTuiThuFirebase(List<TuiThuModel> tuiThuModels)
+        public static void SendVoidToPhone(string lenh)
         {
-            client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/TuiThu").PutAsync(tuiThuModels).Wait();
+            FileManager.client.Child(FirebaseKey+"/notification/").PutAsync(@"{""tophone"":""" + lenh + @"""}").Wait();
         }
 
-        public static List<string> LoadBuuCucTuDongsOffline()
+        public static void SetDefaultToPc()
         {
-            if (!File.Exists(_fileBuuCucTuDongs))
-            {
-                SaveBuuCucTuDongsOffline(new List<string>());
-            }
-
-            JsonSerializer serializer = new JsonSerializer();
-            using (StreamReader sReader = new StreamReader(_fileBuuCucTuDongs))
-            using (JsonReader jReader = new JsonTextReader(sReader))
-            {
-                List<string> listBuuCucTuDongs = serializer.Deserialize<List<string>>(jReader);
-                return listBuuCucTuDongs;
-            }
-        }
-
-        public static void SaveBuuCucTuDongsOffline(List<string> list)
-        {
-            if (!File.Exists(_fileBuuCucTuDongs))
-            {
-                using (FileStream fs = File.Create(_fileBuuCucTuDongs))
-                {
-                }
-            }
-            JsonSerializer serializer = new JsonSerializer();
-            using (StreamWriter sWriter = new StreamWriter(_fileBuuCucTuDongs))
-            using (JsonWriter jWriter = new JsonTextWriter(sWriter))
-            {
-                serializer.Serialize(jWriter, list);
-            }
+            client.Child(FirebaseKey+"/notification/").PutAsync(@"{""topc"":""""}").Wait();
         }
 
         public static FirebaseClient client;
         public static List<BD10InfoModel> list = new List<BD10InfoModel>();
         public static List<string> listBuuCuc = new List<string>();
         public static List<ChuyenThuModel> listChuyenThu = new List<ChuyenThuModel>();
+        public static string FirebaseKey;
         public static OptionModel optionModel = new OptionModel();
-        private static string _fileBCCP = Environment.CurrentDirectory + "\\Data\\bccp.txt";
-        private static string _fileBD10 = Environment.CurrentDirectory + "\\Data\\bd10.json";
-        private static string _fileBD8 = Environment.CurrentDirectory + "\\Data\\matuithu.txt";
-        private static string _fileBuuCuc = Environment.CurrentDirectory + "\\Data\\dataBuuCuc.json";
-        private static string _fileCT = Environment.CurrentDirectory + "\\Data\\dataCT.json";
-        private static string _fileLayBD = Environment.CurrentDirectory + "\\Data\\dataLayBD.json";
-        private static string _fileOption = Environment.CurrentDirectory + "\\Data\\option.json";
-        private static string _fileFindItem = Environment.CurrentDirectory + "\\Data\\finditem.json";
-        private static string _fileTinhThanh = Environment.CurrentDirectory + "\\Data\\TinhThanh.json";
-        private static string _fileTuiThu = Environment.CurrentDirectory + "\\Data\\TuiThu.json";
-        private static string _fileBuuCucs = Environment.CurrentDirectory + "\\Data\\BuuCucs.json";
-        private static string _fileKeyMqtt = Environment.CurrentDirectory + "\\Data\\KeyMqtt.json";
-        private static string _fileBuuCucTuDongs = Environment.CurrentDirectory + "\\Data\\BuuCucTuDongs.json";
-        private static string _fileLocBD10 = Environment.CurrentDirectory + "\\Data\\LocBD10.txt";
-        private static string _fileLocKTBCP = Environment.CurrentDirectory + "\\Data\\LocKTBCP.txt";
+        public static List<TinhHuyenModel> TinhThanhs;
+        public static List<TuiThuModel> TuiThus;
+        private static readonly string _fileBCCP = Environment.CurrentDirectory + "\\Data\\bccp.txt";
+        private static readonly string _fileBD10 = Environment.CurrentDirectory + "\\Data\\bd10.json";
+        private static readonly string _fileBD8 = Environment.CurrentDirectory + "\\Data\\matuithu.txt";
+        private static readonly string _fileBuuCuc = Environment.CurrentDirectory + "\\Data\\dataBuuCuc.json";
+        private static readonly string _fileBuuCucs = Environment.CurrentDirectory + "\\Data\\BuuCucs.json";
+        private static readonly string _fileBuuCucTuDongs = Environment.CurrentDirectory + "\\Data\\BuuCucTuDongs.json";
+        private static readonly string _fileCT = Environment.CurrentDirectory + "\\Data\\dataCT.json";
+        private static readonly string _fileFindItem = Environment.CurrentDirectory + "\\Data\\finditem.json";
+        private static readonly string _fileKeyMqtt = Environment.CurrentDirectory + "\\Data\\KeyMqtt.json";
+        private static readonly string _fileLayBD = Environment.CurrentDirectory + "\\Data\\dataLayBD.json";
+        private static readonly string _fileLocBD10 = Environment.CurrentDirectory + "\\Data\\LocBD10.txt";
+        private static readonly string _fileLocKTBCP = Environment.CurrentDirectory + "\\Data\\LocKTBCP.txt";
+        private static readonly string _fileOption = Environment.CurrentDirectory + "\\Data\\option.json";
+        private static readonly string _fileTinhThanh = Environment.CurrentDirectory + "\\Data\\TinhThanh.json";
+        private static readonly string _fileTuiThu = Environment.CurrentDirectory + "\\Data\\TuiThu.json";
         private static string auth = "Hw5ESVqVaYfqde21DIHqs4EGhYcqGIiEF4GROViU";
         private static string maBuuCuc = "";
     }

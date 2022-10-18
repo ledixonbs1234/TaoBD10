@@ -33,87 +33,22 @@ namespace TaoBD10.Manager
         private static void Client_MqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e)
         {
             string data = Encoding.UTF8.GetString(e.Message);
-            if (e.Topic == FileManager.MQTTKEY)
+            if (e.Topic == FileManager.FirebaseKey)
             {
                 IsConnected = true;
                 WeakReferenceMessenger.Default.Send(new ContentModel { Key = "CreateListKeyMQTT" });
-                Pulish(FileManager.MQTTKEY + "_phone", data);
-                Subcribe(FileManager.MQTTKEY + "_datatopc");
+                Pulish(FileManager.FirebaseKey + "_phone", data);
+                Subcribe(FileManager.FirebaseKey + "_datatopc");
             }
-            else if (e.Topic == FileManager.MQTTKEY + "_control")
-            {
-                if (data == "anmy")
-                {
-                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Button", Content = "AnMy" });
-                }
-                else if (data == "hoaian")
-                {
-                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Button", Content = "HoaiAn" });
-                }
-                else if (data == "anlao")
-                {
-                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Button", Content = "AnLao" });
-                }
-                else if (data == "anhoa")
-                {
-                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Button", Content = "AnHoa" });
-                }
-            }
-            else if (e.Topic == FileManager.MQTTKEY + "_datatopc")
-            {
-                string[] datas = data.Split('|');
-                if (datas[0] == "laybd")
-                {
-                    //thuc hien lay bd hien tai
-                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToLayHAAL_LayBD", Content = datas[1] + "|" + datas[2] });
-                    //Thuc hien lay bd sang trua chieu toi
-                    //WeakReferenceMessenger.Default.Send(new ContentModel { Key = "BD10BUOI", Content = "Toi" });
-                    //var window = APIManager.GetActiveWindowTitle();
-                    //if(window == null)
-                    //{
-                    //    return;
-                    //}
-                    //if (window.text != "danh sach bd10 den")
-                    //{
-                    //    return;
-                    //}
-                    //APIManager.ClickButton(window.hwnd,"xac nhan",isExactly:false);
-                    //APIManager.WaitingFindedWindow("xac nhan bd10 den");
-                }
-                else if (datas[0] == "laydanhsach")
-                {
-                    APIManager.ShowSnackbar("Đang lấy danh sách bd đến");
-                    //Thuc hien xu ly lay danh sach bd
-                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToLayBDHA_LayDanhSach" });
-                }
-                else if (datas[0] == "savebd")
-                {
-                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToGetBD_SaveBD", Content = datas[1] + "|" + datas[2] + "|" + datas[3] });
-                }
-                else if (datas[0] == "checkbd")
-                {
-                    //thuc hien lay danh sach da save
-                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToDanhSach_CheckBD", Content = datas[1] });
-                }
-                else if (datas[0] == "checkcode")
-                {
-                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToWeb_CheckCode", Content = datas[1] });
-                }else if (datas[0]== "laydiachi")
-                {
-                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToDiNgoai_GetAddressPhone", Content = datas[1] });
-                }else if (datas[0]== "indingoai")
-                {
-                    APIManager.ShowSnackbar("Dang in");
-                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToDiNgoai_InDiNgoai", Content = datas[1] });
-                }else if (datas[0] == "chinhsualai")
-                {
-                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToDiNgoai_ChinhSuaLai", Content = datas[1] });
-                }
-                else if (datas[0] == "sapxepdingoai")
-                {
-                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToDiNgoai_SapXepDiNgoai", Content = datas[1] });
-                }
-            }
+            //   }else if (datas[0] == "chinhsualai")
+            //    {
+            //        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToDiNgoai_ChinhSuaLai", Content = datas[1] });
+            //    }
+            //    else if (datas[0] == "sapxepdingoai")
+            //    {
+            //        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToDiNgoai_SapXepDiNgoai", Content = datas[1] });
+            //    }
+            //}
         }
 
         private static void Client_MqttMsgSubscribed(object sender, MqttMsgSubscribedEventArgs e)
@@ -122,7 +57,7 @@ namespace TaoBD10.Manager
 
         public static void SendMessageToPhone(string message)
         {
-            Pulish(FileManager.MQTTKEY + "_message", message);
+            Pulish(FileManager.FirebaseKey + "_message", message);
         }
 
         public static void Pulish(string topic, string message, bool isRetain = false)

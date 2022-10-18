@@ -159,8 +159,8 @@ namespace TaoBD10.ViewModels
                 APIManager.ShowSnackbar("lay bd 10 ok");
                 string jsonText = JsonConvert.SerializeObject(bD10Dens, Formatting.Indented);
                 //MqttManager.Pulish(FileManager.MQTTKEY + "_laydanhsach", jsonText);
-                FileManager.client.Child("ledixon1/notification").PutAsync(@"{""tophone"":""showbd10""}");
-                FileManager.client.Child("ledixon1/message/tophone").PutAsync(jsonText);
+                FileManager.client.Child(FileManager.FirebaseKey + "/notification").PutAsync(@"{""tophone"":""showbd10""}");
+                FileManager.client.Child(FileManager.FirebaseKey + "/message/tophone").PutAsync(jsonText);
 
             }
         }

@@ -498,7 +498,7 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                                 thongTinCoBan.id = keyPathCheckCode;
                                  thongTinJson = JsonConvert.SerializeObject(thongTinCoBan);
                                 //thuc hien cong viec update value
-                                FileManager.client.Child("ledixon1/danhsachmahieu/" + keyPathCheckCode).PatchAsync(thongTinJson).Wait();
+                                FileManager.client.Child(FileManager.FirebaseKey + "/danhsachmahieu/" + keyPathCheckCode).PatchAsync(thongTinJson).Wait();
 
                                 requestOnHeap();
                                 return;
@@ -513,7 +513,7 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                                 thongTinCoBan.id = keyPathCheckCode;
                                 thongTinJson = JsonConvert.SerializeObject(thongTinCoBan);
                                 //thuc hien cong viec update value
-                                FileManager.client.Child("ledixon1/danhsachmahieu/" + keyPathCheckCode).PatchAsync(@"{""State"":2}").Wait();
+                                FileManager.client.Child(FileManager.FirebaseKey + "/danhsachmahieu/" + keyPathCheckCode).PatchAsync(@"{""State"":2}").Wait();
                                 requestOnHeap();
                                 return;
                             }
@@ -639,7 +639,7 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                             thongTinCoBan.id = keyPathCheckCode;
                              thongTinJson = JsonConvert.SerializeObject(thongTinCoBan);
                             //thuc hien cong viec update value
-                            FileManager.client.Child("ledixon1/danhsachmahieu/" + keyPathCheckCode).PatchAsync(thongTinJson).Wait();
+                            FileManager.client.Child(FileManager.FirebaseKey + "/danhsachmahieu/" + keyPathCheckCode).PatchAsync(thongTinJson).Wait();
 
                             //Thuc hien send data to web
                             //MqttManager.Pulish("ledixon1_checkcode", thongTinJson);

@@ -1052,7 +1052,7 @@ namespace TaoBD10.ViewModels
         private void CloseWindow(Window window)
         {
             _keyboardHook.UnHookKeyboard();
-            FileManager.client.Child("ledixon1/connect/pc").PutAsync("false").Wait();
+            FileManager.client.Child(FileManager.FirebaseKey + "/connect/pc").PutAsync("false").Wait();
             FileManager.client.Dispose();
             window.Close();
         }
@@ -1093,9 +1093,9 @@ namespace TaoBD10.ViewModels
             _window = window;
             //SetRightWindow();
             SetDefaultWindowTui();
-            FileManager.client.Child("ledixon1/connect/pc").PutAsync("true").Wait();
+            FileManager.client.Child(FileManager.FirebaseKey+"/connect/pc").PutAsync("true").Wait();
 
-            ChildQuery child = FileManager.client.Child("ledixon1/connect");
+            ChildQuery child = FileManager.client.Child(FileManager.FirebaseKey+"/connect");
 
             var giatri = child.AsObservable<string>();
             giatri.Where(m => m.Key == "phone")
@@ -1112,7 +1112,7 @@ namespace TaoBD10.ViewModels
                     }
                 }
             );
-            var temp = FileManager.client.Child("ledixon1/danhsachmahieu/").AsObservable<ThongTinCoBanModel>();
+            var temp = FileManager.client.Child(FileManager.FirebaseKey+"/danhsachmahieu/").AsObservable<ThongTinCoBanModel>();
             temp.Subscribe(x =>
             {
                 if (x.EventType == Firebase.Database.Streaming.FirebaseEventType.InsertOrUpdate)
@@ -1131,7 +1131,7 @@ namespace TaoBD10.ViewModels
 
             });
 
-            var notification = FileManager.client.Child("ledixon1/notification/").AsObservable<string>();
+            var notification = FileManager.client.Child(FileManager.FirebaseKey + "/notification/").AsObservable<string>();
             notification.Where(m=>m.Key == "topc").Subscribe(x =>
             {
                 if (x.EventType == Firebase.Database.Streaming.FirebaseEventType.InsertOrUpdate)
@@ -1156,13 +1156,13 @@ namespace TaoBD10.ViewModels
                            
                             else if (x.Object == "laybuucuc")
                             {
-                                var list = FileManager.client.Child(@"ledixon1/message/topc").OnceSingleAsync<List<string>>();
+                                var list = FileManager.client.Child(FileManager.FirebaseKey + "/message/topc").OnceSingleAsync<List<string>>();
                                 list.Wait();
                                 List<string> lists = list.Result;
                                 WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToDiNgoai_GetAddressPhone", Content = JsonConvert.SerializeObject(lists) });
                             }else if(x.Object == "indingoai")
                             {
-                                var list = FileManager.client.Child(@"ledixon1/message/topc").OnceSingleAsync<string>();
+                                var list = FileManager.client.Child(FileManager.FirebaseKey + "/message/topc").OnceSingleAsync<string>();
                                 list.Wait();
                                 string mahieuSelected = list.Result;
                                 APIManager.ShowSnackbar("Dang in");
@@ -1181,7 +1181,7 @@ namespace TaoBD10.ViewModels
                                     WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToLayHAAL_LayBD", Content = datas[1] + "|" + datas[2] });
                                 }
 
-                                FileManager.client.Child(@"ledixon1/notification/").PutAsync(@"{""topc"":""""}");
+                                FileManager.client.Child(FileManager.FirebaseKey + "/notification/").PutAsync(@"{""topc"":""""}");
                             }
                             FileManager.SetDefaultToPc();
                         }
@@ -1196,7 +1196,7 @@ namespace TaoBD10.ViewModels
 
         void ExcuteXacNhan()
         {
-            var thongTins = FileManager.client.Child("ledixon1/danhsachmahieu/").OnceAsync<ThongTinCoBanModel>();
+            var thongTins = FileManager.client.Child(FileManager.FirebaseKey + "/danhsachmahieu/").OnceAsync<ThongTinCoBanModel>();
             thongTins.Wait();
             List<string> list = new List<string>();
             string maBuuCucXacNhan;

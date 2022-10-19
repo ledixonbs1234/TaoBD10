@@ -24,6 +24,7 @@ using TaoBD10.Manager;
 using TaoBD10.Model;
 using static TaoBD10.Manager.EnumAll;
 using System.Threading.Tasks;
+using FireSharp.Extensions;
 
 namespace TaoBD10.ViewModels
 {
@@ -39,139 +40,7 @@ namespace TaoBD10.ViewModels
             MinCommand = new RelayCommand(Min);
             WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>
              {
-
-                 if (m.Key == "LoadAddressWeb")
-                 {
-                     _LoadWebChoose = LoadWebChoose.DiNgoaiAddress;
-                     LoadAddressDiNgoai(m.Content);
-                 }
-                 else if (m.Key == "WebInitializer")
-                 {
-                     WebBrowser.LoadingStateChanged += WebBrowser_LoadingStateChanged;
-                     WebBrowser.DownloadHandler = new MyDownloadHandler();
-                 }
-                 else if (m.Key == "LoadAddressTQWeb")
-                 {
-                     _LoadWebChoose = LoadWebChoose.AddressTamQuan;
-                     LoadAddressDiNgoai(m.Content);
-                 }
-                 else if (m.Key == "LoadAddressChuaPhat")
-                 {
-                     _LoadWebChoose = LoadWebChoose.AddressChuaPhat;
-                     LoadAddressDiNgoai(m.Content);
-                 }
-                 else if (m.Key == "GetCodeFromBD")
-                 {
-                     _LoadWebChoose = LoadWebChoose.CodeFromBD;
-                     LoadAddressDiNgoai(m.Content);
-                 }
-                 else if (m.Key == "KiemTraWeb")
-                 {
-                     _LoadWebChoose = LoadWebChoose.KiemTraWeb;
-                     LoadAddressDiNgoai(m.Content);
-                 }
-                 else if (m.Key == "XacNhanMH")
-                 {
-                     _LoadWebChoose = LoadWebChoose.XacNhanMH;
-                     LoadAddressDiNgoai(m.Content);
-                 }
-                 else if (m.Key == "XacNhanMHCTDen")
-                 {
-                     _LoadWebChoose = LoadWebChoose.XacNhanMHCTDen;
-                     LoadAddressDiNgoai(m.Content);
-                 }
-                 else if (m.Key == "ToWeb_CheckCode")
-                 {
-                     heapList.Add(m.Content);
-                     if (isFirstLoginSuccess)
-                     {
-                         _LoadWebChoose = LoadWebChoose.CheckCode;
-                         requestOnHeap();
-                     }
-                 }else if (m.Key == "ToWeb_WriteCapchar")
-                 {
-                     LoginWithCapchar(m.Content);
-                 }
-
-                 else if (m.Key == "LoadAddressDong")
-                 {
-                     _LoadWebChoose = LoadWebChoose.DongChuyenThu;
-                     LoadAddressDiNgoai(m.Content);
-                 }
-                 else if (m.Key == "ListAddress")
-                 {
-                     isClickWebBCCP = false;
-                     APIManager.downLoadRoad = DownLoadRoad.XacNhanTui;
-                     WebBrowser.LoadUrl(m.Content);
-                 }
-                 else if (m.Key == "ListAddressFull")
-                 {
-                     APIManager.downLoadRoad = DownLoadRoad.TamQuanAddress;
-                     isClickWebBCCP = false;
-                     WebBrowser.LoadUrl(m.Content);
-                 }
-                 else if (m.Key == "ListAddressChuyenThu")
-                 {
-                     APIManager.downLoadRoad = DownLoadRoad.ChuyenThuAddress;
-                     isClickWebBCCP = false;
-                     WebBrowser.LoadUrl(m.Content);
-                 }
-                 else if (m.Key == "ListAddressDiNgoai")
-                 {
-                     APIManager.downLoadRoad = DownLoadRoad.DiNgoai;
-                     isClickWebBCCP = false;
-                     WebBrowser.LoadUrl(m.Content);
-                 }
-                 else if (m.Key == "OnlyCheck")
-                 {
-                     APIManager.downLoadRoad = DownLoadRoad.None;
-                     WebBrowser.LoadUrl(m.Content);
-                 }
-                 else if (m.Key == "ShowFullWeb")
-                 {
-                     showFullWeb();
-                 }
-                 else if (m.Key == "CaptureScreen")
-                 {
-                     captureAndUpdateScreen();
-                 }
-                 else if (m.Key == "KTChuaPhat")
-                 {
-                     if (m.Content == "LoadUrl")
-                     {
-                         isCheckingChuaPhat = true;
-                         WebBrowser.LoadUrl("https://mps.vnpost.vn/default.aspx");
-                     }
-                     else if (m.Content == "Run230")
-                     {
-                         //thuc hien trong nay
-                         string script = @"
-                                document.getElementById('ctl00_ctl12_rcb_tp_gui_ClientState').value='" + FileManager.optionModel.CodeBCMPSKT + @"';
-                                document.getElementById('ctl00_ctl12_rcb_status_ClientState').value = '{""logEntries"":[],""value"":"""",""text"":""Xác nhận đến"",""enabled"":true,""checkedIndices"":[2],""checkedItemsTextOverflows"":false}';
-
-                         document.getElementById('ctl00_ctl12_btn_submit').click();
-                         ";
-                         IsRunningChuaPhat = true;
-                         WebBrowser.ExecuteScriptAsync(script);
-                     }
-                     else if (m.Content == "Run280")
-                     {
-                         //thuc hien trong nay
-                         string script = @"
-                                document.getElementById('ctl00_ctl12_rcb_tp_gui_ClientState').value='" + FileManager.optionModel.CodeBCMPSBCP + @"';
-                                document.getElementById('ctl00_ctl12_rcb_status_ClientState').value='{""logEntries"":[],""value"":"""",""text"":""Xác nhận đến"",""enabled"":true,""checkedIndices"":[2],""checkedItemsTextOverflows"":false}';
-
-                                document.getElementById('ctl00_ctl12_btn_submit').click();
-                ";
-                         IsRunningChuaPhat = true;
-                         WebBrowser.ExecuteScriptAsync(script);
-                     }
-                 }
-                 else if (m.Key == "SendMaHieuPNS")
-                 {
-                     PNSName = m.Content;
-                     WebBrowser.LoadUrl("https://pns.vnpost.vn/");
-                 }
+                 receivedMessage(m);
              });
             timer = new DispatcherTimer();
             timer.Tick += Timer_Tick;
@@ -205,6 +74,128 @@ namespace TaoBD10.ViewModels
                         break;
                     }
                 }
+            }
+        }
+        void receivedMessage(ContentModel contentModel)
+        {
+            switch (contentModel.Key)
+            {
+                case "LoadAddressWeb":
+                    _LoadWebChoose = LoadWebChoose.DiNgoaiAddress;
+                    LoadAddressDiNgoai(contentModel.Content);
+                    break;
+                case "WebInitializer":
+                    WebBrowser.LoadingStateChanged += WebBrowser_LoadingStateChanged;
+                    WebBrowser.DownloadHandler = new MyDownloadHandler();
+                    break;
+                case "LoadAddressTQWeb":
+                    _LoadWebChoose = LoadWebChoose.AddressTamQuan;
+                    LoadAddressDiNgoai(contentModel.Content);
+                    break;
+                case "LoadAddressChuaPhat":
+                    _LoadWebChoose = LoadWebChoose.AddressChuaPhat;
+                    LoadAddressDiNgoai(contentModel.Content);
+                    break;
+                case "GetCodeFromBD":
+                    _LoadWebChoose = LoadWebChoose.CodeFromBD;
+                    LoadAddressDiNgoai(contentModel.Content);
+                    break;
+                case "KiemTraWeb":
+                    _LoadWebChoose = LoadWebChoose.KiemTraWeb;
+                    LoadAddressDiNgoai(contentModel.Content);
+                    break;
+                case "XacNhanMH":
+                    _LoadWebChoose = LoadWebChoose.XacNhanMH;
+                    LoadAddressDiNgoai(contentModel.Content);
+                    break;
+                case "XacNhanMHCTDen":
+                    _LoadWebChoose = LoadWebChoose.XacNhanMHCTDen;
+                    LoadAddressDiNgoai(contentModel.Content);
+                    break;
+                case "ToWeb_CheckCode":
+                    heapList.Add(contentModel.Content);
+                    if (isFirstLoginSuccess)
+                    {
+                        _LoadWebChoose = LoadWebChoose.CheckCode;
+                        requestOnHeap();
+                    }
+                    break;
+                case "ToWeb_WriteCapchar":
+                    LoginWithCapchar(contentModel.Content);
+                    break;
+                case "LoadAddressDong":
+                    _LoadWebChoose = LoadWebChoose.DongChuyenThu;
+                    LoadAddressDiNgoai(contentModel.Content);
+                    break;
+                case "ListAddress":
+                    isClickWebBCCP = false;
+                    APIManager.downLoadRoad = DownLoadRoad.XacNhanTui;
+                    WebBrowser.LoadUrl(contentModel.Content);
+                    break;
+                case "ListAddressFull":
+                    APIManager.downLoadRoad = DownLoadRoad.TamQuanAddress;
+                    isClickWebBCCP = false;
+                    WebBrowser.LoadUrl(contentModel.Content);
+                    break;
+                case "ListAddressChuyenThu":
+                    APIManager.downLoadRoad = DownLoadRoad.ChuyenThuAddress;
+                    isClickWebBCCP = false;
+                    WebBrowser.LoadUrl(contentModel.Content);
+                    break;
+                case "ListAddressDiNgoai":
+                    APIManager.downLoadRoad = DownLoadRoad.DiNgoai;
+                    isClickWebBCCP = false;
+                    WebBrowser.LoadUrl(contentModel.Content);
+                    break;
+                case "OnlyCheck":
+                    APIManager.downLoadRoad = DownLoadRoad.None;
+                    WebBrowser.LoadUrl(contentModel.Content);
+                    break;
+                case "ShowFullWeb":
+                    showFullWeb();
+                    break;
+                case "CaptureScreen":
+                    captureAndUpdateScreen();
+                    break;
+                case "KTChuaPhat":
+                    {
+                        if (contentModel.Content == "LoadUrl")
+                        {
+                            isCheckingChuaPhat = true;
+                            WebBrowser.LoadUrl("https://mps.vnpost.vn/default.aspx");
+                        }
+                        else if (contentModel.Content == "Run230")
+                        {
+                            //thuc hien trong nay
+                            string script = @"
+                                document.getElementById('ctl00_ctl12_rcb_tp_gui_ClientState').value='" + FileManager.optionModel.CodeBCMPSKT + @"';
+                                document.getElementById('ctl00_ctl12_rcb_status_ClientState').value = '{""logEntries"":[],""value"":"""",""text"":""Xác nhận đến"",""enabled"":true,""checkedIndices"":[2],""checkedItemsTextOverflows"":false}';
+
+                         document.getElementById('ctl00_ctl12_btn_submit').click();
+                         ";
+                            IsRunningChuaPhat = true;
+                            WebBrowser.ExecuteScriptAsync(script);
+                        }
+                        else if (contentModel.Content == "Run280")
+                        {
+                            //thuc hien trong nay
+                            string script = @"
+                                document.getElementById('ctl00_ctl12_rcb_tp_gui_ClientState').value='" + FileManager.optionModel.CodeBCMPSBCP + @"';
+                                document.getElementById('ctl00_ctl12_rcb_status_ClientState').value='{""logEntries"":[],""value"":"""",""text"":""Xác nhận đến"",""enabled"":true,""checkedIndices"":[2],""checkedItemsTextOverflows"":false}';
+
+                                document.getElementById('ctl00_ctl12_btn_submit').click();
+                ";
+                            IsRunningChuaPhat = true;
+                            WebBrowser.ExecuteScriptAsync(script);
+                        }
+
+                        break;
+                    }
+
+                case "SendMaHieuPNS":
+                    PNSName = contentModel.Content;
+                    WebBrowser.LoadUrl("https://pns.vnpost.vn/");
+                    break;
             }
         }
 
@@ -266,7 +257,7 @@ namespace TaoBD10.ViewModels
         {
             string pathImage = captureScreen();
             PublishToWeb(new FileInfo(pathImage));
-                FileManager.SendMessageNotification("Đã upload screen thành công");
+            FileManager.SendMessageNotification("Đã upload screen thành công");
         }
 
         private void Login()
@@ -545,165 +536,7 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                         }
                         else if (_LoadWebChoose == LoadWebChoose.CheckCode)
                         {
-                            ThongTinCoBanModel thongTinCoBan = new ThongTinCoBanModel();
-
-                            HtmlNodeCollection noteBarcode = document.DocumentNode.SelectNodes("//*[@id='MainContent_ctl00_lblBarcode']");
-                            String thongTinJson;
-                            if (noteBarcode == null)
-                            {
-                                _LoadWebChoose = LoadWebChoose.None;
-                                IsRunningCheck = false;
-                                thongTinCoBan.State = 2;
-                                thongTinCoBan.id = keyPathCheckCode;
-                                thongTinJson = JsonConvert.SerializeObject(thongTinCoBan);
-                                //thuc hien cong viec update value
-                                FileManager.client.Child(FileManager.FirebaseKey + "/danhsachmahieu/" + keyPathCheckCode).PatchAsync(thongTinJson).Wait();
-
-                                requestOnHeap();
-                                return;
-                            }
-
-                            string barcode = noteBarcode.First().InnerText;
-                            if (string.IsNullOrEmpty(barcode))
-                            {
-                                _LoadWebChoose = LoadWebChoose.None;
-                                IsRunningCheck = false;
-                                thongTinCoBan.State = 2;
-                                thongTinCoBan.id = keyPathCheckCode;
-                                thongTinJson = JsonConvert.SerializeObject(thongTinCoBan);
-                                //thuc hien cong viec update value
-                                FileManager.client.Child(FileManager.FirebaseKey + "/danhsachmahieu/" + keyPathCheckCode).PatchAsync(@"{""State"":2}").Wait();
-                                requestOnHeap();
-                                return;
-                            }
-                            thongTinCoBan.MaHieu = barcode.Substring(0, 13);
-                            //thuc hien lay barcode
-
-                            HtmlNode addresss = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblReceiverAddr']");
-                            if (addresss == null)
-                                thongTinCoBan.DiaChiNhan = "";
-                            else
-                                thongTinCoBan.DiaChiNhan = addresss.InnerText;
-
-                            HtmlNode buuCucChapNhan = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblFrPOS']");
-                            if (buuCucChapNhan == null)
-                                thongTinCoBan.BuuCucChapNhan = "";
-                            else
-                                thongTinCoBan.BuuCucChapNhan = buuCucChapNhan.InnerText;
-                            HtmlNode nguoiGui = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblSenderName']");
-                            if (nguoiGui == null)
-                                thongTinCoBan.NguoiGui = "";
-                            else
-                                thongTinCoBan.NguoiGui = nguoiGui.InnerText;
-                            HtmlNode diaChiGui = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblSenderAddr']");
-                            if (diaChiGui == null)
-                                thongTinCoBan.DiaChiGui = "";
-                            else
-                                thongTinCoBan.DiaChiGui = diaChiGui.InnerText;
-                            HtmlNode nguoiNhan = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblReceiverName']");
-                            if (nguoiNhan == null)
-                                thongTinCoBan.NguoiNhan = "";
-                            else
-                                thongTinCoBan.NguoiNhan = nguoiNhan.InnerText;
-                            HtmlNode khoiLuongThucTe = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblWeightthucte']");
-                            if (khoiLuongThucTe == null)
-                                thongTinCoBan.KhoiLuongThucTe = "";
-                            else
-                                thongTinCoBan.KhoiLuongThucTe = khoiLuongThucTe.InnerText;
-
-
-                            //Danh sach chuyen thu
-                            HtmlNode table = document.DocumentNode.SelectSingleNode("//table[@id='MainContent_ctl00_grvItemMailTrip']/tbody");
-                            List<ThongTinChuyenThuModel> thongTinCTs = new List<ThongTinChuyenThuModel>();
-                            if (table == null)
-                            {
-                                thongTinCoBan.ThongTinChuyenThus = thongTinCTs;
-                            }
-                            else
-                            {
-
-                                if (table.HasChildNodes)
-                                {
-                                    for (int i = 1; i < table.ChildNodes.Count; i++)
-                                    {
-                                        HtmlNode item = table.ChildNodes[i];
-                                        HtmlNodeCollection listtd = item.SelectNodes("td");
-                                        if (listtd == null)
-                                            break;
-                                        if (listtd.Count() >= 5)
-                                        {
-                                            ThongTinChuyenThuModel chuyenThu = new ThongTinChuyenThuModel(listtd[1].InnerText, listtd[2].InnerText, listtd[3].InnerText, listtd[4].InnerText, listtd[5].InnerText);
-                                            thongTinCTs.Add(chuyenThu);
-                                        }
-                                    }
-                                    thongTinCoBan.ThongTinChuyenThus = thongTinCTs;
-                                }
-                            }
-
-                            HtmlNodeCollection tablesChiTiet = document.DocumentNode.SelectNodes("//table[@id='MainContent_ctl00_grvItemTrace']/tbody");
-
-                            List<ThongTinTrangThaiModel> list = new List<ThongTinTrangThaiModel>();
-                            if (tablesChiTiet == null)
-                            {
-                                thongTinCoBan.ThongTinTrangThais = list;
-                            }
-                            else
-                            {
-                                var tableChiTiet = tablesChiTiet.First();
-                                if (tableChiTiet.HasChildNodes)
-                                {
-                                    for (int i = 1; i < tableChiTiet.ChildNodes.Count; i++)
-                                    {
-                                        HtmlNode item = tableChiTiet.ChildNodes[i];
-                                        HtmlNodeCollection listTd = item.SelectNodes("td");
-                                        if (listTd == null)
-                                            break;
-                                        if (listTd.Count() >= 5)
-                                        {
-                                            list.Add(new ThongTinTrangThaiModel(listTd[1].InnerText, listTd[2].InnerText, listTd[3].InnerText, listTd[4].InnerText));
-                                        }
-                                    }
-                                    thongTinCoBan.ThongTinTrangThais = list;
-                                }
-                            }
-                            HtmlNode tablesBd = document.DocumentNode.SelectSingleNode("//*[@id=\"MainContent_ctl00_grvBD10\"]/tbody");
-
-                            List<ThongTinGiaoNhanBDModel> listGiaoNhan = new List<ThongTinGiaoNhanBDModel>();
-                            if (tablesBd == null)
-                            {
-                                thongTinCoBan.ThongTinGiaoNhanBDs = listGiaoNhan;
-                            }
-                            else
-                            {
-                                if (tablesBd.HasChildNodes)
-                                {
-                                    for (int i = 1; i < tablesBd.ChildNodes.Count; i++)
-                                    {
-                                        HtmlNode item = tablesBd.ChildNodes[i];
-                                        HtmlNodeCollection listTd = item.SelectNodes("td");
-                                        if (listTd == null)
-                                            break;
-                                        if (listTd.Count() >= 5)
-                                        {
-                                            string[] temps = listTd[5].InnerText.Split('/');
-                                            listGiaoNhan.Add(new ThongTinGiaoNhanBDModel(listTd[1].InnerText, listTd[2].InnerText, listTd[3].InnerText, listTd[4].InnerText, temps[0].Trim(), temps[1].Trim()));
-                                        }
-                                    }
-                                    thongTinCoBan.ThongTinGiaoNhanBDs = listGiaoNhan;
-                                }
-
-                            }
-                            _LoadWebChoose = LoadWebChoose.None;
-                            thongTinCoBan.State = 1;
-                            thongTinCoBan.id = keyPathCheckCode;
-                            thongTinJson = JsonConvert.SerializeObject(thongTinCoBan);
-                            //thuc hien cong viec update value
-                            FileManager.client.Child(FileManager.FirebaseKey + "/danhsachmahieu/" + keyPathCheckCode).PatchAsync(thongTinJson).Wait();
-
-                            //Thuc hien send data to web
-                            //MqttManager.Pulish("ledixon1_checkcode", thongTinJson);
-                            IsRunningCheck = false;
-                            requestOnHeap();
+                            ExcuteMHAndUpload(document);
                         }
                         else if (_LoadWebChoose == LoadWebChoose.CodeFromBD)
                         {
@@ -855,6 +688,256 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                 throw;
             }
         }
+
+        private void ExcuteMHAndUpload(HtmlDocument document)
+        {
+
+            ThongTinCoBanModel thongTinCoBan = new ThongTinCoBanModel();
+
+            HtmlNodeCollection noteBarcode = document.DocumentNode.SelectNodes("//*[@id='MainContent_ctl00_lblBarcode']");
+            String thongTinJson;
+            if (noteBarcode == null)
+            {
+                _LoadWebChoose = LoadWebChoose.None;
+                IsRunningCheck = false;
+                thongTinCoBan.State = 2;
+                thongTinCoBan.id = keyPathCheckCode;
+                thongTinJson = JsonConvert.SerializeObject(thongTinCoBan);
+                //thuc hien cong viec update value
+                FileManager.client.Child(FileManager.FirebaseKey + "/danhsachmahieu/" + keyPathCheckCode).PatchAsync(thongTinJson).Wait();
+
+                requestOnHeap();
+                return;
+            }
+
+            string barcode = noteBarcode.First().InnerText;
+            if (string.IsNullOrEmpty(barcode))
+            {
+                _LoadWebChoose = LoadWebChoose.None;
+                IsRunningCheck = false;
+                thongTinCoBan.State = 2;
+                thongTinCoBan.id = keyPathCheckCode;
+                thongTinJson = JsonConvert.SerializeObject(thongTinCoBan);
+                //thuc hien cong viec update value
+                FileManager.client.Child(FileManager.FirebaseKey + "/danhsachmahieu/" + keyPathCheckCode).PatchAsync(@"{""State"":2}").Wait();
+                requestOnHeap();
+                return;
+            }
+            thongTinCoBan.MaHieu = barcode.Substring(0, 13);
+            //thuc hien lay barcode
+
+            HtmlNode addresss = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblReceiverAddr']");
+            if (addresss == null)
+                thongTinCoBan.DiaChiNhan = "";
+            else
+                thongTinCoBan.DiaChiNhan = addresss.InnerText;
+
+            HtmlNode buuCucChapNhan = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblFrPOS']");
+            if (buuCucChapNhan == null)
+                thongTinCoBan.BuuCucChapNhan = "";
+            else
+                thongTinCoBan.BuuCucChapNhan = buuCucChapNhan.InnerText;
+            HtmlNode nguoiGui = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblSenderName']");
+            if (nguoiGui == null)
+                thongTinCoBan.NguoiGui = "";
+            else
+                thongTinCoBan.NguoiGui = nguoiGui.InnerText;
+            HtmlNode diaChiGui = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblSenderAddr']");
+            if (diaChiGui == null)
+                thongTinCoBan.DiaChiGui = "";
+            else
+                thongTinCoBan.DiaChiGui = diaChiGui.InnerText;
+            HtmlNode nguoiNhan = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblReceiverName']");
+            if (nguoiNhan == null)
+                thongTinCoBan.NguoiNhan = "";
+            else
+                thongTinCoBan.NguoiNhan = nguoiNhan.InnerText;
+            HtmlNode khoiLuongThucTe = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblWeightthucte']");
+            if (khoiLuongThucTe == null)
+                thongTinCoBan.KhoiLuongThucTe = "";
+            else
+                thongTinCoBan.KhoiLuongThucTe = khoiLuongThucTe.InnerText;
+
+
+            //Danh sach chuyen thu
+            HtmlNode table = document.DocumentNode.SelectSingleNode("//table[@id='MainContent_ctl00_grvItemMailTrip']/tbody");
+            List<ThongTinChuyenThuModel> thongTinCTs = new List<ThongTinChuyenThuModel>();
+            if (table == null)
+            {
+                thongTinCoBan.ThongTinChuyenThus = thongTinCTs;
+            }
+            else
+            {
+
+                if (table.HasChildNodes)
+                {
+                    for (int i = 1; i < table.ChildNodes.Count; i++)
+                    {
+                        HtmlNode item = table.ChildNodes[i];
+                        HtmlNodeCollection listtd = item.SelectNodes("td");
+                        if (listtd == null)
+                            break;
+                        if (listtd.Count() >= 5)
+                        {
+                            ThongTinChuyenThuModel chuyenThu = new ThongTinChuyenThuModel(listtd[1].InnerText, listtd[2].InnerText, listtd[3].InnerText, listtd[4].InnerText, listtd[5].InnerText);
+                            thongTinCTs.Add(chuyenThu);
+                        }
+                    }
+                    thongTinCoBan.ThongTinChuyenThus = thongTinCTs;
+                }
+            }
+
+            HtmlNodeCollection tablesChiTiet = document.DocumentNode.SelectNodes("//table[@id='MainContent_ctl00_grvItemTrace']/tbody");
+
+            List<ThongTinTrangThaiModel> list = new List<ThongTinTrangThaiModel>();
+            if (tablesChiTiet == null)
+            {
+                thongTinCoBan.ThongTinTrangThais = list;
+            }
+            else
+            {
+                var tableChiTiet = tablesChiTiet.First();
+                if (tableChiTiet.HasChildNodes)
+                {
+                    for (int i = 1; i < tableChiTiet.ChildNodes.Count; i++)
+                    {
+                        HtmlNode item = tableChiTiet.ChildNodes[i];
+                        HtmlNodeCollection listTd = item.SelectNodes("td");
+                        if (listTd == null)
+                            break;
+                        if (listTd.Count() >= 5)
+                        {
+                            list.Add(new ThongTinTrangThaiModel(listTd[1].InnerText, listTd[2].InnerText, listTd[3].InnerText, listTd[4].InnerText));
+                        }
+                    }
+                    thongTinCoBan.ThongTinTrangThais = list;
+                }
+            }
+            HtmlNode tablesBd = document.DocumentNode.SelectSingleNode("//*[@id=\"MainContent_ctl00_grvBD10\"]/tbody");
+
+            List<ThongTinGiaoNhanBDModel> listGiaoNhan = new List<ThongTinGiaoNhanBDModel>();
+            if (tablesBd == null)
+            {
+                thongTinCoBan.ThongTinGiaoNhanBDs = listGiaoNhan;
+            }
+            else
+            {
+                if (tablesBd.HasChildNodes)
+                {
+                    for (int i = 1; i < tablesBd.ChildNodes.Count; i++)
+                    {
+                        HtmlNode item = tablesBd.ChildNodes[i];
+                        HtmlNodeCollection listTd = item.SelectNodes("td");
+                        if (listTd == null)
+                            break;
+                        if (listTd.Count() >= 5)
+                        {
+                            string[] temps = listTd[5].InnerText.Split('/');
+                            listGiaoNhan.Add(new ThongTinGiaoNhanBDModel(listTd[1].InnerText, listTd[2].InnerText, listTd[3].InnerText, listTd[4].InnerText, temps[0].Trim(), temps[1].Trim()));
+                        }
+                    }
+                    thongTinCoBan.ThongTinGiaoNhanBDs = listGiaoNhan;
+                }
+
+            }
+            _LoadWebChoose = LoadWebChoose.None;
+            thongTinCoBan.State = 1;
+            thongTinCoBan.id = keyPathCheckCode;
+
+            thongTinCoBan = xuLyTrangThaiMH(thongTinCoBan);
+
+            thongTinJson = JsonConvert.SerializeObject(thongTinCoBan);
+            //thuc hien cong viec update value
+            FileManager.client.Child(FileManager.FirebaseKey + "/danhsachmahieu/" + keyPathCheckCode).PatchAsync(thongTinJson).Wait();
+
+            //Thuc hien send data to web
+            //MqttManager.Pulish("ledixon1_checkcode", thongTinJson);
+            IsRunningCheck = false;
+            requestOnHeap();
+        }
+
+        String removePhoneText(String text)
+        {
+            var textSplit = text.Split('(');
+            if (textSplit.Length == 2)
+            {
+                return textSplit[0];
+            }
+            return text;
+        }
+        ThongTinCoBanModel xuLyTrangThaiMH(ThongTinCoBanModel thongTin)
+        {
+            if (string.IsNullOrEmpty( thongTin.TrangThai))
+            {
+                if (thongTin.ThongTinTrangThais != null)
+                {
+                    if (thongTin.ThongTinTrangThais.Count!= 0)
+                    {
+          //thuc hien xu ly tung truong hop tu cuoi den dau
+          foreach (var tempTrangThai in thongTin.ThongTinTrangThais.Reverse<ThongTinTrangThaiModel>())
+                        {
+                            if (tempTrangThai.TrangThai.Contains("Phát thành công"))
+                            {
+                                thongTin.TrangThai = "Phát thành công";
+                                thongTin.TaiBuuCuc =
+                                    thongTin.ThongTinChuyenThus.Last().BuuCucNhan;
+                                break;
+                            }
+                            else if (tempTrangThai.TrangThai.Contains("Đã xác nhận đến"))
+                            {
+                                thongTin.TrangThai = "Đã xác nhận đến";
+                                thongTin.TaiBuuCuc = tempTrangThai.BuuCuc;
+                                break;
+                            }
+                            else if (tempTrangThai.TrangThai.Contains("Đã đóng chuyến thư đi"))
+                            {
+                                thongTin.TrangThai = "Đã đóng chuyến thư đi";
+                                ThongTinChuyenThuModel tempThongTin =
+                                    thongTin.ThongTinChuyenThus.Last();
+                                String buucucDong = removePhoneText(tempThongTin.BuuCucDong);
+                                String buucucNhan = removePhoneText(tempThongTin.BuuCucNhan);
+                                thongTin.TaiBuuCuc =
+                                    $"{buucucDong} -> {buucucNhan}\n{tempThongTin.ThongTinCT}";
+
+                                // maHieu.TaiBuuCuc =
+                                //     "${}->${maHieu.ThongTin.thongTinChuyenThus!.last.buuCucNhan!}";
+                                break;
+                            }
+                            else if (tempTrangThai.TrangThai.Contains("Đã giao cho bưu tá"))
+                            {
+                                thongTin.TrangThai = "Đã giao cho bưu tá";
+                                thongTin.TaiBuuCuc =
+                                    thongTin.ThongTinChuyenThus.Last().BuuCucNhan;
+                                break;
+                            }
+                            else if (tempTrangThai.TrangThai.Contains("Chấp nhận gửi"))
+                            {
+                                thongTin.TrangThai = "Chấp nhận gửi";
+                                thongTin.TaiBuuCuc = tempTrangThai.BuuCuc;
+
+                                break;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    if (thongTin.State == 2)
+                    {
+                        thongTin.State = 1;
+                        thongTin.TrangThai = "Lỗi";
+                    }
+                    else
+                    {
+                        thongTin.TrangThai = "Chưa xác định";
+                    }
+                }
+            }
+
+            return thongTin;
+        }
+
+
         string captureScreen()
         {
             Bitmap captureBitmap = new Bitmap(1024, 768, PixelFormat.Format32bppArgb);

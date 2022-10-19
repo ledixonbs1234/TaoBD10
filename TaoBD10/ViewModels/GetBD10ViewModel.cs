@@ -392,7 +392,7 @@ namespace TaoBD10.ViewModels
 
         private void PhanLoai(string textXacNhan)
         {
-            if (String.IsNullOrEmpty(textXacNhan))
+            if (string.IsNullOrEmpty(textXacNhan))
             {
                 System.Windows.MessageBox.Show("Bạn chưa nhập phần xác nhận chi tiết");
                 return;

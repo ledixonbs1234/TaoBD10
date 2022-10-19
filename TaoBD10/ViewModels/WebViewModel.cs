@@ -125,9 +125,7 @@ namespace TaoBD10.ViewModels
                  else if (m.Key == "OnlyCheck")
                  {
                      APIManager.downLoadRoad = DownLoadRoad.None;
-                     string[] split = m.Content.Split('|');
-                     keyPathCheckCode = split[1];
-                     WebBrowser.LoadUrl(split[0]);
+                     WebBrowser.LoadUrl(m.Content);
                  }
                  else if (m.Key == "ShowFullWeb")
                  {
@@ -286,7 +284,7 @@ namespace TaoBD10.ViewModels
             string script = @"
                      document.getElementById('MainContent_txtUser').value='" + FileManager.optionModel.AccountDinhVi + @"';
             		document.getElementById('MainContent_txtPassword').value='" + FileManager.optionModel.PWDinhVi + @"';
-            		document.getElementById('MainContent_txtcaptcha').value='" +capchar + @"';
+            		document.getElementById('MainContent_txtcaptcha').value='" + capchar + @"';
             		document.getElementById('MainContent_btnLogin').click();
 ";
 

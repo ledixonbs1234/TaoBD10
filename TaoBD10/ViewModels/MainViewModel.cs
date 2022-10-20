@@ -1116,8 +1116,7 @@ namespace TaoBD10.ViewModels
                     }
                 }
             );
-            var temp = FileManager.client.Child(FileManager.FirebaseKey+"/danhsachmahieu/").AsObservable<ThongTinCoBanModel>();
-            temp.Subscribe(x =>
+            FileManager.client.Child(FileManager.FirebaseKey+"/danhsachmahieu/").AsObservable<ThongTinCoBanModel>().Subscribe(x =>
             {
                 if (x.EventType == Firebase.Database.Streaming.FirebaseEventType.InsertOrUpdate)
                 {
@@ -1134,6 +1133,24 @@ namespace TaoBD10.ViewModels
                 }
 
             });
+            FileManager.client.Child(FileManager.FirebaseKey + "/mahieudaluu/").AsObservable<ThongTinCoBanModel>().Subscribe(x =>
+            {
+                if (x.EventType == Firebase.Database.Streaming.FirebaseEventType.InsertOrUpdate)
+                {
+                    if (x.Object != null)
+                    {
+                        ThongTinCoBanModel a = x.Object;
+                        if (a.State == 0)
+                        {
+                            //thuc hien cong viec tim kiem trong nay
+                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToWeb_CheckCode", Content = a.MaHieu + "|" + a.id });
+                        }
+                    }
+
+                }
+
+            });
+
 
             var notification = FileManager.client.Child(FileManager.FirebaseKey + "/notification/").AsObservable<string>();
             notification.Where(m=>m.Key == "topc").Subscribe(x =>

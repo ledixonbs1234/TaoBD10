@@ -198,6 +198,7 @@ namespace TaoBD10.ViewModels
                     break;
             }
         }
+        bool isDanhSach = true;
 
         void requestOnHeap()
         {
@@ -209,9 +210,17 @@ namespace TaoBD10.ViewModels
                 IsRunningCheck = true;
                 string content = heapList[0];
                 var splitText = content.Split('|');
+              
                 APIManager.ShowSnackbar(splitText[0] + " đang được xử lý");
                 _LoadWebChoose = LoadWebChoose.CheckCode;
                 keyPathCheckCode = splitText[1];
+                if (splitText[2] == "danhsach")
+                {
+                    isDanhSach = true;
+                }
+                else isDanhSach = false;
+
+
                 LoadAddressDiNgoai(splitText[0]);
                 heapList.RemoveAt(0);
 
@@ -848,7 +857,10 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
 
             thongTinJson = JsonConvert.SerializeObject(thongTinCoBan);
             //thuc hien cong viec update value
+            if(isDanhSach )
             FileManager.client.Child(FileManager.FirebaseKey + "/danhsachmahieu/" + keyPathCheckCode).PatchAsync(thongTinJson).Wait();
+            else 
+            FileManager.client.Child(FileManager.FirebaseKey + "/mahieudaluu/" + keyPathCheckCode).PatchAsync(thongTinJson).Wait();
 
             //Thuc hien send data to web
             //MqttManager.Pulish("ledixon1_checkcode", thongTinJson);

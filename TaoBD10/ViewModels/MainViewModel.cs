@@ -1126,7 +1126,7 @@ namespace TaoBD10.ViewModels
                         if (a.State == 0)
                         {
                             //thuc hien cong viec tim kiem trong nay
-                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToWeb_CheckCode", Content = a.MaHieu + "|" + a.id });
+                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToWeb_CheckCode", Content = a.MaHieu + "|" + a.id+"|"+"danhsach" });
                         }
                     }
 
@@ -1143,7 +1143,7 @@ namespace TaoBD10.ViewModels
                         if (a.State == 0)
                         {
                             //thuc hien cong viec tim kiem trong nay
-                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToWeb_CheckCode", Content = a.MaHieu + "|" + a.id });
+                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToWeb_CheckCode", Content = a.MaHieu + "|" + a.id + "|" + "saveds" });
                         }
                     }
 

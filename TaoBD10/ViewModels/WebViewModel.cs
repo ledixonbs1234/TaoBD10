@@ -883,54 +883,51 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
         {
             //if (string.IsNullOrEmpty(thongTin.TrangThai))
             //{
-            if (thongTin.ThongTinTrangThais != null)
+            if (thongTin.ThongTinTrangThais.Count != 0)
             {
-                if (thongTin.ThongTinTrangThais.Count != 0)
+                //thuc hien xu ly tung truong hop tu cuoi den dau
+                foreach (var tempTrangThai in thongTin.ThongTinTrangThais.Reverse<ThongTinTrangThaiModel>())
                 {
-                    //thuc hien xu ly tung truong hop tu cuoi den dau
-                    foreach (var tempTrangThai in thongTin.ThongTinTrangThais.Reverse<ThongTinTrangThaiModel>())
+                    if (tempTrangThai.TrangThai.Contains("Phát thành công"))
                     {
-                        if (tempTrangThai.TrangThai.Contains("Phát thành công"))
-                        {
-                            thongTin.TrangThai = "Phát thành công";
-                            thongTin.TaiBuuCuc =
-                                thongTin.ThongTinChuyenThus.Last().BuuCucNhan;
-                            break;
-                        }
-                        else if (tempTrangThai.TrangThai.Contains("Đã xác nhận đến"))
-                        {
-                            thongTin.TrangThai = "Đã xác nhận đến";
-                            thongTin.TaiBuuCuc = tempTrangThai.BuuCuc;
-                            break;
-                        }
-                        else if (tempTrangThai.TrangThai.Contains("Đã đóng chuyến thư đi"))
-                        {
-                            thongTin.TrangThai = "Đã đóng chuyến thư đi";
-                            ThongTinChuyenThuModel tempThongTin =
-                                thongTin.ThongTinChuyenThus.Last();
-                            String buucucDong = removePhoneText(tempThongTin.BuuCucDong);
-                            String buucucNhan = removePhoneText(tempThongTin.BuuCucNhan);
-                            thongTin.TaiBuuCuc =
-                                $"{buucucDong} -> {buucucNhan}\n{tempThongTin.ThongTinCT}";
+                        thongTin.TrangThai = "Phát thành công";
+                        thongTin.TaiBuuCuc =
+                            thongTin.ThongTinChuyenThus.Last().BuuCucNhan;
+                        break;
+                    }
+                    else if (tempTrangThai.TrangThai.Contains("Đã xác nhận đến"))
+                    {
+                        thongTin.TrangThai = "Đã xác nhận đến";
+                        thongTin.TaiBuuCuc = tempTrangThai.BuuCuc;
+                        break;
+                    }
+                    else if (tempTrangThai.TrangThai.Contains("Đã đóng chuyến thư đi"))
+                    {
+                        thongTin.TrangThai = "Đã đóng chuyến thư đi";
+                        ThongTinChuyenThuModel tempThongTin =
+                            thongTin.ThongTinChuyenThus.Last();
+                        String buucucDong = removePhoneText(tempThongTin.BuuCucDong);
+                        String buucucNhan = removePhoneText(tempThongTin.BuuCucNhan);
+                        thongTin.TaiBuuCuc =
+                            $"{buucucDong} -> {buucucNhan}\n{tempThongTin.ThongTinCT}";
 
-                            // maHieu.TaiBuuCuc =
-                            //     "${}->${maHieu.ThongTin.thongTinChuyenThus!.last.buuCucNhan!}";
-                            break;
-                        }
-                        else if (tempTrangThai.TrangThai.Contains("Đã giao cho bưu tá"))
-                        {
-                            thongTin.TrangThai = "Đã giao cho bưu tá";
-                            thongTin.TaiBuuCuc =
-                                thongTin.ThongTinChuyenThus.Last().BuuCucNhan;
-                            break;
-                        }
-                        else if (tempTrangThai.TrangThai.Contains("Chấp nhận gửi"))
-                        {
-                            thongTin.TrangThai = "Chấp nhận gửi";
-                            thongTin.TaiBuuCuc = tempTrangThai.BuuCuc;
+                        // maHieu.TaiBuuCuc =
+                        //     "${}->${maHieu.ThongTin.thongTinChuyenThus!.last.buuCucNhan!}";
+                        break;
+                    }
+                    else if (tempTrangThai.TrangThai.Contains("Đã giao cho bưu tá"))
+                    {
+                        thongTin.TrangThai = "Đã giao cho bưu tá";
+                        thongTin.TaiBuuCuc =
+                            thongTin.ThongTinChuyenThus.Last().BuuCucNhan;
+                        break;
+                    }
+                    else if (tempTrangThai.TrangThai.Contains("Chấp nhận gửi"))
+                    {
+                        thongTin.TrangThai = "Chấp nhận gửi";
+                        thongTin.TaiBuuCuc = tempTrangThai.BuuCuc;
 
-                            break;
-                        }
+                        break;
                     }
                 }
             }

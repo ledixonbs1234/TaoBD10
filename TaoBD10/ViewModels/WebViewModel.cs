@@ -210,7 +210,7 @@ namespace TaoBD10.ViewModels
                 IsRunningCheck = true;
                 string content = heapList[0];
                 var splitText = content.Split('|');
-              
+
                 APIManager.ShowSnackbar(splitText[0] + " đang được xử lý");
                 _LoadWebChoose = LoadWebChoose.CheckCode;
                 keyPathCheckCode = splitText[1];
@@ -857,10 +857,10 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
 
             thongTinJson = JsonConvert.SerializeObject(thongTinCoBan);
             //thuc hien cong viec update value
-            if(isDanhSach )
-            FileManager.client.Child(FileManager.FirebaseKey + "/danhsachmahieu/" + keyPathCheckCode).PatchAsync(thongTinJson).Wait();
-            else 
-            FileManager.client.Child(FileManager.FirebaseKey + "/mahieudaluu/" + keyPathCheckCode).PatchAsync(thongTinJson).Wait();
+            if (isDanhSach)
+                FileManager.client.Child(FileManager.FirebaseKey + "/danhsachmahieu/" + keyPathCheckCode).PatchAsync(thongTinJson).Wait();
+            else
+                FileManager.client.Child(FileManager.FirebaseKey + "/mahieudaluu/" + keyPathCheckCode).PatchAsync(thongTinJson).Wait();
 
             //Thuc hien send data to web
             //MqttManager.Pulish("ledixon1_checkcode", thongTinJson);
@@ -879,72 +879,72 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
         }
         ThongTinCoBanModel xuLyTrangThaiMH(ThongTinCoBanModel thongTin)
         {
-            if (string.IsNullOrEmpty( thongTin.TrangThai))
+            //if (string.IsNullOrEmpty(thongTin.TrangThai))
+            //{
+            if (thongTin.ThongTinTrangThais != null)
             {
-                if (thongTin.ThongTinTrangThais != null)
+                if (thongTin.ThongTinTrangThais.Count != 0)
                 {
-                    if (thongTin.ThongTinTrangThais.Count!= 0)
+                    //thuc hien xu ly tung truong hop tu cuoi den dau
+                    foreach (var tempTrangThai in thongTin.ThongTinTrangThais.Reverse<ThongTinTrangThaiModel>())
                     {
-          //thuc hien xu ly tung truong hop tu cuoi den dau
-          foreach (var tempTrangThai in thongTin.ThongTinTrangThais.Reverse<ThongTinTrangThaiModel>())
+                        if (tempTrangThai.TrangThai.Contains("Phát thành công"))
                         {
-                            if (tempTrangThai.TrangThai.Contains("Phát thành công"))
-                            {
-                                thongTin.TrangThai = "Phát thành công";
-                                thongTin.TaiBuuCuc =
-                                    thongTin.ThongTinChuyenThus.Last().BuuCucNhan;
-                                break;
-                            }
-                            else if (tempTrangThai.TrangThai.Contains("Đã xác nhận đến"))
-                            {
-                                thongTin.TrangThai = "Đã xác nhận đến";
-                                thongTin.TaiBuuCuc = tempTrangThai.BuuCuc;
-                                break;
-                            }
-                            else if (tempTrangThai.TrangThai.Contains("Đã đóng chuyến thư đi"))
-                            {
-                                thongTin.TrangThai = "Đã đóng chuyến thư đi";
-                                ThongTinChuyenThuModel tempThongTin =
-                                    thongTin.ThongTinChuyenThus.Last();
-                                String buucucDong = removePhoneText(tempThongTin.BuuCucDong);
-                                String buucucNhan = removePhoneText(tempThongTin.BuuCucNhan);
-                                thongTin.TaiBuuCuc =
-                                    $"{buucucDong} -> {buucucNhan}\n{tempThongTin.ThongTinCT}";
+                            thongTin.TrangThai = "Phát thành công";
+                            thongTin.TaiBuuCuc =
+                                thongTin.ThongTinChuyenThus.Last().BuuCucNhan;
+                            break;
+                        }
+                        else if (tempTrangThai.TrangThai.Contains("Đã xác nhận đến"))
+                        {
+                            thongTin.TrangThai = "Đã xác nhận đến";
+                            thongTin.TaiBuuCuc = tempTrangThai.BuuCuc;
+                            break;
+                        }
+                        else if (tempTrangThai.TrangThai.Contains("Đã đóng chuyến thư đi"))
+                        {
+                            thongTin.TrangThai = "Đã đóng chuyến thư đi";
+                            ThongTinChuyenThuModel tempThongTin =
+                                thongTin.ThongTinChuyenThus.Last();
+                            String buucucDong = removePhoneText(tempThongTin.BuuCucDong);
+                            String buucucNhan = removePhoneText(tempThongTin.BuuCucNhan);
+                            thongTin.TaiBuuCuc =
+                                $"{buucucDong} -> {buucucNhan}\n{tempThongTin.ThongTinCT}";
 
-                                // maHieu.TaiBuuCuc =
-                                //     "${}->${maHieu.ThongTin.thongTinChuyenThus!.last.buuCucNhan!}";
-                                break;
-                            }
-                            else if (tempTrangThai.TrangThai.Contains("Đã giao cho bưu tá"))
-                            {
-                                thongTin.TrangThai = "Đã giao cho bưu tá";
-                                thongTin.TaiBuuCuc =
-                                    thongTin.ThongTinChuyenThus.Last().BuuCucNhan;
-                                break;
-                            }
-                            else if (tempTrangThai.TrangThai.Contains("Chấp nhận gửi"))
-                            {
-                                thongTin.TrangThai = "Chấp nhận gửi";
-                                thongTin.TaiBuuCuc = tempTrangThai.BuuCuc;
+                            // maHieu.TaiBuuCuc =
+                            //     "${}->${maHieu.ThongTin.thongTinChuyenThus!.last.buuCucNhan!}";
+                            break;
+                        }
+                        else if (tempTrangThai.TrangThai.Contains("Đã giao cho bưu tá"))
+                        {
+                            thongTin.TrangThai = "Đã giao cho bưu tá";
+                            thongTin.TaiBuuCuc =
+                                thongTin.ThongTinChuyenThus.Last().BuuCucNhan;
+                            break;
+                        }
+                        else if (tempTrangThai.TrangThai.Contains("Chấp nhận gửi"))
+                        {
+                            thongTin.TrangThai = "Chấp nhận gửi";
+                            thongTin.TaiBuuCuc = tempTrangThai.BuuCuc;
 
-                                break;
-                            }
+                            break;
                         }
                     }
                 }
+            }
+            else
+            {
+                if (thongTin.State == 2)
+                {
+                    thongTin.State = 1;
+                    thongTin.TrangThai = "Lỗi";
+                }
                 else
                 {
-                    if (thongTin.State == 2)
-                    {
-                        thongTin.State = 1;
-                        thongTin.TrangThai = "Lỗi";
-                    }
-                    else
-                    {
-                        thongTin.TrangThai = "Chưa xác định";
-                    }
+                    thongTin.TrangThai = "Chưa xác định";
                 }
             }
+            //}
 
             return thongTin;
         }

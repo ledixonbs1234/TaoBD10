@@ -1,0 +1,1 @@
+[{"TenBD":"59000","IsTinh":true,"PhanLoais":null,"DichVus":null,"DanhSachTinh":[],"IsEnabledButton":false,"DanhSachHuyen":"59000","HangHoas":[],"TaoBDs":[]},{"TenBD":null,"IsTinh":true,"PhanLoais":null,"DichVus":null,"DanhSachTinh":[],"IsEnabledButton":false,"DanhSachHuyen":null,"HangHoas":[],"TaoBDs":[]}]

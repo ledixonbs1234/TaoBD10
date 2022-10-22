@@ -353,8 +353,10 @@ namespace TaoBD10.ViewModels
                 SendKeys.SendWait("{ESC}");
             SoundManager.playSound2(@"Number\tingting.wav");
             APIManager.ShowSnackbar("OK");
-            MqttManager.SendMessageToPhone("OK");
+            //MqttManager.SendMessageToPhone("OK");
             MqttManager.Pulish(FileManager.FirebaseKey + "_luubd", currentMaBuuCuc + "|" + currentLanLap);
+            FileManager.client.Child(FileManager.FirebaseKey + "/message/tophone").PutAsync(currentMaBuuCuc + "|" + currentLanLap);
+            FileManager.SendMessageNotification("luubd");
 
             WeakReferenceMessenger.Default.Send<string>("LoadBD10");
         }

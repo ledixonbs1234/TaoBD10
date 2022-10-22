@@ -1308,7 +1308,7 @@ namespace TaoBD10.ViewModels
         {
             if (!IsActivatedWindow)
             {
-                if (IndexTabControl != 3)
+                if (IndexTabControl != 3&& IndexTabTui != 7)
                 {
                     IsActivatedWindow = true;
                     OnSelectedTabTui();

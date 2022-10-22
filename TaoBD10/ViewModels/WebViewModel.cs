@@ -702,7 +702,6 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
         {
 
             ThongTinCoBanModel thongTinCoBan = new ThongTinCoBanModel();
-
             HtmlNodeCollection noteBarcode = document.DocumentNode.SelectNodes("//*[@id='MainContent_ctl00_lblBarcode']");
             String thongTinJson;
             if (noteBarcode == null)
@@ -818,10 +817,6 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                                     list.Add(new ThongTinTrangThaiModel(listTd[1].InnerText, listTd[2].InnerText, listTd[3].InnerText, listTd[4].InnerText));
                                 }
                             }
-                            thongTinCoBan.ThongTinTrangThais = list;
-                        }else
-                        {
-                            APIManager.ShowSnackbar("Khong co child on trang thai");
                             thongTinCoBan.ThongTinTrangThais = list;
                         }
                     }

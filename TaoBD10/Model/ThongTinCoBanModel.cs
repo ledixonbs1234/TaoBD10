@@ -26,6 +26,9 @@ namespace TaoBD10.Model
 
         public ThongTinCoBanModel()
         {
+            ThongTinTrangThais = new List<ThongTinTrangThaiModel>();
+            ThongTinGiaoNhanBDs = new List<ThongTinGiaoNhanBDModel>();
+            ThongTinChuyenThus = new List<ThongTinChuyenThuModel>();
 
         }
 

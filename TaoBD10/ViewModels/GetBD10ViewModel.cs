@@ -356,7 +356,7 @@ namespace TaoBD10.ViewModels
             //MqttManager.SendMessageToPhone("OK");
             MqttManager.Pulish(FileManager.FirebaseKey + "_luubd", currentMaBuuCuc + "|" + currentLanLap);
             FileManager.client.Child(FileManager.FirebaseKey + "/message/").PutAsync(@"{""tophone"":"""+currentMaBuuCuc  +"|" +currentLanLap+""+@"}");
-            FileManager.SendMessageNotification("luubd");
+            FileManager.SendVoidToPhone("luubd");
 
             WeakReferenceMessenger.Default.Send<string>("LoadBD10");
         }

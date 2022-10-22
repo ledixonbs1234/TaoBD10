@@ -819,6 +819,10 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                                 }
                             }
                             thongTinCoBan.ThongTinTrangThais = list;
+                        }else
+                        {
+                            APIManager.ShowSnackbar("Khong co child on trang thai");
+                            thongTinCoBan.ThongTinTrangThais = list;
                         }
                     }
                     HtmlNode tablesBd = document.DocumentNode.SelectSingleNode("//*[@id=\"MainContent_ctl00_grvBD10\"]/tbody");

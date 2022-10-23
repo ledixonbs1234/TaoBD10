@@ -24,6 +24,7 @@ namespace TaoBD10.ViewModels
             ConLai.TenBD = "Còn Lại";
             bwChiTiet = new BackgroundWorker();
             bwChiTiet.DoWork += BwChiTiet_DoWork;
+            bwChiTiet.RunWorkerCompleted += BwChiTiet_RunWorkerCompleted;
             taoBDWorker = new BackgroundWorker();
             taoBDWorker.DoWork += TaoBDWorker_DoWork;
             LocBDs = new ObservableCollection<LocBDInfoModel>();
@@ -34,6 +35,7 @@ namespace TaoBD10.ViewModels
             XuongLocCommand = new RelayCommand(XuongLoc);
             LenLocCommand = new RelayCommand(LenLoc);
             SaveTinhToSelectedLocBDCommand = new RelayCommand(SaveTinhToSelectedLocBD);
+            TuDongXuLyCTCommand = new RelayCommand(TuDongXuLyCT);
             DeleteTinhCommand = new RelayCommand(DeleteTinh);
             HiddenCommand = new RelayCommand(Hidden);
             GetDataFromCloudCommand = new RelayCommand(GetDataFromCloud);
@@ -86,16 +88,16 @@ namespace TaoBD10.ViewModels
                 {
                     if (LocBCP == null && LocKhaiThac == null)
                         return;
-                    foreach(var maHangHoa in m.Value)
+                    foreach (var maHangHoa in m.Value)
                     {
                         var haveItem = LocBCP.HangHoas.FirstOrDefault(a => maHangHoa.TuiHangHoa.SHTui.ToUpper() == a.TuiHangHoa.SHTui.ToUpper());
-                        if(haveItem != null)
+                        if (haveItem != null)
                         {
                             haveItem.IsTamQuan = "TamQuan";
                             haveItem.TrangThaiBD = TrangThaiBD.TamQuan;
                         }
                         var haveItem1 = LocKhaiThac.HangHoas.FirstOrDefault(a => maHangHoa.TuiHangHoa.SHTui.ToUpper() == a.TuiHangHoa.SHTui.ToUpper());
-                        if(haveItem1 != null)
+                        if (haveItem1 != null)
                         {
                             haveItem1.IsTamQuan = "TamQuan";
                             haveItem1.TrangThaiBD = TrangThaiBD.TamQuan;
@@ -201,6 +203,138 @@ namespace TaoBD10.ViewModels
             //thuc hien viec xoa Thong Tin tu Tinh Thanh;
         }
 
+        private void BwChiTiet_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            //thuc hien cong viec trong nay
+            if (!IsTuDongXuLy)
+                return;
+
+            bool daTimThay = checkDanhSachTrongDongCT(CurrentSelectedHangHoaDetail);
+            if (!daTimThay)
+            {
+                return;
+            }
+            string maHieu= layMaHieuTrongDongCT();
+            if(maHieu != CurrentSelectedHangHoaDetail.TuiHangHoa.SHTui)
+            {
+                return;
+            }
+
+            if (CurrentSelectedHangHoaDetail.TrangThaiBD == TrangThaiBD.TamQuan)
+            {
+                APIManager.ShowSnackbar("ban da nhan tam quan");
+                SendKeys.SendWait("{F2}");
+            }
+            else
+            {
+                //thuc hien nhan nut de in
+                APIManager.ShowSnackbar("Nhan nut de in");
+
+            }
+        }
+
+        string layMaHieuTrongDongCT()
+        {
+            var currentWindow = APIManager.GetActiveWindowTitle();
+            if (currentWindow == null)
+                return "";
+
+            if (currentWindow.text.IndexOf("xem chuyen thu chieu den") != -1)
+            {
+                SendKeys.SendWait("{F6}");
+                Thread.Sleep(100);
+                SendKeys.SendWait("{TAB}{TAB}");
+                Thread.Sleep(100);
+
+                SendKeys.SendWait("^(c)");
+                string data = APIManager.GetCopyData();
+
+                //loc du lieu trong nay
+                //STT	Số hiệu	Tỉnh gốc	BC gốc	BC phát	Loại	KL (gr)	QĐ (gr)	Số hiệu lô	Ghi chú
+                // 1   CH214294910VN   10  157870  593280  C * 10000   0
+                var temp = data.Split('\n');
+                if (temp.Length == 2)
+                {
+                    string code = temp[1].Split('\t')[1];
+
+                    //xu ly du lieu trong nay
+                    if (code.Length == 13)
+                    {
+                        return code;
+                    }
+                }
+            }
+            return "";
+        }
+
+        bool checkDanhSachTrongDongCT(HangHoaDetailModel hangHoa)
+        {
+            SendKeys.SendWait("{F5}");
+            SendKeys.SendWait("^{UP}");
+            string lastCopied = "";
+            bool daTimThay = false;
+            while (true)
+            {
+                string copiedText = APIManager.GetCopyData();
+                if (copiedText == null)
+                    return false;
+                if (lastCopied == copiedText)
+                {
+                    break;
+                }
+                else
+                {
+                    lastCopied = copiedText;
+                }
+                TuiInfo tui = xuLyTui(copiedText);
+                if (tui.TuiSo == hangHoa.TuiHangHoa.TuiSo)
+                    if (tui.KL != hangHoa.TuiHangHoa.KhoiLuong)
+                    {
+                        daTimThay = true;
+                        break;
+                    }
+                SendKeys.SendWait("{DOWN}");
+            }
+            if (daTimThay)
+                return true;
+            else return false;
+
+
+            //False	1	6,5	Ði ngoài(BK)	False	Cleared
+            //False	2	6,5	Ði ngoài(BK)	True	Cleared
+            //	Túi số	KL (kg)	Loại túi	F	xác nhận
+            // False   1   7,0 Ði ngoài(BK)    True Cleared
+
+        }
+
+        TuiInfo xuLyTui(string copiedText)
+        {
+            string[] textEnter = copiedText.Split('\n');
+            string textDaChia = "";
+            if (textEnter.Length > 1)
+                textDaChia = textEnter[1];
+            else
+                textDaChia = copiedText;
+            var textedTab = textDaChia.Split('\t');
+            TuiInfo tui = new TuiInfo();
+            tui.IsDaChon = bool.Parse(textedTab[0].Trim());
+            tui.TuiSo = textedTab[1].Trim();
+            tui.KL = textedTab[2].Trim();
+            tui.LoaiTui = textedTab[3].Trim();
+            tui.FTui = bool.Parse(textedTab[4].Trim());
+            tui.DaXacNhan = textedTab[5].Trim();
+            return tui;
+        }
+
+        private bool _IsTuDongXuLy = false;
+
+        public bool IsTuDongXuLy
+        {
+            get { return _IsTuDongXuLy; }
+            set { SetProperty(ref _IsTuDongXuLy, value); }
+        }
+
+
         private void AddBDTinh(string Name)
         {
             if (string.IsNullOrEmpty(Name))
@@ -212,6 +346,18 @@ namespace TaoBD10.ViewModels
 
             taoBDWorker.RunWorkerAsync();
 
+        }
+
+
+        public ICommand TuDongXuLyCTCommand { get; }
+
+        void TuDongXuLyCT()
+        {
+            if (CurrentSelectedHangHoaDetail == null)
+                return;
+            WindowInfo window = APIManager.WaitingFindedWindow("xem chuyen thu chieu den");
+            if (window == null) return;
+            bwChiTiet.RunWorkerAsync();
         }
 
         WindowInfo VaoChiTietChuyenThu(string maSHTui)
@@ -256,6 +402,11 @@ namespace TaoBD10.ViewModels
             //string currentMH = "";
             if (window.text.IndexOf("xac nhan chi tiet tui thu") != -1)
             {
+                if (CurrentSelectedHangHoaDetail.TrangThaiBD == TrangThaiBD.TamQuan)
+                {
+                    APIManager.ClickButton(window.hwnd, "Đối kiểm", isExactly: true);
+                    Thread.Sleep(500);
+                }
                 //kiemtra thu cho nay co sh tui la bao nhieu neu vn thi lay dia chi
                 //de ra phan xem chuyen thu chieu den thi in ra luon
                 //con neu khong co lam cach nao do de lay duoc cai ma hieu va in ra
@@ -263,7 +414,7 @@ namespace TaoBD10.ViewModels
                 //{
                 //    //thuc hien lay dia chi cho nay
                 //    currentMH = CurrentSelectedHangHoaDetail.TuiHangHoa.SHTui;
-                //}
+                //}♦
                 //else
                 //{
                 //    SendKeys.SendWait("{TAB}{TAB}");
@@ -484,6 +635,16 @@ namespace TaoBD10.ViewModels
             }
         }
 
+        private string _CurrentIndexGui = "0";
+
+        public string CurrentIndexGui
+        {
+            get { return _CurrentIndexGui; }
+            set { SetProperty(ref _CurrentIndexGui, value); }
+        }
+
+
+
         private void GuiTrucTiep()
         {
             var currentWindow = APIManager.GetActiveWindowTitle();
@@ -586,6 +747,7 @@ namespace TaoBD10.ViewModels
             for (int i = IndexTaoBDItem; i < ListShowHangHoa.Count; i++)
             {
                 HangHoaDetailModel hangHoa = ListShowHangHoa[i];
+                CurrentIndexGui = (i + 1).ToString();
                 //SendKeys.SendWait(hangHoa.TuiHangHoa.SHTui);
                 //SendKeys.SendWait("{ENTER}");
 
@@ -960,8 +1122,10 @@ namespace TaoBD10.ViewModels
                 default:
                     break;
             }
-            if (!bwChiTiet.IsBusy)
-                bwChiTiet.RunWorkerAsync();
+
+            if (!IsTuDongXuLy)
+                if (!bwChiTiet.IsBusy)
+                    bwChiTiet.RunWorkerAsync();
         }
 
 

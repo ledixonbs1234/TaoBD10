@@ -312,6 +312,7 @@
     <Compile Include="Model\TinhHuyenModel.cs" />
     <Compile Include="Model\TinhThanh.cs" />
     <Compile Include="Model\TuiHangHoa.cs" />
+    <Compile Include="Model\TuiInfo.cs" />
     <Compile Include="Model\TuiThuModel.cs" />
     <Compile Include="Model\TuiXacNhanModel.cs" />
     <Compile Include="Model\WebContentModel.cs" />

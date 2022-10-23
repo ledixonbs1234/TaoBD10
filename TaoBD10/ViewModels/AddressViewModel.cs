@@ -27,19 +27,19 @@ namespace TaoBD10.ViewModels
             LayDiaChiCommand = new RelayCommand(LayDiaChi);
             SendDataCommand = new RelayCommand(SendData);
 
+            ChuyenTamQuanVeLayCTCommand = new RelayCommand(ChuyenTamQuanVeLayCT);
 
 
-            WeakReferenceMessenger.Default.Register<TuiHangHoaMessage>(this, (r, m) =>
+            WeakReferenceMessenger.Default.Register<TuiHangHoaMessage>(this, (r, m)=>
 {
-    if (m.Value == null)
-        return;
-    HangHoas.Clear();
-    foreach (HangHoaDetailModel item in m.Value)
-    {
-
-        HangHoas.Add(item);
-    }
-});
+                if (m.Value == null)
+                    return;
+                HangHoas.Clear();
+                foreach (HangHoaDetailModel item in m.Value)
+                {
+                    HangHoas.Add(item);
+                }
+            });
 
             WeakReferenceMessenger.Default.Register<SHTuiMessage>(this, (r, m) =>
             {
@@ -155,6 +155,15 @@ namespace TaoBD10.ViewModels
             }
            );
         }
+
+
+        public ICommand ChuyenTamQuanVeLayCTCommand { get; }
+
+        void ChuyenTamQuanVeLayCT()
+        {
+            WeakReferenceMessenger.Default.Send(new ChuyenTamQuanMessage(HangHoas.ToList().FindAll(m=>m.IsTamQuan == "TamQuan")));
+        }
+
 
         private void LayDanhSach()
         {

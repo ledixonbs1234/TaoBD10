@@ -16,6 +16,12 @@ namespace TaoBD10.Model
         {
         }
     }
+    public class ChuyenTamQuanMessage : ValueChangedMessage<List<HangHoaDetailModel>>
+    {
+        public ChuyenTamQuanMessage(List<HangHoaDetailModel> list) : base(list)
+        {
+        }
+    }
 
     public class TamQuansMessage : ValueChangedMessage<List<TamQuanModel>>
     {

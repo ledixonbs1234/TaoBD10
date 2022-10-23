@@ -110,6 +110,11 @@
                     Margin="5"
                     Command="{Binding LayDiaChiCommand}"
                     Content="Lấy Địa Chỉ" />
+                 <Button
+                    Margin="5"
+                    Command="{Binding ChuyenTamQuanVeLayCTCommand}"
+                    Content="Update Tam Quan" />
+                
             </StackPanel>
 
             <Button

@@ -41,7 +41,7 @@ namespace TaoBD10.ViewModels
             XeXaHoiCommand = new RelayCommand(XeXaHoi);
             SelectedTinhCommand = new RelayCommand<string>(SelectedTinh);
 
-            SelectionCommand = new RelayCommand<HangHoaDetailModel>(Selection);
+            SelectionCommand = new RelayCommand<HangHoaDetailModel>(ChonCT);
 
             CopySHTuiCommand = new RelayCommand(CopySHTui, () =>
             {
@@ -189,75 +189,80 @@ namespace TaoBD10.ViewModels
 
         }
 
-        private void BwChiTiet_DoWork(object sender, DoWorkEventArgs e)
+        WindowInfo VaoChiTietChuyenThu(string maSHTui)
         {
             WindowInfo window = APIManager.WaitingFindedWindow("quan ly chuyen thu");
             if (window == null)
             {
                 APIManager.ShowSnackbar("Không tìm thấy quản lý chuyến thư");
-                return;
+                return null;
             }
 
-            List<TestAPIModel> controls = APIManager.GetListControlText(window.hwnd);
-            if (controls.Count == 0)
-            {
-                APIManager.ShowSnackbar("Window lỗi");
-                return;
-            }
-            List<TestAPIModel> listCombobox = controls.Where(m => m.ClassName.ToLower().IndexOf("combobox") != -1).ToList();
-            IntPtr comboHandle = listCombobox[3].Handle;
+            //List<TestAPIModel> controls = APIManager.GetListControlText(window.hwnd);
+            //if (controls.Count == 0)
+            //{
+            //    APIManager.ShowSnackbar("Window lỗi");
+            //    return;
+            //}
+            //List<TestAPIModel> listCombobox = controls.Where(m => m.ClassName.ToLower().IndexOf("combobox") != -1).ToList();
+            //IntPtr comboHandle = listCombobox[3].Handle;
 
-            APIManager.SendMessage(comboHandle, 0x0007, 0, 0);
-            APIManager.SendMessage(comboHandle, 0x0007, 0, 0);
+            //APIManager.SendMessage(comboHandle, 0x0007, 0, 0);
+            //APIManager.SendMessage(comboHandle, 0x0007, 0, 0);
 
             SendKeys.SendWait("{F3}");
-            SendKeys.SendWait(CurrentSelectedHangHoaDetail.TuiHangHoa.SHTui);
+            SendKeys.SendWait(maSHTui);
             SendKeys.SendWait("{ENTER}");
             window = APIManager.WaitingFindedWindow("xac nhan chi tiet tui thu", "xem chuyen thu chieu den");
             if (window == null)
-                return;
+                return null;
             Thread.Sleep(500);
             window = APIManager.WaitingFindedWindow("xac nhan chi tiet tui thu", "xem chuyen thu chieu den");
             if (window == null)
+                return null;
+            return window;
+        }
+
+        private void BwChiTiet_DoWork(object sender, DoWorkEventArgs e)
+        {
+            var window = VaoChiTietChuyenThu(CurrentSelectedHangHoaDetail.TuiHangHoa.SHTui);
+            if (window == null)
                 return;
-            string currentMH = "";
+            //string currentMH = "";
             if (window.text.IndexOf("xac nhan chi tiet tui thu") != -1)
             {
                 //kiemtra thu cho nay co sh tui la bao nhieu neu vn thi lay dia chi
                 //de ra phan xem chuyen thu chieu den thi in ra luon
                 //con neu khong co lam cach nao do de lay duoc cai ma hieu va in ra
-                if (CurrentSelectedHangHoaDetail.TuiHangHoa.SHTui.Length == 13)
-                {
-                    //thuc hien lay dia chi cho nay
-                    currentMH = CurrentSelectedHangHoaDetail.TuiHangHoa.SHTui;
-                }
-                else
-                {
-                    SendKeys.SendWait("{TAB}{TAB}");
-                    Thread.Sleep(50);
+                //if (CurrentSelectedHangHoaDetail.TuiHangHoa.SHTui.Length == 13)
+                //{
+                //    //thuc hien lay dia chi cho nay
+                //    currentMH = CurrentSelectedHangHoaDetail.TuiHangHoa.SHTui;
+                //}
+                //else
+                //{
+                //    SendKeys.SendWait("{TAB}{TAB}");
+                //    Thread.Sleep(50);
 
-                    string copyed = APIManager.GetCopyData();
-                    if (copyed != null)
-                    {
-                        string[] enterText = copyed.Split('\n');
-                        if (enterText.Length == 2)
-                        {
-                            copyed = enterText[1];
-                        }
-                        string[] data = copyed.Split('\t');
+                //    string copyed = APIManager.GetCopyData();
+                //    if (copyed != null)
+                //    {
+                //        string[] enterText = copyed.Split('\n');
+                //        if (enterText.Length == 2)
+                //        {
+                //            copyed = enterText[1];
+                //        }
+                //        string[] data = copyed.Split('\t');
 
-                        currentMH = data[1];
-                    }
-                }
+                //        currentMH = data[1];
+                //    }
+                //}
 
-                if (currentMH.Length == 13)
-                {
-                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "XacNhanMHCTDen", Content = currentMH });
-                }
+                //if (currentMH.Length == 13)
+                //{
+                //    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "XacNhanMHCTDen", Content = currentMH });
+                //}
                 SendKeys.SendWait("{ESC}");
-            }
-            else if (window.text.IndexOf("xem chuyen thu chieu den") != -1)
-            {
             }
         }
 
@@ -902,7 +907,7 @@ namespace TaoBD10.ViewModels
             }
 
         }
-        private void Selection(HangHoaDetailModel selected)
+        private void ChonCT(HangHoaDetailModel selected)
         {
             if (selected == null)
                 return;

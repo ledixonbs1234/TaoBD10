@@ -84,16 +84,16 @@ namespace TaoBD10.ViewModels
                 //Thu\c Hien Trong ngay
                 if (m.Value != null)
                 {
-                    if (LocBCP == null)
+                    if (LocBCP == null && LocKhaiThac == null)
                         return;
                     foreach(var maHangHoa in m.Value)
                     {
-                        var haveItem = LocBCP.HangHoas.FirstOrDefault(a => maHangHoa.Code.ToUpper() == a.Code.ToUpper());
+                        var haveItem = LocBCP.HangHoas.FirstOrDefault(a => maHangHoa.TuiHangHoa.SHTui.ToUpper() == a.Code.ToUpper());
                         if(haveItem != null)
                         {
                             haveItem.IsTamQuan = "TamQuan";
                         }
-                        var haveItem1 = LocKhaiThac.HangHoas.FirstOrDefault(a => maHangHoa.Code.ToUpper() == a.Code.ToUpper());
+                        var haveItem1 = LocKhaiThac.HangHoas.FirstOrDefault(a => maHangHoa.TuiHangHoa.SHTui.ToUpper() == a.Code.ToUpper());
                         if(haveItem1 != null)
                         {
                             haveItem1.IsTamQuan = "TamQuan";

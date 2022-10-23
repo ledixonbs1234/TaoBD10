@@ -88,12 +88,12 @@ namespace TaoBD10.ViewModels
                         return;
                     foreach(var maHangHoa in m.Value)
                     {
-                        var haveItem = LocBCP.HangHoas.FirstOrDefault(a => maHangHoa.TuiHangHoa.SHTui.ToUpper() == a.Code.ToUpper());
+                        var haveItem = LocBCP.HangHoas.FirstOrDefault(a => maHangHoa.TuiHangHoa.SHTui.ToUpper() == a.TuiHangHoa.SHTui.ToUpper());
                         if(haveItem != null)
                         {
                             haveItem.IsTamQuan = "TamQuan";
                         }
-                        var haveItem1 = LocKhaiThac.HangHoas.FirstOrDefault(a => maHangHoa.TuiHangHoa.SHTui.ToUpper() == a.Code.ToUpper());
+                        var haveItem1 = LocKhaiThac.HangHoas.FirstOrDefault(a => maHangHoa.TuiHangHoa.SHTui.ToUpper() == a.TuiHangHoa.SHTui.ToUpper());
                         if(haveItem1 != null)
                         {
                             haveItem1.IsTamQuan = "TamQuan";

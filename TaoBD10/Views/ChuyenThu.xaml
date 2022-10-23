@@ -130,7 +130,7 @@
                     ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
                     Header="SH Túi" />
                 <DataGridTextColumn
-                    Width="20"
+                    Width="60"
                     
                     Binding="{Binding IsTamQuan}"
                     EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"

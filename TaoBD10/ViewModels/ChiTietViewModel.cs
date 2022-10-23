@@ -98,7 +98,7 @@ namespace TaoBD10.ViewModels
                         if(haveItem1 != null)
                         {
                             haveItem1.IsTamQuan = "TamQuan";
-                            haveItem.TrangThaiBD = TrangThaiBD.TamQuan;
+                            haveItem1.TrangThaiBD = TrangThaiBD.TamQuan;
                         }
                     }
 

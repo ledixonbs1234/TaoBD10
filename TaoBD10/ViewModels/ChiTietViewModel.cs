@@ -355,7 +355,20 @@ namespace TaoBD10.ViewModels
         {
             if (CurrentSelectedHangHoaDetail == null)
                 return;
-            VaoChiTietChuyenThu(CurrentSelectedHangHoaDetail.TuiHangHoa.SHTui);
+            var window = VaoChiTietChuyenThu(CurrentSelectedHangHoaDetail.TuiHangHoa.SHTui);
+            if (window == null)
+                return;
+            bool daTimThay = checkDanhSachTrongDongCT(CurrentSelectedHangHoaDetail);
+            if (daTimThay)
+            {
+                APIManager.ShowSnackbar("da tim thay");
+            }
+            else
+            {
+
+                APIManager.ShowSnackbar("Khong tim thay");
+            }
+
             //WindowInfo window = APIManager.WaitingFindedWindow("xem chuyen thu chieu den");
             //if (window == null) return;
             //bwChiTiet.RunWorkerAsync();
@@ -397,50 +410,47 @@ namespace TaoBD10.ViewModels
 
         private void BwChiTiet_DoWork(object sender, DoWorkEventArgs e)
         {
-            var window = VaoChiTietChuyenThu(CurrentSelectedHangHoaDetail.TuiHangHoa.SHTui);
-            if (window == null)
-                return;
-            //string currentMH = "";
-            if (window.text.IndexOf("xac nhan chi tiet tui thu") != -1)
-            {
-                if (CurrentSelectedHangHoaDetail.TrangThaiBD == TrangThaiBD.TamQuan)
-                {
-                    APIManager.ClickButton(window.hwnd, "Đối kiểm", isExactly: true);
-                    Thread.Sleep(500);
-                }
-                //kiemtra thu cho nay co sh tui la bao nhieu neu vn thi lay dia chi
-                //de ra phan xem chuyen thu chieu den thi in ra luon
-                //con neu khong co lam cach nao do de lay duoc cai ma hieu va in ra
-                //if (CurrentSelectedHangHoaDetail.TuiHangHoa.SHTui.Length == 13)
-                //{
-                //    //thuc hien lay dia chi cho nay
-                //    currentMH = CurrentSelectedHangHoaDetail.TuiHangHoa.SHTui;
-                //}♦
-                //else
-                //{
-                //    SendKeys.SendWait("{TAB}{TAB}");
-                //    Thread.Sleep(50);
+                      //string currentMH = "";
+            //if (window.text.IndexOf("xac nhan chi tiet tui thu") != -1)
+            //{
+            //    if (CurrentSelectedHangHoaDetail.TrangThaiBD == TrangThaiBD.TamQuan)
+            //    {
+            //        APIManager.ClickButton(window.hwnd, "Đối kiểm", isExactly: true);
+            //        Thread.Sleep(500);
+            //    }
+            //    //kiemtra thu cho nay co sh tui la bao nhieu neu vn thi lay dia chi
+            //    //de ra phan xem chuyen thu chieu den thi in ra luon
+            //    //con neu khong co lam cach nao do de lay duoc cai ma hieu va in ra
+            //    //if (CurrentSelectedHangHoaDetail.TuiHangHoa.SHTui.Length == 13)
+            //    //{
+            //    //    //thuc hien lay dia chi cho nay
+            //    //    currentMH = CurrentSelectedHangHoaDetail.TuiHangHoa.SHTui;
+            //    //}♦
+            //    //else
+            //    //{
+            //    //    SendKeys.SendWait("{TAB}{TAB}");
+            //    //    Thread.Sleep(50);
 
-                //    string copyed = APIManager.GetCopyData();
-                //    if (copyed != null)
-                //    {
-                //        string[] enterText = copyed.Split('\n');
-                //        if (enterText.Length == 2)
-                //        {
-                //            copyed = enterText[1];
-                //        }
-                //        string[] data = copyed.Split('\t');
+            //    //    string copyed = APIManager.GetCopyData();
+            //    //    if (copyed != null)
+            //    //    {
+            //    //        string[] enterText = copyed.Split('\n');
+            //    //        if (enterText.Length == 2)
+            //    //        {
+            //    //            copyed = enterText[1];
+            //    //        }
+            //    //        string[] data = copyed.Split('\t');
 
-                //        currentMH = data[1];
-                //    }
-                //}
+            //    //        currentMH = data[1];
+            //    //    }
+            //    //}
 
-                //if (currentMH.Length == 13)
-                //{
-                //    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "XacNhanMHCTDen", Content = currentMH });
-                //}
-                SendKeys.SendWait("{ESC}");
-            }
+            //    //if (currentMH.Length == 13)
+            //    //{
+            //    //    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "XacNhanMHCTDen", Content = currentMH });
+            //    //}
+            //    SendKeys.SendWait("{ESC}");
+            //}
         }
 
         void ClearHangHoa()

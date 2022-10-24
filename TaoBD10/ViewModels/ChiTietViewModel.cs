@@ -209,11 +209,25 @@ namespace TaoBD10.ViewModels
             if (!IsTuDongXuLy)
                 return;
 
+            //bool daTimThay = checkDanhSachTrongDongCT(CurrentSelectedHangHoaDetail);
+            //if (!daTimThay)
+            //{
+            //    return;
+            //}
+
             bool daTimThay = checkDanhSachTrongDongCT(CurrentSelectedHangHoaDetail);
-            if (!daTimThay)
+            if (daTimThay)
             {
-                return;
+                APIManager.ShowSnackbar("da tim thay");
             }
+            else
+            {
+
+                APIManager.ShowSnackbar("Khong tim thay");
+            }
+            return;
+
+
             string maHieu = layMaHieuTrongDongCT();
             if (maHieu != CurrentSelectedHangHoaDetail.TuiHangHoa.SHTui)
             {
@@ -429,6 +443,8 @@ namespace TaoBD10.ViewModels
 
         private void BwChiTiet_DoWork(object sender, DoWorkEventArgs e)
         {
+            
+            VaoChiTietChuyenThu(CurrentSelectedHangHoaDetail.TuiHangHoa.SHTui);
             //string currentMH = "";
             //if (window.text.IndexOf("xac nhan chi tiet tui thu") != -1)
             //{
@@ -1137,9 +1153,8 @@ namespace TaoBD10.ViewModels
 
 
             if (!IsTuDongXuLy)
-                //if (!bwChiTiet.IsBusy)
-                //bwChiTiet.RunWorkerAsync();
-                VaoChiTietChuyenThu(CurrentSelectedHangHoaDetail.TuiHangHoa.SHTui);
+                if (!bwChiTiet.IsBusy)
+                    bwChiTiet.RunWorkerAsync();
         }
 
 

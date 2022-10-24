@@ -1,12 +1,10 @@
 ﻿<UserControl
     x:Class="TaoBD10.Views.ChuyenThu"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Behaviors="http://schemas.microsoft.com/xaml/behaviors"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:TaoBD10.Views"
-    xmlns:manager="clr-namespace:TaoBD10.Manager"
-    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="450"
     d:DesignWidth="800"
@@ -16,9 +14,9 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
             <RowDefinition Height="30" />
-            <RowDefinition Height="50"/>
             <RowDefinition Height="50" />
-            <RowDefinition/>
+            <RowDefinition Height="50" />
+            <RowDefinition />
         </Grid.RowDefinitions>
         <StackPanel
             Grid.Row="0"
@@ -43,9 +41,7 @@
                     Content="593280"
                     Style="{StaticResource MaterialDesignPaperLightButton}"
                     ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
-
             </StackPanel>
-
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Row="3" HorizontalAlignment="Center">
             <Button Grid.Row="3" Width="100"
@@ -54,7 +50,7 @@
                     Content="Tự động"
                     Style="{StaticResource MaterialDesignPaperLightButton}"
                     ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
-            <CheckBox IsChecked="{Binding IsTuDongXuLy}" Content="isAuto" Foreground="#FFFF8787"/>
+            <CheckBox IsChecked="{Binding IsTuDongXuLy}" Content="isAuto" Foreground="#FFFF8787" />
         </StackPanel>
 
         <TextBlock
@@ -65,8 +61,8 @@
              Style="{StaticResource MaterialDesignHeadline4TextBlock}"
             Text="{Binding ListShowHangHoa.Count}" />
         <StackPanel Grid.Row="2" Margin="5,5,5,5">
-            <TextBlock Text="{Binding CurrentSelectedHangHoaDetail.TuiHangHoa.SHTui}" Style="{StaticResource MaterialDesignBody2TextBlock}" FontWeight="Medium" Foreground="Chocolate"/>
-            <TextBlock FontSize="13" Text="{Binding CurrentSelectedHangHoaDetail.Address}"/>
+            <TextBlock Text="{Binding CurrentSelectedHangHoaDetail.TuiHangHoa.SHTui}" Style="{StaticResource MaterialDesignBody2TextBlock}" FontWeight="Medium" Foreground="Chocolate" />
+            <TextBlock FontSize="13" Text="{Binding CurrentSelectedHangHoaDetail.Address}" />
         </StackPanel>
         <DataGrid
             x:Name="dataGrid"
@@ -112,6 +108,7 @@
                     Header="STT" />
                 <DataGridTextColumn
                     Width="30"
+
                     Binding="{Binding TuiHangHoa.SCT}"
                     EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
                     ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
@@ -144,7 +141,7 @@
                     Header="SH Túi" />
                 <DataGridTextColumn
                     Width="60"
-                    
+
                     Binding="{Binding IsTamQuan}"
                     EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
                     ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"

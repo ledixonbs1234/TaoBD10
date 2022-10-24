@@ -355,9 +355,10 @@ namespace TaoBD10.ViewModels
         {
             if (CurrentSelectedHangHoaDetail == null)
                 return;
-            WindowInfo window = APIManager.WaitingFindedWindow("xem chuyen thu chieu den");
-            if (window == null) return;
-            bwChiTiet.RunWorkerAsync();
+            VaoChiTietChuyenThu(CurrentSelectedHangHoaDetail.TuiHangHoa.SHTui);
+            //WindowInfo window = APIManager.WaitingFindedWindow("xem chuyen thu chieu den");
+            //if (window == null) return;
+            //bwChiTiet.RunWorkerAsync();
         }
 
         WindowInfo VaoChiTietChuyenThu(string maSHTui)

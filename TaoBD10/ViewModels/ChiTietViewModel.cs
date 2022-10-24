@@ -1135,8 +1135,9 @@ namespace TaoBD10.ViewModels
             }
 
             if (!IsTuDongXuLy)
-                if (!bwChiTiet.IsBusy)
-                    bwChiTiet.RunWorkerAsync();
+                //if (!bwChiTiet.IsBusy)
+                //bwChiTiet.RunWorkerAsync();
+                VaoChiTietChuyenThu(CurrentSelectedHangHoaDetail.TuiHangHoa.SHTui);
         }
 
 

@@ -125,7 +125,6 @@ namespace TaoBD10.ViewModels
                             foreach (var diNgoai in DiNgoais)
                             {
                                 diNgoai.danhSachBuuCuc = GetListBuuCucFromTinh(diNgoai.MaTinh);
-
                             }
 
                             ChuyenDataDiNgoaiToPhone();

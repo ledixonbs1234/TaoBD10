@@ -203,6 +203,15 @@ namespace TaoBD10.ViewModels
             //thuc hien viec xoa Thong Tin tu Tinh Thanh;
         }
 
+        private bool _IsBoQuaMaHieuSHTuiSai;
+
+        public bool IsBoQuaMaHieuSHTuiSai
+        {
+            get { return _IsBoQuaMaHieuSHTuiSai; }
+            set { SetProperty(ref _IsBoQuaMaHieuSHTuiSai, value); }
+        }
+
+
         private void BwChiTiet_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             //thuc hien cong viec trong nay
@@ -244,6 +253,8 @@ namespace TaoBD10.ViewModels
                 //thuc hien nhan nut de in
                 APIManager.ShowSnackbar("Nhan nut de in");
                 SendKeys.SendWait("{F9}");
+                PrintDiNgoai();
+
 
             }
         }
@@ -373,22 +384,10 @@ namespace TaoBD10.ViewModels
             if (CurrentSelectedHangHoaDetail == null)
                 return;
 
-            //var window = VaoChiTietChuyenThu(CurrentSelectedHangHoaDetail.TuiHangHoa.SHTui);
-            //if (window == null)
-            //    return;
-            //bool daTimThay = checkDanhSachTrongDongCT(CurrentSelectedHangHoaDetail);
-            //if (daTimThay)
-            //{
-            //    APIManager.ShowSnackbar("da tim thay");
-            //}
-            //else
-            //{
 
-            //    APIManager.ShowSnackbar("Khong tim thay");
-            //}
+            SelectedTui = ListShowHangHoa[5];
+            return;
 
-            //WindowInfo window = APIManager.WaitingFindedWindow("xem chuyen thu chieu den");
-            //if (window == null) return;
             if(!bwChiTiet.IsBusy)
             bwChiTiet.RunWorkerAsync();
         }
@@ -1152,6 +1151,13 @@ namespace TaoBD10.ViewModels
             if (selected.TrangThaiBD == TrangThaiBD.ChuaChon)
             {
                 selected.TrangThaiBD = TrangThaiBD.DaChon;
+            }
+            if (IsBoQuaMaHieuSHTuiSai)
+            {
+                if(CurrentSelectedHangHoaDetail.TuiHangHoa.SHTui.Length != 13)
+                {
+
+                }
             }
 
 

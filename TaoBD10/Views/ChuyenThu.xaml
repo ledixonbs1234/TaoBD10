@@ -51,6 +51,7 @@
                     Style="{StaticResource MaterialDesignPaperLightButton}"
                     ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
             <CheckBox IsChecked="{Binding IsTuDongXuLy}" Content="isAuto" Foreground="#FFFF8787" />
+            <CheckBox IsChecked="{Binding IsBoQuaMaHieuSHTuiSai}" Content="Bỏ qua Sh túi sai" Foreground="Green" />
         </StackPanel>
 
         <TextBlock

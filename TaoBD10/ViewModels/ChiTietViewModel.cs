@@ -209,23 +209,23 @@ namespace TaoBD10.ViewModels
             if (!IsTuDongXuLy)
                 return;
 
-            //bool daTimThay = checkDanhSachTrongDongCT(CurrentSelectedHangHoaDetail);
-            //if (!daTimThay)
-            //{
-            //    return;
-            //}
-
             bool daTimThay = checkDanhSachTrongDongCT(CurrentSelectedHangHoaDetail);
-            if (daTimThay)
+            if (!daTimThay)
             {
-                APIManager.ShowSnackbar("da tim thay");
+                return;
             }
-            else
-            {
 
-                APIManager.ShowSnackbar("Khong tim thay");
-            }
-            return;
+            //bool daTimThay = checkDanhSachTrongDongCT(CurrentSelectedHangHoaDetail);
+            //if (daTimThay)
+            //{
+            //    APIManager.ShowSnackbar("da tim thay");
+            //}
+            //else
+            //{
+
+            //    APIManager.ShowSnackbar("Khong tim thay");
+            //}
+            //return;
 
 
             string maHieu = layMaHieuTrongDongCT();

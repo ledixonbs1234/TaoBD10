@@ -1125,6 +1125,7 @@ namespace TaoBD10.ViewModels
         }
         private void ChonCT(HangHoaDetailModel selected)
         {
+            Thread.Sleep(100);
             if (selected == null)
                 return;
             CurrentSelectedHangHoaDetail = selected;

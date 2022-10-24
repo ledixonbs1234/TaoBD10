@@ -371,23 +371,25 @@ namespace TaoBD10.ViewModels
         {
             if (CurrentSelectedHangHoaDetail == null)
                 return;
-            var window = VaoChiTietChuyenThu(CurrentSelectedHangHoaDetail.TuiHangHoa.SHTui);
-            if (window == null)
-                return;
-            bool daTimThay = checkDanhSachTrongDongCT(CurrentSelectedHangHoaDetail);
-            if (daTimThay)
-            {
-                APIManager.ShowSnackbar("da tim thay");
-            }
-            else
-            {
 
-                APIManager.ShowSnackbar("Khong tim thay");
-            }
+            //var window = VaoChiTietChuyenThu(CurrentSelectedHangHoaDetail.TuiHangHoa.SHTui);
+            //if (window == null)
+            //    return;
+            //bool daTimThay = checkDanhSachTrongDongCT(CurrentSelectedHangHoaDetail);
+            //if (daTimThay)
+            //{
+            //    APIManager.ShowSnackbar("da tim thay");
+            //}
+            //else
+            //{
+
+            //    APIManager.ShowSnackbar("Khong tim thay");
+            //}
 
             //WindowInfo window = APIManager.WaitingFindedWindow("xem chuyen thu chieu den");
             //if (window == null) return;
-            //bwChiTiet.RunWorkerAsync();
+            if(!bwChiTiet.IsBusy)
+            bwChiTiet.RunWorkerAsync();
         }
 
         WindowInfo VaoChiTietChuyenThu(string maSHTui)

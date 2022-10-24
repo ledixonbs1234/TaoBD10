@@ -273,13 +273,15 @@ namespace TaoBD10.Manager
             }
             catch (Exception ex)
             {
-                var st = new StackTrace(ex, true);
-                // Get the top stack frame
-                var frame = st.GetFrame(0);
-                // Get the line number from the stack frame
-                var line = frame.GetFileLineNumber();
-                OpenNotePad(ex.Message + '\n' + "APIManager " + line + " Number Line " + GetLineNumber(ex), "loi ");
+                ShowSnackbar("Copy Lỗi");
                 return "";
+                //var st = new StackTrace(ex, true);
+                //// Get the top stack frame
+                //var frame = st.GetFrame(0);
+                //// Get the line number from the stack frame
+                //var line = frame.GetFileLineNumber();
+                //OpenNotePad(ex.Message + '\n' + "APIManager " + line + " Number Line " + GetLineNumber(ex), "loi ");
+                //return "";
             }
 
         }

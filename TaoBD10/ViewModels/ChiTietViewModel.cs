@@ -271,6 +271,7 @@ namespace TaoBD10.ViewModels
         {
             SendKeys.SendWait("{F5}");
             SendKeys.SendWait("^{UP}");
+            Thread.Sleep(100);
             string lastCopied = "";
             bool daTimThay = false;
             while (true)

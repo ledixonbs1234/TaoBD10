@@ -214,8 +214,8 @@ namespace TaoBD10.ViewModels
             {
                 return;
             }
-            string maHieu= layMaHieuTrongDongCT();
-            if(maHieu != CurrentSelectedHangHoaDetail.TuiHangHoa.SHTui)
+            string maHieu = layMaHieuTrongDongCT();
+            if (maHieu != CurrentSelectedHangHoaDetail.TuiHangHoa.SHTui)
             {
                 return;
             }
@@ -294,6 +294,7 @@ namespace TaoBD10.ViewModels
                         break;
                     }
                 SendKeys.SendWait("{DOWN}");
+                Thread.Sleep(100);
             }
             if (daTimThay)
                 return true;
@@ -410,7 +411,7 @@ namespace TaoBD10.ViewModels
 
         private void BwChiTiet_DoWork(object sender, DoWorkEventArgs e)
         {
-                      //string currentMH = "";
+            //string currentMH = "";
             //if (window.text.IndexOf("xac nhan chi tiet tui thu") != -1)
             //{
             //    if (CurrentSelectedHangHoaDetail.TrangThaiBD == TrangThaiBD.TamQuan)

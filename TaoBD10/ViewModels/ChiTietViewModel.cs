@@ -394,6 +394,7 @@ namespace TaoBD10.ViewModels
                 default:
                     break;
             }
+            Thread.Sleep(100);
             WindowInfo window = APIManager.WaitingFindedWindow("quan ly chuyen thu");
             if (window == null)
             {
@@ -1125,7 +1126,7 @@ namespace TaoBD10.ViewModels
         }
         private void ChonCT(HangHoaDetailModel selected)
         {
-            Thread.Sleep(100);
+           
             if (selected == null)
                 return;
             CurrentSelectedHangHoaDetail = selected;

@@ -277,7 +277,7 @@ namespace TaoBD10.ViewModels
             while (true)
             {
                 string copiedText = APIManager.GetCopyData();
-                if (copiedText == null)
+                if (string.IsNullOrEmpty(copiedText))
                     return false;
                 if (lastCopied == copiedText)
                 {
@@ -295,7 +295,7 @@ namespace TaoBD10.ViewModels
                         break;
                     }
                 SendKeys.SendWait("{DOWN}");
-                Thread.Sleep(100);
+                Thread.Sleep(50);
             }
             if (daTimThay)
                 return true;

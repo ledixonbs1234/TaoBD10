@@ -376,6 +376,36 @@ namespace TaoBD10.ViewModels
 
         }
 
+        bool ChuyenThuTiepTheo()
+        {
+            if (ListShowHangHoa.Count == 0)
+            {
+                APIManager.ShowSnackbar("Không có dữ liệu");
+                return false;
+            }
+            //lay vi tri tiep theo
+            //get index
+            int index = ListShowHangHoa.IndexOf(CurrentSelectedHangHoaDetail);
+            if (index == -1)
+            {
+                APIManager.ShowSnackbar("Chưa chọn mã hiệu");
+                return false;
+            }
+            index++;
+            if (index > ListShowHangHoa.Count - 1)
+            {
+                APIManager.ShowSnackbar("Đã tới vị trí cuối cùng");
+                //txtInfo.Text = "Đã tới vị trí cuối cùng";
+                return false;
+            }
+
+            //////xem thu no co chay cai gi khong
+
+            SelectedTui = ListShowHangHoa[index];
+            CurrentSelectedHangHoaDetail = ListShowHangHoa[index];
+            return true;
+        }
+
 
         public ICommand TuDongXuLyCTCommand { get; }
 
@@ -383,13 +413,15 @@ namespace TaoBD10.ViewModels
         {
             if (CurrentSelectedHangHoaDetail == null)
                 return;
+            if (IsBoQuaMaHieuSHTuiSai)
+                if (CurrentSelectedHangHoaDetail.TuiHangHoa.SHTui.Length != 13)
+                {
+                    if (ChuyenThuTiepTheo())
+                        TuDongXuLyCT();
+                }
 
-
-            SelectedTui = ListShowHangHoa[5];
-            return;
-
-            if(!bwChiTiet.IsBusy)
-            bwChiTiet.RunWorkerAsync();
+            if (!bwChiTiet.IsBusy)
+                bwChiTiet.RunWorkerAsync();
         }
 
         WindowInfo VaoChiTietChuyenThu(string maSHTui)
@@ -445,7 +477,7 @@ namespace TaoBD10.ViewModels
 
         private void BwChiTiet_DoWork(object sender, DoWorkEventArgs e)
         {
-            
+
             VaoChiTietChuyenThu(CurrentSelectedHangHoaDetail.TuiHangHoa.SHTui);
             //string currentMH = "";
             //if (window.text.IndexOf("xac nhan chi tiet tui thu") != -1)
@@ -1144,7 +1176,7 @@ namespace TaoBD10.ViewModels
         }
         private void ChonCT(HangHoaDetailModel selected)
         {
-           
+
             if (selected == null)
                 return;
             CurrentSelectedHangHoaDetail = selected;
@@ -1154,7 +1186,7 @@ namespace TaoBD10.ViewModels
             }
             if (IsBoQuaMaHieuSHTuiSai)
             {
-                if(CurrentSelectedHangHoaDetail.TuiHangHoa.SHTui.Length != 13)
+                if (CurrentSelectedHangHoaDetail.TuiHangHoa.SHTui.Length != 13)
                 {
 
                 }

@@ -288,7 +288,7 @@ namespace TaoBD10.ViewModels
                 }
                 TuiInfo tui = xuLyTui(copiedText);
                 if (tui.TuiSo == hangHoa.TuiHangHoa.TuiSo)
-                    if (tui.KL != hangHoa.TuiHangHoa.KhoiLuong)
+                    if (tui.KL == hangHoa.TuiHangHoa.KhoiLuong)
                     {
                         daTimThay = true;
                         break;

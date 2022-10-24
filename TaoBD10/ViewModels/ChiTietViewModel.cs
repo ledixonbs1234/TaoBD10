@@ -377,6 +377,22 @@ namespace TaoBD10.ViewModels
 
         WindowInfo VaoChiTietChuyenThu(string maSHTui)
         {
+
+            switch (currentBuuCuc)
+            {
+                case BuuCuc.KT:
+                    string[] temp = FileManager.optionModel.GoFastQLCTCDKT.Split(',');
+                    APIManager.GoToWindow(FileManager.optionModel.MaKhaiThac, "quan ly chuyen thu chieu den", temp[0], temp[1]);
+                    break;
+
+                case BuuCuc.BCP:
+                    string[] temp1 = FileManager.optionModel.GoFastQLCTCDBCP.Split(',');
+                    APIManager.GoToWindow(FileManager.optionModel.MaBuuCucPhat, "quan ly chuyen thu chieu den", temp1[0], temp1[1]);
+                    break;
+
+                default:
+                    break;
+            }
             WindowInfo window = APIManager.WaitingFindedWindow("quan ly chuyen thu");
             if (window == null)
             {
@@ -1116,24 +1132,6 @@ namespace TaoBD10.ViewModels
                 selected.TrangThaiBD = TrangThaiBD.DaChon;
             }
 
-            switch (currentBuuCuc)
-            {
-                case BuuCuc.None:
-                    return;
-
-                case BuuCuc.KT:
-                    string[] temp = FileManager.optionModel.GoFastQLCTCDKT.Split(',');
-                    APIManager.GoToWindow(FileManager.optionModel.MaKhaiThac, "quan ly chuyen thu chieu den", temp[0], temp[1]);
-                    break;
-
-                case BuuCuc.BCP:
-                    string[] temp1 = FileManager.optionModel.GoFastQLCTCDBCP.Split(',');
-                    APIManager.GoToWindow(FileManager.optionModel.MaBuuCucPhat, "quan ly chuyen thu chieu den", temp1[0], temp1[1]);
-                    break;
-
-                default:
-                    break;
-            }
 
             if (!IsTuDongXuLy)
                 //if (!bwChiTiet.IsBusy)

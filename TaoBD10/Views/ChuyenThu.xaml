@@ -75,7 +75,7 @@
             CanUserSortColumns="False"
             IsReadOnly="True"
             ItemsSource="{Binding ListShowHangHoa}"
-            SelectedItem="{Binding SelectedTui, Mode=OneWayToSource}"
+            SelectedItem="{Binding SelectedTui, Mode=TwoWay}"
             SelectionMode="Single">
             <Behaviors:Interaction.Triggers>
                 <Behaviors:EventTrigger EventName="MouseLeftButtonUp">

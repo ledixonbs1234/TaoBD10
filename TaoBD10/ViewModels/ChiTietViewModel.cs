@@ -243,6 +243,7 @@ namespace TaoBD10.ViewModels
             {
                 //thuc hien nhan nut de in
                 APIManager.ShowSnackbar("Nhan nut de in");
+                SendKeys.SendWait("{F9}");
 
             }
         }

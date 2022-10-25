@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CefSharp.DevTools.DOM;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using System;
@@ -110,10 +111,26 @@ namespace TaoBD10.ViewModels
             {
                 if (m.Value != null)
                 {
+                    if(kiemTraDaCoMaHieuTamQuan(m.Value.MaHieu))
                     TamQuans.Add(new TamQuanModel(TamQuans.Count + 1, m.Value.MaHieu.ToUpper(), m.Value.TrongLuong));
                     SoundManager.playSound(@"Number\" + TamQuans.Count.ToString() + ".wav");
                 }
             });
+        }
+
+        bool kiemTraDaCoMaHieuTamQuan(string maHieu)
+        {
+            if (TamQuans.Count >= 1)
+            {
+                foreach (TamQuanModel item in TamQuans)
+                {
+                    if (item.MaHieu == maHieu.ToUpper())
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
         private void BwTamQuanCheck_DoWork(object sender, DoWorkEventArgs e)
@@ -145,16 +162,9 @@ namespace TaoBD10.ViewModels
                     if (code.Length == 13)
                     {
                         //them du lieu vao
-                        if (TamQuans.Count >= 1)
-                        {
-                            foreach (TamQuanModel item in TamQuans)
-                            {
-                                if (item.MaHieu == code.ToUpper())
-                                {
-                                    return;
-                                }
-                            }
-                        }
+                        if (kiemTraDaCoMaHieuTamQuan(code))
+                            return;
+                       
                         App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
                         {
                             if (isDoubleRight)

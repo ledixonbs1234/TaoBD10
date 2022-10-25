@@ -869,25 +869,24 @@ namespace TaoBD10.ViewModels
             List<TestAPIModel> listWindowForm = listControl.Where(m => m.ClassName.IndexOf("10.Window.8.ap") != -1).ToList();
 
             //thuc hien kiem tra ma trong nay
-            SendKeys.SendWait("^(a)");
-
-            SendKeys.SendWait("+{TAB}");
-            SendKeys.SendWait("+{TAB}");
-            SendKeys.SendWait("+{TAB}");
-            SendKeys.SendWait("^(a)");
-            Thread.Sleep(50);
-            SendKeys.SendWait("^(c)");
-            Thread.Sleep(50);
-            string clipboard = System.Windows.Clipboard.GetText();
-            Thread.Sleep(50);
-            if (string.IsNullOrEmpty(clipboard))
+            bool laTimThayBD8 = false;
+            string clipboard = "";
+            for (int i = 0; i < 7; i++)
             {
-                return;
+                Clipboard.Clear();
+                SendKeys.SendWait("+{TAB}");
+                SendKeys.SendWait("^(a)");
+                Thread.Sleep(50);
+                clipboard = APIManager.GetCopyData();
+                Thread.Sleep(50);
+                if (clipboard.IndexOf("BĐ1 Bis") != -1)
+                {
+                    laTimThayBD8 = true;
+                    break;
+                }
             }
-            if (clipboard.IndexOf("BĐ1 Bis") == -1)
-            {
+            if (!laTimThayBD8)
                 return;
-            }
             foreach (string item in clipboard.Split('\n'))
             {
                 var datas = item.Split('\t');

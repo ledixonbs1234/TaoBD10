@@ -76,7 +76,7 @@
             IsReadOnly="True"
             ItemsSource="{Binding ListShowHangHoa}"
             SelectedItem="{Binding SelectedTui, Mode=TwoWay}"
-            SelectionMode="Single">
+            SelectionMode="Single" SelectionChanged="dataGrid_SelectionChanged">
             <Behaviors:Interaction.Triggers>
                 <Behaviors:EventTrigger EventName="MouseLeftButtonUp">
                     <Behaviors:InvokeCommandAction Command="{Binding SelectionCommand}" CommandParameter="{Binding SelectedItem, ElementName=dataGrid}" />

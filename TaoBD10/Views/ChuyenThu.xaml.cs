@@ -11,5 +11,10 @@ namespace TaoBD10.Views
         {
             InitializeComponent();
         }
+
+        private void dataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            dataGrid.ScrollIntoView(dataGrid.SelectedItems[0]);
+        }
     }
 }

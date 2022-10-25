@@ -270,6 +270,7 @@ namespace TaoBD10.ViewModels
             bool daTimThay = checkDanhSachTrongDongCT(CurrentSelectedHangHoaDetail);
             if (!daTimThay)
             {
+                SoundManager.playSound3(@"Number\error_sound.wav");
                 return;
             }
 
@@ -286,15 +287,20 @@ namespace TaoBD10.ViewModels
 
             TamQuanModel maHieu = layMaHieuTrongDongCT();
             if (maHieu == null)
+            {
+                SoundManager.playSound3(@"Number\error_sound.wav");
                 return;
+
+            }
             if (maHieu.MaHieu != CurrentSelectedHangHoaDetail.TuiHangHoa.SHTui)
             {
+                SoundManager.playSound3(@"Number\error_sound.wav");
                 return;
             }
 
             if (CurrentSelectedHangHoaDetail.TrangThaiBD == TrangThaiBD.TamQuan)
             {
-                APIManager.ShowSnackbar("ban da nhan tam quan");
+                APIManager.ShowSnackbar("Tam Quan");
                 //thuc hien chuyen ma qua tam quan
                 // co 2 loai nen lam thu
                 WeakReferenceMessenger.Default.Send(new ChuyenTamQuanMHMessage(maHieu));
@@ -305,7 +311,6 @@ namespace TaoBD10.ViewModels
             else
             {
                 //thuc hien nhan nut de in
-                APIManager.ShowSnackbar("Nhan nut de in");
                 SendKeys.SendWait("{F9}");
                 PrintDiNgoai();
             }
@@ -889,7 +894,10 @@ namespace TaoBD10.ViewModels
                 }
             }
             if (!laTimThayBD8)
+            {
+                SoundManager.playSound3(@"Number\error_sound.wav");
                 return;
+            }
             foreach (string item in clipboard.Split('\n'))
             {
                 var datas = item.Split('\t');
@@ -917,6 +925,7 @@ namespace TaoBD10.ViewModels
             WindowInfo currentWindow = APIManager.WaitingFindedWindow("print document");
             if (currentWindow == null)
             {
+                SoundManager.playSound3(@"Number\error_sound.wav");
                 return;
             }
             Thread.Sleep(500);
@@ -924,14 +933,21 @@ namespace TaoBD10.ViewModels
 
             WindowInfo infoPrint = APIManager.WaitingFindedWindow("Print", isExactly: true);
             if (infoPrint == null)
+            {
+                SoundManager.playSound3(@"Number\error_sound.wav");
                 return;
+            }
+               
 
             SendKeys.SendWait("%(p)");
             Thread.Sleep(500);
 
             WindowInfo infoPrintDocument = APIManager.WaitingFindedWindow("Print Document", isExactly: true);
             if (infoPrintDocument == null)
+            {
+                SoundManager.playSound3(@"Number\error_sound.wav");
                 return;
+            }
 
             if (CurrentSelectedHangHoaDetail != null)
             {
@@ -941,7 +957,10 @@ namespace TaoBD10.ViewModels
 
             WindowInfo infoThongTin = APIManager.WaitingFindedWindow("thong tin buu gui");
             if (infoThongTin == null)
+            {
+                SoundManager.playSound3(@"Number\error_sound.wav");
                 return;
+            }
             APIManager.ClickButton(infoThongTin.hwnd, "thoat", isExactly: false);
             if (IsTuDongXuLy)
             {
@@ -1163,7 +1182,10 @@ namespace TaoBD10.ViewModels
         private void TuDongXuLyCT()
         {
             if (CurrentSelectedHangHoaDetail == null)
+            {
+                SoundManager.playSound3(@"Number\error_sound.wav");
                 return;
+            }
             if (IsBoQuaMaHieuSHTuiSai)
                 if (CurrentSelectedHangHoaDetail.TuiHangHoa.SHTui.Length != 13)
                 {

@@ -18,54 +18,6 @@ namespace TaoBD10.ViewModels
 {
     public class TamQuanViewModel : ObservableObject
     {
-        private string _MaBCP;
-
-        public string MaBCP
-        {
-            get { return _MaBCP; }
-            set { SetProperty(ref _MaBCP, value); }
-        }
-
-        BackgroundWorker bwTamQuanCheck;
-
-        public ICommand FillMaBCCommand { get; }
-
-        private List<string> LocBCP(string TextFill)
-        {
-            List<string> list = new List<string>();
-            if (string.IsNullOrEmpty(TextFill))
-                return null;
-            string[] texts = TextFill.Split('\n');
-            //2	ED594304497VN	59	593200	590000	EU	2800	0
-            //3   RA596820153VN   59  593200  593330  R!  50  0
-            foreach (var item in texts)
-            {
-                string[] splitTabTexts = item.Split(' ');
-                if (splitTabTexts.Length >= 7)
-                {
-                    if (MaBCP == splitTabTexts[4])
-                    {
-                        list.Add(splitTabTexts[1]);
-                    }
-                }
-            }
-            return list;
-        }
-
-        private void FillMaBC()
-        {
-            if (string.IsNullOrEmpty(_MaBCP))
-                return;
-
-            TamQuans.Clear();
-            List<string> list = LocBCP(TextFill);
-            for (int i = 0; i < list.Count; i++)
-            {
-                string item = list[i];
-                TamQuans.Add(new TamQuanModel(i + 1, list[i]));
-            }
-        }
-
         public TamQuanViewModel()
         {
             timer = new DispatcherTimer();
@@ -111,26 +63,11 @@ namespace TaoBD10.ViewModels
             {
                 if (m.Value != null)
                 {
-                    if(kiemTraDaCoMaHieuTamQuan(m.Value.MaHieu))
-                    TamQuans.Add(new TamQuanModel(TamQuans.Count + 1, m.Value.MaHieu.ToUpper(), m.Value.TrongLuong));
+                    if (!kiemTraDaCoMaHieuTamQuan(m.Value.MaHieu))
+                        TamQuans.Add(new TamQuanModel(TamQuans.Count + 1, m.Value.MaHieu.ToUpper(), m.Value.TrongLuong));
                     SoundManager.playSound(@"Number\" + TamQuans.Count.ToString() + ".wav");
                 }
             });
-        }
-
-        bool kiemTraDaCoMaHieuTamQuan(string maHieu)
-        {
-            if (TamQuans.Count >= 1)
-            {
-                foreach (TamQuanModel item in TamQuans)
-                {
-                    if (item.MaHieu == maHieu.ToUpper())
-                    {
-                        return true;
-                    }
-                }
-            }
-            return false;
         }
 
         private void BwTamQuanCheck_DoWork(object sender, DoWorkEventArgs e)
@@ -164,7 +101,7 @@ namespace TaoBD10.ViewModels
                         //them du lieu vao
                         if (kiemTraDaCoMaHieuTamQuan(code))
                             return;
-                       
+
                         App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
                         {
                             if (isDoubleRight)
@@ -178,43 +115,23 @@ namespace TaoBD10.ViewModels
 
                             SoundManager.playSound(@"Number\" + TamQuans.Count.ToString() + ".wav");
                         });
-
-
                     }
                 }
             };
         }
 
-        public ICommand SortCommand { get; }
-
-        private void Sort()
+        private void FillMaBC()
         {
-            if (TamQuans.Count > 0)
+            if (string.IsNullOrEmpty(_MaBCP))
+                return;
+
+            TamQuans.Clear();
+            List<string> list = LocBCP(TextFill);
+            for (int i = 0; i < list.Count; i++)
             {
-                var tempList = TamQuans.ToList();
-                tempList.Sort((m, n) => m.TrongLuong.CompareTo(n.TrongLuong));
-                TamQuans.Clear();
-                foreach (var item in tempList)
-                {
-                    TamQuans.Add(item);
-                }
+                string item = list[i];
+                TamQuans.Add(new TamQuanModel(i + 1, list[i]));
             }
-        }
-
-        private int _CurrentNumber = 2;
-
-        public int CurrentNumber
-        {
-            get { return _CurrentNumber; }
-            set { SetProperty(ref _CurrentNumber, value); }
-        }
-
-        private ObservableCollection<int> _Numbers;
-
-        public ObservableCollection<int> Numbers
-        {
-            get { return _Numbers; }
-            set { SetProperty(ref _Numbers, value); }
         }
 
         private void FillMaHieu()
@@ -234,6 +151,43 @@ namespace TaoBD10.ViewModels
                     continue;
                 }
             }
+        }
+
+        private bool kiemTraDaCoMaHieuTamQuan(string maHieu)
+        {
+            if (TamQuans.Count >= 1)
+            {
+                foreach (TamQuanModel item in TamQuans)
+                {
+                    if (item.MaHieu == maHieu.ToUpper())
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        private List<string> LocBCP(string TextFill)
+        {
+            List<string> list = new List<string>();
+            if (string.IsNullOrEmpty(TextFill))
+                return null;
+            string[] texts = TextFill.Split('\n');
+            //2	ED594304497VN	59	593200	590000	EU	2800	0
+            //3   RA596820153VN   59  593200  593330  R!  50  0
+            foreach (var item in texts)
+            {
+                string[] splitTabTexts = item.Split(' ');
+                if (splitTabTexts.Length >= 7)
+                {
+                    if (MaBCP == splitTabTexts[4])
+                    {
+                        list.Add(splitTabTexts[1]);
+                    }
+                }
+            }
+            return list;
         }
 
         private List<string> LocTextTho(string textsRange)
@@ -265,6 +219,20 @@ namespace TaoBD10.ViewModels
                 SendKeys.SendWait(item.MaHieu);
                 SendKeys.SendWait("{ENTER}");
                 Thread.Sleep(CurrentNumber * 500);
+            }
+        }
+
+        private void Sort()
+        {
+            if (TamQuans.Count > 0)
+            {
+                var tempList = TamQuans.ToList();
+                tempList.Sort((m, n) => m.TrongLuong.CompareTo(n.TrongLuong));
+                TamQuans.Clear();
+                foreach (var item in tempList)
+                {
+                    TamQuans.Add(item);
+                }
             }
         }
 
@@ -327,8 +295,29 @@ namespace TaoBD10.ViewModels
             }
         }
 
+        public int CurrentNumber
+        {
+            get { return _CurrentNumber; }
+            set { SetProperty(ref _CurrentNumber, value); }
+        }
+
+        public ICommand FillMaBCCommand { get; }
         public ICommand FillMaHieuCommand { get; }
+
+        public string MaBCP
+        {
+            get { return _MaBCP; }
+            set { SetProperty(ref _MaBCP, value); }
+        }
+
+        public ObservableCollection<int> Numbers
+        {
+            get { return _Numbers; }
+            set { SetProperty(ref _Numbers, value); }
+        }
+
         public ICommand SendCommand { get; }
+        public ICommand SortCommand { get; }
 
         public ObservableCollection<TamQuanModel> TamQuans
         {
@@ -342,8 +331,12 @@ namespace TaoBD10.ViewModels
             set { SetProperty(ref _TextFill, value); }
         }
 
+        private int _CurrentNumber = 2;
+        private string _MaBCP;
+        private ObservableCollection<int> _Numbers;
         private ObservableCollection<TamQuanModel> _TamQuans;
         private string _TextFill;
+        private BackgroundWorker bwTamQuanCheck;
         private bool isBusyTamQuan = false;
         private DispatcherTimer timer;
     }

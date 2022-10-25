@@ -263,9 +263,6 @@ namespace TaoBD10.ViewModels
             //thuc hien cong viec trong nay
             if (!IsTuDongXuLy)
                 return;
-			var window = APIManager.WaitingFindedWindow("xem chuyen thu chieu den");
-            if(window == null)
-				return;
 
             bool daTimThay = checkDanhSachTrongDongCT(CurrentSelectedHangHoaDetail);
             if (!daTimThay)

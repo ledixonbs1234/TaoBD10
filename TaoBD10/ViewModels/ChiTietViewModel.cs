@@ -237,8 +237,10 @@ namespace TaoBD10.ViewModels
             //return;
 
 
-            string maHieu = layMaHieuTrongDongCT();
-            if (maHieu != CurrentSelectedHangHoaDetail.TuiHangHoa.SHTui)
+           TamQuanModel maHieu = layMaHieuTrongDongCT();
+            if (maHieu == null)
+                return;
+            if (maHieu.MaHieu != CurrentSelectedHangHoaDetail.TuiHangHoa.SHTui)
             {
                 return;
             }
@@ -246,7 +248,8 @@ namespace TaoBD10.ViewModels
             if (CurrentSelectedHangHoaDetail.TrangThaiBD == TrangThaiBD.TamQuan)
             {
                 APIManager.ShowSnackbar("ban da nhan tam quan");
-                SendKeys.SendWait("{F2}");
+                //thuc hien chuyen ma qua tam quan
+                // co 2 loai nen lam thu
             }
             else
             {
@@ -259,11 +262,11 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        string layMaHieuTrongDongCT()
+        TamQuanModel layMaHieuTrongDongCT()
         {
             var currentWindow = APIManager.GetActiveWindowTitle();
             if (currentWindow == null)
-                return "";
+                return null;
 
             if (currentWindow.text.IndexOf("xem chuyen thu chieu den") != -1)
             {
@@ -282,15 +285,17 @@ namespace TaoBD10.ViewModels
                 if (temp.Length == 2)
                 {
                     string code = temp[1].Split('\t')[1];
+                    bool isDoubleRight = double.TryParse(temp[1].Split('\t')[6], out double klTemp);
 
                     //xu ly du lieu trong nay
-                    if (code.Length == 13)
+                    if (code.Length == 13 && isDoubleRight)
                     {
-                        return code;
+                        TamQuanModel tamquan = new TamQuanModel(1, code, klTemp);
+                        return tamquan;
                     }
                 }
             }
-            return "";
+            return null;
         }
 
         bool checkDanhSachTrongDongCT(HangHoaDetailModel hangHoa)
@@ -1047,6 +1052,11 @@ namespace TaoBD10.ViewModels
             if (infoThongTin == null)
                 return;
             APIManager.ClickButton(infoThongTin.hwnd, "thoat", isExactly: false);
+            if (IsTuDongXuLy)
+            {
+                if (ChuyenThuTiepTheo())
+                    TuDongXuLyCT();
+            }
         }
 
         void Publish()

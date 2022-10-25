@@ -253,7 +253,6 @@ namespace TaoBD10.Manager
                     }
                     catch (Exception ex)
                     {
-                                               throw;
                     }
                 });
                 thread.SetApartmentState(ApartmentState.STA); //Set the thread to STA

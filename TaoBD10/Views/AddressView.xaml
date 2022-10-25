@@ -58,7 +58,7 @@
                     Binding="{Binding TuiHangHoa.STT}"
                     Header="Địa Chỉ"
                     IsReadOnly="True"></DataGridTextColumn>
-                    <materialDesign:DataGridComboBoxColumn ItemsSourceBinding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.LoaiAddress}" SelectedItemBinding="{Binding IsTamQuan}" />
+                <materialDesign:DataGridComboBoxColumn ItemsSourceBinding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.LoaiAddress}" SelectedItemBinding="{Binding IsTamQuan}" />
                 <DataGridTextColumn Binding="{Binding PhanLoai}"></DataGridTextColumn>
 
                 <DataGridTextColumn
@@ -110,18 +110,22 @@
                     Margin="5"
                     Command="{Binding LayDiaChiCommand}"
                     Content="Lấy Địa Chỉ" />
-                 <Button
-                    Margin="5"
-                    Command="{Binding ChuyenTamQuanVeLayCTCommand}"
-                    Content="Update Tam Quan" />
-                
             </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button
+                    Margin="5"
+                     HorizontalAlignment="Right"
+                    Command="{Binding ChuyenTamQuanVeLayCTCommand}"
+                    Content="Update Chuyến Thư" />
 
-            <Button
+
+                <Button
                 Margin="5"
                 HorizontalAlignment="Right"
                 Command="{Binding SendDataCommand}"
-                Content="Send" />
+                Content="Send Tam Quan" />
+            </StackPanel>
+
         </Grid>
     </Grid>
 </UserControl>

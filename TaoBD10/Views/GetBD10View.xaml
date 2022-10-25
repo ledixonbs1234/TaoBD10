@@ -69,7 +69,7 @@
                 <TextBlock
                     VerticalAlignment="Center"
                     Style="{StaticResource MaterialDesignBody2TextBlock}"
-                    Text="Dừng tại chi tiết" />
+                    Text="So Sánh SL Túi" />
             </StackPanel>
         </StackPanel>
     </StackPanel>

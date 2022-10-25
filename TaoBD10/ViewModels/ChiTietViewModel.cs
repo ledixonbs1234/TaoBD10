@@ -250,6 +250,10 @@ namespace TaoBD10.ViewModels
                 APIManager.ShowSnackbar("ban da nhan tam quan");
                 //thuc hien chuyen ma qua tam quan
                 // co 2 loai nen lam thu
+                WeakReferenceMessenger.Default.Send(new ChuyenTamQuanMHMessage(maHieu));
+                Thread.Sleep(200);
+                if (ChuyenThuTiepTheo())
+                    TuDongXuLyCT();
             }
             else
             {

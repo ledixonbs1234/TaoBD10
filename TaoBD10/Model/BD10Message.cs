@@ -30,6 +30,13 @@ namespace TaoBD10.Model
         }
     }
 
+    public class ChuyenTamQuanMHMessage : ValueChangedMessage<TamQuanModel>
+    {
+        public ChuyenTamQuanMHMessage(TamQuanModel tamquan) : base(tamquan)
+        {
+        }
+    }
+
     public class HangTonMessage : ValueChangedMessage<List<HangTonModel>>
     {
         public HangTonMessage(List<HangTonModel> list) : base(list)

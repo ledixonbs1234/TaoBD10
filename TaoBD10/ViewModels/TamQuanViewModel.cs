@@ -106,6 +106,14 @@ namespace TaoBD10.ViewModels
                     WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Navigation", Content = "TamQuan" });
                 }
             });
+            WeakReferenceMessenger.Default.Register<ChuyenTamQuanMHMessage>(this, (r, m) =>
+            {
+                if (m.Value != null)
+                {
+                    TamQuans.Add(new TamQuanModel(TamQuans.Count + 1, m.Value.MaHieu.ToUpper(), m.Value.TrongLuong));
+                    SoundManager.playSound(@"Number\" + TamQuans.Count.ToString() + ".wav");
+                }
+            });
         }
 
         private void BwTamQuanCheck_DoWork(object sender, DoWorkEventArgs e)

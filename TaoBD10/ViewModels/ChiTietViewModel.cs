@@ -1294,9 +1294,9 @@ namespace TaoBD10.ViewModels
                     if (ChuyenThuTiepTheo())
                         LayCodeFromSHTui();
                 }
-
-            if (!bwChiTiet.IsBusy)
-                bwChiTiet.RunWorkerAsync();
+            if (IsTuDongXuLy)
+                if (!bwLayMaHieu.IsBusy)
+                    bwLayMaHieu.RunWorkerAsync();
         }
 
         private void TuDongXuLyCT()

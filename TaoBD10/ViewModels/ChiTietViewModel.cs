@@ -1292,6 +1292,10 @@ namespace TaoBD10.ViewModels
             {
                 if (ChuyenThuTiepTheo())
                     LayCodeFromSHTui();
+                else
+                {
+                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToAddress_LayDanhSach" });
+                }
             }
             if (IsTuDongXuLy)
                 if (!bwLayMaHieu.IsBusy)

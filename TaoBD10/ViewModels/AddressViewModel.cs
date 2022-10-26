@@ -29,17 +29,17 @@ namespace TaoBD10.ViewModels
 
             ChuyenTamQuanVeLayCTCommand = new RelayCommand(ChuyenTamQuanVeLayCT);
 
-
-            WeakReferenceMessenger.Default.Register<TuiHangHoaMessage>(this, (r, m)=>
+            WeakReferenceMessenger.Default.Register<TuiHangHoaMessage>(this, (r, m) =>
 {
-                if (m.Value == null)
-                    return;
-                HangHoas.Clear();
-                foreach (HangHoaDetailModel item in m.Value)
-                {
-                    HangHoas.Add(item);
-                }
-            });
+    if (m.Value == null)
+        return;
+    HangHoas.Clear();
+    foreach (HangHoaDetailModel item in m.Value)
+    {
+        HangHoas.Add(item);
+    }
+    Loc();
+});
 
             WeakReferenceMessenger.Default.Register<SHTuiMessage>(this, (r, m) =>
             {
@@ -66,6 +66,10 @@ namespace TaoBD10.ViewModels
                     {
                         SetCountTamQuan();
                     }
+                }
+                else if (m.Key == "ToAddress_LayDanhSach")
+                {
+                    LayDanhSach();
                 }
             });
             string[] fillTamQuan = { "tam quan", "hoai son", "hoai chau", "hoai hao", "hoai phu", "hoai thanh" };
@@ -107,7 +111,6 @@ namespace TaoBD10.ViewModels
                 }
             });
 
-
             WeakReferenceMessenger.Default.Register<ChiTietTuiMessage>(this, (r, m) =>
             {
                 if (m.Value != null)
@@ -147,23 +150,19 @@ namespace TaoBD10.ViewModels
                                 //    }
                                 //}
                             }
-
                         }
                     }
-
                 }
             }
            );
         }
 
-
         public ICommand ChuyenTamQuanVeLayCTCommand { get; }
 
-        void ChuyenTamQuanVeLayCT()
+        private void ChuyenTamQuanVeLayCT()
         {
-            WeakReferenceMessenger.Default.Send(new ChuyenTamQuanMessage(HangHoas.ToList().FindAll(m=>m.IsTamQuan == "TamQuan")));
+            WeakReferenceMessenger.Default.Send(new ChuyenTamQuanMessage(HangHoas.ToList().FindAll(m => m.IsTamQuan == "TamQuan")));
         }
-
 
         private void LayDanhSach()
         {

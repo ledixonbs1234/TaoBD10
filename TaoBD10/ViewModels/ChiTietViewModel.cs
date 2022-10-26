@@ -1122,6 +1122,7 @@ namespace TaoBD10.ViewModels
             }
             else if (Name == LocKhaiThac.TenBD || Name == LocBCP.TenBD)
             {
+                CurrentSelectedHangHoaDetail = null;
                 LocBDInfoModel currenLoc;
                 if (Name == LocKhaiThac.TenBD)
                 {

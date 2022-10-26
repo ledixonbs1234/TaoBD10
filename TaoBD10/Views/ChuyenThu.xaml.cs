@@ -14,7 +14,10 @@ namespace TaoBD10.Views
 
         private void dataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            dataGrid.ScrollIntoView(dataGrid.SelectedItems[0]);
+            if (dataGrid.SelectedItems.Count > 0)
+            {
+                dataGrid.ScrollIntoView(dataGrid.SelectedItems[0]);
+            }
         }
     }
 }

@@ -1288,12 +1288,11 @@ namespace TaoBD10.ViewModels
                 SoundManager.playSound3(@"Number\error_sound.wav");
                 return;
             }
-            if (IsBoQuaMaHieuSHTuiSai)
-                if (CurrentSelectedHangHoaDetail.TuiHangHoa.SHTui.Length == 13)
-                {
-                    if (ChuyenThuTiepTheo())
-                        LayCodeFromSHTui();
-                }
+            if (CurrentSelectedHangHoaDetail.TuiHangHoa.SHTui.Length == 13)
+            {
+                if (ChuyenThuTiepTheo())
+                    LayCodeFromSHTui();
+            }
             if (IsTuDongXuLy)
                 if (!bwLayMaHieu.IsBusy)
                     bwLayMaHieu.RunWorkerAsync();

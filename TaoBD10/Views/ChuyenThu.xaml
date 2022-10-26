@@ -44,10 +44,16 @@
             </StackPanel>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Row="3" HorizontalAlignment="Center">
-            <Button Grid.Row="3" Width="100"
+            <Button Grid.Row="3" Width="89"
+                    Margin=" 5"
+                     Command="{Binding LayCodeFromSHTuiCommand}"
+                    Content="Lấy Code"
+                    Style="{StaticResource MaterialDesignPaperLightButton}"
+                    ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
+            <Button Grid.Row="3" Width="70"
                     Margin=" 5"
                      Command="{Binding TuDongXuLyCTCommand}"
-                    Content="Tự động"
+                    Content="Auto"
                     Style="{StaticResource MaterialDesignPaperLightButton}"
                     ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
             <CheckBox IsChecked="{Binding IsTuDongXuLy}" Content="isAuto" Foreground="#FFFF8787" />

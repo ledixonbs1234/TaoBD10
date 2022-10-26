@@ -27,6 +27,10 @@ namespace TaoBD10.ViewModels
             bwChiTiet.RunWorkerCompleted += BwChiTiet_RunWorkerCompleted;
             taoBDWorker = new BackgroundWorker();
             taoBDWorker.DoWork += TaoBDWorker_DoWork;
+            bwLayMaHieu = new BackgroundWorker();
+            bwLayMaHieu.DoWork += BwLayMaHieu_DoWork;
+            bwLayMaHieu.WorkerSupportsCancellation = true;
+            bwLayMaHieu.RunWorkerCompleted += BwLayMaHieu_RunWorkerCompleted;
             LocBDs = new ObservableCollection<LocBDInfoModel>();
             AddBDTinhCommand = new RelayCommand<string>(AddBDTinh);
             ShowTinhs = new ObservableCollection<TinhHuyenModel>();
@@ -42,6 +46,7 @@ namespace TaoBD10.ViewModels
             PublishCommand = new RelayCommand(Publish);
             XeXaHoiCommand = new RelayCommand(XeXaHoi);
             SelectedTinhCommand = new RelayCommand<string>(SelectedTinh);
+            LayCodeFromSHTuiCommand = new RelayCommand(LayCodeFromSHTui);
 
             SelectionCommand = new RelayCommand<HangHoaDetailModel>(ChonCT);
 
@@ -198,6 +203,101 @@ namespace TaoBD10.ViewModels
             //thuc hien viec xoa Thong Tin tu Tinh Thanh;
         }
 
+        private void BwLayMaHieu_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (!e.Cancelled)
+            {
+                if (ChuyenThuTiepTheo())
+                    LayCodeFromSHTui();
+            }
+        }
+
+        private void BwLayMaHieu_DoWork(object sender, DoWorkEventArgs e)
+        {
+            var window = VaoChiTietChuyenThu(CurrentSelectedHangHoaDetail.TuiHangHoa.SHTui);
+            string currentMH = "";
+            if (window == null)
+            {
+                e.Cancel = true;
+                return;
+            }
+            return;
+            if (window.text.IndexOf("xac nhan chi tiet tui thu") != -1)
+            {
+                //kiemtra thu cho nay co sh tui la bao nhieu neu vn thi lay dia chi
+                //de ra phan xem chuyen thu chieu den thi in ra luon
+                //con neu khong co lam cach nao do de lay duoc cai ma hieu va in ra
+                //if (CurrentSelectedHangHoaDetail.TuiHangHoa.SHTui.Length == 13)
+                //{
+                //    //thuc hien lay dia chi cho nay
+                //    currentMH = CurrentSelectedHangHoaDetail.TuiHangHoa.SHTui;
+                //}♦
+                //else
+                //{
+                SendKeys.SendWait("{TAB}{TAB}");
+                Thread.Sleep(50);
+
+                string copyed = APIManager.GetCopyData();
+                if (copyed != null)
+                {
+                    string[] enterText = copyed.Split('\n');
+                    if (enterText.Length == 2)
+                    {
+                        copyed = enterText[1];
+                    }
+                    string[] data = copyed.Split('\t');
+
+                    currentMH = data[1];
+                    CurrentSelectedHangHoaDetail.Code = currentMH.ToUpper();
+                }
+                else { e.Cancel = true; }
+
+                //}
+
+                //if (currentMH.Length == 13)
+                //{
+                //    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "XacNhanMHCTDen", Content = currentMH });
+                //}
+            }
+            else if (window.text.IndexOf("xem chuyen thu chieu den") != -1)
+            {
+                window = APIManager.WaitingFindedWindow("xem chuyen thu chieu den");
+                if (window == null)
+                {
+                    e.Cancel = true;
+                    return;
+                }
+
+                bool daTimThay = checkDanhSachTrongDongCT(CurrentSelectedHangHoaDetail);
+                if (!daTimThay)
+                {
+                    SoundManager.playSound3(@"Number\error_sound.wav");
+                    e.Cancel = true;
+                    return;
+                }
+
+                //bool daTimThay = checkDanhSachTrongDongCT(CurrentSelectedHangHoaDetail);
+                //if (daTimThay)
+                //{
+                //    APIManager.ShowSnackbar("da tim thay");
+                //}
+                //else
+                //{
+                //    APIManager.ShowSnackbar("Khong tim thay");
+                //}
+                //return;
+
+                TamQuanModel maHieu = layMaHieuTrongDongCT();
+                if (maHieu == null)
+                {
+                    SoundManager.playSound3(@"Number\error_sound.wav");
+                    e.Cancel = true;
+                    return;
+                }
+                CurrentSelectedHangHoaDetail.Code = maHieu.MaHieu;
+            }
+        }
+
         private void AddBDTinh(string Name)
         {
             if (string.IsNullOrEmpty(Name))
@@ -209,6 +309,8 @@ namespace TaoBD10.ViewModels
 
             taoBDWorker.RunWorkerAsync();
         }
+
+        private BackgroundWorker bwLayMaHieu;
 
         private void BwChiTiet_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -263,9 +365,9 @@ namespace TaoBD10.ViewModels
             //thuc hien cong viec trong nay
             if (!IsTuDongXuLy)
                 return;
-			var window = APIManager.WaitingFindedWindow("xem chuyen thu chieu den");
-            if(window == null)
-				return;
+            var window = APIManager.WaitingFindedWindow("xem chuyen thu chieu den");
+            if (window == null)
+                return;
 
             bool daTimThay = checkDanhSachTrongDongCT(CurrentSelectedHangHoaDetail);
             if (!daTimThay)
@@ -290,7 +392,6 @@ namespace TaoBD10.ViewModels
             {
                 SoundManager.playSound3(@"Number\error_sound.wav");
                 return;
-
             }
             if (maHieu.MaHieu != CurrentSelectedHangHoaDetail.TuiHangHoa.SHTui)
             {
@@ -937,7 +1038,6 @@ namespace TaoBD10.ViewModels
                 SoundManager.playSound3(@"Number\error_sound.wav");
                 return;
             }
-               
 
             SendKeys.SendWait("%(p)");
             Thread.Sleep(500);
@@ -1177,6 +1277,26 @@ namespace TaoBD10.ViewModels
                 default:
                     break;
             }
+        }
+
+        public ICommand LayCodeFromSHTuiCommand { get; }
+
+        private void LayCodeFromSHTui()
+        {
+            if (CurrentSelectedHangHoaDetail == null)
+            {
+                SoundManager.playSound3(@"Number\error_sound.wav");
+                return;
+            }
+            if (IsBoQuaMaHieuSHTuiSai)
+                if (CurrentSelectedHangHoaDetail.TuiHangHoa.SHTui.Length == 13)
+                {
+                    if (ChuyenThuTiepTheo())
+                        LayCodeFromSHTui();
+                }
+
+            if (!bwChiTiet.IsBusy)
+                bwChiTiet.RunWorkerAsync();
         }
 
         private void TuDongXuLyCT()

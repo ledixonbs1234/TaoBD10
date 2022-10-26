@@ -221,7 +221,6 @@ namespace TaoBD10.ViewModels
                 e.Cancel = true;
                 return;
             }
-            return;
             if (window.text.IndexOf("xac nhan chi tiet tui thu") != -1)
             {
                 //kiemtra thu cho nay co sh tui la bao nhieu neu vn thi lay dia chi

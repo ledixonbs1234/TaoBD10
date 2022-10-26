@@ -63,7 +63,7 @@
                 </StackPanel>
                 <ToggleButton
                     Margin="5"
-                    IsChecked="{Binding IsStopInChiTiet}"
+                    IsChecked="{Binding SoSanhSLTui}"
                     Style="{StaticResource MaterialDesignSwitchToggleButton}"
                     ToolTip="MaterialDesignSwitchToggleButton" />
                 <TextBlock

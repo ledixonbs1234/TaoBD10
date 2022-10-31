@@ -1296,14 +1296,14 @@ namespace TaoBD10.ViewModels
         {
             if (!IsActivatedWindow)
             {
-                if (IndexTabControl != 3 && IndexTabTui != 7)
+                if ((IndexTabControl == 3 && IndexTabTui == 8) || IndexTabTui == 7)
+                {
+                }
+                else
                 {
                     IsActivatedWindow = true;
                     OnSelectedTabTui();
                     window.Activate();
-                }
-                else
-                {
                 }
             }
         }

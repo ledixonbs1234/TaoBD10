@@ -54,17 +54,24 @@
                     Command="{Binding TuDongXuLyCTCommand}"
                     Content="{materialDesign:PackIcon Kind=AutoFix}"
                     ToolTip="Tự động in" />
+                <Button
+                    Command="{Binding TuDongXacNhanCTCommand}"
+                    Content="{materialDesign:PackIcon Kind=SelectionRemove}"
+                    ToolTip="Tự động in" />
                 <Separator />
                 <CheckBox
                     Content="isAuto"
+                    FontSize="15"
                     Foreground="#FFFF8787"
                     IsChecked="{Binding IsTuDongXuLy}" />
                 <CheckBox
                     Content="Bỏ qua Sh túi sai"
+                    FontSize="15"
                     Foreground="Green"
                     IsChecked="{Binding IsBoQuaMaHieuSHTuiSai}" />
                 <CheckBox
                     Content="Không in lan"
+                    FontSize="15"
                     Foreground="Black"
                     IsChecked="{Binding KhongInLan}" />
             </ToolBar>

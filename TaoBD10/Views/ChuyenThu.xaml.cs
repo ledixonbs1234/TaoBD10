@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using TaoBD10.ViewModels;
 
 namespace TaoBD10.Views
 {
@@ -16,6 +17,8 @@ namespace TaoBD10.Views
         {
             if (dataGrid.SelectedItems.Count > 0)
             {
+                //var vm = this.DataContext as ChiTietViewModel;
+                //vm.ListShowHangHoa.IndexOf(dataGrid.SelectedItems[0]);
                 dataGrid.ScrollIntoView(dataGrid.SelectedItems[0]);
             }
         }

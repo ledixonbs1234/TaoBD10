@@ -34,6 +34,7 @@ namespace TaoBD10.ViewModels
             LocBDs = new ObservableCollection<LocBDInfoModel>();
             AddBDTinhCommand = new RelayCommand<string>(AddBDTinh);
             ShowTinhs = new ObservableCollection<TinhHuyenModel>();
+            TuDongXacNhanCTCommand = new RelayCommand(TuDongXacNhanCT);
             UpdateBuuCucChuyenThuCommand = new RelayCommand(UpdateBuuCucChuyenThu);
             SaveLocBDCommand = new RelayCommand(SaveLocBD);
             XuongLocCommand = new RelayCommand(XuongLoc);
@@ -912,6 +913,8 @@ namespace TaoBD10.ViewModels
 
         private void KhongInLanChanged()
         {
+            if (ListShowHangHoa == null)
+                return;
             if (KhongInLan)
             {
                 foreach (HangHoaDetailModel hangHoa in ListShowHangHoa)
@@ -1326,6 +1329,12 @@ namespace TaoBD10.ViewModels
                 default:
                     break;
             }
+        }
+
+        public ICommand TuDongXacNhanCTCommand { get; }
+
+        private void TuDongXacNhanCT()
+        {
         }
 
         private void TuDongXuLyCT()

@@ -180,7 +180,8 @@ namespace TaoBD10.ViewModels
             {
                 if (!string.IsNullOrEmpty(hangHoa.Code))
                 {
-                    listMaHieu += hangHoa.Code + ",";
+                    if (string.IsNullOrEmpty(hangHoa.Address))
+                        listMaHieu += hangHoa.Code + ",";
                 }
             }
             addressDefault += listMaHieu;

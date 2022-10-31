@@ -34,8 +34,8 @@
             materialDesign:DataGridAssist.ColumnHeaderPadding="4 2 2 2"
             AutoGenerateColumns="False"
             CanUserAddRows="False"
-            SelectedItem="{Binding SelectedAddress}"
             ItemsSource="{Binding HangHoas}"
+            SelectedItem="{Binding SelectedAddress}"
             SelectionMode="Single">
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
@@ -58,9 +58,9 @@
                     MaxWidth="400"
                     Binding="{Binding TuiHangHoa.STT}"
                     Header="Địa Chỉ"
-                    IsReadOnly="True"></DataGridTextColumn>
+                    IsReadOnly="True" />
                 <materialDesign:DataGridComboBoxColumn ItemsSourceBinding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.LoaiAddress}" SelectedItemBinding="{Binding IsTamQuan}" />
-                <DataGridTextColumn Binding="{Binding PhanLoai}"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding PhanLoai}" />
 
                 <DataGridTextColumn
                     Binding="{Binding TuiHangHoa.SHTui}"
@@ -94,6 +94,17 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
+                <DataGridTextColumn
+                    MaxWidth="400"
+                    Binding="{Binding BuuCucChapNhan}"
+                    Header="BC Chấp Nhận"
+                    IsReadOnly="True">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="TextBlock.TextWrapping" Value="NoWrap" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
 
@@ -116,18 +127,18 @@
                     Command="{Binding LayDiaChiGuiCommand}"
                     Content="Lấy Địa Chi Gui" />
             </StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                 <Button
                     Margin="5"
-                     HorizontalAlignment="Right"
+                    HorizontalAlignment="Right"
                     Command="{Binding ChuyenTamQuanVeLayCTCommand}"
                     Content="Update Chuyến Thư" />
 
                 <Button
-                Margin="5"
-                HorizontalAlignment="Right"
-                Command="{Binding SendDataCommand}"
-                Content="Send Tam Quan" />
+                    Margin="5"
+                    HorizontalAlignment="Right"
+                    Command="{Binding SendDataCommand}"
+                    Content="Send Tam Quan" />
             </StackPanel>
         </Grid>
     </Grid>

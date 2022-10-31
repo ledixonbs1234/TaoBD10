@@ -1,10 +1,10 @@
 ﻿<UserControl
     x:Class="TaoBD10.Views.ChuyenThu"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Behaviors="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="450"
     d:DesignWidth="800"
@@ -20,14 +20,15 @@
         </Grid.RowDefinitions>
         <StackPanel
             Grid.Row="0"
+            Width="258"
             HorizontalAlignment="Center"
-            Orientation="Horizontal" Width="258">
+            Orientation="Horizontal">
             <StackPanel Margin="20,0,20,0">
 
                 <Button
                     Margin="5"
                     Command="{Binding SelectedTinhCommand}"
-                        CommandParameter="593230"
+                    CommandParameter="593230"
                     Content="593230"
                     Style="{StaticResource MaterialDesignPaperLightButton}"
                     ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
@@ -35,40 +36,52 @@
             <StackPanel Margin="20,0,20,0">
 
                 <Button
-                    Margin=" 5"
-                     Command="{Binding SelectedTinhCommand}"
-                        CommandParameter="593280"
+                    Margin="5"
+                    Command="{Binding SelectedTinhCommand}"
+                    CommandParameter="593280"
                     Content="593280"
                     Style="{StaticResource MaterialDesignPaperLightButton}"
                     ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
             </StackPanel>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" Grid.Row="3" HorizontalAlignment="Center">
-            <Button Grid.Row="3" Width="89"
-                    Margin=" 5"
-                     Command="{Binding LayCodeFromSHTuiCommand}"
-                    Content="Lấy Code"
-                    Style="{StaticResource MaterialDesignPaperLightButton}"
-                    ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
-            <Button Grid.Row="3" Width="70"
-                    Margin=" 5"
-                     Command="{Binding TuDongXuLyCTCommand}"
-                    Content="Auto"
-                    Style="{StaticResource MaterialDesignPaperLightButton}"
-                    ToolTip="Resource name: MaterialDesignPaperSecondaryButton" />
-            <CheckBox IsChecked="{Binding IsTuDongXuLy}" Content="isAuto" Foreground="#FFFF8787" />
-            <CheckBox IsChecked="{Binding IsBoQuaMaHieuSHTuiSai}" Content="Bỏ qua Sh túi sai" Foreground="Green" />
-        </StackPanel>
-
+        <ToolBarTray Grid.Row="3">
+            <ToolBar ClipToBounds="False" Style="{StaticResource MaterialDesignToolBar}">
+                <Button
+                    Command="{Binding LayCodeFromSHTuiCommand}"
+                    Content="{materialDesign:PackIcon Kind=KeyOutline}"
+                    ToolTip="Lấy mã hiệu" />
+                <Button
+                    Command="{Binding TuDongXuLyCTCommand}"
+                    Content="{materialDesign:PackIcon Kind=AutoFix}"
+                    ToolTip="Tự động in" />
+                <Separator />
+                <CheckBox
+                    Content="isAuto"
+                    Foreground="#FFFF8787"
+                    IsChecked="{Binding IsTuDongXuLy}" />
+                <CheckBox
+                    Content="Bỏ qua Sh túi sai"
+                    Foreground="Green"
+                    IsChecked="{Binding IsBoQuaMaHieuSHTuiSai}" />
+                <CheckBox
+                    Content="Không in lan"
+                    Foreground="Black"
+                    IsChecked="{Binding KhongInLan}" />
+            </ToolBar>
+        </ToolBarTray>
         <TextBlock
             Grid.Row="1"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Foreground="#007ac1"
-             Style="{StaticResource MaterialDesignHeadline4TextBlock}"
+            Style="{StaticResource MaterialDesignHeadline4TextBlock}"
             Text="{Binding ListShowHangHoa.Count}" />
         <StackPanel Grid.Row="2" Margin="5,5,5,5">
-            <TextBlock Text="{Binding CurrentSelectedHangHoaDetail.TuiHangHoa.SHTui}" Style="{StaticResource MaterialDesignBody2TextBlock}" FontWeight="Medium" Foreground="Chocolate" />
+            <TextBlock
+                FontWeight="Medium"
+                Foreground="Chocolate"
+                Style="{StaticResource MaterialDesignBody2TextBlock}"
+                Text="{Binding CurrentSelectedHangHoaDetail.TuiHangHoa.SHTui}" />
             <TextBlock FontSize="13" Text="{Binding CurrentSelectedHangHoaDetail.Address}" />
         </StackPanel>
         <DataGrid
@@ -82,7 +95,8 @@
             IsReadOnly="True"
             ItemsSource="{Binding ListShowHangHoa}"
             SelectedItem="{Binding SelectedTui, Mode=TwoWay}"
-            SelectionMode="Single" SelectionChanged="dataGrid_SelectionChanged">
+            SelectionChanged="dataGrid_SelectionChanged"
+            SelectionMode="Single">
             <Behaviors:Interaction.Triggers>
                 <Behaviors:EventTrigger EventName="MouseLeftButtonUp">
                     <Behaviors:InvokeCommandAction Command="{Binding SelectionCommand}" CommandParameter="{Binding SelectedItem, ElementName=dataGrid}" />
@@ -103,6 +117,9 @@
                         <DataTrigger Binding="{Binding TrangThaiBD}" Value="TamQuan">
                             <Setter Property="Background" Value="Yellow" />
                         </DataTrigger>
+                        <DataTrigger Binding="{Binding TrangThaiBD}" Value="KhongIn">
+                            <Setter Property="Background" Value="Red" />
+                        </DataTrigger>
                     </Style.Triggers>
                 </Style>
             </DataGrid.RowStyle>
@@ -115,7 +132,6 @@
                     Header="STT" />
                 <DataGridTextColumn
                     Width="30"
-
                     Binding="{Binding TuiHangHoa.SCT}"
                     EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
                     ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"

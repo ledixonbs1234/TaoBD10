@@ -193,6 +193,7 @@ namespace TaoBD10.ViewModels
                             if (HaveHangHoa != null)
                             {
                                 HaveHangHoa.Address = chiTietTui.Address.Trim();
+                                HaveHangHoa.BuuCucChapNhan = chiTietTui.BCChapNhan;
                             }
                         }
                     }

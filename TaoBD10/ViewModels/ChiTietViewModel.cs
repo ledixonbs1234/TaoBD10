@@ -916,7 +916,7 @@ namespace TaoBD10.ViewModels
             {
                 foreach (HangHoaDetailModel hangHoa in ListShowHangHoa)
                 {
-                    if (hangHoa.TuiHangHoa.FromBC == "593200" & hangHoa.TuiHangHoa.KhoiLuong == "1,5" || hangHoa.TuiHangHoa.KhoiLuong == "2,0" || hangHoa.TuiHangHoa.KhoiLuong == "2,5")
+                    if (hangHoa.BuuCucChapNhan.IndexOf("593200") != -1 && hangHoa.TuiHangHoa.KhoiLuong == "1,0" || hangHoa.TuiHangHoa.KhoiLuong == "1,5" || hangHoa.TuiHangHoa.KhoiLuong == "2,0" || hangHoa.TuiHangHoa.KhoiLuong == "2,5")
                         hangHoa.TrangThaiBD = TrangThaiBD.KhongIn;
                 }
             }

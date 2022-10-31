@@ -423,30 +423,6 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        private void ClearHangHoa()
-        {
-            foreach (var locBD in LocBDs)
-            {
-                locBD.IsEnabledButton = false;
-                locBD.HangHoas.Clear();
-            }
-            LocKhaiThac.HangHoas.Clear();
-            LocBCP.HangHoas.Clear();
-            ConLai.HangHoas.Clear();
-            ConLai.IsEnabledButton = false;
-        }
-
-        private void CopySHTui()
-        {
-            //thuc hien lenh trong nay
-            if (SelectedTui != null)
-            {
-                System.Windows.Clipboard.SetDataObject(SelectedTui.TuiHangHoa.SHTui);
-                //SendMessage
-                WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Snackbar", Content = " Đã Copy" });
-            }
-        }
-
         private bool checkDanhSachTrongDongCT(HangHoaDetailModel hangHoa)
         {
             SendKeys.SendWait("{F5}");
@@ -536,6 +512,30 @@ namespace TaoBD10.ViewModels
             SelectedTui = ListShowHangHoa[index];
             CurrentSelectedHangHoaDetail = ListShowHangHoa[index];
             return true;
+        }
+
+        private void ClearHangHoa()
+        {
+            foreach (var locBD in LocBDs)
+            {
+                locBD.IsEnabledButton = false;
+                locBD.HangHoas.Clear();
+            }
+            LocKhaiThac.HangHoas.Clear();
+            LocBCP.HangHoas.Clear();
+            ConLai.HangHoas.Clear();
+            ConLai.IsEnabledButton = false;
+        }
+
+        private void CopySHTui()
+        {
+            //thuc hien lenh trong nay
+            if (SelectedTui != null)
+            {
+                System.Windows.Clipboard.SetDataObject(SelectedTui.TuiHangHoa.SHTui);
+                //SendMessage
+                WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Snackbar", Content = " Đã Copy" });
+            }
         }
 
         private void DeleteTinh()
@@ -907,6 +907,26 @@ namespace TaoBD10.ViewModels
                 SendKeys.SendWait(@"{UP}");
             }
             SendKeys.SendWait(@"{ENTER}");
+        }
+
+        private void KhongInLanChanged()
+        {
+            if (KhongInLan)
+            {
+                foreach (HangHoaDetailModel hangHoa in ListShowHangHoa)
+                {
+                    if (hangHoa.TuiHangHoa.FromBC == "593200" & hangHoa.TuiHangHoa.KhoiLuong == "1,5" || hangHoa.TuiHangHoa.KhoiLuong == "2,0" || hangHoa.TuiHangHoa.KhoiLuong == "2,5")
+                        hangHoa.TrangThaiBD = TrangThaiBD.KhongIn;
+                }
+            }
+            else
+            {
+                foreach (HangHoaDetailModel hangHoa in ListShowHangHoa)
+                {
+                    if (hangHoa.TuiHangHoa.FromBC == "593200" & hangHoa.TuiHangHoa.KhoiLuong == "1.5" || hangHoa.TuiHangHoa.KhoiLuong == "2.0" || hangHoa.TuiHangHoa.KhoiLuong == "2.5")
+                        hangHoa.TrangThaiBD = TrangThaiBD.ChuaChon;
+                }
+            }
         }
 
         private void LayCodeFromSHTui()
@@ -1320,6 +1340,11 @@ namespace TaoBD10.ViewModels
                     if (ChuyenThuTiepTheo())
                         TuDongXuLyCT();
                 }
+            if (CurrentSelectedHangHoaDetail.TrangThaiBD == TrangThaiBD.KhongIn)
+            {
+                if (ChuyenThuTiepTheo())
+                    TuDongXuLyCT();
+            }
 
             if (!bwChiTiet.IsBusy)
                 bwChiTiet.RunWorkerAsync();
@@ -1465,6 +1490,65 @@ namespace TaoBD10.ViewModels
             SelectedLocBD = LocBDs[indexLoc + 1];
         }
 
+        private readonly BackgroundWorker bwChiTiet;
+        private readonly BackgroundWorker taoBDWorker;
+        private readonly DispatcherTimer timerTaoBD;
+        private LocBDInfoModel _ConLai;
+        private TaoBdInfoModel _CurrenTaoBD;
+        private string _CurrentIndexGui = "0";
+        private HangHoaDetailModel _CurrentSelectedHangHoaDetail;
+        private int _IndexContinueGuiTrucTiep = 0;
+        private int _IndexTaoBDItem;
+        private bool _IsBoQuaMaHieuSHTuiSai;
+        private bool _IsTuDongXuLy = false;
+        private bool _KhongInLan;
+
+        private ObservableCollection<HangHoaDetailModel> _ListShowHangHoa;
+
+        private LocBDInfoModel _LocBCP;
+
+        private ObservableCollection<LocBDInfoModel> _LocBDs;
+
+        private LocBDInfoModel _LocKhaiThac;
+
+        private string _MaBCP;
+
+        private string _MaKT;
+
+        private string _NameTinhCurrent;
+
+        private LocBDInfoModel _SelectedLocBD;
+
+        private string _SelectedTime = "0.5";
+
+        private HangHoaDetailModel _SelectedTui;
+
+        private TinhHuyenModel _SelectTinh;
+
+        private ObservableCollection<TinhHuyenModel> _ShowTinhs;
+
+        private TaoBdInfoModel _taoBDAdd;
+
+        private string _TextCurrentChuyenThu;
+
+        private BackgroundWorker bwLayMaHieu;
+
+        private int countChuyen = 0;
+
+        private int countDuongThu = 0;
+
+        private BuuCuc currentBuuCuc = BuuCuc.None;
+
+        private List<HangHoaDetailModel> currentListHangHoa;
+
+        private bool isWaiting = false;
+
+        private string maBuuCuc = "0";
+
+        private StateTaoBd10 stateTaoBd10;
+
+        private string tenDuongThu = "";
+
         public IRelayCommand<string> AddBDTinhCommand { get; }
 
         public LocBDInfoModel ConLai
@@ -1494,8 +1578,11 @@ namespace TaoBD10.ViewModels
         }
 
         public ICommand DeleteTinhCommand { get; }
+
         public ICommand GetDataFromCloudCommand { get; }
+
         public ICommand GopBDCommand { get; }
+
         public ICommand HiddenCommand { get; }
 
         public int IndexContinueGuiTrucTiep
@@ -1520,6 +1607,16 @@ namespace TaoBD10.ViewModels
         {
             get { return _IsTuDongXuLy; }
             set { SetProperty(ref _IsTuDongXuLy, value); }
+        }
+
+        public bool KhongInLan
+        {
+            get { return _KhongInLan; }
+            set
+            {
+                SetProperty(ref _KhongInLan, value);
+                KhongInLanChanged();
+            }
         }
 
         public ICommand LayCodeFromSHTuiCommand { get; }
@@ -1622,43 +1719,5 @@ namespace TaoBD10.ViewModels
         public ICommand UpdateBuuCucChuyenThuCommand { get; }
         public ICommand XeXaHoiCommand { get; }
         public ICommand XuongLocCommand { get; }
-        private readonly BackgroundWorker bwChiTiet;
-        private readonly BackgroundWorker taoBDWorker;
-        private readonly DispatcherTimer timerTaoBD;
-        private LocBDInfoModel _ConLai;
-        private TaoBdInfoModel _CurrenTaoBD;
-        private string _CurrentIndexGui = "0";
-        private HangHoaDetailModel _CurrentSelectedHangHoaDetail;
-        private int _IndexContinueGuiTrucTiep = 0;
-        private int _IndexTaoBDItem;
-        private bool _IsBoQuaMaHieuSHTuiSai;
-        private bool _IsTuDongXuLy = false;
-        private ObservableCollection<HangHoaDetailModel> _ListShowHangHoa;
-        private LocBDInfoModel _LocBCP;
-        private ObservableCollection<LocBDInfoModel> _LocBDs;
-        private LocBDInfoModel _LocKhaiThac;
-        private string _MaBCP;
-        private string _MaKT;
-        private string _NameTinhCurrent;
-        private LocBDInfoModel _SelectedLocBD;
-        private string _SelectedTime = "0.5";
-        private HangHoaDetailModel _SelectedTui;
-        private TinhHuyenModel _SelectTinh;
-        private ObservableCollection<TinhHuyenModel> _ShowTinhs;
-        private TaoBdInfoModel _taoBDAdd;
-        private string _TextCurrentChuyenThu;
-        private BackgroundWorker bwLayMaHieu;
-        private int countChuyen = 0;
-        private int countDuongThu = 0;
-        private BuuCuc currentBuuCuc = BuuCuc.None;
-        private List<HangHoaDetailModel> currentListHangHoa;
-
-        private bool isWaiting = false;
-
-        private string maBuuCuc = "0";
-
-        private StateTaoBd10 stateTaoBd10;
-
-        private string tenDuongThu = "";
     }
 }

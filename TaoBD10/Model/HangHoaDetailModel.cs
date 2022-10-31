@@ -14,8 +14,6 @@ namespace TaoBD10.Model
             set { SetProperty(ref _TuiHangHoa, value); }
         }
 
-
-
         //public TrangThaiBD TrangThaiBD { get; set; } = TrangThaiBD.ChuaChon;
         private TrangThaiBD _TrangThaiBD = Manager.EnumAll.TrangThaiBD.ChuaChon;
 
@@ -61,6 +59,14 @@ namespace TaoBD10.Model
         {
             get { return _PhanLoai; }
             set { SetProperty(ref _PhanLoai, value); }
+        }
+
+        private string _BuuCucChapNhan;
+
+        public string BuuCucChapNhan
+        {
+            get { return _BuuCucChapNhan; }
+            set { SetProperty(ref _BuuCucChapNhan, value); }
         }
 
         public int Index { get; set; }

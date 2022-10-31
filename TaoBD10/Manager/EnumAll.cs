@@ -123,7 +123,7 @@
         public enum TrangThaiBD
         {
             ChuaChon, DaChon,
-            DaIn, TamQuan
+            DaIn, TamQuan, KhongIn
         }
 
         public enum VungLamViec

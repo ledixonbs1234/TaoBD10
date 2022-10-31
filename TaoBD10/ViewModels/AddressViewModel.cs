@@ -172,7 +172,8 @@ namespace TaoBD10.ViewModels
 
         private void ChuyenTamQuanVeLayCT()
         {
-            WeakReferenceMessenger.Default.Send(new ChuyenTamQuanMessage(HangHoas.ToList().FindAll(m => m.IsTamQuan == "TamQuan")));
+            var hangHoaKT = HangHoas.Where(m => m.PhanLoai == FileManager.optionModel.MaKhaiThac);
+            WeakReferenceMessenger.Default.Send(new ChuyenTamQuanMessage(hangHoaKT.ToList().FindAll(m => m.IsTamQuan == "TamQuan")));
         }
 
         private void LayDanhSach()

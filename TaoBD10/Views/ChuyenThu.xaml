@@ -118,7 +118,7 @@
                             <Setter Property="Background" Value="Yellow" />
                         </DataTrigger>
                         <DataTrigger Binding="{Binding TrangThaiBD}" Value="KhongIn">
-                            <Setter Property="Background" Value="Red" />
+                            <Setter Property="Background" Value="#FFFE9AFF" />
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>

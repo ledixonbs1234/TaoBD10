@@ -146,13 +146,6 @@
                     EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
                     ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
                     Header="SH Túi" />
-                <DataGridTextColumn
-                    Width="60"
-
-                    Binding="{Binding IsTamQuan}"
-                    EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
-                    ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
-                    Header="Tam Quan" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

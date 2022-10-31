@@ -34,6 +34,7 @@
             materialDesign:DataGridAssist.ColumnHeaderPadding="4 2 2 2"
             AutoGenerateColumns="False"
             CanUserAddRows="False"
+            SelectedItem="{Binding SelectedAddress}"
             ItemsSource="{Binding HangHoas}"
             SelectionMode="Single">
             <DataGrid.RowStyle>
@@ -110,6 +111,10 @@
                     Margin="5"
                     Command="{Binding LayDiaChiCommand}"
                     Content="Lấy Địa Chỉ" />
+                <Button
+                    Margin="5"
+                    Command="{Binding LayDiaChiGuiCommand}"
+                    Content="Lấy Địa Chi Gui" />
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button
@@ -118,14 +123,12 @@
                     Command="{Binding ChuyenTamQuanVeLayCTCommand}"
                     Content="Update Chuyến Thư" />
 
-
                 <Button
                 Margin="5"
                 HorizontalAlignment="Right"
                 Command="{Binding SendDataCommand}"
                 Content="Send Tam Quan" />
             </StackPanel>
-
         </Grid>
     </Grid>
 </UserControl>

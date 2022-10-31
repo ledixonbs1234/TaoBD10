@@ -24,24 +24,6 @@ namespace TaoBD10.ViewModels
 {
     public class DiNgoaiViewModel : ObservableObject
     {
-        private readonly BackgroundWorker bwPrintDiNgoai;
-
-        public ICommand ShowDataCommand { get; }
-        bool IsPhoneRunning = false;
-
-        private void ShowData()
-        {
-            if (DiNgoais.Count != 0)
-            {
-                string text = "";
-                foreach (DiNgoaiItemModel item in DiNgoais)
-                {
-                    text += item.Code + "\n";
-                }
-                APIManager.OpenNotePad(text, "noi dung");
-            }
-        }
-
         public DiNgoaiViewModel()
         {
             DiNgoais = new ObservableCollection<DiNgoaiItemModel>();
@@ -128,7 +110,17 @@ namespace TaoBD10.ViewModels
                             }
 
                             ChuyenDataDiNgoaiToPhone();
-
+                        }
+                        if (isAutoRunDiNgoai)
+                        {
+                            isAutoRunDiNgoai = false;
+                            var diNgoai = DiNgoais[0];
+                            if (diNgoai == null)
+                                return;
+                            var temp = FileManager.optionModel.GoFastKTCTKT.Split(',');
+                            APIManager.GoToWindow(FileManager.optionModel.MaKhaiThac, "khoi tao chuyen thu", temp[0], temp[1]);
+                            SelectedSimple = diNgoai;
+                            Selection(diNgoai);
                         }
                     }
                 }
@@ -154,7 +146,7 @@ namespace TaoBD10.ViewModels
                     IsPhoneRunning = true;
                     //thuc hien dejson
                     List<string> list = JsonConvert.DeserializeObject<List<string>>(m.Content);
-                    if(list != null)
+                    if (list != null)
                     {
                         App.Current.Dispatcher.Invoke(delegate // <--- HERE
                         {
@@ -167,7 +159,14 @@ namespace TaoBD10.ViewModels
                             AddFast();
                         });
                     }
-                    
+                }
+                else if (m.Key == "ToDiNgoai")
+                {
+                    if (m.Content == "AddFast")
+                    {
+                        AddFast();
+                        isAutoRunDiNgoai = true;
+                    }
                 }
                 else if (m.Key == "ToDiNgoai_InDiNgoai")
                 {
@@ -207,14 +206,34 @@ namespace TaoBD10.ViewModels
             tinhs = FileManager.LoadTinhThanhOffline();
         }
 
-        private void ChuyenDataDiNgoaiToPhone()
+        private void AddAddress()
         {
-            //thuc hien send du lieu qua phone
-            string json = JsonConvert.SerializeObject(DiNgoais);
-            //MqttManager.Pulish(FileManager.MQTTKEY + "_dingoai", json);
-            FileManager.client.Child(FileManager.FirebaseKey + "/message/tophone").PutAsync(json);
-            FileManager.SendVoidToPhone("senddingoaitophone");
+            if (DiNgoais.Count == 0)
+                return;
 
+            foreach (DiNgoaiItemModel diNgoaiItem in DiNgoais)
+            {
+                if (string.IsNullOrEmpty(diNgoaiItem.MaTinh))
+                {
+                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "LoadAddressWeb", Content = diNgoaiItem.Code });
+                    break;
+                }
+            }
+        }
+
+        private void AddFast()
+        {
+            //thuc hien them dia chi 1 cach nhanh hon
+            if (DiNgoais.Count == 0)
+                return;
+            string listMaHieu = "";
+            string addressDefault = "https://bccp.vnpost.vn/BCCP.aspx?act=MultiTrace&id=";
+            foreach (DiNgoaiItemModel diNgoaiItem in DiNgoais)
+            {
+                listMaHieu += diNgoaiItem.Code + ",";
+            }
+            addressDefault += listMaHieu;
+            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ListAddressDiNgoai", Content = addressDefault });
         }
 
         private void AddMaHieu(string MaHieu)
@@ -246,45 +265,189 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        private void DiNgoaiTuDongNext()
+        private void AddRange()
         {
-            if (DiNgoais.Count == 0)
+            foreach (MaHieuDiNgoaiInfo item in LocTextTho(TextsRange))
             {
-                APIManager.ShowSnackbar("Không có dữ liệu");
-                return;
-            }
-            //lay vi tri tiep theo
-            //get index
-            int index = DiNgoais.IndexOf(SelectedSimple);
-            if (index == -1)
-            {
-                APIManager.ShowSnackbar("Chưa chọn mã hiệu");
-                return;
-            }
-            index++;
-            if (index > DiNgoais.Count - 1)
-            {
-                APIManager.ShowSnackbar("Đã tới vị trí cuối cùng");
-                //txtInfo.Text = "Đã tới vị trí cuối cùng";
-                return;
-            }
+                if (item.Code.Length != 13)
+                {
+                    continue;
+                }                //    //kiem tra trung khong
+                if (DiNgoais.Count == 0)
+                {
+                    if (string.IsNullOrEmpty(item.TinhGocGui))
+                    {
+                        DiNgoais.Add(new DiNgoaiItemModel(DiNgoais.Count + 1, item.Code));
+                    }
+                    else
+                    {
+                        DiNgoais.Add(new DiNgoaiItemModel(DiNgoais.Count + 1, item.Code, item.BuuCucGui, item.BuuCucNhanTemp, item.TinhGocGui));
+                    }
+                }
+                else
+                {
+                    bool isTrundle = false;
+                    foreach (DiNgoaiItemModel diNgoai in DiNgoais)
+                    {
+                        if (diNgoai.Code.ToUpper() == item.Code)
+                        {
+                            isTrundle = true;
+                            break;
+                        }
+                    }
+                    if (isTrundle)
+                        continue;
 
-            //////xem thu no co chay cai gi khong
-
-            SelectedSimple = DiNgoais[index];
-            Selection(SelectedSimple);
+                    if (string.IsNullOrEmpty(item.TinhGocGui))
+                    {
+                        DiNgoais.Add(new DiNgoaiItemModel(DiNgoais.Count + 1, item.Code));
+                    }
+                    else
+                    {
+                        DiNgoais.Add(new DiNgoaiItemModel(DiNgoais.Count + 1, item.Code, item.BuuCucGui, item.BuuCucNhanTemp, item.TinhGocGui));
+                    }
+                }
+            }
         }
 
-        private List<string> listBuuCuc;
-        private List<string> listBuuCucTuDong;
-        private List<TinhHuyenModel> tinhs;
-
-        private bool _IsTuDongDong;
-
-        public bool IsTuDongDong
+        private void AutoSetBuuCuc(DiNgoaiItemModel diNgoai)
         {
-            get { return _IsTuDongDong; }
-            set { SetProperty(ref _IsTuDongDong, value); }
+            if (diNgoai.MaTinh == null)
+                return;
+
+            //thuc hien lay loai buu gui
+            string loai = diNgoai.Code.Substring(0, 1).ToUpper();
+            if (diNgoai.MaTinh == "59")
+            {
+                List<string> fillAddress = diNgoai.Address.Split('-').Select(s => s.Trim()).ToList();
+                if (fillAddress == null)
+                    return;
+                if (fillAddress.Count < 3)
+                    return;
+                string addressExactly = fillAddress[fillAddress.Count - 2];
+                if (BoDauAndToLower(addressExactly).IndexOf("phu my") != -1)
+                {
+                    diNgoai.TenBuuCuc = "592810 - KT Phù Mỹ";
+                    diNgoai.MaBuuCuc = "592810";
+                }
+                else if (BoDauAndToLower(addressExactly).IndexOf("phu cat") != -1)
+                {
+                    diNgoai.TenBuuCuc = "592460 - BCP Phù Cát";
+                    diNgoai.MaBuuCuc = "592460";
+                }
+                else if (BoDauAndToLower(addressExactly).IndexOf("an nhon") != -1)
+                {
+                    diNgoai.TenBuuCuc = "592020 - KT An Nhơn";
+                    diNgoai.MaBuuCuc = "592020";
+                }
+                else if (BoDauAndToLower(addressExactly).IndexOf("tay son") != -1)
+                {
+                    diNgoai.TenBuuCuc = "594210 - KT Tây Sơn";
+                    diNgoai.MaBuuCuc = "594210";
+                }
+                else if (BoDauAndToLower(addressExactly).IndexOf("van canh") != -1)
+                {
+                    diNgoai.TenBuuCuc = "594560 - KT Vân Canh";
+                    diNgoai.MaBuuCuc = "594560";
+                }
+                else if (BoDauAndToLower(addressExactly).IndexOf("vinh thanh") != -1)
+                {
+                    diNgoai.TenBuuCuc = "594080 - KT Vĩnh Thạnh";
+                    diNgoai.MaBuuCuc = "594080";
+                }
+                else if (BoDauAndToLower(addressExactly).IndexOf("tuy phuoc") != -1)
+                {
+                    diNgoai.TenBuuCuc = "591720 - KT Tuy Phước";
+                    diNgoai.MaBuuCuc = "591720";
+                }
+            }
+            else if (diNgoai.MaTinh == "70")
+            {
+                if (loai == "C")
+                {
+                    diNgoai.TenBuuCuc = "700920 - KTNT TP.HCM";
+                    diNgoai.MaBuuCuc = "700920";
+                }
+                else if (loai == "E")
+                {
+                    diNgoai.TenBuuCuc = "701000 - HCM EMS NT";
+                    diNgoai.MaBuuCuc = "701000";
+                }
+            }
+            else if (diNgoai.MaTinh == "10")
+            {
+                if (loai == "C")
+                {
+                    diNgoai.TenBuuCuc = "100920 - KTNT Hà Nội";
+                    diNgoai.MaBuuCuc = "100920";
+                }
+                else if (loai == "E")
+                {
+                    diNgoai.TenBuuCuc = "101000 - KT EMS Hà Nội nội tỉnh";
+                    diNgoai.MaBuuCuc = "101000";
+                }
+            }
+            else if (diNgoai.MaTinh == "55")
+            {
+                if (loai == "C")
+                {
+                    diNgoai.TenBuuCuc = "550920 - Đà Nẵng NT";
+                    diNgoai.MaBuuCuc = "550920";
+                }
+                else if (loai == "E")
+                {
+                    diNgoai.TenBuuCuc = "550100 - Đà Nẵng EMS NT";
+                    diNgoai.MaBuuCuc = "550100";
+                }
+            }
+            else if (diNgoai.MaTinh == "85")
+            {
+                if (loai == "C")
+                {
+                    diNgoai.TenBuuCuc = "850100 - KTC1 Long An";
+                    diNgoai.MaBuuCuc = "850100";
+                }
+                else if (loai == "E")
+                {
+                    diNgoai.TenBuuCuc = "850100 - KTC1 Long An";
+                    diNgoai.MaBuuCuc = "850100";
+                }
+            }
+            else
+            {
+                //thuc hien lay dia chi
+                List<string> fillAddress = diNgoai.Address.Split('-').Select(s => s.Trim()).ToList();
+                if (fillAddress == null)
+                    return;
+                if (fillAddress.Count < 3)
+                    return;
+                string addressExactly = fillAddress[fillAddress.Count - 2];
+                //thuc hien lay danh sach buu cuc
+                List<string> listBuuCuc = GetListBuuCucFromTinh(diNgoai.MaTinh);
+                if (listBuuCuc.Count == 0)
+                    return;
+
+                string data = listBuuCuc.FirstOrDefault(m => BoDauAndToLower(m).IndexOf(BoDauAndToLower(addressExactly)) != -1);
+                if (!string.IsNullOrEmpty(data))
+                {
+                    diNgoai.TenBuuCuc = data;
+                    diNgoai.MaBuuCuc = data.Substring(0, 6);
+                }
+                else
+                {
+                    diNgoai.TenBuuCuc = listBuuCuc[0];
+                    diNgoai.MaBuuCuc = listBuuCuc[0].Substring(0, 6);
+                }
+                //foreach (string item in listBuuCuc)
+                //{
+                //    if (boDauAndToLower(addressExactly).IndexOf(boDauAndToLower(item)) != -1)
+                //    {
+                //        diNgoai.TenBuuCuc = item;
+                //        diNgoai.MaBuuCuc = item.Substring(0, 6);
+                //        break;
+                //    }
+                //}
+            }
         }
 
         private string AutoSetTinh(string address)
@@ -307,72 +470,139 @@ namespace TaoBD10.ViewModels
             return "";
         }
 
-        public ICommand StopDiNgoaiCommand { get; }
-
-        private void StopDiNgoai()
+        private string BoDauAndToLower(string text)
         {
-            bwPrintDiNgoai.CancelAsync();
+            return APIManager.ConvertToUnSign3(text).ToLower();
         }
 
-        public ICommand AddFastCommand { get; }
-
-        private void AddFast()
+        private void BwKhoiTao_DoWork(object sender, DoWorkEventArgs e)
         {
-            //thuc hien them dia chi 1 cach nhanh hon
-            if (DiNgoais.Count == 0)
-                return;
-            string listMaHieu = "";
-            string addressDefault = "https://bccp.vnpost.vn/BCCP.aspx?act=MultiTrace&id=";
-            foreach (DiNgoaiItemModel diNgoaiItem in DiNgoais)
+            try
             {
-                listMaHieu += diNgoaiItem.Code + ",";
+                if (!IsTuDongDong)
+                {
+                    WindowInfo currentWindow = APIManager.WaitingFindedWindow("khoi tao chuyen thu");
+                    if (currentWindow == null)
+                    {
+                        APIManager.ShowSnackbar("Không tìm thấy window khởi tạo chuyến thư");
+                        return;
+                    }
+                    System.Collections.Generic.List<TestAPIModel> childControls = APIManager.GetListControlText(currentWindow.hwnd);
+                    //thuc hien lay vi tri nao do
+
+                    APIManager.SendMessage(childControls[14].Handle, 0x0007, 0, 0);
+                    APIManager.SendMessage(childControls[14].Handle, 0x0007, 0, 0);
+
+                    //Thuc hien trong nay
+                    if (!string.IsNullOrEmpty(SelectedSimple.MaBuuCuc))
+                    {
+                        APIManager.setTextControl(childControls[15].Handle, SelectedSimple.TenBuuCuc);
+                        //Thread.Sleep(300);
+                        //SendKeys.SendWait("{DOWN}");
+                        //Thread.Sleep(100);
+                        SendKeys.SendWait("{TAB}");
+                        Thread.Sleep(200);
+
+                        //Nhan F1 ngang cho nay
+                        if (IsAutoF1)
+                        {
+                            bwPrintDiNgoai.RunWorkerAsync();
+                        }
+                    }
+                    else
+                    {
+                        if (string.IsNullOrEmpty(SelectedSimple.MaTinh))
+                        {
+                            APIManager.ShowSnackbar("Không có mã tỉnh");
+                            return;
+                        }
+                        SendKeys.SendWait(SelectedSimple.MaTinh);
+                    }
+                }
+                else
+                {
+                    WindowInfo currentWindow = APIManager.WaitingFindedWindow("khai thac kien di ngoai");
+                    if (currentWindow == null)
+                    {
+                        APIManager.ShowSnackbar("Không tìm thấy window kiện đi ngoài");
+                        return;
+                    }
+                    List<TestAPIModel> childControls = APIManager.GetListControlText(currentWindow.hwnd);
+                    //thuc hien lay vi tri nao do
+
+                    APIManager.SendMessage(childControls[1].Handle, 0x0007, 0, 0);
+                    APIManager.SendMessage(childControls[1].Handle, 0x0007, 0, 0);
+
+                    //Thuc hien trong nay
+                    if (!string.IsNullOrEmpty(SelectedSimple.MaBuuCuc))
+                    {
+                        APIManager.setTextControl(childControls[2].Handle, SelectedSimple.TenBuuCuc);
+                        //Thread.Sleep(300);
+                        //SendKeys.SendWait("{DOWN}");
+                        //Thread.Sleep(100);
+                        SendKeys.SendWait("{TAB}");
+                        Thread.Sleep(100);
+
+                        APIManager.setTextControl(childControls[10].Handle, SelectedSimple.Code);
+                        SendKeys.SendWait("{ENTER}");
+
+                        LocalPrintServer localPrintServer = new LocalPrintServer();
+
+                        PrinterSettings settings = new PrinterSettings();
+                        PrintQueueStatus statusPrint = PrintQueueStatus.None;
+                        for (int i = 0; i < 8; i++)
+                        {
+                            foreach (PrintQueue printQueue in localPrintServer.GetPrintQueues())
+                            {
+                                if (settings.PrinterName == printQueue.FullName)
+                                {
+                                    statusPrint = printQueue.QueueStatus;
+                                    break;
+                                }
+                            }
+                            if (statusPrint != PrintQueueStatus.None)
+                            {
+                                break;
+                            }
+                            Thread.Sleep(100);
+                        }
+                        if (statusPrint == PrintQueueStatus.None)
+                        {
+                            APIManager.ShowSnackbar("Khong In");
+                        }
+                        else
+                        {
+                            APIManager.ShowSnackbar("KT In Duoc");
+                        }
+
+                        //APIManager.OpenNotePad(ss);
+
+                        //Set text
+                        //APIManager.setTextControl(childControls[2].Handle, temp);
+                    }
+                    else
+                    {
+                        if (string.IsNullOrEmpty(SelectedSimple.MaTinh))
+                        {
+                            APIManager.ShowSnackbar("Không có mã tỉnh");
+                            return;
+                        }
+                        SendKeys.SendWait(SelectedSimple.MaTinh);
+                    }
+                }
             }
-            addressDefault += listMaHieu;
-            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ListAddressDiNgoai", Content = addressDefault });
-        }
-
-        public ICommand SetMaTinhGuiCommand { get; }
-
-        private void SetMaTinhGui()
-        {
-            if (SelectedDiNgoai == null)
-                return;
-            if (DiNgoais.Count == 0)
-                return;
-            if (string.IsNullOrEmpty(SelectedDiNgoai.BuuCucGui))
-                return;
-            SelectedDiNgoai.MaTinh = GetTinhFromBuuCuc(SelectedDiNgoai.BuuCucGui);
-        }
-
-        public ICommand SortTinhCommand { get; }
-
-        private void SortTinh()
-        {
-            if (DiNgoais.Count == 0)
-                return;
-            SetTinhFromMaTinh();
-            List<DiNgoaiItemModel> listDiNgoai = new List<DiNgoaiItemModel>();
-            //Thuc hien soft Tinh
-            IOrderedEnumerable<DiNgoaiItemModel> dingoaisRa = DiNgoais.Where(m => int.Parse(m.MaTinh) < 59 && int.Parse(m.MaTinh) != 58).OrderByDescending(x => x.TenTinh);
-            IOrderedEnumerable<DiNgoaiItemModel> dingoaisVo = DiNgoais.Where(m => int.Parse(m.MaTinh) >= 58).OrderByDescending(x => x.TenTinh);
-            listDiNgoai.AddRange(dingoaisRa);
-            listDiNgoai.AddRange(dingoaisVo);
-            DiNgoais.Clear();
-            int index = 0;
-            foreach (DiNgoaiItemModel diNgoai in listDiNgoai)
+            catch (Exception ex)
             {
-                index++;
-                diNgoai.Index = index;
-                DiNgoais.Add(diNgoai);
+                // Get stack trace for the exception with source file information
+                var st = new StackTrace(ex, true);
+                // Get the top stack frame
+                var frame = st.GetFrame(0);
+                // Get the line number from the stack frame
+                var line = frame.GetFileLineNumber();
+                APIManager.OpenNotePad(ex.Message + '\n' + "loi Line DiNgoaiViewModel" + line + " Number Line " + APIManager.GetLineNumber(ex), "loi ");
+                throw;
+                throw;
             }
-        }
-
-        private bool _IsGroupCT = false;
-
-        public bool IsGroupCT
-        {
-            get { return _IsGroupCT; }
-            set { SetProperty(ref _IsGroupCT, value); }
         }
 
         private void BwPrintDiNgoai_DoWork(object sender, DoWorkEventArgs e)
@@ -788,139 +1018,244 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        private void BwKhoiTao_DoWork(object sender, DoWorkEventArgs e)
+        private void Clear()
         {
-            try
+        }
+
+        private void ClearDiNgoai()
+        {
+            DiNgoais.Clear();
+        }
+
+        private void CheckEnterKey()
+        {
+            if (TextCode.IndexOf('\n') != -1)
             {
-                if (!IsTuDongDong)
+                TextCode = TextCode.Trim().ToUpper();
+                if (TextCode.Length != 13)
                 {
-                    WindowInfo currentWindow = APIManager.WaitingFindedWindow("khoi tao chuyen thu");
-                    if (currentWindow == null)
-                    {
-                        APIManager.ShowSnackbar("Không tìm thấy window khởi tạo chuyến thư");
-                        return;
-                    }
-                    System.Collections.Generic.List<TestAPIModel> childControls = APIManager.GetListControlText(currentWindow.hwnd);
-                    //thuc hien lay vi tri nao do
-
-                    APIManager.SendMessage(childControls[14].Handle, 0x0007, 0, 0);
-                    APIManager.SendMessage(childControls[14].Handle, 0x0007, 0, 0);
-
-                    //Thuc hien trong nay
-                    if (!string.IsNullOrEmpty(SelectedSimple.MaBuuCuc))
-                    {
-                        APIManager.setTextControl(childControls[15].Handle, SelectedSimple.TenBuuCuc);
-                        //Thread.Sleep(300);
-                        //SendKeys.SendWait("{DOWN}");
-                        //Thread.Sleep(100);
-                        SendKeys.SendWait("{TAB}");
-                        Thread.Sleep(200);
-
-                        //Nhan F1 ngang cho nay
-                        if (IsAutoF1)
-                        {
-                            bwPrintDiNgoai.RunWorkerAsync();
-                        }
-                    }
-                    else
-                    {
-                        if (string.IsNullOrEmpty(SelectedSimple.MaTinh))
-                        {
-                            APIManager.ShowSnackbar("Không có mã tỉnh");
-                            return;
-                        }
-                        SendKeys.SendWait(SelectedSimple.MaTinh);
-                    }
+                    TextCode = "";
+                    return;
+                }                //    //kiem tra trung khong
+                if (DiNgoais.Count == 0)
+                {
+                    DiNgoais.Add(new DiNgoaiItemModel(DiNgoais.Count + 1, TextCode));
+                    SoundManager.playSound(@"Number\1.wav");
+                    TextCode = "";
                 }
                 else
                 {
-                    WindowInfo currentWindow = APIManager.WaitingFindedWindow("khai thac kien di ngoai");
-                    if (currentWindow == null)
+                    foreach (DiNgoaiItemModel item in DiNgoais)
                     {
-                        APIManager.ShowSnackbar("Không tìm thấy window kiện đi ngoài");
-                        return;
-                    }
-                    List<TestAPIModel> childControls = APIManager.GetListControlText(currentWindow.hwnd);
-                    //thuc hien lay vi tri nao do
-
-                    APIManager.SendMessage(childControls[1].Handle, 0x0007, 0, 0);
-                    APIManager.SendMessage(childControls[1].Handle, 0x0007, 0, 0);
-
-                    //Thuc hien trong nay
-                    if (!string.IsNullOrEmpty(SelectedSimple.MaBuuCuc))
-                    {
-                        APIManager.setTextControl(childControls[2].Handle, SelectedSimple.TenBuuCuc);
-                        //Thread.Sleep(300);
-                        //SendKeys.SendWait("{DOWN}");
-                        //Thread.Sleep(100);
-                        SendKeys.SendWait("{TAB}");
-                        Thread.Sleep(100);
-
-                        APIManager.setTextControl(childControls[10].Handle, SelectedSimple.Code);
-                        SendKeys.SendWait("{ENTER}");
-
-                        LocalPrintServer localPrintServer = new LocalPrintServer();
-
-                        PrinterSettings settings = new PrinterSettings();
-                        PrintQueueStatus statusPrint = PrintQueueStatus.None;
-                        for (int i = 0; i < 8; i++)
+                        if (item.Code == TextCode)
                         {
-                            foreach (PrintQueue printQueue in localPrintServer.GetPrintQueues())
-                            {
-                                if (settings.PrinterName == printQueue.FullName)
-                                {
-                                    statusPrint = printQueue.QueueStatus;
-                                    break;
-                                }
-                            }
-                            if (statusPrint != PrintQueueStatus.None)
-                            {
-                                break;
-                            }
-                            Thread.Sleep(100);
-                        }
-                        if (statusPrint == PrintQueueStatus.None)
-                        {
-                            APIManager.ShowSnackbar("Khong In");
-                        }
-                        else
-                        {
-                            APIManager.ShowSnackbar("KT In Duoc");
-                        }
-
-                        //APIManager.OpenNotePad(ss);
-
-                        //Set text
-                        //APIManager.setTextControl(childControls[2].Handle, temp);
-                    }
-                    else
-                    {
-                        if (string.IsNullOrEmpty(SelectedSimple.MaTinh))
-                        {
-                            APIManager.ShowSnackbar("Không có mã tỉnh");
+                            TextCode = "";
                             return;
                         }
-                        SendKeys.SendWait(SelectedSimple.MaTinh);
                     }
+                    DiNgoais.Add(new DiNgoaiItemModel(DiNgoais.Count + 1, TextCode));
+                    if (IsSayNumber)
+                    {
+                        SoundManager.playSound(@"Number\" + DiNgoais.Count.ToString() + ".wav");
+                    }
+                    TextCode = "";
                 }
-            }
-            catch (Exception ex)
-            {
-                // Get stack trace for the exception with source file information
-                var st = new StackTrace(ex, true);
-                // Get the top stack frame
-                var frame = st.GetFrame(0);
-                // Get the line number from the stack frame
-                var line = frame.GetFileLineNumber();
-                APIManager.OpenNotePad(ex.Message + '\n' + "loi Line DiNgoaiViewModel" + line + " Number Line " + APIManager.GetLineNumber(ex), "loi ");
-                throw;
-                throw;
             }
         }
 
-        private readonly BackgroundWorker bwKhoiTao;
+        private void ChuyenDataDiNgoaiToPhone()
+        {
+            //thuc hien send du lieu qua phone
+            string json = JsonConvert.SerializeObject(DiNgoais);
+            //MqttManager.Pulish(FileManager.MQTTKEY + "_dingoai", json);
+            FileManager.client.Child(FileManager.FirebaseKey + "/message/tophone").PutAsync(json);
+            FileManager.SendVoidToPhone("senddingoaitophone");
+        }
 
-        public IRelayCommand<DiNgoaiItemModel> SelectionCommand { get; }
+        private void DiNgoaiTuDongNext()
+        {
+            if (DiNgoais.Count == 0)
+            {
+                APIManager.ShowSnackbar("Không có dữ liệu");
+                return;
+            }
+            //lay vi tri tiep theo
+            //get index
+            int index = DiNgoais.IndexOf(SelectedSimple);
+            if (index == -1)
+            {
+                APIManager.ShowSnackbar("Chưa chọn mã hiệu");
+                return;
+            }
+            index++;
+            if (index > DiNgoais.Count - 1)
+            {
+                APIManager.ShowSnackbar("Đã tới vị trí cuối cùng");
+                //txtInfo.Text = "Đã tới vị trí cuối cùng";
+                return;
+            }
+
+            //////xem thu no co chay cai gi khong
+
+            SelectedSimple = DiNgoais[index];
+            Selection(SelectedSimple);
+        }
+
+        private List<string> GetListBuuCucFromTinh(string maTinh)
+        {
+            List<string> buucucs = new List<string>();
+            if (!IsTuDongDong)
+            {
+                for (int i = 0; i < listBuuCuc.Count; i++)
+                {
+                    if (maTinh == listBuuCuc[i].Substring(0, 2))
+                    {
+                        buucucs.Add(listBuuCuc[i].Trim());
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < listBuuCucTuDong.Count; i++)
+                {
+                    if (maTinh == listBuuCucTuDong[i].Substring(0, 2))
+                    {
+                        buucucs.Add(listBuuCucTuDong[i].Trim());
+                    }
+                }
+            }
+            return buucucs;
+        }
+
+        private string GetTinhFromBuuCuc(string buucuc)
+        {
+            if (string.IsNullOrEmpty(buucuc))
+            {
+                return "";
+            }
+            string maTinh = buucuc.Substring(0, 2);
+            string maTinhFilled;
+            switch (maTinh)
+            {
+                case "11":
+                case "12":
+                case "13":
+                case "15":
+                    maTinhFilled = "10";
+                    break;
+
+                case "45":
+                    maTinhFilled = "44";
+                    break;
+
+                case "73":
+                case "75":
+                case "76":
+                case "71":
+                case "74":
+                case "72":
+                    maTinhFilled = "70";
+                    break;
+
+                default:
+                    maTinhFilled = maTinh;
+                    break;
+            }
+            return maTinhFilled;
+        }
+
+        private List<MaHieuDiNgoaiInfo> LocTextTho(string textsRange)
+        {
+            //thuc hien loc ma hieu dia chi gui va dia chi nhan
+            List<MaHieuDiNgoaiInfo> list = new List<MaHieuDiNgoaiInfo>();
+            var datas = textsRange.Split('\n');
+            foreach (string data in datas)
+            {
+                //thuc hien loc danh sach trong nay
+                if (data.Count() < 13)
+                    continue;
+                string[] splitedData = data.Split(' ');
+
+                if (splitedData.Length >= 10 && data.ToUpper().IndexOf("VN") != -1)
+                {
+                    list.Add(new MaHieuDiNgoaiInfo(splitedData[1].ToUpper(), splitedData[3], splitedData[2], splitedData[4]));
+                }
+                else
+                if (splitedData.Length == 7 && data.ToUpper().IndexOf("VN") != -1)
+                {
+                    list.Add(new MaHieuDiNgoaiInfo(splitedData[1].ToUpper(), splitedData[2], "", splitedData[3]));
+                }
+                else
+                {
+                    int indexVN = data.ToUpper().IndexOf("VN");
+                    if (indexVN - 11 < 0)
+                        continue;
+
+                    list.Add(new MaHieuDiNgoaiInfo(data.Substring(indexVN - 11, 13).Trim().ToUpper()));
+                }
+                //if(splitedData.Length )
+            }
+            return list;
+        }
+
+        [RelayCommand]
+        private void MoRong()
+        {
+            WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Navigation", Content = "Center" });
+        }
+
+        private void OnSelectedBuuCuc()
+        {
+            if (SelectedBuuCuc == null)
+                return;
+            if (SelectedDiNgoai == null)
+                return;
+            //DiNgoaiItemModel dingoai = DiNgoais.FirstOrDefault(d => d.Code == SelectedDiNgoai.Code);
+            //if (dingoai == null)
+            //    return;
+            //dingoai.MaBuuCuc = SelectedBuuCuc;
+            if (string.IsNullOrEmpty(SelectedDiNgoai.MaTinh))
+                return;
+            SelectedDiNgoai.TenBuuCuc = SelectedBuuCuc;
+            SelectedDiNgoai.MaBuuCuc = SelectedBuuCuc.Substring(0, 6);
+
+            //thuc hien qua cai tiep theo
+            foreach (DiNgoaiItemModel diNgoai in DiNgoais)
+            {
+                if (string.IsNullOrEmpty(diNgoai.MaBuuCuc))
+                {
+                    BuuCucs.Clear();
+                    SelectedDiNgoai = diNgoai;
+                    break;
+                }
+            }
+        }
+
+        private void OnSelectedDiNgoai()
+        {
+            if (SelectedDiNgoai == null)
+                return;
+            //chuyen vo cbx
+            BuuCucs.Clear();
+            List<string> listBuuCuc = GetListBuuCucFromTinh(SelectedDiNgoai.MaTinh);
+            if (listBuuCuc.Count != 0)
+            {
+                foreach (string item in listBuuCuc)
+                {
+                    BuuCucs.Add(item);
+                }
+            }
+        }
+
+        private void OnSelectedSimple()
+        {
+            if (!bwKhoiTao.IsBusy)
+            {
+                bwKhoiTao.CancelAsync();
+                bwKhoiTao.RunWorkerAsync();
+            }
+            //thuc hien
+        }
 
         private void Selection(DiNgoaiItemModel selected)
         {
@@ -932,30 +1267,20 @@ namespace TaoBD10.ViewModels
             OnSelectedSimple();
         }
 
-        public ICommand SelectionChiTietCommand { get; }
-
         private void SelectionChiTiet()
         {
             OnSelectedDiNgoai();
         }
 
-        public ICommand SortCommand { get; }
-
-        private void Sort()
+        private void SetMaTinhGui()
         {
+            if (SelectedDiNgoai == null)
+                return;
             if (DiNgoais.Count == 0)
                 return;
-            SetTinhFromMaTinh();
-            //Thuc hien soft Tinh
-            var dingoaisTemp = DiNgoais.OrderByDescending(x => x.TenTinh).ToList();
-            DiNgoais.Clear();
-            int index = 0;
-            foreach (var diNgoai in dingoaisTemp)
-            {
-                index++;
-                diNgoai.Index = index;
-                DiNgoais.Add(diNgoai);
-            }
+            if (string.IsNullOrEmpty(SelectedDiNgoai.BuuCucGui))
+                return;
+            SelectedDiNgoai.MaTinh = GetTinhFromBuuCuc(SelectedDiNgoai.BuuCucGui);
         }
 
         private void SetTinhFromMaTinh()
@@ -1286,10 +1611,69 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        private bool isWaitingPrint = false;
-        private StateDiNgoai stateDiNgoai = StateDiNgoai.KhoiTao;
-        private bool isRunFirst = false;
-        private int downTaoTui = 0;
+        private void SetTinhs()
+        {
+            foreach (var item in DiNgoais)
+            {
+                item.MaTinh = GetTinhFromBuuCuc(item.BuuCucNhanTemp);
+            }
+        }
+
+        private void ShowData()
+        {
+            if (DiNgoais.Count != 0)
+            {
+                string text = "";
+                foreach (DiNgoaiItemModel item in DiNgoais)
+                {
+                    text += item.Code + "\n";
+                }
+                APIManager.OpenNotePad(text, "noi dung");
+            }
+        }
+
+        private void Sort()
+        {
+            if (DiNgoais.Count == 0)
+                return;
+            SetTinhFromMaTinh();
+            //Thuc hien soft Tinh
+            var dingoaisTemp = DiNgoais.OrderByDescending(x => x.TenTinh).ToList();
+            DiNgoais.Clear();
+            int index = 0;
+            foreach (var diNgoai in dingoaisTemp)
+            {
+                index++;
+                diNgoai.Index = index;
+                DiNgoais.Add(diNgoai);
+            }
+        }
+
+        private void SortTinh()
+        {
+            if (DiNgoais.Count == 0)
+                return;
+            SetTinhFromMaTinh();
+            List<DiNgoaiItemModel> listDiNgoai = new List<DiNgoaiItemModel>();
+            //Thuc hien soft Tinh
+            IOrderedEnumerable<DiNgoaiItemModel> dingoaisRa = DiNgoais.Where(m => int.Parse(m.MaTinh) < 59 && int.Parse(m.MaTinh) != 58).OrderByDescending(x => x.TenTinh);
+            IOrderedEnumerable<DiNgoaiItemModel> dingoaisVo = DiNgoais.Where(m => int.Parse(m.MaTinh) >= 58).OrderByDescending(x => x.TenTinh);
+            listDiNgoai.AddRange(dingoaisRa);
+            listDiNgoai.AddRange(dingoaisVo);
+            DiNgoais.Clear();
+            int index = 0;
+            foreach (DiNgoaiItemModel diNgoai in listDiNgoai)
+            {
+                index++;
+                diNgoai.Index = index;
+                DiNgoais.Add(diNgoai);
+            }
+        }
+
+        private void StopDiNgoai()
+        {
+            bwPrintDiNgoai.CancelAsync();
+        }
 
         private void TimerPrint_Tick(object sender, EventArgs e)
         {
@@ -1639,527 +2023,6 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        public ICommand AddAddressCommand { get; }
-        public ICommand AddRangeCommand { get; }
-
-        public ObservableCollection<string> BuuCucs
-        {
-            get { return _BuuCucs; }
-            set { SetProperty(ref _BuuCucs, value); }
-        }
-
-        public ICommand ClearCommand { get; }
-
-        public ICommand ClearDiNgoaiCommand { get; }
-
-        public ObservableCollection<DiNgoaiItemModel> DiNgoais
-        {
-            get { return _DiNgoais; }
-            set { SetProperty(ref _DiNgoais, value); }
-        }
-
-        public bool IsAutoF1
-        {
-            get { return _IsAutoF1; }
-            set { SetProperty(ref _IsAutoF1, value); }
-        }
-
-        private DiNgoaiItemModel _SelectedSimple;
-
-        public DiNgoaiItemModel SelectedSimple
-        {
-            get { return _SelectedSimple; }
-            set
-            {
-                SetProperty(ref _SelectedSimple, value);
-            }
-        }
-
-        private void OnSelectedSimple()
-        {
-            if (!bwKhoiTao.IsBusy)
-            {
-                bwKhoiTao.CancelAsync();
-                bwKhoiTao.RunWorkerAsync();
-            }
-            //thuc hien
-        }
-
-        public bool IsExpanded
-        {
-            get { return _IsExpanded; }
-            set
-            {
-                SetProperty(ref _IsExpanded, value);
-
-                if (_IsExpanded == false)
-                {
-                    ThuHep();
-                }
-                else
-                {
-                    MoRong();
-                }
-            }
-        }
-
-        public bool IsSayNumber
-        {
-            get { return _isSayNumber; }
-            set { SetProperty(ref _isSayNumber, value); }
-        }
-
-        public ICommand MoRongCommand { get; }
-
-        public string SelectedBuuCuc
-        {
-            get { return _SelectedBuuCuc; }
-            set
-            {
-                SetProperty(ref _SelectedBuuCuc, value);
-                OnSelectedBuuCuc();
-            }
-        }
-
-        private string _TextsRange;
-
-        public string TextsRange
-        {
-            get { return _TextsRange; }
-            set { SetProperty(ref _TextsRange, value); }
-        }
-
-        public DiNgoaiItemModel SelectedDiNgoai
-        {
-            get { return _SelectedDiNgoai; }
-            set
-            {
-                SetProperty(ref _SelectedDiNgoai, value);
-            }
-        }
-
-        public string TextCode
-        {
-            get { return _TextCode; }
-            set
-            {
-                SetProperty(ref _TextCode, value);
-                CheckEnterKey();
-            }
-        }
-
-        public ICommand XoaCommand { get; }
-
-        public ICommand XoaDiNgoaiCommand { get; }
-
-        private readonly DispatcherTimer timerPrint;
-
-        private void AddAddress()
-        {
-            if (DiNgoais.Count == 0)
-                return;
-
-            foreach (DiNgoaiItemModel diNgoaiItem in DiNgoais)
-            {
-                if (string.IsNullOrEmpty(diNgoaiItem.MaTinh))
-                {
-                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "LoadAddressWeb", Content = diNgoaiItem.Code });
-                    break;
-                }
-            }
-        }
-
-        public ICommand SetTinhCommand { get; }
-
-        private string GetTinhFromBuuCuc(string buucuc)
-        {
-            if (string.IsNullOrEmpty(buucuc))
-            {
-                return "";
-            }
-            string maTinh = buucuc.Substring(0, 2);
-            string maTinhFilled;
-            switch (maTinh)
-            {
-                case "11":
-                case "12":
-                case "13":
-                case "15":
-                    maTinhFilled = "10";
-                    break;
-
-                case "45":
-                    maTinhFilled = "44";
-                    break;
-
-                case "73":
-                case "75":
-                case "76":
-                case "71":
-                case "74":
-                case "72":
-                    maTinhFilled = "70";
-                    break;
-
-                default:
-                    maTinhFilled = maTinh;
-                    break;
-            }
-            return maTinhFilled;
-        }
-
-        private void SetTinhs()
-        {
-            foreach (var item in DiNgoais)
-            {
-                item.MaTinh = GetTinhFromBuuCuc(item.BuuCucNhanTemp);
-            }
-        }
-
-        private void AddRange()
-        {
-            foreach (MaHieuDiNgoaiInfo item in LocTextTho(TextsRange))
-            {
-                if (item.Code.Length != 13)
-                {
-                    continue;
-                }                //    //kiem tra trung khong
-                if (DiNgoais.Count == 0)
-                {
-                    if (string.IsNullOrEmpty(item.TinhGocGui))
-                    {
-                        DiNgoais.Add(new DiNgoaiItemModel(DiNgoais.Count + 1, item.Code));
-                    }
-                    else
-                    {
-                        DiNgoais.Add(new DiNgoaiItemModel(DiNgoais.Count + 1, item.Code, item.BuuCucGui, item.BuuCucNhanTemp, item.TinhGocGui));
-                    }
-                }
-                else
-                {
-                    bool isTrundle = false;
-                    foreach (DiNgoaiItemModel diNgoai in DiNgoais)
-                    {
-                        if (diNgoai.Code.ToUpper() == item.Code)
-                        {
-                            isTrundle = true;
-                            break;
-                        }
-                    }
-                    if (isTrundle)
-                        continue;
-
-                    if (string.IsNullOrEmpty(item.TinhGocGui))
-                    {
-                        DiNgoais.Add(new DiNgoaiItemModel(DiNgoais.Count + 1, item.Code));
-                    }
-                    else
-                    {
-                        DiNgoais.Add(new DiNgoaiItemModel(DiNgoais.Count + 1, item.Code, item.BuuCucGui, item.BuuCucNhanTemp, item.TinhGocGui));
-                    }
-                }
-            }
-        }
-
-        private List<MaHieuDiNgoaiInfo> LocTextTho(string textsRange)
-        {
-            //thuc hien loc ma hieu dia chi gui va dia chi nhan
-            List<MaHieuDiNgoaiInfo> list = new List<MaHieuDiNgoaiInfo>();
-            var datas = textsRange.Split('\n');
-            foreach (string data in datas)
-            {
-                //thuc hien loc danh sach trong nay
-                if (data.Count() < 13)
-                    continue;
-                string[] splitedData = data.Split(' ');
-
-                if (splitedData.Length >= 10 && data.ToUpper().IndexOf("VN") != -1)
-                {
-                    list.Add(new MaHieuDiNgoaiInfo(splitedData[1].ToUpper(), splitedData[3], splitedData[2], splitedData[4]));
-                }
-                else
-                if (splitedData.Length == 7 && data.ToUpper().IndexOf("VN") != -1)
-                {
-                    list.Add(new MaHieuDiNgoaiInfo(splitedData[1].ToUpper(), splitedData[2], "", splitedData[3]));
-                }
-                else
-                {
-                    int indexVN = data.ToUpper().IndexOf("VN");
-                    if (indexVN - 11 < 0)
-                        continue;
-
-                    list.Add(new MaHieuDiNgoaiInfo(data.Substring(indexVN - 11, 13).Trim().ToUpper()));
-                }
-                //if(splitedData.Length )
-            }
-            return list;
-        }
-
-        private void AutoSetBuuCuc(DiNgoaiItemModel diNgoai)
-        {
-            if (diNgoai.MaTinh == null)
-                return;
-
-            //thuc hien lay loai buu gui
-            string loai = diNgoai.Code.Substring(0, 1).ToUpper();
-            if (diNgoai.MaTinh == "59")
-            {
-                List<string> fillAddress = diNgoai.Address.Split('-').Select(s => s.Trim()).ToList();
-                if (fillAddress == null)
-                    return;
-                if (fillAddress.Count < 3)
-                    return;
-                string addressExactly = fillAddress[fillAddress.Count - 2];
-                if (BoDauAndToLower(addressExactly).IndexOf("phu my") != -1)
-                {
-                    diNgoai.TenBuuCuc = "592810 - KT Phù Mỹ";
-                    diNgoai.MaBuuCuc = "592810";
-                }
-                else if (BoDauAndToLower(addressExactly).IndexOf("phu cat") != -1)
-                {
-                    diNgoai.TenBuuCuc = "592460 - BCP Phù Cát";
-                    diNgoai.MaBuuCuc = "592460";
-                }
-                else if (BoDauAndToLower(addressExactly).IndexOf("an nhon") != -1)
-                {
-                    diNgoai.TenBuuCuc = "592020 - KT An Nhơn";
-                    diNgoai.MaBuuCuc = "592020";
-                }
-                else if (BoDauAndToLower(addressExactly).IndexOf("tay son") != -1)
-                {
-                    diNgoai.TenBuuCuc = "594210 - KT Tây Sơn";
-                    diNgoai.MaBuuCuc = "594210";
-                }
-                else if (BoDauAndToLower(addressExactly).IndexOf("van canh") != -1)
-                {
-                    diNgoai.TenBuuCuc = "594560 - KT Vân Canh";
-                    diNgoai.MaBuuCuc = "594560";
-                }
-                else if (BoDauAndToLower(addressExactly).IndexOf("vinh thanh") != -1)
-                {
-                    diNgoai.TenBuuCuc = "594080 - KT Vĩnh Thạnh";
-                    diNgoai.MaBuuCuc = "594080";
-                }
-                else if (BoDauAndToLower(addressExactly).IndexOf("tuy phuoc") != -1)
-                {
-                    diNgoai.TenBuuCuc = "591720 - KT Tuy Phước";
-                    diNgoai.MaBuuCuc = "591720";
-                }
-            }
-            else if (diNgoai.MaTinh == "70")
-            {
-                if (loai == "C")
-                {
-                    diNgoai.TenBuuCuc = "700920 - KTNT TP.HCM";
-                    diNgoai.MaBuuCuc = "700920";
-                }
-                else if (loai == "E")
-                {
-                    diNgoai.TenBuuCuc = "701000 - HCM EMS NT";
-                    diNgoai.MaBuuCuc = "701000";
-                }
-            }
-            else if (diNgoai.MaTinh == "10")
-            {
-                if (loai == "C")
-                {
-                    diNgoai.TenBuuCuc = "100920 - KTNT Hà Nội";
-                    diNgoai.MaBuuCuc = "100920";
-                }
-                else if (loai == "E")
-                {
-                    diNgoai.TenBuuCuc = "101000 - KT EMS Hà Nội nội tỉnh";
-                    diNgoai.MaBuuCuc = "101000";
-                }
-            }
-            else if (diNgoai.MaTinh == "55")
-            {
-                if (loai == "C")
-                {
-                    diNgoai.TenBuuCuc = "550920 - Đà Nẵng NT";
-                    diNgoai.MaBuuCuc = "550920";
-                }
-                else if (loai == "E")
-                {
-                    diNgoai.TenBuuCuc = "550100 - Đà Nẵng EMS NT";
-                    diNgoai.MaBuuCuc = "550100";
-                }
-            }
-            else if (diNgoai.MaTinh == "85")
-            {
-                if (loai == "C")
-                {
-                    diNgoai.TenBuuCuc = "850100 - KTC1 Long An";
-                    diNgoai.MaBuuCuc = "850100";
-                }
-                else if (loai == "E")
-                {
-                    diNgoai.TenBuuCuc = "850100 - KTC1 Long An";
-                    diNgoai.MaBuuCuc = "850100";
-                }
-            }
-            else
-            {
-                //thuc hien lay dia chi
-                List<string> fillAddress = diNgoai.Address.Split('-').Select(s => s.Trim()).ToList();
-                if (fillAddress == null)
-                    return;
-                if (fillAddress.Count < 3)
-                    return;
-                string addressExactly = fillAddress[fillAddress.Count - 2];
-                //thuc hien lay danh sach buu cuc
-                List<string> listBuuCuc = GetListBuuCucFromTinh(diNgoai.MaTinh);
-                if (listBuuCuc.Count == 0)
-                    return;
-
-                string data = listBuuCuc.FirstOrDefault(m => BoDauAndToLower(m).IndexOf(BoDauAndToLower(addressExactly)) != -1);
-                if (!string.IsNullOrEmpty(data))
-                {
-                    diNgoai.TenBuuCuc = data;
-                    diNgoai.MaBuuCuc = data.Substring(0, 6);
-                }
-                else
-                {
-                    diNgoai.TenBuuCuc = listBuuCuc[0];
-                    diNgoai.MaBuuCuc = listBuuCuc[0].Substring(0, 6);
-                }
-                //foreach (string item in listBuuCuc)
-                //{
-                //    if (boDauAndToLower(addressExactly).IndexOf(boDauAndToLower(item)) != -1)
-                //    {
-                //        diNgoai.TenBuuCuc = item;
-                //        diNgoai.MaBuuCuc = item.Substring(0, 6);
-                //        break;
-                //    }
-                //}
-            }
-        }
-
-        private string BoDauAndToLower(string text)
-        {
-            return APIManager.ConvertToUnSign3(text).ToLower();
-        }
-
-        private void CheckEnterKey()
-        {
-            if (TextCode.IndexOf('\n') != -1)
-            {
-                TextCode = TextCode.Trim().ToUpper();
-                if (TextCode.Length != 13)
-                {
-                    TextCode = "";
-                    return;
-                }                //    //kiem tra trung khong
-                if (DiNgoais.Count == 0)
-                {
-                    DiNgoais.Add(new DiNgoaiItemModel(DiNgoais.Count + 1, TextCode));
-                    SoundManager.playSound(@"Number\1.wav");
-                    TextCode = "";
-                }
-                else
-                {
-                    foreach (DiNgoaiItemModel item in DiNgoais)
-                    {
-                        if (item.Code == TextCode)
-                        {
-                            TextCode = "";
-                            return;
-                        }
-                    }
-                    DiNgoais.Add(new DiNgoaiItemModel(DiNgoais.Count + 1, TextCode));
-                    if (IsSayNumber)
-                    {
-                        SoundManager.playSound(@"Number\" + DiNgoais.Count.ToString() + ".wav");
-                    }
-                    TextCode = "";
-                }
-            }
-        }
-
-        private void Clear()
-        {
-        }
-
-        private void ClearDiNgoai()
-        {
-            DiNgoais.Clear();
-        }
-
-        private List<string> GetListBuuCucFromTinh(string maTinh)
-        {
-            List<string> buucucs = new List<string>();
-            if (!IsTuDongDong)
-            {
-                for (int i = 0; i < listBuuCuc.Count; i++)
-                {
-                    if (maTinh == listBuuCuc[i].Substring(0, 2))
-                    {
-                        buucucs.Add(listBuuCuc[i].Trim());
-                    }
-                }
-            }
-            else
-            {
-                for (int i = 0; i < listBuuCucTuDong.Count; i++)
-                {
-                    if (maTinh == listBuuCucTuDong[i].Substring(0, 2))
-                    {
-                        buucucs.Add(listBuuCucTuDong[i].Trim());
-                    }
-                }
-            }
-            return buucucs;
-        }
-
-        [RelayCommand]
-        private void MoRong()
-        {
-            WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Navigation", Content = "Center" });
-        }
-
-        private void OnSelectedBuuCuc()
-        {
-            if (SelectedBuuCuc == null)
-                return;
-            if (SelectedDiNgoai == null)
-                return;
-            //DiNgoaiItemModel dingoai = DiNgoais.FirstOrDefault(d => d.Code == SelectedDiNgoai.Code);
-            //if (dingoai == null)
-            //    return;
-            //dingoai.MaBuuCuc = SelectedBuuCuc;
-            if (string.IsNullOrEmpty(SelectedDiNgoai.MaTinh))
-                return;
-            SelectedDiNgoai.TenBuuCuc = SelectedBuuCuc;
-            SelectedDiNgoai.MaBuuCuc = SelectedBuuCuc.Substring(0, 6);
-
-            //thuc hien qua cai tiep theo
-            foreach (DiNgoaiItemModel diNgoai in DiNgoais)
-            {
-                if (string.IsNullOrEmpty(diNgoai.MaBuuCuc))
-                {
-                    BuuCucs.Clear();
-                    SelectedDiNgoai = diNgoai;
-                    break;
-                }
-            }
-        }
-
-        private void OnSelectedDiNgoai()
-        {
-            if (SelectedDiNgoai == null)
-                return;
-            //chuyen vo cbx
-            BuuCucs.Clear();
-            List<string> listBuuCuc = GetListBuuCucFromTinh(SelectedDiNgoai.MaTinh);
-            if (listBuuCuc.Count != 0)
-            {
-                foreach (string item in listBuuCuc)
-                {
-                    BuuCucs.Add(item);
-                }
-            }
-        }
-
         private void ThuHep()
         {
             WeakReferenceMessenger.Default.Send<ContentModel>(new ContentModel { Key = "Navigation", Content = "SmallRight" });
@@ -2180,13 +2043,147 @@ namespace TaoBD10.ViewModels
             DiNgoais.Remove(SelectedDiNgoai);
         }
 
+        public ICommand AddAddressCommand { get; }
+        public ICommand AddFastCommand { get; }
+        public ICommand AddRangeCommand { get; }
+
+        public ObservableCollection<string> BuuCucs
+        {
+            get { return _BuuCucs; }
+            set { SetProperty(ref _BuuCucs, value); }
+        }
+
+        public ICommand ClearCommand { get; }
+        public ICommand ClearDiNgoaiCommand { get; }
+
+        public ObservableCollection<DiNgoaiItemModel> DiNgoais
+        {
+            get { return _DiNgoais; }
+            set { SetProperty(ref _DiNgoais, value); }
+        }
+
+        public bool IsAutoF1
+        {
+            get { return _IsAutoF1; }
+            set { SetProperty(ref _IsAutoF1, value); }
+        }
+
+        public bool IsExpanded
+        {
+            get { return _IsExpanded; }
+            set
+            {
+                SetProperty(ref _IsExpanded, value);
+
+                if (_IsExpanded == false)
+                {
+                    ThuHep();
+                }
+                else
+                {
+                    MoRong();
+                }
+            }
+        }
+
+        public bool IsGroupCT
+        {
+            get { return _IsGroupCT; }
+            set { SetProperty(ref _IsGroupCT, value); }
+        }
+
+        public bool IsSayNumber
+        {
+            get { return _isSayNumber; }
+            set { SetProperty(ref _isSayNumber, value); }
+        }
+
+        public bool IsTuDongDong
+        {
+            get { return _IsTuDongDong; }
+            set { SetProperty(ref _IsTuDongDong, value); }
+        }
+
+        public ICommand MoRongCommand { get; }
+
+        public string SelectedBuuCuc
+        {
+            get { return _SelectedBuuCuc; }
+            set
+            {
+                SetProperty(ref _SelectedBuuCuc, value);
+                OnSelectedBuuCuc();
+            }
+        }
+
+        public DiNgoaiItemModel SelectedDiNgoai
+        {
+            get { return _SelectedDiNgoai; }
+            set
+            {
+                SetProperty(ref _SelectedDiNgoai, value);
+            }
+        }
+
+        public DiNgoaiItemModel SelectedSimple
+        {
+            get { return _SelectedSimple; }
+            set
+            {
+                SetProperty(ref _SelectedSimple, value);
+            }
+        }
+
+        public IRelayCommand<DiNgoaiItemModel> SelectionCommand { get; }
+        public ICommand SelectionChiTietCommand { get; }
+        public ICommand SetMaTinhGuiCommand { get; }
+        public ICommand SetTinhCommand { get; }
+        public ICommand ShowDataCommand { get; }
+        public ICommand SortCommand { get; }
+        public ICommand SortTinhCommand { get; }
+        public ICommand StopDiNgoaiCommand { get; }
+
+        public string TextCode
+        {
+            get { return _TextCode; }
+            set
+            {
+                SetProperty(ref _TextCode, value);
+                CheckEnterKey();
+            }
+        }
+
+        public string TextsRange
+        {
+            get { return _TextsRange; }
+            set { SetProperty(ref _TextsRange, value); }
+        }
+
+        public ICommand XoaCommand { get; }
+        public ICommand XoaDiNgoaiCommand { get; }
+        private readonly BackgroundWorker bwKhoiTao;
+        private readonly BackgroundWorker bwPrintDiNgoai;
+        private readonly DispatcherTimer timerPrint;
         private ObservableCollection<string> _BuuCucs;
         private ObservableCollection<DiNgoaiItemModel> _DiNgoais;
         private bool _IsAutoF1 = true;
         private bool _IsExpanded = false;
+        private bool _IsGroupCT = false;
         private bool _isSayNumber = true;
+        private bool _IsTuDongDong;
         private string _SelectedBuuCuc;
         private DiNgoaiItemModel _SelectedDiNgoai;
+        private DiNgoaiItemModel _SelectedSimple;
         private string _TextCode;
+        private string _TextsRange;
+        private int downTaoTui = 0;
+        private bool isAutoRunDiNgoai = false;
+        private bool IsPhoneRunning = false;
+        private bool isRunFirst = false;
+        private bool isWaitingPrint = false;
+        private List<string> listBuuCuc;
+        private List<string> listBuuCucTuDong;
+        private StateDiNgoai stateDiNgoai = StateDiNgoai.KhoiTao;
+        private List<TinhHuyenModel> tinhs;
     }
 }

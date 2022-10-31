@@ -84,10 +84,6 @@ namespace TaoBD10.ViewModels
             FileManager.OnSetupFileManager();
             MqttKey = FileManager.LoadKeyMqtt();
 
-
-
-
-
             NavigateTabTui();
 
             MqttManager.Connect();
@@ -200,7 +196,6 @@ namespace TaoBD10.ViewModels
                     {
                         if (boDauAddress.IndexOf("phu my") == -1)
                             SoundManager.playSound3(@"Number\error_sound.wav");
-
                     }
                     else if (maSoBuuCucCurrent == "592460")
                     {
@@ -1086,6 +1081,37 @@ namespace TaoBD10.ViewModels
             isSmallWindow = false;
         }
 
+        private void ExcuteXacNhan()
+        {
+            var thongTins = FileManager.client.Child(FileManager.FirebaseKey + "/danhsachmahieu/").OnceAsync<ThongTinCoBanModel>();
+            thongTins.Wait();
+            List<string> list = new List<string>();
+            foreach (var thongTinObject in thongTins.Result)
+            {
+                ThongTinCoBanModel thongTin = thongTinObject.Object;
+                if (thongTin.IsSelected)
+                {
+                    list.Add(thongTin.MaHieu);
+                }
+            }
+
+            if (list.Count != 0)
+            {
+                string jsonText = JsonConvert.SerializeObject(list);
+                WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToXNMH_XacNhanList", Content = jsonText });
+            }
+            //List<string> maHieu = new List<string>();
+
+            //foreach (var thongtin in thongTins.Result)
+            //{
+            //    if (thongtin.IsSelected)
+            //    {
+            //        maHieu.Add(thongtin.MaHieu);
+            //    }
+
+            //}
+        }
+
         private string GetCodeFromString(string content)
         {
             int index = content.LastIndexOf("vn");
@@ -1097,9 +1123,9 @@ namespace TaoBD10.ViewModels
             _window = window;
             //SetRightWindow();
             SetDefaultWindowTui();
-            FileManager.client.Child(FileManager.FirebaseKey+"/connect/pc").PutAsync("true").Wait();
+            FileManager.client.Child(FileManager.FirebaseKey + "/connect/pc").PutAsync("true").Wait();
 
-            ChildQuery child = FileManager.client.Child(FileManager.FirebaseKey+"/connect");
+            ChildQuery child = FileManager.client.Child(FileManager.FirebaseKey + "/connect");
 
             var giatri = child.AsObservable<string>();
             giatri.Where(m => m.Key == "phone")
@@ -1116,23 +1142,21 @@ namespace TaoBD10.ViewModels
                     }
                 }
             );
-            FileManager.client.Child(FileManager.FirebaseKey+"/danhsachmahieu/").AsObservable<ThongTinCoBanModel>().Subscribe(x =>
-            {
-                if (x.EventType == Firebase.Database.Streaming.FirebaseEventType.InsertOrUpdate)
-                {
-                    if (x.Object != null)
-                    {
-                        ThongTinCoBanModel a = x.Object;
-                        if (a.State == 0)
-                        {
-                            //thuc hien cong viec tim kiem trong nay
-                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToWeb_CheckCode", Content = a.MaHieu + "|" + a.id+"|"+"danhsach" });
-                        }
-                    }
-
-                }
-
-            });
+            FileManager.client.Child(FileManager.FirebaseKey + "/danhsachmahieu/").AsObservable<ThongTinCoBanModel>().Subscribe(x =>
+              {
+                  if (x.EventType == Firebase.Database.Streaming.FirebaseEventType.InsertOrUpdate)
+                  {
+                      if (x.Object != null)
+                      {
+                          ThongTinCoBanModel a = x.Object;
+                          if (a.State == 0)
+                          {
+                              //thuc hien cong viec tim kiem trong nay
+                              WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToWeb_CheckCode", Content = a.MaHieu + "|" + a.id + "|" + "danhsach" });
+                          }
+                      }
+                  }
+              });
             FileManager.client.Child(FileManager.FirebaseKey + "/mahieudaluu/").AsObservable<ThongTinCoBanModel>().Subscribe(x =>
             {
                 if (x.EventType == Firebase.Database.Streaming.FirebaseEventType.InsertOrUpdate)
@@ -1146,140 +1170,104 @@ namespace TaoBD10.ViewModels
                             WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToWeb_CheckCode", Content = a.MaHieu + "|" + a.id + "|" + "saveds" });
                         }
                     }
-
                 }
-
             });
-
 
             var notification = FileManager.client.Child(FileManager.FirebaseKey + "/notification/").AsObservable<string>();
-            notification.Where(m=>m.Key == "topc").Subscribe(x =>
-            {
-                if (x.EventType == Firebase.Database.Streaming.FirebaseEventType.InsertOrUpdate)
-                {
-                    if (x.Object != null)
-                    {
-                        if (!string.IsNullOrEmpty(x.Object))
-                        {
-                            if (x.Object == "xacnhan")
-                            {
-                                APIManager.ShowSnackbar("xac nhan");
-                                ExcuteXacNhan();
-                                //thuc hien cong viec xac nhan trong nay
-                            }
-                            else if (x.Object == "laydanhsach")
-                            {
-                                APIManager.ShowSnackbar("Đang lấy danh sách bd đến");
-                                //Thuc hien xu ly lay danh sach bd
-                                WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToLayBDHA_LayDanhSach" });
+            notification.Where(m => m.Key == "topc").Subscribe(x =>
+              {
+                  if (x.EventType == Firebase.Database.Streaming.FirebaseEventType.InsertOrUpdate)
+                  {
+                      if (x.Object != null)
+                      {
+                          if (!string.IsNullOrEmpty(x.Object))
+                          {
+                              if (x.Object == "xacnhan")
+                              {
+                                  APIManager.ShowSnackbar("xac nhan");
+                                  ExcuteXacNhan();
+                                  //thuc hien cong viec xac nhan trong nay
+                              }
+                              else if (x.Object == "laydanhsach")
+                              {
+                                  APIManager.ShowSnackbar("Đang lấy danh sách bd đến");
+                                  //Thuc hien xu ly lay danh sach bd
+                                  WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToLayBDHA_LayDanhSach" });
+                              }
+                              else if (x.Object == "savebd")
+                              {
+                                  var list = FileManager.client.Child(FileManager.FirebaseKey + "/message/topc").OnceSingleAsync<string>();
+                                  list.Wait();
+                                  string[] datas = list.Result.Split('|');
+                                  APIManager.ShowSnackbar("Đang save bd");
+                                  WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToGetBD_SaveBD", Content = datas[0] + "|" + datas[1] + "|" + datas[2] });
+                              }
+                              else if (x.Object == "laybuucuc")
+                              {
+                                  var list = FileManager.client.Child(FileManager.FirebaseKey + "/message/topc").OnceSingleAsync<List<string>>();
+                                  list.Wait();
+                                  List<string> lists = list.Result;
+                                  WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToDiNgoai_GetAddressPhone", Content = JsonConvert.SerializeObject(lists) });
+                              }
+                              else if (x.Object == "indingoai")
+                              {
+                                  var list = FileManager.client.Child(FileManager.FirebaseKey + "/message/topc").OnceSingleAsync<string>();
+                                  list.Wait();
+                                  string mahieuSelected = list.Result;
+                                  APIManager.ShowSnackbar("Dang in");
+                                  WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToDiNgoai_InDiNgoai", Content = mahieuSelected });
+                              }
+                              else if (x.Object == "chinhsualai")
+                              {
+                                  var list = FileManager.client.Child(FileManager.FirebaseKey + "/message/topc").OnceSingleAsync<string>();
+                                  list.Wait();
+                                  string mahieuSelected = list.Result;
+                                  APIManager.ShowSnackbar("Đã sửa mã bưu cục.");
+                                  WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToDiNgoai_ChinhSuaLai", Content = mahieuSelected });
+                              }
+                              else if (x.Object == "capturescreen")
+                              {
+                                  WeakReferenceMessenger.Default.Send(new ContentModel { Key = "CaptureScreen" });
+                              }
+                              else if (x.Object == "showfullweb")
+                              {
+                                  WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ShowFullWeb" });
+                              }
+                              else if (x.Object == "laydulieu200")
+                              {
+                                  WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "LayDuLieu" });
+                              }
+                              else if (x.Object == "dongqua230")
+                              {
+                                  var list = FileManager.client.Child(FileManager.FirebaseKey + "/message/topc").OnceSingleAsync<List<string>>();
+                                  list.Wait();
+                                  List<string> lists = list.Result;
+                                  WeakReferenceMessenger.Default.Send(new ContentModel { Key = "SetTrueAuto200", Content = JsonConvert.SerializeObject(lists) });
+                                  WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "KT" });
+                              }
+                              else if (x.Object == "writecapchar")
+                              {
+                                  var list = FileManager.client.Child(FileManager.FirebaseKey + "/message/topc").OnceSingleAsync<string>();
+                                  list.Wait();
+                                  string mahieuSelected = list.Result;
+                                  WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToWeb_WriteCapchar", Content = mahieuSelected });
+                              }
+                              else if (x.Object.IndexOf("laybd") != -1)
+                              {
+                                  string[] datas = x.Object.Split('|');
+                                  if (datas[0] == "laybd")
+                                  {
+                                      //thuc hien lay bd hien tai
+                                      WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToLayHAAL_LayBD", Content = datas[1] + "|" + datas[2] });
+                                  }
 
-                            }else if(x.Object == "savebd")
-                            {
-                                var list = FileManager.client.Child(FileManager.FirebaseKey + "/message/topc").OnceSingleAsync<string>();
-                                list.Wait();
-                                string[] datas = list.Result.Split('|');
-                                APIManager.ShowSnackbar("Đang save bd");
-                                WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToGetBD_SaveBD", Content = datas[0] + "|" + datas[1] + "|" + datas[2] });
-                            }
-                           
-                            else if (x.Object == "laybuucuc")
-                            {
-                                var list = FileManager.client.Child(FileManager.FirebaseKey + "/message/topc").OnceSingleAsync<List<string>>();
-                                list.Wait();
-                                List<string> lists = list.Result;
-                                WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToDiNgoai_GetAddressPhone", Content = JsonConvert.SerializeObject(lists) });
-                            }else if(x.Object == "indingoai")
-                            {
-                                var list = FileManager.client.Child(FileManager.FirebaseKey + "/message/topc").OnceSingleAsync<string>();
-                                list.Wait();
-                                string mahieuSelected = list.Result;
-                                APIManager.ShowSnackbar("Dang in");
-                                WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToDiNgoai_InDiNgoai", Content = mahieuSelected });
-                            }else if(x.Object == "chinhsualai")
-                            {
-                                var list = FileManager.client.Child(FileManager.FirebaseKey + "/message/topc").OnceSingleAsync<string>();
-                                list.Wait();
-                                string mahieuSelected = list.Result;
-                                APIManager.ShowSnackbar("Đã sửa mã bưu cục.");
-                                WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToDiNgoai_ChinhSuaLai", Content = mahieuSelected });
-                            }else if(x.Object == "capturescreen")
-                            {
-                                WeakReferenceMessenger.Default.Send(new ContentModel { Key = "CaptureScreen" });
-                            }else if(x.Object == "showfullweb")
-                            {
-                                WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ShowFullWeb" });
-                            }
-                            else if(x.Object == "laydulieu200")
-                            {
-                                
-                                WeakReferenceMessenger.Default.Send(new ContentModel {Key ="Chinh", Content = "LayDuLieu" });
-                            }else if(x.Object == "dongqua230")
-                            {
-                                var list = FileManager.client.Child(FileManager.FirebaseKey + "/message/topc").OnceSingleAsync<List<string>>();
-                                list.Wait();
-                                List<string> lists = list.Result;
-                                WeakReferenceMessenger.Default.Send(new ContentModel { Key = "SetTrueAuto200", Content = JsonConvert.SerializeObject(lists) });
-                                WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "KT" });
-                            }else if (x.Object == "writecapchar")
-                            {
-                                var list = FileManager.client.Child(FileManager.FirebaseKey + "/message/topc").OnceSingleAsync<string>();
-                                list.Wait();
-                                string mahieuSelected = list.Result;
-                                WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToWeb_WriteCapchar", Content = mahieuSelected });
-                            }
-                            else if (x.Object.IndexOf("laybd") != -1)
-                            {
-                                string[] datas = x.Object.Split('|');
-                                if (datas[0] == "laybd")
-                                {
-                                    //thuc hien lay bd hien tai
-                                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToLayHAAL_LayBD", Content = datas[1] + "|" + datas[2] });
-                                }
-
-                                FileManager.client.Child(FileManager.FirebaseKey + "/notification/").PutAsync(@"{""topc"":""""}");
-                            }
-                            FileManager.SetDefaultToPc();
-                        }
-                    }
-
-                }
-
-            });
-
-           
-        }
-       
-
-        void ExcuteXacNhan()
-        {
-            var thongTins = FileManager.client.Child(FileManager.FirebaseKey + "/danhsachmahieu/").OnceAsync<ThongTinCoBanModel>();
-            thongTins.Wait();
-            List<string> list = new List<string>();
-            foreach (var thongTinObject in thongTins.Result)
-            {
-                ThongTinCoBanModel thongTin = thongTinObject.Object;
-                if (thongTin.IsSelected)
-                {
-                    list.Add(thongTin.MaHieu);
-                }
-            }
-
-            if (list.Count != 0) {
-             string jsonText = JsonConvert.SerializeObject(list);
-            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToXNMH_XacNhanList", Content = jsonText });
-
-}
-                       //List<string> maHieu = new List<string>();
-
-            //foreach (var thongtin in thongTins.Result)
-            //{
-            //    if (thongtin.IsSelected)
-            //    {
-            //        maHieu.Add(thongtin.MaHieu);
-            //    }
-
-            //}
-
+                                  FileManager.client.Child(FileManager.FirebaseKey + "/notification/").PutAsync(@"{""topc"":""""}");
+                              }
+                              FileManager.SetDefaultToPc();
+                          }
+                      }
+                  }
+              });
         }
 
         private string LocHuyen(string address)
@@ -1308,7 +1296,7 @@ namespace TaoBD10.ViewModels
         {
             if (!IsActivatedWindow)
             {
-                if (IndexTabControl != 3&& IndexTabTui != 7)
+                if (IndexTabControl != 3 && IndexTabTui != 7)
                 {
                     IsActivatedWindow = true;
                     OnSelectedTabTui();
@@ -1392,12 +1380,14 @@ namespace TaoBD10.ViewModels
                     {
                         SetDefaultWindowTui();
                     }
-                }else if (m.Key == "MaxWindow")
+                }
+                else if (m.Key == "MaxWindow")
                 {
-                    if(_window == null)
+                    if (_window == null)
                     {
                         return;
-                    }else
+                    }
+                    else
                     {
                         _window.WindowState = WindowState.Maximized;
                     }
@@ -1423,7 +1413,6 @@ namespace TaoBD10.ViewModels
         private void OnCloseWindow()
         {
             _keyboardHook.UnHookKeyboard();
-
         }
 
         private void OnKeyPress(object sender, KeyPressedArgs e)
@@ -1697,6 +1686,16 @@ namespace TaoBD10.ViewModels
                             {
                                 WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "Print" });
                             }
+                        }
+                        else if (KeyData.IndexOf("newdingoai") != -1)
+                        {
+                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Active", Content = "MainView" });
+                            IndexTabTui = 2;
+                            Thread.Sleep(100);
+                        }
+                        else if (KeyData.IndexOf("autoprintdn") != -1)
+                        {
+                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToDiNgoai", Content = "AddFast" });
                         }
                         else if (KeyData.IndexOf("xnmh") != -1)
                         {
@@ -2134,7 +2133,6 @@ namespace TaoBD10.ViewModels
 
         private void Test()
         {
-
             //WindowInfo window = APIManager.WaitingFindedWindow("xac nhan bd10 den");
             //AutomationElement element = AutomationElement.FromHandle(window.hwnd);
             //var child = element.FindAll(TreeScope.Descendants, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Table));
@@ -2225,56 +2223,9 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        private readonly Y2KeyboardHook _keyboardHook;
-        private readonly BackgroundWorker backgroundWorkerRead;
-        private readonly BackgroundWorker bwPrintBanKe;
-        private readonly BackgroundWorker bwPrintBD10;
-        private readonly BackgroundWorker bwRunPrints;
-        private string _CountInBD;
-        private int _DefaultNumberPagePrint = 3;
-        private int _IndexTabControl = 0;
-        private int _IndexTabKT;
-        private int _IndexTabOption;
-        private int _IndexTabTui = 1;
-        private bool _IsActivatedWindow = true;
-        private bool _IsAutoF4 = false;
-        private bool _IsBoQuaHuyen = true;
-        private bool _IsFindItem = true;
-        private bool _IsMqttOnline = false;
-        private bool _IsTopMost = true;
-        private bool _IsXacNhanChiTieting = false;
-        private SnackbarMessageQueue _MessageQueue;
-        private string _MqttKey;
-        private int _StateTest;
-        private string _TestText;
-        private Window _window;
-        private BackgroundWorker bwCheckConnectMqtt;
-        private BackgroundWorker bwprintMaVach;
-        private WindowInfo currentWindowRead;
-        private bool Is16Kg = false;
-        private bool isReadDuRoi = false;
-        private bool isRunnedPrintBD = false;
-        private bool isSmallWindow = false;
-        private string KeyData = "";
-        private int lastConLai = 0;
-        private double lastHeight = 0;
-        private int lastNumber = 0;
-        private int lastNumberSuaBD = 0;
-        private int lastSelectedTabTui = 0;
-        private double lastWidth = 0;
-        private List<TestAPIModel> listControl;
-        private List<FindItemModel> listFindItem;
-        private string loaiCurrent = "";
-        private string maSoBuuCucCurrent = "";
-        private int numberRead = 0;
-        private BackgroundWorker printTrangCuoi;
-        private string soCTCurrent = "";
-        private DispatcherTimer timer;
         public IRelayCommand<Window> CloseWindowCommand { get; }
         public string CountInBD { get => _CountInBD; set => SetProperty(ref _CountInBD, value); }
-
         public ICommand DeactivatedWindowCommand { get; }
-
         public IRelayCommand<System.Windows.Controls.TabControl> DefaultWindowCommand { get; }
 
         public int IndexTabControl
@@ -2339,8 +2290,6 @@ namespace TaoBD10.ViewModels
             set { SetProperty(ref _IsMqttOnline, value); }
         }
 
-
-
         public bool IsTopMost
         {
             get { return _IsTopMost; }
@@ -2362,6 +2311,7 @@ namespace TaoBD10.ViewModels
             get { return _MqttKey; }
             set { SetProperty(ref _MqttKey, value); }
         }
+
         public ICommand OnCloseWindowCommand { get; }
         public ICommand OptionViewCommand { get; }
         public ICommand SaveKeyCommand { get; }
@@ -2376,11 +2326,58 @@ namespace TaoBD10.ViewModels
         public ICommand TabChangedCommand { get; }
         public ICommand TabTuiChangedCommand { get; }
         public ICommand TestCommand { get; }
+
         public string TestText
         {
             get { return _TestText; }
             set { SetProperty(ref _TestText, value); }
         }
+
         public ICommand ToggleWindowCommand { get; }
+        private readonly Y2KeyboardHook _keyboardHook;
+        private readonly BackgroundWorker backgroundWorkerRead;
+        private readonly BackgroundWorker bwPrintBanKe;
+        private readonly BackgroundWorker bwPrintBD10;
+        private readonly BackgroundWorker bwRunPrints;
+        private string _CountInBD;
+        private int _DefaultNumberPagePrint = 3;
+        private int _IndexTabControl = 0;
+        private int _IndexTabKT;
+        private int _IndexTabOption;
+        private int _IndexTabTui = 1;
+        private bool _IsActivatedWindow = true;
+        private bool _IsAutoF4 = false;
+        private bool _IsBoQuaHuyen = true;
+        private bool _IsFindItem = true;
+        private bool _IsMqttOnline = false;
+        private bool _IsTopMost = true;
+        private bool _IsXacNhanChiTieting = false;
+        private SnackbarMessageQueue _MessageQueue;
+        private string _MqttKey;
+        private int _StateTest;
+        private string _TestText;
+        private Window _window;
+        private BackgroundWorker bwCheckConnectMqtt;
+        private BackgroundWorker bwprintMaVach;
+        private WindowInfo currentWindowRead;
+        private bool Is16Kg = false;
+        private bool isReadDuRoi = false;
+        private bool isRunnedPrintBD = false;
+        private bool isSmallWindow = false;
+        private string KeyData = "";
+        private int lastConLai = 0;
+        private double lastHeight = 0;
+        private int lastNumber = 0;
+        private int lastNumberSuaBD = 0;
+        private int lastSelectedTabTui = 0;
+        private double lastWidth = 0;
+        private List<TestAPIModel> listControl;
+        private List<FindItemModel> listFindItem;
+        private string loaiCurrent = "";
+        private string maSoBuuCucCurrent = "";
+        private int numberRead = 0;
+        private BackgroundWorker printTrangCuoi;
+        private string soCTCurrent = "";
+        private DispatcherTimer timer;
     }
 }

@@ -298,7 +298,7 @@ namespace TaoBD10.ViewModels
             }
             if (!string.IsNullOrEmpty(CurrentSelectedHangHoaDetail.Code))
             {
-                if (maHieu.MaHieu != CurrentSelectedHangHoaDetail.Code)
+                if (maHieu.MaHieu.ToUpper() != CurrentSelectedHangHoaDetail.Code.ToUpper())
                 {
                     SoundManager.playSound3(@"Number\error_sound.wav");
                     return;

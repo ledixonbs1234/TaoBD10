@@ -26,6 +26,7 @@ namespace TaoBD10.ViewModels
             LocCommand = new RelayCommand(Loc);
             LayDiaChiCommand = new RelayCommand(LayDiaChi);
             SendDataCommand = new RelayCommand(SendData);
+            LayDiaChiGuiCommand = new RelayCommand(LayDiaChiGui);
 
             ChuyenTamQuanVeLayCTCommand = new RelayCommand(ChuyenTamQuanVeLayCT);
 
@@ -157,8 +158,6 @@ namespace TaoBD10.ViewModels
            );
         }
 
-        public ICommand ChuyenTamQuanVeLayCTCommand { get; }
-
         private void ChuyenTamQuanVeLayCT()
         {
             WeakReferenceMessenger.Default.Send(new ChuyenTamQuanMessage(HangHoas.ToList().FindAll(m => m.IsTamQuan == "TamQuan")));
@@ -199,6 +198,17 @@ namespace TaoBD10.ViewModels
             //        break;
             //    }
             //}
+        }
+
+        private void LayDiaChiGui()
+        {
+            if (SelectedAddress != null)
+            {
+                if (!string.IsNullOrEmpty(SelectedAddress.Code))
+                {
+                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "LoadAddressTQWeb", Content = SelectedAddress.Code });
+                }
+            }
         }
 
         private void Loc()
@@ -262,6 +272,8 @@ namespace TaoBD10.ViewModels
             set { SetProperty(ref _CountTamQuan, value); }
         }
 
+        public ICommand ChuyenTamQuanVeLayCTCommand { get; }
+
         public ObservableCollection<HangHoaDetailModel> HangHoas
         {
             get { return _HangHoas; }
@@ -270,6 +282,7 @@ namespace TaoBD10.ViewModels
 
         public ICommand LayDanhSachCommand { get; }
         public ICommand LayDiaChiCommand { get; }
+        public ICommand LayDiaChiGuiCommand { get; }
 
         public ObservableCollection<string> LoaiAddress
         {
@@ -278,10 +291,17 @@ namespace TaoBD10.ViewModels
         }
 
         public ICommand LocCommand { get; }
-        public ICommand SendDataCommand { get; }
 
+        public HangHoaDetailModel SelectedAddress
+        {
+            get { return _SelectedAddress; }
+            set { SetProperty(ref _SelectedAddress, value); }
+        }
+
+        public ICommand SendDataCommand { get; }
         private int _CountTamQuan;
         private ObservableCollection<HangHoaDetailModel> _HangHoas;
         private ObservableCollection<string> _LoaiAddress;
+        private HangHoaDetailModel _SelectedAddress;
     }
 }

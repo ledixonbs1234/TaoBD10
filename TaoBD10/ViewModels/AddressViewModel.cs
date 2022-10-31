@@ -12,6 +12,8 @@ namespace TaoBD10.ViewModels
 {
     public class AddressViewModel : ObservableObject
     {
+        private string[] fillTamQuan = { "tam quan", "hoai son", "hoai chau", "hoai hao", "hoai phu", "hoai thanh" };
+
         public AddressViewModel()
         {
             HangHoas = new ObservableCollection<HangHoaDetailModel>();
@@ -73,7 +75,7 @@ namespace TaoBD10.ViewModels
                     LayDanhSach();
                 }
             });
-            string[] fillTamQuan = { "tam quan", "hoai son", "hoai chau", "hoai hao", "hoai phu", "hoai thanh" };
+
             WeakReferenceMessenger.Default.Register<WebContentModel>(this, (r, m) =>
             {
                 if (m.Key != "AddressTamQuan")
@@ -127,18 +129,7 @@ namespace TaoBD10.ViewModels
                             {
                                 HaveHangHoa.Address = chiTietTui.Address.Trim();
                                 HaveHangHoa.BuuCucChapNhan = chiTietTui.BCChapNhan;
-                                if (!string.IsNullOrEmpty(HaveHangHoa.Address))
-                                {
-                                    foreach (var fill in fillTamQuan)
-                                    {
-                                        if (APIManager.ConvertToUnSign3(HaveHangHoa.Address).ToLower().IndexOf(fill) != -1)
-                                        {
-                                            HaveHangHoa.IsTamQuan = "TamQuan";
-                                            SetCountTamQuan();
-                                            break;
-                                        }
-                                    }
-                                }
+
                                 //if (!string.IsNullOrEmpty(hangHoa.AddressSend))
                                 //{
                                 //    foreach (var fill in fillTamQuan)
@@ -153,10 +144,30 @@ namespace TaoBD10.ViewModels
                                 //}
                             }
                         }
+                        TimTamQuanFromDiaChi();
                     }
                 }
             }
            );
+        }
+
+        private void TimTamQuanFromDiaChi()
+        {
+            foreach (var hangHoa in HangHoas)
+            {
+                if (!string.IsNullOrEmpty(hangHoa.Address))
+                {
+                    foreach (var fill in fillTamQuan)
+                    {
+                        if (APIManager.ConvertToUnSign3(hangHoa.Address).ToLower().IndexOf(fill) != -1)
+                        {
+                            hangHoa.IsTamQuan = "TamQuan";
+                            SetCountTamQuan();
+                            break;
+                        }
+                    }
+                }
+            }
         }
 
         private void ChuyenTamQuanVeLayCT()

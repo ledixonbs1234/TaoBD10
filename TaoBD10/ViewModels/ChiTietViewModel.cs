@@ -919,16 +919,20 @@ namespace TaoBD10.ViewModels
             {
                 foreach (HangHoaDetailModel hangHoa in ListShowHangHoa)
                 {
-                    if (hangHoa.BuuCucChapNhan.IndexOf("593200") != -1 && hangHoa.TuiHangHoa.KhoiLuong == "1,0" || hangHoa.TuiHangHoa.KhoiLuong == "1,5" || hangHoa.TuiHangHoa.KhoiLuong == "2,0" || hangHoa.TuiHangHoa.KhoiLuong == "2,5")
-                        hangHoa.TrangThaiBD = TrangThaiBD.KhongIn;
+                    if (!string.IsNullOrEmpty(hangHoa.BuuCucChapNhan))
+                        if (hangHoa.BuuCucChapNhan.IndexOf("593200") != -1 && hangHoa.TuiHangHoa.KhoiLuong == "1,0" || hangHoa.TuiHangHoa.KhoiLuong == "1,5" || hangHoa.TuiHangHoa.KhoiLuong == "2,0" || hangHoa.TuiHangHoa.KhoiLuong == "2,5")
+                            hangHoa.TrangThaiBD = TrangThaiBD.KhongIn;
                 }
             }
             else
             {
                 foreach (HangHoaDetailModel hangHoa in ListShowHangHoa)
                 {
-                    if (hangHoa.BuuCucChapNhan.IndexOf("593200") != -1 && hangHoa.TuiHangHoa.KhoiLuong == "1,0" || hangHoa.TuiHangHoa.KhoiLuong == "1,5" || hangHoa.TuiHangHoa.KhoiLuong == "2,0" || hangHoa.TuiHangHoa.KhoiLuong == "2,5")
-                        hangHoa.TrangThaiBD = TrangThaiBD.ChuaChon;
+                    if (!string.IsNullOrEmpty(hangHoa.BuuCucChapNhan))
+                    {
+                        if (hangHoa.BuuCucChapNhan.IndexOf("593200") != -1 && hangHoa.TuiHangHoa.KhoiLuong == "1,0" || hangHoa.TuiHangHoa.KhoiLuong == "1,5" || hangHoa.TuiHangHoa.KhoiLuong == "2,0" || hangHoa.TuiHangHoa.KhoiLuong == "2,5")
+                            hangHoa.TrangThaiBD = TrangThaiBD.ChuaChon;
+                    }
                 }
             }
         }

@@ -1335,8 +1335,6 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        public ICommand TuDongXacNhanCTCommand { get; }
-
         private void TuDongXacNhanCT()
         {
         }
@@ -1516,53 +1514,29 @@ namespace TaoBD10.ViewModels
         private bool _IsBoQuaMaHieuSHTuiSai;
         private bool _IsTuDongXuLy = false;
         private bool _KhongInLan;
-
         private ObservableCollection<HangHoaDetailModel> _ListShowHangHoa;
-
         private LocBDInfoModel _LocBCP;
-
         private ObservableCollection<LocBDInfoModel> _LocBDs;
-
         private LocBDInfoModel _LocKhaiThac;
-
         private string _MaBCP;
-
         private string _MaKT;
-
         private string _NameTinhCurrent;
-
         private LocBDInfoModel _SelectedLocBD;
-
         private string _SelectedTime = "0.5";
-
         private HangHoaDetailModel _SelectedTui;
-
         private TinhHuyenModel _SelectTinh;
-
         private ObservableCollection<TinhHuyenModel> _ShowTinhs;
-
         private TaoBdInfoModel _taoBDAdd;
-
         private string _TextCurrentChuyenThu;
-
         private BackgroundWorker bwLayMaHieu;
-
         private int countChuyen = 0;
-
         private int countDuongThu = 0;
-
         private BuuCuc currentBuuCuc = BuuCuc.None;
-
         private List<HangHoaDetailModel> currentListHangHoa;
-
         private bool isWaiting = false;
-
         private string maBuuCuc = "0";
-
         private StateTaoBd10 stateTaoBd10;
-
         private string tenDuongThu = "";
-
         public IRelayCommand<string> AddBDTinhCommand { get; }
 
         public LocBDInfoModel ConLai
@@ -1592,11 +1566,8 @@ namespace TaoBD10.ViewModels
         }
 
         public ICommand DeleteTinhCommand { get; }
-
         public ICommand GetDataFromCloudCommand { get; }
-
         public ICommand GopBDCommand { get; }
-
         public ICommand HiddenCommand { get; }
 
         public int IndexContinueGuiTrucTiep
@@ -1729,6 +1700,7 @@ namespace TaoBD10.ViewModels
             set { SetProperty(ref _TextCurrentChuyenThu, value); }
         }
 
+        public ICommand TuDongXacNhanCTCommand { get; }
         public ICommand TuDongXuLyCTCommand { get; }
         public ICommand UpdateBuuCucChuyenThuCommand { get; }
         public ICommand XeXaHoiCommand { get; }

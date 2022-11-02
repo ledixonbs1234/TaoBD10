@@ -939,6 +939,7 @@ namespace TaoBD10.ViewModels
                         break;
                     }
                     SendKeys.SendWait("{DOWN}");
+                    Thread.Sleep(50);
                 }
                 if (IsRunGroup)
                 {
@@ -952,6 +953,7 @@ namespace TaoBD10.ViewModels
                     APIManager.ShowSnackbar("Không tìm thấy button thoát");
                     return;
                 }
+
                 SendKeys.SendWait("{F10}");
                 APIManager.SendMessage(thoatControl.Handle, 0x00F5, 0, 0);
 
@@ -964,7 +966,7 @@ namespace TaoBD10.ViewModels
                 }
 
                 Thread.Sleep(200);
-                SendKeys.SendWait("{F10}");
+                APIManager.ClickButton(currentWindow.hwnd, "dong chuyen thu", isExactly: false);
                 Thread.Sleep(200);
                 currentWindow = APIManager.WaitingFindedWindow("xac nhan");
                 if (currentWindow == null)
@@ -1657,7 +1659,7 @@ namespace TaoBD10.ViewModels
             List<DiNgoaiItemModel> listDiNgoai = new List<DiNgoaiItemModel>();
             //Thuc hien soft Tinh
             IOrderedEnumerable<DiNgoaiItemModel> dingoaisRa = DiNgoais.Where(m => int.Parse(m.MaTinh) < 59 && int.Parse(m.MaTinh) != 58).OrderByDescending(x => x.TenTinh).ThenByDescending(x => int.Parse(x.Code[10].ToString()));
-            IOrderedEnumerable<DiNgoaiItemModel> dingoaisVo = DiNgoais.Where(m => int.Parse(m.MaTinh) >= 58).OrderByDescending(x => x.TenTinh).ThenByDescending(x => int.Parse(x.Code[10].ToString())); ;
+            IOrderedEnumerable<DiNgoaiItemModel> dingoaisVo = DiNgoais.Where(m => int.Parse(m.MaTinh) >= 58).OrderByDescending(x => x.TenTinh).ThenByDescending(x => int.Parse(x.Code[10].ToString()));
             listDiNgoai.AddRange(dingoaisRa);
             listDiNgoai.AddRange(dingoaisVo);
             DiNgoais.Clear();

@@ -296,6 +296,7 @@
     <Compile Include="Model\MaBD8Model.cs" />
     <Compile Include="Model\MaHieuDiNgoaiInfo.cs" />
     <Compile Include="Model\MaHieuTuiModel.cs" />
+    <Compile Include="Model\NotificationModel.cs" />
     <Compile Include="Model\OptionInfoModel.cs" />
     <Compile Include="Model\OptionModel.cs" />
     <Compile Include="Model\PNSNameModel.cs" />

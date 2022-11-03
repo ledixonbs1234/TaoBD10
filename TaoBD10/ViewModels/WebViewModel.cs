@@ -30,14 +30,12 @@ namespace TaoBD10.ViewModels
 {
     public class WebViewModel : ObservableObject
     {
-        private string keyPathCheckCode = "";
-
+        string keyPathCheckCode = "";
         public WebViewModel()
         {
             LoadPageCommand = new RelayCommand<ChromiumWebBrowser>(LoadPage);
             LoginCommand = new RelayCommand(Login);
             DefaultCommand = new RelayCommand(Default);
-            PNSGoCommand = new RelayCommand(PNSGo);
             FullCommand = new RelayCommand(Full);
             MinCommand = new RelayCommand(Min);
             WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>
@@ -49,9 +47,9 @@ namespace TaoBD10.ViewModels
             timer.Interval = new TimeSpan(0, 20, 0);
             timer.Start();
         }
+        bool IsRunningCheck = false;
+        List<string> heapList = new List<string>();
 
-        private bool IsRunningCheck = false;
-        private List<string> heapList = new List<string>();
 
         private void CheckPageMPS(HtmlDocument document)
         {
@@ -78,8 +76,7 @@ namespace TaoBD10.ViewModels
                 }
             }
         }
-
-        private void receivedMessage(ContentModel contentModel)
+        void receivedMessage(ContentModel contentModel)
         {
             switch (contentModel.Key)
             {
@@ -87,42 +84,34 @@ namespace TaoBD10.ViewModels
                     _LoadWebChoose = LoadWebChoose.DiNgoaiAddress;
                     LoadAddressDiNgoai(contentModel.Content);
                     break;
-
                 case "WebInitializer":
                     WebBrowser.LoadingStateChanged += WebBrowser_LoadingStateChanged;
                     WebBrowser.DownloadHandler = new MyDownloadHandler();
                     break;
-
                 case "LoadAddressTQWeb":
                     _LoadWebChoose = LoadWebChoose.AddressTamQuan;
                     LoadAddressDiNgoai(contentModel.Content);
                     break;
-
                 case "LoadAddressChuaPhat":
                     _LoadWebChoose = LoadWebChoose.AddressChuaPhat;
                     LoadAddressDiNgoai(contentModel.Content);
                     break;
-
                 case "GetCodeFromBD":
                     _LoadWebChoose = LoadWebChoose.CodeFromBD;
                     LoadAddressDiNgoai(contentModel.Content);
                     break;
-
                 case "KiemTraWeb":
                     _LoadWebChoose = LoadWebChoose.KiemTraWeb;
                     LoadAddressDiNgoai(contentModel.Content);
                     break;
-
                 case "XacNhanMH":
                     _LoadWebChoose = LoadWebChoose.XacNhanMH;
                     LoadAddressDiNgoai(contentModel.Content);
                     break;
-
                 case "XacNhanMHCTDen":
                     _LoadWebChoose = LoadWebChoose.XacNhanMHCTDen;
                     LoadAddressDiNgoai(contentModel.Content);
                     break;
-
                 case "ToWeb_CheckCode":
                     heapList.Add(contentModel.Content);
                     if (isFirstLoginSuccess)
@@ -131,53 +120,43 @@ namespace TaoBD10.ViewModels
                         requestOnHeap();
                     }
                     break;
-
                 case "ToWeb_WriteCapchar":
                     LoginWithCapchar(contentModel.Content);
                     break;
-
                 case "LoadAddressDong":
                     _LoadWebChoose = LoadWebChoose.DongChuyenThu;
                     LoadAddressDiNgoai(contentModel.Content);
                     break;
-
                 case "ListAddress":
                     isClickWebBCCP = false;
                     APIManager.downLoadRoad = DownLoadRoad.XacNhanTui;
                     WebBrowser.LoadUrl(contentModel.Content);
                     break;
-
                 case "ListAddressFull":
                     APIManager.downLoadRoad = DownLoadRoad.TamQuanAddress;
                     isClickWebBCCP = false;
                     WebBrowser.LoadUrl(contentModel.Content);
                     break;
-
                 case "ListAddressChuyenThu":
                     APIManager.downLoadRoad = DownLoadRoad.ChuyenThuAddress;
                     isClickWebBCCP = false;
                     WebBrowser.LoadUrl(contentModel.Content);
                     break;
-
                 case "ListAddressDiNgoai":
                     APIManager.downLoadRoad = DownLoadRoad.DiNgoai;
                     isClickWebBCCP = false;
                     WebBrowser.LoadUrl(contentModel.Content);
                     break;
-
                 case "OnlyCheck":
                     APIManager.downLoadRoad = DownLoadRoad.None;
                     WebBrowser.LoadUrl(contentModel.Content);
                     break;
-
                 case "ShowFullWeb":
                     showFullWeb();
                     break;
-
                 case "CaptureScreen":
                     captureAndUpdateScreen();
                     break;
-
                 case "KTChuaPhat":
                     {
                         if (contentModel.Content == "LoadUrl")
@@ -219,17 +198,9 @@ namespace TaoBD10.ViewModels
                     break;
             }
         }
+        bool isDanhSach = true;
 
-        private bool isDanhSach = true;
-
-        public ICommand PNSGoCommand { get; }
-
-        private void PNSGo()
-        {
-            WebBrowser.LoadUrl("https://pns.vnpost.vn/");
-        }
-
-        private void requestOnHeap()
+        void requestOnHeap()
         {
             if (!IsRunningCheck)
             {
@@ -249,8 +220,10 @@ namespace TaoBD10.ViewModels
                 }
                 else isDanhSach = false;
 
+
                 LoadAddressDiNgoai(splitText[0]);
                 heapList.RemoveAt(0);
+
             }
         }
 
@@ -274,7 +247,7 @@ namespace TaoBD10.ViewModels
         {
         }
 
-        private void showFullWeb()
+        void showFullWeb()
         {
             App.Current.Dispatcher.Invoke(delegate // <--- HERE
             {
@@ -289,7 +262,7 @@ namespace TaoBD10.ViewModels
             });
         }
 
-        private void captureAndUpdateScreen()
+        void captureAndUpdateScreen()
         {
             string pathImage = captureScreen();
             PublishToWeb(new FileInfo(pathImage));
@@ -306,7 +279,6 @@ namespace TaoBD10.ViewModels
 
             WebBrowser.ExecuteScriptAsync(script);
         }
-
         private void LoginWithCapchar(string capchar)
         {
             string script = @"
@@ -318,7 +290,6 @@ namespace TaoBD10.ViewModels
 
             WebBrowser.ExecuteScriptAsync(script);
         }
-
         private void PublishToWeb(FileInfo file)
         {
             try
@@ -332,7 +303,9 @@ namespace TaoBD10.ViewModels
             catch (Exception ex)
             {
                 FileManager.SendMessageNotification(ex.Message);
+
             }
+
         }
 
         private void Min()
@@ -367,6 +340,7 @@ namespace TaoBD10.ViewModels
                         else
                         {
                             WebBrowser.ExecuteScriptAsync(TextManager.SCRIPT_LOGIN);
+
                         }
                     }
                     else if (diachi.IndexOf("mps.vnpost.vn/login") != -1)
@@ -528,6 +502,8 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                             }
                             webContent.BuuCucGui = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblFrPOS']").InnerText;
                             webContent.NguoiGui = document.DocumentNode.SelectSingleNode("//*[@id='MainContent_ctl00_lblSenderName']").InnerText;
+
+
 
                             if (_LoadWebChoose == LoadWebChoose.DiNgoaiAddress)
                                 webContent.Key = "DiNgoaiAddress";
@@ -724,6 +700,7 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
 
         private void ExcuteMHAndUpload(HtmlDocument document)
         {
+
             ThongTinCoBanModel thongTinCoBan = new ThongTinCoBanModel();
             HtmlNodeCollection noteBarcode = document.DocumentNode.SelectNodes("//*[@id='MainContent_ctl00_lblBarcode']");
             String thongTinJson;
@@ -788,6 +765,7 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                     else
                         thongTinCoBan.KhoiLuongThucTe = khoiLuongThucTe.InnerText;
 
+
                     //Danh sach chuyen thu
                     HtmlNode table = document.DocumentNode.SelectSingleNode("//table[@id='MainContent_ctl00_grvItemMailTrip']/tbody");
                     List<ThongTinChuyenThuModel> thongTinCTs = new List<ThongTinChuyenThuModel>();
@@ -797,6 +775,7 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                     }
                     else
                     {
+
                         if (table.HasChildNodes)
                         {
                             for (int i = 1; i < table.ChildNodes.Count; i++)
@@ -866,6 +845,7 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                             }
                             thongTinCoBan.ThongTinGiaoNhanBDs = listGiaoNhan;
                         }
+
                     }
                     _LoadWebChoose = LoadWebChoose.None;
                     thongTinCoBan.State = 1;
@@ -889,7 +869,7 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
             requestOnHeap();
         }
 
-        private String removePhoneText(String text)
+        String removePhoneText(String text)
         {
             var textSplit = text.Split('(');
             if (textSplit.Length == 2)
@@ -898,8 +878,7 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
             }
             return text;
         }
-
-        private ThongTinCoBanModel xuLyTrangThaiMH(ThongTinCoBanModel thongTin)
+        ThongTinCoBanModel xuLyTrangThaiMH(ThongTinCoBanModel thongTin)
         {
             //if (string.IsNullOrEmpty(thongTin.TrangThai))
             //{
@@ -968,7 +947,8 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
             return thongTin;
         }
 
-        private string captureScreen()
+
+        string captureScreen()
         {
             Bitmap captureBitmap = new Bitmap(1024, 768, PixelFormat.Format32bppArgb);
             //Bitmap captureBitmap = new Bitmap(int width, int height, PixelFormat);
@@ -1009,11 +989,11 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
             }
         }
 
+
         private bool isFix = false;
         private bool IsRunningChuaPhat = false;
         private string PNSName = "";
         private DispatcherTimer timer;
-
         public string AddressWeb
         {
             get { return _AddressWeb; }
@@ -1043,12 +1023,10 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                 }
             }
         }
-
         //thuc hien lay du lieu tu danh sach da co
         public ICommand LoginCommand { get; }
 
         public ICommand MinCommand { get; }
-
         public ChromiumWebBrowser WebBrowser
         {
             get { return _WebBrowser; }

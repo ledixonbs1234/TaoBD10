@@ -4,9 +4,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:cefSharpWpf="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     DataContext="{StaticResource WebVM}"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     mc:Ignorable="d">
 
     <Grid>
@@ -24,34 +24,33 @@
             Grid.Row="1"
             HorizontalAlignment="Center"
             Orientation="Horizontal">
-            <Button Width="20" Command="{Binding PNSGoCommand}" />
             <Button
                 Width="75"
                 Margin="5"
+                Style="{StaticResource MaterialDesignOutlinedButton}"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
                 Command="{Binding LoginCommand}"
-                Content="Login"
-                Style="{StaticResource MaterialDesignOutlinedButton}" />
+                Content="Login" />
             <Button
                 Width="90"
                 Margin="5"
+                Foreground="Gray"
+                Style="{StaticResource MaterialDesignOutlinedButton}"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
                 Command="{Binding DefaultCommand}"
-                Content="Mặc định"
-                Foreground="Gray"
-                Style="{StaticResource MaterialDesignOutlinedButton}" />
+                Content="Mặc định" />
             <ToggleButton
-                Width="30"
-                Height="30"
-                Margin="5"
-                materialDesign:ToggleButtonAssist.OnContent="{materialDesign:PackIcon Kind=ArrowCollapse,
-                                                                                      Size=25}"
-                Content="{materialDesign:PackIcon Kind=ArrowExpand,
-                                                  Size=25}"
-                IsChecked="{Binding IsExpanded}"
-                Style="{StaticResource MaterialDesignActionToggleButton}" />
+                    Width="30"
+                    Height="30"
+                    Margin="5"
+                    materialDesign:ToggleButtonAssist.OnContent="{materialDesign:PackIcon Kind=ArrowCollapse,
+                                                                                          Size=25}"
+                    Content="{materialDesign:PackIcon Kind=ArrowExpand,
+                                                      Size=25}"
+                    IsChecked="{Binding IsExpanded}"
+                    Style="{StaticResource MaterialDesignActionToggleButton}" />
         </StackPanel>
     </Grid>
 </UserControl>

@@ -462,8 +462,17 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                     else if (diachi.IndexOf(@"pns.vnpost.vn/chia-bưu-gửi-vào-tuyến") != -1)
                     {
                         string script = @"
-                                var sss =document.getElementById('LadingCode').innerHTML';
-                            alert(sss);
+                               setInterval(myTimer, 500);
+var i = 0;
+function myTimer() {
+    var dd = $('.dataTables_info').text();
+    if (dd.length != 0) {
+        var tex = dd.substring(12);
+        var text = tex.replace('bưu gửi','');
+ document.getElementById('LadingCode').value=text;
+    }
+}
+ document.getElementById('LadingCode').value='sss';
                 ";
                         WebBrowser.ExecuteScriptAsync(script);
                     }

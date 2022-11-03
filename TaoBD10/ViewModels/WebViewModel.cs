@@ -459,14 +459,6 @@ setTimeout(function (){  document.getElementById('export_excel').click();}, 2000
                             WebBrowser.ExecuteScriptAsync(script);
                         }
                     }
-                    else if (diachi.IndexOf(@"pns.vnpost.vn/chia-bưu-gửi-vào-tuyến") != -1)
-                    {
-                        string script = @"
-                                var sss =document.getElementById('LadingCode').innerHTML';
-                            alert(sss);
-                ";
-                        WebBrowser.ExecuteScriptAsync(script);
-                    }
                     //
                     else if (diachi.IndexOf("bccp.vnpost.vn/bccp.aspx?act=trace") != -1)
                     {

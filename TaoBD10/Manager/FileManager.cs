@@ -744,18 +744,13 @@ namespace TaoBD10.Manager
         /// <param name="message"></param>
         public static void SendMessageNotification(string message)
         {
-            FileManager.client.Child(FirebaseKey+"/message/").PutAsync(@"{""tophone"":""" + message + @"""}").Wait();
+            client.Child(FirebaseKey+"/message/").PutAsync(@"{""tophone"":""" + message + @"""}").Wait();
             FileManager.client.Child(FirebaseKey+"/notification/").PutAsync(@"{""tophone"":""message""}").Wait();
         }
 
         public static void SendVoidToPhone(string lenh)
         {
             FileManager.client.Child(FirebaseKey+"/notification/").PutAsync(@"{""tophone"":""" + lenh + @"""}").Wait();
-        }
-
-        public static void SetDefaultToPc()
-        {
-            client.Child(FirebaseKey+"/notification/").PutAsync(@"{""topc"":""""}").Wait();
         }
 
         public static FirebaseClient client;

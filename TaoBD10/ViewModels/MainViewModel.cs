@@ -1194,6 +1194,11 @@ namespace TaoBD10.ViewModels
                               lenh.Wait();
 
                               NotificationModel lenhS = lenh.Result;
+                              if (lenhS == null)
+                              {
+                                  APIManager.ShowSnackbar("Lenh Null");
+                                  return;
+                              }
 
                               if (!string.IsNullOrEmpty(x.Object))
                               {
@@ -1275,10 +1280,7 @@ namespace TaoBD10.ViewModels
                                           //thuc hien lay bd hien tai
                                           WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToLayHAAL_LayBD", Content = datas[1] + "|" + datas[2] });
                                       }
-
-                                      FileManager.client.Child(FileManager.FirebaseKey + "/notification/").PutAsync(@"{""topc"":""""}");
                                   }
-                                  FileManager.SetDefaultToPc();
                               }
                           }
                       }

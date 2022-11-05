@@ -927,20 +927,20 @@ function myTimer() {
                 {
                     if (tempTrangThai.TrangThai.Contains("Phát thành công"))
                     {
-                        thongTin.TrangThai = "Phát thành công";
+                        thongTin.TrangThai = tempTrangThai.Date + " Phát thành công";
                         thongTin.TaiBuuCuc =
                             thongTin.ThongTinChuyenThus.Last().BuuCucNhan;
                         break;
                     }
                     else if (tempTrangThai.TrangThai.Contains("Đã xác nhận đến"))
                     {
-                        thongTin.TrangThai = "Đã xác nhận đến";
+                        thongTin.TrangThai = tempTrangThai.Date + " Đã xác nhận đến";
                         thongTin.TaiBuuCuc = tempTrangThai.BuuCuc;
                         break;
                     }
                     else if (tempTrangThai.TrangThai.Contains("Đã đóng chuyến thư đi"))
                     {
-                        thongTin.TrangThai = "Đã đóng chuyến thư đi";
+                        thongTin.TrangThai = tempTrangThai.Date + " Đã đóng chuyến thư đi";
                         ThongTinChuyenThuModel tempThongTin =
                             thongTin.ThongTinChuyenThus.Last();
                         String buucucDong = removePhoneText(tempThongTin.BuuCucDong);
@@ -954,14 +954,14 @@ function myTimer() {
                     }
                     else if (tempTrangThai.TrangThai.Contains("Đã giao cho bưu tá"))
                     {
-                        thongTin.TrangThai = "Đã giao cho bưu tá";
+                        thongTin.TrangThai = tempTrangThai.Date + " Đã giao cho bưu tá";
                         thongTin.TaiBuuCuc =
                             thongTin.ThongTinChuyenThus.Last().BuuCucNhan;
                         break;
                     }
                     else if (tempTrangThai.TrangThai.Contains("Chấp nhận gửi"))
                     {
-                        thongTin.TrangThai = "Chấp nhận gửi";
+                        thongTin.TrangThai = tempTrangThai.Date + " Chấp nhận gửi";
                         thongTin.TaiBuuCuc = tempTrangThai.BuuCuc;
 
                         break;

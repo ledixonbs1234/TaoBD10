@@ -918,8 +918,6 @@ function myTimer() {
 
         private ThongTinCoBanModel xuLyTrangThaiMH(ThongTinCoBanModel thongTin)
         {
-            //if (string.IsNullOrEmpty(thongTin.TrangThai))
-            //{
             if (thongTin.ThongTinTrangThais.Count != 0)
             {
                 //thuc hien xu ly tung truong hop tu cuoi den dau

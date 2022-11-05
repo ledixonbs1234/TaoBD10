@@ -37,7 +37,6 @@ namespace TaoBD10.ViewModels
             LoadPageCommand = new RelayCommand<ChromiumWebBrowser>(LoadPage);
             LoginCommand = new RelayCommand(Login);
             DefaultCommand = new RelayCommand(Default);
-            PNSGoCommand = new RelayCommand(PNSGo);
             FullCommand = new RelayCommand(Full);
             MinCommand = new RelayCommand(Min);
             WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>
@@ -221,13 +220,6 @@ namespace TaoBD10.ViewModels
         }
 
         private bool isDanhSach = true;
-
-        public ICommand PNSGoCommand { get; }
-
-        private void PNSGo()
-        {
-            WebBrowser.LoadUrl("https://pns.vnpost.vn/");
-        }
 
         private void requestOnHeap()
         {

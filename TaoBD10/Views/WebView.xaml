@@ -24,7 +24,6 @@
             Grid.Row="1"
             HorizontalAlignment="Center"
             Orientation="Horizontal">
-            <Button Width="20" Command="{Binding PNSGoCommand}" />
             <Button
                 Width="75"
                 Margin="5"

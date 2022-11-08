@@ -1274,7 +1274,7 @@ namespace TaoBD10.ViewModels
                                   }
                                   else if (lenhS.Message.IndexOf("laybd") != -1)
                                   {
-                                      string[] datas = x.Object.Split('|');
+                                      string[] datas = lenhS.Message.Split('|');
                                       if (datas[0] == "laybd")
                                       {
                                           //thuc hien lay bd hien tai

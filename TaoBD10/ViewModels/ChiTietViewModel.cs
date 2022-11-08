@@ -220,7 +220,6 @@ namespace TaoBD10.ViewModels
         private void BwChiTiet_DoWork(object sender, DoWorkEventArgs e)
         {
             var window = VaoChiTietChuyenThu(CurrentSelectedHangHoaDetail.TuiHangHoa.SHTui);
-            string currentMH = "";
             if (window == null)
                 return;
             if (window.text.IndexOf("xac nhan chi tiet tui thu") != -1)
@@ -1482,7 +1481,7 @@ namespace TaoBD10.ViewModels
                 tui.DaXacNhan = textedTab[5].Trim();
                 return tui;
             }
-            catch (Exception ex)
+            catch
             {
                 APIManager.ShowSnackbar(copiedText);
                 return new TuiInfo();

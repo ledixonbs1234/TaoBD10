@@ -17,6 +17,7 @@ namespace TaoBD10.Manager
     {
         [DllImport("User32.dll")]
         public static extern bool IsIconic(IntPtr hWnd);
+
         public static bool isDownloading = false;
 
         [DllImport("User32.dll")]
@@ -251,7 +252,7 @@ namespace TaoBD10.Manager
                     {
                         clipboard = System.Windows.Clipboard.GetText(System.Windows.TextDataFormat.UnicodeText);
                     }
-                    catch (Exception ex)
+                    catch
                     {
                     }
                 });
@@ -270,9 +271,8 @@ namespace TaoBD10.Manager
                 }
                 return clipboard;
             }
-            catch (Exception ex)
+            catch
             {
-                ShowSnackbar("Copy Lỗi");
                 return "";
                 //var st = new StackTrace(ex, true);
                 //// Get the top stack frame
@@ -282,7 +282,6 @@ namespace TaoBD10.Manager
                 //OpenNotePad(ex.Message + '\n' + "APIManager " + line + " Number Line " + GetLineNumber(ex), "loi ");
                 //return "";
             }
-
         }
 
         [DllImport("user32.dll")]
@@ -488,7 +487,7 @@ namespace TaoBD10.Manager
         /// <param name="maBuuCuc"> Mã Bưu Cục</param>
         /// <param name="nameHandleChildToHangOn">Tên có dấu</param>
         /// <returns></returns>
-        public static bool ThoatToDefault(string maBuuCuc, string nameHandleChildToHangOn,int timex10=100)
+        public static bool ThoatToDefault(string maBuuCuc, string nameHandleChildToHangOn, int timex10 = 100)
         {
             if (isWaitingThoat)
                 return false;

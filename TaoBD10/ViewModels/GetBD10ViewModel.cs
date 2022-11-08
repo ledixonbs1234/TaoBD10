@@ -22,11 +22,7 @@ namespace TaoBD10.ViewModels
 
         private string _NameBD = "";
 
-        private bool isWaitingGetData = false;
-
         private int _AnimatedProgressInCard = 50;
-
-        private bool _IsStopInChiTiet;
 
         private bool _SoSanhSLTui = true;
 
@@ -35,7 +31,6 @@ namespace TaoBD10.ViewModels
             get { return _SoSanhSLTui; }
             set { SetProperty(ref _SoSanhSLTui, value); }
         }
-
 
         private BackgroundWorker bwGetData;
 
@@ -62,8 +57,6 @@ namespace TaoBD10.ViewModels
         }
 
         private readonly List<MaBD8Model> listMaBD8;
-
-        private readonly DispatcherTimer timer;
 
         private List<TuiHangHoa> tuiTempHangHoa;
 
@@ -452,8 +445,6 @@ namespace TaoBD10.ViewModels
                 RunAutoGetData();
             }
         }
-
-
 
         //var bd10Info = new BD10InfoModel();
         //bd10Info.Name = noiGuiBD;

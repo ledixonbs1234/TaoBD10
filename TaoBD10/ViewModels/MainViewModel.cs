@@ -736,6 +736,28 @@ namespace TaoBD10.ViewModels
                             }
                         }
                     }
+                    else if (currentWindowRead.text.IndexOf("loi") != -1)
+                    {
+                        if (IsShowWarning == false)
+                        {
+                            IsShowWarning = true;
+                            listControl = APIManager.GetListControlText(currentWindowRead.hwnd);
+                            foreach (TestAPIModel apiContent in listControl)
+                            {
+                                //thuc hien lay text cua handle item
+                                if (!string.IsNullOrEmpty(apiContent.Text))
+                                {
+                                    string textError = APIManager.ConvertToUnSign3(apiContent.Text).ToLower();
+                                    if (textError.IndexOf("tui buu gui ems") != -1)
+                                    {
+                                        Thread.Sleep(100);
+                                        SoundManager.playSound3(@"Number\error_sound.wav");
+                                        SendKeys.SendWait("{ENTER}");
+                                    }
+                                }
+                            }
+                        }
+                    }
                     else if (string.IsNullOrEmpty(currentWindowRead.text))
                     {
                         listControl = APIManager.GetListControlText(currentWindowRead.hwnd);
@@ -1112,8 +1134,6 @@ namespace TaoBD10.ViewModels
 
             //}
         }
-
-        private string timeStamp;
 
         private string GetCodeFromString(string content)
         {
@@ -2398,5 +2418,6 @@ namespace TaoBD10.ViewModels
         private BackgroundWorker printTrangCuoi;
         private string soCTCurrent = "";
         private DispatcherTimer timer;
+        private string timeStamp;
     }
 }

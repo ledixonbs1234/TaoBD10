@@ -238,7 +238,10 @@
                 </DataGrid.Columns>
             </DataGrid>
             <materialDesign:Card Margin="5">
-                <CheckBox Margin="5" IsChecked="{Binding IsTuDongDong}" Content="Là Tự Động Đóng Đi Ngoài" />
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Margin="5" IsChecked="{Binding IsTuDongDong}" Content="Là Tự Động Đóng Đi Ngoài" />
+                    <CheckBox Margin="5" IsChecked="{Binding IsTMDT}" Content="Là TMDT" />
+                </StackPanel>
             </materialDesign:Card>
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 

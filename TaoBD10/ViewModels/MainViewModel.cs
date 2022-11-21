@@ -717,6 +717,7 @@ namespace TaoBD10.ViewModels
                                     {
                                         Thread.Sleep(100);
                                         SendKeys.SendWait("{ENTER}");
+                                        IsShowWarning = false;
                                     }
                                     else if (textError.IndexOf("da xac nhan du lieu") != -1)
                                     {

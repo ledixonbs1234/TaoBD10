@@ -662,7 +662,14 @@ namespace TaoBD10.ViewModels
                 }
                 else if (charCodeFirst == "e")
                 {
-                    tuiText = "Ði ngoài(EMS)";
+                    if (IsTMDT)
+                    {
+                        tuiText = "Đi ngoài EMS-TMĐT Đồng Giá";
+                    }
+                    else
+                    {
+                        tuiText = "Ði ngoài(EMS)";
+                    }
                 }
                 else if (charCodeFirst == "p")
                 {
@@ -2100,6 +2107,12 @@ namespace TaoBD10.ViewModels
             set { SetProperty(ref _isSayNumber, value); }
         }
 
+        public bool IsTMDT
+        {
+            get { return _IsTMDT; }
+            set { SetProperty(ref _IsTMDT, value); }
+        }
+
         public bool IsTuDongDong
         {
             get { return _IsTuDongDong; }
@@ -2172,6 +2185,7 @@ namespace TaoBD10.ViewModels
         private bool _IsExpanded = false;
         private bool _IsGroupCT = false;
         private bool _isSayNumber = true;
+        private bool _IsTMDT;
         private bool _IsTuDongDong;
         private string _SelectedBuuCuc;
         private DiNgoaiItemModel _SelectedDiNgoai;

@@ -1755,6 +1755,7 @@ namespace TaoBD10.ViewModels
                         }
                         else if (KeyData.IndexOf("chuyene") != -1)
                         {
+                            Thread.Sleep(500);
                             var window1 = APIManager.WaitingFindedWindow("dong chuyen thu");
                             if (window1 != null)
                             {

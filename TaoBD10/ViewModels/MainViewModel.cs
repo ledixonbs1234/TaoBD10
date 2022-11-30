@@ -755,6 +755,12 @@ namespace TaoBD10.ViewModels
                                         SoundManager.playSound3(@"Number\error_sound.wav");
                                         SendKeys.SendWait("{ENTER}");
                                     }
+                                    else if (textError.IndexOf("loi he thong") != -1)
+                                    {
+                                        Thread.Sleep(100);
+                                        SoundManager.playSound3(@"Number\error_sound.wav");
+                                        SendKeys.SendWait("{ENTER}");
+                                    }
                                 }
                             }
                         }

@@ -1758,6 +1758,7 @@ namespace TaoBD10.ViewModels
                             var window1 = APIManager.WaitingFindedWindow("dong chuyen thu");
                             if (window1 != null)
                             {
+                                APIManager.ShowSnackbar("sdf");
                                 //thuc hien
                                 SendKeys.SendWait("{F5}");
                                 Thread.Sleep(50);

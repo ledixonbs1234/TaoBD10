@@ -30,6 +30,7 @@ using TaoBD10.Manager;
 using TaoBD10.Model;
 using TaoBD10.Views;
 using Condition = System.Windows.Automation.Condition;
+using ExcelLibrary.BinaryFileFormat;
 
 namespace TaoBD10.ViewModels
 {
@@ -1285,6 +1286,47 @@ namespace TaoBD10.ViewModels
                                       List<string> lists = list.Result;
                                       WeakReferenceMessenger.Default.Send(new ContentModel { Key = "SetTrueAuto200", Content = JsonConvert.SerializeObject(lists) });
                                       WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "KT" });
+                                  }
+                                  else if (lenhS.Message == "chuyene")
+                                  {
+                                      var window1 = APIManager.WaitingFindedWindow("dong chuyen thu");
+                                      if (window1 != null)
+                                      {
+                                          //thuc hien
+                                          SendKeys.SendWait("{F5}");
+                                          Thread.Sleep(50);
+                                          SendKeys.SendWait("{F5}");
+                                          Thread.Sleep(50);
+                                          SendKeys.SendWait("^{DOWN}");
+                                          Thread.Sleep(50);
+                                          SendKeys.SendWait("^{LEFT}");
+                                          Thread.Sleep(50);
+                                          SendKeys.SendWait("{RIGHT}");
+                                          Thread.Sleep(50);
+                                          SendKeys.SendWait("{RIGHT}");
+                                          Thread.Sleep(50);
+                                          SendKeys.SendWait("{RIGHT}");
+                                          Thread.Sleep(50);
+                                          var copyedContent = APIManager.GetCopyData();
+                                          if (string.IsNullOrEmpty(copyedContent))
+                                              return;
+                                          copyedContent = copyedContent.ToLower();
+                                          copyedContent = APIManager.ConvertToUnSign3(copyedContent);
+                                          SendKeys.SendWait(" ");
+                                          Thread.Sleep(50);
+
+                                          if (copyedContent.IndexOf("ems hang hoa") != -1)
+                                          {
+                                              SendKeys.SendWait("{DOWN}");
+                                          }
+                                          else if (copyedContent.IndexOf("ems tm") != -1)
+                                          {
+                                              SendKeys.SendWait("{UP}");
+                                          }
+                                          Thread.Sleep(50);
+                                          SendKeys.SendWait("{F6}");
+                                          SoundManager.playSound3(@"Number\tingting.wav");
+                                      }
                                   }
                                   else if (lenhS.Message == "writecapchar")
                                   {

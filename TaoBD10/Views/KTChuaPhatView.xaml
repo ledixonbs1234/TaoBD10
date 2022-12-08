@@ -10,8 +10,8 @@
     mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="65" />
-            <RowDefinition Height="200" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="260" />
             <RowDefinition Height="110" />
             <RowDefinition />
         </Grid.RowDefinitions>
@@ -91,6 +91,10 @@
                     Header="Tiền Thu Hộ"
                     IsReadOnly="True" />
                 <DataGridTextColumn
+                    Binding="{Binding TrangThai}"
+                    Header="Trạng Thái"
+                    IsReadOnly="True" />
+                <DataGridTextColumn
                     Width="80"
                     Binding="{Binding BuuCucPhatHanh}"
                     Header="Bưu Cục Gửi" />
@@ -152,10 +156,9 @@
         <StackPanel Grid.Row="3" Orientation="Vertical">
             <TextBox
                 Width="400"
-                Height="100"
+                Height="55"
                 Margin="10"
                 HorizontalAlignment="Left"
-                VerticalAlignment="Top"
                 materialDesign:HintAssist.Hint="Nhập lượng lớn bưu gửi"
                 AcceptsReturn="True"
                 Style="{StaticResource MaterialDesignOutlinedTextBox}"
@@ -169,7 +172,7 @@
                     Margin="5"
                     HorizontalAlignment="Left"
                     Command="{Binding ChiTietCommand}"
-                    Content="Chi Tiet" />
+                    Content="Chi Tiết" />
                 <Button
                     Width="100"
                     Height="40"
@@ -184,6 +187,12 @@
                     HorizontalAlignment="Left"
                     Command="{Binding CopySelectedCommand}"
                     Content="Copy" />
+                <Button
+                    Width="117"
+                    Height="40"
+                    Margin="5"
+                    Command="{Binding CapNhatSLCommand}"
+                    Content="Cập Nhật SL" />
                 <Button
                     Width="130"
                     Height="40"

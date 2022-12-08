@@ -56,6 +56,7 @@ namespace TaoBD10.ViewModels
                         });
                     }
                 });
+            CapNhatSLCommand = new RelayCommand(CapNhatSL);
 
             WeakReferenceMessenger.Default.Register<PNSNameMessage>(this, (r, m) =>
             {
@@ -71,6 +72,7 @@ namespace TaoBD10.ViewModels
                             have.NameReceive = pnsName.NameReceive;
                             have.Address = pnsName.Address;
                             have.PhoneReceive = pnsName.PhoneReceive;
+                            have.TrangThai = pnsName.TrangThai;
                         }
                     }
                 }
@@ -90,6 +92,13 @@ namespace TaoBD10.ViewModels
                 }
                 AddAddress();
             });
+        }
+
+        public ICommand CapNhatSLCommand { get; }
+
+        private void CapNhatSL()
+        {
+            Count = HangTons.Count;
         }
 
         private string _TextsRange;

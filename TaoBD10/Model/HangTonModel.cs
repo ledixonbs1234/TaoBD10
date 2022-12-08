@@ -20,6 +20,14 @@ namespace TaoBD10.Model
             set { SetProperty(ref _ChuyenHoan, value); }
         }
 
+        private string _TrangThai;
+
+        public string TrangThai
+        {
+            get { return _TrangThai; }
+            set { SetProperty(ref _TrangThai, value); }
+        }
+
         private string _NameReceive;
 
         public string NameReceive

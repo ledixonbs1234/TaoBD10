@@ -521,30 +521,27 @@ namespace TaoBD10.ViewModels
                 }
                 else
                 {
-                    WindowInfo currentWindow = APIManager.WaitingFindedWindow("khai thac kien di ngoai");
+                    WindowInfo currentWindow = APIManager.WaitingFindedWindow("khai thac buu cuc phat");
                     if (currentWindow == null)
                     {
-                        APIManager.ShowSnackbar("Không tìm thấy window kiện đi ngoài");
+                        APIManager.ShowSnackbar("Chưa tìm thấy window");
                         return;
                     }
                     List<TestAPIModel> childControls = APIManager.GetListControlText(currentWindow.hwnd);
                     //thuc hien lay vi tri nao do
 
-                    APIManager.SendMessage(childControls[1].Handle, 0x0007, 0, 0);
-                    APIManager.SendMessage(childControls[1].Handle, 0x0007, 0, 0);
+                    APIManager.SendMessage(childControls[16].Handle, 0x0007, 0, 0);
+                    APIManager.SendMessage(childControls[16].Handle, 0x0007, 0, 0);
 
                     //Thuc hien trong nay
                     if (!string.IsNullOrEmpty(SelectedSimple.MaBuuCuc))
                     {
-                        APIManager.setTextControl(childControls[2].Handle, SelectedSimple.TenBuuCuc);
+                        APIManager.setTextControl(childControls[16].Handle, SelectedSimple.Code);
                         //Thread.Sleep(300);
                         //SendKeys.SendWait("{DOWN}");
                         //Thread.Sleep(100);
-                        SendKeys.SendWait("{TAB}");
-                        Thread.Sleep(100);
-
-                        APIManager.setTextControl(childControls[10].Handle, SelectedSimple.Code);
                         SendKeys.SendWait("{ENTER}");
+                        Thread.Sleep(200);
 
                         LocalPrintServer localPrintServer = new LocalPrintServer();
 

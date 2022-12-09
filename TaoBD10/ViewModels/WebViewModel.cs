@@ -891,6 +891,7 @@ function myTimer() {
                 FileManager.client.Child(FileManager.FirebaseKey + "/danhsachmahieu/" + keyPathCheckCode).PatchAsync(thongTinJson).Wait();
             else
                 FileManager.client.Child(FileManager.FirebaseKey + "/mahieudaluu/" + keyPathCheckCode).PatchAsync(thongTinJson).Wait();
+            APIManager.ShowSnackbar("Đã check " + thongTinCoBan.MaHieu);
 
             //Thuc hien send data to web
             //MqttManager.Pulish("ledixon1_checkcode", thongTinJson);
@@ -1169,7 +1170,7 @@ function myTimer() {
 
                     using (var stream = File.Open(@"C:\\test.xlsx", FileMode.Open, FileAccess.Read))
                     {
-                        using (ExcelDataReader.IExcelDataReader reader = ExcelDataReader.ExcelReaderFactory.CreateReader(stream))
+                        using (IExcelDataReader reader = ExcelReaderFactory.CreateReader(stream))
                         {
                             System.Data.DataSet tables = reader.AsDataSet();
                             List<PNSNameModel> chiTietTui = new List<PNSNameModel>();

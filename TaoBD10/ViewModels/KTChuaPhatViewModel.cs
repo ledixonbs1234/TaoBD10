@@ -104,6 +104,7 @@ namespace TaoBD10.ViewModels
         private string _TextsRange;
 
         public ICommand GetNameCommand { get; }
+        private int _currentIndexHangTon = 0;
 
         private void GetName()
         {
@@ -113,10 +114,36 @@ namespace TaoBD10.ViewModels
             {
                 return;
             }
-            foreach (HangTonModel hangTon in HangTons)
+            if (HangTons.Count < 100)
             {
-                listMaHieu += hangTon.MaHieu + ",";
+                foreach (HangTonModel hangTon in HangTons)
+                {
+                    listMaHieu += hangTon.MaHieu + ",";
+                }
             }
+            else
+            {
+                int lastIndexFindHangTon = 0;
+                if (_currentIndexHangTon + 100 > HangTons.Count)
+                {
+                    lastIndexFindHangTon = HangTons.Count;
+                    for (int i = _currentIndexHangTon; i < HangTons.Count; i++)
+                    {
+                        listMaHieu += HangTons[i].MaHieu + ",";
+                    }
+                    _currentIndexHangTon = 0;
+                }
+                else
+                {
+                    lastIndexFindHangTon = _currentIndexHangTon + 100;
+                    for (int i = _currentIndexHangTon; i < lastIndexFindHangTon; i++)
+                    {
+                        listMaHieu += HangTons[i].MaHieu + ",";
+                    }
+                    _currentIndexHangTon = lastIndexFindHangTon;
+                }
+            }
+
             WeakReferenceMessenger.Default.Send(new ContentModel { Key = "SendMaHieuPNS", Content = listMaHieu });
         }
 

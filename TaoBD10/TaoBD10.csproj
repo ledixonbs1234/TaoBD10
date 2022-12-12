@@ -292,6 +292,7 @@
     <Compile Include="Model\HangTonModel.cs" />
     <Compile Include="Model\KiemTraModel.cs" />
     <Compile Include="Model\LayBD10Info.cs" />
+    <Compile Include="Model\LoaiTuiInfo.cs" />
     <Compile Include="Model\LocBDInfoModel.cs" />
     <Compile Include="Model\MaBD8Model.cs" />
     <Compile Include="Model\MaHieuDiNgoaiInfo.cs" />

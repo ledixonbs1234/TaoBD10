@@ -426,7 +426,6 @@ namespace TaoBD10.Manager
 
                 client = new FirebaseClient("https://taoappbd10-default-rtdb.asia-southeast1.firebasedatabase.app/", new FirebaseOptions { AuthTokenAsyncFactory = () => Task.FromResult(auth) });
             }
-
         }
 
         public static string[] ReadPrinterFromFile()
@@ -744,13 +743,13 @@ namespace TaoBD10.Manager
         /// <param name="message"></param>
         public static void SendMessageNotification(string message)
         {
-            client.Child(FirebaseKey+"/message/").PutAsync(@"{""tophone"":""" + message + @"""}").Wait();
-            FileManager.client.Child(FirebaseKey+"/notification/").PutAsync(@"{""tophone"":""message""}").Wait();
+            client.Child(FirebaseKey + "/message/").PutAsync(@"{""tophone"":""" + message + @"""}").Wait();
+            FileManager.client.Child(FirebaseKey + "/notification/").PutAsync(@"{""tophone"":""message""}").Wait();
         }
 
         public static void SendVoidToPhone(string lenh)
         {
-            FileManager.client.Child(FirebaseKey+"/notification/").PutAsync(@"{""tophone"":""" + lenh + @"""}").Wait();
+            FileManager.client.Child(FirebaseKey + "/notification/").PutAsync(@"{""tophone"":""" + lenh + @"""}").Wait();
         }
 
         public static FirebaseClient client;

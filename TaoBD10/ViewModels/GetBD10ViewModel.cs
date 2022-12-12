@@ -273,6 +273,9 @@ namespace TaoBD10.ViewModels
             //dgvMain.DataSource = tuiHangHoas;
             CountTui = tuiTempHangHoa.Count.ToString();
 
+            //Thuc hien viec loc dua vao ma bat dau
+            PhanLoaiSHTui(tuiTempHangHoa);
+
             //thuc hien vao xac nhan chi tiet trong nay
             SendKeys.SendWait("{F4}");
             WindowInfo window = APIManager.WaitingFindedWindow("xac nhan tui thu den");
@@ -350,6 +353,27 @@ namespace TaoBD10.ViewModels
             FileManager.SendVoidToPhone("luubd");
 
             WeakReferenceMessenger.Default.Send<string>("LoadBD10");
+        }
+
+        private void PhanLoaiSHTui(List<TuiHangHoa> list)
+        {
+            List<TuiThuModel> tuiThus = FileManager.LoadTuiThuOffline();
+
+            foreach (var item in list)
+            {
+                if (item.SHTui.Length == 29)
+                {
+                    var findedTuiThu = tuiThus.FirstOrDefault(m => m.Ma == item.SHTui.Substring(13, 2).ToUpper());
+                    if (findedTuiThu != null)
+                    {
+                        item.DichVu = findedTuiThu.Content;
+                    }
+                }
+                else if (item.SHTui.Length == 13)
+                {
+                    item.DichVu = "Đi Ngoài";
+                }
+            }
         }
 
         public bool[] BuoiArray

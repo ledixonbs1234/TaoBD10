@@ -371,7 +371,7 @@ namespace TaoBD10.ViewModels
                 }
                 else if (item.SHTui.Length == 13)
                 {
-                    item.PhanLoai = "Đi Ngoài";
+                    item.PhanLoai = "Đi ngoài";
                 }
             }
         }

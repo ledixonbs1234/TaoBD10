@@ -366,12 +366,12 @@ namespace TaoBD10.ViewModels
                     var findedTuiThu = tuiThus.FirstOrDefault(m => m.Ma == item.SHTui.Substring(13, 2).ToUpper());
                     if (findedTuiThu != null)
                     {
-                        item.DichVu = findedTuiThu.Content;
+                        item.PhanLoai = findedTuiThu.Content;
                     }
                 }
                 else if (item.SHTui.Length == 13)
                 {
-                    item.DichVu = "Đi Ngoài";
+                    item.PhanLoai = "Đi Ngoài";
                 }
             }
         }

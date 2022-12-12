@@ -1738,6 +1738,7 @@ namespace TaoBD10.ViewModels
                             WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Active", Content = "MainView" });
                             IndexTabTui = 2;
                             Thread.Sleep(100);
+                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToDiNgoai", Content = "Clear" });
                         }
                         else if (KeyData.IndexOf("autoprintdn") != -1)
                         {

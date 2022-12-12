@@ -10,6 +10,7 @@
     DataContext="{StaticResource LayCTVM}"
     mc:Ignorable="d">
     <StackPanel>
+        <ToggleButton IsChecked="{Binding IsLayDuLieu}" Content="Lấy Dữ Liệu"></ToggleButton>
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
             <Button
                 Width="115"

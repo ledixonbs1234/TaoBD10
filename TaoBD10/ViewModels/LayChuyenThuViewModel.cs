@@ -49,6 +49,14 @@ namespace TaoBD10.ViewModels
 
         public ICommand PublishCommand { get; }
 
+        private bool _IsLayDuLieu = true;
+
+        public bool IsLayDuLieu
+        {
+            get { return _IsLayDuLieu; }
+            set { SetProperty(ref _IsLayDuLieu, value); }
+        }
+
         private void Publish()
         {
             FileManager.SaveBuuCuc(BuuCucs.ToList());
@@ -360,7 +368,7 @@ namespace TaoBD10.ViewModels
             Thread.Sleep(200);
             SendKeys.SendWait("{ENTER}");
 
-            window = APIManager.WaitingFindedWindow("canh bao", "thong bao",time:20);
+            window = APIManager.WaitingFindedWindow("canh bao", "thong bao", time: 20);
             if (window == null)
             {
                 APIManager.ShowSnackbar("Không tìm thấy cảnh báo");
@@ -402,7 +410,8 @@ namespace TaoBD10.ViewModels
             TestAPIModel editSoCT = controls.Last(m => m.ClassName.ToLower().IndexOf(".edit.") != -1);
             APIManager.setTextControl(editSoCT.Handle, "");
 
-            SendKeys.SendWait("{F8}");
+            if (IsLayDuLieu)
+                SendKeys.SendWait("{F8}");
         }
 
         private void SaveBuuCuc()

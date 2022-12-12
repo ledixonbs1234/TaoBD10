@@ -89,7 +89,6 @@ namespace TaoBD10.ViewModels
                 {
                     if (m.Value.Key == "DiNgoai")
                     {
-                        APIManager.ShowSnackbar("ChiTiet Tui get duoc");
                         List<ChiTietTuiModel> chiTietTuis = m.Value.ChiTietTuis;
 
                         foreach (ChiTietTuiModel chiTietTui in chiTietTuis)
@@ -166,6 +165,13 @@ namespace TaoBD10.ViewModels
                     {
                         AddFast();
                         isAutoRunDiNgoai = true;
+                    }
+                    else if (m.Content == "Clear")
+                    {
+                        if (DiNgoais != null)
+                        {
+                            DiNgoais.Clear();
+                        }
                     }
                 }
                 else if (m.Key == "ToDiNgoai_InDiNgoai")
@@ -360,6 +366,34 @@ namespace TaoBD10.ViewModels
                     diNgoai.TenBuuCuc = "591720 - KT Tuy Phước";
                     diNgoai.MaBuuCuc = "591720";
                 }
+                else if (BoDauAndToLower(addressExactly).IndexOf("quy nhon") != -1)
+                {
+                    string xa = BoDauAndToLower(fillAddress[fillAddress.Count - 3]);
+                    if (xa.Contains("bui thi xuan") || xa.Contains("nhon binh") || xa.Contains("nhon phu") || xa.Contains("phuoc my") || xa.Contains("tran quang dieu"))
+                    {
+                        diNgoai.TenBuuCuc = "591218 - BCP Quy Nhơn 2";
+                        diNgoai.MaBuuCuc = "591218";
+                    }
+                    else
+                    {
+                        diNgoai.TenBuuCuc = "591520 - BCP Quy Nhơn";
+                        diNgoai.MaBuuCuc = "591520";
+                    }
+                }
+                else if (BoDauAndToLower(addressExactly).IndexOf("hoai an") != -1)
+                {
+                    string xa = BoDauAndToLower(fillAddress[fillAddress.Count - 3]);
+                    if (xa.Contains("an my") || xa.Contains("an tin") || xa.IndexOf("an hao") != -1)
+                    {
+                        diNgoai.TenBuuCuc = "593630 - Ân Mỹ";
+                        diNgoai.MaBuuCuc = "593630";
+                    }
+                    else
+                    {
+                        diNgoai.TenBuuCuc = "593740 - KT Hoài Ân";
+                        diNgoai.MaBuuCuc = "593740";
+                    }
+                }
             }
             else if (diNgoai.MaTinh == "70")
             {
@@ -438,6 +472,23 @@ namespace TaoBD10.ViewModels
                     diNgoai.TenBuuCuc = listBuuCuc[0];
                     diNgoai.MaBuuCuc = listBuuCuc[0].Substring(0, 6);
                 }
+
+                if (diNgoai.MaBuuCuc == "561090")
+                {
+                    diNgoai.TenBuuCuc = "561150 - BCP Tam Kỳ";
+                    diNgoai.MaBuuCuc = "561150";
+                }
+                else if (diNgoai.MaBuuCuc == "824727")
+                {
+                    diNgoai.TenBuuCuc = listBuuCuc[0];
+                    diNgoai.MaBuuCuc = listBuuCuc[0].Substring(0, 6);
+                }
+                else if (diNgoai.MaBuuCuc == "221830")
+                {
+                    diNgoai.TenBuuCuc = listBuuCuc[0];
+                    diNgoai.MaBuuCuc = listBuuCuc[0].Substring(0, 6);
+                }
+
                 //foreach (string item in listBuuCuc)
                 //{
                 //    if (boDauAndToLower(addressExactly).IndexOf(boDauAndToLower(item)) != -1)

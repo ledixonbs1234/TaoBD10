@@ -243,14 +243,7 @@
                     <CheckBox Margin="5" IsChecked="{Binding IsTMDT}" Content="Là TMDT" />
                 </StackPanel>
             </materialDesign:Card>
-            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-
-                <Button
-                    Margin="5,5"
-                    Background="#FF83C4F7"
-                    Command="{Binding SetMaTinhGuiCommand}"
-
-                    Content="Set BC Gửi" />
+            <StackPanel Orientation="Horizontal">
                 <Button
                     Margin="5,5"
                     Background="#FF83C4F7"
@@ -262,6 +255,20 @@
                     Background="#FF83C4F7"
                     Command="{Binding SetTinhCommand}"
                     Content="Set Tỉnh" />
+                <Button
+                    Margin="5,5,20,5"
+                    Background="#FF83C4F7"
+                    Command="{Binding CreateAddressCommand}"
+                    Content="Tạo Địa Chỉ" />
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+
+                <Button
+                    Margin="5,5"
+                    Background="#FF83C4F7"
+                    Command="{Binding SetMaTinhGuiCommand}"
+
+                    Content="Set BC Gửi" />
                 <Button
                     Margin="5"
                     Command="{Binding AddAddressCommand}"
@@ -291,8 +298,7 @@
                 <StackPanel Width="200" Orientation="Vertical">
                     <TextBlock Text="{Binding SelectedDiNgoai.BuuCucGui}" />
                     <TextBox
-                        Height="85"
-                        VerticalAlignment="Top"
+                        Height="68"
                         AcceptsReturn="True"
                         IsReadOnly="True"
                         Style="{StaticResource MaterialDesignFilledTextBox}"
@@ -301,7 +307,7 @@
                 </StackPanel>
                 <TextBox
                     Width="300"
-                    Height="85"
+                    Height="72"
                     Margin="7,15,0,0"
                     VerticalAlignment="Top"
                     AcceptsReturn="True"
@@ -315,9 +321,8 @@
                     SelectedItem="{Binding SelectedBuuCuc}" />
             </StackPanel>
             <TextBox
-                Height="100"
+                Height="73"
                 Margin="10"
-                VerticalAlignment="Top"
                 materialDesign:HintAssist.Hint="Nhập lượng lớn bưu gửi"
                 AcceptsReturn="True"
                 Style="{StaticResource MaterialDesignOutlinedTextBox}"

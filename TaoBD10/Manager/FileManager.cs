@@ -31,6 +31,26 @@ namespace TaoBD10.Manager
             return null;
         }
 
+        public static List<MaQuanHuyenInfo> GetDanhSachQuanHuyen()
+        {
+            if (File.Exists(_fileQuanHuyen))
+            {
+                string text = File.ReadAllText(_fileQuanHuyen);
+                List<MaQuanHuyenInfo> list = new List<MaQuanHuyenInfo>();
+                foreach (var item in text.Split('\n'))
+                {
+                    if (!string.IsNullOrEmpty(item))
+                    {
+                        string[] item1 = item.Split('\t');
+                        MaQuanHuyenInfo maBd = new MaQuanHuyenInfo(int.Parse(item1[2]), item1[3], item1[4]);
+                        list.Add(maBd);
+                    }
+                }
+                return list;
+            }
+            return null;
+        }
+
         public static OptionModel GetOptionAll()
         {
             Task<OptionModel> optionTemp = client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/Option").OnceSingleAsync<OptionModel>();
@@ -775,6 +795,8 @@ namespace TaoBD10.Manager
         private static readonly string _fileOption = Environment.CurrentDirectory + "\\Data\\option.json";
         private static readonly string _fileTinhThanh = Environment.CurrentDirectory + "\\Data\\TinhThanh.json";
         private static readonly string _fileTuiThu = Environment.CurrentDirectory + "\\Data\\TuiThu.json";
+        private static readonly string _fileQuanHuyen = Environment.CurrentDirectory + "\\Data\\QuanHuyen.txt";
+
         private static string auth = "Hw5ESVqVaYfqde21DIHqs4EGhYcqGIiEF4GROViU";
         private static string maBuuCuc = "";
     }

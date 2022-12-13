@@ -52,6 +52,7 @@ namespace TaoBD10.ViewModels
             ClearDiNgoaiCommand = new RelayCommand(ClearDiNgoai);
             AddRangeCommand = new RelayCommand(AddRange);
             XoaDiNgoaiCommand = new RelayCommand(XoaDiNgoai);
+            CreateAddressCommand = new RelayCommand(CreateAddress);
             SetMaTinhGuiCommand = new RelayCommand(SetMaTinhGui);
             AddFastCommand = new RelayCommand(AddFast);
             SortCommand = new RelayCommand(Sort);
@@ -313,6 +314,38 @@ namespace TaoBD10.ViewModels
                         DiNgoais.Add(new DiNgoaiItemModel(DiNgoais.Count + 1, item.Code, item.BuuCucGui, item.BuuCucNhanTemp, item.TinhGocGui));
                     }
                 }
+            }
+        }
+
+        public ICommand CreateAddressCommand { get; }
+
+        private void CreateAddress()
+        {
+            //thuc hien lay du lieu tu file
+            List<MaQuanHuyenInfo> quanHuyens = FileManager.GetDanhSachQuanHuyen();
+            if (DiNgoais.Count == 0)
+            {
+                return;
+            }
+            SetTinhs();
+            foreach (var item in DiNgoais)
+            {
+                if (string.IsNullOrEmpty(item.BuuCucNhanTemp))
+                    continue;
+                int maHuyenItem = int.Parse(item.BuuCucNhanTemp.Substring(0, 4));
+                var firstQuanHuyen = quanHuyens.FirstOrDefault(m => m.MaQuanHuyen > maHuyenItem);
+                if (firstQuanHuyen == null)
+                    continue;
+                int iQuanHuyens = quanHuyens.IndexOf(firstQuanHuyen);
+
+                MaQuanHuyenInfo quanHuyenDung = quanHuyens[iQuanHuyens - 1];
+                if (quanHuyenDung.MaQuanHuyen.ToString().Substring(0, 2) != item.MaTinh)
+                {
+                    quanHuyenDung = quanHuyens[iQuanHuyens];
+                }
+
+                item.Address = "chưa biết -xã chưa biết-" + quanHuyenDung.TenQuanHuyen + "-" + quanHuyenDung.TenTinh;
+                AutoSetBuuCuc(item);
             }
         }
 

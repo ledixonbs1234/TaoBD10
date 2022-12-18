@@ -40,6 +40,7 @@ namespace TaoBD10.ViewModels
 
         private void BwRunCheck_DoWork(object sender, DoWorkEventArgs e)
         {
+            APIManager.ShowSnackbar("sdf");
             //thuc hien trong nay
             var currentWindow = APIManager.WaitingFindedWindow("quan ly chuyen thu chieu den");
             if (currentWindow == null)
@@ -50,13 +51,13 @@ namespace TaoBD10.ViewModels
             while (true)
             {
                 string ctTemp = APIManager.GetCopyData();
-                if (!string.IsNullOrEmpty(ctTemp))
+                if (string.IsNullOrEmpty(ctTemp))
                 {
-                    return;
+                    break;
                 }
                 if (lastCopy == ctTemp)
                 {
-                    return;
+                    break; ;
                 }
                 else
                 {
@@ -78,6 +79,7 @@ namespace TaoBD10.ViewModels
                 }
             }
 
+            APIManager.ShowSnackbar("end");
             //thuc hien tuan tu chay len xuong cac chuyen thu tu quan ly
         }
 

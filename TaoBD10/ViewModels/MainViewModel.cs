@@ -1529,7 +1529,18 @@ namespace TaoBD10.ViewModels
 
                     case Key.F2:
                         //thuc hien copy du lieu sau do sang ben kia
-                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "TamQuanRun", Content = "" });
+                        currentWindow = APIManager.GetActiveWindowTitle();
+                        if (currentWindow == null)
+                            return;
+                        if (currentWindow.text.IndexOf("quan ly chuyen thu chieu den") != -1)
+                        {
+                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToKTCT", Content = "RunCheckCT" });
+                        }
+                        else
+                        {
+                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "TamQuanRun", Content = "" });
+                        }
+
                         break;
 
                     case Key.F3:

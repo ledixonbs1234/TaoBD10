@@ -66,6 +66,7 @@ namespace TaoBD10.ViewModels
                 string[] ctTempSplited = ctTemp.Split('\t');
                 var chuyenThu = new ChuyenThuInQuanLyModel(ctTempSplited[1], ctTempSplited[2], ctTempSplited[3], ctTempSplited[4], ctTempSplited[5], ctTempSplited[6], ctTempSplited[7]);
                 var indexCT = cts.IndexOf(chuyenThu);
+                APIManager.ShowSnackbar(indexCT.ToString());
                 if (indexCT < 0)
                 {
                     cts.Add(chuyenThu);
@@ -115,7 +116,6 @@ namespace TaoBD10.ViewModels
                     SendKeys.SendWait("{ESC}");
                     break;
                 }
-                APIManager.ShowSnackbar(code);
 
                 SendKeys.SendWait("{F5}");
                 Thread.Sleep(50);

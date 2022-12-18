@@ -65,9 +65,9 @@ namespace TaoBD10.ViewModels
                 //}
                 string[] ctTempSplited = ctTemp.Split('\t');
                 var chuyenThu = new ChuyenThuInQuanLyModel(ctTempSplited[1], ctTempSplited[2], ctTempSplited[3], ctTempSplited[4], ctTempSplited[5], ctTempSplited[6], ctTempSplited[7]);
-                var indexCT = cts.IndexOf(chuyenThu);
-                APIManager.ShowSnackbar(indexCT.ToString());
-                if (indexCT < 0)
+                var isExistCT = cts.Exists(m => m.SLTui == chuyenThu.SLTui && m.SLBuuGui == chuyenThu.SLBuuGui && m.BuuCucDong == chuyenThu.BuuCucDong && m.DichVu == chuyenThu.DichVu &&
+                m.KL == chuyenThu.KL && m.DateCreate == chuyenThu.DateCreate);
+                if (!isExistCT)
                 {
                     cts.Add(chuyenThu);
                     //Thuc hien vao chuyen thu trong nay

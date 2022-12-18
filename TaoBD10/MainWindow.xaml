@@ -166,6 +166,9 @@
                 <TabItem Padding="0" Header="TAM QUAN">
                     <view:TamQuanView />
                 </TabItem>
+                <TabItem Padding="0" Header="CT">
+                    <view:KiemTraCTView />
+                </TabItem>
                 <TabItem Padding="0" Header="TÙY CHỌN">
                     <StackPanel VerticalAlignment="Center" Orientation="Vertical">
 
@@ -178,15 +181,13 @@
                     </StackPanel>
                 </TabItem>
             </TabControl>
-
-           
         </Grid>
         <StackPanel
             Grid.Row="1"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Orientation="Horizontal">
-            <CheckBox IsChecked="{Binding IsMqttOnline}" Margin="3"/>
+            <CheckBox IsChecked="{Binding IsMqttOnline}" Margin="3" />
             <CheckBox Content="Top Most" IsChecked="{Binding IsTopMost}" />
             <CheckBox Content="Auto F4" IsChecked="{Binding IsAutoF4}" />
             <CheckBox Content="Is Find Item" IsChecked="{Binding IsFindItem}" />

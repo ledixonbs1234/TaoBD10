@@ -71,6 +71,7 @@ namespace TaoBD10.ViewModels
                     cts.Add(chuyenThu);
                     //Thuc hien vao chuyen thu trong nay
                     GoToCT();
+                    Thread.Sleep(1000);
                 }
                 else
                 {
@@ -104,7 +105,16 @@ namespace TaoBD10.ViewModels
                 {
                     return;
                 }
-                MaHieus.Add(code);
+                if (MaHieus.IndexOf(code) < 0)
+                {
+                    MaHieus.Add(code);
+                }
+                else
+                {
+                    //thuc hien thoat trong nay
+                    SendKeys.SendWait("{ESC}");
+                    break;
+                }
                 APIManager.ShowSnackbar(code);
 
                 SendKeys.SendWait("{F5}");

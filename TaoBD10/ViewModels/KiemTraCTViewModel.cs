@@ -55,14 +55,14 @@ namespace TaoBD10.ViewModels
                 {
                     break;
                 }
-                if (lastCopy == ctTemp)
-                {
-                    break; ;
-                }
-                else
-                {
-                    lastCopy = ctTemp;
-                }
+                //if (lastCopy == ctTemp)
+                //{
+                //    break;
+                //}
+                //else
+                //{
+                //    lastCopy = ctTemp;
+                //}
                 string[] ctTempSplited = ctTemp.Split('\t');
                 var chuyenThu = new ChuyenThuInQuanLyModel(ctTempSplited[1], ctTempSplited[2], ctTempSplited[3], ctTempSplited[4], ctTempSplited[5], ctTempSplited[6], ctTempSplited[7]);
                 var indexCT = cts.IndexOf(chuyenThu);

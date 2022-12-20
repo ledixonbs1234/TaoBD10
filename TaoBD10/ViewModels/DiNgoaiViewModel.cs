@@ -521,7 +521,11 @@ namespace TaoBD10.ViewModels
                     diNgoai.TenBuuCuc = listBuuCuc[0];
                     diNgoai.MaBuuCuc = listBuuCuc[0].Substring(0, 6);
                 }
-
+                else if (diNgoai.MaBuuCuc == "816420")
+                {
+                    diNgoai.TenBuuCuc = listBuuCuc[0];
+                    diNgoai.MaBuuCuc = listBuuCuc[0].Substring(0, 6);
+                }
                 //foreach (string item in listBuuCuc)
                 //{
                 //    if (boDauAndToLower(addressExactly).IndexOf(boDauAndToLower(item)) != -1)

@@ -27,7 +27,13 @@ namespace TaoBD10.ViewModels
                 {
                     if (m.Content == "RunCheckCT")
                     {
-                        bwRunCheck.RunWorkerAsync();
+                        if (!bwRunCheck.IsBusy)
+                            bwRunCheck.RunWorkerAsync();
+                        else
+                        {
+                            APIManager.ShowSnackbar("Da cancel");
+                            bwRunCheck.CancelAsync();
+                        }
                     }
                 }
             });
@@ -36,7 +42,6 @@ namespace TaoBD10.ViewModels
         private List<ChuyenThuInQuanLyModel> cts = new List<ChuyenThuInQuanLyModel>();
 
         private List<string> MaHieus = new List<string>();
-        private string lastCopy = null;
 
         private void BwRunCheck_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -49,14 +54,13 @@ namespace TaoBD10.ViewModels
             }
             Thread.Sleep(100);
             string ctTemp = "dsfsd";
-            while (lastCopy != ctTemp)
+            while (true)
             {
                 ctTemp = APIManager.GetCopyData();
                 if (string.IsNullOrEmpty(ctTemp))
                 {
                     break;
                 }
-                lastCopy = ctTemp;
                 //if (lastCopy == ctTemp)
                 //{
                 //    break;

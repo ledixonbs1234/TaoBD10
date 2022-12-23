@@ -21,6 +21,7 @@ namespace TaoBD10.ViewModels
         {
             bwRunCheck = new BackgroundWorker();
             bwRunCheck.DoWork += BwRunCheck_DoWork;
+            bwRunCheck.WorkerSupportsCancellation = true;
             WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>
             {
                 if (m.Key == "ToKTCT")

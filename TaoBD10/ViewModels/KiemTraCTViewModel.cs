@@ -64,6 +64,13 @@ namespace TaoBD10.ViewModels
             {
                 if (_IsCancelWorker)
                 {
+                    //thuc hien send to mahieu
+                    List<HangTonModel> list = new List<HangTonModel>();
+                    foreach (var item in MaHieus)
+                    {
+                        list.Add(new HangTonModel() { MaHieu = item });
+                    }
+                    WeakReferenceMessenger.Default.Send(new HangTonMessage(list));
                     break;
                 }
                 ctTemp = APIManager.GetCopyData();

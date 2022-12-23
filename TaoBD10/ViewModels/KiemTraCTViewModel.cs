@@ -16,6 +16,7 @@ namespace TaoBD10.ViewModels
     public class KiemTraCTViewModel : ObservableObject
     {
         private BackgroundWorker bwRunCheck;
+        private bool _IsCancelWorker = false;
 
         public KiemTraCTViewModel()
         {
@@ -29,9 +30,13 @@ namespace TaoBD10.ViewModels
                     if (m.Content == "RunCheckCT")
                     {
                         if (!bwRunCheck.IsBusy)
+                        {
+                            _IsCancelWorker = false;
                             bwRunCheck.RunWorkerAsync();
+                        }
                         else
                         {
+                            _IsCancelWorker = true;
                             APIManager.ShowSnackbar("Da cancel");
                             bwRunCheck.CancelAsync();
                         }
@@ -57,6 +62,10 @@ namespace TaoBD10.ViewModels
             string ctTemp = "dsfsd";
             while (true)
             {
+                if (_IsCancelWorker)
+                {
+                    break;
+                }
                 ctTemp = APIManager.GetCopyData();
                 if (string.IsNullOrEmpty(ctTemp))
                 {
@@ -84,7 +93,7 @@ namespace TaoBD10.ViewModels
                 else
                 {
                     SendKeys.SendWait("{DOWN}");
-                    Thread.Sleep(300);
+                    Thread.Sleep(120);
                 }
             }
 

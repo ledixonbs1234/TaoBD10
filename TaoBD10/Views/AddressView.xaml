@@ -118,14 +118,19 @@
                     Margin="5"
                     Command="{Binding LocCommand}"
                     Content="Lọc" />
+                <CheckBox
+                    Margin="5"
+                    IsChecked="{Binding IsFast}"
+                    Foreground="Coral"
+                    Content="Is Fast" />
                 <Button
                     Margin="5"
                     Command="{Binding LayDiaChiCommand}"
-                    Content="Lấy Địa Chỉ" />
+                    Content="Fast" />
                 <Button
                     Margin="5"
                     Command="{Binding LayDiaChiGuiCommand}"
-                    Content="Lấy Địa Chi Gui" />
+                    Content="Address Send" />
             </StackPanel>
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                 <Button

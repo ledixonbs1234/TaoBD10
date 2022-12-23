@@ -48,13 +48,15 @@ namespace TaoBD10.ViewModels
                 return;
             }
             Thread.Sleep(100);
-            while (true)
+            string ctTemp = "dsfsd";
+            while (lastCopy != ctTemp)
             {
-                string ctTemp = APIManager.GetCopyData();
+                ctTemp = APIManager.GetCopyData();
                 if (string.IsNullOrEmpty(ctTemp))
                 {
                     break;
                 }
+                lastCopy = ctTemp;
                 //if (lastCopy == ctTemp)
                 //{
                 //    break;

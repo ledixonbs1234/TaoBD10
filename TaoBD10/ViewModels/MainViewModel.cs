@@ -1203,117 +1203,135 @@ namespace TaoBD10.ViewModels
                 }
             });
 
-            var notification = FileManager.client.Child(FileManager.FirebaseKey + "/notification/topc/").AsObservable<string>();
-            notification.Where(m => m.Key == "TimeStamp").Subscribe(x =>
+            var notification = FileManager.client.Child(FileManager.FirebaseKey + "/message/topc/").AsObservable<string>();
+
+            notification.Where(a => a.Key == "TimeStamp").Subscribe(x =>
               {
                   if (x.EventType == Firebase.Database.Streaming.FirebaseEventType.InsertOrUpdate)
                   {
+                      //thuc hien lenh trong nay
+
                       if (x.Object != null)
                       {
-                          if (timeStamp != x.Object)
+                          if (lastTimeStampMessage != x.Object)
                           {
-                              if (string.IsNullOrEmpty(timeStamp))
-                              {
-                                  timeStamp = x.Object;
-                                  return;
-                              }
-                              timeStamp = x.Object;
-                              var lenh = FileManager.client.Child(FileManager.FirebaseKey + "/notification/topc/").OnceSingleAsync<NotificationModel>();
+                              lastTimeStampMessage = x.Object;
+                              var lenh = FileManager.client.Child(FileManager.FirebaseKey + "/message/topc/").OnceSingleAsync<MessageToPhoneModel>();
                               lenh.Wait();
 
-                              NotificationModel lenhS = lenh.Result;
+                              MessageToPhoneModel lenhS = lenh.Result;
                               if (lenhS == null)
                               {
                                   APIManager.ShowSnackbar("Lenh Null");
                                   return;
                               }
 
-                              if (!string.IsNullOrEmpty(x.Object))
-                              {
-                                  if (lenhS.Message == "xacnhan")
-                                  {
-                                      APIManager.ShowSnackbar("xac nhan");
-                                      ExcuteXacNhan();
-                                      //thuc hien cong viec xac nhan trong nay
-                                  }
-                                  else if (lenhS.Message == "laydanhsach")
-                                  {
-                                      APIManager.ShowSnackbar("Đang lấy danh sách bd đến");
-                                      //Thuc hien xu ly lay danh sach bd
-                                      WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToLayBDHA_LayDanhSach" });
-                                  }
-                                  else if (lenhS.Message == "savebd")
-                                  {
-                                      var list = FileManager.client.Child(FileManager.FirebaseKey + "/message/topc").OnceSingleAsync<string>();
-                                      list.Wait();
-                                      string[] datas = list.Result.Split('|');
-                                      APIManager.ShowSnackbar("Đang save bd");
-                                      WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToGetBD_SaveBD", Content = datas[0] + "|" + datas[1] + "|" + datas[2] });
-                                  }
-                                  else if (lenhS.Message == "laybuucuc")
-                                  {
-                                      var list = FileManager.client.Child(FileManager.FirebaseKey + "/message/topc").OnceSingleAsync<List<string>>();
-                                      list.Wait();
-                                      List<string> lists = list.Result;
-                                      WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToDiNgoai_GetAddressPhone", Content = JsonConvert.SerializeObject(lists) });
-                                  }
-                                  else if (lenhS.Message == "indingoai")
-                                  {
-                                      var list = FileManager.client.Child(FileManager.FirebaseKey + "/message/topc").OnceSingleAsync<string>();
-                                      list.Wait();
-                                      string mahieuSelected = list.Result;
-                                      APIManager.ShowSnackbar("Dang in");
-                                      WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToDiNgoai_InDiNgoai", Content = mahieuSelected });
-                                  }
-                                  else if (lenhS.Message == "chinhsualai")
-                                  {
-                                      var list = FileManager.client.Child(FileManager.FirebaseKey + "/message/topc").OnceSingleAsync<string>();
-                                      list.Wait();
-                                      string mahieuSelected = list.Result;
-                                      APIManager.ShowSnackbar("Đã sửa mã bưu cục.");
-                                      WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToDiNgoai_ChinhSuaLai", Content = mahieuSelected });
-                                  }
-                                  else if (lenhS.Message == "capturescreen")
-                                  {
-                                      WeakReferenceMessenger.Default.Send(new ContentModel { Key = "CaptureScreen" });
-                                  }
-                                  else if (lenhS.Message == "showfullweb")
-                                  {
-                                      WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ShowFullWeb" });
-                                  }
-                                  else if (lenhS.Message == "laydulieu200")
-                                  {
-                                      WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "LayDuLieu" });
-                                  }
-                                  else if (lenhS.Message == "dongqua230")
-                                  {
-                                      var list = FileManager.client.Child(FileManager.FirebaseKey + "/message/topc").OnceSingleAsync<List<string>>();
-                                      list.Wait();
-                                      List<string> lists = list.Result;
-                                      WeakReferenceMessenger.Default.Send(new ContentModel { Key = "SetTrueAuto200", Content = JsonConvert.SerializeObject(lists) });
-                                      WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "KT" });
-                                  }
-                                  else if (lenhS.Message == "writecapchar")
-                                  {
-                                      var list = FileManager.client.Child(FileManager.FirebaseKey + "/message/topc").OnceSingleAsync<string>();
-                                      list.Wait();
-                                      string mahieuSelected = list.Result;
-                                      WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToWeb_WriteCapchar", Content = mahieuSelected });
-                                  }
-                                  else if (lenhS.Message.IndexOf("laybd") != -1)
-                                  {
-                                      string[] datas = lenhS.Message.Split('|');
-                                      if (datas[0] == "laybd")
-                                      {
-                                          //thuc hien lay bd hien tai
-                                          WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToLayHAAL_LayBD", Content = datas[1] + "|" + datas[2] });
-                                      }
-                                  }
-                              }
+                              XuLyLenhGuiVe(lenhS);
                           }
                       }
                   }
               });
+        }
+
+        private string lastTimeStampMessage;
+
+        private void XuLyLenhGuiVe(MessageToPhoneModel lenhS)
+        {
+            FileManager.IS_PHONE_IS_EXCUTTING = true;
+            switch (lenhS.Lenh)
+            {
+                case "xacnhan":
+                    APIManager.ShowSnackbar("xac nhan");
+                    ExcuteXacNhan();
+                    //thuc hien cong viec xac nhan trong nay
+                    break;
+
+                case "laydanhsach":
+                    APIManager.ShowSnackbar("Đang lấy danh sách bd đến");
+                    //Thuc hien xu ly lay danh sach bd
+                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToLayBDHA_LayDanhSach" });
+                    break;
+
+                case "savebd":
+                    {
+                        var list = FileManager.client.Child(FileManager.FirebaseKey + "/message/topc").OnceSingleAsync<string>();
+                        list.Wait();
+                        string[] datas = list.Result.Split('|');
+                        APIManager.ShowSnackbar("Đang save bd");
+                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToGetBD_SaveBD", Content = datas[0] + "|" + datas[1] + "|" + datas[2] });
+                        break;
+                    }
+
+                case "laybuucuc":
+                    {
+                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToDiNgoai_GetAddressPhone", Content = lenhS.DoiTuong as string });
+                        break;
+                    }
+
+                case "indingoai":
+                    {
+                        var list = FileManager.client.Child(FileManager.FirebaseKey + "/message/topc").OnceSingleAsync<string>();
+                        list.Wait();
+                        string mahieuSelected = list.Result;
+                        APIManager.ShowSnackbar("Dang in");
+                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToDiNgoai_InDiNgoai", Content = mahieuSelected });
+                        break;
+                    }
+
+                case "chinhsualai":
+                    {
+                        var list = FileManager.client.Child(FileManager.FirebaseKey + "/message/topc").OnceSingleAsync<string>();
+                        list.Wait();
+                        string mahieuSelected = list.Result;
+                        APIManager.ShowSnackbar("Đã sửa mã bưu cục.");
+                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToDiNgoai_ChinhSuaLai", Content = mahieuSelected });
+                        break;
+                    }
+
+                case "capturescreen":
+                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "CaptureScreen" });
+                    break;
+
+                case "showfullweb":
+                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ShowFullWeb" });
+                    break;
+
+                case "laydulieu200":
+                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "LayDuLieu" });
+                    break;
+
+                case "dongqua230":
+                    {
+                        var list = FileManager.client.Child(FileManager.FirebaseKey + "/message/topc").OnceSingleAsync<List<string>>();
+                        list.Wait();
+                        List<string> lists = list.Result;
+                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "SetTrueAuto200", Content = JsonConvert.SerializeObject(lists) });
+                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "KT" });
+                        break;
+                    }
+
+                case "writecapchar":
+                    {
+                        var list = FileManager.client.Child(FileManager.FirebaseKey + "/message/topc").OnceSingleAsync<string>();
+                        list.Wait();
+                        string mahieuSelected = list.Result;
+                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToWeb_WriteCapchar", Content = mahieuSelected });
+                        break;
+                    }
+
+                default:
+                    if (lenhS.Lenh.IndexOf("laybd") != -1)
+                    {
+                        string[] datas = ((string)lenhS.DoiTuong).Split('|');
+                        if (datas[0] == "laybd")
+                        {
+                            //thuc hien lay bd hien tai
+                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToLayHAAL_LayBD", Content = datas[1] + "|" + datas[2] });
+                        }
+                    }
+
+                    break;
+            }
         }
 
         private string LocHuyen(string address)
@@ -2480,6 +2498,6 @@ namespace TaoBD10.ViewModels
         private BackgroundWorker printTrangCuoi;
         private string soCTCurrent = "";
         private DispatcherTimer timer;
-        private string timeStamp;
+        private string lastTimeStamp;
     }
 }

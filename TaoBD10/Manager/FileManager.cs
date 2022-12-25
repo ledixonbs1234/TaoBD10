@@ -159,6 +159,7 @@ namespace TaoBD10.Manager
         public static List<string> LoadBuuCucsOnFirebase()
         {
             Task<List<string>> cts = client.Child(@"QuanLy/DanhSach/" + optionModel.MaKhaiThac + "/BuuCucs").OrderByKey().OnceSingleAsync<List<string>>();
+
             cts.Wait();
             List<string> result = cts.Result;
             SaveBuuCucsOffline(result);
@@ -757,14 +758,26 @@ namespace TaoBD10.Manager
             }
         }
 
+        public static bool IS_PHONE_IS_EXCUTTING = false;
+
         /// <summary>
         /// Send tin nhan tu pc to phone
         /// </summary>
-        /// <param name="message"></param>
-        public static void SendMessageNotification(string message)
+        /// <param name="messageString"></param>
+        public static void SendMessageNotification(string messageString, bool disablePhone = false)
         {
-            client.Child(FirebaseKey + "/message/").PutAsync(@"{""tophone"":""" + message + @"""}").Wait();
-            FileManager.client.Child(FirebaseKey + "/notification/").PutAsync(@"{""tophone"":""message""}").Wait();
+            if (IS_PHONE_IS_EXCUTTING)
+            {
+                var message = new MessageToPhoneModel("message", messageString);
+                client.Child(FirebaseKey + "/message/tophone").PutAsync(message).Wait();
+            }
+            if (disablePhone)
+                IS_PHONE_IS_EXCUTTING = false;
+        }
+
+        public static void SendMessage(MessageToPhoneModel message)
+        {
+            client.Child(FirebaseKey + "/message/tophone").PutAsync(message).Wait();
         }
 
         public static void SendVoidToPhone(string lenh)

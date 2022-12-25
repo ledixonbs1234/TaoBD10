@@ -102,12 +102,13 @@ namespace TaoBD10.ViewModels
                                 AutoSetBuuCuc(have);
                             }
                         }
-                        if (IsPhoneRunning)
+                        if (FileManager.IS_PHONE_IS_EXCUTTING)
                         {
                             foreach (var diNgoai in DiNgoais)
                             {
                                 diNgoai.danhSachBuuCuc = GetListBuuCucFromTinh(diNgoai.MaTinh);
                             }
+                            FileManager.SendMessageNotification("Đã lấy bưu cục thành công", disablePhone: true);
 
                             ChuyenDataDiNgoaiToPhone();
                         }
@@ -143,9 +144,8 @@ namespace TaoBD10.ViewModels
                 }
                 else if (m.Key == "ToDiNgoai_GetAddressPhone")
                 {
-                    IsPhoneRunning = true;
                     //thuc hien dejson
-                    List<string> list = JsonConvert.DeserializeObject<List<string>>(m.Content);
+                    var list = JsonConvert.DeserializeObject<List<string>>(m.Content);
                     if (list != null)
                     {
                         App.Current.Dispatcher.Invoke(delegate // <--- HERE
@@ -1162,8 +1162,7 @@ namespace TaoBD10.ViewModels
             //thuc hien send du lieu qua phone
             string json = JsonConvert.SerializeObject(DiNgoais);
             //MqttManager.Pulish(FileManager.MQTTKEY + "_dingoai", json);
-            FileManager.client.Child(FileManager.FirebaseKey + "/message/tophone").PutAsync(json);
-            FileManager.SendVoidToPhone("senddingoaitophone");
+            FileManager.SendMessage(new MessageToPhoneModel("senddingoaitophone", json));
         }
 
         private void DiNgoaiTuDongNext()

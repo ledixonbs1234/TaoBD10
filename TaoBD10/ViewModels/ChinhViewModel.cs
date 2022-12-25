@@ -22,9 +22,9 @@ namespace TaoBD10.ViewModels
 {
     public class ChinhViewModel : ObservableObject
     {
+        private bool isAutoAddMaHieuFrom200To230 = false;
+        private List<string> mahieus200 = new List<string>();
 
-        bool isAutoAddMaHieuFrom200To230 = false;
-        List<string> mahieus200 = new List<string>();
         public ChinhViewModel()
         {
             ChuyenThus = new ObservableCollection<ChuyenThuModel>();
@@ -76,7 +76,6 @@ namespace TaoBD10.ViewModels
             bwCreateChuyenThu.WorkerSupportsCancellation = true;
             bwPrint = new BackgroundWorker();
             bwPrint.DoWork += BwPrint_DoWork;
-
 
             WeakReferenceMessenger.Default.Register<ContentModel>(this, (r, m) =>
             {
@@ -156,7 +155,6 @@ namespace TaoBD10.ViewModels
                     }
                     else if (m.Content == "SetTrueAuto200")
                     {
-
                     }
                 }
                 else if (m.Key == "XN593200")
@@ -374,7 +372,6 @@ namespace TaoBD10.ViewModels
                     //TestText += apiCai.Text + "\n";
                     int.TryParse(Regex.Match(apiCai.Text, @"\d+").Value, out int numberRead);
 
-
                     Thread.Sleep(1000);
 
                     //thuc hien xu ly lenh trong nay
@@ -390,13 +387,13 @@ namespace TaoBD10.ViewModels
                     apiCai = listControl.FirstOrDefault(m => m.Text.IndexOf("cái") != -1);
                     int.TryParse(Regex.Match(apiCai.Text, @"\d+").Value, out int numberReadLast);
 
-
                     if (numberRead + mahieus200.Count == numberReadLast)
                     {
                         //THuc hien send thanh cong
                         FileManager.SendMessageNotification("Đang đóng ct qua 230");
                         AutoXacNhan();
-                    }else
+                    }
+                    else
                     {
                         FileManager.SendMessageNotification("Không khớp số liệu");
                     }
@@ -833,14 +830,22 @@ namespace TaoBD10.ViewModels
         {
             if (!string.IsNullOrEmpty(FileManager.optionModel.LayDuLieu))
             {
+                FileManager.SendMessageNotification("Đang bắt đầu lấy dữ liệu");
                 Thread.Sleep(400);
                 var temp = FileManager.optionModel.LayDuLieu.Split(',');
                 APIManager.GoToWindow(FileManager.optionModel.MaBuuCucLayDuLieu, "Default", temp[0], temp[1]);
-                APIManager.WaitingFindedWindow("danh sach buu gui le");
-                SendKeys.SendWait("{F4}");
-                Thread.Sleep(1000);
-                SendKeys.SendWait("{F10}");
-                FileManager.SendMessageNotification("Đã lấy dữ liệu thành công");
+                var window = APIManager.WaitingFindedWindow("danh sach buu gui le");
+                if (window != null)
+                {
+                    SendKeys.SendWait("{F4}");
+                    Thread.Sleep(1000);
+                    SendKeys.SendWait("{F10}");
+                    FileManager.SendMessageNotification("Đã lấy dữ liệu thành công");
+                }
+                else
+                {
+                    FileManager.SendMessageNotification("Không tìm thấy cửa sổ",disablePhone:true);
+                }
             }
         }
 

@@ -681,7 +681,7 @@ namespace TaoBD10.ViewModels
                         SendKeys.SendWait("593330{ENTER}");
                     }
 
-                    APIManager.OpenNotePad(testText);
+                    //APIManager.OpenNotePad(testText);
 
                     //Set text
                     //APIManager.setTextControl(childControls[2].Handle, temp);

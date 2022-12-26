@@ -629,7 +629,9 @@ namespace TaoBD10.ViewModels
                     //SendKeys.SendWait("{DOWN}");
                     APIManager.SendMessage(childControls[16].Handle, 0x0007, 0, 0);
                     APIManager.SendMessage(childControls[16].Handle, 0x0007, 0, 0);
+                    Thread.Sleep(100);
                     SendKeys.SendWait("^(a)");
+                    Thread.Sleep(100);
                     SendKeys.SendWait(SelectedSimple.Code);
 
                     Thread.Sleep(100);

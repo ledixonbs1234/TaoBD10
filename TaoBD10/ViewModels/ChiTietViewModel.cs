@@ -1511,7 +1511,7 @@ namespace TaoBD10.ViewModels
         private int _IndexContinueGuiTrucTiep = 0;
         private int _IndexTaoBDItem;
         private bool _IsBoQuaMaHieuSHTuiSai;
-        private bool _IsTuDongXuLy = false;
+        private bool _IsTuDongXuLy = true;
         private bool _KhongInLan;
         private ObservableCollection<HangHoaDetailModel> _ListShowHangHoa;
         private LocBDInfoModel _LocBCP;

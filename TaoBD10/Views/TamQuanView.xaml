@@ -16,9 +16,9 @@
             ItemsSource="{Binding TamQuans}"
             SelectionMode="Single">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Index}" Header="Index" />
+                <DataGridTextColumn IsReadOnly="True" Binding="{Binding Index}" Header="Index" />
                 <DataGridTextColumn Binding="{Binding MaHieu}" Header="Mã Hiệu" />
-                <DataGridTextColumn Binding="{Binding TrongLuong}" Header="KL" />
+                <DataGridTextColumn IsReadOnly="True" Binding="{Binding TrongLuong}" Header="KL" />
             </DataGrid.Columns>
         </DataGrid>
         <ComboBox
@@ -46,10 +46,9 @@
         <Button Command="{Binding FillMaHieuCommand}" Content="Lọc Mã Hiệu" />
         <materialDesign:Card Margin="5,10">
             <StackPanel>
-                <TextBox Text="{Binding MaBCP,UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+                <TextBox Text="{Binding MaBCP,UpdateSourceTrigger=PropertyChanged}" Margin="5" />
                 <Button Command="{Binding FillMaBCCommand}" Content="Lọc Mã BC" />
             </StackPanel>
-
         </materialDesign:Card>
     </StackPanel>
 </UserControl>

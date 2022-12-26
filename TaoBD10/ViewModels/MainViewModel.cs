@@ -1113,6 +1113,7 @@ namespace TaoBD10.ViewModels
 
         private void ExcuteXacNhan()
         {
+            FileManager.SendMessageNotification("Đang xác nhận");
             var thongTins = FileManager.client.Child(FileManager.FirebaseKey + "/danhsachmahieu/").OnceAsync<ThongTinCoBanModel>();
             thongTins.Wait();
             List<string> list = new List<string>();
@@ -1302,10 +1303,9 @@ namespace TaoBD10.ViewModels
 
                 case "dongqua230":
                     {
-                        var list = FileManager.client.Child(FileManager.FirebaseKey + "/message/topc").OnceSingleAsync<List<string>>();
+                        var list = FileManager.client.Child(FileManager.FirebaseKey + "/message/topc").OnceSingleAsync<MessageToPhoneModel>();
                         list.Wait();
-                        List<string> lists = list.Result;
-                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "SetTrueAuto200", Content = JsonConvert.SerializeObject(lists) });
+                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "SetTrueAuto200", Content = list.Result.DoiTuong as string });
                         WeakReferenceMessenger.Default.Send(new ContentModel { Key = "Chinh", Content = "KT" });
                         break;
                     }

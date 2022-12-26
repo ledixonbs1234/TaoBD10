@@ -144,6 +144,7 @@ namespace TaoBD10.ViewModels
                 }
                 else if (m.Key == "ToDiNgoai_GetAddressPhone")
                 {
+                    FileManager.SendMessageNotification("Đang lấy bưu cục");
                     //thuc hien dejson
                     var list = JsonConvert.DeserializeObject<List<string>>(m.Content);
                     if (list != null)
@@ -158,6 +159,10 @@ namespace TaoBD10.ViewModels
                             }
                             AddFast();
                         });
+                    }
+                    else
+                    {
+                        FileManager.SendMessageNotification("Lỗi! Không có nội dung bên trong", disablePhone: true);
                     }
                 }
                 else if (m.Key == "ToDiNgoai")
@@ -629,38 +634,55 @@ namespace TaoBD10.ViewModels
                         //SendKeys.SendWait("{DOWN}");
                         //Thread.Sleep(100);
                         SendKeys.SendWait("{ENTER}");
-                        Thread.Sleep(200);
+                        Thread.Sleep(700);
+                        string testText = "";
+                        var windows = APIManager.WaitingFindedWindow("khai thac buu cuc phat", "xac nhan");
+                        testText = "Title: " +windows.text + @"\n";
 
-                        LocalPrintServer localPrintServer = new LocalPrintServer();
-
-                        PrinterSettings settings = new PrinterSettings();
-                        PrintQueueStatus statusPrint = PrintQueueStatus.None;
-                        for (int i = 0; i < 8; i++)
+                        if (windows.text == "khai thac buu cuc phat")
                         {
-                            foreach (PrintQueue printQueue in localPrintServer.GetPrintQueues())
+                            LocalPrintServer localPrintServer = new LocalPrintServer();
+
+                            PrinterSettings settings = new PrinterSettings();
+                            PrintQueueStatus statusPrint = PrintQueueStatus.None;
+                            for (int i = 0; i < 8; i++)
                             {
-                                if (settings.PrinterName == printQueue.FullName)
+                                foreach (PrintQueue printQueue in localPrintServer.GetPrintQueues())
                                 {
-                                    statusPrint = printQueue.QueueStatus;
+                                    if (settings.PrinterName == printQueue.FullName)
+                                    {
+                                        statusPrint = printQueue.QueueStatus;
+                                        break;
+                                    }
+                                }
+                                if (statusPrint != PrintQueueStatus.None)
+                                {
                                     break;
                                 }
+                                Thread.Sleep(100);
                             }
-                            if (statusPrint != PrintQueueStatus.None)
+                            if (statusPrint == PrintQueueStatus.None)
                             {
-                                break;
+                                APIManager.ShowSnackbar("Khong In");
                             }
-                            Thread.Sleep(100);
+                            else
+                            {
+                                APIManager.ShowSnackbar("KT In Duoc");
+                            }
                         }
-                        if (statusPrint == PrintQueueStatus.None)
+                        else if (windows.text == "xac nhan")
                         {
-                            APIManager.ShowSnackbar("Khong In");
-                        }
-                        else
-                        {
-                            APIManager.ShowSnackbar("KT In Duoc");
+                            testText += "Run In Xac Nhan \n";
+                            List<IntPtr> controls = APIManager.GetAllChildHandles(windows.hwnd);
+                            APIManager.setTextControl(controls[2], "hello");
+
                         }
 
-                        //APIManager.OpenNotePad(ss);
+
+
+
+
+                        APIManager.OpenNotePad(testText);
 
                         //Set text
                         //APIManager.setTextControl(childControls[2].Handle, temp);

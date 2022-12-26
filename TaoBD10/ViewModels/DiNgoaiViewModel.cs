@@ -627,75 +627,58 @@ namespace TaoBD10.ViewModels
                     APIManager.SendMessage(childControls[16].Handle, 0x0007, 0, 0);
 
                     //Thuc hien trong nay
-                    if (!string.IsNullOrEmpty(SelectedSimple.MaBuuCuc))
+                    APIManager.setTextControl(childControls[16].Handle, SelectedSimple.Code);
+                    //Thread.Sleep(300);
+                    //SendKeys.SendWait("{DOWN}");
+                    //Thread.Sleep(100);
+                    SendKeys.SendWait("{ENTER}");
+                    Thread.Sleep(700);
+                    string testText = "";
+                    var windows = APIManager.WaitingFindedWindow("khai thac buu cuc phat", "xac nhan");
+                    testText = "Title: " + windows.text + @"\n";
+
+                    if (windows.text == "khai thac buu cuc phat")
                     {
-                        APIManager.setTextControl(childControls[16].Handle, SelectedSimple.Code);
-                        //Thread.Sleep(300);
-                        //SendKeys.SendWait("{DOWN}");
-                        //Thread.Sleep(100);
-                        SendKeys.SendWait("{ENTER}");
-                        Thread.Sleep(700);
-                        string testText = "";
-                        var windows = APIManager.WaitingFindedWindow("khai thac buu cuc phat", "xac nhan");
-                        testText = "Title: " +windows.text + @"\n";
+                        LocalPrintServer localPrintServer = new LocalPrintServer();
 
-                        if (windows.text == "khai thac buu cuc phat")
+                        PrinterSettings settings = new PrinterSettings();
+                        PrintQueueStatus statusPrint = PrintQueueStatus.None;
+                        for (int i = 0; i < 8; i++)
                         {
-                            LocalPrintServer localPrintServer = new LocalPrintServer();
-
-                            PrinterSettings settings = new PrinterSettings();
-                            PrintQueueStatus statusPrint = PrintQueueStatus.None;
-                            for (int i = 0; i < 8; i++)
+                            foreach (PrintQueue printQueue in localPrintServer.GetPrintQueues())
                             {
-                                foreach (PrintQueue printQueue in localPrintServer.GetPrintQueues())
+                                if (settings.PrinterName == printQueue.FullName)
                                 {
-                                    if (settings.PrinterName == printQueue.FullName)
-                                    {
-                                        statusPrint = printQueue.QueueStatus;
-                                        break;
-                                    }
-                                }
-                                if (statusPrint != PrintQueueStatus.None)
-                                {
+                                    statusPrint = printQueue.QueueStatus;
                                     break;
                                 }
-                                Thread.Sleep(100);
                             }
-                            if (statusPrint == PrintQueueStatus.None)
+                            if (statusPrint != PrintQueueStatus.None)
                             {
-                                APIManager.ShowSnackbar("Khong In");
+                                break;
                             }
-                            else
-                            {
-                                APIManager.ShowSnackbar("KT In Duoc");
-                            }
+                            Thread.Sleep(100);
                         }
-                        else if (windows.text == "xac nhan")
+                        if (statusPrint == PrintQueueStatus.None)
                         {
-                            testText += "Run In Xac Nhan \n";
-                            List<IntPtr> controls = APIManager.GetAllChildHandles(windows.hwnd);
-                            APIManager.setTextControl(controls[2], "hello");
-
+                            APIManager.ShowSnackbar("Khong In");
                         }
-
-
-
-
-
-                        APIManager.OpenNotePad(testText);
-
-                        //Set text
-                        //APIManager.setTextControl(childControls[2].Handle, temp);
+                        else
+                        {
+                            APIManager.ShowSnackbar("KT In Duoc");
+                        }
                     }
-                    else
+                    else if (windows.text == "xac nhan")
                     {
-                        if (string.IsNullOrEmpty(SelectedSimple.MaTinh))
-                        {
-                            APIManager.ShowSnackbar("Không có mã tỉnh");
-                            return;
-                        }
-                        SendKeys.SendWait(SelectedSimple.MaTinh);
+                        testText += "Run In Xac Nhan \n";
+                        List<IntPtr> controls = APIManager.GetAllChildHandles(windows.hwnd);
+                        APIManager.setTextControl(controls[2], "hello");
                     }
+
+                    APIManager.OpenNotePad(testText);
+
+                    //Set text
+                    //APIManager.setTextControl(childControls[2].Handle, temp);
                 }
             }
             catch (Exception ex)

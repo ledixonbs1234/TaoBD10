@@ -649,7 +649,8 @@ namespace TaoBD10.ViewModels
                         testText += "Run In Xac Nhan \n";
                         List<IntPtr> controls = APIManager.GetAllChildHandles(windows.hwnd);
                         //APIManager.setTextControl(controls[2], "593330");
-                        SendKeys.SendWait("593740{ENTER}");
+                        SendKeys.SendWait(SelectedSimple.MaBuuCuc);
+                        SendKeys.SendWait("{ENTER}");
                     }
                     bool isCheckPrinted = KiemTraInDuocKhong();
                     if (isCheckPrinted)

@@ -624,11 +624,12 @@ namespace TaoBD10.ViewModels
                     //thuc hien lay vi tri nao do
 
                     //Thuc hien trong nay
-                    APIManager.setTextControl(childControls[16].Handle, SelectedSimple.Code);
+                    //APIManager.setTextControl(childControls[16].Handle, SelectedSimple.Code);
                     //Thread.Sleep(300);
                     //SendKeys.SendWait("{DOWN}");
                     APIManager.SendMessage(childControls[16].Handle, 0x0007, 0, 0);
                     APIManager.SendMessage(childControls[16].Handle, 0x0007, 0, 0);
+                    SendKeys.SendWait(SelectedSimple.Code);
 
                     Thread.Sleep(100);
                     SendKeys.SendWait("{ENTER}");
@@ -672,8 +673,8 @@ namespace TaoBD10.ViewModels
                     {
                         testText += "Run In Xac Nhan \n";
                         List<IntPtr> controls = APIManager.GetAllChildHandles(windows.hwnd);
-                        APIManager.setTextControl(controls[2], "593330");
-                        SendKeys.SendWait("{ENTER}");
+                        //APIManager.setTextControl(controls[2], "593330");
+                        SendKeys.SendWait("593330{ENTER}");
                     }
 
                     APIManager.OpenNotePad(testText);

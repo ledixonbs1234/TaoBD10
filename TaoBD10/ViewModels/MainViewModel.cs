@@ -1214,6 +1214,11 @@ namespace TaoBD10.ViewModels
 
                       if (x.Object != null)
                       {
+                          if (string.IsNullOrEmpty(lastTimeStampMessage))
+                          {
+                              lastTimeStampMessage = x.Object;
+                              return;
+                          }
                           if (lastTimeStampMessage != x.Object)
                           {
                               lastTimeStampMessage = x.Object;

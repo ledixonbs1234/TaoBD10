@@ -47,7 +47,6 @@ namespace TaoBD10.ViewModels
             SortTinhCommand = new RelayCommand(SortTinh);
 
             XoaCommand = new RelayCommand(Xoa);
-            ClearCommand = new RelayCommand(Clear);
             MoRongCommand = new RelayCommand(MoRong);
             ClearDiNgoaiCommand = new RelayCommand(ClearDiNgoai);
             AddRangeCommand = new RelayCommand(AddRange);
@@ -644,34 +643,6 @@ namespace TaoBD10.ViewModels
 
                     if (windows.text == "khai thac buu cuc phat")
                     {
-                        LocalPrintServer localPrintServer = new LocalPrintServer();
-
-                        PrinterSettings settings = new PrinterSettings();
-                        PrintQueueStatus statusPrint = PrintQueueStatus.None;
-                        for (int i = 0; i < 8; i++)
-                        {
-                            foreach (PrintQueue printQueue in localPrintServer.GetPrintQueues())
-                            {
-                                if (settings.PrinterName == printQueue.FullName)
-                                {
-                                    statusPrint = printQueue.QueueStatus;
-                                    break;
-                                }
-                            }
-                            if (statusPrint != PrintQueueStatus.None)
-                            {
-                                break;
-                            }
-                            Thread.Sleep(100);
-                        }
-                        if (statusPrint == PrintQueueStatus.None)
-                        {
-                            APIManager.ShowSnackbar("Khong In");
-                        }
-                        else
-                        {
-                            APIManager.ShowSnackbar("KT In Duoc");
-                        }
                     }
                     else if (windows.text == "xac nhan")
                     {
@@ -679,6 +650,11 @@ namespace TaoBD10.ViewModels
                         List<IntPtr> controls = APIManager.GetAllChildHandles(windows.hwnd);
                         //APIManager.setTextControl(controls[2], "593330");
                         SendKeys.SendWait("593740{ENTER}");
+                    }
+                    bool isCheckPrinted = KiemTraInDuocKhong();
+                    if (isCheckPrinted)
+                    {
+                        GoToNextIndex();
                     }
 
                     //APIManager.OpenNotePad(testText);
@@ -698,6 +674,42 @@ namespace TaoBD10.ViewModels
                 APIManager.OpenNotePad(ex.Message + '\n' + "loi Line DiNgoaiViewModel" + line + " Number Line " + APIManager.GetLineNumber(ex), "loi ");
                 throw;
                 throw;
+            }
+        }
+
+        /// <summary>
+        /// Thực hiện việc kiểm tra in được không
+        /// Nếu in dược trả về true còn không thi false
+        /// </summary>
+        private bool KiemTraInDuocKhong()
+        {
+            LocalPrintServer localPrintServer = new LocalPrintServer();
+
+            PrinterSettings settings = new PrinterSettings();
+            PrintQueueStatus statusPrint = PrintQueueStatus.None;
+            for (int i = 0; i < 8; i++)
+            {
+                foreach (PrintQueue printQueue in localPrintServer.GetPrintQueues())
+                {
+                    if (settings.PrinterName == printQueue.FullName)
+                    {
+                        statusPrint = printQueue.QueueStatus;
+                        break;
+                    }
+                }
+                if (statusPrint != PrintQueueStatus.None)
+                {
+                    break;
+                }
+                Thread.Sleep(100);
+            }
+            if (statusPrint == PrintQueueStatus.None)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
             }
         }
 
@@ -1083,32 +1095,7 @@ namespace TaoBD10.ViewModels
                     APIManager.ShowSnackbar("Không tìm thấy window khởi tạo chuyến thư");
                     return;
                 }
-
-                if (DiNgoais.Count == 0)
-                {
-                    APIManager.ShowSnackbar("Không có dữ liệu");
-                    return;
-                }
-                //lay vi tri tiep theo
-                //get index
-                int index = DiNgoais.IndexOf(SelectedSimple);
-                if (index == -1)
-                {
-                    APIManager.ShowSnackbar("Chưa chọn mã hiệu");
-                    return;
-                }
-                index++;
-                if (index > DiNgoais.Count - 1)
-                {
-                    APIManager.ShowSnackbar("Đã tới vị trí cuối cùng");
-                    //txtInfo.Text = "Đã tới vị trí cuối cùng";
-                    return;
-                }
-
-                //////xem thu no co chay cai gi khong
-
-                SelectedSimple = DiNgoais[index];
-                Selection(SelectedSimple);
+                GoToNextIndex();
             }
             catch (Exception ex)
             {
@@ -1123,8 +1110,33 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        private void Clear()
+        private void GoToNextIndex()
         {
+            if (DiNgoais.Count == 0)
+            {
+                APIManager.ShowSnackbar("Không có dữ liệu");
+                return;
+            }
+            //lay vi tri tiep theo
+            //get index
+            int index = DiNgoais.IndexOf(SelectedSimple);
+            if (index == -1)
+            {
+                APIManager.ShowSnackbar("Chưa chọn mã hiệu");
+                return;
+            }
+            index++;
+            if (index > DiNgoais.Count - 1)
+            {
+                APIManager.ShowSnackbar("Đã tới vị trí cuối cùng");
+                //txtInfo.Text = "Đã tới vị trí cuối cùng";
+                return;
+            }
+
+            //////xem thu no co chay cai gi khong
+
+            SelectedSimple = DiNgoais[index];
+            Selection(SelectedSimple);
         }
 
         private void ClearDiNgoai()
@@ -2289,7 +2301,6 @@ namespace TaoBD10.ViewModels
         private string _TextsRange;
         private int downTaoTui = 0;
         private bool isAutoRunDiNgoai = false;
-        private bool IsPhoneRunning = false;
         private bool isRunFirst = false;
         private bool isWaitingPrint = false;
         private List<string> listBuuCuc;

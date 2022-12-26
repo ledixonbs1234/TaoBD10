@@ -623,14 +623,14 @@ namespace TaoBD10.ViewModels
                     List<TestAPIModel> childControls = APIManager.GetListControlText(currentWindow.hwnd);
                     //thuc hien lay vi tri nao do
 
-                    APIManager.SendMessage(childControls[16].Handle, 0x0007, 0, 0);
-                    APIManager.SendMessage(childControls[16].Handle, 0x0007, 0, 0);
-
                     //Thuc hien trong nay
                     APIManager.setTextControl(childControls[16].Handle, SelectedSimple.Code);
                     //Thread.Sleep(300);
                     //SendKeys.SendWait("{DOWN}");
-                    //Thread.Sleep(100);
+                    APIManager.SendMessage(childControls[16].Handle, 0x0007, 0, 0);
+                    APIManager.SendMessage(childControls[16].Handle, 0x0007, 0, 0);
+
+                    Thread.Sleep(100);
                     SendKeys.SendWait("{ENTER}");
                     Thread.Sleep(700);
                     string testText = "";
@@ -672,7 +672,8 @@ namespace TaoBD10.ViewModels
                     {
                         testText += "Run In Xac Nhan \n";
                         List<IntPtr> controls = APIManager.GetAllChildHandles(windows.hwnd);
-                        APIManager.setTextControl(controls[2], "hello");
+                        APIManager.setTextControl(controls[2], "593330");
+                        SendKeys.SendWait("{ENTER}");
                     }
 
                     APIManager.OpenNotePad(testText);

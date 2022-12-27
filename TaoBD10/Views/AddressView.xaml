@@ -133,8 +133,12 @@
                     Content="Address Send" />
                 <Button
                     Margin="5"
+                    Command="{Binding ShowTQCommand}"
+                    Content="Show TQ" />
+                <Button
+                    Margin="5"
                     Command="{Binding SetTamQuanFromCopyCommand}"
-                    Content="TQ" />
+                    Content="Set TQ Copyed" />
             </StackPanel>
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                 <Button

@@ -26,6 +26,7 @@ namespace TaoBD10.ViewModels
             LayDanhSachCommand = new RelayCommand(LayDanhSach);
             LocCommand = new RelayCommand(Loc);
             LayDiaChiCommand = new RelayCommand(LayDiaChi);
+            ShowTQCommand = new RelayCommand(ShowTQ);
             SendDataCommand = new RelayCommand(SendData);
             SetTamQuanFromCopyCommand = new RelayCommand(SetTamQuanFromCopy);
             LayDiaChiGuiCommand = new RelayCommand(LayDiaChiGui);
@@ -86,30 +87,8 @@ namespace TaoBD10.ViewModels
                     hangHoa.Address = m.AddressReiceive.Trim();
                     hangHoa.AddressSend = m.AddressSend.Trim();
                     //thuc hien kiem tra tam quan
-                    if (!string.IsNullOrEmpty(hangHoa.Address))
-                    {
-                        foreach (var fill in fillTamQuan)
-                        {
-                            if (APIManager.ConvertToUnSign3(hangHoa.Address).ToLower().IndexOf(fill) != -1)
-                            {
-                                hangHoa.IsTamQuan = "TamQuan";
-                                SetCountTamQuan();
-                                break;
-                            }
-                        }
-                    }
-                    if (!string.IsNullOrEmpty(hangHoa.AddressSend))
-                    {
-                        foreach (var fill in fillTamQuan)
-                        {
-                            if (APIManager.ConvertToUnSign3(hangHoa.AddressSend).ToLower().IndexOf(fill) != -1)
-                            {
-                                hangHoa.IsTamQuan = "TamQuan";
-                                SetCountTamQuan();
-                                break;
-                            }
-                        }
-                    }
+                    AutoSetTQFromAddress(hangHoa);
+
                     LayDiaChi();
                 }
             });
@@ -149,6 +128,34 @@ namespace TaoBD10.ViewModels
                 }
             }
            );
+        }
+
+        private void AutoSetTQFromAddress(HangHoaDetailModel hangHoa)
+        {
+            if (!string.IsNullOrEmpty(hangHoa.Address))
+            {
+                foreach (var fill in fillTamQuan)
+                {
+                    if (APIManager.ConvertToUnSign3(hangHoa.Address).ToLower().IndexOf(fill) != -1)
+                    {
+                        hangHoa.IsTamQuan = "TamQuan";
+                        SetCountTamQuan();
+                        break;
+                    }
+                }
+            }
+            if (!string.IsNullOrEmpty(hangHoa.AddressSend))
+            {
+                foreach (var fill in fillTamQuan)
+                {
+                    if (APIManager.ConvertToUnSign3(hangHoa.AddressSend).ToLower().IndexOf(fill) != -1)
+                    {
+                        hangHoa.IsTamQuan = "TamQuan";
+                        SetCountTamQuan();
+                        break;
+                    }
+                }
+            }
         }
 
         private void ChuyenTamQuanVeLayCT()
@@ -263,6 +270,18 @@ namespace TaoBD10.ViewModels
             if (data != null)
             {
                 CountTamQuan = data.Count();
+            }
+        }
+
+        public ICommand ShowTQCommand { get; }
+
+        private void ShowTQ()
+        {
+            if (HangHoas.Count == 0)
+                return;
+            foreach (var hangHoa in HangHoas)
+            {
+                AutoSetTQFromAddress(hangHoa);
             }
         }
 

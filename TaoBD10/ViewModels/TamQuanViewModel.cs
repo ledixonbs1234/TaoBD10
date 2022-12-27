@@ -83,6 +83,7 @@ namespace TaoBD10.ViewModels
                 text += tamQuan.MaHieu + "\n";
             }
             Clipboard.SetText(text);
+            APIManager.ShowSnackbar("Đã Copy!");
         }
 
         private void BwTamQuanCheck_DoWork(object sender, DoWorkEventArgs e)

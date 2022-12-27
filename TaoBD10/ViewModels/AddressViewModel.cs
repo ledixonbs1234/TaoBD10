@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 using TaoBD10.Manager;
 using TaoBD10.Model;
@@ -12,8 +13,6 @@ namespace TaoBD10.ViewModels
 {
     public class AddressViewModel : ObservableObject
     {
-        private string[] fillTamQuan = { "tam quan", "hoai son", "hoai chau", "hoai hao", "hoai phu", "hoai thanh" };
-
         public AddressViewModel()
         {
             HangHoas = new ObservableCollection<HangHoaDetailModel>();
@@ -28,6 +27,7 @@ namespace TaoBD10.ViewModels
             LocCommand = new RelayCommand(Loc);
             LayDiaChiCommand = new RelayCommand(LayDiaChi);
             SendDataCommand = new RelayCommand(SendData);
+            SetTamQuanFromCopyCommand = new RelayCommand(SetTamQuanFromCopy);
             LayDiaChiGuiCommand = new RelayCommand(LayDiaChiGui);
 
             ChuyenTamQuanVeLayCTCommand = new RelayCommand(ChuyenTamQuanVeLayCT);
@@ -151,33 +151,6 @@ namespace TaoBD10.ViewModels
            );
         }
 
-        private bool _IsFast = true;
-
-        public bool IsFast
-        {
-            get { return _IsFast; }
-            set { SetProperty(ref _IsFast, value); }
-        }
-
-        private void TimTamQuanFromDiaChi()
-        {
-            foreach (var hangHoa in HangHoas)
-            {
-                if (!string.IsNullOrEmpty(hangHoa.Address))
-                {
-                    foreach (var fill in fillTamQuan)
-                    {
-                        if (APIManager.ConvertToUnSign3(hangHoa.Address).ToLower().IndexOf(fill) != -1)
-                        {
-                            hangHoa.IsTamQuan = "TamQuan";
-                            SetCountTamQuan();
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-
         private void ChuyenTamQuanVeLayCT()
         {
             var hangHoaKT = HangHoas.Where(m => m.PhanLoai == FileManager.optionModel.MaKhaiThac);
@@ -226,8 +199,6 @@ namespace TaoBD10.ViewModels
                 }
             }
         }
-
-        public ICommand LayTungDiaChiCommand { get; }
 
         private void LayDiaChiGui()
         {
@@ -295,13 +266,49 @@ namespace TaoBD10.ViewModels
             }
         }
 
+        private void SetTamQuanFromCopy()
+        {
+            if (string.IsNullOrEmpty(Clipboard.GetText()))
+            {
+                APIManager.ShowSnackbar("Bạn chưa copy");
+                return;
+            }
+            string[] tamQuantempsCopy = Clipboard.GetText().Split('\n');
+            foreach (HangHoaDetailModel hangHoa in HangHoas)
+            {
+                if (tamQuantempsCopy.Contains(hangHoa.Code))
+                {
+                    hangHoa.IsTamQuan = "TamQuan";
+                }
+            }
+        }
+
+        private void TimTamQuanFromDiaChi()
+        {
+            foreach (var hangHoa in HangHoas)
+            {
+                if (!string.IsNullOrEmpty(hangHoa.Address))
+                {
+                    foreach (var fill in fillTamQuan)
+                    {
+                        if (APIManager.ConvertToUnSign3(hangHoa.Address).ToLower().IndexOf(fill) != -1)
+                        {
+                            hangHoa.IsTamQuan = "TamQuan";
+                            SetCountTamQuan();
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        public ICommand ChuyenTamQuanVeLayCTCommand { get; }
+
         public int CountTamQuan
         {
             get { return _CountTamQuan; }
             set { SetProperty(ref _CountTamQuan, value); }
         }
-
-        public ICommand ChuyenTamQuanVeLayCTCommand { get; }
 
         public ObservableCollection<HangHoaDetailModel> HangHoas
         {
@@ -309,9 +316,16 @@ namespace TaoBD10.ViewModels
             set { SetProperty(ref _HangHoas, value); }
         }
 
+        public bool IsFast
+        {
+            get { return _IsFast; }
+            set { SetProperty(ref _IsFast, value); }
+        }
+
         public ICommand LayDanhSachCommand { get; }
         public ICommand LayDiaChiCommand { get; }
         public ICommand LayDiaChiGuiCommand { get; }
+        public ICommand LayTungDiaChiCommand { get; }
 
         public ObservableCollection<string> LoaiAddress
         {
@@ -328,9 +342,12 @@ namespace TaoBD10.ViewModels
         }
 
         public ICommand SendDataCommand { get; }
+        public ICommand SetTamQuanFromCopyCommand { get; }
         private int _CountTamQuan;
         private ObservableCollection<HangHoaDetailModel> _HangHoas;
+        private bool _IsFast = true;
         private ObservableCollection<string> _LoaiAddress;
         private HangHoaDetailModel _SelectedAddress;
+        private string[] fillTamQuan = { "tam quan", "hoai son", "hoai chau", "hoai hao", "hoai phu", "hoai thanh" };
     }
 }

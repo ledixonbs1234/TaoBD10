@@ -27,6 +27,7 @@ namespace TaoBD10.ViewModels
             bwTamQuanCheck.DoWork += BwTamQuanCheck_DoWork;
             TamQuans = new ObservableCollection<TamQuanModel>();
             SendCommand = new RelayCommand(Send);
+            CopyCommand = new RelayCommand(Copy);
             FillMaHieuCommand = new RelayCommand(FillMaHieu);
             FillMaBCCommand = new RelayCommand(FillMaBC);
             SortCommand = new RelayCommand(Sort);
@@ -68,6 +69,20 @@ namespace TaoBD10.ViewModels
                     SoundManager.playSound(@"Number\" + TamQuans.Count.ToString() + ".wav");
                 }
             });
+        }
+
+        public ICommand CopyCommand { get; }
+
+        private void Copy()
+        {
+            if (TamQuans.Count == 0)
+                return;
+            string text = "";
+            foreach (var tamQuan in TamQuans)
+            {
+                text += tamQuan.MaHieu + "\n";
+            }
+            Clipboard.SetText(text);
         }
 
         private void BwTamQuanCheck_DoWork(object sender, DoWorkEventArgs e)

@@ -113,7 +113,7 @@
                 <Button
                     Margin="5"
                     Command="{Binding LayDanhSachCommand}"
-                    Content="Lấy Danh Sách" />
+                    Content="Lấy DS" />
                 <Button
                     Margin="5"
                     Command="{Binding LocCommand}"
@@ -131,6 +131,10 @@
                     Margin="5"
                     Command="{Binding LayDiaChiGuiCommand}"
                     Content="Address Send" />
+                <Button
+                    Margin="5"
+                    Command="{Binding SetTamQuanFromCopyCommand}"
+                    Content="TQ" />
             </StackPanel>
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                 <Button

@@ -288,6 +288,14 @@ namespace TaoBD10.ViewModels
             });
         }
 
+        private string _CountRefreshPage = "0";
+
+        public string CountRefreshPage
+        {
+            get { return _CountRefreshPage; }
+            set { SetProperty(ref _CountRefreshPage, value); }
+        }
+
         private void BackgroundWorkerRead_DoWork(object sender, DoWorkEventArgs e)
         {
             try
@@ -1408,6 +1416,10 @@ namespace TaoBD10.ViewModels
                         IndexTabTui = 8;
                         IndexTabControl = 5;
                     }
+                }
+                else if (m.Key == "ToMain_CountRefresh")
+                {
+                    CountRefreshPage = m.Content;
                 }
                 else if (m.Key == "Snackbar")
                 {

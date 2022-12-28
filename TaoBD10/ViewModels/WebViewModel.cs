@@ -337,12 +337,15 @@ namespace TaoBD10.ViewModels
             Default();
         }
 
+        private int currentCountRefreshPage = 0;
+
         private async void WebBrowser_LoadingStateChanged(object sender, LoadingStateChangedEventArgs e)
         {
             try
             {
                 if (!e.IsLoading)
                 {
+                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToMain_CountRefresh", Content = (currentCountRefreshPage++).ToString() });
                     //Da tai xong
                     string diachi = AddressWeb.ToLower();
 

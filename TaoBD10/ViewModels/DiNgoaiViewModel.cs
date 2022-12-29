@@ -1825,6 +1825,8 @@ namespace TaoBD10.ViewModels
 
         private void StopDiNgoai()
         {
+            APIManager.StopWaitingFindWindow();
+            bwKhoiTao.CancelAsync();
             bwPrintDiNgoai.CancelAsync();
         }
 

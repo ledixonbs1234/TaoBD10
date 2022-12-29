@@ -26,6 +26,7 @@ namespace TaoBD10.ViewModels
             LayDanhSachCommand = new RelayCommand(LayDanhSach);
             LocCommand = new RelayCommand(Loc);
             LayDiaChiCommand = new RelayCommand(LayDiaChi);
+            SendMaHieuToTamQuanViewCommand = new RelayCommand(SendMaHieuToTamQuanView);
             ShowTQCommand = new RelayCommand(ShowTQ);
             SendDataCommand = new RelayCommand(SendData);
             SetTamQuanFromCopyCommand = new RelayCommand(SetTamQuanFromCopy);
@@ -128,6 +129,35 @@ namespace TaoBD10.ViewModels
                 }
             }
            );
+        }
+
+        public ICommand SendMaHieuToTamQuanViewCommand { get; }
+
+        private void SendMaHieuToTamQuanView()
+        {
+            foreach (var hangHoa in HangHoas)
+            {
+                if (hangHoa.PhanLoai == "593230")
+                {
+                    if (hangHoa.IsTamQuan != "TamQuan")
+                    {
+                        if (!string.IsNullOrEmpty(hangHoa.Code))
+                        {
+                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "TamQuan", Content = hangHoa.Code });
+                        }
+                        else
+                        {
+                            MessageBox.Show("Chưa cập nhật đủ mã hiệu bên 230");
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Đã cập nhật thành công");
+                    break;
+                }
+            }
         }
 
         private void AutoSetTQFromAddress(HangHoaDetailModel hangHoa)

@@ -116,6 +116,7 @@
                     Content="Lấy DS" />
                 <Button
                     Margin="5"
+                    ToolTip="Thực hiện lấy danh sách"
                     Command="{Binding LocCommand}"
                     Content="Lọc" />
                 <CheckBox
@@ -124,34 +125,42 @@
                     Foreground="Coral"
                     Content="Is Fast" />
                 <Button
-                    Margin="5"
+                    ToolTip="Lấy địa chỉ toàn bộ mã hiệu(nếu có)"
+                Margin="5"
                     Command="{Binding LayDiaChiCommand}"
                     Content="Fast" />
                 <Button
                     Margin="5"
+                    ToolTip="Lấy địa chỉ gửi đang chọn."
                     Command="{Binding LayDiaChiGuiCommand}"
                     Content="Address Send" />
                 <Button
                     Margin="5"
-                    Command="{Binding ShowTQCommand}"
+                    ToolTip="Hiện Tam Quan từ địa chỉ đã có."
+                Command="{Binding ShowTQCommand}"
                     Content="Show TQ" />
                 <Button
                     Margin="5"
                     Command="{Binding SetTamQuanFromCopyCommand}"
                     Content="Set TQ Copyed" />
+                <Button
+                    Margin="5"
+                    ToolTip="Thực hiện cập nhật code từ 230 \n qua view tam quan."
+                    Command="{Binding SendMaHieuToTamQuanViewCommand}"
+                    Content="Send TQ" />
             </StackPanel>
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                 <Button
                     Margin="5"
                     HorizontalAlignment="Right"
                     Command="{Binding ChuyenTamQuanVeLayCTCommand}"
-                    Content="Update Chuyến Thư" />
+                    Content="Update CT" />
 
                 <Button
                     Margin="5"
                     HorizontalAlignment="Right"
                     Command="{Binding SendDataCommand}"
-                    Content="Send Tam Quan" />
+                    Content="Cập Nhật TQ" />
             </StackPanel>
         </Grid>
     </Grid>

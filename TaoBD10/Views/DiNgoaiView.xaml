@@ -88,7 +88,7 @@
                 Text="{Binding TextCode, UpdateSourceTrigger=PropertyChanged}" />
             <DataGrid
                 x:Name="dataGridChuyenThu"
-                Height="290"
+                Height="250"
                 materialDesign:DataGridAssist.CellPadding="5 7 2 7"
                 materialDesign:DataGridAssist.ColumnHeaderPadding="4 2 2 2"
                 AutoGenerateColumns="False"
@@ -115,6 +115,15 @@
                         IsReadOnly="True" />
                 </DataGrid.Columns>
             </DataGrid>
+            <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                <Button
+                    Margin="5"
+                    Command="{Binding StopDiNgoaiCommand}"
+                    Style="{StaticResource MaterialDesignFloatingActionMiniSecondaryDarkButton}"
+                    Background="#FF5BA1FF">
+                    <materialDesign:PackIcon Kind="Stop" Width="20" Height="20" />
+                </Button>
+            </StackPanel>
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                 <Button
                     Margin="5"

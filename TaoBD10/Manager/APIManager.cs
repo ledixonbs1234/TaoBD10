@@ -584,6 +584,13 @@ namespace TaoBD10.Manager
             }
         }
 
+        private static bool isStopWaiting = false;
+
+        public static void StopWaitingFindWindow()
+        {
+            isStopWaiting = true;
+        }
+
         /// <summary>
         /// Cho toi khi nao co active window
         /// </summary>
@@ -595,6 +602,7 @@ namespace TaoBD10.Manager
         {
             try
             {
+                isStopWaiting = false;
                 WindowInfo currentWindow = null;
                 string titleWindow = "";
                 time *= 5;
@@ -602,6 +610,8 @@ namespace TaoBD10.Manager
                 {
                     while (titleWindow != title)
                     {
+                        if (isStopWaiting)
+                            return null;
                         time--;
                         if (time <= 0)
                             return null;
@@ -616,6 +626,8 @@ namespace TaoBD10.Manager
                 {
                     while (titleWindow.IndexOf(title) == -1 && titleWindow.IndexOf(title2) == -1)
                     {
+                        if (isStopWaiting)
+                            return null;
                         time--;
                         if (time <= 0)
                             return null;

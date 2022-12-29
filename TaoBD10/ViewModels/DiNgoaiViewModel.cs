@@ -39,6 +39,7 @@ namespace TaoBD10.ViewModels
             bwKhoiTao = new BackgroundWorker();
             bwKhoiTao.WorkerSupportsCancellation = true;
             bwKhoiTao.DoWork += BwKhoiTao_DoWork;
+            bwKhoiTao.RunWorkerCompleted += BwKhoiTao_RunWorkerCompleted;
             bwPrintDiNgoai = new BackgroundWorker();
             ShowDataCommand = new RelayCommand(ShowData);
 
@@ -215,6 +216,15 @@ namespace TaoBD10.ViewModels
             listBuuCucTuDong = FileManager.LoadBuuCucTuDongsOffline();
 
             tinhs = FileManager.LoadTinhThanhOffline();
+        }
+
+        private void BwKhoiTao_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (IsRunAgain)
+            {
+                IsRunAgain = false;
+                bwKhoiTao.RunWorkerAsync();
+            }
         }
 
         private void AddAddress()
@@ -1383,6 +1393,8 @@ namespace TaoBD10.ViewModels
             }
         }
 
+        private bool IsRunAgain = false;
+
         private void OnSelectedSimple()
         {
             if (!bwKhoiTao.IsBusy)
@@ -1392,9 +1404,7 @@ namespace TaoBD10.ViewModels
             }
             else
             {
-                bwKhoiTao.CancelAsync();
-                bwKhoiTao.RunWorkerAsync();
-                APIManager.ShowSnackbar("Busy Khoi Tao");
+                IsRunAgain = true;
             }
 
             //thuc hien

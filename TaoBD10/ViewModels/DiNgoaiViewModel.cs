@@ -1390,6 +1390,11 @@ namespace TaoBD10.ViewModels
                 bwKhoiTao.CancelAsync();
                 bwKhoiTao.RunWorkerAsync();
             }
+            else
+            {
+                APIManager.ShowSnackbar("Busy Khoi Tao");
+            }
+
             //thuc hien
         }
 

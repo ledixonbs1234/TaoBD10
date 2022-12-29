@@ -626,6 +626,7 @@ namespace TaoBD10.ViewModels
                     //APIManager.setTextControl(childControls[16].Handle, SelectedSimple.Code);
                     //Thread.Sleep(300);
                     //SendKeys.SendWait("{DOWN}");
+                    Thread.Sleep(100);
                     APIManager.SendMessage(childControls[16].Handle, 0x0007, 0, 0);
                     APIManager.SendMessage(childControls[16].Handle, 0x0007, 0, 0);
                     SendKeys.SendWait("{F1}");
@@ -652,7 +653,7 @@ namespace TaoBD10.ViewModels
                         SendKeys.SendWait(SelectedSimple.MaBuuCuc);
                         SendKeys.SendWait("{ENTER}");
                     }
-                    bool isCheckPrinted = KiemTraInDuocKhong();
+                    bool isCheckPrinted = WaittingThayDoiSoLuong(windows.hwnd);
                     if (isCheckPrinted)
                     {
                         GoToNextIndex();
@@ -676,6 +677,24 @@ namespace TaoBD10.ViewModels
                 throw;
                 throw;
             }
+        }
+
+        private string lastNumber = "0";
+
+        //Kiem tra co len so khong
+        private bool WaittingThayDoiSoLuong(IntPtr window)
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                Thread.Sleep(500);
+                var controls = APIManager.GetListControlText(window);
+                if (lastNumber != controls[1].Text)
+                {
+                    lastNumber = controls[1].Text;
+                    return true;
+                }
+            }
+            return false;
         }
 
         /// <summary>

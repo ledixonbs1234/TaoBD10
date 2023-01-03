@@ -648,6 +648,7 @@ namespace TaoBD10.ViewModels
                         //APIManager.setTextControl(controls[2], "593330");
                         SendKeys.SendWait(SelectedSimple.MaBuuCuc);
                         SendKeys.SendWait("{ENTER}");
+                        windows = APIManager.WaitingFindedWindow("khai thac buu cuc phat");
                     }
                     bool isCheckPrinted = WaittingThayDoiSoLuong(windows.hwnd);
                     if (isCheckPrinted)

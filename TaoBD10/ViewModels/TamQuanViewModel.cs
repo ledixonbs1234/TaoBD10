@@ -26,6 +26,7 @@ namespace TaoBD10.ViewModels
             bwTamQuanCheck = new BackgroundWorker();
             bwTamQuanCheck.DoWork += BwTamQuanCheck_DoWork;
             TamQuans = new ObservableCollection<TamQuanModel>();
+            ClearCommand = new RelayCommand(Clear);
             SendCommand = new RelayCommand(Send);
             CopyCommand = new RelayCommand(Copy);
             FillMaHieuCommand = new RelayCommand(FillMaHieu);
@@ -69,6 +70,13 @@ namespace TaoBD10.ViewModels
                     SoundManager.playSound(@"Number\" + TamQuans.Count.ToString() + ".wav");
                 }
             });
+        }
+
+        public ICommand ClearCommand { get; }
+
+        private void Clear()
+        {
+            TamQuans.Clear();
         }
 
         public ICommand CopyCommand { get; }
@@ -153,6 +161,8 @@ namespace TaoBD10.ViewModels
         private void FillMaHieu()
         {
             TamQuans.Clear();
+            if (string.IsNullOrEmpty(TextFill))
+                return;
             foreach (string item in LocTextTho(TextFill))
             {
                 if (string.IsNullOrEmpty(item))
@@ -242,6 +252,8 @@ namespace TaoBD10.ViewModels
         {
             if (TamQuans.Count > 0)
             {
+                APIManager.SetPrintBD8();
+
                 var tempList = TamQuans.ToList();
                 tempList.Sort((m, n) => m.TrongLuong.CompareTo(n.TrongLuong));
                 TamQuans.Clear();

@@ -109,19 +109,6 @@ namespace TaoBD10.ViewModels
                             {
                                 HaveHangHoa.Address = chiTietTui.Address.Trim();
                                 HaveHangHoa.BuuCucChapNhan = chiTietTui.BCChapNhan;
-
-                                //if (!string.IsNullOrEmpty(hangHoa.AddressSend))
-                                //{
-                                //    foreach (var fill in fillTamQuan)
-                                //    {
-                                //        if (APIManager.ConvertToUnSign3(hangHoa.AddressSend).ToLower().IndexOf(fill) != -1)
-                                //        {
-                                //            hangHoa.IsTamQuan = "TamQuan";
-                                //            SetCountTamQuan();
-                                //            break;
-                                //        }
-                                //    }
-                                //}
                             }
                         }
                         TimTamQuanFromDiaChi();

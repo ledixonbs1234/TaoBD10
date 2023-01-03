@@ -44,7 +44,8 @@ namespace TaoBD10.Model
         {
             this.STT = stt;
             this.SHTui = bd10;
-            phanGiaiBD10(bd10);
+            if (SHTui.Length == 29)
+                phanGiaiBD10(bd10);
         }
 
         public void phanGiaiBD10(string bd10)

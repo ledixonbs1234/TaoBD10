@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
@@ -1157,91 +1158,104 @@ namespace TaoBD10.ViewModels
 
         private void SelectedTinh(string Name)
         {
-            IndexContinueGuiTrucTiep = 0;
-            if (string.IsNullOrEmpty(Name))
-                return;
-            if (Name == ConLai.TenBD)
+            try
             {
-                if (ConLai.HangHoas.Count == 0)
+                IndexContinueGuiTrucTiep = 0;
+                if (string.IsNullOrEmpty(Name))
                     return;
-
-                ListShowHangHoa = new ObservableCollection<HangHoaDetailModel>();
-
-                foreach (HangHoaDetailModel hangHoa in ConLai.HangHoas)
+                if (Name == ConLai.TenBD)
                 {
-                    hangHoa.Index = ListShowHangHoa.Count + 1;
-                    ListShowHangHoa.Add(hangHoa);
+                    if (ConLai.HangHoas.Count == 0)
+                        return;
+
+                    ListShowHangHoa = new ObservableCollection<HangHoaDetailModel>();
+
+                    foreach (HangHoaDetailModel hangHoa in ConLai.HangHoas)
+                    {
+                        hangHoa.Index = ListShowHangHoa.Count + 1;
+                        ListShowHangHoa.Add(hangHoa);
+                    }
+                    //thuc hien show Ten Tinh
+                    NameTinhCurrent = ConLai.TenBD;
                 }
-                //thuc hien show Ten Tinh
-                NameTinhCurrent = ConLai.TenBD;
-            }
-            else if (Name == LocKhaiThac.TenBD || Name == LocBCP.TenBD)
-            {
-                CurrentSelectedHangHoaDetail = null;
-                LocBDInfoModel currenLoc;
-                if (Name == LocKhaiThac.TenBD)
+                else if (Name == LocKhaiThac.TenBD || Name == LocBCP.TenBD)
                 {
-                    currenLoc = LocKhaiThac;
-                    currentBuuCuc = BuuCuc.KT;
+                    CurrentSelectedHangHoaDetail = null;
+                    LocBDInfoModel currenLoc;
+                    if (Name == LocKhaiThac.TenBD)
+                    {
+                        currenLoc = LocKhaiThac;
+                        currentBuuCuc = BuuCuc.KT;
+                    }
+                    else
+                    {
+                        currenLoc = LocBCP;
+                        currentBuuCuc = BuuCuc.BCP;
+                    }
+
+                    if (currenLoc.HangHoas.Count == 0)
+                        return;
+
+                    ListShowHangHoa = new ObservableCollection<HangHoaDetailModel>();
+                    string SHTuiList = "";
+
+                    foreach (HangHoaDetailModel hangHoa in currenLoc.HangHoas)
+                    {
+                        string temp = APIManager.ConvertToUnSign3(hangHoa.TuiHangHoa.DichVu).ToLower();
+                        string temp1 = APIManager.ConvertToUnSign3(hangHoa.TuiHangHoa.PhanLoai).ToLower();
+                        if (temp.IndexOf("phat hanh") != -1 || temp1.IndexOf("tui") != -1)
+                        {
+                            continue;
+                        }
+                        hangHoa.Index = ListShowHangHoa.Count + 1;
+                        ListShowHangHoa.Add(hangHoa);
+                        if (hangHoa.TuiHangHoa.SHTui.Length == 13)
+                        {
+                            SHTuiList += hangHoa.TuiHangHoa.SHTui + ",";
+                        }
+                    }
+
+                    if (!string.IsNullOrEmpty(SHTuiList))
+                    {
+                        LayDiaChi(SHTuiList);
+                    }
+
+                    //thuc hien show Ten Tinh
+                    NameTinhCurrent = currenLoc.TenBD;
                 }
                 else
                 {
-                    currenLoc = LocBCP;
-                    currentBuuCuc = BuuCuc.BCP;
-                }
+                    LocBDInfoModel LocBD = LocBDs.FirstOrDefault(m => m.TenBD == Name);
+                    if (LocBD == null)
+                        return;
+                    if (LocBD.HangHoas.Count == 0)
+                        return;
 
-                if (currenLoc.HangHoas.Count == 0)
-                    return;
+                    ListShowHangHoa = new ObservableCollection<HangHoaDetailModel>();
 
-                ListShowHangHoa = new ObservableCollection<HangHoaDetailModel>();
-                string SHTuiList = "";
-
-                foreach (HangHoaDetailModel hangHoa in currenLoc.HangHoas)
-                {
-                    string temp = APIManager.ConvertToUnSign3(hangHoa.TuiHangHoa.DichVu).ToLower();
-                    string temp1 = APIManager.ConvertToUnSign3(hangHoa.TuiHangHoa.PhanLoai).ToLower();
-                    if (temp.IndexOf("phat hanh") != -1 || temp1.IndexOf("tui") != -1)
+                    foreach (HangHoaDetailModel hangHoa in LocBD.HangHoas)
                     {
-                        continue;
+                        hangHoa.Index = ListShowHangHoa.Count + 1;
+                        ListShowHangHoa.Add(hangHoa);
                     }
-                    hangHoa.Index = ListShowHangHoa.Count + 1;
-                    ListShowHangHoa.Add(hangHoa);
-                    if (hangHoa.TuiHangHoa.SHTui.Length == 13)
-                    {
-                        SHTuiList += hangHoa.TuiHangHoa.SHTui + ",";
-                    }
+                    //thuc hien show Ten Tinh
+                    NameTinhCurrent = LocBD.TenBD;
+                    //ShowNameTinh(LocBD.TenBD);
                 }
-
-                if (!string.IsNullOrEmpty(SHTuiList))
+                if (ListShowHangHoa.Count > 0)
                 {
-                    LayDiaChi(SHTuiList);
+                    IndexTaoBDItem = 0;
                 }
-
-                //thuc hien show Ten Tinh
-                NameTinhCurrent = currenLoc.TenBD;
             }
-            else
+            catch (Exception ex)
             {
-                LocBDInfoModel LocBD = LocBDs.FirstOrDefault(m => m.TenBD == Name);
-                if (LocBD == null)
-                    return;
-                if (LocBD.HangHoas.Count == 0)
-                    return;
-
-                ListShowHangHoa = new ObservableCollection<HangHoaDetailModel>();
-
-                foreach (HangHoaDetailModel hangHoa in LocBD.HangHoas)
-                {
-                    hangHoa.Index = ListShowHangHoa.Count + 1;
-                    ListShowHangHoa.Add(hangHoa);
-                }
-                //thuc hien show Ten Tinh
-                NameTinhCurrent = LocBD.TenBD;
-                //ShowNameTinh(LocBD.TenBD);
-            }
-            if (ListShowHangHoa.Count > 0)
-            {
-                IndexTaoBDItem = 0;
+                var st = new StackTrace(ex, true);
+                // Get the top stack frame
+                var frame = st.GetFrame(0);
+                // Get the line number from the stack frame
+                var line = frame.GetFileLineNumber();
+                APIManager.OpenNotePad(ex.Message + '\n' + "APIManager " + line + " Number Line ");
+                throw;
             }
         }
 

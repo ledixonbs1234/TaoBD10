@@ -38,6 +38,10 @@
             Margin="10"
             Command="{Binding CopyCommand}"
             Content="Copy" />
+            <Button
+            Margin="5"
+            Command="{Binding ClearCommand}"
+            Content="Clear" />
         </StackPanel>
 
         <design:Card Margin="5">

@@ -98,7 +98,7 @@ namespace TaoBD10.ViewModels
                             if (have != null)
                             {
                                 have.Address = chiTietTui.Address.Trim();
-                                have.MaTinh = AutoSetTinh(have.Address);
+                                have.MaTinh = DataManager.AutoSetTinh(have.Address);
                                 AutoSetBuuCuc(have);
                             }
                         }
@@ -215,7 +215,7 @@ namespace TaoBD10.ViewModels
             listBuuCuc = FileManager.LoadBuuCucsOffline();
             listBuuCucTuDong = FileManager.LoadBuuCucTuDongsOffline();
 
-            tinhs = FileManager.LoadTinhThanhOffline();
+            DataManager.SetUp();
         }
 
         private void BwKhoiTao_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -552,26 +552,6 @@ namespace TaoBD10.ViewModels
             }
         }
 
-        private string AutoSetTinh(string address)
-        {
-            if (tinhs.Count == 0)
-                return "";
-            List<string> fillAddress = address.Split('-').Select(s => s.Trim()).ToList();
-            if (fillAddress == null)
-                return "";
-            if (fillAddress.Count < 3)
-                return "";
-            string addressBoDau = APIManager.BoDauAndToLower(fillAddress[fillAddress.Count - 1].Trim());
-            foreach (var item in tinhs)
-            {
-                if (APIManager.BoDauAndToLower(item.Ten) == addressBoDau)
-                {
-                    return item.Ma;
-                }
-            }
-            return "";
-        }
-
         private string BoDauAndToLower(string text)
         {
             return APIManager.ConvertToUnSign3(text).ToLower();
@@ -627,9 +607,16 @@ namespace TaoBD10.ViewModels
                     if (currentWindow == null)
                     {
                         APIManager.ShowSnackbar("Chưa tìm thấy window");
+                        IsRunAgain = false;
                         return;
                     }
                     List<TestAPIModel> childControls = APIManager.GetListControlText(currentWindow.hwnd);
+                    if (childControls.Count < 17)
+                    {
+                        APIManager.ShowSnackbar("Error count Handle");
+                        IsRunAgain = false;
+                        return;
+                    }
                     //thuc hien lay vi tri nao do
 
                     //Thuc hien trong nay
@@ -658,7 +645,6 @@ namespace TaoBD10.ViewModels
                     else if (windows.text == "xac nhan")
                     {
                         testText += "Run In Xac Nhan \n";
-                        List<IntPtr> controls = APIManager.GetAllChildHandles(windows.hwnd);
                         //APIManager.setTextControl(controls[2], "593330");
                         SendKeys.SendWait(SelectedSimple.MaBuuCuc);
                         SendKeys.SendWait("{ENTER}");
@@ -2345,6 +2331,5 @@ namespace TaoBD10.ViewModels
         private List<string> listBuuCuc;
         private List<string> listBuuCucTuDong;
         private StateDiNgoai stateDiNgoai = StateDiNgoai.KhoiTao;
-        private List<TinhHuyenModel> tinhs;
     }
 }

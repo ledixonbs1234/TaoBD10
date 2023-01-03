@@ -152,6 +152,12 @@ namespace TaoBD10.ViewModels
                     WebBrowser.LoadUrl(contentModel.Content);
                     break;
 
+                case "ToWeb_LocTui":
+                    APIManager.downLoadRoad = DownLoadRoad.LocTui;
+                    isClickWebBCCP = false;
+                    WebBrowser.LoadUrl(contentModel.Content);
+                    break;
+
                 case "ListAddressChuyenThu":
                     APIManager.downLoadRoad = DownLoadRoad.ChuyenThuAddress;
                     isClickWebBCCP = false;
@@ -1113,6 +1119,10 @@ function myTimer() {
 
                             case DownLoadRoad.DiNgoai:
                                 GetListAddress(downloadItem.FullPath, "DiNgoai");
+                                break;
+
+                            case DownLoadRoad.LocTui:
+                                GetListAddress(downloadItem.FullPath, "LocTui");
                                 break;
 
                             default:

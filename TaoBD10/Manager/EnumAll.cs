@@ -34,7 +34,8 @@
             GetName,
             TamQuanAddress,
             DiNgoai,
-            ChuyenThuAddress
+            ChuyenThuAddress,
+            LocTui
         }
 
         public enum BuuCuc

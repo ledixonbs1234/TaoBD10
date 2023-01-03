@@ -1268,11 +1268,8 @@ namespace TaoBD10.ViewModels
 
                 case "savebd":
                     {
-                        var list = FileManager.client.Child(FileManager.FirebaseKey + "/message/topc").OnceSingleAsync<string>();
-                        list.Wait();
-                        string[] datas = list.Result.Split('|');
                         APIManager.ShowSnackbar("Đang save bd");
-                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToGetBD_SaveBD", Content = datas[0] + "|" + datas[1] + "|" + datas[2] });
+                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToGetBD_SaveBD", Content = lenhS.DoiTuong as string });
                         break;
                     }
 

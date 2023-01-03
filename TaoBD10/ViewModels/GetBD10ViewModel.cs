@@ -87,6 +87,10 @@ namespace TaoBD10.ViewModels
                 }
                 else if (m.Key == "ToGetBD_SaveBD")
                 {
+                    if (FileManager.IS_PHONE_IS_EXCUTTING)
+                    {
+                        FileManager.SendMessageNotification("Đang lưu BD");
+                    }
                     string[] datas = m.Content.Split('|');
                     currentMaBuuCuc = datas[0];
                     currentLanLap = datas[1];
@@ -348,11 +352,15 @@ namespace TaoBD10.ViewModels
             SoundManager.playSound2(@"Number\tingting.wav");
             APIManager.ShowSnackbar("OK");
             //MqttManager.SendMessageToPhone("OK");
-            MqttManager.Pulish(FileManager.FirebaseKey + "_luubd", currentMaBuuCuc + "|" + currentLanLap);
-            FileManager.client.Child(FileManager.FirebaseKey + "/message/").PutAsync(@"{""tophone"":""" + currentMaBuuCuc + "|" + currentLanLap + @"""}");
-            FileManager.SendVoidToPhone("luubd");
 
-            WeakReferenceMessenger.Default.Send<string>("LoadBD10");
+            //MqttManager.Pulish(FileManager.FirebaseKey + "_luubd", currentMaBuuCuc + "|" + currentLanLap);
+            if (FileManager.IS_PHONE_IS_EXCUTTING)
+            {
+                FileManager.SendMessage(new MessageToPhoneModel("luubd", currentMaBuuCuc + "|" + currentLanLap));
+                //FileManager.client.Child(FileManager.FirebaseKey + "/message/").PutAsync(@"{""tophone"":""" + currentMaBuuCuc + "|" + currentLanLap + @"""}");
+            }
+
+            WeakReferenceMessenger.Default.Send("LoadBD10");
         }
 
         private void PhanLoaiSHTui(List<TuiHangHoa> list)

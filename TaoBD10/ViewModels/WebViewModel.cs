@@ -959,6 +959,13 @@ function myTimer() {
                             thongTin.ThongTinChuyenThus.Last().BuuCucNhan;
                         break;
                     }
+                    else if (tempTrangThai.TrangThai.Contains("Đã phân tuyến"))
+                    {
+                        thongTin.TrangThai = tempTrangThai.Date + " Đã giao cho bưu tá";
+                        thongTin.TaiBuuCuc =
+                            thongTin.ThongTinChuyenThus.Last().BuuCucNhan;
+                        break;
+                    }
                     else if (tempTrangThai.TrangThai.Contains("Chấp nhận gửi"))
                     {
                         thongTin.TrangThai = tempTrangThai.Date + " Chấp nhận gửi";

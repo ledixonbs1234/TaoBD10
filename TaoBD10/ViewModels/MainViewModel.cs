@@ -1331,17 +1331,12 @@ namespace TaoBD10.ViewModels
                         WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToWeb_WriteCapchar", Content = mahieuSelected });
                         break;
                     }
+                case "laybd":
+                    //thuc hien lay bd hien tai
+                    WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToLayHAAL_LayBD", Content = lenhS.DoiTuong as string });
+                    break;
 
                 default:
-                    if (lenhS.Lenh.IndexOf("laybd") != -1)
-                    {
-                        string[] datas = ((string)lenhS.DoiTuong).Split('|');
-                        if (datas[0] == "laybd")
-                        {
-                            //thuc hien lay bd hien tai
-                            WeakReferenceMessenger.Default.Send(new ContentModel { Key = "ToLayHAAL_LayBD", Content = datas[1] + "|" + datas[2] });
-                        }
-                    }
 
                     break;
             }

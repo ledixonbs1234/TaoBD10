@@ -103,6 +103,10 @@ namespace TaoBD10.ViewModels
 
         private void BwGetDanhSachBD_DoWork(object sender, DoWorkEventArgs e)
         {
+            if (FileManager.IS_PHONE_IS_EXCUTTING)
+            {
+                FileManager.SendMessageNotification("Đang lấy danh sách BĐ 10");
+            }
             var temp = FileManager.optionModel.GoFastBD10Den.Split(',');
             APIManager.GoToWindow(FileManager.optionModel.MaKhaiThac, "danh sach bd14", temp[0], temp[1]);
             WindowInfo currentWindow = APIManager.WaitingFindedWindow("danh sach bd10 den");
@@ -340,12 +344,11 @@ namespace TaoBD10.ViewModels
             SendKeys.SendWait("{TAB}");
             //string data = APIManager.GetCopyData();
 
-            if (isGetDataFromPhone)
+            if (FileManager.IS_PHONE_IS_EXCUTTING)
             {
                 //MqttManager.SendMessageToPhone("Lấy BD Xong");
-                FileManager.SendMessageNotification("Lấy BD Xong");
+                FileManager.SendMessageNotification("Lấy BD Xong", disablePhone: true);
 
-                isGetDataFromPhone = false;
                 bwGetDanhSachBD.RunWorkerAsync();
             }
             //int countEnter = data.Split('\n').Length;

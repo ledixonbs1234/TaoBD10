@@ -259,7 +259,10 @@ namespace TaoBD10.ViewModels
             Thread.Sleep(100);
             SendKeys.SendWait("{TAB}");
             if (_XacNhanInfo.IsChieuDen)
+            {
                 APIManager.setTextControl(EditControls[EditControls.Count - 2].Handle, _XacNhanInfo.MaBCDong);
+                APIManager.ShowSnackbar(_XacNhanInfo.MaBCDong);
+            }
             else
                 APIManager.setTextControl(EditControls[EditControls.Count - 2].Handle, _XacNhanInfo.MaBCNhan);
 
@@ -281,15 +284,14 @@ namespace TaoBD10.ViewModels
             Thread.Sleep(100);
             SendKeys.SendWait("{TAB}");
 
-            Thread.Sleep(20);
-            SendKeys.SendWait("{DOWN}");
-
             if (_XacNhanInfo.IsChieuDen)
             {
                 SendKeys.SendWait("{F8}");
             }
             else
             {
+                Thread.Sleep(20);
+                SendKeys.SendWait("{DOWN}");
                 SendKeys.SendWait("{F5}");
             }
         }

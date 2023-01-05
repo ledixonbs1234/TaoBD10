@@ -343,21 +343,15 @@ namespace TaoBD10.ViewModels
                 default:
                     break;
             }
+            if (!_XacNhanInfo.IsChieuDen)
+            {
+                SendKeys.SendWait("{F4}");
+            }
             APIManager.setTextControl(EditControls.LastOrDefault().Handle, loaiString);
 
             Thread.Sleep(100);
-            if (_XacNhanInfo.IsChieuDen)
-            {
-                SendKeys.SendWait("{TAB}");
-                APIManager.setTextControl(EditControls[EditControls.Count - 2].Handle, _XacNhanInfo.MaBCDong);
-            }
-            else
-            {
-                SendKeys.SendWait(_XacNhanInfo.MaBCNhan);
-                //APIManager.setTextControl(EditControls[EditControls.Count - 2].Handle, _XacNhanInfo.MaBCNhan);
-                Thread.Sleep(100);
-                SendKeys.SendWait("{TAB}");
-            }
+            SendKeys.SendWait("{TAB}");
+            APIManager.setTextControl(EditControls[EditControls.Count - 2].Handle, _XacNhanInfo.MaBCDong);
             //SendKeys.SendWait(maBuuCucChuyenThuDen);
             SendKeys.SendWait("{TAB}");
             Thread.Sleep(100);

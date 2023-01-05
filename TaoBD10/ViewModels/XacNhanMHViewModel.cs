@@ -108,8 +108,6 @@ namespace TaoBD10.ViewModels
                     APIManager.SendMessage(comboHandle, 0x0007, 0, 0);
                     APIManager.SendMessage(comboHandle, 0x0007, 0, 0);
                     ChuyenThuDen(controls);
-                    if (!_XacNhanInfo.IsChieuDen)
-                        return;
                     Thread.Sleep(200);
                     SendKeys.SendWait("{ENTER}");
 
@@ -212,99 +210,6 @@ namespace TaoBD10.ViewModels
                     APIManager.SendMessage(comboHandle, 0x0007, 0, 0);
                     APIManager.SendMessage(comboHandle, 0x0007, 0, 0);
                     ChuyenThuDen(controls);
-                    Thread.Sleep(200);
-                    SendKeys.SendWait("{ENTER}");
-
-                    window = APIManager.WaitingFindedWindow("canh bao", "thong bao", time: 20);
-                    if (window == null)
-                    {
-                        APIManager.ShowSnackbar("Không tìm thấy cảnh báo");
-                        return;
-                    }
-
-                    SendKeys.SendWait("{ENTER}");
-                    Thread.Sleep(500);
-                    SendKeys.SendWait("{F5}");
-                    Thread.Sleep(500);
-                    SendKeys.SendWait("{F6}");
-                    Thread.Sleep(500);
-                    SendKeys.SendWait("{UP}");
-                    SendKeys.SendWait("{UP}");
-                    SendKeys.SendWait("{UP}");
-                    SendKeys.SendWait("{UP}");
-
-                    string dataCopyed = APIManager.GetCopyData();
-                    if (string.IsNullOrEmpty(dataCopyed))
-                        return;
-                    List<string> listTemp = dataCopyed.Split('\n').ToList();
-                    if (listTemp[0].IndexOf("STT") != -1)
-                    {
-                        listTemp.RemoveAt(0);
-                    }
-
-                    string[] datas = listTemp[0].Split('\t');
-                    if (datas.Length < 4)
-                    {
-                        APIManager.ShowSnackbar("Không có dữ liệu CT");
-                        return;
-                    }
-                    if (datas[3].Trim() == _XacNhanInfo.SoCT.Trim() && datas[1].Trim() == _XacNhanInfo.MaBCDong.Trim())
-                    {
-                        SendKeys.SendWait("{F10}");
-                        WindowInfo windows = APIManager.WaitingFindedWindow("xem chuyen thu chieu den");
-                        if (windows == null)
-                            return;
-                        SendKeys.SendWait("A{BS}{BS}");
-                        SendKeys.SendWait("{F4}");
-                        windows = APIManager.WaitingFindedWindow("xac nhan chi tiet tui thu");
-                        if (windows == null)
-                        {
-                            IsAutoDoiKiem = false;
-                            return;
-                        }
-                        WeakReferenceMessenger.Default.Send(new ContentModel { Key = "XacNhanChiTiet", Content = "True" });
-
-                        if (IsAutoDoiKiem)
-                        {
-                            IsAutoDoiKiem = false;
-                            WindowInfo currentWindow = APIManager.GetActiveWindowTitle();
-
-                            List<TestAPIModel> listControl = APIManager.GetListControlText(currentWindow.hwnd);
-                            string numberText = listControl[2].Text;
-                            numberText = numberText.Replace("(cái)", "").Trim();
-                            int number = int.Parse(numberText);
-
-                            Thread.Sleep(1000);
-
-                            //thuc hien xu ly lenh trong nay
-                            foreach (var mahieu in listDoiKiem)
-                            {
-                                Thread.Sleep(500);
-                                SendKeys.SendWait(mahieu);
-                                SendKeys.SendWait("{ENTER}");
-                            }
-                            Thread.Sleep(700);
-                            currentWindow = APIManager.GetActiveWindowTitle();
-                            if (currentWindow.text.IndexOf("xac nhan chi tiet tui thu") != -1)
-                            {
-                                listControl = APIManager.GetListControlText(currentWindow.hwnd);
-                                numberText = listControl[2].Text;
-                                numberText = numberText.Replace("(cái)", "").Trim();
-                                int numberLast = int.Parse(numberText);
-                                APIManager.ShowSnackbar("number last :" + numberLast + " number: " + number + " count: " + listDoiKiem.Count);
-
-                                if (number + listDoiKiem.Count == numberLast)
-                                {
-                                    //THuc hien send thanh cong
-                                    FileManager.SendMessageNotification("Đã xác nhận thành công");
-                                }
-                            }
-                            else
-                            {
-                                FileManager.SendMessageNotification("Đã xác nhận thành công");
-                            }
-                        }
-                    }
                 }
             }
             catch (Exception ex)

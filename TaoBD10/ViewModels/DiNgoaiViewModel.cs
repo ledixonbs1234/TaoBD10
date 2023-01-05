@@ -604,6 +604,7 @@ namespace TaoBD10.ViewModels
                 else
                 {
                     WindowInfo currentWindow = APIManager.WaitingFindedWindow("khai thac buu cuc phat");
+                    APIManager.SetPrintBD8();
                     if (currentWindow == null)
                     {
                         APIManager.ShowSnackbar("Chưa tìm thấy window");
@@ -617,6 +618,7 @@ namespace TaoBD10.ViewModels
                         IsRunAgain = false;
                         return;
                     }
+
                     //thuc hien lay vi tri nao do
 
                     //Thuc hien trong nay

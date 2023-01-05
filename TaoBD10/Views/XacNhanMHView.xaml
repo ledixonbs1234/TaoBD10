@@ -53,30 +53,23 @@
                     Value="50" />
             </materialDesign:Card>
 
-            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+            <StackPanel HorizontalAlignment="Center" Orientation="Vertical">
 
                 <TextBox
                     x:Name="Box"
-                    Width="100"
                     Margin="5"
                     AcceptsReturn="True"
                     Focusable="True"
                     FontSize="16"
                     Text="{Binding MaHieu, UpdateSourceTrigger=PropertyChanged}" />
-                <CheckBox Content="Auto" IsChecked="{Binding IsAutoGoCT}"/>
-                <Button
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Content="Auto" IsChecked="{Binding IsAutoGoCT}" />
+                    <Button
                     Margin="5"
                     Command="{Binding GoToCTCommand}"
                     Content="Go CT" />
+                </StackPanel>
             </StackPanel>
-            <DataGrid materialDesign:DataGridAssist.CellPadding="4 2 2 2" ItemsSource="{Binding TrangThais}" Height="300" >
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Trang Thai" Binding="{Binding TrangThai}"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Buu Cuc" Binding="{Binding BuuCuc}"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Ngay" Binding="{Binding Date}"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Gio" Binding="{Binding Hour}"></DataGridTextColumn>
-                </DataGrid.Columns>
-            </DataGrid>
         </StackPanel>
     </materialDesign:Card>
 </UserControl>

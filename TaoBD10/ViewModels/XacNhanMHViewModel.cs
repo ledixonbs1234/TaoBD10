@@ -510,6 +510,7 @@ namespace TaoBD10.ViewModels
 
             _XacNhanInfo.SoCT = temps[1].Replace("số ct ", "");
             _XacNhanInfo.MaBCDong = XacNhanMH.BuuCucDong.Substring(0, 6);
+            _XacNhanInfo.MaBCNhan = XacNhanMH.BuuCucNhan.Substring(0, 6);
         }
 
         public ICommand GoToCTCommand { get; }

@@ -261,7 +261,6 @@ namespace TaoBD10.ViewModels
             if (_XacNhanInfo.IsChieuDen)
             {
                 APIManager.setTextControl(EditControls[EditControls.Count - 2].Handle, _XacNhanInfo.MaBCDong);
-                APIManager.ShowSnackbar(_XacNhanInfo.MaBCDong);
             }
             else
                 APIManager.setTextControl(EditControls[EditControls.Count - 2].Handle, _XacNhanInfo.MaBCNhan);
@@ -275,8 +274,6 @@ namespace TaoBD10.ViewModels
             Thread.Sleep(100);
             TestAPIModel editSoCT = controls.Last(m => m.ClassName.ToLower().IndexOf(".edit.") != -1);
             APIManager.setTextControl(editSoCT.Handle, _XacNhanInfo.SoCT);
-            if (_XacNhanInfo.IsChieuDen)
-                SendKeys.SendWait("{TAB}");
             SendKeys.SendWait(_XacNhanInfo.Date[0]);
             SendKeys.SendWait("{RIGHT}");
             SendKeys.SendWait(_XacNhanInfo.Date[1]);

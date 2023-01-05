@@ -344,12 +344,11 @@ namespace TaoBD10.ViewModels
                     break;
             }
             APIManager.setTextControl(EditControls.LastOrDefault().Handle, loaiString);
-            Thread.Sleep(2000);
-            SendKeys.SendWait("{TAB}");
 
             Thread.Sleep(20);
             if (_XacNhanInfo.IsChieuDen)
             {
+                SendKeys.SendWait("{TAB}");
                 APIManager.setTextControl(EditControls[EditControls.Count - 2].Handle, _XacNhanInfo.MaBCDong);
             }
             else

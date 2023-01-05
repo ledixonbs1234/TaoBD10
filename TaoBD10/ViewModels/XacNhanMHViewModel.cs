@@ -365,8 +365,16 @@ namespace TaoBD10.ViewModels
             SendKeys.SendWait("{RIGHT}");
             SendKeys.SendWait(_XacNhanInfo.Date[1]);
             SendKeys.SendWait("{TAB}");
+            SendKeys.SendWait("{DOWN}");
 
-            SendKeys.SendWait("{F8}");
+            if (_XacNhanInfo.IsChieuDen)
+            {
+                SendKeys.SendWait("{F8}");
+            }
+            else
+            {
+                SendKeys.SendWait("{F5}");
+            }
         }
 
         private void GoToCT()

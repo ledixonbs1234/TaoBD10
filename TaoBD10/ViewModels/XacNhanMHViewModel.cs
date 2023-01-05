@@ -108,6 +108,8 @@ namespace TaoBD10.ViewModels
                     APIManager.SendMessage(comboHandle, 0x0007, 0, 0);
                     APIManager.SendMessage(comboHandle, 0x0007, 0, 0);
                     ChuyenThuDen(controls);
+                    if (!_XacNhanInfo.IsChieuDen)
+                        return;
                     Thread.Sleep(200);
                     SendKeys.SendWait("{ENTER}");
 

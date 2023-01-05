@@ -360,7 +360,9 @@ namespace TaoBD10.ViewModels
 
             TestAPIModel editSoCT = controls.Last(m => m.ClassName.ToLower().IndexOf(".edit.") != -1);
             APIManager.setTextControl(editSoCT.Handle, _XacNhanInfo.SoCT);
+            Thread.Sleep(2000);
             SendKeys.SendWait("{TAB}");
+            Thread.Sleep(2000);
             SendKeys.SendWait(_XacNhanInfo.Date[0]);
             SendKeys.SendWait("{RIGHT}");
             SendKeys.SendWait(_XacNhanInfo.Date[1]);

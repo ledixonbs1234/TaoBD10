@@ -354,7 +354,8 @@ namespace TaoBD10.ViewModels
             }
             else
             {
-                APIManager.setTextControl(EditControls[EditControls.Count - 2].Handle, _XacNhanInfo.MaBCNhan);
+                SendKeys.SendWait(_XacNhanInfo.MaBCNhan);
+                //APIManager.setTextControl(EditControls[EditControls.Count - 2].Handle, _XacNhanInfo.MaBCNhan);
             }
             //SendKeys.SendWait(maBuuCucChuyenThuDen);
             SendKeys.SendWait("{TAB}");

@@ -344,7 +344,7 @@ namespace TaoBD10.ViewModels
                     break;
             }
             APIManager.setTextControl(EditControls.LastOrDefault().Handle, loaiString);
-            Thread.Sleep(20);
+            Thread.Sleep(2000);
             SendKeys.SendWait("{TAB}");
 
             Thread.Sleep(20);

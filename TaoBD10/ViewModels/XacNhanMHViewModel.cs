@@ -351,10 +351,15 @@ namespace TaoBD10.ViewModels
 
             Thread.Sleep(100);
             SendKeys.SendWait("{TAB}");
-            APIManager.setTextControl(EditControls[EditControls.Count - 2].Handle, _XacNhanInfo.MaBCDong);
+            if (_XacNhanInfo.IsChieuDen)
+                APIManager.setTextControl(EditControls[EditControls.Count - 2].Handle, _XacNhanInfo.MaBCDong);
+            else
+                APIManager.setTextControl(EditControls[EditControls.Count - 2].Handle, _XacNhanInfo.MaBCNhan);
+
             //SendKeys.SendWait(maBuuCucChuyenThuDen);
             SendKeys.SendWait("{TAB}");
             Thread.Sleep(100);
+            SendKeys.SendWait("{TAB}");
             SendKeys.SendWait("{TAB}");
 
             Thread.Sleep(100);

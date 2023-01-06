@@ -1033,8 +1033,9 @@ namespace TaoBD10.ViewModels
         {
             ProcessStartInfo app = new ProcessStartInfo();
             app.WindowStyle = ProcessWindowStyle.Hidden;
-            string argument = "/C Choice /C Y /N /D Y /T 4 & Del /F /Q \"{0}\" & Choice /C Y /N /D Y /T 2 & Move /Y \"{1}\" \"{2}\" & Start \"\" /D \"{3}\"";
-            app.Arguments = string.Format(argument, pathAppCurrent, tempFilePath, pathNewLocation, pathOpenApp);
+            string argument = "/C Choice /C Y /N /D Y /T 4 & Del /F /Q \"{0}\" & Choice /C Y /N /D Y /T 2 & Move /Y \"{1}\" \"{2}\" & Start \"\" /D \"{3}\" \"{4}\"";
+            FileInfo fileNew = new FileInfo(pathOpenApp);
+            app.Arguments = string.Format(argument, pathAppCurrent, tempFilePath, pathNewLocation, fileNew.DirectoryName,fileNew.Name);
 
             app.CreateNoWindow = true;
             app.FileName = "cmd.exe";
@@ -1045,20 +1046,10 @@ namespace TaoBD10.ViewModels
         {
 
             //thuc hien download file ve
-            await FileManager.DownloadFile(@"Data/TaoBD10.exe").ContinueWith(m =>
-            {
-                if(m.IsFaulted)
-                {
-                    APIManager.ShowSnackbar("Lỗi! Không cập nhật được");
-
-                }else if (m.IsCompleted)
-                {
-                    string pathCurrentApp = Path.Combine(Environment.CurrentDirectory, NameApp);
-                    UpdateApp(pathCurrentApp, Path.Combine(Environment.CurrentDirectory, "Downloaded.exe"), pathCurrentApp, pathCurrentApp);
-                    CloseWindow(_window);
-                }
-            });
-
+            await FileManager.DownloadFile(@"Data/TaoBD10.exe");
+            string pathCurrentApp = Path.Combine(Environment.CurrentDirectory, NameApp);
+            UpdateApp(pathCurrentApp, Path.Combine(Environment.CurrentDirectory, "Downloaded.exe"), pathCurrentApp, pathCurrentApp);
+            CloseWindow(_window);
         }
 
 

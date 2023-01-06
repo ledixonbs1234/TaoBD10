@@ -1,9 +1,11 @@
 ﻿using Firebase.Database;
 using Firebase.Database.Query;
+using Firebase.Storage;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using TaoBD10.Model;
 
@@ -446,6 +448,20 @@ namespace TaoBD10.Manager
                 }
 
                 client = new FirebaseClient("https://taoappbd10-default-rtdb.asia-southeast1.firebasedatabase.app/", new FirebaseOptions { AuthTokenAsyncFactory = () => Task.FromResult(auth) });
+                storage = new FirebaseStorage("taoappbd10.appspot.com", new FirebaseStorageOptions { AuthTokenAsyncFactory = () => Task.FromResult(auth), ThrowOnCancel = true, });
+            }
+        }
+
+        public static async Task UploadFile(FileStream stream)
+        {
+            var task = storage.Child("data").Child("random").Child("file.exe").PutAsync(stream);
+            try
+            {
+                await task;
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
 
@@ -786,6 +802,7 @@ namespace TaoBD10.Manager
         }
 
         public static FirebaseClient client;
+        public static FirebaseStorage storage;
         public static List<BD10InfoModel> list = new List<BD10InfoModel>();
         public static List<string> listBuuCuc = new List<string>();
         public static List<ChuyenThuModel> listChuyenThu = new List<ChuyenThuModel>();

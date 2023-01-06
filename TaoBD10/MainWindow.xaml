@@ -74,6 +74,17 @@
                 Command="{Binding CloseWindowCommand}"
                 CommandParameter="{Binding ElementName=MainView, Mode=OneWay}"
                 Content="{materialDesign:PackIcon Kind=Close}" />
+            <Button
+                Grid.Row="1"
+                Grid.Column="0"
+                Margin="50,50"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Panel.ZIndex="20"
+                 Padding="0"
+                Height="20"
+                Width="30"
+                Content="{materialDesign:PackIcon Kind=Close}" Click="Button_Click_1" />
             <TabControl
                 Name="TabTui"
                 SelectedIndex="{Binding IndexTabTui}"
@@ -178,6 +189,8 @@
                         </StackPanel>
                         <Button Margin="5" Width="120" Content="Option View" Command="{Binding OptionViewCommand}"></Button>
                         <Button Width="120" Content="Test Button" Command="{Binding TestCommand}"></Button>
+                        <Button Width="120" Margin="5" Content="Update" Command="{Binding UpdateCommand}"></Button>
+                        <Button Width="130" Margin="5" Content="Create Update" Command="{Binding CreateUpdateCommand}"></Button>
                     </StackPanel>
                 </TabItem>
             </TabControl>

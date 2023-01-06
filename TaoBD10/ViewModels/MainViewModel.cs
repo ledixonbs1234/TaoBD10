@@ -31,6 +31,8 @@ using TaoBD10.Model;
 using TaoBD10.Views;
 using Condition = System.Windows.Automation.Condition;
 using ExcelLibrary.BinaryFileFormat;
+using Firebase.Storage;
+using System.Threading.Tasks;
 
 namespace TaoBD10.ViewModels
 {
@@ -56,6 +58,7 @@ namespace TaoBD10.ViewModels
             DefaultWindowCommand = new RelayCommand<System.Windows.Controls.TabControl>(DefaultWindow);
             ToggleWindowCommand = new RelayCommand(ToggleWindow);
             TestCommand = new RelayCommand(Test);
+            UpdateCommand = new RelayCommand(Update);
             MouseEnterTabTuiCommand = new RelayCommand<Window>(MouseEnterTabTui);
             TabTuiChangedCommand = new RelayCommand<System.Windows.Controls.TabControl>(TabTuiChanged);
             CloseWindowCommand = new RelayCommand<Window>(CloseWindow);
@@ -71,6 +74,7 @@ namespace TaoBD10.ViewModels
             bwRunPrints.WorkerSupportsCancellation = true;
             bwRunPrints.DoWork += BwRunPrints_DoWork;
             bwRunPrints.RunWorkerCompleted += BwRunPrints_RunWorkerCompleted;
+            CreateUpdateCommand = new RelayCommand(CreateUpdate);
 
             OptionViewCommand = new RelayCommand(OptionView);
             timer = new DispatcherTimer();
@@ -1002,6 +1006,36 @@ namespace TaoBD10.ViewModels
 
             printBanKeFromPrintDocument();
         }
+
+
+        public ICommand CreateUpdateCommand { get; }
+
+        async void CreateUpdate()
+        {
+            //Thuc hien update file to firebase store
+            File.Copy(Path.Combine(Environment.CurrentDirectory, "TaoBD10.exe"), Path.Combine(Environment.CurrentDirectory, "TaoBD101.exe"), true);
+            var stream = File.Open(Path.Combine(Environment.CurrentDirectory, "TaoBD101.exe"), FileMode.Open);
+
+            await FileManager.UploadFile(stream).ContinueWith(s => {
+
+                if (s.IsCompleted)
+                {
+                    System.Windows.MessageBox.Show("thanh cong");
+                }
+            });
+        }
+
+
+        public ICommand UpdateCommand { get; }
+
+        void Update()
+        {
+
+        }
+
+
+
+
 
         private void BwRunPrints_DoWork(object sender, DoWorkEventArgs e)
         {

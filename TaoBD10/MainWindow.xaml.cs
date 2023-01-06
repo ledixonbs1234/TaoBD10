@@ -85,21 +85,6 @@ namespace TaoBD10
         {
         }
 
-        private void UpdateApp(string pathAppCurrent, string tempFilePath, string pathNewLocation, string pathOpenApp)
-        {
-            ProcessStartInfo app = new ProcessStartInfo();
-            app.WindowStyle = ProcessWindowStyle.Hidden;
-            string argument = "/C Choice /C Y /N /D Y /T 4 & Del /F /Q \"{0}\" & Choice /C Y /N /D Y /T 2 & Move /Y \"{1}\" \"{2}\" & Start \"\" /D \"{3}\"  \"{4}\"";
-            app.Arguments = string.Format(argument, @"J:\text2.txt", @"J:\Nhac\filemoi.txt", @"J:\text2.txt", @"J:\", @"text2.txt");
-
-            app.CreateNoWindow = true;
-            app.FileName = "cmd.exe";
-            Process.Start(app);
-        }
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-
-            App.Current.Shutdown();
-        }
-    }
+       
+          }
 }

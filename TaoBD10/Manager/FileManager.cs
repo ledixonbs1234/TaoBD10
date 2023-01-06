@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using TaoBD10.Model;
@@ -452,9 +453,29 @@ namespace TaoBD10.Manager
             }
         }
 
+        public static async Task DownloadFile(string path)
+        {
+            try
+            {
+                var task = storage.Child(path).GetDownloadUrlAsync();
+                await task;
+                var url = task.Result;
+                WebClient a = new WebClient();
+                a.DownloadFile(url, Path.Combine(Environment.CurrentDirectory, "Downloaded.exe"));
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            //thuc hien download url
+
+        }
+
         public static async Task UploadFile(FileStream stream)
         {
-            var task = storage.Child("data").Child("random").Child("file.exe").PutAsync(stream);
+            var task = storage.Child("Data").Child("TaoBD10.exe").PutAsync(stream);
             try
             {
                 await task;
@@ -476,6 +497,8 @@ namespace TaoBD10.Manager
             }
             return result;
         }
+
+
 
         public static void SaveBD10Offline(BD10InfoModel bd10)
         {

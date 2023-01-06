@@ -292,6 +292,8 @@ namespace TaoBD10.ViewModels
             });
         }
 
+        private const string UploadNameFile = "Upload.exe";
+        private const string NameApp = "TaoBD10.exe";
         private string _CountRefreshPage = "0";
 
         public string CountRefreshPage
@@ -1013,23 +1015,49 @@ namespace TaoBD10.ViewModels
         async void CreateUpdate()
         {
             //Thuc hien update file to firebase store
-            File.Copy(Path.Combine(Environment.CurrentDirectory, "TaoBD10.exe"), Path.Combine(Environment.CurrentDirectory, "TaoBD101.exe"), true);
-            var stream = File.Open(Path.Combine(Environment.CurrentDirectory, "TaoBD101.exe"), FileMode.Open);
+            File.Copy(Path.Combine(Environment.CurrentDirectory, NameApp), Path.Combine(Environment.CurrentDirectory, UploadNameFile), true);
+            var stream = File.Open(Path.Combine(Environment.CurrentDirectory, UploadNameFile), FileMode.Open);
 
             await FileManager.UploadFile(stream).ContinueWith(s => {
 
                 if (s.IsCompleted)
                 {
-                    System.Windows.MessageBox.Show("thanh cong");
+                    APIManager.ShowSnackbar("Tạo Cập Nhật Thành Công");
                 }
             });
         }
 
 
         public ICommand UpdateCommand { get; }
-
-        void Update()
+        private void UpdateApp(string pathAppCurrent, string tempFilePath, string pathNewLocation, string pathOpenApp)
         {
+            ProcessStartInfo app = new ProcessStartInfo();
+            app.WindowStyle = ProcessWindowStyle.Hidden;
+            string argument = "/C Choice /C Y /N /D Y /T 4 & Del /F /Q \"{0}\" & Choice /C Y /N /D Y /T 2 & Move /Y \"{1}\" \"{2}\" & Start \"\" /D \"{3}\"";
+            app.Arguments = string.Format(argument, pathAppCurrent, tempFilePath, pathNewLocation, pathOpenApp);
+
+            app.CreateNoWindow = true;
+            app.FileName = "cmd.exe";
+            Process.Start(app);
+        }
+
+        async void Update()
+        {
+
+            //thuc hien download file ve
+            await FileManager.DownloadFile(@"Data/TaoBD10.exe").ContinueWith(m =>
+            {
+                if(m.IsFaulted)
+                {
+                    APIManager.ShowSnackbar("Lỗi! Không cập nhật được");
+
+                }else if (m.IsCompleted)
+                {
+                    string pathCurrentApp = Path.Combine(Environment.CurrentDirectory, NameApp);
+                    UpdateApp(pathCurrentApp, Path.Combine(Environment.CurrentDirectory, "Downloaded.exe"), pathCurrentApp, pathCurrentApp);
+                    CloseWindow(_window);
+                }
+            });
 
         }
 
